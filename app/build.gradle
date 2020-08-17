@@ -81,4 +81,6 @@ dependencies {
     kapt 'com.alibaba:arouter-compiler:1.2.2'
     implementation project( ':Module_base:baselibrary')
     implementation project( ':Module_base:commonlibrary')
+    implementation project( ':Module_main:vehiclelibrary')
+    implementation project( ':Module_main:accountlibrary')
 }
