@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="base_orange">#ff6c00</color>
+    <color name="black">#000000</color>
+    <!--    浅灰色-->
+    <color name="base_gray">#EEEEEE</color>
+    <!--    深灰色-->
+    <color name="base_grayDark">#A0A1A4</color>
+    <color name="base_red">#FF0000</color>
+
+</resources>
