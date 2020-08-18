@@ -11,14 +11,15 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import com.mbcq.baselibrary.R
 import com.mbcq.baselibrary.util.log.LogUtils
-import com.mbcq.baselibrary.util.screen.StatusBarUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
+import com.mbcq.baselibrary.util.screen.StatusBarUtils
 import java.text.DecimalFormat
 
-abstract class BaseActivity :AppCompatActivity(){
+
+abstract class BaseActivity : AppCompatActivity() {
     abstract fun getLayoutId(): Int
-    protected fun initViews() {}
-    protected fun initDatas() {}
+    open fun initViews() {}
+    open fun initDatas() {}
     protected lateinit var mContext: Context
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +51,7 @@ abstract class BaseActivity :AppCompatActivity(){
      * ->0默认为白色
      * ->1透明
      * ->string html5颜色
+     * if (s !is Int)
      */
     protected fun setStatusBar(s: Any) {
         when (s) {
@@ -62,11 +64,12 @@ abstract class BaseActivity :AppCompatActivity(){
             1 -> {
                 StatusBarUtils.setTransparent(mContext)
             }
-           /* else -> {
+            else -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    StatusBarUtils.setColor(this, Color.parseColor(s.toString()))
+                    if (s is Int)
+                        StatusBarUtils.setColor(this, getColor(s ))
                 }
-            }*/
+            }
         }
     }
 

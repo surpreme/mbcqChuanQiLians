@@ -1,5 +1,6 @@
 package com.mbcq.baselibrary.dialog.dialogfragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -32,6 +33,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
         return mBaseView;
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
@@ -41,10 +43,11 @@ public abstract class BaseDialogFragment extends DialogFragment {
         params.gravity = setDialogGravity();
         params.width = setDialogWidth();
         params.height = setDialogHeight();
+//        window.setDimAmount(0f);
         window.setAttributes(params);
         //设置背景透明
         if (setIsShowBackDark())
-            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            window.setBackgroundDrawable(new ColorDrawable(setShowBackGround()));
     }
 
     @Override
@@ -53,6 +56,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
         if (getDialog() != null) {
             getDialog().setCancelable(setCancelable());
             getDialog().setCanceledOnTouchOutside(setCanceledOnTouchOutside());
+
         }
 
         initView(view, savedInstanceState);
@@ -66,6 +70,9 @@ public abstract class BaseDialogFragment extends DialogFragment {
      */
     protected boolean setIsShowBackDark() {
         return true;
+    }
+    protected int setShowBackGround() {
+        return Color.TRANSPARENT;
     }
 
     protected boolean setCanceledOnTouchOutside() {

@@ -1,5 +1,6 @@
 package com.mbcq.baselibrary.ui.mvp
 
+import android.Manifest
 import android.content.Context
 import android.widget.Toast
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
@@ -7,6 +8,7 @@ import com.mbcq.baselibrary.dialog.dialogfragment.LoadingDialogFragment
 import com.mbcq.baselibrary.ui.BaseActivity
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.ToastUtils
+import com.tbruyelle.rxpermissions.RxPermissions
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -27,6 +29,7 @@ abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseAct
     var mPresenter: T? = null
 
     override fun getContext(): Context {
+
         return this
     }
 

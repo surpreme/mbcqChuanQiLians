@@ -6,30 +6,139 @@
     android:layout_height="match_parent"
     tools:context=".LogInActivity">
 
-    <EditText
-        android:id="@+id/name_edit"
+    <TextView
+        android:id="@+id/tool_text_tv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:hint="请输入用户名"
-        android:text="汕头"
+        android:layout_height="55dp"
+        android:background="@color/base_gray"
+        android:gravity="center"
+        android:text="用户登录"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="normal"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/psw_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="请输入密码"
-        android:text="123456"
-        app:layout_constraintTop_toBottomOf="@id/name_edit" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/login_btn"
+    <ImageView
+        android:id="@+id/logo_iv"
+        android:layout_width="136dp"
+        android:layout_height="103dp"
+        android:layout_marginTop="60dp"
+        android:src="@color/base_grayDark"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tool_text_tv" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/username_ll"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="51dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="51dp"
+        android:background="@drawable/juxing_empty_center_gray_background"
+        android:gravity="center"
+        app:hintEnabled="false"
+        app:layout_constraintTop_toBottomOf="@+id/logo_iv"
+        app:startIconDrawable="@mipmap/usericon_img"
+        app:startIconTint="@color/black">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/number_get_edit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center|left"
+            android:hint="请输入用户名"
+            android:maxLines="1"
+            android:inputType="textPersonName"
+            android:nextFocusForward="@+id/key_get_edit"
+            android:paddingLeft="5dp"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_ll"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_marginLeft="51dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="51dp"
+        android:background="@drawable/juxing_empty_center_gray_background"
+        app:hintEnabled="false"
+        app:layout_constraintTop_toBottomOf="@+id/username_ll"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@mipmap/pasword_img"
+        app:startIconTint="@color/black">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/key_get_edit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center|left"
+            android:hint="请输入登录密码"
+            android:inputType="textPassword"
+            android:paddingLeft="5dp"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/verification_code_ll"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_marginLeft="51dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="51dp"
+        android:background="@drawable/juxing_empty_center_gray_background"
+        app:layout_constraintTop_toBottomOf="@id/password_ll">
+
+        <EditText
+            android:id="@+id/verification_code_ed"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@null"
+            android:hint="请输入验证码"
+            android:inputType="text"
+            android:paddingLeft="5dp"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/verification_code_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="获取验证码"
+            android:background="@color/white"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/login_btn"
+        android:layout_width="0dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="29dp"
+        android:background="@drawable/critle_round_background_blue"
         android:text="登录"
-        app:layout_constraintTop_toBottomOf="@id/psw_edit"/>
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@id/username_ll"
+        app:layout_constraintRight_toRightOf="@id/username_ll"
+        app:layout_constraintTop_toBottomOf="@id/verification_code_ll" />
+    <TextView
+        android:id="@+id/scan_login_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="扫码登录"
+        app:layout_constraintTop_toBottomOf="@id/login_btn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="15dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
