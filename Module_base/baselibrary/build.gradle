@@ -70,7 +70,7 @@ dependencies {
     //    lottie动画
     api 'com.airbnb.android:lottie:3.4.0'
     //错误收集器
-    implementation 'cat.ereza:customactivityoncrash:1.2.0'
+    implementation 'cat.ereza:customactivityoncrash:2.2.0'
     //retrofit2
     api 'com.squareup.retrofit2:retrofit:2.5.0'
     api 'com.squareup.retrofit2:converter-gson:2.5.0'
@@ -85,4 +85,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    //okgo
+    api 'com.lzy.net:okgo:3.0.4'
+    //以下三个选择添加，okrx和okrx2不能同时使用
+    api 'com.lzy.net:okrx2:2.0.2'
+    api 'com.lzy.net:okserver:2.0.5'
 }

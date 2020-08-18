@@ -1,5 +1,6 @@
 package com.mbcq.baselibrary;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 
@@ -12,6 +13,9 @@ import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+
+import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
+import cat.ereza.customactivityoncrash.config.CaocConfig;
 
 public class BaseApplication extends Application {
     private static Application context;
@@ -26,6 +30,30 @@ public class BaseApplication extends Application {
 
     private void init() {
         initARouter();
+        initCrasher();
+    }
+
+    /**
+     * https://blog.csdn.net/huangxiaoguo1/article/details/79053197
+     * 配置参考
+     */
+    @SuppressLint("RestrictedApi")
+    private void initCrasher() {
+        CaocConfig.Builder.create()
+                .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT) //default: CaocConfig.BACKGROUND_MODE_SHOW_CUSTOM
+                .enabled(true) //default: true
+                .showErrorDetails(true) //default: true
+                .showRestartButton(true) //default: true
+                .logErrorOnRestart(true) //default: true
+                .trackActivities(true) //default: false
+                .minTimeBetweenCrashesMs(2000) //default: 3000
+                .errorDrawable(R.drawable.customactivityoncrash_error_image) //default: bug image
+//                .restartActivity(YourCustomActivity.class) //default: null (your app's launch activity)
+//                .errorActivity(YourCustomErrorActivity.class) //default: null (default error activity)
+//                .eventListener(new YourCustomEventListener()) //default: null
+                .apply();
+        CustomActivityOnCrash.install(this);
+
     }
 
     private void initARouter() {
