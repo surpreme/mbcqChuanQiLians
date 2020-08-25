@@ -10,6 +10,11 @@ import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.dialog.dialogfragment.BaseDialogFragment
 import com.mbcq.commonlibrary.R
 
+/**
+ * 扫码弹窗
+ * 弃用 可参考 已实现
+ *
+ * */
 class ScanDialogFragment : BaseDialogFragment, QRCodeView.Delegate {
     var mZXingView: ZXingView? = null
     var mScreenWidths: Int

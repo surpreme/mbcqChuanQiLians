@@ -170,6 +170,7 @@
         app:layout_constraintTop_toBottomOf="@id/else_login_way_tv">
 
         <LinearLayout
+            android:id="@+id/qrcode_ll"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
