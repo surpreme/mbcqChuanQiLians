@@ -1,18 +1,20 @@
-package com.mbcq.accountlibrary
+package com.mbcq.accountlibrary.login
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.mbcq.accountlibrary.login.LogInContract
-import com.mbcq.accountlibrary.login.LogInPresenter
-import com.mbcq.accountlibrary.login.LogInSuccessBean
-import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
+import com.alibaba.android.arouter.launcher.ARouter
+import com.mbcq.accountlibrary.R
+import com.mbcq.baselibrary.db.SPUtil
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
-import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
+import com.mbcq.baselibrary.finger.FingerConstant
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.UserInformationUtil
+import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_log_in.*
 
@@ -20,13 +22,14 @@ import kotlinx.android.synthetic.main.activity_log_in.*
  * 登录页
  */
 @Route(path = ARouterConstants.LogInActivity)
-class LogInActivity : BaseMVPActivity<LogInContract.View, LogInPresenter>(), LogInContract.View {
+class LogInActivity : BaseFingerLogInMVPActivity<LogInContract.View, LogInPresenter>(), LogInContract.View {
     lateinit var rxPermissions: RxPermissions
     override fun getLayoutId(): Int = R.layout.activity_log_in
     override fun initViews() {
         super.initViews()
         setStatusBar(R.color.base_gray)
-        rxPermissions =  RxPermissions(this)
+        rxPermissions = RxPermissions(this)
+        number_get_edit.setText(UserInformationUtil.getUserName(mContext))
 
 
     }
@@ -56,12 +59,19 @@ class LogInActivity : BaseMVPActivity<LogInContract.View, LogInPresenter>(), Log
             }
 
         })
-        scan_login_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                getCamera()
-            }
+        /*  scan_login_tv.setOnClickListener(object : SingleClick() {
+              override fun onSingleClick(v: View?) {
+                  getCamera()
+              }
 
-        })
+          })*/
+        finger_login_ll.setOnClickListener {
+            if (UserInformationUtil.getUserIsFingerLogIn(mContext)) {
+                openFingerprintLogin()
+            } else {
+                TalkSureDialog(mContext, getScreenWidth(), "登录后打开指纹登录即可使用").show()
+            }
+        }
         login_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (number_get_edit.text.toString().isEmpty()) {
@@ -77,22 +87,55 @@ class LogInActivity : BaseMVPActivity<LogInContract.View, LogInPresenter>(), Log
 
         })
     }
-    private fun getCamera(){
+
+    private fun getCamera() {
         //
         rxPermissions.request(Manifest.permission.CAMERA)
                 .subscribe { granted ->
                     if (granted) { // Always true pre-M
                         // I can control the camera now
-                        ScanDialogFragment(getScreenWidth()).show(supportFragmentManager,"ScanDialogFragment")
+                        ScanDialogFragment(getScreenWidth()).show(supportFragmentManager, "ScanDialogFragment")
                     } else {
                         // Oups permission denied
                     }
                 }
     }
+
     override fun isShowErrorDialog(): Boolean = true
 
+    /**
+     *         TalkSureDialog(mContext, getScreenWidth(), "登录成功").show()
+     */
     override fun loInS(result: LogInSuccessBean) {
-        TalkSureDialog(mContext, getScreenWidth(), "登录成功").show()
+        UserInformationUtil.setUserKey(mContext, result.token)
+        if (isSavePsw)
+            UserInformationUtil.setUserAccount(mContext, number_get_edit.text.toString(), key_get_edit.text.toString())
+        //本地存储账号用户指纹登录时显示账号信息
+        //本地存储账号用户指纹登录时显示账号信息
+        SPUtil.getInstance().putString(FingerConstant.SP_ACCOUNT, number_get_edit.text.toString())
+        SPUtil.getInstance().putString(FingerConstant.SP_A_P, key_get_edit.text.toString())
+//        SPUtil.getInstance().putString(FingerConstant.SP_A_P, result.token)
+
+        object : CountDownTimer(500, 500) {
+            override fun onFinish() {
+                if (!isDestroyed) {
+                    ARouter.getInstance().build(ARouterConstants.HouseActivity).navigation()
+                }
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+
+            }
+
+        }.start()
+
+    }
+
+    var isSavePsw: Boolean = true
+    override fun fingerVerificationSuccess() {
+        isSavePsw = false
+        Log.e("TAG", "fingerVerificationSuccess: ${UserInformationUtil.getUserName(mContext)}--${UserInformationUtil.getUserPsw(mContext)}")
+        mPresenter?.logIn(UserInformationUtil.getUserName(mContext), UserInformationUtil.getUserPsw(mContext))
 
     }
 

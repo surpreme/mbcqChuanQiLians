@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogInActivity">
+    tools:context=".login.LogInActivity">
 
     <TextView
         android:id="@+id/tool_text_tv"
@@ -23,7 +23,8 @@
         android:layout_width="136dp"
         android:layout_height="103dp"
         android:layout_marginTop="60dp"
-        android:src="@color/base_grayDark"
+        android:scaleType="fitCenter"
+        android:src="@drawable/app_logo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tool_text_tv" />
@@ -41,7 +42,7 @@
         app:hintEnabled="false"
         app:layout_constraintTop_toBottomOf="@+id/logo_iv"
         app:startIconDrawable="@mipmap/usericon_img"
-        app:startIconTint="@color/black">
+        app:startIconTint="#7B7B7B">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/number_get_edit"
@@ -50,8 +51,8 @@
             android:background="@null"
             android:gravity="center|left"
             android:hint="请输入用户名"
-            android:maxLines="1"
             android:inputType="textPersonName"
+            android:maxLines="1"
             android:nextFocusForward="@+id/key_get_edit"
             android:paddingLeft="5dp"
             android:textColor="@color/black"
@@ -70,7 +71,7 @@
         app:layout_constraintTop_toBottomOf="@+id/username_ll"
         app:passwordToggleEnabled="true"
         app:startIconDrawable="@mipmap/pasword_img"
-        app:startIconTint="@color/black">
+        app:startIconTint="#7B7B7B">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/key_get_edit"
@@ -111,9 +112,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/white"
             android:gravity="center"
             android:text="获取验证码"
-            android:background="@color/white"
             android:textColor="@color/black" />
 
     </LinearLayout>
@@ -131,14 +132,117 @@
         app:layout_constraintLeft_toLeftOf="@id/username_ll"
         app:layout_constraintRight_toRightOf="@id/username_ll"
         app:layout_constraintTop_toBottomOf="@id/verification_code_ll" />
+
     <TextView
-        android:id="@+id/scan_login_tv"
+        android:id="@+id/else_login_way_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="扫码登录"
-        app:layout_constraintTop_toBottomOf="@id/login_btn"
+        android:layout_marginTop="44dp"
+        android:text="其他登录方式"
+        android:textSize="12dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="15dp"/>
+        app:layout_constraintTop_toBottomOf="@id/login_btn" />
+
+    <View
+        android:id="@+id/left_line_view"
+        android:layout_width="71dp"
+        android:layout_height="1dp"
+        android:background="@color/base_gray"
+        app:layout_constraintBottom_toBottomOf="@id/else_login_way_tv"
+        app:layout_constraintRight_toLeftOf="@id/else_login_way_tv"
+        app:layout_constraintTop_toTopOf="@id/else_login_way_tv" />
+    <View
+        android:id="@+id/right_line_view"
+        android:layout_width="71dp"
+        android:layout_height="1dp"
+        android:background="@color/base_gray"
+        app:layout_constraintBottom_toBottomOf="@id/else_login_way_tv"
+        app:layout_constraintLeft_toRightOf="@id/else_login_way_tv"
+        app:layout_constraintTop_toTopOf="@id/else_login_way_tv" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        app:layout_constraintLeft_toLeftOf="@+id/left_line_view"
+        app:layout_constraintRight_toRightOf="@id/right_line_view"
+        app:layout_constraintTop_toBottomOf="@id/else_login_way_tv">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:layout_gravity="center"
+                android:padding="4dp"
+                android:src="@drawable/ic_scanlogin_icon"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/login_btn" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="扫码登录"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:layout_gravity="center"
+                android:padding="2dp"
+                android:src="@drawable/ic_facelogin_icon"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/login_btn" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="人脸识别"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/finger_login_ll"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:layout_gravity="center"
+                android:padding="2dp"
+                android:src="@drawable/ic_fingerlogn_icon"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/login_btn" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="指纹识别"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

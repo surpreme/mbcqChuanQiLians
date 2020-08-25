@@ -3,8 +3,11 @@ package com.mbcq.baselibrary;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.provider.SyncStateContract;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.mbcq.baselibrary.db.SPUtil;
+import com.mbcq.baselibrary.finger.FingerConstant;
 import com.scwang.smartrefresh.header.WaterDropHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -31,6 +34,15 @@ public class BaseApplication extends Application {
     private void init() {
         initARouter();
         initCrasher();
+        initFingerShare();
+    }
+
+    /**
+     * 指纹登录初始化
+     */
+    private void initFingerShare() {
+        SPUtil.init(context, FingerConstant.SHARE_PREFERENCE_NAME, Context.MODE_PRIVATE);
+
     }
 
     /**
