@@ -1,7 +1,6 @@
-package com.mbcq.accountlibrary.login
+package com.mbcq.accountlibrary.activity.login
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
-import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
 
 class LogInContract {
@@ -9,7 +8,7 @@ class LogInContract {
      * 异步回调的接口
      */
     interface View : BaseView {
-        fun loInS(result:LogInSuccessBean)
+        fun loInS(result: LogInSuccessBean)
 
     }
 

@@ -8,5 +8,6 @@
     <!--    深灰色-->
     <color name="base_grayDark">#A0A1A4</color>
     <color name="base_red">#FF0000</color>
+    <color name="base_blue">#536DFF</color>
 
 </resources>

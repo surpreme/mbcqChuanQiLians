@@ -3,8 +3,8 @@
     package="com.mbcq.accountlibrary">
 
     <application>
-        <activity android:name=".login.LogInActivity"/>
-        <activity android:name=".house.HouseActivity" />
+        <activity android:name=".activity.login.LogInActivity"/>
+        <activity android:name=".activity.house.HouseActivity" />
     </application>
 
 </manifest>

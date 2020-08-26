@@ -1,4 +1,4 @@
-package com.mbcq.accountlibrary.login
+package com.mbcq.accountlibrary.activity.login
 
 
 import com.google.gson.Gson

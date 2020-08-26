@@ -1,5 +1,6 @@
-package com.mbcq.accountlibrary.house
+package com.mbcq.accountlibrary.activity.house
 
+import android.os.Bundle
 import android.os.CountDownTimer
 import android.security.keystore.KeyProperties
 import android.util.Log
@@ -28,10 +29,9 @@ abstract class BaseHouseFingerActivity : BaseActivity(), FingerprintHelper.Simpl
         helper.setCallback(this)
     }
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         initFingerTips()
-
 
     }
 

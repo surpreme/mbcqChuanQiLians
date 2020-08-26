@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/home_item"
+        android:icon="@drawable/ic_house_botom"
+        android:title="首页"/>
+    <item android:id="@+id/operation_item"
+        android:icon="@drawable/ic_operation_bottom"
+        android:title="运营"/>
+    <item android:id="@+id/finance_item"
+        android:icon="@drawable/ic_finance_bottom"
+        android:title="财务"/>
+    <item android:id="@+id/report_item"
+        android:icon="@drawable/ic_report_bottom"
+        android:title="报表"/>
+    <item android:id="@+id/setting_item"
+        android:icon="@drawable/ic_setting_bottom"
+        android:title="我的"/>
+
+</menu>

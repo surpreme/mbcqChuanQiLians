@@ -26,7 +26,7 @@ import java.text.DecimalFormat
 abstract class BaseFragment : Fragment() {
     abstract fun getLayoutResId(): Int
     abstract fun initViews(view: View)
-    abstract fun initDatas()
+    open fun initDatas(){}
     protected var mContext: Context? = null
 
 

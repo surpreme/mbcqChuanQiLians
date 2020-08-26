@@ -18,7 +18,7 @@ import java.text.DecimalFormat
 
 abstract class BaseActivity : AppCompatActivity() {
     abstract fun getLayoutId(): Int
-    open fun initViews() {}
+    open fun initViews(savedInstanceState: Bundle?) {}
     open fun initDatas() {}
     protected lateinit var mContext: Context
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ abstract class BaseActivity : AppCompatActivity() {
         mContext = this
 
         initExtra()
-        initViews()
+        initViews(savedInstanceState)
         initDatas()
     }
 

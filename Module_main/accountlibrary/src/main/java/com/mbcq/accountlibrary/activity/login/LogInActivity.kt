@@ -1,7 +1,8 @@
-package com.mbcq.accountlibrary.login
+package com.mbcq.accountlibrary.activity.login
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
@@ -15,7 +16,6 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.UserInformationUtil
 import com.mbcq.commonlibrary.scan.scanlogin.QrCodeDialogFragment
-import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_log_in.*
 
@@ -29,8 +29,8 @@ class LogInActivity : BaseFingerLogInMVPActivity<LogInContract.View, LogInPresen
     override fun getLayoutId(): Int = R.layout.activity_log_in
     override fun isShowErrorDialog(): Boolean = true
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         setStatusBar(R.color.base_gray)
         rxPermissions = RxPermissions(this)
         number_get_edit.setText(UserInformationUtil.getUserName(mContext))

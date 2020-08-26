@@ -1,0 +1,248 @@
+package com.mbcq.accountlibrary.activity.house
+
+
+import android.content.Intent
+import android.os.Bundle
+import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import com.mbcq.accountlibrary.R
+import com.mbcq.accountlibrary.fragment.*
+import com.mbcq.accountlibrary.fragment.operation.OperationFragment
+import kotlinx.android.synthetic.main.activity_house.*
+
+
+/**
+ * 主页面
+ */
+@Suppress("DEPRECATED_IDENTITY_EQUALS")
+abstract class BaseFragmentHouseActivity : BaseHouseFingerActivity() {
+    private var fragmentManager: FragmentManager? = null
+    private val FRAGMENT_TAG = arrayOf("HouseFragment", "OperationFragment", "FinanceFragment", "ReportFragment", "SettingFragment")
+    private val CODE_FRAGMENT_KEY = "FRAGMENT_TAG" //key
+    private var mFragmentTag_index = 0
+
+    /***
+     * 首页1
+     */
+    private var mHouseFragment: HouseFragment? = null
+
+    /**
+     * 运营2
+     */
+    private var mOperationFragment: OperationFragment? = null
+
+    /**
+     * 财务3
+     */
+    private var mFinanceFragment: FinanceFragment? = null
+
+    /**
+     * 报表4
+     */
+    private var mReportFragment: ReportFragment? = null
+
+    /**
+     * 我的5
+     */
+    private var mSettingFragment: SettingFragment? = null
+
+
+    override fun getLayoutId(): Int = R.layout.activity_house
+
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
+        setStatusBar(0)
+        initFragment()
+        initRestartFragment(savedInstanceState)
+    }
+
+    private fun initRestartFragment(savedInstanceState: Bundle?) {
+        if (savedInstanceState ==null){
+            setTabSelection(0)
+        }else{
+            if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) === 0 && mHouseFragment == null)
+                mHouseFragment = fragmentManager!!.findFragmentByTag(FRAGMENT_TAG[0]) as HouseFragment?
+            else if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) === 1 && mSettingFragment == null)
+                mOperationFragment = fragmentManager!!.findFragmentByTag(FRAGMENT_TAG[1]) as OperationFragment?
+            else if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) === 2 && mFinanceFragment == null)
+                mFinanceFragment = fragmentManager!!.findFragmentByTag(FRAGMENT_TAG[2]) as FinanceFragment?
+            else if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) === 3 && mReportFragment == null)
+                mReportFragment = fragmentManager!!.findFragmentByTag(FRAGMENT_TAG[3]) as ReportFragment?
+            else if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) === 4 && mSettingFragment == null)
+                mSettingFragment = fragmentManager!!.findFragmentByTag(FRAGMENT_TAG[4]) as SettingFragment?
+            setTabSelection(savedInstanceState.getInt(CODE_FRAGMENT_KEY))
+        }
+
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(CODE_FRAGMENT_KEY, mFragmentTag_index)
+
+    }
+
+    /**
+     * 避免重叠
+     */
+    override fun onAttachFragment(@NonNull fragment: Fragment) {
+        when (fragment) {
+            is HouseFragment -> {
+                mHouseFragment = fragment
+            }
+            is SettingFragment -> {
+                mSettingFragment = fragment
+            }
+            is ReportFragment -> {
+                mReportFragment = fragment
+            }
+            is OperationFragment -> {
+                mOperationFragment = fragment
+            }
+            is FinanceFragment -> {
+                mFinanceFragment = fragment
+            }
+        }
+        super.onAttachFragment(fragment)
+
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setTabSelection(0)
+    }
+
+    private fun hideFragment(transaction: FragmentTransaction) {
+        //隐藏碎片 避免重叠
+        mHouseFragment?.let {
+            transaction.hide(it)
+        }
+        mSettingFragment?.let {
+            transaction.hide(it)
+        }
+        mReportFragment?.let {
+            transaction.hide(it)
+        }
+        mOperationFragment?.let {
+            transaction.hide(it)
+        }
+        mFinanceFragment?.let {
+            transaction.hide(it)
+        }
+
+    }
+
+    private fun setTabSelection(index: Int) {
+        fragmentManager?.let {
+            val transaction = it.beginTransaction()
+            //隐藏碎片
+            hideFragment(transaction)
+            mFragmentTag_index = index
+            when (index) {
+                0 -> {
+                    if (mHouseFragment == null) {
+                        mHouseFragment = HouseFragment()
+                        transaction.add(R.id.main_fragment_fl, mHouseFragment!!)
+                    } else {
+                        transaction.show(mHouseFragment!!)
+                    }
+                    setStatusBar(0)
+
+                }
+                1 -> {
+
+                    if (mOperationFragment == null) {
+                        mOperationFragment = OperationFragment()
+                        transaction.add(R.id.main_fragment_fl, mOperationFragment!!)
+                    } else {
+                        transaction.show(mOperationFragment!!)
+                    }
+                    setStatusBar(1)
+
+                }
+                2 -> {
+                    if (mFinanceFragment == null) {
+                        mFinanceFragment = FinanceFragment()
+                        transaction.add(R.id.main_fragment_fl, mFinanceFragment!!)
+                    } else {
+                        transaction.show(mFinanceFragment!!)
+                    }
+                    setStatusBar(1)
+
+                }
+                3 -> {
+                    if (mReportFragment == null) {
+                        mReportFragment = ReportFragment()
+                        transaction.add(R.id.main_fragment_fl, mReportFragment!!)
+                    } else {
+                        transaction.show(mReportFragment!!)
+                    }
+                    setStatusBar(1)
+
+                }
+                4 -> {
+                    if (mSettingFragment == null) {
+                        mSettingFragment = SettingFragment()
+                        transaction.add(R.id.main_fragment_fl, mSettingFragment!!)
+                    } else {
+                        transaction.show(mSettingFragment!!)
+                    }
+                    setStatusBar(1)
+
+                }
+
+            }
+            transaction.commit()
+        }
+
+    }
+
+    private fun initFragment() {
+        fragmentManager = supportFragmentManager
+        main_bottom_navigation_view.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                /**
+                 * 首页
+                 */
+                R.id.home_item -> {
+                    setTabSelection(0)
+
+                }
+                /**
+                 * 运营
+                 */
+                R.id.operation_item -> {
+                    setTabSelection(1)
+
+                }
+                /**
+                 * 财务
+                 */
+                R.id.finance_item -> {
+                    setTabSelection(2)
+
+                }
+                /**
+                 * 报表
+                 */
+                R.id.report_item -> {
+                    setTabSelection(3)
+
+                }
+                /**
+                 * 我的
+                 */
+                R.id.setting_item -> {
+                    setTabSelection(4)
+
+                }
+            }
+
+            true
+        }
+    }
+
+
+}
