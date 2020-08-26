@@ -1,9 +1,13 @@
 package com.mbcq.accountlibrary.fragment.operation
 
 import android.view.View
+import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.accountlibrary.R
+import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListFragment
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.commonlibrary.ARouterConstants
 import kotlinx.android.synthetic.main.fragment_operation.*
 
 /**
@@ -173,11 +177,26 @@ class OperationFragment : BaseListFragment<OperationViewBean>() {
         }
 
         adapter.appendData(list)
+
+
     }
 
     override fun getRecyclerViewId(): Int = R.id.operation_recycler_view
 
-    override fun setAdapter(): BaseRecyclerAdapter<OperationViewBean> = OperationViewRecyclerAdapter(mContext)
+    override fun setAdapter(): BaseRecyclerAdapter<OperationViewBean> {
+        return OperationViewRecyclerAdapter(mContext).also {
+            it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+                override fun onItemClick(v: View, position: Int, result: String) {
+                    LogUtils.d("result" + result + "position" + position)
+                    if (result == "1" && position == 0) {
+                        ARouter.getInstance().build(ARouterConstants.AcceptBillingActivity).navigation()
+                    }
+
+
+                }
+            }
+        }
+    }
 
 
 }

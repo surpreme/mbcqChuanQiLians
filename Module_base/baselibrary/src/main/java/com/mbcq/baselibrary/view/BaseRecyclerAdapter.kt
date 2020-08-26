@@ -4,11 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.mbcq.baselibrary.interfaces.OnClickInterface
 
 abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     protected val context: Context?
     protected val inflater: LayoutInflater
     protected var mDatas = ArrayList<T>()
+    open var mClickInterface: OnClickInterface.OnRecyclerClickInterface? = null
 
     constructor(context: Context?) {
         this.context = context

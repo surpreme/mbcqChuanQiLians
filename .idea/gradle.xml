@@ -14,8 +14,8 @@
             <option value="$PROJECT_DIR$/Module_base/baselibrary" />
             <option value="$PROJECT_DIR$/Module_base/commonlibrary" />
             <option value="$PROJECT_DIR$/Module_main" />
+            <option value="$PROJECT_DIR$/Module_main/Orderlibrary" />
             <option value="$PROJECT_DIR$/Module_main/accountlibrary" />
-            <option value="$PROJECT_DIR$/Module_main/vehiclelibrary" />
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>

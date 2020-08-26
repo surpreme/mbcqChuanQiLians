@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_finance.*
 class FinanceFragment :BaseFragment(){
     override fun getLayoutResId(): Int = R.layout.fragment_finance
     override fun initViews(view: View) {
-        tool_text_tv.setPadding(0, getStatusBarHeight(), 0, 0)
+        finance_toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
 
     }
 

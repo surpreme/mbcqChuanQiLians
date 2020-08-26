@@ -2,6 +2,6 @@ rootProject.name='ChuanQiLians'
 include ':app' ,
         'Module_base:baselibrary' ,
         'Module_base:commonlibrary' ,
-        'Module_main:vehiclelibrary',
+        'Module_main:orderlibrary',
         'Module_main:accountlibrary'
 

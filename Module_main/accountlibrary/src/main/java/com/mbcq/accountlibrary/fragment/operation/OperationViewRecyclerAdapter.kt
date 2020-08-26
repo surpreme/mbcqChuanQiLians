@@ -13,6 +13,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.accountlibrary.R
+import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 
@@ -40,6 +42,7 @@ class OperationViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Oper
         }
     }
 
+
     @SuppressLint("RtlHardcoded")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewType = getItemViewType(position)
@@ -62,7 +65,7 @@ class OperationViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Oper
 
             }
             CONTENT_ITEM_TAG -> {
-                val mI = ItemFootAdapterSon(context, mDatas[position].item)
+                val mI = ItemFootAdapterSon(context, mDatas[position].item, position)
                 context?.let {
 
                     //距离上下左右
@@ -82,6 +85,7 @@ class OperationViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Oper
                     holder.itemView.layoutParams = marginParams
 
                 }
+                  mI.mClick=mClickInterface
                 (holder as CardViewHolder).card_recycler_view.adapter = mI
                 holder.card_recycler_view.layoutManager = GridLayoutManager(context, 3)
             }
@@ -103,9 +107,11 @@ class OperationViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Oper
         private var context: Context?
         private val inflater: LayoutInflater
         private var mSonBean = ArrayList<OperationViewBean.ItemBean>()
+        private var mIndexTag = 0
 
-        constructor(context: Context?, mSonBean: List<OperationViewBean.ItemBean>) {
+        constructor(context: Context?, mSonBean: List<OperationViewBean.ItemBean>, mIndex: Int) {
             this.context = context
+            this.mIndexTag = mIndex
             this.inflater = LayoutInflater.from(context)
             this.mSonBean = mSonBean as ArrayList<OperationViewBean.ItemBean>
         }
@@ -117,6 +123,7 @@ class OperationViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Oper
 
         }
 
+        var mClick: OnClickInterface.OnRecyclerClickInterface? = null
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
             return ItemViewHolder(inflater.inflate(R.layout.item_operation_card, parent, false))
@@ -128,7 +135,14 @@ class OperationViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Oper
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
             holder.itemView.setBackgroundColor(Color.WHITE)
             holder.tool_text_tv.text = mSonBean[position].itemText
-            holder.tool_text_tv.textSize=16f
+            holder.tool_text_tv.textSize = 16f
+
+            holder.itemView.setOnClickListener {
+                mClick?.onItemClick(it, position, mIndexTag.toString())
+                LogUtils.d("position"+position+"mIndexTag"+mIndexTag)
+            }
+
+
             context?.let {
                 //设置宽高
                 val params: ViewGroup.LayoutParams = holder.icon_iv.layoutParams as ViewGroup.LayoutParams

@@ -1,4 +1,4 @@
-package com.mbcq.accountlibrary.fragment
+package com.mbcq.accountlibrary.fragment.setting
 
 import android.view.View
 import com.mbcq.accountlibrary.R
@@ -12,7 +12,7 @@ class SettingFragment :BaseFragment(){
     override fun getLayoutResId(): Int = R.layout.fragment_setting
 
     override fun initViews(view: View) {
-        tool_text_tv.setPadding(0, getStatusBarHeight(), 0, 0)
+//        tool_text_tv.setPadding(0, getStatusBarHeight(), 0, 0)
 
     }
 

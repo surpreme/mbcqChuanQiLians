@@ -67,7 +67,7 @@ abstract class BaseActivity : AppCompatActivity() {
             else -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (s is Int)
-                        StatusBarUtils.setColor(this, getColor(s ))
+                        StatusBarUtils.setColor(this, getColor(s))
                 }
             }
         }
