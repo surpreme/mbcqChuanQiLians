@@ -12,7 +12,7 @@ class ReportFragment :BaseFragment(){
     override fun getLayoutResId(): Int = R.layout.fragment_report
 
     override fun initViews(view: View) {
-        tool_text_tv.setPadding(0, getStatusBarHeight(), 0, 0)
+        report_toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
 
     }
 

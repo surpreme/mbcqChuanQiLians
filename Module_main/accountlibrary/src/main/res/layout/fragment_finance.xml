@@ -9,7 +9,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:background="@drawable/toolbar_background_blue"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="70dp"
         app:backButtonIsShow="false"
         app:centerTextViewText="传麒链" />
 

@@ -18,7 +18,7 @@ class OperationFragment : BaseListFragment<OperationViewBean>() {
 
     override fun initViews(view: View) {
         super.initViews(view)
-        tool_text_tv.setPadding(0, getStatusBarHeight(), 0, 0)
+        operation_toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
 
     }
 

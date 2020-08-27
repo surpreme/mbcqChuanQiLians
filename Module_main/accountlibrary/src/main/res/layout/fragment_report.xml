@@ -4,16 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tool_text_tv"
+    <com.mbcq.baselibrary.view.CnToolbar
+        android:id="@+id/report_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="67dp"
         android:background="@drawable/toolbar_background_blue"
-        android:gravity="center"
-        android:text="传麒链"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="70dp"
+        app:backButtonIsShow="false"
+        app:centerTextViewText="传麒链" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

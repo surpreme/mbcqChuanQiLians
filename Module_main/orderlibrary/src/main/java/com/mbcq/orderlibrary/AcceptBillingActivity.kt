@@ -16,4 +16,5 @@ class AcceptBillingActivity :BaseActivity(){
             onBackPressed()
         }
     }
+    // Undefined error UnsupportedOperationException
 }

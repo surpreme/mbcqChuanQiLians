@@ -24,9 +24,7 @@ class LogInPresenter : BasePresenterImpl<LogInContract.View>(), LogInContract.Pr
             }
 
         })
-
-
-
+        
     }
 
 }
