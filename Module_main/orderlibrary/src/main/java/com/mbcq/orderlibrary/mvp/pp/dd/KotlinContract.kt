@@ -1,4 +1,4 @@
-package com.mbcq.orderlibrary.mvp.pp
+package com.mbcq.orderlibrary.mvp.pp.dd
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
@@ -8,7 +8,7 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
  * @time: 2018.08.25
  */
 
-interface DingContract {
+class KotlinContract {
 
     interface View : BaseView {
 
