@@ -1,6 +1,5 @@
 package com.mbcq.accountlibrary.activity.login
 
-import android.content.Intent
 import android.security.keystore.KeyProperties
 import android.util.Log
 import com.mbcq.baselibrary.db.SPUtil
@@ -9,7 +8,6 @@ import com.mbcq.baselibrary.finger.FingerConstant
 import com.mbcq.baselibrary.finger.FingerprintHelper
 import com.mbcq.baselibrary.finger.FingerprintUtil
 import com.mbcq.baselibrary.finger.FingerprintVerifyDialog
-import com.mbcq.baselibrary.ui.BaseActivity
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView

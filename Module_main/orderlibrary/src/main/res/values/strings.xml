@@ -1,1 +1,5 @@
-<resources></resources>
+<resources>
+<!--    &#160;空格-->
+<!--    \n换行-->
+    <string name="test_receiver_information">太原吴轩&#160;&#160;159999999999\n上海松江区东方花苑60号</string>
+</resources>

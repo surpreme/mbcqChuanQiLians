@@ -15,7 +15,7 @@ import com.mbcq.commonlibrary.R
 
 
 /**
- *
+ *生成二维码弹窗 带logo
  */
 class QrCodeDialogFragment : BaseDialogFragment {
     lateinit var qrCode_iv: ImageView

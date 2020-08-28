@@ -19,7 +19,6 @@ class OperationFragment : BaseListFragment<OperationViewBean>() {
     override fun initViews(view: View) {
         super.initViews(view)
         operation_toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
-
     }
 
     override fun initDatas() {
@@ -175,10 +174,7 @@ class OperationFragment : BaseListFragment<OperationViewBean>() {
             list.add(mOperationViewBean)
 
         }
-
         adapter.appendData(list)
-
-
     }
 
     override fun getRecyclerViewId(): Int = R.id.operation_recycler_view
@@ -191,12 +187,8 @@ class OperationFragment : BaseListFragment<OperationViewBean>() {
                     if (result == "1" && position == 0) {
                         ARouter.getInstance().build(ARouterConstants.AcceptBillingActivity).navigation()
                     }
-
-
                 }
             }
         }
     }
-
-
 }

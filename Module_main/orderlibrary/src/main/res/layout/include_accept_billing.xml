@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/cost_information_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/cost_information_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="15dp"
+            android:text="费用信息"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/receiver_circle_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.7"
+                android:gravity="left|center"
+                android:text="运费"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.7"
+                android:gravity="left|center"
+                android:text="外转费"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:inputType="numberDecimal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.7"
+                android:gravity="left|center"
+                android:text="送货费"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.7"
+                android:gravity="left|center"
+                android:text="返款"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:inputType="numberDecimal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.7"
+                android:gravity="left|center"
+                android:text="保价金额"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.7"
+                android:gravity="left|center"
+                android:text="保价费"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:inputType="numberDecimal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.7"
+                android:gravity="left|center"
+                android:text="其他费用"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.7"
+                android:gravity="left|center"
+                android:text="代收货款"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:inputType="numberDecimal" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/pay_way_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="15dp"
+        android:text="付款方式"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cost_information_ll" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/pay_way_title_sl"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/pay_way_title_tv">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/pay_way_title_ll"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+    </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/receipt_requirements_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:gravity="left"
+        android:text="回单要求"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pay_way_title_sl" />
+
+    <TextView
+        android:id="@+id/receipt_requirements_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:gravity="left"
+        android:text="签回单"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/receipt_requirements_title_tv"
+        app:layout_constraintLeft_toRightOf="@+id/receipt_requirements_title_tv"
+        app:layout_constraintTop_toTopOf="@+id/receipt_requirements_title_tv" />
+
+    <ImageView
+        android:id="@+id/receipt_requirements_name_down_iv"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="3dp"
+        android:src="@drawable/ic_down_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/receipt_requirements_title_tv"
+        app:layout_constraintLeft_toRightOf="@+id/receipt_requirements_name_tv"
+        app:layout_constraintTop_toTopOf="@+id/receipt_requirements_title_tv" />
+
+    <View
+        android:id="@+id/receipt_requirements_name_line"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/base_grayDark"
+        app:layout_constraintLeft_toLeftOf="@+id/receipt_requirements_name_tv"
+        app:layout_constraintRight_toRightOf="@+id/receipt_requirements_name_down_iv"
+        app:layout_constraintTop_toBottomOf="@+id/receipt_requirements_title_tv" />
+
+    <TextView
+        android:id="@+id/account_names_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:gravity="left"
+        android:text="开户名"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/receipt_requirements_name_line" />
+
+    <TextView
+        android:id="@+id/account_names_tv"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:gravity="center|left"
+        android:text="吴轩"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/account_names_title_tv"
+        app:layout_constraintLeft_toLeftOf="@+id/receipt_requirements_name_line"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/account_names_title_tv" />
+
+    <View
+        android:id="@+id/account_names_line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/base_grayDark"
+        app:layout_constraintLeft_toLeftOf="@+id/account_names_tv"
+        app:layout_constraintRight_toRightOf="@+id/account_names_tv"
+        app:layout_constraintTop_toBottomOf="@+id/account_names_tv" />
+
+    <TextView
+        android:id="@+id/account_bank_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="23dp"
+        android:gravity="left"
+        android:text="开户行"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account_names_line" />
+
+    <TextView
+        android:id="@+id/account_bank_tv"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:gravity="center|left"
+        android:text="中国建设银行上海交通路支行"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/account_bank_title_tv"
+        app:layout_constraintLeft_toLeftOf="@+id/receipt_requirements_name_line"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/account_bank_title_tv" />
+
+    <View
+        android:id="@+id/account_bank_line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/base_grayDark"
+        app:layout_constraintLeft_toLeftOf="@+id/account_bank_tv"
+        app:layout_constraintRight_toRightOf="@+id/account_bank_tv"
+        app:layout_constraintTop_toBottomOf="@+id/account_bank_tv" />
+
+    <TextView
+        android:id="@+id/bank_number_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="23dp"
+        android:gravity="left"
+        android:text="银行卡号"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account_bank_line" />
+
+    <TextView
+        android:id="@+id/bank_number_tv"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:gravity="center|left"
+        android:text="1234567890123456789"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/bank_number_title_tv"
+        app:layout_constraintLeft_toLeftOf="@+id/receipt_requirements_name_line"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bank_number_title_tv" />
+
+    <View
+        android:id="@+id/bank_number_line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/base_grayDark"
+        app:layout_constraintLeft_toLeftOf="@+id/bank_number_tv"
+        app:layout_constraintRight_toRightOf="@+id/bank_number_tv"
+        app:layout_constraintTop_toBottomOf="@+id/bank_number_tv" />
+
+    <CheckBox
+        android:id="@+id/wait_notice_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="23dp"
+        android:text="等通知放货"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bank_number_line" />
+
+    <CheckBox
+        android:id="@+id/transfer_dee_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="23dp"
+        android:text="中转费另计"
+        app:layout_constraintLeft_toRightOf="@+id/wait_notice_check"
+        app:layout_constraintTop_toBottomOf="@+id/bank_number_line" />
+
+    <TextView
+        android:id="@+id/remarks_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="23dp"
+        android:gravity="left"
+        android:text="备注"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wait_notice_check" />
+
+    <EditText
+        android:id="@+id/remarks_tv"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:background="@null"
+        android:gravity="center|left"
+        android:text="中国建设银行上海交通路支行"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/remarks_title_tv"
+        app:layout_constraintLeft_toRightOf="@+id/remarks_title_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/remarks_title_tv" />
+
+    <View
+        android:id="@+id/remarks_line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/base_grayDark"
+        app:layout_constraintLeft_toLeftOf="@+id/remarks_tv"
+        app:layout_constraintRight_toRightOf="@+id/remarks_tv"
+        app:layout_constraintTop_toBottomOf="@+id/remarks_tv" />
+
+    <CheckBox
+        android:id="@+id/waybillcheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="23dp"
+        android:text="运单"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/remarks_line" />
+
+    <CheckBox
+        android:id="@+id/labelcheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="23dp"
+        android:text="标签"
+        app:layout_constraintLeft_toRightOf="@+id/waybillcheck"
+        app:layout_constraintTop_toBottomOf="@+id/remarks_line" />
+
+    <CheckBox
+        android:id="@+id/continuous_invoicing_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="23dp"
+        android:text="连续开票"
+        app:layout_constraintLeft_toRightOf="@+id/labelcheck"
+        app:layout_constraintTop_toBottomOf="@+id/remarks_line" />
+
+    <View
+        android:id="@+id/overring_line"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/base_gray"
+        app:layout_constraintTop_toBottomOf="@+id/continuous_invoicing_check" />
+
+    <Button
+        android:id="@+id/cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/round_green"
+        android:text="取消"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/overring_line" />
+
+    <Button
+        android:id="@+id/make_up_printing_btn"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/round_green"
+        android:text="补打印"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cancel_btn"
+        app:layout_constraintLeft_toRightOf="@+id/cancel_btn"
+        app:layout_constraintTop_toTopOf="@+id/cancel_btn" />
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="122dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/round_blue"
+        android:drawableLeft="@drawable/ic_save_icon"
+        android:paddingLeft="10dp"
+        android:text="保 存"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cancel_btn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cancel_btn" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@+id/save_btn" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
