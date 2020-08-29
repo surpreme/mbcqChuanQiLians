@@ -5,15 +5,167 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
- <TextView
-     android:id="@+id/title_tv"
-     android:layout_width="wrap_content"
-     app:layout_constraintTop_toTopOf="parent"
-     app:layout_constraintBottom_toBottomOf="parent"
-     app:layout_constraintLeft_toLeftOf="parent"
-     app:layout_constraintRight_toRightOf="parent"
-     android:layout_height="wrap_content"
-     android:text="首页"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toolbar_cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/message_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableTop="@drawable/ic_message_icon"
+            android:gravity="center"
+            android:text="消息"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/common_round_corner_gray_bg"
+            android:drawableLeft="@drawable/ic_search_icon"
+            android:drawableTint="@color/base_grayDark"
+            android:hint="  请输入要查询的运单号"
+            android:paddingLeft="10dp"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/message_tv"
+            app:layout_constraintRight_toLeftOf="@+id/scan_tv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/scan_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:drawableTop="@drawable/ic_scan_iccon"
+            android:gravity="center"
+            android:text="扫一扫"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_cl">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.youth.banner.Banner
+                android:id="@+id/house_banner"
+                android:layout_width="match_parent"
+                android:layout_height="163dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="47dp"
+                        android:layout_height="42dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/base_grayDark" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="我要发货" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="47dp"
+                        android:layout_height="42dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/base_grayDark" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="运单查询" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="47dp"
+                        android:layout_height="42dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/base_grayDark" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="客户自寄" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/base_gray" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/type_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,13 @@
 package com.mbcq.accountlibrary.activity.login
 
+import android.os.Build
+import android.os.Bundle
+import android.os.CountDownTimer
 import android.security.keystore.KeyProperties
 import android.util.Log
 import com.mbcq.baselibrary.db.SPUtil
 import com.mbcq.baselibrary.dialog.common.CommonTipDialog
+import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.finger.FingerConstant
 import com.mbcq.baselibrary.finger.FingerprintHelper
 import com.mbcq.baselibrary.finger.FingerprintUtil
@@ -16,7 +20,7 @@ import com.mbcq.commonlibrary.UserInformationUtil
 /**
  * 指纹登陆
  */
-abstract class BaseFingerLogInMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V,T>(), BaseView, FingerprintHelper.SimpleAuthenticationCallback {
+abstract class BaseFingerLogInMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView, FingerprintHelper.SimpleAuthenticationCallback {
     lateinit var helper: FingerprintHelper
     private var fingerprintVerifyDialog: FingerprintVerifyDialog? = null
     private var fingerprintChangeTipDialog: CommonTipDialog? = null
@@ -24,12 +28,21 @@ abstract class BaseFingerLogInMVPActivity<V : BaseView, T : BasePresenterImpl<V>
 
     override fun initExtra() {
         super.initExtra()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return
+        }
         helper = FingerprintHelper.getInstance()
         helper.init(getContext())
         helper.setCallback(this)
     }
 
+
+
     open fun openFingerprintLogin() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            TalkSureDialog(mContext,getScreenWidth(),"您的手机不支持指纹登录，请您再买一个手机").show()
+            return
+        }
         Log.e("hagan", "FingerprintLoginFragment->openFingerprintLogin")
 
         //验证指纹库信息是否发生变化
@@ -50,7 +63,7 @@ abstract class BaseFingerLogInMVPActivity<V : BaseView, T : BasePresenterImpl<V>
         helper.authenticate()
     }
 
-     fun showFingerprintChangeTipDialog() {
+    fun showFingerprintChangeTipDialog() {
         if (fingerprintChangeTipDialog == null) {
             fingerprintChangeTipDialog = CommonTipDialog(mContext)
         }
@@ -61,7 +74,9 @@ abstract class BaseFingerLogInMVPActivity<V : BaseView, T : BasePresenterImpl<V>
             SPUtil.getInstance().putBoolean(FingerConstant.SP_HAD_OPEN_FINGERPRINT_LOGIN, false)
             UserInformationUtil.setUserIsFingerLogIn(mContext, false)
             UserInformationUtil.setUserIsAskFingerLogIn(mContext, true)
-            helper.closeAuthenticate()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                helper.closeAuthenticate()
+            }
         }
         fingerprintChangeTipDialog?.show()
     }
@@ -79,7 +94,9 @@ abstract class BaseFingerLogInMVPActivity<V : BaseView, T : BasePresenterImpl<V>
         errorTipDialog?.setContentText("$errString")
         errorTipDialog?.setSingleButton(true)
         errorTipDialog?.setOnSingleConfirmButtonClickListener {
-            helper.stopAuthenticate()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                helper.stopAuthenticate()
+            }
         }
         errorTipDialog?.show()
     }

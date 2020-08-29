@@ -69,7 +69,7 @@ class OperationViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Oper
                 context?.let {
 
                     //距离上下左右
-                    holder.itemView.setPadding(ScreenSizeUtils.dp2px(it, 8f), ScreenSizeUtils.dp2px(it, 4f), ScreenSizeUtils.dp2px(it, 8f), ScreenSizeUtils.dp2px(it, 4f))
+                    holder.itemView.setPadding(ScreenSizeUtils.dp2px(it, 8f), ScreenSizeUtils.dp2px(it, 7f), ScreenSizeUtils.dp2px(it, 8f), ScreenSizeUtils.dp2px(it, 7f))
                     val params: ViewGroup.LayoutParams = holder.itemView.layoutParams as ViewGroup.LayoutParams
                     val marginParams: MarginLayoutParams?
                     //获取view的margin设置参数

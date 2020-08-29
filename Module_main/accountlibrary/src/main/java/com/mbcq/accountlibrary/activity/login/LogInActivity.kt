@@ -2,6 +2,7 @@ package com.mbcq.accountlibrary.activity.login
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -81,13 +82,23 @@ class LogInActivity : BaseFingerLogInMVPActivity<LogInContract.View, LogInPresen
 
     private fun sendCode() {
         verification_code_tv.isClickable = false
-        verification_code_tv.setBackgroundColor(getColor(R.color.base_gray))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            verification_code_tv.setBackgroundColor(getColor(R.color.base_gray))
+        }else{
+            verification_code_tv.setBackgroundColor(resources.getColor(R.color.base_gray))
+
+        }
         showToast("已发送验证码")
         object : CountDownTimer(60 * 1000, 1000) {
             override fun onFinish() {
                 verification_code_tv.text = "获取验证码"
                 verification_code_tv.isClickable = true
-                verification_code_tv.setBackgroundColor(getColor(R.color.white))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    verification_code_tv.setBackgroundColor(getColor(R.color.white))
+                }else{
+                    verification_code_tv.setBackgroundColor(resources.getColor(R.color.white))
+
+                }
             }
 
             @SuppressLint("SetTextI18n")

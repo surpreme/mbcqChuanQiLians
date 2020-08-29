@@ -10,10 +10,11 @@ import kotlinx.android.synthetic.main.fragment_house.*
  */
 class HouseFragment :BaseFragment(){
     override fun getLayoutResId(): Int = R.layout.fragment_house
-
     override fun initViews(view: View) {
-        title_tv.text = "首页"
+        type_tab_layout.addTab(type_tab_layout.newTab().setText("我寄的"))
+        type_tab_layout.addTab(type_tab_layout.newTab().setText("我收的"))
     }
+
 
     override fun initDatas() {
         super.initDatas()

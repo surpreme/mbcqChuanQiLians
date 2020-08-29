@@ -41,10 +41,23 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     kapt 'com.alibaba:arouter-compiler:1.2.2'
-    implementation project( ':Module_base:baselibrary')
+    implementation project(':Module_base:baselibrary')
+    //高德地图配置开始---------
 
+    //3D地图so及jar
+    api 'com.amap.api:3dmap:7.1.0'
+    //定位功能
+    api 'com.amap.api:location:4.8.0'
+    //搜索功能
+    api 'com.amap.api:search:7.1.0'
+    //文字banner
+    api 'com.superluo:textbannerview:1.0.5'  //最新版本
+
+    //高德地图配置结束----
 }

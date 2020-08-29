@@ -2,12 +2,15 @@ package com.mbcq.baselibrary.finger;
 
 import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager;
+import android.os.Build;
 import android.os.CancellationSignal;
 import android.security.keystore.KeyProperties;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import com.mbcq.baselibrary.db.SPUtil;
 import com.mbcq.baselibrary.db.SharePreferencesHelper;
@@ -17,6 +20,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class FingerprintHelper extends FingerprintManager.AuthenticationCallback {
 
     private FingerprintManager manager;
@@ -46,7 +50,8 @@ public class FingerprintHelper extends FingerprintManager.AuthenticationCallback
 
     public void init(Context context) {
         if (manager == null) {
-            manager = context.getSystemService(FingerprintManager.class);
+                manager = context.getSystemService(FingerprintManager.class);
+
         }
         if (mLocalSharedPreference == null) {
             mLocalSharedPreference = new FingerprintSharedPreference(context);

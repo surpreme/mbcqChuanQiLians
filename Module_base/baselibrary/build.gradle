@@ -95,4 +95,7 @@ dependencies {
     //以下三个选择添加，okrx和okrx2不能同时使用
     api 'com.lzy.net:okrx2:2.0.2'
     api 'com.lzy.net:okserver:2.0.5'
+    //banner
+    api 'com.youth.banner:banner:2.1.0'
+
 }
