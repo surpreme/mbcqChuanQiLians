@@ -1,4 +1,4 @@
-package com.mbcq.accountlibrary.fragment.operation
+package com.mbcq.accountlibrary.fragment
 
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter

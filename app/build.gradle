@@ -26,10 +26,12 @@ android {
     }
     Properties props = new Properties()
     props.load(new FileInputStream(rootProject.file("signing.properties")))
-    /* signingConfigs {
+     signingConfigs {
          //signing.properties 文件名
          release {//发布版本的签名配置
+//             storeFile file('C:\\Users\\LiZiYang\\Downloads\\ChuanQiLians-master\\ChuanQiLians-master\\mbcqchuanqiliankey.jks')
              storeFile file(props['KEYSTORE_FILE'])
+
              keyAlias props['KEY_ALIAS']
              storePassword props['KEYSTORE_PWD']
              keyPassword props['KEY_PWD']
@@ -40,7 +42,7 @@ android {
              storePassword props['DEBUG_KEYSTORE_PWD']
              keyPassword props['DEBUG_KEY_PWD']
          }
-     }*/
+     }
     buildTypes {
         release {
             minifyEnabled false
@@ -52,7 +54,7 @@ android {
     /**
      * 测试版和正式版key设置为一样
      */
-    /* buildTypes {
+     buildTypes {
          release {
              minifyEnabled false
              proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -65,7 +67,7 @@ android {
              debuggable true
              signingConfig signingConfigs.release
          }
-     }*/
+     }
     kapt {
         arguments {
             arg("AROUTER_MODULE_NAME", project.getName())
@@ -83,4 +85,5 @@ dependencies {
     implementation project( ':Module_base:commonlibrary')
     implementation project( ':Module_main:accountlibrary')
     implementation project( ':Module_main:orderlibrary')
+    implementation project( ':Module_main:maplibrary')
 }

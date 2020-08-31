@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.mbcq.accountlibrary.R
 import com.mbcq.accountlibrary.fragment.*
-import com.mbcq.accountlibrary.fragment.operation.OperationFragment
+import com.mbcq.accountlibrary.fragment.OperationFragment
 import com.mbcq.accountlibrary.fragment.setting.SettingFragment
 import kotlinx.android.synthetic.main.activity_house.*
 import kotlin.system.exitProcess

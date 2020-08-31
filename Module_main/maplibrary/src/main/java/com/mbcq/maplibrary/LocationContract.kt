@@ -1,4 +1,4 @@
-package com.mbcq.orderlibrary.activity.location
+package com.mbcq.maplibrary
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView

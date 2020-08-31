@@ -3,5 +3,6 @@ include ':app' ,
         'Module_base:baselibrary' ,
         'Module_base:commonlibrary' ,
         'Module_main:orderlibrary',
+        'Module_main:maplibrary',
         'Module_main:accountlibrary'
 
