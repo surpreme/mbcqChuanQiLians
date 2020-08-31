@@ -3,6 +3,8 @@ package com.mbcq.accountlibrary.fragment.operation
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.accountlibrary.R
+import com.mbcq.accountlibrary.fragment.iconadapter.IconViewBean
+import com.mbcq.accountlibrary.fragment.iconadapter.IconViewRecyclerAdapter
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListFragment
 import com.mbcq.baselibrary.util.log.LogUtils
@@ -13,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_operation.*
 /**
  * 运营
  */
-class OperationFragment : BaseListFragment<OperationViewBean>() {
+class OperationFragment : BaseListFragment<IconViewBean>() {
     override fun getLayoutResId(): Int = R.layout.fragment_operation
 
     override fun initViews(view: View) {
@@ -23,9 +25,9 @@ class OperationFragment : BaseListFragment<OperationViewBean>() {
 
     override fun initDatas() {
         super.initDatas()
-        val list = arrayListOf<OperationViewBean>()
+        val list = arrayListOf<IconViewBean>()
         for (index in 0..5) {
-            val mOperationViewBean = OperationViewBean()
+            val mOperationViewBean = IconViewBean()
             when (index) {
                 0 -> {
                     mOperationViewBean.tag = 1
@@ -33,10 +35,10 @@ class OperationFragment : BaseListFragment<OperationViewBean>() {
                 }
                 1 -> {
                     mOperationViewBean.tag = 2
-                    val listItem = arrayListOf<OperationViewBean.ItemBean>()
+                    val listItem = arrayListOf<IconViewBean.ItemBean>()
 
                     for (mItemIndex in 0..11) {
-                        val item = OperationViewBean.ItemBean()
+                        val item = IconViewBean.ItemBean()
                         when (mItemIndex) {
                             0 -> {
                                 item.itemText = "受理开单"
@@ -86,10 +88,10 @@ class OperationFragment : BaseListFragment<OperationViewBean>() {
                 }
                 3 -> {
                     mOperationViewBean.tag = 2
-                    val listItem = arrayListOf<OperationViewBean.ItemBean>()
+                    val listItem = arrayListOf<IconViewBean.ItemBean>()
 
                     for (mItemIndex in 0..9) {
-                        val item = OperationViewBean.ItemBean()
+                        val item = IconViewBean.ItemBean()
                         when (mItemIndex) {
                             0 -> {
                                 item.itemText = "到车扫描"
@@ -132,10 +134,10 @@ class OperationFragment : BaseListFragment<OperationViewBean>() {
                 }
                 5 -> {
                     mOperationViewBean.tag = 2
-                    val listItem = arrayListOf<OperationViewBean.ItemBean>()
+                    val listItem = arrayListOf<IconViewBean.ItemBean>()
 
                     for (mItemIndex in 0..8) {
-                        val item = OperationViewBean.ItemBean()
+                        val item = IconViewBean.ItemBean()
                         when (mItemIndex) {
                             0 -> {
                                 item.itemText = "盘库"
@@ -179,8 +181,8 @@ class OperationFragment : BaseListFragment<OperationViewBean>() {
 
     override fun getRecyclerViewId(): Int = R.id.operation_recycler_view
 
-    override fun setAdapter(): BaseRecyclerAdapter<OperationViewBean> {
-        return OperationViewRecyclerAdapter(mContext).also {
+    override fun setAdapter(): BaseRecyclerAdapter<IconViewBean> {
+        return IconViewRecyclerAdapter(mContext).also {
             it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
                 override fun onItemClick(v: View, position: Int, result: String) {
                     LogUtils.d("result" + result + "position" + position)

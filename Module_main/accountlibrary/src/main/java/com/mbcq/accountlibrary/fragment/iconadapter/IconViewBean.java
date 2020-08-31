@@ -1,8 +1,8 @@
-package com.mbcq.accountlibrary.fragment.operation;
+package com.mbcq.accountlibrary.fragment.iconadapter;
 
 import java.util.List;
 
-public class OperationViewBean {
+public class IconViewBean {
     private int tag;
     private List<ItemBean> item;
     private String title;

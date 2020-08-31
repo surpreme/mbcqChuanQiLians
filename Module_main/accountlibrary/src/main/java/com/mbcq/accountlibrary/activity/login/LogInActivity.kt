@@ -2,6 +2,7 @@ package com.mbcq.accountlibrary.activity.login
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -131,7 +132,6 @@ class LogInActivity : BaseFingerLogInMVPActivity<LogInContract.View, LogInPresen
             SPUtil.getInstance().putString(FingerConstant.SP_A_P, key_get_edit.text.toString())
         }
         //本地存储账号用户指纹登录时显示账号信息
-        //本地存储账号用户指纹登录时显示账号信息
         SPUtil.getInstance().putString(FingerConstant.SP_ACCOUNT, number_get_edit.text.toString())
 //        SPUtil.getInstance().putString(FingerConstant.SP_A_P, result.token)
 
@@ -139,6 +139,7 @@ class LogInActivity : BaseFingerLogInMVPActivity<LogInContract.View, LogInPresen
             override fun onFinish() {
                 if (!isDestroyed) {
                     ARouter.getInstance().build(ARouterConstants.HouseActivity).navigation()
+                    finish()
                 }
             }
 

@@ -12,7 +12,19 @@
         android:layout_height="70dp"
         app:backButtonIsShow="false"
         app:centerTextViewText="传麒链" />
+    <com.mbcq.baselibrary.view.OverScrollLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/finance_toolbar">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/finance_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+    </com.mbcq.baselibrary.view.OverScrollLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

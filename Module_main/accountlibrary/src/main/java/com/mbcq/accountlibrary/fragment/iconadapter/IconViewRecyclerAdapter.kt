@@ -1,4 +1,4 @@
-package com.mbcq.accountlibrary.fragment.operation
+package com.mbcq.accountlibrary.fragment.iconadapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -19,7 +19,7 @@ import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 
 
-class OperationViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<OperationViewBean>(context) {
+class IconViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<IconViewBean>(context) {
     private val TITLE_ITEM_TAG = 1
     private val CONTENT_ITEM_TAG = 2
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -106,14 +106,14 @@ class OperationViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Oper
     private class ItemFootAdapterSon : RecyclerView.Adapter<ItemFootAdapterSon.ItemViewHolder> {
         private var context: Context?
         private val inflater: LayoutInflater
-        private var mSonBean = ArrayList<OperationViewBean.ItemBean>()
+        private var mSonBean = ArrayList<IconViewBean.ItemBean>()
         private var mIndexTag = 0
 
-        constructor(context: Context?, mSonBean: List<OperationViewBean.ItemBean>, mIndex: Int) {
+        constructor(context: Context?, mSonBean: List<IconViewBean.ItemBean>, mIndex: Int) {
             this.context = context
             this.mIndexTag = mIndex
             this.inflater = LayoutInflater.from(context)
-            this.mSonBean = mSonBean as ArrayList<OperationViewBean.ItemBean>
+            this.mSonBean = mSonBean as ArrayList<IconViewBean.ItemBean>
         }
 
         class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -17,6 +17,8 @@ class MainActivity : BaseActivity() {
         super.initViews(savedInstanceState)
 //        ARouter.getInstance().build(ARouterConstants.LogInActivity).withFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP).navigation()
         ARouter.getInstance().build(ARouterConstants.LogInActivity).navigation()
+        finish()
+
 
     }
 }
