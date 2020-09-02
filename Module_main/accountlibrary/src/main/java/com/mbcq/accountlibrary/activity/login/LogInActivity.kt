@@ -2,7 +2,6 @@ package com.mbcq.accountlibrary.activity.login
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -16,7 +15,7 @@ import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.finger.FingerConstant
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
-import com.mbcq.commonlibrary.UserInformationUtil
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.commonlibrary.scan.scanlogin.QrCodeDialogFragment
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_log_in.*

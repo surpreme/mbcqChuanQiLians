@@ -1,14 +1,19 @@
-package com.mbcq.commonlibrary
+package com.mbcq.baselibrary.ui.mvp
 
 import android.content.Context
 import com.mbcq.baselibrary.db.SharePreferencesHelper
 
-object UserInformationUtil {
+object UserInformationUtil  {
+
     /**
      * 总map的tag
      */
     private val USR_INFORMATION_ALL: String = "USR_INFORMATION_ALL"
 
+    /**
+     * map中key的tag
+     */
+    private val USR_INFORMATION_KEY: String = "USR_INFORMATION_KEY"
     /**
      * 是否指纹登录
      */
@@ -19,10 +24,7 @@ object UserInformationUtil {
      */
     private val USER_IS_AGAIN_ASK_FINGER_LOGIN_TAG = "USER_IS_AGAIN_ASK_FINGER_LOGIN_TAG"
 
-    /**
-     * map中key的tag
-     */
-    private val USR_INFORMATION_KEY: String = "USR_INFORMATION_KEY"
+
 
     /**
      * map中记住密码 账号的tag
@@ -37,23 +39,9 @@ object UserInformationUtil {
     /**
      * 两级保存用户key
      */
-    fun getUserKey(context: Context): String {
-        return if (Constant.USER_KEY.isNullOrEmpty()) {
-            if (mSharePreferencesHelper == null)
-                mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
-            if (mSharePreferencesHelper?.contain(USR_INFORMATION_KEY)!!) {
-                mSharePreferencesHelper?.getSharePreference(USR_INFORMATION_KEY, "") as String
-            } else {
-                ""
-            }
-
-        } else {
-            Constant.USER_KEY
-        }
-    }
 
     fun setUserKey(context: Context, key: String) {
-        Constant.USER_KEY = key
+        BaseConstant.USER_KEY = key
         if (mSharePreferencesHelper == null)
             mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
         mSharePreferencesHelper?.put(USR_INFORMATION_KEY, key)
@@ -125,4 +113,21 @@ object UserInformationUtil {
             ""
         }
     }
+
+     fun getUserToken(context: Context): String {
+        return if (BaseConstant.USER_KEY.isNullOrEmpty()) {
+            if (mSharePreferencesHelper == null)
+                mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
+            if (mSharePreferencesHelper?.contain(USR_INFORMATION_KEY)!!) {
+                mSharePreferencesHelper?.getSharePreference(USR_INFORMATION_KEY, "") as String
+            } else {
+                ""
+            }
+
+        } else {
+            BaseConstant.USER_KEY
+        }
+    }
+
+
 }

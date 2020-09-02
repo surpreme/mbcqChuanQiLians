@@ -41,7 +41,7 @@ public class CommonApplication extends BaseApplication {
         //配置https的域名匹配规则，详细看demo的初始化介绍，不需要就不要加入，使用不当会导致https握手失败
 //        builder.hostnameVerifier(new SafeHostnameVerifier());
 
-        // 其他统一的配置
+// 其他统一的配置
         // 详细说明看GitHub文档：https://github.com/jeasonlzy/
         OkGo.getInstance().init(this)                           //必须调用初始化
                 .setOkHttpClient(builder.build())               //建议设置OkHttpClient，不设置会使用默认的

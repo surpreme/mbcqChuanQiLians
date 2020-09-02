@@ -1,8 +1,6 @@
 package com.mbcq.accountlibrary.activity.login
 
 import android.os.Build
-import android.os.Bundle
-import android.os.CountDownTimer
 import android.security.keystore.KeyProperties
 import android.util.Log
 import com.mbcq.baselibrary.db.SPUtil
@@ -15,7 +13,7 @@ import com.mbcq.baselibrary.finger.FingerprintVerifyDialog
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
-import com.mbcq.commonlibrary.UserInformationUtil
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 
 /**
  * 指纹登陆

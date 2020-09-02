@@ -13,7 +13,7 @@ import com.mbcq.baselibrary.finger.FingerprintHelper
 import com.mbcq.baselibrary.finger.FingerprintUtil
 import com.mbcq.baselibrary.finger.FingerprintVerifyDialog
 import com.mbcq.baselibrary.ui.BaseActivity
-import com.mbcq.commonlibrary.UserInformationUtil
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 
 /**
  *开启指纹

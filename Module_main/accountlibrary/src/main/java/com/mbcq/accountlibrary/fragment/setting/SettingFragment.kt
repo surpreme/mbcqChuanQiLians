@@ -3,6 +3,7 @@ package com.mbcq.accountlibrary.fragment.setting
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.accountlibrary.R
 import com.mbcq.accountlibrary.fragment.iconadapter.IconViewBean
 import com.mbcq.accountlibrary.fragment.settingadapter.SettingIconBean
@@ -12,6 +13,8 @@ import com.mbcq.baselibrary.ui.BaseListFragment
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.commonlibrary.ARouterConstants
+import kotlinx.android.synthetic.main.fragment_setting.*
 
 /**
  * 我的
@@ -23,6 +26,13 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
         super.initViews(view)
     }
 
+    override fun onClick() {
+        super.onClick()
+        setting_toolbar.setRightButtonOnClickListener {
+            ARouter.getInstance().build(ARouterConstants.SettingActivity).navigation()
+
+        }
+    }
     override fun addItemDecoration(): RecyclerView.ItemDecoration = object : BaseItemDecoration(mContext) {
         override fun configExtraSpace(position: Int, count: Int, rect: Rect) {
             if (position == 0||position==7||position == 14||position==18)
