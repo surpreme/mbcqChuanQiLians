@@ -13,7 +13,17 @@ public class ApiInterface {
     public static final String ACCEPT_BILLING_WAYBILL_NUMBER_GET=BASE_URI+"RuleBillno/SelRule2Billno";
     /**
      * 受理开单 到达网点 Arrive at the outlet
+     *
      */
     public static final String ACCEPT_OUTLET_GET=BASE_URI+"WebMain/SelWebMainByCondition";
+    /**
+     * 获取目的地
+     * GET Destination/SelDestinationByCondition
+     */
+    public static final String ACCEPT_DESTINATION_GET=BASE_URI+"Destination/SelDestinationByCondition";
+    /**
+     * 查询发货人信息
+     */
+    public static final String ACCEPT_SELECT_SHIPPER_GET=BASE_URI+"Shipper/SelShipperByCondition";
 
 }

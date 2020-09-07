@@ -6,6 +6,8 @@ import android.content.Context;
 import android.provider.SyncStateContract;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.facebook.stetho.Stetho;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.mbcq.baselibrary.db.SPUtil;
 import com.mbcq.baselibrary.finger.FingerConstant;
 import com.scwang.smartrefresh.header.WaterDropHeader;
@@ -19,9 +21,12 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 import cat.ereza.customactivityoncrash.config.CaocConfig;
+import okhttp3.OkHttpClient;
 
 public class BaseApplication extends Application {
     private static Application context;
+    //    private DaoSession daoSession;
+
 
     @Override
     public void onCreate() {
@@ -35,7 +40,16 @@ public class BaseApplication extends Application {
         initARouter();
         initCrasher();
         initFingerShare();
+        initStetho();
     }
+
+    private void initStetho() {
+        Stetho.initializeWithDefaults(this);
+        new OkHttpClient.Builder()
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
+    }
+
 
     /**
      * 指纹登录初始化
@@ -70,7 +84,7 @@ public class BaseApplication extends Application {
 
     private void initARouter() {
         if (BuildConfig.DEBUG) {
-           // 这两行必须写在init之前，否则这些配置在init过程中将无效
+            // 这两行必须写在init之前，否则这些配置在init过程中将无效
             ARouter.openLog();     // 打印日志
             ARouter.openDebug();
             // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)

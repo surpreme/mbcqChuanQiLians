@@ -2,6 +2,7 @@ package com.mbcq.accountlibrary.activity.login
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
+import org.json.JSONArray
 
 class LogInContract {
     /**
@@ -9,6 +10,8 @@ class LogInContract {
      */
     interface View : BaseView {
         fun loInS(result: LogInSuccessBean)
+        fun getWebAreaIdS(result: String)
+
 
     }
 
@@ -16,7 +19,8 @@ class LogInContract {
      * 调取异步的接口
      */
     interface Presenter : BasePresenter<View> {
-        fun logIn(userName:String,pw:String)
+        fun logIn(userName: String, pw: String)
+        fun getWebAreaId()
 
     }
 }

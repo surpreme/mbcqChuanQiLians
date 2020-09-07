@@ -97,5 +97,8 @@ dependencies {
     api 'com.lzy.net:okserver:2.0.5'
     //banner
     api 'com.youth.banner:banner:2.1.0'
-
+    //greendao
+    api 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
 }

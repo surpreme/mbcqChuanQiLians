@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
+import org.json.JSONObject
 
 
 class LogInPresenter : BasePresenterImpl<LogInContract.View>(), LogInContract.Presenter {
@@ -25,6 +26,21 @@ class LogInPresenter : BasePresenterImpl<LogInContract.View>(), LogInContract.Pr
 
         })
         
+    }
+
+    override fun getWebAreaId() {
+        get<String>(ApiInterface.ACCEPT_OUTLET_GET, null, object : CallBacks {
+            override fun onResult(result: String) {
+                val mJSONObject = JSONObject(result)
+                mJSONObject.optJSONArray("data")?.let {
+                    mView?.getWebAreaIdS(it.toString())
+
+                }
+
+
+            }
+
+        })
     }
 
 }

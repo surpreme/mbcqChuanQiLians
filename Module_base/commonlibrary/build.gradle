@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'org.greenrobot.greendao'
 
 def config = rootProject.ext.android
 
@@ -60,4 +61,18 @@ dependencies {
     api 'com.superluo:textbannerview:1.0.5'  //最新版本
 
     //高德地图配置结束----
+}
+//设置greenGao配置
+greendao{
+    //版本号
+    schemaVersion 2
+    //设置新建的三个文件包的位置
+    daoPackage 'com.mbcq.commonlibrary.greendao'
+    //设置DaoMaster、DaoSession、Dao目录
+    targetGenDir 'src/main/java'
+    //自动生成单元测试。
+    generateTests false
+    //应存储生成的单元测试的基本目录。默认为 src / androidTest / java
+
+    targetGenDirTests 'src/main/java'
 }

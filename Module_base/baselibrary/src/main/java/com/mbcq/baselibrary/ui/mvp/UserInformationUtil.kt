@@ -3,7 +3,7 @@ package com.mbcq.baselibrary.ui.mvp
 import android.content.Context
 import com.mbcq.baselibrary.db.SharePreferencesHelper
 
-object UserInformationUtil  {
+object UserInformationUtil {
 
     /**
      * 总map的tag
@@ -14,6 +14,12 @@ object UserInformationUtil  {
      * map中key的tag
      */
     private val USR_INFORMATION_KEY: String = "USR_INFORMATION_KEY"
+
+    /**
+     * webidCode
+     */
+    private val USR_INFORMATION_WEBIDCODE: String = "USR_INFORMATION_WEBIDCODE"
+
     /**
      * 是否指纹登录
      */
@@ -23,7 +29,6 @@ object UserInformationUtil  {
      * 是否显示指纹登录检验页面
      */
     private val USER_IS_AGAIN_ASK_FINGER_LOGIN_TAG = "USER_IS_AGAIN_ASK_FINGER_LOGIN_TAG"
-
 
 
     /**
@@ -52,6 +57,14 @@ object UserInformationUtil  {
         if (mSharePreferencesHelper == null)
             mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
         mSharePreferencesHelper?.put(USER_IS_FINGER_LOGIN_TAG, isFingerLogin)
+
+    }
+
+    fun setWebIdCode(context: Context, localWebcode: String) {
+        BaseConstant.WEBID_CODE = localWebcode
+        if (mSharePreferencesHelper == null)
+            mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
+        mSharePreferencesHelper?.put(USR_INFORMATION_WEBIDCODE, localWebcode)
 
     }
 
@@ -114,7 +127,7 @@ object UserInformationUtil  {
         }
     }
 
-     fun getUserToken(context: Context): String {
+    fun getUserToken(context: Context): String {
         return if (BaseConstant.USER_KEY.isNullOrEmpty()) {
             if (mSharePreferencesHelper == null)
                 mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
@@ -126,6 +139,20 @@ object UserInformationUtil  {
 
         } else {
             BaseConstant.USER_KEY
+        }
+    }
+  fun getWebIdCode(context: Context): String {
+        return if (BaseConstant.WEBID_CODE.isNullOrEmpty()) {
+            if (mSharePreferencesHelper == null)
+                mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
+            if (mSharePreferencesHelper?.contain(USR_INFORMATION_WEBIDCODE)!!) {
+                mSharePreferencesHelper?.getSharePreference(USR_INFORMATION_WEBIDCODE, "") as String
+            } else {
+                ""
+            }
+
+        } else {
+            BaseConstant.WEBID_CODE
         }
     }
 

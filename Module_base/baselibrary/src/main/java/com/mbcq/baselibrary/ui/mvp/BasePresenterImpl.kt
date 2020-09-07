@@ -38,7 +38,6 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
     protected fun <T> post(url: String, body: RequestBody, callback: CallBacks) {
         OkGo.post<T>(url).tag(BaseApplication.getContext()).upRequestBody(body).execute(object : ResultDataCallBack<T>() {
             override fun onResult(result: String) {
-                LogUtils.d(result)
                 if (result == "null") {
                     mView?.showError("服务器超时 请重试!")
                     return

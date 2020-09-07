@@ -1,20 +1,34 @@
 package com.mbcq.commonlibrary;
 
-import android.app.Application;
-
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheEntity;
-import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.cookie.CookieJarImpl;
-import com.lzy.okgo.cookie.store.DBCookieStore;
 import com.mbcq.baselibrary.BaseApplication;
+import com.mbcq.commonlibrary.greendao.DaoMaster;
+import com.mbcq.commonlibrary.greendao.DaoSession;
 
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
+import org.greenrobot.greendao.database.Database;
 
 public class CommonApplication extends BaseApplication {
+    protected DaoSession daoSession;
+
+    //这个重写方法会用到的 必不可少 他是一个工具
+    public DaoSession getDaoSession() {
+        return daoSession;
+    }
+
+    private void initGreenDao() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,  DbConstant.WEB_AREA_DB);
+        Database db = helper.getWritableDb();
+        daoSession = new DaoMaster(db).newSession();
+    }
+
     @Override
+    public void onCreate() {
+        super.onCreate();
+        initGreenDao();
+    }
+
+
+}
+  /*  @Override
     public void onCreate() {
         super.onCreate();
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -51,5 +65,5 @@ public class CommonApplication extends BaseApplication {
 //                .addCommonHeaders(headers)                      //全局公共头
 //                .addCommonParams(params);                       //全局公共参数
 
-    }
-}
+    }*/
+//}
