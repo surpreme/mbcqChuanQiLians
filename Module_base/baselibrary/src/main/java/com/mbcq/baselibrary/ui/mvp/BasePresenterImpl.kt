@@ -10,6 +10,7 @@ import com.google.gson.JsonObject
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.HttpHeaders
 import com.lzy.okgo.model.HttpParams
+import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.base.Request
 import com.mbcq.baselibrary.BaseApplication
 import com.mbcq.baselibrary.util.log.LogUtils
@@ -99,6 +100,11 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
                 val json = JSONTokener(result).nextValue()
                 if (json is JSONObject) {
                     val obj = JSONObject(result)
+                    val msg=obj.optString("msg")
+                    if (msg.isNotEmpty()){
+                        mView?.showError(msg)
+                        return
+                    }
                     val isSuccess = obj.optString("ljCode")
                     if (mView?.getContext() is Activity) {
                         (mView?.getContext() as Activity).runOnUiThread {

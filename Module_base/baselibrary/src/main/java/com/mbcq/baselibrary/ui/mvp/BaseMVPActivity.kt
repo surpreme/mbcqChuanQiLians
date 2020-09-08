@@ -2,6 +2,7 @@ package com.mbcq.baselibrary.ui.mvp
 
 import android.Manifest
 import android.content.Context
+import android.os.CountDownTimer
 import android.widget.Toast
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.dialog.dialogfragment.LoadingDialogFragment
@@ -17,12 +18,13 @@ import java.lang.reflect.ParameterizedType
  * @desc:
  */
 abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseActivity(), BaseView {
+    protected var mIsCanCloseLoading = true
     open fun onDestroys() {
         if (mPresenter != null)
             lifecycle.removeObserver(mPresenter!!)
     }
 
-   open  fun isShowErrorDialog(): Boolean {
+    open fun isShowErrorDialog(): Boolean {
         return false
     }
 
@@ -67,8 +69,11 @@ abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseAct
 
     private var mLoadingDialogFragment: LoadingDialogFragment? = null
     override fun showLoading() {
-        mLoadingDialogFragment = LoadingDialogFragment()
-        mLoadingDialogFragment?.show(supportFragmentManager, "LoadingDialogFragment")
+        if (mLoadingDialogFragment == null) {
+            mLoadingDialogFragment = LoadingDialogFragment()
+            mLoadingDialogFragment?.show(supportFragmentManager, "LoadingDialogFragment")
+        }
+
     }
 
     override fun onStop() {
@@ -77,9 +82,11 @@ abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseAct
 
     }
 
+
     override fun closeLoading() {
-        if (mLoadingDialogFragment != null) {
+        if (mLoadingDialogFragment != null && mIsCanCloseLoading) {
             mLoadingDialogFragment?.dismissAllowingStateLoss()
+            mLoadingDialogFragment = null
         }
     }
 
@@ -87,7 +94,7 @@ abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseAct
         if (isShowErrorDialog())
             TalkSureDialog(mContext, getScreenWidth(), msg).show()
         else
-           ToastUtils.showToast(mContext,msg)
+            ToastUtils.showToast(mContext, msg)
         LogUtils.e(msg + this.localClassName)
     }
 

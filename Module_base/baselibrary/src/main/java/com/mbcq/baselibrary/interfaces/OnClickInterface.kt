@@ -4,7 +4,7 @@ import android.view.View
 
 class OnClickInterface {
     interface OnRecyclerClickInterface {
-        fun onItemClick(v: View, position: Int,result:String)
+        fun onItemClick(v: View, position: Int,mResult:String)
     }
 
     //toolbar返回键

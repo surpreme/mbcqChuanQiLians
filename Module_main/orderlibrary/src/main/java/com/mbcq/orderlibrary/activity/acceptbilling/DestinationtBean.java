@@ -2,7 +2,7 @@ package com.mbcq.orderlibrary.activity.acceptbilling;
 
 import com.mbcq.commonlibrary.adapter.BaseAdapterBean;
 
-public class DestinationtBean extends BaseAdapterBean {
+public class DestinationtBean   {
 
     /**
      * id : 50

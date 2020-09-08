@@ -13,24 +13,32 @@ import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.commonlibrary.R
 
-class TextViewAdapter<T :BaseAdapterBean> : RecyclerView.Adapter<TextViewAdapter.ItemViewHolder> {
+class TextViewAdapter<T : BaseAdapterBean> : RecyclerView.Adapter<TextViewAdapter.ItemViewHolder> {
     private var context: Context?
     private val inflater: LayoutInflater
     private var mSonBean = ArrayList<T>()
+    private var isShowOutSide = true
 
     constructor(context: Context) {
         this.context = context
         this.inflater = LayoutInflater.from(context)
     }
 
-    fun appendData(list:List<T>){
+    fun setIsShowOutSide(isShow: Boolean) {
+        this.isShowOutSide = isShow
+
+    }
+
+    fun appendData(list: List<T>) {
         mSonBean.addAll(list)
         notifyDataSetChanged()
     }
-    fun clearDatas(){
+
+    fun clearDatas() {
         mSonBean.clear()
         notifyDataSetChanged()
     }
+
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var item_text: TextView = itemView.findViewById(R.id.text)
 
@@ -50,16 +58,16 @@ class TextViewAdapter<T :BaseAdapterBean> : RecyclerView.Adapter<TextViewAdapter
         holder.itemView.setBackgroundColor(Color.WHITE)
         holder.item_text.text = mSonBean[position].title
         holder.item_text.textSize = 16f
-        holder.item_text.setBackgroundResource(R.drawable.hollow_out_gray)
+        holder.item_text.setBackgroundResource(if (isShowOutSide) R.drawable.hollow_out_gray else R.color.white)
         holder.itemView.setOnClickListener {
-            mClick?.onItemClick(it, position,mSonBean[position].tag)
+            mClick?.onItemClick(it, position, mSonBean[position].tag)
         }
 
 
         context?.let {
             //设置宽高
             val params: ViewGroup.LayoutParams = holder.item_text.layoutParams as ViewGroup.LayoutParams
-         //   params.width = ScreenSizeUtils.dp2px(it, 58f)
+            //   params.width = ScreenSizeUtils.dp2px(it, 58f)
 //            params.height = ScreenSizeUtils.dp2px(it, 30f)
             holder.item_text.layoutParams = params
 
