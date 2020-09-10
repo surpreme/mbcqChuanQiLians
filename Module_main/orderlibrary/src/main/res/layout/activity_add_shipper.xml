@@ -38,6 +38,7 @@
                 android:textSize="17sp" />
 
             <EditText
+                android:id="@+id/mShipperId_ed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="number"
@@ -143,6 +144,7 @@
                 android:textSize="17sp" />
 
             <EditText
+                android:id="@+id/mShipperTel_ed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="phone"
@@ -168,6 +170,7 @@
                 android:textSize="17sp" />
 
             <EditText
+                android:id="@+id/mShipperCid_ed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="text"

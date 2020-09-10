@@ -10,7 +10,6 @@ import com.google.gson.JsonObject
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.HttpHeaders
 import com.lzy.okgo.model.HttpParams
-import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.base.Request
 import com.mbcq.baselibrary.BaseApplication
 import com.mbcq.baselibrary.util.log.LogUtils
@@ -37,7 +36,23 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
     }
 
     protected fun <T> post(url: String, body: RequestBody, callback: CallBacks) {
-        OkGo.post<T>(url).tag(BaseApplication.getContext()).upRequestBody(body).execute(object : ResultDataCallBack<T>() {
+        post<T>(url, body, false, callback)
+    }
+
+    /**
+     * 登录不需要传headers （token）
+     */
+    protected fun <T> post(url: String, body: RequestBody, isAddHeader: Boolean, callback: CallBacks) {
+        val mHttpHeaders = HttpHeaders()
+        if (!isAddHeader) {
+            mView?.getContext()?.let {
+                mHttpHeaders.put("Content-Type", "application/json")
+                mHttpHeaders.put("charset", "utf-8")
+                mHttpHeaders.put("token", UserInformationUtil.getUserToken(it))
+            }
+        }
+
+        OkGo.post<T>(url).tag(BaseApplication.getContext()).headers(if (isAddHeader) HttpHeaders() else mHttpHeaders).upRequestBody(body).execute(object : ResultDataCallBack<T>() {
             override fun onResult(result: String) {
                 if (result == "null") {
                     mView?.showError("服务器超时 请重试!")
@@ -91,7 +106,8 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
             mHttpHeaders.put("token", UserInformationUtil.getUserToken(it))
 
         }
-        OkGo.get<T>(url).tag(mView?.getContext()).headers(mHttpHeaders).params(params ?: HttpParams()).execute(object : ResultDataCallBack<T>() {
+        OkGo.get<T>(url).tag(mView?.getContext()).headers(mHttpHeaders).params(params
+                ?: HttpParams()).execute(object : ResultDataCallBack<T>() {
             override fun onResult(result: String) {
                 if (result == "null") { //配置 config
                     mView?.showError("服务器超时 请重试!")
@@ -100,15 +116,15 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
                 val json = JSONTokener(result).nextValue()
                 if (json is JSONObject) {
                     val obj = JSONObject(result)
-                    val msg=obj.optString("msg")
-                    if (msg.isNotEmpty()){
+                    val msg = obj.optString("msg")
+                    if (msg.isNotEmpty()) {
                         mView?.showError(msg)
                         return
                     }
                     val isSuccess = obj.optString("ljCode")
                     if (mView?.getContext() is Activity) {
                         (mView?.getContext() as Activity).runOnUiThread {
-                            if (isSuccess == "0"||isSuccess=="")
+                            if (isSuccess == "0" || isSuccess == "")
                                 callback.onResult(result)
                             else {
                                 val errorLog = obj.optString("msg")

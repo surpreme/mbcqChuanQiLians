@@ -5,21 +5,29 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.RadioGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
+import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.RadioGroupUtil
+import com.mbcq.commonlibrary.adapter.BaseEditTextAdapterBean
+import com.mbcq.commonlibrary.adapter.EditTextAdapter
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.orderlibrary.R
 import kotlinx.android.synthetic.main.activity_accept_billing.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.lang.StringBuilder
 
 
 /**
@@ -31,26 +39,14 @@ import org.json.JSONObject
 @Route(path = ARouterConstants.AcceptBillingActivity)
 class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.View, AcceptBillingPresenter>(), AcceptBillingContract.View {
 
-    /**
-     * 到达网点
-     */
-    var endWebIdCode = ""
-
-    /**
-     * 目的地
-     */
-    var destinationt = ""
-
     override fun getLayoutId(): Int = R.layout.activity_accept_billing
-    override fun initViews(savedInstanceState: Bundle?) {
-        super.initViews(savedInstanceState)
-    }
 
     override fun initDatas() {
         super.initDatas()
         mPresenter?.getWaybillNumber()
         mPresenter?.getPaymentMode()
         mPresenter?.getTransportMode()
+        mPresenter?.getCostInformation(UserInformationUtil.getWebIdCode(mContext))
 
         bank_number_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -64,7 +60,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
     /**
      * ARouter 度娘
-     * {"nameValuePairs":{"name":"xxxx","phone":"15999999999","address":"1111"}}
+     * {"name":"xxxx","phone":"15999999999","address":"1111"}
      */
     @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -72,20 +68,24 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         if (requestCode == RESULT_DATA_CODE) {
             (data?.getStringExtra("AddShipperResultData"))?.let {
                 val mDatas = JSONObject(it)
-                val timi = mDatas.optJSONObject("nameValuePairs")
-                timi?.let {
-                    add_shipper_tv.text = "${timi.optString("name")} ${timi.optString("phone")} \n${timi.optString("address")} "
-                }
+                mShipperMb = mDatas.optString("phone")
+                mShipper = mDatas.optString("name")
+                mShipperAddr = mDatas.optString("address")
+                mShipperTel = mDatas.optString("shipperTel")
+                mShipperCid = mDatas.optString("shipperCid")
+                mShipperId = mDatas.optString("shipperId")
+                add_shipper_tv.text = "$mShipperMb $mShipper \n$mShipperAddr "
 
 
             }
         } else if (requestCode == RECEIVER_RESULT_DATA_CODE) {
             (data?.getStringExtra("AddReceiveResultData"))?.let {
                 val mDatas = JSONObject(it)
-                val timi = mDatas.optJSONObject("nameValuePairs")
-                timi?.let {
-                    add_receiver_tv.text = "${timi.optString("name")} ${timi.optString("phone")} \n${timi.optString("address")} "
-                }
+                mConsigneeMb = mDatas.optString("phone")//收货人手机号
+                mConsigneeTel = mDatas.optString("consigneeTel")//收货人固定电话
+                mConsignee = mDatas.optString("name")//收货人
+                mConsigneeAddr = mDatas.optString("address")//收货人地址
+                add_receiver_tv.text = "$mConsignee $mConsigneeMb \n$mConsigneeAddr "
 
 
             }
@@ -94,6 +94,12 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
     override fun onClick() {
         super.onClick()
+        save_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                if (isCanSaveAcctBilling())
+                    saveAcctBilling()
+            }
+        })
         receipt_requirements_name_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 mPresenter?.getReceiptRequirement()
@@ -103,6 +109,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         receipt_requirements_name_down_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 mPresenter?.getReceiptRequirement()
+
             }
 
         })
@@ -211,6 +218,218 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
     }
 
 
+
+    private fun saveAcctBilling() {
+        val jsonObj = JsonObject()
+        //到货公司编码
+        val ECompanyId = eCompanyId
+        jsonObj.addProperty("ECompanyId", ECompanyId)
+
+        //目的地
+        val Destination = destinationt
+        jsonObj.addProperty("Destination", Destination)
+
+        //订单号
+        val OrderId = ""
+        jsonObj.addProperty("OrderId", OrderId)
+
+        //发货网点
+        val WebidCodeStr = UserInformationUtil.getWebIdCodeStr(mContext)
+        jsonObj.addProperty("WebidCodeStr", WebidCodeStr)
+
+        //发货网点编码
+        val WebidCode =UserInformationUtil.getWebIdCode(mContext)
+        jsonObj.addProperty("WebidCode", WebidCode)
+
+
+        //运单号
+        val Billno = waybill_number_ed.text.toString()
+        jsonObj.addProperty("Billno", Billno)
+
+
+        //到货网点
+        val EwebidCodeStr = endWebIdCodeStr
+        jsonObj.addProperty("EwebidCodeStr", EwebidCodeStr)
+
+        //到货网点编码
+        val EwebidCode = endWebIdCode
+        jsonObj.addProperty("EwebidCode", EwebidCode)
+
+        //原单号
+        val OBillno = ""
+        jsonObj.addProperty("OBillno", OBillno)
+
+
+        //开单日期
+        val BillDate = TimeUtils.getCurrent()
+        jsonObj.addProperty("BillDate", BillDate)
+
+
+        //运单状态编码
+        val BillState = ""
+        jsonObj.addProperty("BillState", BillState)
+
+
+        //运单类型 billTypeStr
+        val BillTypeStr = waybillNumberTag
+        jsonObj.addProperty("BillTypeStr", BillTypeStr)
+
+        //付货方式编码
+        val OkProcess = ""
+        jsonObj.addProperty("OkProcess", OkProcess)
+
+        //付货方式
+        val OkProcessStr = okProcessStrTag
+        jsonObj.addProperty("OkProcessStr", OkProcessStr)
+
+        //是否上门提货编码
+        val IsTalkGoods = if (isTalkGoodsStrTag) "1" else "0"
+        jsonObj.addProperty("IsTalkGoods", IsTalkGoods)
+
+        //是否上门提货
+        val IsTalkGoodsStr = if (isTalkGoodsStrTag) "是" else "否"
+        jsonObj.addProperty("IsTalkGoodsStr", IsTalkGoodsStr)
+
+        //会员卡号
+        val VipId = bank_number_ed.text.toString()
+        jsonObj.addProperty("VipId", VipId)
+
+
+        /**
+         * 发货人信息
+         */
+        val ShipperId = mShipperId//发货客户编号
+        jsonObj.addProperty("ShipperId", ShipperId)
+
+        val ShipperMb = mShipperMb //发货人手机号
+        jsonObj.addProperty("ShipperMb", ShipperMb)
+
+        val ShipperTel = mShipperTel //发货人固定电话
+        jsonObj.addProperty("ShipperTel", ShipperTel)
+
+        val Shipper = mShipper //发货人
+        jsonObj.addProperty("Shipper", Shipper)
+
+        val ShipperCid = mShipperCid //发货人身份证号
+        jsonObj.addProperty("ShipperCid", ShipperCid)
+
+        val ShipperAddr = mShipperAddr //发货人地址
+        jsonObj.addProperty("ShipperAddr", ShipperAddr)
+
+        val IsUrgent = "0" //是否急货编码
+        jsonObj.addProperty("IsUrgent", IsUrgent)
+
+        val IsUrgentStr = "否" //是否急货
+        jsonObj.addProperty("IsUrgentStr", IsUrgentStr)
+
+        val Transneed =mTransneed  //运输类型编码
+        jsonObj.addProperty("Transneed", Transneed)
+
+        val TransneedStr = mTransneedStr //运输类型
+        jsonObj.addProperty("TransneedStr", TransneedStr)
+
+
+        /**
+         * 收货人信息
+         */
+        val ConsigneeMb = mConsigneeMb //收货人手机号
+        jsonObj.addProperty("ConsigneeMb", ConsigneeMb)
+
+        val ConsigneeTel = mConsigneeTel //收货人固定电话
+        jsonObj.addProperty("ConsigneeTel", ConsigneeTel)
+
+        val Consignee = mConsignee //收货人
+        jsonObj.addProperty("Consignee", Consignee)
+
+        val ConsigneeAddr = mConsigneeAddr //收货人地址
+        jsonObj.addProperty("ConsigneeAddr", ConsigneeAddr)
+
+
+        //货物名称
+        val Product = cargo_name_ed.text.toString()
+        jsonObj.addProperty("Product", Product)
+
+        //总件数
+        val TotalQty = ""
+        jsonObj.addProperty("TotalQty", TotalQty)
+
+
+        //件数
+        val Qty = numbers_name_ed.text.toString()
+        jsonObj.addProperty("Qty", Qty)
+
+        //货号 运单号后五位+件数
+        val GoodsNum = Billno.substring(Billno.length - 5) + "-" + Qty
+        jsonObj.addProperty("GoodsNum", GoodsNum)
+
+        //包装方式
+        val Packages = package_name_ed.text.toString()
+        jsonObj.addProperty("Packages", Packages)
+
+
+        //重量
+        val Weight = weight_name_ed.text.toString()
+        jsonObj.addProperty("Weight", Weight)
+
+        //体积
+        val Volumn = volume_name_tv.text.toString()
+        jsonObj.addProperty("Volumn", Volumn)
+
+        //合计金额
+        val AccSum = total_amount_ed.text.toString()
+        jsonObj.addProperty("AccSum", AccSum)
+        //付款方式编码
+        val AccType = mAccType
+        jsonObj.addProperty("AccType", AccType)
+        //付款方式
+        val AccTypeStr = mAccTypeStr
+        jsonObj.addProperty("AccTypeStr", AccTypeStr)
+        //回单要求
+        val BackQty = receipt_requirements_name_tv.text.toString()
+        jsonObj.addProperty("BackQty", BackQty)
+        //是否等通知放货
+        val IsWaitNoticeStr = if (wait_notice_check.isChecked) "是" else "否"
+        jsonObj.addProperty("IsWaitNoticeStr", IsWaitNoticeStr)
+        //是否等通知放货编码
+        val IsWaitNotice = if (wait_notice_check.isChecked) "1" else "0"
+        jsonObj.addProperty("IsWaitNotice", IsWaitNotice)
+
+        //银行卡号
+        val BankCode = bank_number_tv.text.toString()
+        jsonObj.addProperty("BankCode", BankCode)
+
+        //开户行
+        val BankName = account_bank_tv.text.toString()
+        jsonObj.addProperty("BankName", BankName)
+        //开户名
+        val BankMan = account_names_tv.text.toString()
+        jsonObj.addProperty("BankMan", BankMan)
+
+        //制单人
+        val CreateMan = UserInformationUtil.getUserName(mContext)
+        jsonObj.addProperty("CreateMan", CreateMan)
+
+        //备注
+        val Remark = remarks_tv.text.toString()
+        jsonObj.addProperty("Remark", Remark)
+
+        //设备端 3代表android
+        val FromType = "3"
+        jsonObj.addProperty("FromType", FromType)
+        /**
+         * 费用的所有添加
+         */
+        mEditTextAdapter?.getData()?.let {
+            for (item in it) {
+                jsonObj.addProperty(item.tag, item.inputStr)
+
+            }
+        }
+        mPresenter?.saveAcceptBilling(jsonObj)
+
+
+    }
+
     override fun getWaybillNumberS(result: String) {
         waybill_number_ed.setText(result)
 
@@ -221,7 +440,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mSelectData = Gson().fromJson<DestinationtBean>(mResult, DestinationtBean::class.java)
                 destinationt_tv.text = mSelectData.mapDes
-                destinationt = result
+                destinationt = mSelectData.mapDes
             }
 
         }).show(supportFragmentManager, "getDestinationSFilterDialog")
@@ -285,6 +504,18 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
     override fun getTransportModeS(result: String) {
         val mTransportModeArray = JSONArray(result)
+        /**
+         * 默认数据
+         */
+        if (!mTransportModeArray.isNull(0)){
+            mTransportModeArray.optJSONObject(0)?.let {
+                mTransneed =it.optString("typecode")
+                mTransneedStr = it.optString("tdescribe")
+            }
+        }
+        /**
+         * 添加数据到view
+         */
         for (mIndex in 0 until mTransportModeArray.length()) {
             val obj = mTransportModeArray.optJSONObject(mIndex)
             obj?.let {
@@ -292,13 +523,30 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             }
         }
         transport_method_rg.check(0)
-
-
+        /**
+         * 选中后的操作
+         */
+        pay_way_title_rg.setOnCheckedChangeListener { _, checkedId ->
+            mTransneed = mTransportModeArray.getJSONObject(checkedId).optString("typecode")
+            mTransneedStr = mTransportModeArray.getJSONObject(checkedId).optString("tdescribe")
+        }
     }
 
 
     override fun getPaymentModeS(result: String) {
         val mPaymentModeArray = JSONArray(result)
+        /**
+         * 默认数据
+         */
+        if (!mPaymentModeArray.isNull(0)){
+            mPaymentModeArray.optJSONObject(0)?.let {
+                mAccType =it.optString("typecode")
+                mAccTypeStr = it.optString("tdescribe")
+            }
+        }
+        /**
+         * 添加数据到view
+         */
         for (mIndex in 0 until mPaymentModeArray.length()) {
             val obj = mPaymentModeArray.optJSONObject(mIndex)
             obj?.let {
@@ -306,6 +554,49 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             }
         }
         pay_way_title_rg.check(0)
+        /**
+         * 选中后的操作
+         */
+        pay_way_title_rg.setOnCheckedChangeListener { _, checkedId ->
+            mAccType = mPaymentModeArray.getJSONObject(checkedId).optString("typecode")
+            mAccTypeStr = mPaymentModeArray.getJSONObject(checkedId).optString("tdescribe")
+        }
+    }
+
+    var mEditTextAdapter: EditTextAdapter<BaseEditTextAdapterBean>? = null
+    override fun getCostInformationS(result: String) {
+        val data = JSONObject(result)
+        val mShowCostFilNam = data.optString("showCostFilNam").split(",")
+        val mShowCostStr = data.optString("showCostStr").split(",")
+        /**
+         * 后台返回费用信息的判断
+         */
+        if (mShowCostFilNam.size != mShowCostStr.size) return
+        /**
+         * 添加数据到recyclerView
+         */
+        val mKK = mutableListOf<BaseEditTextAdapterBean>()
+        for (mIndex in mShowCostStr.indices) {
+            val mBaseEditTextAdapterBean = BaseEditTextAdapterBean()
+            mBaseEditTextAdapterBean.title = mShowCostStr[mIndex]
+            mBaseEditTextAdapterBean.tag = mShowCostFilNam[mIndex]
+            mKK.add(mBaseEditTextAdapterBean)
+
+        }
+        if (mEditTextAdapter == null)
+            mEditTextAdapter = EditTextAdapter<BaseEditTextAdapterBean>(mContext)
+        cost_information_recycler.layoutManager = GridLayoutManager(mContext, 2)
+        cost_information_recycler.adapter = mEditTextAdapter
+        mEditTextAdapter?.appendData(mKK)
+
+
+    }
+
+    override fun saveAcceptBillingS(result: String) {
+        TalkSureDialog(mContext,getScreenWidth(),result) {
+            onBackPressed()
+        }.show()
+
     }
 
 
@@ -316,6 +607,8 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
                 destinationt_tv.text = ""
                 destinationt = ""
                 endWebIdCode = list[position].webidCode
+                endWebIdCodeStr = list[position].webid
+                eCompanyId = list[position].companyId
             }
 
         }).show(supportFragmentManager, "showWebIdDialogFilterDialog")

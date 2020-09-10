@@ -19,7 +19,7 @@ class LogInPresenter : BasePresenterImpl<LogInContract.View>(), LogInContract.Pr
         val jsonObj = JsonObject()
         jsonObj.addProperty("userName",userName)
         jsonObj.addProperty("pw",pw)
-        post<LogInSuccessBean>(ApiInterface.LOG_IN_POST,getRequestBody(jsonObj),object :CallBacks{
+        post<LogInSuccessBean>(ApiInterface.LOG_IN_POST,getRequestBody(jsonObj),true,object :CallBacks{
             override fun onResult(result: String) {
                 mView?.loInS(Gson().fromJson(result, LogInSuccessBean::class.java))
             }

@@ -13,6 +13,7 @@ import com.mbcq.baselibrary.R
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.util.screen.StatusBarUtils
+import com.mbcq.baselibrary.util.system.ToastUtils
 import java.text.DecimalFormat
 
 
@@ -94,7 +95,7 @@ abstract class BaseActivity : AppCompatActivity() {
      * toast
      */
     protected fun showToast(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        ToastUtils.showToast(mContext,msg)
 
     }
 

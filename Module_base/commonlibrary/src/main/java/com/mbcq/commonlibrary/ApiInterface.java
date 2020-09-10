@@ -30,6 +30,14 @@ public class ApiInterface {
      */
     public static final String ACCEPT_SELECT_CARGO_APPELLATION_GET = BASE_URI + "ProductName/SelProductNameByCondition";
     /**
+     * 受理开单 保存
+     */
+    public static final String ACCEPT_SAVE_INFO_POST = BASE_URI + "WaybillOpe/AddWaybill";
+    /**
+     * 受理开单 查询费用信息 种类集合的显示
+     */
+    public static final String ACCEPT_SELECT_COST_INFORMATION_GET = BASE_URI + "WebConfig/SelWebConfigByCondition";
+    /**
      * 受理开单 查询包装
      */
     public static final String ACCEPT_SELECT_PACKAGE_GET = BASE_URI + "PackagesType/SelPackagesTypeByCondition";

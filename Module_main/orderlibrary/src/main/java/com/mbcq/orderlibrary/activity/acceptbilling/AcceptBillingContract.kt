@@ -1,5 +1,6 @@
 package com.mbcq.orderlibrary.activity.acceptbilling
 
+import com.google.gson.JsonObject
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
@@ -23,6 +24,8 @@ class AcceptBillingContract {
         fun getReceiptRequirementS(result: String)
         fun getTransportModeS(result: String)
         fun getPaymentModeS(result: String)
+        fun getCostInformationS(result: String)
+        fun saveAcceptBillingS(result: String)
         /*     fun getDbWebIdS(result: List<WebAreaDbInfo>)
              fun getDbWebIdNull()*/
 
@@ -68,6 +71,16 @@ class AcceptBillingContract {
          * 付款方式
          */
         fun getPaymentMode()
+
+        /**
+         * 获取费用信息 显示的集合
+         */
+        fun getCostInformation(webidCode: String)
+
+        /**
+         * 保存受理开单
+         */
+        fun saveAcceptBilling(job: JsonObject)
 
 
     }

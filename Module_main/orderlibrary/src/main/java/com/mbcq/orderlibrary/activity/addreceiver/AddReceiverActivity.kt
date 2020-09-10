@@ -7,6 +7,7 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.view.SingleClick
@@ -58,7 +59,8 @@ class AddReceiverActivity : BaseMVPActivity<AddReceiverContract.View, AddReceive
                     obj.put("name", name_ed.text.toString())
                     obj.put("phone", phone_ed.text.toString())
                     obj.put("address", address_ed.text.toString())
-                    val json = Gson().toJson(obj)
+                    obj.put("consigneeTel", mConsigneeTel_ed.text.toString())
+                    val json = GsonUtils.toPrettyFormat(obj.toString())
                     setResult(RECEIVER_RESULT_DATA_CODE, Intent().putExtra("AddReceiveResultData", json))
                     finish()
                 } else

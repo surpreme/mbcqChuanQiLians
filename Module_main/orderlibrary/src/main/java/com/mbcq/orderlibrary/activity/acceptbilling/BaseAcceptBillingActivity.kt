@@ -30,10 +30,65 @@ import kotlinx.android.synthetic.main.activity_accept_billing.*
  */
 
 abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
+
+    /**
+     * 到达网点
+     */
+    var endWebIdCode = ""
+    var endWebIdCodeStr = ""
+
+    /**
+     * 到达公司的id
+     * 这里从网点列表中获取
+     */
+    var eCompanyId = ""
+
+    /**
+     * 目的地
+     */
+    var destinationt = ""
+
+    var mAccType = ""//付款方式编码
+
+    var mAccTypeStr = ""//付款方式
+
+
+    var mTransneed = ""//运输类型编码
+    var mTransneedStr = ""//运输类型
+
+
+    /**
+     * 发货人信息
+     */
+    var mShipperId = ""//发货客户编号
+    var mShipperMb = ""//发货人手机号
+    var mShipperTel = ""//发货人固定电话
+    var mShipper = ""//发货人
+    var mShipperCid = ""//发货人身份证号
+    var mShipperAddr = ""//发货人地址
+
+    /**
+     * 收货人信息
+     */
+    var mConsigneeMb = ""//收货人手机号
+    var mConsigneeTel = ""//收货人固定电话
+    var mConsignee = ""//收货人
+    var mConsigneeAddr = ""//收货人地址
+
     lateinit var rxPermissions: RxPermissions
     protected val RESULT_DATA_CODE = 5848
     protected val RECEIVER_RESULT_DATA_CODE = 4439
+    //运单号生成方式
+    protected lateinit var waybillNumberTag: String
+    //付货方式
+    protected lateinit var okProcessStrTag: String
+    protected  var isTalkGoodsStrTag: Boolean = false
     override fun isShowErrorDialog() = true
+
+    override fun initExtra() {
+        super.initExtra()
+        rxPermissions = RxPermissions(this)
+    }
 
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
@@ -42,7 +97,8 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 //        initTransportMethodLayout()
 //        initPayWayLayout()
         waybillNumber(false)
-        rxPermissions = RxPermissions(this)
+        initReceivingMethod(1)
+        initDeliveryMethod(1)
 
     }
 
@@ -73,13 +129,51 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         }
     }
 
-
+    protected fun isCanSaveAcctBilling(): Boolean {
+        if (endWebIdCode.isEmpty()) {
+            showToast("请选择到达网点")
+            return false
+        }
+        if (destinationt.isEmpty()) {
+            showToast("请选择目的地")
+            return false
+        }
+        if (mShipperMb.isEmpty()) {
+            showToast("请选择发货人")
+            return false
+        }
+        if (mConsigneeMb.isEmpty()) {
+            showToast("请选择收货人")
+            return false
+        }
+        if (cargo_name_ed.text.toString().isEmpty()) {
+            showToast("请选择货物名称")
+            return false
+        }
+        if (package_name_ed.text.toString().isEmpty()) {
+            showToast("请选择包装")
+            return false
+        }
+        if (weight_name_ed.text.toString().isEmpty()) {
+            showToast("请输入重量")
+            return false
+        }
+        if (volume_name_tv.text.toString().isEmpty()) {
+            showToast("请输入体积")
+            return false
+        }
+        if (receipt_requirements_name_tv.text.toString().isEmpty()) {
+            showToast("请选择回单要求")
+            return false
+        }
+        return true
+    }
     fun waybillNumber(isHandWriting: Boolean) {
         if (isHandWriting) {
             waybill_number_ed.isFocusableInTouchMode = true
             waybill_number_ed.isFocusable = true
             waybill_number_ed.requestFocus()
-
+            waybillNumberTag = "手写"
             waybill_number_handwriting_tv.setBackgroundResource(R.drawable.round_blue_lefttop_leftbottom)
             waybill_number_machine_printed_tv.setBackgroundResource(R.drawable.round_white_righttop_rightbottom)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -95,6 +189,8 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
             waybill_number_ed.isFocusableInTouchMode = false
 
             hideKeyboard(waybill_number_ed)
+            waybillNumberTag = "机打"
+
             waybill_number_handwriting_tv.setBackgroundResource(R.drawable.round_white_lefttop_leftbottom)
             waybill_number_machine_printed_tv.setBackgroundResource(R.drawable.round_blue_righttop_rightbottom)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -124,7 +220,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
                 home_delivery_tv.setBackgroundResource(R.drawable.hollow_out_gray)
                 home_delivery_tv.setTextColor(Color.BLACK)
-
+                isTalkGoodsStrTag=false
             }
             2 -> {
                 home_delivery_tv.setBackgroundResource(R.drawable.round_blue)
@@ -132,6 +228,8 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
                 customer_mention_tv.setBackgroundResource(R.drawable.hollow_out_gray)
                 customer_mention_tv.setTextColor(Color.BLACK)
+                isTalkGoodsStrTag=true
+
             }
         }
     }
@@ -151,6 +249,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
                 get_driver_direct_tv.setBackgroundResource(R.drawable.hollow_out_gray)
                 get_driver_direct_tv.setTextColor(Color.BLACK)
+                okProcessStrTag=get_delivery_mention_tv.text.toString()
 
             }
             2 -> {
@@ -162,6 +261,8 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
                 get_driver_direct_tv.setBackgroundResource(R.drawable.hollow_out_gray)
                 get_driver_direct_tv.setTextColor(Color.BLACK)
+                okProcessStrTag=get_delivery_home_tv.text.toString()
+
             }
             3 -> {
                 get_driver_direct_tv.setBackgroundResource(R.drawable.round_blue)
@@ -172,12 +273,15 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
                 get_delivery_home_tv.setBackgroundResource(R.drawable.hollow_out_gray)
                 get_delivery_home_tv.setTextColor(Color.BLACK)
+                okProcessStrTag=get_driver_direct_tv.text.toString()
+
             }
         }
+
     }
 
     /**
-     * 静态数据
+     * 静态数据 因为需要动态 仅供参考
      * 运输方式
      * @1
      */
@@ -209,7 +313,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
 
     /**
-     * 静态数据
+     * 静态数据 因为需要动态 仅供参考
      * 付款方式 @2
      */
     private fun initPayWayLayout() {

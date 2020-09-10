@@ -7,6 +7,7 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.util.log.LogUtils
@@ -57,12 +58,15 @@ class AddShipperActivity : BaseMVPActivity<AddShipperContract.View, AddShipperPr
         sure_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (name_ed.text.toString().isNotEmpty() && phone_ed.text.toString().isNotEmpty() && address_ed.text.toString().isNotEmpty()) {
-                    val datas = "${name_ed.text}@${phone_ed.text}@${address_ed.text}"
+//                    val datas = "${name_ed.text}@${phone_ed.text}@${address_ed.text}"
                     val obj=JSONObject()
                     obj.put("name",name_ed.text.toString())
                     obj.put("phone",phone_ed.text.toString())
                     obj.put("address",address_ed.text.toString())
-                    val json=Gson().toJson(obj)
+                    obj.put("shipperTel",mShipperTel_ed.text.toString())
+                    obj.put("shipperCid",mShipperCid_ed.text.toString())
+                    obj.put("shipperId",mShipperId_ed.text.toString())
+                    val json=GsonUtils.toPrettyFormat(obj.toString())
                     setResult(RESULT_DATA_CODE, Intent().putExtra("AddShipperResultData", json))
                     finish()
                 } else

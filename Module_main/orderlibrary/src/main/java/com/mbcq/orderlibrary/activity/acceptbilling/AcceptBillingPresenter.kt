@@ -1,7 +1,9 @@
 package com.mbcq.orderlibrary.activity.acceptbilling
 
+import com.google.gson.JsonObject
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.commonlibrary.ApiInterface
 import org.json.JSONArray
 import org.json.JSONObject
@@ -170,7 +172,7 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
                 val json = JSONTokener(data?.toString()).nextValue()
                 if (json is JSONArray) {
                     obj.optJSONArray("data").let {
-                        if (it?.isNull(0)!!){
+                        if (it?.isNull(0)!!) {
                             mView?.getCardNumberConditionNull()
                             return@let
                         }
@@ -199,7 +201,7 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
                 if (json is JSONArray) {
                     obj.optJSONArray("data").let {
                         val mDatas = it?.getJSONObject(0)
-                        val mMemBanDetLst=mDatas?.optJSONArray("MemBanDetLst")
+                        val mMemBanDetLst = mDatas?.optJSONArray("MemBanDetLst")
                         mView?.getBankCardInfoS(mMemBanDetLst.toString())
                     }
                 } else {
@@ -223,7 +225,7 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
     "typedes": "对运单表(tyd)backqty"
     }
     ]}
-     注释 ：：：：这里写死为type=14 获取回单要求
+    注释 ：：：：这里写死为type=14 获取回单要求
      */
     override fun getReceiptRequirement() {
         val params = HttpParams()
@@ -235,9 +237,8 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
                 val json = JSONTokener(data?.toString()).nextValue()
                 if (json is JSONArray) {
                     obj.optJSONArray("data").let {
-                        it?.toString()?.let {
-                            it1 ->
-                                   mView?.getReceiptRequirementS(it1)
+                        it?.toString()?.let { it1 ->
+                            mView?.getReceiptRequirementS(it1)
                         }
 
 
@@ -275,8 +276,7 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
                 val json = JSONTokener(data?.toString()).nextValue()
                 if (json is JSONArray) {
                     obj.optJSONArray("data").let {
-                        it?.toString()?.let {
-                            it1 ->
+                        it?.toString()?.let { it1 ->
                             mView?.getTransportModeS(it1)
                         }
 
@@ -317,8 +317,7 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
                 val json = JSONTokener(data?.toString()).nextValue()
                 if (json is JSONArray) {
                     obj.optJSONArray("data").let {
-                        it?.toString()?.let {
-                            it1 ->
+                        it?.toString()?.let { it1 ->
                             mView?.getPaymentModeS(it1)
                         }
 
@@ -328,6 +327,89 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
                     mView?.showError("服务器返回异常信息")
                 }
 
+            }
+
+        })
+    }
+
+    /**
+     * {"code":0,"msg":"","count":1,"data":[
+    {
+    "id": 21,
+    "webidCodeStr": "汕头",
+    "webidCode": 1003,
+    "isCanRecGoo": 1,
+    "isCanRecGooStr": null,
+    "isUseMonth": 1,
+    "isUseMonthStr": null,
+    "showCost": "1,2,3,4,5,6,7,8",
+    "showCostStr": "基本运费,提货费,打包费,送货费,工本费,保价费,燃油费,返款",
+    "showCostFilNam": "accTrans,accFetch,accPackage,accSend,accGb,accSafe,accRyf,accHuiKou",
+    "canAccType": "1,2",
+    "canAccTypeStr": "现付,提付",
+    "accGb": 5.00,
+    "limDowAccTrans": 3.00,
+    "limDowAccDaiShou": 5.00,
+    "canHandBill": 1,
+    "canHandBillStr": null,
+    "priBillCount": 1,
+    "priFetCount": 1,
+    "isCanSenDs": 0,
+    "isCanSenDsStr": null,
+    "isCanRecDs": 0,
+    "isCanRecDsStr": null,
+    "isMustIdCard": 0,
+    "isMustIdCardStr": null,
+    "isUseWaiNot": 1,
+    "isUseWaiNotStr": null,
+    "accNowIsCanHk": 1,
+    "accNowIsCanHkStr": null,
+    "skipCursor": "",
+    "banInfIsWri": 0,
+    "banInfIsWriStr": null,
+    "arrHowHouCae": 0,
+    "accSafe": null,
+    "bqWebidCode": 1002,
+    "bqWebidCodeStr": "义乌后湖",
+    "opeMan": "测试",
+    "recordDate": "2019-03-08T15:32:38"
+    }
+    ]}
+     */
+    override fun getCostInformation(webidCode: String) {
+        val params = HttpParams()
+        params.put("webidCode", webidCode)
+        get<String>(ApiInterface.ACCEPT_SELECT_COST_INFORMATION_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                val data = obj.opt("data")
+                val json = JSONTokener(data?.toString()).nextValue()
+                if (json is JSONArray) {
+                    obj.optJSONArray("data")?.let {
+                        if (!it.isNull(0)) {
+                            mView?.getCostInformationS(it.get(0).toString())
+                        }
+
+
+                    }
+                } else {
+                    mView?.showError("服务器返回异常信息")
+                }
+
+            }
+
+        })
+    }
+
+    /**
+     * post {"ECompanyId":"2001","Destination":"义乌后湖","OrderId":"","WebidCodeStr":"汕头","WebidCode":"1003","Billno":"10030001897","EwebidCodeStr":"义乌后湖","EwebidCode":"1001","OBillno":"","BillDate":"2020-09-09 18:18:59:06","BillState":"","BillTypeStr":"机打","OkProcess":"","OkProcessStr":"客户自提","IsTalkGoods":"0","IsTalkGoodsStr":"否","VipId":"17530957256","ShipperId":"","ShipperMb":"15999999999","ShipperTel":"5555","Shipper":"彭小林","ShipperCid":"","ShipperAddr":"1111","IsUrgent":"0","IsUrgentStr":"否","Transneed":"1","TransneedStr":"零担","ConsigneeMb":"18614079730","ConsigneeTel":"","Consignee":"李紫洋","ConsigneeAddr":"还是","Product":"玻璃1","TotalQty":"","Qty":"1","GoodsNum":"01897-1","Packages":"工工式","Weight":"1","Volumn":"1","AccSum":"200","AccType":"1","AccTypeStr":"现付","BackQty":"签回单","IsWaitNoticeStr":"是","IsWaitNotice":"1","BankCode":"301290000007","BankName":"交通银行","BankMan":"wxl","CreateMan":"lzy","Remark":"12588","FromType":"3","accTrans":"100","accFetch":"1","accPackage":"40","accSend":"1","accGb":"1","accSafe":"1","accRyf":"1","accHuiKou":"2"}
+     * success{"code":0,"ljCode":0,"msg":"保存成功!"}
+     */
+    override fun saveAcceptBilling(job: JsonObject) {
+        post<String>(ApiInterface.ACCEPT_SAVE_INFO_POST, getRequestBody(job), object : CallBacks {
+            override fun onResult(result: String) {
+                val obj=JSONObject(result)
+                mView?.saveAcceptBillingS(obj.optString("msg"))
             }
 
         })

@@ -21,6 +21,11 @@ object UserInformationUtil {
     private val USR_INFORMATION_WEBIDCODE: String = "USR_INFORMATION_WEBIDCODE"
 
     /**
+     * webidCode String
+     */
+    private val USR_INFORMATION_WEBIDCODE_STR: String = "USR_INFORMATION_WEBIDCODE_STR"
+
+    /**
      * 是否指纹登录
      */
     private val USER_IS_FINGER_LOGIN_TAG = "USER_IS_FINGER_LOGIN_TAG"
@@ -65,6 +70,14 @@ object UserInformationUtil {
         if (mSharePreferencesHelper == null)
             mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
         mSharePreferencesHelper?.put(USR_INFORMATION_WEBIDCODE, localWebcode)
+
+    }
+
+    fun setWebIdCodeStr(context: Context, localWebcodeStr: String) {
+        BaseConstant.WEBID_CODE_STR = localWebcodeStr
+        if (mSharePreferencesHelper == null)
+            mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
+        mSharePreferencesHelper?.put(USR_INFORMATION_WEBIDCODE_STR, localWebcodeStr)
 
     }
 
@@ -141,7 +154,8 @@ object UserInformationUtil {
             BaseConstant.USER_KEY
         }
     }
-  fun getWebIdCode(context: Context): String {
+
+    fun getWebIdCode(context: Context): String {
         return if (BaseConstant.WEBID_CODE.isNullOrEmpty()) {
             if (mSharePreferencesHelper == null)
                 mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
@@ -153,6 +167,21 @@ object UserInformationUtil {
 
         } else {
             BaseConstant.WEBID_CODE
+        }
+    }
+
+    fun getWebIdCodeStr(context: Context): String {
+        return if (BaseConstant.WEBID_CODE_STR.isNullOrEmpty()) {
+            if (mSharePreferencesHelper == null)
+                mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
+            if (mSharePreferencesHelper?.contain(USR_INFORMATION_WEBIDCODE_STR)!!) {
+                mSharePreferencesHelper?.getSharePreference(USR_INFORMATION_WEBIDCODE_STR, "") as String
+            } else {
+                ""
+            }
+
+        } else {
+            BaseConstant.WEBID_CODE_STR
         }
     }
 

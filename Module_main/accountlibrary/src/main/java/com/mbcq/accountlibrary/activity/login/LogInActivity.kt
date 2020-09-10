@@ -74,6 +74,7 @@ class LogInActivity : BaseLogInActivity<LogInContract.View, LogInPresenter>(), L
     override fun loInS(result: LogInSuccessBean) {
         UserInformationUtil.setUserKey(mContext, result.token)
         UserInformationUtil.setWebIdCode(mContext, result.webidCode)
+        UserInformationUtil.setWebIdCodeStr(mContext, result.webidCodeStr)
         if (isSavePsw) {
             UserInformationUtil.setUserAccount(mContext, number_get_edit.text.toString(), key_get_edit.text.toString())
             SPUtil.getInstance().putString(FingerConstant.SP_A_P, key_get_edit.text.toString())

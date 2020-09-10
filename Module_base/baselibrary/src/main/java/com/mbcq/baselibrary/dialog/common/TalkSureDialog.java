@@ -26,6 +26,14 @@ public class TalkSureDialog extends BaseSystemDialog {
         this.mScreenWidth = mScreenWidth;
     }
 
+    public TalkSureDialog(@NonNull Context context, int mScreenWidth, String mTips, OnClickInterface onClickInterface) {
+        super(context);
+        this.mTips = mTips;
+        this.mScreenWidth = mScreenWidth;
+        this.onClickInterface = onClickInterface;
+
+    }
+
     @Override
     protected int setContentViews() {
         return R.layout.dialog_sure_talk;
