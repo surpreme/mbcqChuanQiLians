@@ -11,7 +11,7 @@ import com.mbcq.baselibrary.dialog.dialogfragment.BaseDialogFragment
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.commonlibrary.R
-import com.mbcq.commonlibrary.adapter.BaseAdapterBean
+import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean
 import com.mbcq.commonlibrary.adapter.TextViewAdapter
 import org.json.JSONArray
 
@@ -23,7 +23,7 @@ import org.json.JSONArray
 
 class FilterDialog : BaseDialogFragment {
     var mScreenWidth: Int = 0
-    var mDatas: List<BaseAdapterBean>
+    var mDatas: List<BaseTextAdapterBean>
     var tips: String
     var isGridLayoutManager: Boolean = false
     var isShowOutSide: Boolean = false
@@ -46,9 +46,9 @@ class FilterDialog : BaseDialogFragment {
      */
     constructor(mScreenWidth: Int, mDatas: String, showTag: String, tips: String, isGridLayoutManager: Boolean, isShowOutSide: Boolean, mClickInterface: OnClickInterface.OnRecyclerClickInterface) {
         val dataslist = JSONArray(mDatas)
-        val showDatas = mutableListOf<BaseAdapterBean>()
+        val showDatas = mutableListOf<BaseTextAdapterBean>()
         for (index in 0 until dataslist.length()) {
-            val mBaseAdapterBean = BaseAdapterBean()
+            val mBaseAdapterBean = BaseTextAdapterBean()
             val obj = dataslist.getJSONObject(index)
             mBaseAdapterBean.title = obj.optString(showTag)
             mBaseAdapterBean.tag = GsonUtils.toPrettyFormat(obj.toString())
@@ -64,9 +64,9 @@ class FilterDialog : BaseDialogFragment {
 
     constructor(mScreenWidth: Int, mDatas: String, showTag: MutableList<String>, startString: MutableList<String>, endString: String, tips: String, isGridLayoutManager: Boolean, isShowOutSide: Boolean, mClickInterface: OnClickInterface.OnRecyclerClickInterface) {
         val dataslist = JSONArray(mDatas)
-        val showDatas = mutableListOf<BaseAdapterBean>()
+        val showDatas = mutableListOf<BaseTextAdapterBean>()
         for (index in 0 until dataslist.length()) {
-            val mBaseAdapterBean = BaseAdapterBean()
+            val mBaseAdapterBean = BaseTextAdapterBean()
             val obj = dataslist.getJSONObject(index)
             val mShowTag = StringBuilder()
             if (showTag.size == 0) {
@@ -105,7 +105,7 @@ class FilterDialog : BaseDialogFragment {
         else
             filter_recycler_view.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
 
-        val mTextViewAdapter = TextViewAdapter<BaseAdapterBean>(mContext)
+        val mTextViewAdapter = TextViewAdapter<BaseTextAdapterBean>(mContext)
         mTextViewAdapter.mClick = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
 

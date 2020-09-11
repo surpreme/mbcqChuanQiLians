@@ -2,8 +2,11 @@ package com.mbcq.baselibrary.finger;
 
 import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.google.gson.reflect.TypeToken;
 import com.mbcq.baselibrary.db.SPUtil;
@@ -33,6 +36,7 @@ public class FingerprintUtil {
      * @author HaganWu
      * @date 2019/1/29-13:35
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public static String getFingerprintInfoString(Context context) {
         FingerprintManager fingerprintManager = (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
         try {

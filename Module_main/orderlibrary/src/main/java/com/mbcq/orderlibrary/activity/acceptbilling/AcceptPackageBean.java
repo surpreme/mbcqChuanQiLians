@@ -1,8 +1,8 @@
 package com.mbcq.orderlibrary.activity.acceptbilling;
 
-import com.mbcq.commonlibrary.adapter.BaseAdapterBean;
+import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean;
 
-public class AcceptPackageBean extends BaseAdapterBean {
+public class AcceptPackageBean extends BaseTextAdapterBean {
 
 
     /**

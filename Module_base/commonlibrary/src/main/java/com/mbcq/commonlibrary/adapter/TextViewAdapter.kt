@@ -7,13 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.view.marginLeft
 import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.commonlibrary.R
 
-class TextViewAdapter<T : BaseAdapterBean> : RecyclerView.Adapter<TextViewAdapter.ItemViewHolder> {
+class TextViewAdapter<T : BaseTextAdapterBean> : RecyclerView.Adapter<TextViewAdapter.ItemViewHolder> {
     private var context: Context?
     private val inflater: LayoutInflater
     private var mSonBean = ArrayList<T>()

@@ -65,5 +65,18 @@ public class ApiInterface {
      * 受理开单 添加收货人信息
      */
 //    public static final String ACCEPT_ADD_RECEIVER_GET=BASE_URI+"Consignee/AddConsignee";
+    /**
+     * --------------------------------------------------------------------------------------------------------------
+     */
+    /**
+     * 运单记录  获取所有信息 Waybill record
+     */
+    public static final String WAYBILL_RECORD_SELECT_ALLINFO_GET = BASE_URI + "WaybillOpe/SelWaybillByCondition";
+    /**
+     * 运单记录  删除运单
+     */
+    public static final String WAYBILL_RECORD_DELETE_INFO_POST = BASE_URI + "WaybillOpe/DelWaybill";
+
+
 
 }

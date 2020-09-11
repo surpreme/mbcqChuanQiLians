@@ -3,7 +3,8 @@
     package="com.mbcq.orderlibrary">
 
     <application>
-        <activity android:name=".activity.addreceiver.AddReceiverActivity"></activity>
+        <activity android:name=".activity.waybillrecord.WaybillRecordActivity"/>
+        <activity android:name=".activity.addreceiver.AddReceiverActivity" />
         <activity android:name=".activity.addshipper.AddShipperActivity" />
         <activity android:name=".activity.acceptbilling.AcceptBillingActivity" />
     </application>

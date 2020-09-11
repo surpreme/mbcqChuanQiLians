@@ -118,7 +118,7 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
     public BaseItemDecoration(Context context) {
         this(ScreenSizeUtils.INSTANCE.dp2px(context, 1)
                 , 0, 0, 0, 0, 0
-                , context.getResources().getColor(R.color.base_gray), context
+                , context.getResources().getColor(R.color.base_grayDark), context
                 , 1, null);
     }
 
@@ -127,7 +127,7 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
      */
     public BaseItemDecoration(int mDivider, int mSpace, int mRowFirstSpace, int mColumnFirstSpace, int mRowEndSpace, int mColumnEndSpace, Context mContext) {
         this(mDivider, mSpace, mRowFirstSpace, mColumnFirstSpace, mRowEndSpace, mColumnEndSpace
-                , mContext.getResources().getColor(R.color.base_gray), mContext
+                , mContext.getResources().getColor(R.color.base_grayDark), mContext
                 , 0, null);
     }
 
@@ -137,13 +137,13 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
      */
     public BaseItemDecoration(int mSpace, Context context) {
         this(0, mSpace, 0, 0, 0, 0
-                , context.getResources().getColor(R.color.base_gray), context
+                , context.getResources().getColor(R.color.base_grayDark), context
                 , 1, null);
     }
 
     public BaseItemDecoration(int mDivider, int mRowFirstSpace, Context context) {
         this(mDivider, 0, mRowFirstSpace, 0, 0, 0
-                , context.getResources().getColor(R.color.base_gray), context
+                , context.getResources().getColor(R.color.base_grayDark), context
                 , 1, null);
     }
 
@@ -157,7 +157,7 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
      */
     public BaseItemDecoration(int mDivider, Context mContext, float mSpanCount, String ratio) {
         this(0, mDivider, 0, 0, 0, 0
-                , mContext.getResources().getColor(R.color.base_gray), mContext
+                , mContext.getResources().getColor(R.color.base_grayDark), mContext
                 , mSpanCount, ratio);
     }
 

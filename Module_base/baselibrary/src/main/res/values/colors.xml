@@ -5,6 +5,7 @@
     <color name="black">#000000</color>
     <!--    浅灰色-->
     <color name="base_gray">#EEEEEE</color>
+    <color name="line_gray">#F0EEEE</color>
     <!--    深灰色-->
     <color name="base_grayDark">#A0A1A4</color>
     <color name="base_red">#FF0000</color>

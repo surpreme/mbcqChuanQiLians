@@ -6,17 +6,13 @@ import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
-import com.mbcq.commonlibrary.adapter.BaseAdapterBean
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.orderlibrary.R
-import com.mbcq.orderlibrary.activity.acceptbilling.DestinationtBean
-import kotlinx.android.synthetic.main.activity_accept_billing.*
 import kotlinx.android.synthetic.main.activity_add_receiver.*
 import org.json.JSONObject
 

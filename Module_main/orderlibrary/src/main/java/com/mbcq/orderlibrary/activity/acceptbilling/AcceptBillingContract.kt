@@ -26,15 +26,12 @@ class AcceptBillingContract {
         fun getPaymentModeS(result: String)
         fun getCostInformationS(result: String)
         fun saveAcceptBillingS(result: String)
-        /*     fun getDbWebIdS(result: List<WebAreaDbInfo>)
-             fun getDbWebIdNull()*/
 
     }
 
     interface Presenter : BasePresenter<View> {
         fun getWaybillNumber()
         fun getWebAreaId()
-//        fun getDbWebId()
 
         /**
          * 目的地

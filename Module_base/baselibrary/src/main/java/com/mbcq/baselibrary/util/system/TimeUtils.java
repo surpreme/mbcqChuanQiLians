@@ -499,6 +499,20 @@ public class TimeUtils {
     }
 
     /**
+     * 获取前几天日期字符串
+     * @param
+     * *格式(例如:yyyy-MM-dd HH:mm:ss)
+     * @return
+     */
+    public static String getLastdayStr( Integer lastNumber) {
+        @SuppressLint("SimpleDateFormat")
+        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,-24*lastNumber);
+        return dateFormat.format(calendar.getTime());
+    }
+
+    /**
      * 分钟转换hour
      *
      * @param minutes

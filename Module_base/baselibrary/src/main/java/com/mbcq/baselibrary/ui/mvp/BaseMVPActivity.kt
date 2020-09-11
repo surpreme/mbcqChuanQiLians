@@ -1,21 +1,18 @@
 package com.mbcq.baselibrary.ui.mvp
 
-import android.Manifest
 import android.content.Context
-import android.os.CountDownTimer
-import android.widget.Toast
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.dialog.dialogfragment.LoadingDialogFragment
 import com.mbcq.baselibrary.ui.BaseActivity
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.ToastUtils
-import com.tbruyelle.rxpermissions.RxPermissions
 import java.lang.reflect.ParameterizedType
+import java.util.regex.Pattern
 
 /**
  * @Auther: liziyang
  * @datetime: 2020-01-19
- * @desc:
+ * @desc: 再次封装 需要第三个泛型请放在后面 否则会闪退
  */
 abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseActivity(), BaseView {
     protected var mIsCanCloseLoading = true
@@ -98,5 +95,15 @@ abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseAct
         LogUtils.e(msg + this.localClassName)
     }
 
+
+    /**
+     * * 判断是否为整数
+     * @param str 传入的字符串
+     * @return 是整数返回true,否则返回false
+     */
+    protected fun isInteger(str: String): Boolean {
+        val pattern: Pattern = Pattern.compile("^[-\\+]?[\\d]*$")
+        return pattern.matcher(str).matches()
+    }
 
 }

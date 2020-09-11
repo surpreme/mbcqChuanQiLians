@@ -186,8 +186,16 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
             it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
                 override fun onItemClick(v: View, position: Int, result: String) {
                     LogUtils.d("result" + result + "position" + position)
-                    if (result == "1" && position == 0) {
-                        ARouter.getInstance().build(ARouterConstants.AcceptBillingActivity).navigation()
+                    if (result == "1" ) {
+                        when(position){
+                            0->{
+                                ARouter.getInstance().build(ARouterConstants.AcceptBillingActivity).navigation()
+                            }
+                            1->{
+                                ARouter.getInstance().build(ARouterConstants.WaybillRecordActivity).navigation()
+
+                            }
+                        }
                     }
                 }
             }

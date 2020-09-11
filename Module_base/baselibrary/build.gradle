@@ -97,6 +97,11 @@ dependencies {
     api 'com.lzy.net:okserver:2.0.5'
     //banner
     api 'com.youth.banner:banner:2.1.0'
+    //时间选择器
+    api 'com.contrarywind:Android-PickerView:4.1.9'
+    //侧滑删除
+    api 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+    api 'cn.bingoogolapple:bga-swipebacklayout:2.0.0'
     //greendao
     api 'org.greenrobot:greendao:3.2.2'
     implementation 'com.facebook.stetho:stetho:1.5.1'

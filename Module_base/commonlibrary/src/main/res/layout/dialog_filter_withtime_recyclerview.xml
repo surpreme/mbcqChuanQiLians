@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    app:cardCornerRadius="5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/top_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="筛选" />
+
+        <LinearLayout
+            android:id="@+id/time_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/top_title_tv">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:text="开始时间:"
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:id="@+id/start_time_ll"
+                    android:layout_width="0dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/hollow_out_gray">
+
+                    <TextView
+                        android:id="@+id/start_time_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="2017-08-08" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="15dp"
+                        android:padding="2dp"
+                        android:src="@drawable/ic_calendar_icon"
+                        app:tint="@color/base_grayDark" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:text="结束时间:"
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:id="@+id/end_time_ll"
+                    android:layout_width="0dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/hollow_out_gray">
+
+                    <TextView
+                        android:id="@+id/end_time_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="2017-08-08" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="15dp"
+                        android:padding="2dp"
+                        android:src="@drawable/ic_calendar_icon"
+                        app:tint="@color/base_grayDark" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center|left">
+
+                <TextView
+                    android:id="@+id/today_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="27dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_blue"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="今天"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/yesterday_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="27dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/hollow_out_gray"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="昨天"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/last_three_day"
+                    android:layout_width="0dp"
+                    android:layout_height="27dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/hollow_out_gray"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="前三天"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/this_monday_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="27dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/hollow_out_gray"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="本月"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/top_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:alpha="0.5"
+            android:background="@color/base_grayDark"
+            app:layout_constraintTop_toBottomOf="@+id/time_ll" />
+
+        <EditText
+            android:id="@+id/filter_search_ed"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/common_round_corner_gray_bg"
+            android:drawableLeft="@drawable/ic_search_icon"
+            android:drawableTint="@color/base_grayDark"
+            android:hint="    请输入要查询的网点"
+            android:paddingLeft="15dp"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/all_check_box"
+            app:layout_constraintTop_toBottomOf="@+id/top_line" />
+
+        <CheckBox
+            android:id="@+id/all_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="全选"
+            app:layout_constraintBottom_toBottomOf="@+id/filter_search_ed"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/filter_search_ed" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/filter_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:minHeight="400dp"
+            app:layout_constraintTop_toBottomOf="@+id/filter_search_ed" />
+
+        <LinearLayout
+            android:id="@+id/bottom_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            app:layout_constraintTop_toBottomOf="@+id/filter_recycler_view">
+
+            <Button
+                android:id="@+id/cancel_btn"
+                android:layout_width="0dp"
+                android:layout_height="37dp"
+                android:layout_weight="1"
+                android:alpha="0.8"
+                android:background="@drawable/round_gray"
+                android:text="取消"
+                android:textColor="@color/base_blue"
+                android:textSize="19sp" />
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/sure_btn"
+                android:layout_width="0dp"
+                android:layout_height="37dp"
+                android:layout_weight="1"
+                android:alpha="0.8"
+                android:background="@drawable/round_blue"
+                android:text="确认"
+                android:textColor="@color/white"
+                android:textSize="19sp" />
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bottom_ll" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

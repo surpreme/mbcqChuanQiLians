@@ -22,10 +22,6 @@ import kotlinx.android.synthetic.main.fragment_setting.*
 class SettingFragment : BaseListFragment<SettingIconBean>() {
     override fun getLayoutResId(): Int = R.layout.fragment_setting
 
-    override fun initViews(view: View) {
-        super.initViews(view)
-    }
-
     override fun onClick() {
         super.onClick()
         setting_toolbar.setRightButtonOnClickListener {

@@ -20,6 +20,21 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
     override fun getItemCount(): Int = mDatas.size
     fun appendData(list: List<T>) {
         mDatas.addAll(list)
+        notifyDataSetChanged()
     }
 
+    fun getAllData(): ArrayList<T> {
+        return mDatas
+    }
+
+    fun removeItem(position: Int) {
+        mDatas.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position,mDatas.size-position)
+    }
+
+    fun clearData() {
+        mDatas.clear()
+        notifyDataSetChanged()
+    }
 }

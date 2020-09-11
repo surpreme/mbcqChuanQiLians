@@ -1,7 +1,5 @@
 package com.mbcq.orderlibrary.activity.acceptbilling;
 
-import com.mbcq.commonlibrary.adapter.BaseAdapterBean;
-
 public class DestinationtBean   {
 
     /**
