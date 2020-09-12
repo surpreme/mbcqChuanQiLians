@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.HttpHeaders
 import com.lzy.okgo.model.HttpParams
@@ -96,7 +97,11 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
 
         })
     }
+    protected fun <X> getList(result: String):List<X>{
+        val obj = JSONObject(result)
+        return  Gson().fromJson<List<X>>(obj.optString("data"), object : TypeToken<List<X>>() {}.type)
 
+    }
 
     protected fun <T> get(url: String, params: HttpParams?, callback: CallBacks) {
         val mHttpHeaders = HttpHeaders()

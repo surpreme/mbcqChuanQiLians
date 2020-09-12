@@ -24,6 +24,13 @@ class EditTextAdapter<T : BaseEditTextAdapterBean> : RecyclerView.Adapter<EditTe
         this.inflater = LayoutInflater.from(context)
     }
 
+    //合计
+    interface OnToTalInterface {
+        fun onItemFoused(v: View, position: Int, result: String, tag: String)
+    }
+
+    var mOnToTalInterface: OnToTalInterface? = null
+
     fun appendData(list: List<T>) {
         mSonBean.addAll(list)
         notifyDataSetChanged()
@@ -54,11 +61,6 @@ class EditTextAdapter<T : BaseEditTextAdapterBean> : RecyclerView.Adapter<EditTe
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.title_tv.text = mSonBean[position].title
         holder.inputStr_ed.setText(mSonBean[position].inputStr)
-        holder.inputStr_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                mSonBean[position].inputStr = holder.inputStr_ed.text.toString()
-            }
-        }
         holder.inputStr_ed.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -69,6 +71,8 @@ class EditTextAdapter<T : BaseEditTextAdapterBean> : RecyclerView.Adapter<EditTe
 
             override fun afterTextChanged(s: Editable?) {
                 mSonBean[position].inputStr = s.toString()
+                mOnToTalInterface?.onItemFoused( holder.inputStr_ed,position, holder.inputStr_ed.text.toString(),mSonBean[position].tag)
+
             }
 
         })

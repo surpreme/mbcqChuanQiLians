@@ -113,6 +113,7 @@
             app:layout_constraintTop_toBottomOf="@+id/receiver_outlets_tv" />
 
         <TextView
+            android:id="@+id/waybill_state_tv"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
@@ -151,7 +152,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            android:text="配件 100件 13m³ 纸箱 2000kg    月结200 "
+            tools:text="配件 100件 13m³ 纸箱 2000kg    月结200 "
             android:textColor="@color/black"
             android:textSize="15sp"
             app:layout_constraintLeft_toLeftOf="parent"

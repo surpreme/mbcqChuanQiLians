@@ -1,8 +1,10 @@
+include ':vehicleslibrary'
 rootProject.name='ChuanQiLians'
 include ':app' ,
         'Module_base:baselibrary' ,
         'Module_base:commonlibrary' ,
         'Module_main:orderlibrary',
         'Module_main:maplibrary',
+        'Module_main:vehicleslibrary',
         'Module_main:accountlibrary'
 

@@ -54,20 +54,18 @@ public class ApiInterface {
      */
     public static final String ACCEPT_SELECT_SHIPPER_GET = BASE_URI + "Shipper/SelShipperByCondition";
     /**
-     * 受理开单  添加发货人信息
-     */
-//    public static final String ACCEPT_ADD_SHIPPER_GET=BASE_URI+"Shipper/AddShipper";
-    /**
      * 受理开单 查询收货人信息
      */
     public static final String ACCEPT_SELECT_RECEIVER_GET = BASE_URI + "Consignee/SelConsigneeByCondition";
-    /**
-     * 受理开单 添加收货人信息
-     */
-//    public static final String ACCEPT_ADD_RECEIVER_GET=BASE_URI+"Consignee/AddConsignee";
+
+
+
     /**
      * --------------------------------------------------------------------------------------------------------------
      */
+
+
+
     /**
      * 运单记录  获取所有信息 Waybill record
      */
@@ -77,6 +75,22 @@ public class ApiInterface {
      */
     public static final String WAYBILL_RECORD_DELETE_INFO_POST = BASE_URI + "WaybillOpe/DelWaybill";
 
+
+
+    /**
+     * --------------------------------------------------------------------------------------------------------------
+     */
+
+
+    /**
+     * 发车记录  干线发车 获取所有信息
+     */
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET = BASE_URI + "GxVehicleOpe/SelGxVehicleByCondition";
+
+  /**
+     * 发车记录  短驳发车 获取所有信息
+     */
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET = BASE_URI + "DbVehicleOpe/SelDbVehicleByCondition";
 
 
 }

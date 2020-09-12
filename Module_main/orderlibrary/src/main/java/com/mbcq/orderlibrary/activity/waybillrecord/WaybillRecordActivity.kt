@@ -145,7 +145,7 @@ class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, W
     override fun setAdapter(): BaseRecyclerAdapter<WaybillRecordBean> = WaybillRecordAdapter(mContext).also {
         it.mOnRecyclerDeleteClickInterface = object : OnClickInterface.OnRecyclerDeleteClickInterface {
             override fun onDelete(v: View, position: Int, mResult: String) {
-                TalkSureCancelDialog(mContext, getScreenWidth(), "您确定要删除运单号为${mResult}的运单吗？\n删除后不可恢复") {
+                TalkSureCancelDialog(mContext, getScreenWidth(), "您确定要删除运单号为${it.getAllData()[position].billno}的运单吗？ 删除后不可恢复！") {
                     mPresenter?.deleteWayBill(mResult, position)
                 }.show()
             }

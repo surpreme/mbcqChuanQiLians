@@ -9,4 +9,5 @@ public class ARouterConstants {
     public static final String AddShipperActivity="/order/AddShipperActivity";
     public static final String AddReceiverActivity="/order/AddReceiverActivity";
     public static final String LocationActivity="/map/LocationActivity";
+    public static final String DepartureRecordActivity="/vehicles/DepartureRecordActivity";
 }

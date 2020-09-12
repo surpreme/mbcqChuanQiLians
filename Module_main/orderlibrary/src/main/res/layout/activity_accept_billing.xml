@@ -385,12 +385,12 @@
                 android:layout_marginRight="50dp"
                 android:background="@drawable/hollow_out_gray_center_white"
                 android:inputType="number"
-                tools:text="17530957256"
                 android:paddingLeft="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/card_number_ed"
                 app:layout_constraintLeft_toRightOf="@+id/card_number_ed"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/card_number_ed" />
+                app:layout_constraintTop_toTopOf="@+id/card_number_ed"
+                tools:text="17530957256" />
 
             <TextView
                 android:id="@+id/shipper_circle_tv"
@@ -984,23 +984,45 @@
                     android:textSize="16sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/receiver_circle_line" />
+
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/cost_information_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:id="@+id/cost_information_recycler"/>
-                <EditText
-                    android:hint="合计金额"
-                    android:id="@+id/total_amount_ed"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="20dp" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:inputType="numberDecimal"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/total_amount_title_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center|left"
+                        android:text="合计金额:"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/total_amount_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center|left"
+                        android:inputType="numberDecimal"
+                        android:text="0.00"
+                        android:textColor="@color/base_red"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
 
                 <GridLayout
-                    android:visibility="gone"
                     android:id="@+id/cost_information_gridview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1008,6 +1030,7 @@
                     android:layout_marginRight="20dp"
                     android:columnCount="2"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
@@ -1102,7 +1125,7 @@
                             android:inputType="numberDecimal" />
                     </LinearLayout>
 
-                   <LinearLayout
+                    <LinearLayout
                         android:id="@+id/mFuel_Cost_fee_ll"
                         android:layout_columnWeight="1"
                         android:orientation="horizontal">
@@ -1465,12 +1488,12 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cost_information_ll" />
 
-    <!--        <LinearLayout
-                android:id="@+id/pay_way_title_ll"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal" />
--->
+            <!--        <LinearLayout
+                        android:id="@+id/pay_way_title_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal" />
+        -->
             <HorizontalScrollView
                 android:id="@+id/pay_way_title_sl"
                 android:layout_width="match_parent"
@@ -1508,6 +1531,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:gravity="left"
+                android:minWidth="50dp"
                 android:textColor="@color/black"
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="@+id/receipt_requirements_title_tv"

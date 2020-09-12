@@ -20,7 +20,7 @@ class WaybillRecordAdapter(context: Context?) : BaseRecyclerAdapter<WaybillRecor
 
     var mOnRecyclerDeleteClickInterface: OnClickInterface.OnRecyclerDeleteClickInterface? = null
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ItemViewHolder).waybill_number_tv.text = mDatas[position].billno
         holder.waybill_number_tv.text = mDatas[position].billno
@@ -30,6 +30,8 @@ class WaybillRecordAdapter(context: Context?) : BaseRecyclerAdapter<WaybillRecor
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.shipper_tv.text = mDatas[position].shipper
         holder.receiver_tv.text = mDatas[position].consignee
+        holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].qty}件 ${mDatas[position].volumn}m³ ${mDatas[position].packages} ${mDatas[position].weight}Kg ${mDatas[position].accTypeStr}${mDatas[position].accSum}  "
+        holder.waybill_state_tv.text = mDatas[position].billStateStr
         holder.delete_ll.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
                 mOnRecyclerDeleteClickInterface?.onDelete(v, position, mDatas[position].id)
@@ -43,6 +45,7 @@ class WaybillRecordAdapter(context: Context?) : BaseRecyclerAdapter<WaybillRecor
         var waybill_number_tv: TextView = itemView.findViewById(R.id.waybill_number_tv)
         var record_checkbox_iv: ImageView = itemView.findViewById(R.id.record_checkbox_iv)
         var information_tv: TextView = itemView.findViewById(R.id.information_tv)
+        var waybill_state_tv: TextView = itemView.findViewById(R.id.waybill_state_tv)
         var cargo_No_tv: TextView = itemView.findViewById(R.id.cargo_No_tv)
         var waybill_time_tv: TextView = itemView.findViewById(R.id.waybill_time_tv)
         var shipper_outlets_tv: TextView = itemView.findViewById(R.id.shipper_outlets_tv)

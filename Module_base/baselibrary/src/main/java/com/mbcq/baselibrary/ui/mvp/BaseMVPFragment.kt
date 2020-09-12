@@ -11,7 +11,7 @@ import java.lang.reflect.ParameterizedType
  * @datetime: 2020/3/13
  * @desc:
  */
-abstract class BaseMVPListFragment<V : BaseView, T : BasePresenterImpl<V>> : BaseFragment(), BaseView {
+abstract class BaseMVPFragment<V : BaseView, T : BasePresenterImpl<V>> : BaseFragment(), BaseView {
     open fun onDestroys(){}
     var mPresenter: T? = null
 

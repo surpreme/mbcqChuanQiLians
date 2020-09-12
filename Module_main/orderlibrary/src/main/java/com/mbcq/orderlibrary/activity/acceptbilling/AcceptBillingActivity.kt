@@ -113,6 +113,12 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             }
 
         })
+        receipt_requirements_name_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                mPresenter?.getReceiptRequirement()
+            }
+
+        })
         package_name_down_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 mPresenter?.getPackage()
@@ -215,8 +221,14 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             }
 
         })
-    }
 
+        cancel_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                onBackPressed()
+            }
+
+        })
+    }
 
 
     private fun saveAcctBilling() {
@@ -238,7 +250,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         jsonObj.addProperty("WebidCodeStr", WebidCodeStr)
 
         //发货网点编码
-        val WebidCode =UserInformationUtil.getWebIdCode(mContext)
+        val WebidCode = UserInformationUtil.getWebIdCode(mContext)
         jsonObj.addProperty("WebidCode", WebidCode)
 
 
@@ -322,7 +334,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         val IsUrgentStr = "否" //是否急货
         jsonObj.addProperty("IsUrgentStr", IsUrgentStr)
 
-        val Transneed =mTransneed  //运输类型编码
+        val Transneed = mTransneed  //运输类型编码
         jsonObj.addProperty("Transneed", Transneed)
 
         val TransneedStr = mTransneedStr //运输类型
@@ -376,7 +388,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         jsonObj.addProperty("Volumn", Volumn)
 
         //合计金额
-        val AccSum = total_amount_ed.text.toString()
+        val AccSum = total_amount_tv.text.toString()
         jsonObj.addProperty("AccSum", AccSum)
         //付款方式编码
         val AccType = mAccType
@@ -507,9 +519,9 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         /**
          * 默认数据
          */
-        if (!mTransportModeArray.isNull(0)){
+        if (!mTransportModeArray.isNull(0)) {
             mTransportModeArray.optJSONObject(0)?.let {
-                mTransneed =it.optString("typecode")
+                mTransneed = it.optString("typecode")
                 mTransneedStr = it.optString("tdescribe")
             }
         }
@@ -526,7 +538,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         /**
          * 选中后的操作
          */
-        pay_way_title_rg.setOnCheckedChangeListener { _, checkedId ->
+        transport_method_rg.setOnCheckedChangeListener { _, checkedId ->
             mTransneed = mTransportModeArray.getJSONObject(checkedId).optString("typecode")
             mTransneedStr = mTransportModeArray.getJSONObject(checkedId).optString("tdescribe")
         }
@@ -535,25 +547,34 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
     override fun getPaymentModeS(result: String) {
         val mPaymentModeArray = JSONArray(result)
+
         /**
-         * 默认数据
+         * 如果有提付默认选中 如果没有提付选中第一个
          */
-        if (!mPaymentModeArray.isNull(0)){
-            mPaymentModeArray.optJSONObject(0)?.let {
-                mAccType =it.optString("typecode")
-                mAccTypeStr = it.optString("tdescribe")
-            }
-        }
+        var mWithdrawIndex = 0
         /**
          * 添加数据到view
          */
         for (mIndex in 0 until mPaymentModeArray.length()) {
             val obj = mPaymentModeArray.optJSONObject(mIndex)
             obj?.let {
+                if (obj.optString("tdescribe") == "提付") {
+                    mWithdrawIndex = mIndex
+                }
                 pay_way_title_rg.addView(RadioGroupUtil.addSelectItem(mContext, it.optString("tdescribe"), mIndex))
             }
         }
-        pay_way_title_rg.check(0)
+
+        pay_way_title_rg.check(mWithdrawIndex)
+        /**
+         * 默认数据
+         */
+        if (!mPaymentModeArray.isNull(mWithdrawIndex)) {
+            mPaymentModeArray.optJSONObject(mWithdrawIndex)?.let {
+                mAccType = it.optString("typecode")
+                mAccTypeStr = it.optString("tdescribe")
+            }
+        }
         /**
          * 选中后的操作
          */
@@ -588,12 +609,34 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         cost_information_recycler.layoutManager = GridLayoutManager(mContext, 2)
         cost_information_recycler.adapter = mEditTextAdapter
         mEditTextAdapter?.appendData(mKK)
+        mEditTextAdapter?.mOnToTalInterface = object : EditTextAdapter.OnToTalInterface {
+            override fun onItemFoused(v: View, position: Int, result: String, tag: String) {
+                mEditTextAdapter?.getData()?.let {
+                    var mToal = 0.00
+                    //返款不计算
+                    for (item in it) {
+                        if (item.inputStr.isNotBlank()) {
+                            if (item.tag != "accHuiKou") {
+                                val mItemPrice = item.inputStr.toDouble()
+                                mToal += mItemPrice
+                            }
+
+                        }
+                    }
+                    total_amount_tv.text = haveTwoDouble(mToal)
+
+
+                }
+
+            }
+
+        }
 
 
     }
 
     override fun saveAcceptBillingS(result: String) {
-        TalkSureDialog(mContext,getScreenWidth(),result) {
+        TalkSureDialog(mContext, getScreenWidth(), result) {
             onBackPressed()
         }.show()
 

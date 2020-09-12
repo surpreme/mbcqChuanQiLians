@@ -87,4 +87,5 @@ dependencies {
     implementation project( ':Module_main:accountlibrary')
     implementation project( ':Module_main:orderlibrary')
     implementation project( ':Module_main:maplibrary')
+    implementation project( ':Module_main:vehicleslibrary')
 }

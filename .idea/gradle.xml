@@ -17,7 +17,9 @@
             <option value="$PROJECT_DIR$/Module_main/Orderlibrary" />
             <option value="$PROJECT_DIR$/Module_main/accountlibrary" />
             <option value="$PROJECT_DIR$/Module_main/maplibrary" />
+            <option value="$PROJECT_DIR$/Module_main/vehicleslibrary" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/vehicleslibrary" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

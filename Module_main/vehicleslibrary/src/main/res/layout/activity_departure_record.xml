@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".DepartureRecordActivity">
+
+    <com.mbcq.baselibrary.view.CnToolbar
+        android:id="@+id/departure_billing_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/base_blue"
+        app:backButtonIsShow="true"
+        app:centerTextViewText="发车记录"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rightButtonIcon="@drawable/ic_search_icon" />
+
+    <LinearLayout
+        android:id="@+id/top_index_title_ll"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingTop="5dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/departure_billing_toolbar">
+
+        <TextView
+            android:id="@+id/short_feeder_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="短驳发车(2)"
+            android:textColor="@color/base_blue"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/main_line_departure_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="干线发车(2)"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/top_index_line_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/top_index_title_ll">
+
+        <View
+            android:id="@+id/short_feeder_line"
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_weight="1"
+            android:alpha="0.7"
+            android:background="@color/base_blue" />
+
+        <View
+            android:id="@+id/main_line_departure_line"
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_weight="1"
+            android:alpha="0.7" />
+
+
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/departure_record_fragment_fl"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/top_index_line_ll"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
