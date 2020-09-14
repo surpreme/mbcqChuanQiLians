@@ -1,13 +1,17 @@
 package com.mbcq.vehicleslibrary.fragment.shortfeeder
 
 
-import android.graphics.Rect
-import androidx.recyclerview.widget.RecyclerView
+import android.annotation.SuppressLint
+import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
-import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
-import com.mbcq.baselibrary.view.BaseItemDecoration
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.vehicleslibrary.DepartureRecordEvent
 import com.mbcq.vehicleslibrary.R
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 /**
  * @author: lzy
@@ -16,6 +20,9 @@ import com.mbcq.vehicleslibrary.R
  */
 
 class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, ShortFeederPresenter, ShortFeederBean>(), ShortFeederContract.View {
+    var mStartDateTag = ""
+    var mEndDateTag = ""
+    var mShippingOutletsTag = ""//发货网点
     override fun getLayoutResId(): Int = R.layout.fragment_short_feeder
     override fun getSmartLayoutId(): Int = R.id.short_feeder_smart
     override fun getSmartEmptyId(): Int = R.id.short_feeder_smart_frame
@@ -23,18 +30,38 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
     override fun setAdapter(): BaseRecyclerAdapter<ShortFeederBean> = ShortFeederAdapter(mContext)
     override fun getPageDatas(mCurrentPage: Int) {
         super.getPageDatas(mCurrentPage)
-        mPresenter?.getShortFeeder(mCurrentPage)
+        mPresenter?.getShortFeeder(mCurrentPage, mShippingOutletsTag, mStartDateTag, mEndDateTag)
 
     }
-    override fun addItemDecoration(): RecyclerView.ItemDecoration = object : BaseItemDecoration(mContext) {
-        override fun configExtraSpace(position: Int, count: Int, rect: Rect) {
-            rect.top = ScreenSizeUtils.dp2px(mContext, 10f)
-        }
 
-        override fun doRule(position: Int, rect: Rect) {
-            rect.bottom = rect.top
+    @SuppressLint("SimpleDateFormat")
+    override fun initExtra() {
+        super.initExtra()
+        mContext?.let {
+            val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+            val mDate = Date(System.currentTimeMillis())
+            val format = mDateFormat.format(mDate)
+            mStartDateTag = "$format 00:00:00"
+            mEndDateTag = "$format 23:59:59"
+            mShippingOutletsTag = UserInformationUtil.getWebIdCode(it) + ","
+
         }
     }
+
+    @SuppressLint("CheckResult")
+    override fun initDatas() {
+        super.initDatas()
+        RxBus.build().toObservable(this, DepartureRecordEvent::class.java).subscribe { msg ->
+            if (msg.type == 0) {
+                mShippingOutletsTag = msg.webCode
+                mStartDateTag = msg.startTime
+                mEndDateTag = msg.endTime
+                refresh()
+            }
+
+        }
+    }
+
     override fun getShortFeederS(list: List<ShortFeederBean>) {
         appendDatas(list)
     }

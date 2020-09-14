@@ -63,10 +63,13 @@ class ShortFeederPresenter : BasePresenterImpl<ShortFeederContract.View>(), Shor
     ]}
     干线 发车 Trunk Departure
      */
-    override fun getShortFeeder(page: Int) {
+    override fun getShortFeeder(page: Int, selWebidCode: String, startDate: String, endDate: String) {
         val mHttpParams = HttpParams()
         mHttpParams.put("page", page)
         mHttpParams.put("limit", 15)
+        mHttpParams.put("selWebidCode", selWebidCode)
+        mHttpParams.put("startDate", startDate)
+        mHttpParams.put("endDate", endDate)
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)

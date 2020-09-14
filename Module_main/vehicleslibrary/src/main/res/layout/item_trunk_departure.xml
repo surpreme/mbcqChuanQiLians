@@ -119,7 +119,7 @@
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vehicler_info_tv"
-        android:text="45票  100件 13m³  2000kg    运费¥200.00 " />
+        android:text="xx票  xxx件 xxm³  xxxxkg    运费¥xxx.xx " />
 
     <View
         android:id="@+id/line_view"

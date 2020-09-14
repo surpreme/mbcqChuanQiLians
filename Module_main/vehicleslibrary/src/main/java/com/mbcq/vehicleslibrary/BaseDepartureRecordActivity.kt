@@ -2,16 +2,12 @@ package com.mbcq.vehicleslibrary
 
 
 import android.os.Bundle
-import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
-import com.mbcq.baselibrary.view.SingleClick
-import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.CommonApplication
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.greendao.DaoSession

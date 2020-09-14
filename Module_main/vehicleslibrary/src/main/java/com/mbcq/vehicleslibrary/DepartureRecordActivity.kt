@@ -3,19 +3,14 @@ package com.mbcq.vehicleslibrary
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import com.mbcq.baselibrary.interfaces.OnClickInterface
-import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
+import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
-import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederFragment
-import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureFragment
 import kotlinx.android.synthetic.main.activity_departure_record.*
 
 /**
@@ -28,13 +23,22 @@ class DepartureRecordActivity : BaseDepartureRecordActivity<DepartureRecordContr
 
     override fun getLayoutId(): Int = R.layout.activity_departure_record
 
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
+        initObserve()
+
+    }
+
+    private fun initObserve() {
+
+    }
 
     override fun onClick() {
         super.onClick()
         short_feeder_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 indexTop(1)
-                setTabSelection (0)
+                setTabSelection(0)
 
             }
 
@@ -42,7 +46,7 @@ class DepartureRecordActivity : BaseDepartureRecordActivity<DepartureRecordContr
         main_line_departure_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 indexTop(2)
-                setTabSelection (1)
+                setTabSelection(1)
 
             }
 
@@ -57,12 +61,22 @@ class DepartureRecordActivity : BaseDepartureRecordActivity<DepartureRecordContr
                 }
 
                 override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                    FilterWithTimeDialog(getScreenWidth(), Gson().toJson(list), "webid", "webidCode", true,"发车记录筛选", true,  mClickInterface = object : OnClickInterface.OnClickInterface {
+                    FilterWithTimeDialog(getScreenWidth(), Gson().toJson(list), "webid", "webidCode", true, "${if (mFragmentTag_index == 0) "短驳" else "干线"}发车记录筛选", true, mClickInterface = object : OnClickInterface.OnClickInterface {
                         /**
                          * s1 网点
                          * s2  start@end
                          */
                         override fun onResult(s1: String, s2: String) {
+                            val mDepartureRecordBus = DepartureRecordEvent()
+                            mDepartureRecordBus.type = mFragmentTag_index
+                            mDepartureRecordBus.webCode = s1
+                            val timeList = s2.split("@")
+                            if (timeList.isNotEmpty() && timeList.size == 2) {
+                                mDepartureRecordBus.startTime = timeList[0]
+                                mDepartureRecordBus.endTime = timeList[1]
+                            }
+                            RxBus.build().post(mDepartureRecordBus)
+
 
                         }
 

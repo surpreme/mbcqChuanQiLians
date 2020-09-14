@@ -31,7 +31,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="短驳发车(2)"
+            android:text="短驳发车(x)"
             android:textColor="@color/base_blue"
             android:textSize="15sp" />
 
@@ -41,7 +41,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="干线发车(2)"
+            android:text="干线发车(x)"
             android:textColor="@color/black"
             android:textSize="15sp" />
 

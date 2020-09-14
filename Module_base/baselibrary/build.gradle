@@ -97,6 +97,7 @@ dependencies {
     api 'com.lzy.net:okserver:2.0.5'
     //banner
     api 'com.youth.banner:banner:2.1.0'
+
     //时间选择器
     api 'com.contrarywind:Android-PickerView:4.1.9'
     //侧滑删除

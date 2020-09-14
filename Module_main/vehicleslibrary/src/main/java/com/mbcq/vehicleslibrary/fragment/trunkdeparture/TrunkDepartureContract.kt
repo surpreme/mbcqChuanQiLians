@@ -17,7 +17,7 @@ class TrunkDepartureContract {
     }
 
     interface Presenter : BasePresenter<View> {
-        fun getTrunkDeparture(page:Int)
+        fun getTrunkDeparture(page:Int, selWebidCode: String, startDate: String, endDate: String)
 
     }
 }

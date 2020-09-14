@@ -1,17 +1,27 @@
 package com.mbcq.vehicleslibrary.fragment.trunkdeparture
 
 
+import android.annotation.SuppressLint
+import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.vehicleslibrary.DepartureRecordEvent
 import com.mbcq.vehicleslibrary.R
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * @author: lzy
  * @time: 2020-09-12 15:44:58
- * 短驳发车记录
+ * 干线发车记录
  */
 
 class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View, TrunkDeparturePresenter, TrunkDepartureBean>(), TrunkDepartureContract.View {
+    var mStartDateTag = ""
+    var mEndDateTag = ""
+    var mShippingOutletsTag = ""//发货网点
     override fun getSmartLayoutId(): Int = R.id.trunk_departure_smart
 
     override fun getSmartEmptyId(): Int = R.id.trunk_departure_smart_frame
@@ -25,8 +35,38 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
         appendDatas(list)
     }
 
+    @SuppressLint("SimpleDateFormat")
+    override fun initExtra() {
+        super.initExtra()
+        mContext?.let {
+            val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+            val mDate = Date(System.currentTimeMillis())
+            val format = mDateFormat.format(mDate)
+            mStartDateTag = "$format 00:00:00"
+            mEndDateTag = "$format 23:59:59"
+            mShippingOutletsTag = UserInformationUtil.getWebIdCode(it) + ","
+
+        }
+
+    }
+
+    @SuppressLint("CheckResult")
+    override fun initDatas() {
+        super.initDatas()
+        RxBus.build().toObservable(this, DepartureRecordEvent::class.java).subscribe { msg ->
+            if (msg.type == 1) {
+                mShippingOutletsTag = msg.webCode
+                mStartDateTag = msg.startTime
+                mEndDateTag = msg.endTime
+                refresh()
+            }
+
+        }
+    }
+
     override fun getPageDatas(mCurrentPage: Int) {
         super.getPageDatas(mCurrentPage)
-        mPresenter?.getTrunkDeparture(mCurrentPage)
+        mPresenter?.getTrunkDeparture(mCurrentPage, mShippingOutletsTag, mStartDateTag, mEndDateTag)
+
     }
 }

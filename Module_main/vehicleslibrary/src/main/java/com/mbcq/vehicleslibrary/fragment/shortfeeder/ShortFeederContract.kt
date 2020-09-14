@@ -16,7 +16,7 @@ class ShortFeederContract {
     }
 
     interface Presenter : BasePresenter<View> {
-        fun getShortFeeder(page:Int)
+        fun getShortFeeder(page:Int, selWebidCode: String, startDate: String, endDate: String)
 
     }
 }
