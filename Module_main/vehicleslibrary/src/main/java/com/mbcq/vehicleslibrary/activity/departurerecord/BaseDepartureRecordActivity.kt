@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary
+package com.mbcq.vehicleslibrary.activity.departurerecord
 
 
 import android.os.Bundle
@@ -12,6 +12,7 @@ import com.mbcq.commonlibrary.CommonApplication
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.greendao.DaoSession
 import com.mbcq.commonlibrary.greendao.WebAreaDbInfoDao
+import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederFragment
 import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureFragment
 import kotlinx.android.synthetic.main.activity_departure_record.*

@@ -52,7 +52,7 @@ class AddShipperActivity : BaseMVPActivity<AddShipperContract.View, AddShipperPr
         }
         sure_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                if (name_ed.text.toString().isNotEmpty() && phone_ed.text.toString().isNotEmpty() && address_ed.text.toString().isNotEmpty()) {
+                if (name_ed.text.toString().isNotEmpty() && phone_ed.text.toString().isNotEmpty() && address_ed.text.toString().isNotEmpty()&&mShipperTel_ed.text.toString().isNotEmpty()) {
 //                    val datas = "${name_ed.text}@${phone_ed.text}@${address_ed.text}"
                     val obj=JSONObject()
                     obj.put("name",name_ed.text.toString())

@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.addtrunkdeparture
+package com.mbcq.vehicleslibrary.activity.addtrunkdeparture
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 

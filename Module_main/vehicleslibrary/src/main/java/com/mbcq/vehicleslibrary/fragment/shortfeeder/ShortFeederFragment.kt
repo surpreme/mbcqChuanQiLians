@@ -2,12 +2,17 @@ package com.mbcq.vehicleslibrary.fragment.shortfeeder
 
 
 import android.annotation.SuppressLint
+import android.view.View
+import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
-import com.mbcq.vehicleslibrary.DepartureRecordEvent
+import com.mbcq.baselibrary.view.SingleClick
+import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.vehicleslibrary.activity.departurerecord.DepartureRecordEvent
 import com.mbcq.vehicleslibrary.R
+import kotlinx.android.synthetic.main.fragment_short_feeder.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,6 +37,16 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
         super.getPageDatas(mCurrentPage)
         mPresenter?.getShortFeeder(mCurrentPage, mShippingOutletsTag, mStartDateTag, mEndDateTag)
 
+    }
+
+    override fun onClick() {
+        super.onClick()
+        add_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                ARouter.getInstance().build(ARouterConstants.AddShortFeederActivity).navigation()
+            }
+
+        })
     }
 
     @SuppressLint("SimpleDateFormat")

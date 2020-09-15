@@ -1,14 +1,14 @@
-package com.mbcq.vehicleslibrary.addtrunkdeparture
+package com.mbcq.vehicleslibrary.activity
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
 
 /**
  * @author: lzy
- * @time: 2020-09-14 11:02:45
+ * @time: 2020-09-15 10:12:09
  */
 
-class AddTrunkDepartureContract {
+class ShortFeederHouseContract {
 
     interface View : BaseView {
 

@@ -12,7 +12,10 @@ public class ApiInterface {
      */
     public static final String ACCEPT_BILLING_WAYBILL_NUMBER_GET = BASE_URI + "RuleBillno/SelRule2Billno";
     /**
-     * 受理开单 到达网点 Arrive at the outlet
+     * *1登录
+     * *2受理开单
+     * *3发车
+     * 到达网点 Arrive at the outlet
      */
     public static final String ACCEPT_OUTLET_GET = BASE_URI + "WebMain/SelWebMainByCondition";
     /**
@@ -91,6 +94,25 @@ public class ApiInterface {
      * 发车记录  短驳发车 获取所有信息
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET = BASE_URI + "DbVehicleOpe/SelDbVehicleByCondition";
+    /**
+     * 添加短驳计划装车
+     * 获取短驳 发车批次号 get
+     */
+    public static final String ADD_SHORT_TRANSFER_DEPARTURE_BATCH_NUMBER_GET = BASE_URI + "DbVehicleOpe/SelDbInOneVehicleFlag";
+    /**
+     * 车辆档案 查询
+     *GET Vehicles/SelVehiclesByCondition
+     */
+    public static final String VEHICLE_SELECT_INFO_GET = BASE_URI + "Vehicles/SelVehiclesByCondition";
+    /**
+     * 目的地 查询
+     * Destination/SelDestinationByCondition
+     */
+    public static final String DESTINATION_SELECT_INFO_GET = BASE_URI + "Destination/SelDestinationByCondition";
+    /**
+     * 短驳和干线 运单库存 Waybill inventory
+     */
+    public static final String WAYBILL_INVENTORY_SELECT_INFO_GET = BASE_URI + "WaybillFcdOpe/SelDbGxWaybillFcdByCon";
 
 
 }

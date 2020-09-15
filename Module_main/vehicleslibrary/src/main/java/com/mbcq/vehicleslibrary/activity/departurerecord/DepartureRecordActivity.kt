@@ -1,7 +1,6 @@
-package com.mbcq.vehicleslibrary
+package com.mbcq.vehicleslibrary.activity.departurerecord
 
 
-import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
@@ -11,6 +10,7 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
+import com.mbcq.vehicleslibrary.R
 import kotlinx.android.synthetic.main.activity_departure_record.*
 
 /**
@@ -22,17 +22,6 @@ import kotlinx.android.synthetic.main.activity_departure_record.*
 class DepartureRecordActivity : BaseDepartureRecordActivity<DepartureRecordContract.View, DepartureRecordPresenter>(), DepartureRecordContract.View {
 
     override fun getLayoutId(): Int = R.layout.activity_departure_record
-
-    override fun initViews(savedInstanceState: Bundle?) {
-        super.initViews(savedInstanceState)
-        initObserve()
-
-    }
-
-    private fun initObserve() {
-
-    }
-
     override fun onClick() {
         super.onClick()
         short_feeder_tv.setOnClickListener(object : SingleClick() {

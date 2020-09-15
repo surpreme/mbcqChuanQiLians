@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary
+package com.mbcq.vehicleslibrary.activity.departurerecord
 
 /**
  * 1短驳

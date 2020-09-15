@@ -74,7 +74,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
                 mShipperTel = mDatas.optString("shipperTel")
                 mShipperCid = mDatas.optString("shipperCid")
                 mShipperId = mDatas.optString("shipperId")
-                add_shipper_tv.text = "$mShipperMb $mShipper \n$mShipperAddr "
+                add_shipper_tv.text = "$mShipper $mShipperMb \n$mShipperAddr "
 
 
             }

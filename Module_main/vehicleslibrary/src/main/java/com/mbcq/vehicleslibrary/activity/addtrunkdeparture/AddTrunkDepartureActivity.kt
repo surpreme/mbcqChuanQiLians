@@ -1,10 +1,9 @@
-package com.mbcq.vehicleslibrary.addtrunkdeparture
+package com.mbcq.vehicleslibrary.activity.addtrunkdeparture
 
 
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.commonlibrary.ARouterConstants
-import com.mbcq.commonlibrary.ApiInterface
 import com.mbcq.vehicleslibrary.R
 
 /**

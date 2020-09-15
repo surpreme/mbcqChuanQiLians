@@ -6,7 +6,7 @@ import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
-import com.mbcq.vehicleslibrary.DepartureRecordEvent
+import com.mbcq.vehicleslibrary.activity.departurerecord.DepartureRecordEvent
 import com.mbcq.vehicleslibrary.R
 import java.text.DateFormat
 import java.text.SimpleDateFormat
