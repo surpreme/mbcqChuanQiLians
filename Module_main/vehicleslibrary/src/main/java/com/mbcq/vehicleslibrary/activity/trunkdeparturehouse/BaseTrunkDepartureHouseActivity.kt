@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.activity.shortfeederhouse
+package com.mbcq.vehicleslibrary.activity.trunkdeparturehouse
 
 
 import android.annotation.SuppressLint
@@ -18,14 +18,14 @@ import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.inventorylist.ShortFeederHouseInventoryListAdapter
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.loadinglist.ShortFeederHouseLoadingListAdapter
-import kotlinx.android.synthetic.main.activity_short_feeder_house.*
+import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.*
 
 /**
  * @author: lzy
  * @time: 2020-09-15 10:12:09
  * 短驳计划装车
  */
-abstract class BasesShortFeederHouseActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
+abstract class BaseTrunkDepartureHouseActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
 
     var mTypeIndex = 1
 
@@ -38,7 +38,7 @@ abstract class BasesShortFeederHouseActivity<V : BaseView, T : BasePresenterImpl
 
     override fun onClick() {
         super.onClick()
-        short_feeder_house_toolbar.setBackButtonOnClickListener(object : SingleClick() {
+        trunk_departure_house_toolbar.setBackButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 onBackPressed()
             }
@@ -48,14 +48,26 @@ abstract class BasesShortFeederHouseActivity<V : BaseView, T : BasePresenterImpl
             override fun onTabSelected(tab: TabLayout.Tab) {
                 if (tab.text.toString().contains("库存清单")) {
                     inventoryList_recycler.visibility = View.VISIBLE
+                    operating_interval_cl.visibility = View.GONE
                     loadingList_recycler.visibility = View.GONE
+                    all_selected_checked.visibility=View.VISIBLE
+                    operating_cardView.visibility=View.VISIBLE
                     operating_btn.text = "添加本车"
                     mTypeIndex = 1
                 } else if (tab.text.toString().contains("配载清单")) {
                     inventoryList_recycler.visibility = View.GONE
+                    operating_interval_cl.visibility = View.GONE
                     loadingList_recycler.visibility = View.VISIBLE
+                    all_selected_checked.visibility=View.VISIBLE
+                    operating_cardView.visibility=View.VISIBLE
                     operating_btn.text = "移出本车"
                     mTypeIndex = 2
+                } else if (tab.text.toString().contains("沿途网点")) {
+                    inventoryList_recycler.visibility = View.GONE
+                    loadingList_recycler.visibility = View.GONE
+                    operating_interval_cl.visibility = View.VISIBLE
+                    all_selected_checked.visibility=View.GONE
+                    operating_cardView.visibility=View.GONE
                 }
             }
 
@@ -119,6 +131,7 @@ abstract class BasesShortFeederHouseActivity<V : BaseView, T : BasePresenterImpl
         setStatusBar(R.color.base_blue)
         short_feeder_house_tabLayout.addTab(short_feeder_house_tabLayout.newTab().setText("库存清单(0)"))
         short_feeder_house_tabLayout.addTab(short_feeder_house_tabLayout.newTab().setText("配载清单(0)"))
+        short_feeder_house_tabLayout.addTab(short_feeder_house_tabLayout.newTab().setText("沿途网点"))
         initInventoryList()
         initLoadingList()
     }
@@ -177,7 +190,6 @@ abstract class BasesShortFeederHouseActivity<V : BaseView, T : BasePresenterImpl
             })
         }
     }
-
 
 
 }

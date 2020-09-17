@@ -2,7 +2,7 @@ package com.mbcq.vehicleslibrary.activity.shortfeederhouse
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
-import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.bean.ShortFeederHouseListBean
+import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import org.json.JSONObject
 
 /**
@@ -14,7 +14,7 @@ class ShortFeederHouseContract {
 
     interface View : BaseView {
         fun saveInfoS(result: String)
-        fun getInventoryS(list:List<ShortFeederHouseListBean>)
+        fun getInventoryS(list:List<StockWaybillListBean>)
 
     }
 

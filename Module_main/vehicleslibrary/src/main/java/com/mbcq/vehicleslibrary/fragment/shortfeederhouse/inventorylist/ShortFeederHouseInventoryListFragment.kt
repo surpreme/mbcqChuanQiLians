@@ -12,7 +12,7 @@ import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
-import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.bean.ShortFeederHouseListBean
+import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.event.ShortFeederHouseInventoryListEvent
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.loadinglist.ShortFeederHouseLoadingListFragment
 import kotlinx.android.synthetic.main.fragment_short_feeder_house_inventory_list.*
@@ -23,10 +23,10 @@ import kotlinx.android.synthetic.main.fragment_short_feeder_house_inventory_list
  * 库存清单 弃用 已完成
  */
 
-class ShortFeederHouseInventoryListFragment : BaseListMVPFragment<ShortFeederHouseInventoryListFragmentContract.View, ShortFeederHouseInventoryListFragmentPresenter, ShortFeederHouseListBean>(), ShortFeederHouseInventoryListFragmentContract.View {
+class ShortFeederHouseInventoryListFragment : BaseListMVPFragment<ShortFeederHouseInventoryListFragmentContract.View, ShortFeederHouseInventoryListFragmentPresenter, StockWaybillListBean>(), ShortFeederHouseInventoryListFragmentContract.View {
     override fun getRecyclerViewId(): Int = R.id.inventory_list_recycler
 
-    override fun setAdapter(): BaseRecyclerAdapter<ShortFeederHouseListBean> = ShortFeederHouseInventoryListAdapter(mContext).also {
+    override fun setAdapter(): BaseRecyclerAdapter<StockWaybillListBean> = ShortFeederHouseInventoryListAdapter(mContext).also {
         all_selected_checked.setOnCheckedChangeListener { _, isChecked ->
             it.checkedAll(isChecked)
         }
@@ -44,13 +44,13 @@ class ShortFeederHouseInventoryListFragment : BaseListMVPFragment<ShortFeederHou
         }
     }
 
-    var UnShowedList = mutableListOf<ShortFeederHouseListBean>()
+    var UnShowedList = mutableListOf<StockWaybillListBean>()
     override fun onClick() {
         super.onClick()
         operating_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                val list = mutableListOf<ShortFeederHouseListBean>()
-                val unCheckList = mutableListOf<ShortFeederHouseListBean>()
+                val list = mutableListOf<StockWaybillListBean>()
+                val unCheckList = mutableListOf<StockWaybillListBean>()
                 for ((index, item) in (adapter.getAllData()).withIndex()) {
                     if (item.isChecked) {
                         item.isChecked = false
@@ -94,7 +94,7 @@ class ShortFeederHouseInventoryListFragment : BaseListMVPFragment<ShortFeederHou
     override fun getLayoutResId(): Int = R.layout.fragment_short_feeder_house_inventory_list
 
 
-    override fun getPageS(list: List<ShortFeederHouseListBean>) {
+    override fun getPageS(list: List<StockWaybillListBean>) {
         adapter.appendData(list)
     }
 

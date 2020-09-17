@@ -1,5 +1,5 @@
 package com.mbcq.vehicleslibrary.activity.departurerecord
 
-import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.bean.ShortFeederHouseListBean
+import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 
-data class ShortFeederHouseEvent (var list: List<ShortFeederHouseListBean>)
+data class ShortFeederHouseEvent (var list: List<StockWaybillListBean>)

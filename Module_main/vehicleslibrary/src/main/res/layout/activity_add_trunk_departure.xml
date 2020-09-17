@@ -965,11 +965,12 @@
                 android:id="@+id/direct_shipping_outlets_tips_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
-                android:textColor="#F2AD4A"
+                android:layout_marginRight="15dp"
                 android:text="注：勾选后，所选运单的卸货网点默认为运单到货网点，自动添加途径地"
+                android:textColor="#F2AD4A"
                 app:layout_constraintTop_toBottomOf="@+id/direct_shipping_outlets_cb" />
+
             <LinearLayout
                 android:id="@+id/route_fee_breakdown_ll"
                 android:layout_width="match_parent"
@@ -1013,6 +1014,7 @@
                     android:src="@drawable/ic_down_icon" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/route_fee_breakdown_hide_ll"
                 android:layout_width="match_parent"
@@ -1032,12 +1034,12 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="现付运费"
+                        android:text="基本运费"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <EditText
-                        android:id="@+id/cash_freight_ed"
+                        android:id="@+id/basic_freight_ed"
                         android:layout_width="0dp"
                         android:layout_height="35dp"
                         android:layout_gravity="center"
@@ -1053,6 +1055,7 @@
                         tools:text="200" />
                 </LinearLayout>
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1064,12 +1067,12 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="油卡卡号"
+                        android:text="提货费"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <EditText
-                        android:id="@+id/oil_card_number_ed"
+                        android:id="@+id/delivery_fee_ed"
                         android:layout_width="0dp"
                         android:layout_height="35dp"
                         android:layout_gravity="center"
@@ -1078,11 +1081,13 @@
                         android:layout_weight="1"
                         android:background="@drawable/hollow_out_gray"
                         android:gravity="center|left"
+                        android:inputType="numberDecimal"
                         android:paddingLeft="10dp"
                         android:textColor="@color/black"
                         android:textSize="17sp"
                         tools:text="200" />
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1095,12 +1100,12 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="现付油卡"
+                        android:text="多点装"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <EditText
-                        android:id="@+id/cash_card_ed"
+                        android:id="@+id/more_post_area_ed"
                         android:layout_width="0dp"
                         android:layout_height="35dp"
                         android:layout_gravity="center"
@@ -1127,11 +1132,140 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="油卡备注"
+                        android:text="多点卸"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/more_less_area_ed"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/hollow_out_gray"
+                        android:gravity="center|left"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        tools:text="200" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center"
+                        android:text="送货费"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/delivery_charges_ed"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/hollow_out_gray"
+                        android:gravity="center|left"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        tools:text="200" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center"
+                        android:text="放空费"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/shortfall_fee_ed"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/hollow_out_gray"
+                        android:gravity="center|left"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        tools:text="200" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center"
+                        android:text="其他费用"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/others_fee_ed"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/hollow_out_gray"
+                        android:gravity="center|left"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        tools:text="200" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center"
+                        android:text="备      注"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/remark_ed"
                         android:layout_width="0dp"
                         android:layout_height="35dp"
                         android:layout_gravity="center"
@@ -1144,11 +1278,44 @@
                         android:paddingLeft="10dp"
                         android:textColor="@color/black"
                         android:textSize="17sp"
-                        tools:text="备注" />
+                        tools:text="200" />
+                </LinearLayout>
+
+      <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center"
+                        android:text="合      计"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/total_trunk_departure_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/hollow_out_gray"
+                        android:gravity="center|left"
+                        android:inputType="text"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        tools:text="200" />
                 </LinearLayout>
 
 
             </LinearLayout>
+
             <Button
                 android:id="@+id/next_step_btn"
                 android:layout_width="match_parent"
@@ -1160,7 +1327,7 @@
                 android:text="下一步"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/route_fee_breakdown_ll" />
+                app:layout_constraintTop_toBottomOf="@+id/route_fee_breakdown_hide_ll" />
 
             <View
                 android:layout_width="match_parent"

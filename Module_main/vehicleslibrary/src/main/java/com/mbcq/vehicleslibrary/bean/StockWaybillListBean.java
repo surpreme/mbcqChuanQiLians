@@ -1,6 +1,6 @@
-package com.mbcq.vehicleslibrary.fragment.shortfeederhouse.bean;
+package com.mbcq.vehicleslibrary.bean;
 
-public class ShortFeederHouseListBean {
+public class StockWaybillListBean {
 
     /**
      * id : 2

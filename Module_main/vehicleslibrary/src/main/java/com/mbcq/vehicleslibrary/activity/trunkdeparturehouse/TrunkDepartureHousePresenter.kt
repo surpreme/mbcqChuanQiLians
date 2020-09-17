@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.fragment.shortfeederhouse.inventorylist
+package com.mbcq.vehicleslibrary.activity.trunkdeparturehouse
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -10,10 +10,10 @@ import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2020-09-15 11:01:40
+ * @time: 2018.08.25
  */
 
-class ShortFeederHouseInventoryListFragmentPresenter : BasePresenterImpl<ShortFeederHouseInventoryListFragmentContract.View>(), ShortFeederHouseInventoryListFragmentContract.Presenter {
+class TrunkDepartureHousePresenter : BasePresenterImpl<TrunkDepartureHouseContract.View>(), TrunkDepartureHouseContract.Presenter {
     /**
      * {"code":0,"msg":"","count":6,"data":[
     {
@@ -109,19 +109,19 @@ class ShortFeederHouseInventoryListFragmentPresenter : BasePresenterImpl<ShortFe
     }
     ]}
      */
-    override fun getPage(page: Int) {
-        val params=HttpParams()
-        params.put("page",1)
-        params.put("limit",1000)
-        get<String>(ApiInterface.WAYBILL_INVENTORY_SELECT_INFO_GET,params,object:CallBacks{
+
+    override fun getInventory(page: Int) {
+        val params = HttpParams()
+        params.put("page", 1)
+        params.put("limit", 1000)
+        get<String>(ApiInterface.WAYBILL_INVENTORY_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
 
                 val obj = JSONObject(result)
-                mView?.getPageS(Gson().fromJson<List<StockWaybillListBean>>(obj.optString("data"), object : TypeToken<List<StockWaybillListBean>>() {}.type))
+                mView?.getInventoryS(Gson().fromJson<List<StockWaybillListBean>>(obj.optString("data"), object : TypeToken<List<StockWaybillListBean>>() {}.type))
 
             }
 
         })
     }
-
 }

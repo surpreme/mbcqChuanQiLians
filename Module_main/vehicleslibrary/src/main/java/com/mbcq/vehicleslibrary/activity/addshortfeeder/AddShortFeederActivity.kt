@@ -94,6 +94,7 @@ class AddShortFeederActivity : BaseAddShortFeederActivity<AddShortFeederContract
         obj.put("WebidCodeStr", UserInformationUtil.getWebIdCodeStr(mContext))// 发车网点
         val json = GsonUtils.toPrettyFormat(obj.toString())
         ARouter.getInstance().build(ARouterConstants.ShortFeederHouseActivity).withString("ShortFeederHouse", json).navigation()
+        this.finish()
     }
 
     override fun onClick() {

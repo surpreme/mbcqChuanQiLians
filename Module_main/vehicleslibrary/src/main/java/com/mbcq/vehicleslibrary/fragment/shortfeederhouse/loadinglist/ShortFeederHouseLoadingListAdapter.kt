@@ -2,24 +2,18 @@ package com.mbcq.vehicleslibrary.fragment.shortfeederhouse.loadinglist
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.media.Image
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
-import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.bean.ShortFeederHouseListBean
-import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.event.ShortFeederHouseInventoryListEvent
-import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureAdapter
+import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 
-class ShortFeederHouseLoadingListAdapter(context: Context?) : BaseRecyclerAdapter<ShortFeederHouseListBean>(context = context) {
+class ShortFeederHouseLoadingListAdapter(context: Context?) : BaseRecyclerAdapter<StockWaybillListBean>(context = context) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_short_feeder_house, parent, false))
     fun checkedAll(isC: Boolean) {
         for ((index, item) in mDatas.withIndex()) {
@@ -31,7 +25,7 @@ class ShortFeederHouseLoadingListAdapter(context: Context?) : BaseRecyclerAdapte
     var mOnRemoveInterface: OnRemoveInterface? = null
 
     interface OnRemoveInterface {
-        fun onClick(position: Int, item: ShortFeederHouseListBean)
+        fun onClick(position: Int, item: StockWaybillListBean)
     }
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

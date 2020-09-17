@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.fragment.shortfeederhouse.inventorylist
+package com.mbcq.vehicleslibrary.activity.trunkdeparturehouse
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
@@ -6,18 +6,21 @@ import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 
 /**
  * @author: lzy
- * @time: 2020-09-15 11:01:40
+ * @time: 2018.08.25
  */
 
-class ShortFeederHouseInventoryListFragmentContract {
+class TrunkDepartureHouseContract {
 
     interface View : BaseView {
-        fun getPageS(list:List<StockWaybillListBean>)
+        /**
+         * 库存运单
+         */
+        fun getInventoryS(list:List<StockWaybillListBean>)
 
     }
 
     interface Presenter : BasePresenter<View> {
-        fun getPage(page: Int)
+        fun getInventory(page: Int)
 
     }
 }

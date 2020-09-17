@@ -12,7 +12,7 @@ import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.vehicleslibrary.R
-import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.bean.ShortFeederHouseListBean
+import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import kotlinx.android.synthetic.main.activity_short_feeder_house.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -109,14 +109,14 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
             ARouter.getInstance().build(ARouterConstants.DepartureRecordActivity).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                     .withBoolean("IsRefresh", true)
                     .navigation()
+            this.finish()
         }.show()
 
 
     }
 
-    override fun getInventoryS(list: List<ShortFeederHouseListBean>) {
-        mAllDatas.addAll(list)
+    override fun getInventoryS(list: List<StockWaybillListBean>) {
         short_feeder_house_tabLayout.getTabAt(0)?.text = "库存清单(${list.size})"
-        mInventoryListAdapter?.appendData(mAllDatas)
+        mInventoryListAdapter?.appendData(list)
     }
 }

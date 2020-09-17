@@ -11,10 +11,14 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class AddTrunkDepartureContract {
 
     interface View : BaseView {
+        fun getDepartureBatchNumberS(result: String)
+        fun getVehicleS(result: String)
 
     }
 
     interface Presenter : BasePresenter<View> {
+        fun getDepartureBatchNumber()
+        fun getVehicles()
 
     }
 }

@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
-import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.bean.ShortFeederHouseListBean
+import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import org.json.JSONObject
 
 /**
@@ -128,7 +128,7 @@ class ShortFeederHousePresenter : BasePresenterImpl<ShortFeederHouseContract.Vie
             override fun onResult(result: String) {
 
                 val obj = JSONObject(result)
-                mView?.getInventoryS(Gson().fromJson<List<ShortFeederHouseListBean>>(obj.optString("data"), object : TypeToken<List<ShortFeederHouseListBean>>() {}.type))
+                mView?.getInventoryS(Gson().fromJson<List<StockWaybillListBean>>(obj.optString("data"), object : TypeToken<List<StockWaybillListBean>>() {}.type))
 
             }
 
