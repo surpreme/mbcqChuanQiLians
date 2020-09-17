@@ -30,7 +30,13 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
     fun removeItem(position: Int) {
         mDatas.removeAt(position)
         notifyItemRemoved(position)
-        notifyItemRangeChanged(position,mDatas.size-position)
+        notifyItemRangeChanged(position, mDatas.size - position)
+    }
+
+    fun replaceData(list: List<T>) {
+        mDatas.clear()
+        mDatas.addAll(list)
+        notifyDataSetChanged()
     }
 
     fun clearData() {

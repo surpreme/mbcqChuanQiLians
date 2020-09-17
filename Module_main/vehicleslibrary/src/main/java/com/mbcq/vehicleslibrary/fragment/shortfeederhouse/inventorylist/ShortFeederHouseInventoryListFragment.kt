@@ -14,12 +14,13 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.bean.ShortFeederHouseListBean
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.event.ShortFeederHouseInventoryListEvent
+import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.loadinglist.ShortFeederHouseLoadingListFragment
 import kotlinx.android.synthetic.main.fragment_short_feeder_house_inventory_list.*
 
 /**
  * @author: lzy
  * @time: 2020-09-15 11:01:40
- * 库存清单
+ * 库存清单 弃用 已完成
  */
 
 class ShortFeederHouseInventoryListFragment : BaseListMVPFragment<ShortFeederHouseInventoryListFragmentContract.View, ShortFeederHouseInventoryListFragmentPresenter, ShortFeederHouseListBean>(), ShortFeederHouseInventoryListFragmentContract.View {
@@ -43,6 +44,7 @@ class ShortFeederHouseInventoryListFragment : BaseListMVPFragment<ShortFeederHou
         }
     }
 
+    var UnShowedList = mutableListOf<ShortFeederHouseListBean>()
     override fun onClick() {
         super.onClick()
         operating_btn.setOnClickListener(object : SingleClick() {
@@ -51,16 +53,29 @@ class ShortFeederHouseInventoryListFragment : BaseListMVPFragment<ShortFeederHou
                 val unCheckList = mutableListOf<ShortFeederHouseListBean>()
                 for ((index, item) in (adapter.getAllData()).withIndex()) {
                     if (item.isChecked) {
-                        item.isChecked=false
+                        item.isChecked = false
                         list.add(item)
                     } else {
                         unCheckList.add(item)
                     }
                 }
-                RxBus.build().postSticky(ShortFeederHouseInventoryListEvent(1, list))
+                if (list.isEmpty()) {
+                    showToast("请至少选择一个库存进行操作")
+                    unCheckList.clear()
+                    return
+                }
+                if (ShortFeederHouseLoadingListFragment().isAdded) {
+                    if (UnShowedList.isNotEmpty())
+                        UnShowedList.clear()
+                    RxBus.build().postSticky(ShortFeederHouseInventoryListEvent(1, list))
+                } else {
+                    UnShowedList.addAll(list)
+                    RxBus.build().postSticky(ShortFeederHouseInventoryListEvent(1, UnShowedList))
+
+                }
                 adapter.clearData()
                 adapter.appendData(unCheckList)
-                all_selected_checked.isChecked=false
+                all_selected_checked.isChecked = false
             }
 
         })
@@ -82,9 +97,10 @@ class ShortFeederHouseInventoryListFragment : BaseListMVPFragment<ShortFeederHou
     override fun getPageS(list: List<ShortFeederHouseListBean>) {
         adapter.appendData(list)
     }
+
     override fun onDetach() {
         super.onDetach()
-        RxBus.build().removeStickyEvent( ShortFeederHouseInventoryListEvent::class.java)
+        RxBus.build().removeStickyEvent(ShortFeederHouseInventoryListEvent::class.java)
 
     }
 }

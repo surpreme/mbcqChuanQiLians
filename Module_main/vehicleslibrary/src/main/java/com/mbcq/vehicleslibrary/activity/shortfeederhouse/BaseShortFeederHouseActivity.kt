@@ -1,32 +1,26 @@
-package com.mbcq.vehicleslibrary.activity.departurerecord
+package com.mbcq.vehicleslibrary.activity.shortfeederhouse
 
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.alibaba.android.arouter.facade.annotation.Autowired
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.material.tabs.TabLayout
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
-import com.mbcq.baselibrary.view.SingleClick
-import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.inventorylist.ShortFeederHouseInventoryListFragment
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.loadinglist.ShortFeederHouseLoadingListFragment
 import kotlinx.android.synthetic.main.activity_short_feeder_house.*
-import org.json.JSONObject
 
 /**
  * @author: lzy
  * @time: 2020-09-15 10:12:09
+ * 弃用 但已完成
  */
 abstract class BaseShortFeederHouseActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
     var mShortFeederHouseInventoryListFragment: ShortFeederHouseInventoryListFragment? = null

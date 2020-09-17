@@ -310,6 +310,7 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/cash_freight_ed"
                         android:layout_width="0dp"
                         android:layout_height="35dp"
                         android:layout_gravity="center"
@@ -341,6 +342,7 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/oil_card_number_ed"
                         android:layout_width="0dp"
                         android:layout_height="35dp"
                         android:layout_gravity="center"
@@ -371,6 +373,7 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/cash_card_ed"
                         android:layout_width="0dp"
                         android:layout_height="35dp"
                         android:layout_gravity="center"
@@ -592,6 +595,7 @@
                             app:layout_constraintTop_toTopOf="@+id/oil_card_first_tv" />
 
                         <EditText
+                            android:id="@+id/oil_card_first_ed"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:background="@drawable/hollow_out_gray"
@@ -666,6 +670,7 @@
                             app:layout_constraintTop_toTopOf="@+id/oil_card_second_tv" />
 
                         <EditText
+                            android:id="@+id/oil_card_second_ed"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:background="@drawable/hollow_out_gray"
@@ -740,6 +745,7 @@
                             app:layout_constraintTop_toTopOf="@+id/oil_card_third_tv" />
 
                         <EditText
+                            android:id="@+id/oil_card_third_ed"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:background="@drawable/hollow_out_gray"
@@ -772,6 +778,7 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/return_freight_ed"
                         android:layout_width="0dp"
                         android:layout_height="35dp"
                         android:layout_gravity="center"

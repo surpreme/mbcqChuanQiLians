@@ -2,13 +2,19 @@ package com.mbcq.vehicleslibrary.activity.addshortfeeder
 
 
 import android.annotation.SuppressLint
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import androidx.core.widget.addTextChangedListener
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
@@ -32,15 +38,69 @@ class AddShortFeederActivity : BaseAddShortFeederActivity<AddShortFeederContract
         mPresenter?.getDepartureBatchNumber()
     }
 
+    fun saveCarInfo() {
+        if (number_plate_tv.text.toString().isEmpty()) {
+            showToast("请选择车牌号")
+            return
+        }
+        if (driver_name_ed.text.toString().isEmpty()) {
+            showToast("请输入司机姓名")
+            return
+        }
+        if (contact_number_ed.text.toString().isEmpty()) {
+            showToast("请输入司机联系电话")
+            return
+        }
+        if (destination_tv.text.toString().isEmpty()) {
+            showToast("请选择到货网点")
+            return
+        }
+        val obj = JSONObject()
+        obj.put("InoneVehicleFlag", contract_No_tv.text.toString())
+        obj.put("ContractNo", contract_No_tv.text.toString())
+        obj.put("EcompanyId", mECompanyId)// 到车公司编码
+        obj.put("EwebidCode", mWebCodeId)// 到车网点编码
+        obj.put("Transneed", mTransneed)// 运输类型编码
+        obj.put("TransneedStr", mTransneedStr)// 运输类型
+        obj.put("AccNow", cash_freight_ed.text.toString())// 现付
+        obj.put("AccBack", return_freight_ed.text.toString())// 回付
+        obj.put("AccYk", cash_card_ed.text.toString())// 油费
+        obj.put("YkCard", oil_card_number_ed.text.toString())// 油卡
+        obj.put("EwebidCode1", mFirstEwebidCode)// 到付网点1
+        obj.put("EwebidCodeStr1", oil_card_first_tv.text.toString())// 到付网点1
+        obj.put("AccArrived1", oil_card_first_ed.text.toString())// 到付金额
+        obj.put("EwebidCode2", mSencondEwebidCode)// 到付网点2
+        obj.put("EwebidCodeStr2", oil_card_second_tv.text.toString())// 到付网点2
+        obj.put("AccArrived2", oil_card_second_ed.text.toString())// 到付金额2
+        obj.put("EwebidCode3", mThridEwebidCode)// 到付网点3
+        obj.put("EwebidCodeStr3", oil_card_third_tv.text.toString())// 到付网点3
+        obj.put("AccArrived3", oil_card_third_ed.text.toString())// 到付金额3
+        obj.put("AccZx", loading_fee_ed.text.toString())// 装卸费
+        obj.put("AccJh", 0)// 接货费
+        obj.put("AccTansSum", total_freight_tv.text.toString())// 运费合计
+        obj.put("AccArrSum", mToPayTotalPrice)// 到付合计
+        obj.put("AccOther", 0)// 其它费用
+        obj.put("VehicleInterval", UserInformationUtil.getWebIdCodeStr(mContext) + "-" + destination_tv.text.toString())// 发车区间  A-B
+        obj.put("Remark", "")// 备注
+
+        obj.put("SendDate", TimeUtils.getCurrTime2())// 发车日期
+        obj.put("VehicleNo", number_plate_tv.text.toString())// 车牌号
+        obj.put("Chauffer", driver_name_ed.text.toString())// 司机
+        obj.put("ChaufferMb", contact_number_ed.text.toString())// 司机手机号码
+        obj.put("ChaufferMb", contact_number_ed.text.toString())// 司机手机号码
+        obj.put("EwebidCodeStr", destination_tv.text.toString())// 到车网点
+        obj.put("SendOpeMan", UserInformationUtil.getUserName(mContext))// 发车操作人
+        obj.put("WebidCode", UserInformationUtil.getWebIdCode(mContext))// 发车网点编码
+        obj.put("WebidCodeStr", UserInformationUtil.getWebIdCodeStr(mContext))// 发车网点
+        val json = GsonUtils.toPrettyFormat(obj.toString())
+        ARouter.getInstance().build(ARouterConstants.ShortFeederHouseActivity).withString("ShortFeederHouse", json).navigation()
+    }
 
     override fun onClick() {
         super.onClick()
         next_step_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                val obj = JSONObject()
-                obj.put("inOneVehicleFlag", contract_No_tv.text.toString())
-                val json = GsonUtils.toPrettyFormat(obj.toString())
-                ARouter.getInstance().build(ARouterConstants.ShortFeederHouseActivity).withString("ShortFeederHouse",json).navigation()
+                saveCarInfo()
             }
 
         })

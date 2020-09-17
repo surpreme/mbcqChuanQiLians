@@ -100,6 +100,10 @@ public class ApiInterface {
      */
     public static final String ADD_SHORT_TRANSFER_DEPARTURE_BATCH_NUMBER_GET = BASE_URI + "DbVehicleOpe/SelDbInOneVehicleFlag";
     /**
+     * 完成短驳发车
+     */
+    public static final String COMPELETE_SHORT_TRANSFER_DEPARTURE_BATCH_NUMBER_POST = BASE_URI + "DbVehicleOpe/AddDbVehicle";
+    /**
      * 车辆档案 查询
      *GET Vehicles/SelVehiclesByCondition
      */

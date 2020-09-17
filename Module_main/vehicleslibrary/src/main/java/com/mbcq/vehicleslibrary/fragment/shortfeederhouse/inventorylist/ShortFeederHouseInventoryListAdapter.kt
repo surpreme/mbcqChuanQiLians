@@ -14,6 +14,7 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.bean.ShortFeederHouseListBean
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.event.ShortFeederHouseInventoryListEvent
+import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.loadinglist.ShortFeederHouseLoadingListFragment
 
 class ShortFeederHouseInventoryListAdapter(context: Context?) : BaseRecyclerAdapter<ShortFeederHouseListBean>(context = context) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_short_feeder_house, parent, false))
@@ -25,6 +26,16 @@ class ShortFeederHouseInventoryListAdapter(context: Context?) : BaseRecyclerAdap
         }
     }
 
+    var mOnRemoveInterface: OnRemoveInterface? = null
+
+    interface OnRemoveInterface {
+        fun onClick(position: Int, item: ShortFeederHouseListBean)
+    }
+
+    /**
+     * 由于fragment还未加载 这里放到适配器
+     */
+//    var mUnShowedList = mutableListOf<ShortFeederHouseListBean>()
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -39,11 +50,22 @@ class ShortFeederHouseInventoryListAdapter(context: Context?) : BaseRecyclerAdap
         holder.waybill_move_iv.rotation = 180f
         holder.waybill_move_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                val list = mutableListOf<ShortFeederHouseListBean>()
-                mDatas[position].isChecked=false
+                mOnRemoveInterface?.onClick(position,mDatas[position])
+
+                /*val list = mutableListOf<ShortFeederHouseListBean>()
+                mDatas[position].isChecked = false
                 list.add(mDatas[position])
-                RxBus.build().postSticky(ShortFeederHouseInventoryListEvent(1, list))
-                removeItem(position)
+                if (ShortFeederHouseLoadingListFragment().isAdded) {
+                    if (mUnShowedList.isNotEmpty()) {
+                        mUnShowedList.clear()
+                    }
+                    RxBus.build().postSticky(ShortFeederHouseInventoryListEvent(1, list))
+                }else{
+                    mUnShowedList.addAll(list)
+                    RxBus.build().postSticky(ShortFeederHouseInventoryListEvent(1, mUnShowedList))
+
+                }
+                removeItem(position)*/
 
             }
 

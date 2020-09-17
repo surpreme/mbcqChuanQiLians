@@ -12,6 +12,7 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.vehicleslibrary.activity.departurerecord.DepartureRecordEvent
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.departurerecord.DepartureRecordRefreshEvent
 import kotlinx.android.synthetic.main.fragment_short_feeder.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -66,6 +67,9 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
     @SuppressLint("CheckResult")
     override fun initDatas() {
         super.initDatas()
+        RxBus.build().toObservable(this, DepartureRecordRefreshEvent::class.java).subscribe {
+            refresh()
+        }
         RxBus.build().toObservable(this, DepartureRecordEvent::class.java).subscribe { msg ->
             if (msg.type == 0) {
                 mShippingOutletsTag = msg.webCode

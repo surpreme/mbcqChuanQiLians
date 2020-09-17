@@ -2,12 +2,17 @@ package com.mbcq.vehicleslibrary.fragment.trunkdeparture
 
 
 import android.annotation.SuppressLint
+import android.view.View
+import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.baselibrary.view.SingleClick
+import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.vehicleslibrary.activity.departurerecord.DepartureRecordEvent
 import com.mbcq.vehicleslibrary.R
+import kotlinx.android.synthetic.main.fragment_trunk_departure.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -47,6 +52,17 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
             mShippingOutletsTag = UserInformationUtil.getWebIdCode(it) + ","
 
         }
+
+    }
+
+    override fun onClick() {
+        super.onClick()
+        add_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                ARouter.getInstance().build(ARouterConstants.AddTrunkDepartureActivity).navigation()
+            }
+
+        })
 
     }
 

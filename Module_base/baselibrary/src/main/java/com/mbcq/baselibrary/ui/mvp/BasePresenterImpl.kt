@@ -13,6 +13,7 @@ import com.lzy.okgo.model.HttpHeaders
 import com.lzy.okgo.model.HttpParams
 import com.lzy.okgo.request.base.Request
 import com.mbcq.baselibrary.BaseApplication
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.util.log.LogUtils
 import okhttp3.MediaType
 import okhttp3.RequestBody
@@ -34,6 +35,11 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
     protected fun getRequestBody(jsonObject: JsonObject): RequestBody {
         val JSON = MediaType.parse("application/json; charset=utf-8")
         return RequestBody.create(JSON, Gson().toJson(jsonObject))
+    }
+
+    protected fun getRequestBody(jsonObject: JSONObject): RequestBody {
+        val JSON = MediaType.parse("application/json; charset=utf-8")
+        return RequestBody.create(JSON, GsonUtils.toPrettyFormat(jsonObject.toString()))
     }
 
     protected fun <T> post(url: String, body: RequestBody, callback: CallBacks) {
@@ -97,9 +103,10 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
 
         })
     }
-    protected fun <X> getList(result: String):List<X>{
+
+    protected fun <X> getList(result: String): List<X> {
         val obj = JSONObject(result)
-        return  Gson().fromJson<List<X>>(obj.optString("data"), object : TypeToken<List<X>>() {}.type)
+        return Gson().fromJson<List<X>>(obj.optString("data"), object : TypeToken<List<X>>() {}.type)
 
     }
 

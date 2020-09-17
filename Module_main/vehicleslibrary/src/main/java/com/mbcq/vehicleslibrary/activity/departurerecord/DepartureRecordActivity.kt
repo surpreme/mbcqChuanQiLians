@@ -66,7 +66,6 @@ class DepartureRecordActivity : BaseDepartureRecordActivity<DepartureRecordContr
                             }
                             RxBus.build().post(mDepartureRecordBus)
 
-
                         }
 
                     }).show(supportFragmentManager, "DepartureRecordFilterWithTimeDialog")
@@ -76,5 +75,10 @@ class DepartureRecordActivity : BaseDepartureRecordActivity<DepartureRecordContr
         }
     }
 
-
+    override fun onRestart() {
+        super.onRestart()
+        if (intent.getBooleanExtra("IsRefresh",false)){
+            RxBus.build().post(DepartureRecordRefreshEvent::class.java)
+        }
+    }
 }

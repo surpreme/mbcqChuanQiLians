@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
@@ -309,8 +310,10 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
         /**
          * 发货人信息
+         * mShipperId
+         * TODO
          */
-        val ShipperId = mShipperId//发货客户编号
+        val ShipperId = ""//发货客户编号
         jsonObj.addProperty("ShipperId", ShipperId)
 
         val ShipperMb = mShipperMb //发货人手机号
@@ -361,8 +364,8 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         val Product = cargo_name_ed.text.toString()
         jsonObj.addProperty("Product", Product)
 
-        //总件数
-        val TotalQty = ""
+        //总件数  TODO
+        val TotalQty =numbers_name_ed.text.toString()
         jsonObj.addProperty("TotalQty", TotalQty)
 
 
@@ -428,6 +431,35 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         //设备端 3代表android
         val FromType = "3"
         jsonObj.addProperty("FromType", FromType)
+        /**
+         *
+         */
+        //运单号对应的货物清单
+        val WayGoosLst = JsonArray()
+        val testObj=JsonObject()
+        //货物名称
+        testObj.addProperty("Product", Product)
+
+        //件数
+        testObj.addProperty("Qty", Qty)
+
+        //包装方式
+        testObj.addProperty("Packages", Packages)
+
+        //重量
+        testObj.addProperty("Weight", Weight)
+
+        //体积
+        testObj.addProperty("Volumn", Volumn)
+
+        WayGoosLst.add(testObj)
+
+        /**
+         *
+         */
+//        WayGoosLst.add(test)
+        jsonObj.add("WayGoosLst", WayGoosLst)
+
         /**
          * 费用的所有添加
          */

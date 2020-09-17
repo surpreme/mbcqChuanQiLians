@@ -2,6 +2,8 @@ package com.mbcq.vehicleslibrary.activity.addshortfeeder
 
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import com.google.gson.Gson
 import com.mbcq.baselibrary.interfaces.OnClickInterface
@@ -26,26 +28,153 @@ abstract class BaseAddShortFeederActivity<V : BaseView, T : BasePresenterImpl<V>
     var mFirstEwebidCode = ""
     var mSencondEwebidCode = ""
     var mThridEwebidCode = ""
+    var mECompanyId = ""
+    var mWebCodeId = ""
+    var mWebCodeIdStr = ""
+    var mTransneed = 1//运输类型编码
+    var mTransneedStr = ""//运输类型
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
         initModeOfTransport()
         cash_freight_hide_ll.visibility = View.GONE
         freight_onarrival_hide_ll.visibility = View.GONE
+        oil_card_first_ed.isFocusable = false
+        oil_card_first_ed.isFocusableInTouchMode = false
+        oil_card_second_ed.isFocusable = false
+        oil_card_second_ed.isFocusableInTouchMode = false
+        oil_card_third_ed.isFocusable = false
+        oil_card_third_ed.isFocusableInTouchMode = false
+        initTotalPrice()
+
+    }
+
+    private fun initTotalPrice() {
+
+        cash_freight_ed.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                changeTotalPrice()
+
+
+            }
+
+        })
+
+        oil_card_first_ed.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                changeTotalPrice()
+
+
+            }
+
+        })
+
+        oil_card_second_ed.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                changeTotalPrice()
+
+
+            }
+
+        })
+        oil_card_third_ed.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                changeTotalPrice()
+
+
+            }
+
+        })
+        return_freight_ed.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                changeTotalPrice()
+
+
+            }
+
+        })
 
     }
 
 
     private fun initModeOfTransport() {
+        mTransneedStr = "普运"
         mode_transport_rg.addView(RadioGroupUtil.addSelectItem(mContext, "普运", 0))
         mode_transport_rg.addView(RadioGroupUtil.addSelectItem(mContext, "马帮快线", 1))
         mode_transport_rg.addView(RadioGroupUtil.addSelectItem(mContext, "补发数据", 2))
         mode_transport_rg.check(0)
-
+        mode_transport_rg.setOnCheckedChangeListener { _, checkedId ->
+            mTransneed = checkedId + 1
+            when (checkedId) {
+                0 -> mTransneedStr = "普运"
+                1 -> mTransneedStr = "马帮快线"
+                2 -> mTransneedStr = "补发数据"
+            }
+        }
 
     }
 
-
+    var mToPayTotalPrice = 0.00
+    protected fun changeTotalPrice() {
+        var totalPrice = 0.00//油卡费用不计算
+        var otherTotalPrice = 0.00//
+        var ToPayTotalPrice = 0.00//到付 3个金额 不包括回付
+        if (cash_freight_ed.text.toString().isNotBlank()) {
+            totalPrice += (cash_freight_ed.text.toString()).toDouble()
+        }
+        if (return_freight_ed.text.toString().isNotBlank()) {
+            totalPrice += (return_freight_ed.text.toString()).toDouble()
+        }
+        if (oil_card_first_tv.text.toString().isNotBlank() && oil_card_first_ed.text.toString().isNotBlank()) {
+            totalPrice += (oil_card_first_ed.text.toString()).toDouble()
+            ToPayTotalPrice += (oil_card_first_ed.text.toString()).toDouble()
+        }
+        if (oil_card_second_tv.text.toString().isNotBlank() && oil_card_second_ed.text.toString().isNotBlank()) {
+            totalPrice += (oil_card_second_ed.text.toString()).toDouble()
+            ToPayTotalPrice += (oil_card_second_ed.text.toString()).toDouble()
+        }
+        if (oil_card_third_tv.text.toString().isNotBlank() && oil_card_third_ed.text.toString().isNotBlank()) {
+            totalPrice += (oil_card_third_ed.text.toString()).toDouble()
+            ToPayTotalPrice += (oil_card_third_ed.text.toString()).toDouble()
+        }
+        total_freight_tv.text = haveTwoDouble(totalPrice)
+        mToPayTotalPrice = ToPayTotalPrice
+    }
     fun showHideCashFreight() {
         if (cash_freight_hide_ll.visibility == View.VISIBLE) {
             cash_freight_hide_ll.visibility = View.GONE
@@ -102,7 +231,8 @@ abstract class BaseAddShortFeederActivity<V : BaseView, T : BasePresenterImpl<V>
                 when (type) {
                     0 -> {
                         destination_tv.text = list[position].webid
-
+                        mECompanyId = list[position].companyId
+                        mWebCodeId = list[position].webidCode
                     }
                     1 -> {
                         if (list[position].webidCode.toString() == mSencondEwebidCode || list[position].webidCode.toString() == mThridEwebidCode) {
@@ -111,6 +241,10 @@ abstract class BaseAddShortFeederActivity<V : BaseView, T : BasePresenterImpl<V>
                         }
                         oil_card_first_tv.text = list[position].webid
                         mFirstEwebidCode = list[position].webidCode.toString()
+                        oil_card_first_ed.isFocusableInTouchMode = true
+                        oil_card_first_ed.isFocusable = true
+                        oil_card_first_ed.requestFocus()
+
                     }
                     2 -> {
                         if (list[position].webidCode.toString() == mFirstEwebidCode || list[position].webidCode.toString() == mThridEwebidCode) {
@@ -119,7 +253,9 @@ abstract class BaseAddShortFeederActivity<V : BaseView, T : BasePresenterImpl<V>
                         }
                         oil_card_second_tv.text = list[position].webid
                         mSencondEwebidCode = list[position].webidCode.toString()
-
+                        oil_card_second_ed.isFocusableInTouchMode = true
+                        oil_card_second_ed.isFocusable = true
+                        oil_card_second_ed.requestFocus()
                     }
                     3 -> {
                         if (list[position].webidCode.toString() == mFirstEwebidCode || list[position].webidCode.toString() == mSencondEwebidCode) {
@@ -128,7 +264,9 @@ abstract class BaseAddShortFeederActivity<V : BaseView, T : BasePresenterImpl<V>
                         }
                         oil_card_third_tv.text = list[position].webid
                         mThridEwebidCode = list[position].webidCode.toString()
-
+                        oil_card_third_ed.isFocusableInTouchMode = true
+                        oil_card_third_ed.isFocusable = true
+                        oil_card_third_ed.requestFocus()
                     }
                 }
             }

@@ -28,7 +28,11 @@ class ShortFeederHouseLoadingListAdapter(context: Context?) : BaseRecyclerAdapte
 
         }
     }
+    var mOnRemoveInterface: OnRemoveInterface? = null
 
+    interface OnRemoveInterface {
+        fun onClick(position: Int, item: ShortFeederHouseListBean)
+    }
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ItemViewHolder).waybill_number_tv.text = mDatas[position].billno
@@ -41,11 +45,12 @@ class ShortFeederHouseLoadingListAdapter(context: Context?) : BaseRecyclerAdapte
         holder.receiver_tv.text = mDatas[position].consignee
         holder.waybill_move_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                val list = mutableListOf<ShortFeederHouseListBean>()
+                mOnRemoveInterface?.onClick(position,mDatas[position])
+             /*   val list = mutableListOf<ShortFeederHouseListBean>()
                 mDatas[position].isChecked=false
                 list.add(mDatas[position])
                 RxBus.build().postSticky(ShortFeederHouseInventoryListEvent(0, list))
-                removeItem(position)
+                removeItem(position)*/
 
             }
 

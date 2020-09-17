@@ -12,6 +12,7 @@ import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.departurerecord.ShortFeederHouseEvent
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.bean.ShortFeederHouseListBean
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.event.ShortFeederHouseInventoryListEvent
 import kotlinx.android.synthetic.main.fragment_short_feeder_house_loading_list.*
@@ -20,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_short_feeder_house_loading_list.*
 /**
  * @author: lzy
  * @time: 2020-09-15 11:01:40
- * 库存清单
+ * 配载清单 弃用 已完成
  */
 
 class ShortFeederHouseLoadingListFragment : BaseListFragment<ShortFeederHouseListBean>() {
@@ -34,26 +35,42 @@ class ShortFeederHouseLoadingListFragment : BaseListFragment<ShortFeederHouseLis
 
     override fun onClick() {
         super.onClick()
+        complete_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                if (adapter.getAllData().isEmpty()) {
+                    showToast("请至少选中需要一个发车的库存")
+                    return
+                }
+                RxBus.build().post(ShortFeederHouseEvent(adapter.getAllData()))
+            }
+
+        })
         operating_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 val list = mutableListOf<ShortFeederHouseListBean>()
                 val unCheckList = mutableListOf<ShortFeederHouseListBean>()
                 for ((index, item) in (adapter.getAllData()).withIndex()) {
                     if (item.isChecked) {
-                        item.isChecked=false
+                        item.isChecked = false
                         list.add(item)
                     } else {
                         unCheckList.add(item)
                     }
                 }
+                if (list.isEmpty()) {
+                    showToast("请至少选择一个库存进行操作")
+                    unCheckList.clear()
+                    return
+                }
                 RxBus.build().postSticky(ShortFeederHouseInventoryListEvent(0, list))
                 adapter.clearData()
                 adapter.appendData(unCheckList)
-                all_selected_checked.isChecked=false
+                all_selected_checked.isChecked = false
             }
 
         })
     }
+
     @SuppressLint("CheckResult")
     override fun initDatas() {
         super.initDatas()
@@ -63,6 +80,7 @@ class ShortFeederHouseLoadingListFragment : BaseListFragment<ShortFeederHouseLis
             }
         }
     }
+
     override fun addItemDecoration(): RecyclerView.ItemDecoration = object : BaseItemDecoration(mContext) {
         override fun configExtraSpace(position: Int, count: Int, rect: Rect) {
             rect.top = ScreenSizeUtils.dp2px(mContext, 10f)
@@ -72,11 +90,12 @@ class ShortFeederHouseLoadingListFragment : BaseListFragment<ShortFeederHouseLis
             rect.bottom = rect.top
         }
     }
+
     override fun getLayoutResId(): Int = R.layout.fragment_short_feeder_house_loading_list
 
     override fun onDetach() {
         super.onDetach()
-        RxBus.build().removeStickyEvent( ShortFeederHouseInventoryListEvent::class.java)
+        RxBus.build().removeStickyEvent(ShortFeederHouseInventoryListEvent::class.java)
 
     }
 

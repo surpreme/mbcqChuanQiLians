@@ -118,47 +118,6 @@ class AddShortFeederPresenter : BasePresenterImpl<AddShortFeederContract.View>()
                 val obj = JSONObject(result)
                 val json = JSONTokener(obj.optString("data")).nextValue()
                 if (json is JSONArray) {
-//                    mView?.geDeliveryPointS(obj.optString("data"),type)
-                   /* FilterDialog(getScreenWidth(), result, "ewebidCodeStr", "选择到货网点", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
-                        override fun onItemClick(v: View, position: Int, mResult: String) {
-                            val mSelectData = Gson().fromJson<DeliveryPointBean>(mResult, DeliveryPointBean::class.java)
-                            when (type) {
-                                0 -> {
-                                    destination_tv.text = mSelectData.ewebidCodeStr
-
-                                }
-                                1 -> {
-                                    if (mSelectData.ewebidCode.toString() == mSencondEwebidCode || mSelectData.ewebidCode.toString() == mThridEwebidCode) {
-                                        showToast("您已经选择过${mSelectData.ewebidCodeStr}了哦")
-                                        return
-                                    }
-                                    oil_card_first_tv.text = mSelectData.ewebidCodeStr
-                                    mFirstEwebidCode = mSelectData.ewebidCode.toString()
-                                }
-                                2 -> {
-                                    if (mSelectData.ewebidCode.toString() == mFirstEwebidCode || mSelectData.ewebidCode.toString() == mThridEwebidCode) {
-                                        showToast("您已经选择过${mSelectData.ewebidCodeStr}了哦")
-                                        return
-                                    }
-                                    oil_card_second_tv.text = mSelectData.ewebidCodeStr
-                                    mSencondEwebidCode = mSelectData.ewebidCode.toString()
-
-                                }
-                                3 -> {
-                                    if (mSelectData.ewebidCode.toString() == mFirstEwebidCode || mSelectData.ewebidCode.toString() == mSencondEwebidCode) {
-                                        showToast("您已经选择过${mSelectData.ewebidCodeStr}了哦")
-                                        return
-                                    }
-                                    oil_card_third_tv.text = mSelectData.ewebidCodeStr
-                                    mThridEwebidCode = mSelectData.ewebidCode.toString()
-
-                                }
-                            }
-
-
-                        }
-
-                    }).show(supportFragmentManager, "geDeliveryPointSFilterDialog$type")*/
                 }
 
 
