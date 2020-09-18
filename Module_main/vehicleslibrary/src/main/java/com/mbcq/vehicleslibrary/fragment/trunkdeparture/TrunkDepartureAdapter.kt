@@ -29,8 +29,16 @@ class TrunkDepartureAdapter(context: Context?) : BaseRecyclerAdapter<TrunkDepart
         }
         holder.trunk_checkbox_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                mDatas[position].isChecked = !mDatas[position].isChecked
-                notifyItemChanged(position)
+                /*mDatas[position].isChecked = !mDatas[position].isChecked
+                notifyItemChanged(position)*/
+                for (index in 0 until mDatas.size){
+                    if (index!=position)
+                        mDatas[index].isChecked=false
+                    else
+                        mDatas[index].isChecked = !mDatas[index].isChecked
+                }
+//                mDatas[position].isChecked = !mDatas[position].isChecked
+                notifyDataSetChanged()
             }
 
         })

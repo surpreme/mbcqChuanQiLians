@@ -54,10 +54,12 @@ public class TalkSureDialog extends BaseSystemDialog {
              * 内部方法銷毀
              *  dismiss();
              */
-            if (onClickInterface == null)
-                dismiss();
-            else
+//            if (onClickInterface == null)
+
+//            else
+            if (onClickInterface != null)
                 onClickInterface.onClick(v);
+            dismiss();
         });
 
     }

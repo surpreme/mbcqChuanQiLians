@@ -42,7 +42,7 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
         super.initViews(savedInstanceState)
         val mLastData = JSONObject(mLastDataJson)
         mDepartureLot=mLastData.optString("InoneVehicleFlag")
-        departure_lot_tv.text = "发车批次: ${mDepartureLot}"
+        departure_lot_tv.text = "发车批次: $mDepartureLot"
 
     }
 

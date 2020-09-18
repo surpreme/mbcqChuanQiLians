@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.trunkdeparturehouse.TrunkDepartureHouseActivity">
+    tools:context=".activity.fixtrunkdeparturehouse.FixedTrunkDepartureHouseActivity">
 
     <com.mbcq.baselibrary.view.CnToolbar
-        android:id="@+id/trunk_departure_house_toolbar"
+        android:id="@+id/fixed_trunk_departure_house_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
-        app:centerTextViewText="干线计划装车"
+        app:centerTextViewText="修改干线计划装车"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -25,7 +25,7 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trunk_departure_house_toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/fixed_trunk_departure_house_toolbar"
         tools:text="发车批次：DB2002-202020422-002" />
 
     <TextView

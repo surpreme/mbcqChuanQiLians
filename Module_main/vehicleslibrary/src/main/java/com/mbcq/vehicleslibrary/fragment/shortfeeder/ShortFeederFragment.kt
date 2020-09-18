@@ -4,6 +4,8 @@ package com.mbcq.vehicleslibrary.fragment.shortfeeder
 import android.annotation.SuppressLint
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
+import com.mbcq.baselibrary.dialog.common.TalkSureDialog
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
@@ -13,7 +15,9 @@ import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.vehicleslibrary.activity.departurerecord.DepartureRecordEvent
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.departurerecord.DepartureRecordRefreshEvent
+import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
 import kotlinx.android.synthetic.main.fragment_short_feeder.*
+import org.json.JSONObject
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -42,6 +46,50 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
 
     override fun onClick() {
         super.onClick()
+        modify_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                mContext?.let {
+                    var mItemdata: ShortFeederBean? = null
+                    for (item in adapter.getAllData()) {
+                        if (item.isChecked) {
+                            mItemdata = item
+                        }
+                    }
+                    if (mItemdata != null) {
+                        val job = JSONObject()
+                        job.put("InoneVehicleFlag", mItemdata.inoneVehicleFlag)
+                        job.put("Id", mItemdata.id)
+                        ARouter.getInstance().build(ARouterConstants.FixShortFeederHouseActivity).withString("FixedShortFeederHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
+                    } else {
+                        showToast("请至少选择一辆车次进行操作修改")
+                    }
+
+                }
+            }
+
+        })
+        invalid_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                mContext?.let {
+                    var data: ShortFeederBean? = null
+                    for (item in adapter.getAllData()) {
+                        if (item.isChecked) {
+                            data = item
+                        }
+                    }
+                    if (data != null) {
+                        TalkSureDialog(it, getScreenWidth(), "您确定要作废车次${data.inoneVehicleFlag}吗?作废后不可恢复！") {
+                            mPresenter?.invalidOrder(data.inoneVehicleFlag, data.id)
+
+                        }.show()
+                    } else {
+                        showToast("请至少选择一辆车次进行操作作废")
+                    }
+
+                }
+
+            }
+        })
         add_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 ARouter.getInstance().build(ARouterConstants.AddShortFeederActivity).navigation()
@@ -70,6 +118,9 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
         RxBus.build().toObservable(this, DepartureRecordRefreshEvent::class.java).subscribe {
             refresh()
         }
+        RxBus.build().toObservableSticky(this, DepartureRecordRefreshEvent::class.java).subscribe {
+            refresh()
+        }
         RxBus.build().toObservable(this, DepartureRecordEvent::class.java).subscribe { msg ->
             if (msg.type == 0) {
                 mShippingOutletsTag = msg.webCode
@@ -81,7 +132,18 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+//        RxBus.build().removeStickyEvent(DepartureRecordRefreshEvent::class.java)
+    }
+
     override fun getShortFeederS(list: List<ShortFeederBean>) {
         appendDatas(list)
+    }
+
+    override fun invalidOrderS() {
+
+        refresh()
+
     }
 }

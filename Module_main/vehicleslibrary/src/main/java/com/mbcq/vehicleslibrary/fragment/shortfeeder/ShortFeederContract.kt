@@ -12,11 +12,13 @@ class ShortFeederContract {
 
     interface View : BaseView {
         fun getShortFeederS(list: List<ShortFeederBean>)
+        fun invalidOrderS()
 
     }
 
     interface Presenter : BasePresenter<View> {
         fun getShortFeeder(page:Int, selWebidCode: String, startDate: String, endDate: String)
+        fun invalidOrder(inoneVehicleFlag: String, id: Int)
 
     }
 }

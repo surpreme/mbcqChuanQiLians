@@ -14,10 +14,12 @@ class TrunkDepartureContract {
     interface View : BaseView {
         fun getTrunkDepartureS(list: List<TrunkDepartureBean>)
 
+        fun invalidOrderS()
     }
 
     interface Presenter : BasePresenter<View> {
-        fun getTrunkDeparture(page:Int, selWebidCode: String, startDate: String, endDate: String)
+        fun getTrunkDeparture(page: Int, selWebidCode: String, startDate: String, endDate: String)
+        fun invalidOrder(inoneVehicleFlag: String, id: Int)
 
     }
 }

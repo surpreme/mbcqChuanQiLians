@@ -1,6 +1,5 @@
 package com.mbcq.vehicleslibrary.activity.addtrunkdeparture
 
-
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View

@@ -94,30 +94,30 @@ public class StockWaybillListBean {
      * fromType : 89
      */
 
-    private int id;
-    private int companyId;
-    private int eCompanyId;
+    private String id;
+    private String companyId;
+    private String eCompanyId;
     private String orderId;
     private String billno;
     private String oBillno;
     private String billDate;
-    private int billState;
+    private String billState;
     private String billStateStr;
-    private int billType;
+    private String billType;
     private String billTypeStr;
     private String goodsNum;
-    private int okProcess;
+    private String okProcess;
     private String okProcessStr;
-    private int isUrgent;
+    private String isUrgent;
     private String isUrgentStr;
-    private int isTalkGoods;
+    private String isTalkGoods;
     private String isTalkGoodsStr;
-    private int webidCode;
+    private String webidCode;
     private String webidCodeStr;
-    private int ewebidCode;
+    private String ewebidCode;
     private String ewebidCodeStr;
     private String destination;
-    private int transneed;
+    private String transneed;
     private String transneedStr;
     private String vipId;
     private String shipperId;
@@ -131,48 +131,48 @@ public class StockWaybillListBean {
     private String consignee;
     private String consigneeAddr;
     private String product;
-    private int totalQty;
-    private int qty;
+    private String totalQty;
+    private String qty;
     private String packages;
-    private double weight;
-    private double volumn;
-    private double weightJs;
-    private double safeMoney;
-    private double accDaiShou;
-    private double accHKChange;
+    private String weight;
+    private String volumn;
+    private String weightJs;
+    private String safeMoney;
+    private String accDaiShou;
+    private String accHKChange;
     private String hkChangeReason;
-    private double sxf;
-    private double wPrice;
-    private double vPrice;
-    private double qtyPrice;
-    private double accNow;
-    private double accArrived;
-    private double accBack;
-    private double accMonth;
-    private double accHuoKuanKou;
-    private double accTrans;
-    private double accFetch;
-    private double accPackage;
-    private double accSend;
-    private double accGb;
-    private double accSafe;
-    private double accRyf;
-    private double accHuiKou;
-    private double accSms;
-    private double accZz;
-    private double accZx;
-    private double accCb;
-    private double accSl;
-    private double accAz;
-    private double accFj;
-    private double accWz;
-    private double accJc;
-    private double accSum;
-    private int accType;
+    private String sxf;
+    private String wPrice;
+    private String vPrice;
+    private String qtyPrice;
+    private String accNow;
+    private String accArrived;
+    private String accBack;
+    private String accMonth;
+    private String accHuoKuanKou;
+    private String accTrans;
+    private String accFetch;
+    private String accPackage;
+    private String accSend;
+    private String accGb;
+    private String accSafe;
+    private String accRyf;
+    private String accHuiKou;
+    private String accSms;
+    private String accZz;
+    private String accZx;
+    private String accCb;
+    private String accSl;
+    private String accAz;
+    private String accFj;
+    private String accWz;
+    private String accJc;
+    private String accSum;
+    private String accType;
     private String accTypeStr;
     private String backQty;
-    private int backState;
-    private int isWaitNotice;
+    private String backState;
+    private String isWaitNotice;
     private String isWaitNoticeStr;
     private String bankCode;
     private String bankName;
@@ -182,30 +182,30 @@ public class StockWaybillListBean {
     private String salesMan;
     private String opeMan;
     private String remark;
-    private int fromType;
+    private String fromType;
     private boolean isChecked=false;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getCompanyId() {
+    public String getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(int companyId) {
+    public void setCompanyId(String companyId) {
         this.companyId = companyId;
     }
 
-    public int getECompanyId() {
+    public String getECompanyId() {
         return eCompanyId;
     }
 
-    public void setECompanyId(int eCompanyId) {
+    public void setECompanyId(String eCompanyId) {
         this.eCompanyId = eCompanyId;
     }
 
@@ -241,11 +241,11 @@ public class StockWaybillListBean {
         this.billDate = billDate;
     }
 
-    public int getBillState() {
+    public String getBillState() {
         return billState;
     }
 
-    public void setBillState(int billState) {
+    public void setBillState(String billState) {
         this.billState = billState;
     }
 
@@ -257,11 +257,11 @@ public class StockWaybillListBean {
         this.billStateStr = billStateStr;
     }
 
-    public int getBillType() {
+    public String getBillType() {
         return billType;
     }
 
-    public void setBillType(int billType) {
+    public void setBillType(String billType) {
         this.billType = billType;
     }
 
@@ -281,11 +281,11 @@ public class StockWaybillListBean {
         this.goodsNum = goodsNum;
     }
 
-    public int getOkProcess() {
+    public String getOkProcess() {
         return okProcess;
     }
 
-    public void setOkProcess(int okProcess) {
+    public void setOkProcess(String okProcess) {
         this.okProcess = okProcess;
     }
 
@@ -297,11 +297,11 @@ public class StockWaybillListBean {
         this.okProcessStr = okProcessStr;
     }
 
-    public int getIsUrgent() {
+    public String getIsUrgent() {
         return isUrgent;
     }
 
-    public void setIsUrgent(int isUrgent) {
+    public void setIsUrgent(String isUrgent) {
         this.isUrgent = isUrgent;
     }
 
@@ -313,11 +313,11 @@ public class StockWaybillListBean {
         this.isUrgentStr = isUrgentStr;
     }
 
-    public int getIsTalkGoods() {
+    public String getIsTalkGoods() {
         return isTalkGoods;
     }
 
-    public void setIsTalkGoods(int isTalkGoods) {
+    public void setIsTalkGoods(String isTalkGoods) {
         this.isTalkGoods = isTalkGoods;
     }
 
@@ -329,11 +329,11 @@ public class StockWaybillListBean {
         this.isTalkGoodsStr = isTalkGoodsStr;
     }
 
-    public int getWebidCode() {
+    public String getWebidCode() {
         return webidCode;
     }
 
-    public void setWebidCode(int webidCode) {
+    public void setWebidCode(String webidCode) {
         this.webidCode = webidCode;
     }
 
@@ -345,11 +345,11 @@ public class StockWaybillListBean {
         this.webidCodeStr = webidCodeStr;
     }
 
-    public int getEwebidCode() {
+    public String getEwebidCode() {
         return ewebidCode;
     }
 
-    public void setEwebidCode(int ewebidCode) {
+    public void setEwebidCode(String ewebidCode) {
         this.ewebidCode = ewebidCode;
     }
 
@@ -369,11 +369,11 @@ public class StockWaybillListBean {
         this.destination = destination;
     }
 
-    public int getTransneed() {
+    public String getTransneed() {
         return transneed;
     }
 
-    public void setTransneed(int transneed) {
+    public void setTransneed(String transneed) {
         this.transneed = transneed;
     }
 
@@ -481,19 +481,19 @@ public class StockWaybillListBean {
         this.product = product;
     }
 
-    public int getTotalQty() {
+    public String getTotalQty() {
         return totalQty;
     }
 
-    public void setTotalQty(int totalQty) {
+    public void setTotalQty(String totalQty) {
         this.totalQty = totalQty;
     }
 
-    public int getQty() {
+    public String getQty() {
         return qty;
     }
 
-    public void setQty(int qty) {
+    public void setQty(String qty) {
         this.qty = qty;
     }
 
@@ -505,51 +505,51 @@ public class StockWaybillListBean {
         this.packages = packages;
     }
 
-    public double getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
-    public double getVolumn() {
+    public String getVolumn() {
         return volumn;
     }
 
-    public void setVolumn(double volumn) {
+    public void setVolumn(String volumn) {
         this.volumn = volumn;
     }
 
-    public double getWeightJs() {
+    public String getWeightJs() {
         return weightJs;
     }
 
-    public void setWeightJs(double weightJs) {
+    public void setWeightJs(String weightJs) {
         this.weightJs = weightJs;
     }
 
-    public double getSafeMoney() {
+    public String getSafeMoney() {
         return safeMoney;
     }
 
-    public void setSafeMoney(double safeMoney) {
+    public void setSafeMoney(String safeMoney) {
         this.safeMoney = safeMoney;
     }
 
-    public double getAccDaiShou() {
+    public String getAccDaiShou() {
         return accDaiShou;
     }
 
-    public void setAccDaiShou(double accDaiShou) {
+    public void setAccDaiShou(String accDaiShou) {
         this.accDaiShou = accDaiShou;
     }
 
-    public double getAccHKChange() {
+    public String getAccHKChange() {
         return accHKChange;
     }
 
-    public void setAccHKChange(double accHKChange) {
+    public void setAccHKChange(String accHKChange) {
         this.accHKChange = accHKChange;
     }
 
@@ -561,227 +561,227 @@ public class StockWaybillListBean {
         this.hkChangeReason = hkChangeReason;
     }
 
-    public double getSxf() {
+    public String getSxf() {
         return sxf;
     }
 
-    public void setSxf(double sxf) {
+    public void setSxf(String sxf) {
         this.sxf = sxf;
     }
 
-    public double getWPrice() {
+    public String getWPrice() {
         return wPrice;
     }
 
-    public void setWPrice(double wPrice) {
+    public void setWPrice(String wPrice) {
         this.wPrice = wPrice;
     }
 
-    public double getVPrice() {
+    public String getVPrice() {
         return vPrice;
     }
 
-    public void setVPrice(double vPrice) {
+    public void setVPrice(String vPrice) {
         this.vPrice = vPrice;
     }
 
-    public double getQtyPrice() {
+    public String getQtyPrice() {
         return qtyPrice;
     }
 
-    public void setQtyPrice(double qtyPrice) {
+    public void setQtyPrice(String qtyPrice) {
         this.qtyPrice = qtyPrice;
     }
 
-    public double getAccNow() {
+    public String getAccNow() {
         return accNow;
     }
 
-    public void setAccNow(double accNow) {
+    public void setAccNow(String accNow) {
         this.accNow = accNow;
     }
 
-    public double getAccArrived() {
+    public String getAccArrived() {
         return accArrived;
     }
 
-    public void setAccArrived(double accArrived) {
+    public void setAccArrived(String accArrived) {
         this.accArrived = accArrived;
     }
 
-    public double getAccBack() {
+    public String getAccBack() {
         return accBack;
     }
 
-    public void setAccBack(double accBack) {
+    public void setAccBack(String accBack) {
         this.accBack = accBack;
     }
 
-    public double getAccMonth() {
+    public String getAccMonth() {
         return accMonth;
     }
 
-    public void setAccMonth(double accMonth) {
+    public void setAccMonth(String accMonth) {
         this.accMonth = accMonth;
     }
 
-    public double getAccHuoKuanKou() {
+    public String getAccHuoKuanKou() {
         return accHuoKuanKou;
     }
 
-    public void setAccHuoKuanKou(double accHuoKuanKou) {
+    public void setAccHuoKuanKou(String accHuoKuanKou) {
         this.accHuoKuanKou = accHuoKuanKou;
     }
 
-    public double getAccTrans() {
+    public String getAccTrans() {
         return accTrans;
     }
 
-    public void setAccTrans(double accTrans) {
+    public void setAccTrans(String accTrans) {
         this.accTrans = accTrans;
     }
 
-    public double getAccFetch() {
+    public String getAccFetch() {
         return accFetch;
     }
 
-    public void setAccFetch(double accFetch) {
+    public void setAccFetch(String accFetch) {
         this.accFetch = accFetch;
     }
 
-    public double getAccPackage() {
+    public String getAccPackage() {
         return accPackage;
     }
 
-    public void setAccPackage(double accPackage) {
+    public void setAccPackage(String accPackage) {
         this.accPackage = accPackage;
     }
 
-    public double getAccSend() {
+    public String getAccSend() {
         return accSend;
     }
 
-    public void setAccSend(double accSend) {
+    public void setAccSend(String accSend) {
         this.accSend = accSend;
     }
 
-    public double getAccGb() {
+    public String getAccGb() {
         return accGb;
     }
 
-    public void setAccGb(double accGb) {
+    public void setAccGb(String accGb) {
         this.accGb = accGb;
     }
 
-    public double getAccSafe() {
+    public String getAccSafe() {
         return accSafe;
     }
 
-    public void setAccSafe(double accSafe) {
+    public void setAccSafe(String accSafe) {
         this.accSafe = accSafe;
     }
 
-    public double getAccRyf() {
+    public String getAccRyf() {
         return accRyf;
     }
 
-    public void setAccRyf(double accRyf) {
+    public void setAccRyf(String accRyf) {
         this.accRyf = accRyf;
     }
 
-    public double getAccHuiKou() {
+    public String getAccHuiKou() {
         return accHuiKou;
     }
 
-    public void setAccHuiKou(double accHuiKou) {
+    public void setAccHuiKou(String accHuiKou) {
         this.accHuiKou = accHuiKou;
     }
 
-    public double getAccSms() {
+    public String getAccSms() {
         return accSms;
     }
 
-    public void setAccSms(double accSms) {
+    public void setAccSms(String accSms) {
         this.accSms = accSms;
     }
 
-    public double getAccZz() {
+    public String getAccZz() {
         return accZz;
     }
 
-    public void setAccZz(double accZz) {
+    public void setAccZz(String accZz) {
         this.accZz = accZz;
     }
 
-    public double getAccZx() {
+    public String getAccZx() {
         return accZx;
     }
 
-    public void setAccZx(double accZx) {
+    public void setAccZx(String accZx) {
         this.accZx = accZx;
     }
 
-    public double getAccCb() {
+    public String getAccCb() {
         return accCb;
     }
 
-    public void setAccCb(double accCb) {
+    public void setAccCb(String accCb) {
         this.accCb = accCb;
     }
 
-    public double getAccSl() {
+    public String getAccSl() {
         return accSl;
     }
 
-    public void setAccSl(double accSl) {
+    public void setAccSl(String accSl) {
         this.accSl = accSl;
     }
 
-    public double getAccAz() {
+    public String getAccAz() {
         return accAz;
     }
 
-    public void setAccAz(double accAz) {
+    public void setAccAz(String accAz) {
         this.accAz = accAz;
     }
 
-    public double getAccFj() {
+    public String getAccFj() {
         return accFj;
     }
 
-    public void setAccFj(double accFj) {
+    public void setAccFj(String accFj) {
         this.accFj = accFj;
     }
 
-    public double getAccWz() {
+    public String getAccWz() {
         return accWz;
     }
 
-    public void setAccWz(double accWz) {
+    public void setAccWz(String accWz) {
         this.accWz = accWz;
     }
 
-    public double getAccJc() {
+    public String getAccJc() {
         return accJc;
     }
 
-    public void setAccJc(double accJc) {
+    public void setAccJc(String accJc) {
         this.accJc = accJc;
     }
 
-    public double getAccSum() {
+    public String getAccSum() {
         return accSum;
     }
 
-    public void setAccSum(double accSum) {
+    public void setAccSum(String accSum) {
         this.accSum = accSum;
     }
 
-    public int getAccType() {
+    public String getAccType() {
         return accType;
     }
 
-    public void setAccType(int accType) {
+    public void setAccType(String accType) {
         this.accType = accType;
     }
 
@@ -801,19 +801,19 @@ public class StockWaybillListBean {
         this.backQty = backQty;
     }
 
-    public int getBackState() {
+    public String getBackState() {
         return backState;
     }
 
-    public void setBackState(int backState) {
+    public void setBackState(String backState) {
         this.backState = backState;
     }
 
-    public int getIsWaitNotice() {
+    public String getIsWaitNotice() {
         return isWaitNotice;
     }
 
-    public void setIsWaitNotice(int isWaitNotice) {
+    public void setIsWaitNotice(String isWaitNotice) {
         this.isWaitNotice = isWaitNotice;
     }
 
@@ -889,11 +889,11 @@ public class StockWaybillListBean {
         this.remark = remark;
     }
 
-    public int getFromType() {
+    public String getFromType() {
         return fromType;
     }
 
-    public void setFromType(int fromType) {
+    public void setFromType(String fromType) {
         this.fromType = fromType;
     }
 

@@ -1,6 +1,7 @@
 package com.mbcq.vehicleslibrary.fragment.trunkdeparture
 
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
@@ -28,6 +29,20 @@ class TrunkDeparturePresenter : BasePresenterImpl<TrunkDepartureContract.View>()
             }
 
         })
+    }
+
+    override fun invalidOrder(inoneVehicleFlag: String, id: Int) {
+        val obj=JsonObject()
+        obj.addProperty("inoneVehicleFlag",inoneVehicleFlag)
+        obj.addProperty("id",id)
+        post<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_INVALID_INFO_POST,getRequestBody(obj),object :CallBacks{
+            override fun onResult(result: String) {
+                mView?.invalidOrderS()
+
+            }
+
+        })
+
     }
 
 }

@@ -1,4 +1,3 @@
-include ':vehicleslibrary'
 rootProject.name='ChuanQiLians'
 include ':app' ,
         'Module_base:baselibrary' ,

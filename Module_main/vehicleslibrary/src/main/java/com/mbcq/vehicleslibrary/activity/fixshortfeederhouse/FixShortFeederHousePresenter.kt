@@ -1,19 +1,30 @@
-package com.mbcq.vehicleslibrary.activity.trunkdeparturehouse
+package com.mbcq.vehicleslibrary.activity.fixshortfeederhouse
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.commonlibrary.ApiInterface
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2018.08.25
+ * @time: 2020-09-18 14:23:00
  */
 
-class TrunkDepartureHousePresenter : BasePresenterImpl<TrunkDepartureHouseContract.View>(), TrunkDepartureHouseContract.Presenter {
+class FixShortFeederHousePresenter : BasePresenterImpl<FixShortFeederHouseContract.View>(), FixShortFeederHouseContract.Presenter {
+    override fun modify(jsonObject: JSONObject) {
+        post<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_MODIFY_LOCAL_INFO_POST, getRequestBody(jsonObject), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.modifyS()
+            }
+
+        })
+    }
+
     /**
      * {"code":0,"msg":"","count":6,"data":[
     {
@@ -125,13 +136,42 @@ class TrunkDepartureHousePresenter : BasePresenterImpl<TrunkDepartureHouseContra
         })
     }
 
-    override fun saveInfo(ob: JSONObject) {
-        post<String>(ApiInterface.COMPELETE_TRUNK_TRANSFER_DEPARTURE_BATCH_NUMBER_POST, getRequestBody(ob), object : CallBacks {
+    override fun getCarInfo(id: Int, inoneVehicleFlag: String) {
+        val params = HttpParams()
+        params.put("id", id)
+        params.put("InoneVehicleFlag", inoneVehicleFlag)
+        get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_LOCAL_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
-                mView?.saveInfoS("")
+
+                val obj = JSONObject(result)
+                val mTotalData = obj.optJSONArray("data")
+                var mFixShortFeederHouseCarInfo: FixShortFeederHouseCarInfo? = null
+                mTotalData?.let { it1 ->
+                    if (!it1.isNull(0)) {
+                        val mFirstJson = it1.getJSONObject(0)
+                        val mFirstData = mFirstJson.optJSONArray("data")
+                        mFirstData?.let {
+                            val mCarInfo = mFirstData.optString(0)
+                            mFixShortFeederHouseCarInfo = Gson().fromJson(mCarInfo, FixShortFeederHouseCarInfo::class.java)
+                        }
+
+                    }
+                    if (!it1.isNull(1)) {
+                        val mSencondJson = it1.getJSONObject(1)
+                        val mSecondData = mSencondJson.optString("data")
+                        mFixShortFeederHouseCarInfo?.item = Gson().fromJson<List<StockWaybillListBean>>(mSecondData, object : TypeToken<List<StockWaybillListBean>>() {}.type)
+
+                    }
+                    mFixShortFeederHouseCarInfo?.let {
+                        mView?.getCarInfo(it)
+                    }
+                }
+
+//                mView?.getInventoryS(Gson().fromJson<List<StockWaybillListBean>>(obj.optString("data"), object : TypeToken<List<StockWaybillListBean>>() {}.type))
 
             }
 
         })
+
     }
 }

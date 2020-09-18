@@ -77,8 +77,11 @@ class DepartureRecordActivity : BaseDepartureRecordActivity<DepartureRecordContr
 
     override fun onRestart() {
         super.onRestart()
-        if (intent.getBooleanExtra("IsRefresh",false)){
+        if (intent.getBooleanExtra("IsRefresh", false)) {
             RxBus.build().post(DepartureRecordRefreshEvent::class.java)
+        }
+        if (intent.getBooleanExtra("TrunkDepartureIsRefresh", false)) {
+            RxBus.build().post(TrunkDepartureIsRefreshEvent::class.java)
         }
     }
 }

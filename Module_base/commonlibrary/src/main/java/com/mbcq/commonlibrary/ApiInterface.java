@@ -62,11 +62,9 @@ public class ApiInterface {
     public static final String ACCEPT_SELECT_RECEIVER_GET = BASE_URI + "Consignee/SelConsigneeByCondition";
 
 
-
     /**
      * --------------------------------------------------------------------------------------------------------------
      */
-
 
 
     /**
@@ -79,7 +77,6 @@ public class ApiInterface {
     public static final String WAYBILL_RECORD_DELETE_INFO_POST = BASE_URI + "WaybillOpe/DelWaybill";
 
 
-
     /**
      * --------------------------------------------------------------------------------------------------------------
      */
@@ -90,10 +87,30 @@ public class ApiInterface {
      */
     public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET = BASE_URI + "GxVehicleOpe/SelGxVehicleByCondition";
 
-  /**
+    /**
      * 发车记录  短驳发车 获取所有信息
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET = BASE_URI + "DbVehicleOpe/SelDbVehicleByCondition";
+    /**
+     * 干线发车 取消完成本车
+     */
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_MODIFY_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/UpdCancelGxVehicle";
+    /**
+     * 短驳发车 取消完成本车
+     */
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_MODIFY_LOCAL_INFO_POST = BASE_URI + "DbVehicleOpe/UpdCancelDbVehicle";
+    /**
+     * 短驳发车 查询汇总
+     */
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_LOCAL_INFO_GET = BASE_URI + "DbVehicleOpe/SelSmDbVehicleByCondition";
+    /**
+     * 发车记录  干线发车 作废
+     */
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_INVALID_INFO_POST = BASE_URI + "GxVehicleOpe/DelGxVehicle";
+    /**
+     * 发车记录  短驳发车 作废
+     */
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_INVALID_INFO_POST = BASE_URI + "DbVehicleOpe/DelDbVehicle";
     /**
      * 添加短驳计划装车
      * 获取短驳 发车批次号 get
@@ -109,8 +126,12 @@ public class ApiInterface {
      */
     public static final String COMPELETE_SHORT_TRANSFER_DEPARTURE_BATCH_NUMBER_POST = BASE_URI + "DbVehicleOpe/AddDbVehicle";
     /**
+     * 完成干线发车
+     */
+    public static final String COMPELETE_TRUNK_TRANSFER_DEPARTURE_BATCH_NUMBER_POST = BASE_URI + "GxVehicleOpe/AddGxVehicle";
+    /**
      * 车辆档案 查询
-     *GET Vehicles/SelVehiclesByCondition
+     * GET Vehicles/SelVehiclesByCondition
      */
     public static final String VEHICLE_SELECT_INFO_GET = BASE_URI + "Vehicles/SelVehiclesByCondition";
     /**

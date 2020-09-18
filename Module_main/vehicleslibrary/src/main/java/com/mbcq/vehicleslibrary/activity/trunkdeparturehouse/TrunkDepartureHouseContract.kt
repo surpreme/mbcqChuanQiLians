@@ -3,6 +3,7 @@ package com.mbcq.vehicleslibrary.activity.trunkdeparturehouse
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
+import org.json.JSONObject
 
 /**
  * @author: lzy
@@ -16,11 +17,13 @@ class TrunkDepartureHouseContract {
          * 库存运单
          */
         fun getInventoryS(list:List<StockWaybillListBean>)
+        fun saveInfoS(s:String)
 
     }
 
     interface Presenter : BasePresenter<View> {
         fun getInventory(page: Int)
+        fun saveInfo(ob: JSONObject)
 
     }
 }
