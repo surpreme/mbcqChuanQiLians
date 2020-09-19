@@ -19,6 +19,7 @@ import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.inventorylist.ShortFeederHouseInventoryListAdapter
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.loadinglist.ShortFeederHouseLoadingListAdapter
 import kotlinx.android.synthetic.main.activity_fix_short_feeder_house.*
+import java.lang.StringBuilder
 
 
 /**
@@ -70,25 +71,51 @@ abstract class BaseFixShortFeederHouseActivity<V : BaseView, T : BasePresenterIm
         })
     }
 
-    fun removeSomeThing() {
+    fun getSelectInventoryList(): List<StockWaybillListBean>? {
         val mSelectedDatas = mutableListOf<StockWaybillListBean>()
-        val mUnSelectedDatas = mutableListOf<StockWaybillListBean>()
+        mInventoryListAdapter?.getAllData()?.let {
+            for ((index, item) in (it.withIndex())) {
+                if (item.isChecked) {
+                    mSelectedDatas.add(item)
+                }
+            }
+            return mSelectedDatas
+
+        }
+        return null
+
+    }
+
+    fun refreshTopNumber() {
+        short_feeder_house_tabLayout.getTabAt(0)?.text = "库存清单(${mInventoryListAdapter?.getAllData()?.size})"
+        short_feeder_house_tabLayout.getTabAt(1)?.text = "配载清单(${mLoadingListAdapter?.getAllData()?.size})"
+    }
+    fun getSelectLoadingOrder(): String {
+        val mSelectWaybillNumber = StringBuilder()
         mLoadingListAdapter?.getAllData()?.let {
             for ((index, item) in (it.withIndex())) {
                 if (item.isChecked) {
-                    item.isChecked = false
-                    mSelectedDatas.add(item)
-                } else {
-                    mUnSelectedDatas.add(item)
+                    mSelectWaybillNumber.append(item.billno)
+                    if (index != it.size - 1)
+                        mSelectWaybillNumber.append(",")
                 }
             }
-            mInventoryListAdapter?.appendData(mSelectedDatas)
-            mLoadingListAdapter?.clearData()
-            mLoadingListAdapter?.appendData(mUnSelectedDatas)
-            if (all_selected_checked.isChecked) {
-                all_selected_checked.isChecked = false
+        }
+        return mSelectWaybillNumber.toString()
+    }
+
+    fun getSelectInventoryOrder(): String {
+        val mSelectWaybillNumber = StringBuilder()
+        mInventoryListAdapter?.getAllData()?.let {
+            for ((index, item) in (it.withIndex())) {
+                if (item.isChecked) {
+                    mSelectWaybillNumber.append(item.billno)
+                    if (index != it.size - 1)
+                        mSelectWaybillNumber.append(",")
+                }
             }
         }
+        return mSelectWaybillNumber.toString()
     }
 
     fun addSomeThing() {
@@ -113,7 +140,26 @@ abstract class BaseFixShortFeederHouseActivity<V : BaseView, T : BasePresenterIm
         }
 
     }
-
+    fun removeSomeThing() {
+        val mSelectedDatas = mutableListOf<StockWaybillListBean>()
+        val mUnSelectedDatas = mutableListOf<StockWaybillListBean>()
+        mLoadingListAdapter?.getAllData()?.let {
+            for ((index, item) in (it.withIndex())) {
+                if (item.isChecked) {
+                    item.isChecked = false
+                    mSelectedDatas.add(item)
+                } else {
+                    mUnSelectedDatas.add(item)
+                }
+            }
+            mInventoryListAdapter?.appendData(mSelectedDatas)
+            mLoadingListAdapter?.clearData()
+            mLoadingListAdapter?.appendData(mUnSelectedDatas)
+            if (all_selected_checked.isChecked) {
+                all_selected_checked.isChecked = false
+            }
+        }
+    }
     @SuppressLint("SetTextI18n")
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
@@ -126,19 +172,11 @@ abstract class BaseFixShortFeederHouseActivity<V : BaseView, T : BasePresenterIm
 
     var mInventoryListAdapter: ShortFeederHouseInventoryListAdapter? = null
     var mLoadingListAdapter: ShortFeederHouseLoadingListAdapter? = null
-    private fun initLoadingList() {
+    protected open fun initLoadingList() {
         loadingList_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         mLoadingListAdapter = ShortFeederHouseLoadingListAdapter(mContext)
         loadingList_recycler.adapter = mLoadingListAdapter
-        mLoadingListAdapter?.mOnRemoveInterface = object : ShortFeederHouseLoadingListAdapter.OnRemoveInterface {
-            override fun onClick(position: Int, item: StockWaybillListBean) {
-                mLoadingListAdapter?.removeItem(position)
-                mInventoryListAdapter?.appendData(mutableListOf(item))
-                short_feeder_house_tabLayout.getTabAt(0)?.text = "库存清单(${mInventoryListAdapter?.getAllData()?.size})"
-                short_feeder_house_tabLayout.getTabAt(1)?.text = "配载清单(${mLoadingListAdapter?.getAllData()?.size})"
-            }
 
-        }
         if (loadingList_recycler.itemDecorationCount == 0) {
             loadingList_recycler.addItemDecoration(object : BaseItemDecoration(mContext) {
                 override fun configExtraSpace(position: Int, count: Int, rect: Rect) {
@@ -152,20 +190,11 @@ abstract class BaseFixShortFeederHouseActivity<V : BaseView, T : BasePresenterIm
         }
     }
 
-    private fun initInventoryList() {
+    protected open fun initInventoryList() {
         inventoryList_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         mInventoryListAdapter = ShortFeederHouseInventoryListAdapter(mContext)
         inventoryList_recycler.adapter = mInventoryListAdapter
-        mInventoryListAdapter?.mOnRemoveInterface = object : ShortFeederHouseInventoryListAdapter.OnRemoveInterface {
-            override fun onClick(position: Int, item: StockWaybillListBean) {
-                mInventoryListAdapter?.removeItem(position)
-                mLoadingListAdapter?.appendData(mutableListOf(item))
-                short_feeder_house_tabLayout.getTabAt(0)?.text = "库存清单(${mInventoryListAdapter?.getAllData()?.size})"
-                short_feeder_house_tabLayout.getTabAt(1)?.text = "配载清单(${mLoadingListAdapter?.getAllData()?.size})"
 
-            }
-
-        }
         if (inventoryList_recycler.itemDecorationCount == 0) {
             inventoryList_recycler.addItemDecoration(object : BaseItemDecoration(mContext) {
                 override fun configExtraSpace(position: Int, count: Int, rect: Rect) {

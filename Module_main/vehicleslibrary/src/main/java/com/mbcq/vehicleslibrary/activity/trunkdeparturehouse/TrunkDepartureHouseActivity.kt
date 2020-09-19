@@ -32,7 +32,6 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
     @Autowired(name = "TrunkDepartureHouse")
     @JvmField
     var mLastDataJson: String = ""
-    var mDepartureLot = ""
 
     override fun getLayoutId(): Int = R.layout.activity_add_trunk_departure_house
 
@@ -44,6 +43,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
         mDepartureLot = mLastData.optString("InoneVehicleFlag")
         departure_lot_tv.text = "发车批次: $mDepartureLot"
     }
+
     /**
      * 完成本车保存
      */
@@ -63,13 +63,13 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
                     kk.append(",")
                 jarray.put(obj)
             }
-            val VehicleInterval=""//发车区间
+            val VehicleInterval = ""//发车区间
             mLastData.put("VehicleInterval", VehicleInterval)
 
-            val YtWebidCode=""//沿途网点编码
+            val YtWebidCode = ""//沿途网点编码
             mLastData.put("YtWebidCode", YtWebidCode)
 
-            val YtWebidCodeStr=""//沿途网点
+            val YtWebidCodeStr = ""//沿途网点
             mLastData.put("YtWebidCodeStr", YtWebidCodeStr)
 
             mLastData.put("GxVehicleDetLst", jarray)
@@ -78,17 +78,18 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
         }
 
     }
+
     override fun onClick() {
         super.onClick()
-        complete_btn.setOnClickListener(object:SingleClick(){
+        complete_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 completeCar()
             }
 
         })
-        add_operating_interval_btn.setOnClickListener(object:SingleClick(){
+        add_operating_interval_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                getDbWebId(object:WebDbInterface{
+                getDbWebId(object : WebDbInterface {
                     override fun isNull() {
 
                     }
@@ -123,10 +124,11 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
 
         }
     }
+
     fun geDeliveryPointLocal(list: MutableList<WebAreaDbInfo>) {
         FilterDialog(getScreenWidth(), Gson().toJson(list), "webid", "选择沿途网点", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
-                val checkBox=CheckBox(mContext)
+                val checkBox = CheckBox(mContext)
                 checkBox.text = list[position].webid
                 operating_interval_ll.addView(checkBox)
 
@@ -134,6 +136,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
 
         }).show(supportFragmentManager, "BaseTrunkDepartureHouseActivitygeDeliveryPointLocalDialogFilterDialog")
     }
+
     override fun initDatas() {
         super.initDatas()
         mPresenter?.getInventory(1)
@@ -146,9 +149,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
 
     override fun saveInfoS(s: String) {
         TalkSureDialog(mContext, getScreenWidth(), "干线计划装车${mDepartureLot}完成，点击查看详情！") {
-            ARouter.getInstance().build(ARouterConstants.DepartureRecordActivity).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                    .withBoolean("TrunkDepartureIsRefresh", true)
-                    .navigation()
+            onBackPressed()
             this.finish()
         }.show()
     }

@@ -96,13 +96,43 @@ public class ApiInterface {
      */
     public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_MODIFY_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/UpdCancelGxVehicle";
     /**
+     * 干线发车 查询汇总
+     */
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/SelSmGxVehicleByCondition";
+    /**
+     * 干线发车 完成本车
+     */
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_COMPLETE_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/UpdOverGxVehicle";
+    /**
      * 短驳发车 取消完成本车
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_MODIFY_LOCAL_INFO_POST = BASE_URI + "DbVehicleOpe/UpdCancelDbVehicle";
     /**
+     * 短驳发车 完成本车 completeCar
+     */
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_COMPLETE_LOCAL_INFO_POST = BASE_URI + "DbVehicleOpe/UpdOverDbVehicle";
+    /**
      * 短驳发车 查询汇总
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_LOCAL_INFO_GET = BASE_URI + "DbVehicleOpe/SelSmDbVehicleByCondition";
+    /**
+     * 短驳发车 剔除运单
+     */
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_REMOVE_LOCAL_INFO_POST = BASE_URI + "DbVehicleOpe/CurDbVehDelWay";
+    /**
+     * 短驳发车 本车加货
+     */
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_ADD_LOCAL_INFO_POST = BASE_URI + "DbVehicleOpe/CurDbVehAddWay";
+    /**
+     * 干线发车 本车加货
+     */
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_ADD_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/CurGxVehAddWay";
+
+    /**
+     * 干线发车 剔除运单
+     */
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_REMOVE_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/CurGxVehDelWay";
+
     /**
      * 发车记录  干线发车 作废
      */

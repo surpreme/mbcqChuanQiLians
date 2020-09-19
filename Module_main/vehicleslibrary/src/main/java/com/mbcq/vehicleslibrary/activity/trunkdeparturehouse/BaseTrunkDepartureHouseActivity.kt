@@ -36,6 +36,7 @@ import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.*
 abstract class BaseTrunkDepartureHouseActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
 
     var mTypeIndex = 1
+    var mDepartureLot = ""
 
 
     override fun initExtra() {

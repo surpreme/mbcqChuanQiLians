@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/departure_lot_tv" />
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/short_feeder_house_tabLayout"
+        android:id="@+id/fix_trunk_departure_house_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/over_total_info_tv" />
@@ -53,7 +53,7 @@
         android:overScrollMode="never"
         android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@+id/bottom_ll"
-        app:layout_constraintTop_toBottomOf="@id/short_feeder_house_tabLayout" />
+        app:layout_constraintTop_toBottomOf="@id/fix_trunk_departure_house_tabLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/loadingList_recycler"
@@ -63,7 +63,7 @@
         android:scrollbars="none"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/bottom_ll"
-        app:layout_constraintTop_toBottomOf="@id/short_feeder_house_tabLayout" />
+        app:layout_constraintTop_toBottomOf="@id/fix_trunk_departure_house_tabLayout" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/operating_interval_cl"
@@ -71,7 +71,7 @@
         android:layout_height="0dp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/bottom_ll"
-        app:layout_constraintTop_toBottomOf="@id/short_feeder_house_tabLayout">
+        app:layout_constraintTop_toBottomOf="@id/fix_trunk_departure_house_tabLayout">
 
         <TextView
             android:id="@+id/operating_interval_title_tv"

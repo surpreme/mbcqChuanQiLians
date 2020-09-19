@@ -42,6 +42,11 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
         return RequestBody.create(JSON, GsonUtils.toPrettyFormat(jsonObject.toString()))
     }
 
+    protected fun getRequestBody(json: String): RequestBody {
+        val JSON = MediaType.parse("application/json; charset=utf-8")
+        return RequestBody.create(JSON, json)
+    }
+
     protected fun <T> post(url: String, body: RequestBody, callback: CallBacks) {
         post<T>(url, body, false, callback)
     }

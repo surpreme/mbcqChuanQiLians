@@ -41,7 +41,7 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         val mLastData = JSONObject(mLastDataJson)
-        mDepartureLot=mLastData.optString("InoneVehicleFlag")
+        mDepartureLot = mLastData.optString("InoneVehicleFlag")
         departure_lot_tv.text = "发车批次: $mDepartureLot"
 
     }
@@ -106,9 +106,7 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
 
     override fun saveInfoS(result: String) {
         TalkSureDialog(mContext, getScreenWidth(), "短驳计划装车${mDepartureLot}完成，点击查看详情！") {
-            ARouter.getInstance().build(ARouterConstants.DepartureRecordActivity).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                    .withBoolean("IsRefresh", true)
-                    .navigation()
+            onBackPressed()
             this.finish()
         }.show()
 

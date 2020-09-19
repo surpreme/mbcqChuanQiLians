@@ -1,11 +1,10 @@
 package com.mbcq.vehicleslibrary.activity.fixshortfeederhouse
 
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
-import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
-import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.commonlibrary.ApiInterface
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import org.json.JSONObject
@@ -166,12 +165,97 @@ class FixShortFeederHousePresenter : BasePresenterImpl<FixShortFeederHouseContra
                         mView?.getCarInfo(it)
                     }
                 }
+            }
 
-//                mView?.getInventoryS(Gson().fromJson<List<StockWaybillListBean>>(obj.optString("data"), object : TypeToken<List<StockWaybillListBean>>() {}.type))
+        })
+
+    }
+
+    override fun removeOrder(commonStr: String, id: String, inoneVehicleFlag: String) {
+        val postBody = JsonObject()
+        postBody.addProperty("CommonStr", commonStr)
+        postBody.addProperty("id", id)
+        postBody.addProperty("InoneVehicleFlag", inoneVehicleFlag)
+        post<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_REMOVE_LOCAL_INFO_POST, getRequestBody(postBody), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.removeOrderS()
 
             }
 
         })
 
+    }
+
+    override fun removeOrderItem(commonStr: String, id: String, inoneVehicleFlag: String, position: Int, item: StockWaybillListBean) {
+        val postBody = JsonObject()
+        postBody.addProperty("CommonStr", commonStr)
+        postBody.addProperty("id", id)
+        postBody.addProperty("InoneVehicleFlag", inoneVehicleFlag)
+        post<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_REMOVE_LOCAL_INFO_POST, getRequestBody(postBody), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.removeOrderItemS(position, item)
+
+            }
+
+        })
+    }
+
+    override fun addOrderItem(commonStr: String, id: String, inoneVehicleFlag: String, position: Int, item: StockWaybillListBean) {
+        val mAddOrderDataBean = AddShortOrderDataBean()
+        mAddOrderDataBean.commonStr = commonStr
+        mAddOrderDataBean.id = id
+        mAddOrderDataBean.inoneVehicleFlag = inoneVehicleFlag
+        val dbVehicleDetLst = mutableListOf<StockWaybillListBean>()
+        dbVehicleDetLst.add(item)
+        mAddOrderDataBean.dbVehicleDetLst = dbVehicleDetLst
+        post<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_ADD_LOCAL_INFO_POST, getRequestBody(Gson().toJson(mAddOrderDataBean)), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.addOrderItemS(position, item)
+
+            }
+
+        })
+    }
+
+    override fun addOrder(commonStr: String, id: String, inoneVehicleFlag: String, dbVehicleDetLst: List<StockWaybillListBean>) {
+        val mAddOrderDataBean = AddShortOrderDataBean()
+        mAddOrderDataBean.commonStr = commonStr
+        mAddOrderDataBean.id = id
+        mAddOrderDataBean.inoneVehicleFlag = inoneVehicleFlag
+        mAddOrderDataBean.dbVehicleDetLst = dbVehicleDetLst
+
+        post<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_ADD_LOCAL_INFO_POST, getRequestBody(Gson().toJson(mAddOrderDataBean)), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.addOrderS()
+
+            }
+
+        })
+    }
+
+    override fun completeCar(id: Int, inoneVehicleFlag: String) {
+        val postBody = JsonObject()
+        postBody.addProperty("id", id)
+        postBody.addProperty("InoneVehicleFlag", inoneVehicleFlag)
+        post<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_COMPLETE_LOCAL_INFO_POST, getRequestBody(postBody), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.completeCarS()
+
+            }
+
+        })
+    }
+
+    override fun invalidOrder(inoneVehicleFlag: String, id: Int) {
+        val obj= JsonObject()
+        obj.addProperty("inoneVehicleFlag",inoneVehicleFlag)
+        obj.addProperty("id",id)
+        post<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_INVALID_INFO_POST,getRequestBody(obj),object :CallBacks{
+            override fun onResult(result: String) {
+                mView?.invalidOrderS()
+
+            }
+
+        })
     }
 }

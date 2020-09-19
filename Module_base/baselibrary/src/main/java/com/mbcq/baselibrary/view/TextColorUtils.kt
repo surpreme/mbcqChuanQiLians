@@ -17,7 +17,7 @@ object TextColorUtils {
      * "#060606"黑色
      * "#FF5000"橙色
      */
-    fun setSpannableStringBuilder(s: String, start: Int, startColor: String, nextColor: String): SpannableStringBuilder {
+    fun setSpannableStringBuilder(s: String?, start: Int, startColor: String, nextColor: String): SpannableStringBuilder {
         if (s == null) {
             throw Exception("StringNull")
         } else {
@@ -30,7 +30,7 @@ object TextColorUtils {
         }
     }
 
-    fun setSpannableStringBuilder(s: String, start: Int, startColor: Int, nextColor: Int): SpannableStringBuilder {
+    fun setSpannableStringBuilder(s: String?, start: Int, startColor: Int, nextColor: Int): SpannableStringBuilder {
         if (s == null) {
             throw Exception("StringNull")
         } else {
