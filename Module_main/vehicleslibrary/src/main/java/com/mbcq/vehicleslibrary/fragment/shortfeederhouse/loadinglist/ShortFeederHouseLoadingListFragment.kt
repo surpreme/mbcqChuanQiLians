@@ -12,7 +12,7 @@ import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
-import com.mbcq.vehicleslibrary.activity.departurerecord.ShortFeederHouseEvent
+import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.ShortFeederHouseEvent
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.event.ShortFeederHouseInventoryListEvent
 import kotlinx.android.synthetic.main.fragment_short_feeder_house_loading_list.*

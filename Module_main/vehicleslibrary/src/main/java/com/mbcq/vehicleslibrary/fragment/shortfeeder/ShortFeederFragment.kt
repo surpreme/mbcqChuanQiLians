@@ -12,10 +12,9 @@ import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
-import com.mbcq.vehicleslibrary.activity.departurerecord.DepartureRecordEvent
+import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordEvent
 import com.mbcq.vehicleslibrary.R
-import com.mbcq.vehicleslibrary.activity.departurerecord.DepartureRecordRefreshEvent
-import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
+import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordRefreshEvent
 import kotlinx.android.synthetic.main.fragment_short_feeder.*
 import org.json.JSONObject
 import java.text.DateFormat

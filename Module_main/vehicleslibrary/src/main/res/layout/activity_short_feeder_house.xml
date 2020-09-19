@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.shortfeederhouse.ShortFeederHouseActivity">
+    tools:context=".activity.alldeparturerecord.shortfeederhouse.ShortFeederHouseActivity">
 
     <com.mbcq.baselibrary.view.CnToolbar
         android:id="@+id/short_feeder_house_toolbar"

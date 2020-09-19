@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.fixtrunkdeparturehouse.FixedTrunkDepartureHouseActivity">
+    tools:context=".activity.alldeparturerecord.fixtrunkdeparturehouse.FixedTrunkDepartureHouseActivity">
 
     <com.mbcq.baselibrary.view.CnToolbar
         android:id="@+id/fixed_trunk_departure_house_toolbar"
