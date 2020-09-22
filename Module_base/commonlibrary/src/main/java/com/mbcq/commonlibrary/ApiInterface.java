@@ -104,6 +104,18 @@ public class ApiInterface {
      */
     public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_COMPLETE_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/UpdOverGxVehicle";
     /**
+     * 干线发车 取消到车
+     */
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_ARRIVAL_CANCEL_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/UpdDbVehicleByCondition";
+    /**
+     * 短驳发车 查询在途车辆记录
+     */
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_LOADING_LOCAL_INFO_POST = BASE_URI + "DbVehicleOpe/SelNeeDbVehicleArrivalByCon";
+    /**
+     * 短驳发车 查询到达车辆
+     */
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_OVERRING_LOCAL_INFO_GET = BASE_URI + "DbVehicleOpe/SelDbVehicleArrivalByCon";
+    /**
      * 短驳发车 取消完成本车
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_MODIFY_LOCAL_INFO_POST = BASE_URI + "DbVehicleOpe/UpdCancelDbVehicle";
@@ -116,6 +128,14 @@ public class ApiInterface {
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_LOCAL_INFO_GET = BASE_URI + "DbVehicleOpe/SelSmDbVehicleByCondition";
     /**
+     * 短驳发车 确认到车
+     */
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_ARRIVAL_CONFIRM_LOCAL_INFO_POST = BASE_URI + "DbVehicleOpe/UpdCofArrDbVehicle";
+    /**
+     * 短驳发车 取消到车
+     */
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_ARRIVAL_CANCEL_LOCAL_INFO_GET = BASE_URI + "DbVehicleOpe/UpdDbVehicleByCondition";
+    /**
      * 短驳发车 剔除运单
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_REMOVE_LOCAL_INFO_POST = BASE_URI + "DbVehicleOpe/CurDbVehDelWay";
@@ -127,6 +147,19 @@ public class ApiInterface {
      * 干线发车 本车加货
      */
     public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_ADD_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/CurGxVehAddWay";
+    /**
+     * 干线发车 确认到车
+     */
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_ARRIVAL_CONFIRM_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/UpdCofArrGxVehicle";
+    /**
+     * 干线发车 查询在途车辆记录
+     */
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_LOADING_LOCAL_INFO_GET = BASE_URI + "GxVehicleOpe/SelNeeGxVehicleArrivalByCon";
+
+    /**
+     * 干线发车 查询到达车辆
+     */
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_OVERRING_LOCAL_INFO_GET = BASE_URI + "GxVehicleOpe/SelGxVehicleArrivalByCon";
 
     /**
      * 干线发车 剔除运单

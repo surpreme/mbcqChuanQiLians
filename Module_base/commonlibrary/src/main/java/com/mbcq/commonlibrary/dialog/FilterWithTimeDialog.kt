@@ -71,7 +71,7 @@ class FilterWithTimeDialog : BaseDialogFragment {
           init(mScreenWidth, mDatas, showTag, "", tips, isGridLayoutManager, isShowOutSide, mClickInterface)
       }*/
 
-    constructor(mScreenWidth: Int, mDatas: String, showTag: String, resultTag: String,  isWebCodeDialog: Boolean, tips: String, isGridLayoutManager: Boolean,  mClickInterface: OnClickInterface.OnClickInterface) {
+    constructor(mScreenWidth: Int, mDatas: String, showTag: String, resultTag: String, isWebCodeDialog: Boolean, tips: String, isGridLayoutManager: Boolean, mClickInterface: OnClickInterface.OnClickInterface) {
         val dataslist = JSONArray(mDatas)
         val showDatas = mutableListOf<BaseCheckedAdapterBean>()
         for (index in 0 until dataslist.length()) {
@@ -79,8 +79,8 @@ class FilterWithTimeDialog : BaseDialogFragment {
             val obj = dataslist.getJSONObject(index)
             mBaseCheckedAdapterBean.title = obj.optString(showTag)
             mBaseCheckedAdapterBean.tag = if (resultTag.isNotEmpty()) obj.optString(resultTag) else GsonUtils.toPrettyFormat(obj.toString())
-            if (isWebCodeDialog){
-                if (obj.optString("webidCode") ==  BaseConstant.WEBID_CODE) {
+            if (isWebCodeDialog) {
+                if (obj.optString("webidCode") == BaseConstant.WEBID_CODE) {
                     mBaseCheckedAdapterBean.checked = true
                 }
             }
@@ -139,7 +139,9 @@ class FilterWithTimeDialog : BaseDialogFragment {
             val mSelect = StringBuilder()
             for ((index, item) in (mCheckBoxViewAdapter.getDatas()).withIndex()) {
                 if (item.checked) {
-                    mSelect.append(item.tag).append(",")
+                    mSelect.append(item.tag)
+                    if (index != mCheckBoxViewAdapter.getDatas().size - 1)
+                        mSelect.append(",")
 
                 }
 

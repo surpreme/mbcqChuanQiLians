@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.activity.allarrivalrecord
+package com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView

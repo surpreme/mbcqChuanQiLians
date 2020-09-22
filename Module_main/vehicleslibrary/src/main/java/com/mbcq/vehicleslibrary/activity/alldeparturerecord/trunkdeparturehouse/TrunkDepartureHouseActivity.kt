@@ -23,7 +23,7 @@ import org.json.JSONObject
 /**
  * @author: lzy
  * @time: 2018.08.25
- * 添加干线发车 运输方式 update
+ * 添加干线发车 运输方式
  */
 @Route(path = ARouterConstants.TrunkDepartureHouseActivity)
 class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartureHouseContract.View, TrunkDepartureHousePresenter>(), TrunkDepartureHouseContract.View {

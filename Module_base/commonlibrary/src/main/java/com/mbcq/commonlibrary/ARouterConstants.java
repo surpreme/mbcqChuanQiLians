@@ -16,4 +16,6 @@ public class ARouterConstants {
     public static final String TrunkDepartureHouseActivity="/vehicles/TrunkDepartureHouseActivity";
     public static final String FixedTrunkDepartureHouseActivity="/vehicles/FixedTrunkDepartureHouseActivity";
     public static final String FixShortFeederHouseActivity="/vehicles/FixShortFeederHouseActivity";
+    public static final String ArrivalRecordActivity="/vehicles/ArrivalRecordActivity";
+    public static final String UnloadingWarehousingActivity="/vehicles/UnloadingWarehousingActivity";
 }

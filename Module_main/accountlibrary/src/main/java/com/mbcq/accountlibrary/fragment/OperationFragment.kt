@@ -200,6 +200,13 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
 
                             }
                         }
+                    }else if (mResult=="3"){
+                        when(position){
+                            2->{
+                                ARouter.getInstance().build(ARouterConstants.ArrivalRecordActivity).navigation()
+
+                            }
+                        }
                     }
                 }
             }

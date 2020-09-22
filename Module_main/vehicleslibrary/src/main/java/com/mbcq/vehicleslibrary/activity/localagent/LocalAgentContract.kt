@@ -1,14 +1,14 @@
-package com.mbcq.vehicleslibrary.activity.alldeparturerecord.arrivalrecord
+package com.mbcq.vehicleslibrary.activity.localagent
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
 
 /**
  * @author: lzy
- * @time: 2020-09-18 10:46:03
+ * @time: 2020-09-22 11:17:45
  */
 
-class ArrivalRecordContract {
+class LocalAgentContract {
 
     interface View : BaseView {
 
