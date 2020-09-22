@@ -8,7 +8,7 @@ import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.vehicleslibrary.R
-import kotlinx.android.synthetic.main.activity_arrival_short_feeder_fragment.view.*
+import kotlinx.android.synthetic.main.fragment_arrival_short_feeder.view.*
 import kotlinx.android.synthetic.main.activity_unloading_warehousing.*
 
 /**

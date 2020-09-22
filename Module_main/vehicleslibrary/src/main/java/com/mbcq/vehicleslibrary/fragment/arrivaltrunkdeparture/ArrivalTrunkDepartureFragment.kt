@@ -10,7 +10,7 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordEvent
 import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
-import kotlinx.android.synthetic.main.activity_arrival_trunk_departure_fragment.*
+import kotlinx.android.synthetic.main.fragment_arrival_trunk_departure.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -122,7 +122,7 @@ class ArrivalTrunkDepartureFragment : BaseListMVPFragment<ArrivalTrunkDepartureC
     }
 
 
-    override fun getLayoutResId(): Int = R.layout.activity_arrival_trunk_departure_fragment
+    override fun getLayoutResId(): Int = R.layout.fragment_arrival_trunk_departure
     override fun getPageS(list: List<TrunkDepartureBean>) {
         adapter.appendData(list)
 

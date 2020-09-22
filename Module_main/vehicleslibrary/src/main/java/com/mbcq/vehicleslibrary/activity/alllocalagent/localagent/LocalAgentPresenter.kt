@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.activity.localagent
+package com.mbcq.vehicleslibrary.activity.alllocalagent.localagent
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 

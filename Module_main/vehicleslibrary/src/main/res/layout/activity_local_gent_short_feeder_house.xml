@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseActivity">
+    <com.mbcq.baselibrary.view.CnToolbar
+        android:id="@+id/local_gent_short_feeder_house_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/base_blue"
+        app:backButtonIsShow="true"
+        app:centerTextViewText="中转出库"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/dispatch_number_tv"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center|left"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/local_gent_short_feeder_house_toolbar"
+        tools:text="派车单号：BZZ2002-202020422-002" />
+
+    <TextView
+        android:id="@+id/over_total_info_tv"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center|left"
+        android:paddingLeft="10dp"
+        android:text="已 装  车：0票 0件 0Kg 0方     00.00元"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dispatch_number_tv" />
+    <LinearLayout
+        android:id="@+id/top_index_title_ll"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingTop="5dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/over_total_info_tv">
+
+        <TextView
+            android:id="@+id/inventory_list_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="库存清单(x)"
+            android:textColor="@color/base_blue"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/loading_list_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="配载清单(x)"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/top_index_line_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/top_index_title_ll">
+
+        <View
+            android:id="@+id/inventory_list_line"
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_weight="1"
+            android:alpha="0.7"
+            android:background="@color/base_blue" />
+
+        <View
+            android:id="@+id/loading_list_line"
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_weight="1"
+            android:alpha="0.7" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

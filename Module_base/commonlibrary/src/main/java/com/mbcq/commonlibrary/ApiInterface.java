@@ -206,6 +206,19 @@ public class ApiInterface {
      * 短驳和干线 运单库存 Waybill inventory
      */
     public static final String WAYBILL_INVENTORY_SELECT_INFO_GET = BASE_URI + "WaybillFcdOpe/SelDbGxWaybillFcdByCon";
+    /**
+     * --------------------------------------------------------------------------------------------------------------
+     */
+
+
+    /**
+     * 本地代理记录  按车
+     */
+    public static final String LOCAL_AGENT_RECORD_SELECT_INFO_GET = BASE_URI + "WaybillAgentOpe/SelWaybillAgentByCondition";
+    /**
+     * 本地代理 获取本地代理发车 批次号
+     */
+    public static final String LOCAL_AGENT_BATCH_NUMBER_GET = BASE_URI + "WaybillAgentOpe/SelBddlInOneVehicleFlag";
 
 
 }

@@ -11,7 +11,7 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordEvent
 import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederBean
-import kotlinx.android.synthetic.main.activity_arrival_short_feeder_fragment.*
+import kotlinx.android.synthetic.main.fragment_arrival_short_feeder.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,7 +28,7 @@ class ArrivalShortFeederFragment : BaseListMVPFragment<ArrivalShortFeederContrac
     var mShippingOutletsTag = ""//发货网点
     var mType = 1
 
-    override fun getLayoutResId() = R.layout.activity_arrival_short_feeder_fragment
+    override fun getLayoutResId() = R.layout.fragment_arrival_short_feeder
 
 
     override fun getRecyclerViewId(): Int = R.id.arrival_short_list_recycler
