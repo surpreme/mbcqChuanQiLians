@@ -99,6 +99,7 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:id="@+id/temporary_vehicle_ed"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -224,6 +225,7 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:id="@+id/remark_ed"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"

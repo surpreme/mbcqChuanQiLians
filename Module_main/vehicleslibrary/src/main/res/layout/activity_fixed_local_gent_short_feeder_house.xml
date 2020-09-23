@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseActivity">
+    tools:context=".activity.alllocalagent.fixlocalgentshortfeederhouse.FixedLocalGentShortFeederHouseActivity">
 
     <com.mbcq.baselibrary.view.CnToolbar
         android:id="@+id/local_gent_short_feeder_house_toolbar"
@@ -12,7 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
-        app:centerTextViewText="中转出库"
+        app:centerTextViewText="修改本地代理中转出库"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -167,5 +167,4 @@
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

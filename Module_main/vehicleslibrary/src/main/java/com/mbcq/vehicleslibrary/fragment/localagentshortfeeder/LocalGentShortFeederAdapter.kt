@@ -1,5 +1,6 @@
 package com.mbcq.vehicleslibrary.fragment.localagentshortfeeder
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +15,11 @@ import com.mbcq.vehicleslibrary.R
 class LocalGentShortFeederAdapter(context: Context?) : BaseRecyclerAdapter<LocalGentShortFeederBean>(context) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_local_short_feeder, parent, false))
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ItemViewHolder).departure_number_tv.text = mDatas[position].agentBillno
         holder.short_feeder_time_tv.text = mDatas[position].agentDate
+        holder.vehicler_info_tv.text = "${mDatas[position].vehcileNo}  ${mDatas[position].chauffer}  ${mDatas[position].chaufferTel}  中转费：xxx"
         context?.let {
             holder.feeder_checkbox_iv.setImageDrawable(ContextCompat.getDrawable(context, if (mDatas[position].isChecked) R.drawable.ic_checked_icon else R.drawable.ic_unchecked_icon))
 
@@ -39,6 +42,7 @@ class LocalGentShortFeederAdapter(context: Context?) : BaseRecyclerAdapter<Local
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var feeder_checkbox_iv: ImageView = itemView.findViewById(R.id.feeder_checkbox_iv)
         var departure_number_tv: TextView = itemView.findViewById(R.id.departure_number_tv)
+        var vehicler_info_tv: TextView = itemView.findViewById(R.id.vehicler_info_tv)
         var short_feeder_time_tv: TextView = itemView.findViewById(R.id.short_feeder_time_tv)
 
     }

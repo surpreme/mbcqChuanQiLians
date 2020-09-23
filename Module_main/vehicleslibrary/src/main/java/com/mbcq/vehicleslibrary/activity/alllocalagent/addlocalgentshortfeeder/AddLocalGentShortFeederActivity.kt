@@ -7,14 +7,18 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.alldeparturerecord.addshortfeeder.NumberPlateBean
 import kotlinx.android.synthetic.main.activity_add_local_gent_short_feeder.*
+import org.json.JSONObject
 
 /**
  * @author: lzy
@@ -35,12 +39,48 @@ class AddLocalGentShortFeederActivity : BaseMVPActivity<AddLocalGentShortFeederC
 
     }
 
+    fun saveVehicle() {
+        if (number_plate_tv.text.toString().isEmpty()) {
+            showToast("请选择车牌号")
+            return
+        }
+        if (driver_name_ed.text.toString().isEmpty()) {
+            showToast("请输入司机姓名")
+            return
+        }
+        if (contact_number_ed.text.toString().isEmpty()) {
+            showToast("请输入司机联系电话")
+            return
+        }
+
+        val obj = JSONObject()
+        obj.put("WebidCode", UserInformationUtil.getWebIdCode(mContext))//出库网点编码
+        obj.put("WebidCodeStr", UserInformationUtil.getWebIdCodeStr(mContext))// 出库网点
+        obj.put("AgentBillno", dispatch_number_tv.text.toString())//发车批次号
+        obj.put("AgentDate", TimeUtils.getCurrTime2())//发车日期
+        obj.put("VehcileNo", number_plate_tv.text.toString())// 车牌号
+        obj.put("VehicleNoTmp", temporary_vehicle_ed.text.toString())// 临时车辆
+        obj.put("VehicleType", vehicle_type_ed.text.toString())// 车型
+        obj.put("Chauffer", driver_name_ed.text.toString())// 司机
+        obj.put("ChaufferTel", contact_number_ed.text.toString())// 司机电话
+        obj.put("AgentAccSend", contact_number_ed.text.toString())// 中转送货费
+        obj.put("AgentAccSend", contact_number_ed.text.toString())// 中转送货费
+        obj.put("Remark", remark_ed.text.toString())// 备注
+        obj.put("AgentType", 1)// 代理类型编码
+        obj.put("AgentTypeStr", "本地代理")// 代理类型
+
+
+        val json = GsonUtils.toPrettyFormat(obj.toString())
+        ARouter.getInstance().build(ARouterConstants.LocalGentShortFeederHouseActivity).withString("LocalGentShortFeederHouse", json).navigation()
+        this.finish()
+    }
+
     override fun onClick() {
         super.onClick()
 
         next_step_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.LocalGentShortFeederHouseActivity).navigation()
+                saveVehicle()
             }
 
         })

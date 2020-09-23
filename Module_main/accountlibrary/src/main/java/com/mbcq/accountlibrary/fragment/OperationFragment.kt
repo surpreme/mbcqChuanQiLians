@@ -77,7 +77,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                 item.itemText = "发车记录"
                             }
                             12 -> {
-                                item.itemText = "受理开单"
+                                item.itemText = "本地代理"
                             }
 
                         }

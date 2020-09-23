@@ -12,6 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
+        app:rightButtonIcon="@drawable/ic_search_icon"
         app:centerTextViewText="中转记录"
         app:layout_constraintTop_toTopOf="parent" />
 

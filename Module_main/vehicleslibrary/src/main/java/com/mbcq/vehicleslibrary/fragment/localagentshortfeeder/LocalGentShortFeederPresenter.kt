@@ -42,11 +42,14 @@ class LocalGentShortFeederPresenter : BasePresenterImpl<LocalGentShortFeederCont
     }
     ]}
      */
-    override fun getPage(page: Int) {
+    override fun getPage(page: Int,selEwebidCode: String, startDate: String, endDate: String) {
         val params = HttpParams()
         params.put("Page", page)
         params.put("Limit", 15)
         params.put("AgentType", 1)
+        params.put("SelWebidCode", selEwebidCode)
+        params.put("startDate", startDate)
+        params.put("endDate", endDate)
         get<String>(ApiInterface.LOCAL_AGENT_RECORD_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
@@ -63,6 +66,16 @@ class LocalGentShortFeederPresenter : BasePresenterImpl<LocalGentShortFeederCont
 
         })
 
+    }
+
+    override fun cancel(s: LocalGentShortFeederBean, position: Int) {
+        post<String>(ApiInterface.LOCAL_AGENT_CANCEL_VEHICLE_POST, getRequestBody(Gson().toJson(s)), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.cancelS(position)
+
+            }
+
+        })
     }
 
 }
