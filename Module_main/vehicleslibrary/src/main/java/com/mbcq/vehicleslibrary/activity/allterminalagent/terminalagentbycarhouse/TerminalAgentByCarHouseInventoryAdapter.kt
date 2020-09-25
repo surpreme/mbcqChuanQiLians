@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse
+package com.mbcq.vehicleslibrary.activity.allterminalagent.terminalagentbycarhouse
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.allterminalagent.TerminalAgentByCarHouseBean
 
-class LocalGentShortFeederHouseInventoryAdapter (context: Context?):BaseRecyclerAdapter<LocalGentShortFeederHouseBean>(context){
+class TerminalAgentByCarHouseInventoryAdapter (context: Context?):BaseRecyclerAdapter<TerminalAgentByCarHouseBean>(context){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_local_gent_short_bycar, parent, false))
     fun checkedAll(isC: Boolean) {
         for ((index, item) in mDatas.withIndex()) {
@@ -24,7 +25,7 @@ class LocalGentShortFeederHouseInventoryAdapter (context: Context?):BaseRecycler
     var mOnRemoveInterface: OnRemoveInterface? = null
 
     interface OnRemoveInterface {
-        fun onClick(position: Int, item: LocalGentShortFeederHouseBean)
+        fun onClick(position: Int, item: TerminalAgentByCarHouseBean)
     }
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

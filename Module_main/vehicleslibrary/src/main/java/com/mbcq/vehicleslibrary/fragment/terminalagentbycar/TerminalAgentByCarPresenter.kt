@@ -1,20 +1,21 @@
-package com.mbcq.vehicleslibrary.fragment.localagentshortfeeder
+package com.mbcq.vehicleslibrary.fragment.terminalagentbycar
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
+import com.mbcq.vehicleslibrary.fragment.localagentshortfeeder.LocalGentByCarBean
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
 
 /**
  * @author: lzy
- * @time: 2020-09-22 13:06
+ * @time: 2018.08.25
  */
 
-class LocalGentShortFeederPresenter : BasePresenterImpl<LocalGentShortFeederContract.View>(), LocalGentShortFeederContract.Presenter {
+class TerminalAgentByCarPresenter : BasePresenterImpl<TerminalAgentByCarContract.View>(), TerminalAgentByCarContract.Presenter {
     /**
      * {"code":0,"msg":"","count":8,"data":[
     {
@@ -46,7 +47,7 @@ class LocalGentShortFeederPresenter : BasePresenterImpl<LocalGentShortFeederCont
         val params = HttpParams()
         params.put("Page", page)
         params.put("Limit", 15)
-        params.put("AgentType", 1)
+        params.put("AgentType", 2)
         params.put("SelWebidCode", selEwebidCode)
         params.put("startDate", startDate)
         params.put("endDate", endDate)
@@ -55,7 +56,7 @@ class LocalGentShortFeederPresenter : BasePresenterImpl<LocalGentShortFeederCont
                 val obj = JSONObject(result)
                 val json = JSONTokener(obj.optString("data")).nextValue()
                 if (json is JSONArray) {
-                    val list = Gson().fromJson<List<LocalGentShortFeederBean>>(obj.optString("data"), object : TypeToken<List<LocalGentShortFeederBean>>() {}.type)
+                    val list = Gson().fromJson<List<TerminalAgentByCarBean>>(obj.optString("data"), object : TypeToken<List<TerminalAgentByCarBean>>() {}.type)
                     list?.let {
                         mView?.getPageS(it)
                     }
@@ -67,8 +68,7 @@ class LocalGentShortFeederPresenter : BasePresenterImpl<LocalGentShortFeederCont
         })
 
     }
-
-    override fun cancel(s: LocalGentShortFeederBean, position: Int) {
+    override fun cancel(s: TerminalAgentByCarBean, position: Int) {
         post<String>(ApiInterface.LOCAL_AGENT_CANCEL_VEHICLE_POST, getRequestBody(Gson().toJson(s)), object : CallBacks {
             override fun onResult(result: String) {
                 mView?.cancelS(position)
@@ -77,5 +77,4 @@ class LocalGentShortFeederPresenter : BasePresenterImpl<LocalGentShortFeederCont
 
         })
     }
-
 }

@@ -2,28 +2,19 @@ package com.mbcq.vehicleslibrary.activity.alllocalagent.fixlocalgentshortfeederh
 
 
 import android.annotation.SuppressLint
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
-import com.mbcq.baselibrary.gson.GsonUtils
-import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
-import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
-import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseBean
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseInventoryAdapter
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseLoadingAdapter
-import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import kotlinx.android.synthetic.main.activity_fixed_local_gent_short_feeder_house.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -31,6 +22,7 @@ import org.json.JSONObject
 /**
  * @author: lzy
  * @time: 2020-09-23 11:05:00
+ * 本地代理 修改
  */
 @Route(path = ARouterConstants.FixedLocalGentShortFeederHouseActivity)
 class FixedLocalGentShortFeederHouseActivity : BaseFixedLocalGentShortFeederHouseActivity<FixedLocalGentShortFeederHouseContract.View, FixedLocalGentShortFeederHousePresenter>(), FixedLocalGentShortFeederHouseContract.View {
@@ -68,6 +60,21 @@ class FixedLocalGentShortFeederHouseActivity : BaseFixedLocalGentShortFeederHous
             }
             mLastData.put("WaybillAgentDetLst", jarray)
             mLastData.put("CommonStr", kk.toString())
+            mLastData.remove("agentAccBack")
+            mLastData.remove("agentAccFetch")
+            mLastData.remove("agentAccMonth")
+            mLastData.remove("agentAccNow")
+            mLastData.remove("agentAccSend")
+            mLastData.remove("agentAccTotal")
+            /**
+             * TODO
+             */
+            mLastData.put("agentAccSend",6)//中转送货费
+            mLastData.put("agentAccNow",6)// 现付
+            mLastData.put("agentAccFetch",6)//到付
+            mLastData.put("agentAccBack",6)//回付
+            mLastData.put("agentAccMonth",6)//月结
+            mLastData.put("agentAccTotal",30)//总金额
             mPresenter?.completeVehicle(mLastData)
         }
     }
@@ -97,7 +104,7 @@ class FixedLocalGentShortFeederHouseActivity : BaseFixedLocalGentShortFeederHous
         super.initInventoryList()
         mInventoryListAdapter?.mOnRemoveInterface = object : LocalGentShortFeederHouseInventoryAdapter.OnRemoveInterface {
             override fun onClick(position: Int, item: LocalGentShortFeederHouseBean) {
-                val mAddOrderFixedLocalGentShortFeederHouseBean = Gson().fromJson<AddOrderFixedLocalGentShortFeederHouseBean>(mLastDataJson, AddOrderFixedLocalGentShortFeederHouseBean::class.java)
+                val mAddOrderFixedLocalGentShortFeederHouseBean = Gson().fromJson<AddOrderFixedLocalGentByCarHouseBean>(mLastDataJson, AddOrderFixedLocalGentByCarHouseBean::class.java)
                 mAddOrderFixedLocalGentShortFeederHouseBean.waybillAgentDetLst = mutableListOf(item)
                 mAddOrderFixedLocalGentShortFeederHouseBean.commonStr = getSelectInventoryOrder()
                 mPresenter?.addOrderItem(Gson().toJson(mAddOrderFixedLocalGentShortFeederHouseBean), position, item)
@@ -131,7 +138,7 @@ class FixedLocalGentShortFeederHouseActivity : BaseFixedLocalGentShortFeederHous
             @SuppressLint("SetTextI18n")
             override fun onSingleClick(v: View?) {
                 if (operating_btn.text.toString() == "添加本车") {
-                    val mAddOrderFixedLocalGentShortFeederHouseBean = Gson().fromJson<AddOrderFixedLocalGentShortFeederHouseBean>(mLastDataJson, AddOrderFixedLocalGentShortFeederHouseBean::class.java)
+                    val mAddOrderFixedLocalGentShortFeederHouseBean = Gson().fromJson<AddOrderFixedLocalGentByCarHouseBean>(mLastDataJson, AddOrderFixedLocalGentByCarHouseBean::class.java)
                     mAddOrderFixedLocalGentShortFeederHouseBean.waybillAgentDetLst = getSelectInventoryList()
                     mAddOrderFixedLocalGentShortFeederHouseBean.commonStr = getSelectInventoryOrder()
                     mPresenter?.addOrder(Gson().toJson(mAddOrderFixedLocalGentShortFeederHouseBean))

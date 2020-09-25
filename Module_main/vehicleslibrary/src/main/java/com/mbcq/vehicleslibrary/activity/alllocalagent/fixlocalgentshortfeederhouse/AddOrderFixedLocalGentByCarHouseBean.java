@@ -1,11 +1,11 @@
 package com.mbcq.vehicleslibrary.activity.alllocalagent.fixlocalgentshortfeederhouse;
 
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseBean;
-import com.mbcq.vehicleslibrary.fragment.localagentshortfeeder.LocalGentShortFeederBean;
+import com.mbcq.vehicleslibrary.fragment.localagentshortfeeder.LocalGentByCarBean;
 
 import java.util.List;
 
-public class AddOrderFixedLocalGentShortFeederHouseBean extends LocalGentShortFeederBean {
+public class AddOrderFixedLocalGentByCarHouseBean extends LocalGentByCarBean {
     private List<LocalGentShortFeederHouseBean > waybillAgentDetLst;
     private String commonStr;
 

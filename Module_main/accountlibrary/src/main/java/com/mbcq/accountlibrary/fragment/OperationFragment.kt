@@ -93,7 +93,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                     mOperationViewBean.tag = 2
                     val listItem = arrayListOf<IconViewBean.ItemBean>()
 
-                    for (mItemIndex in 0..9) {
+                    for (mItemIndex in 0..10) {
                         val item = IconViewBean.ItemBean()
                         when (mItemIndex) {
                             0 -> {
@@ -125,6 +125,9 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                             }
                             9 -> {
                                 item.itemText = "签收记录"
+                            }
+                            10 -> {
+                                item.itemText = "终端代理"
                             }
                         }
                         listItem.add(item)
@@ -211,6 +214,10 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                         when (position) {
                             2 -> {
                                 ARouter.getInstance().build(ARouterConstants.ArrivalRecordActivity).navigation()
+
+                            }
+                            10 -> {
+                                ARouter.getInstance().build(ARouterConstants.TerminalAgentActivity).navigation()
 
                             }
                         }

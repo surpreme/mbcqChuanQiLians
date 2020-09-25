@@ -22,4 +22,8 @@ public class ARouterConstants {
     public static final String AddLocalGentShortFeederActivity="/vehicles/AddLocalGentShortFeederActivity";
     public static final String LocalGentShortFeederHouseActivity="/vehicles/LocalGentShortFeederHouseActivity";
     public static final String FixedLocalGentShortFeederHouseActivity="/vehicles/FixedLocalGentShortFeederHouseActivity";
+    public static final String TerminalAgentActivity="/vehicles/TerminalAgentActivity";
+    public static final String AddTerminalAgentByCarActivity="/vehicles/AddTerminalAgentByCarActivity";
+    public static final String FixedTerminalAgentByCarActivity="/vehicles/FixedTerminalAgentByCarActivity";
+    public static final String TerminalAgentByCarHouseActivity="/vehicles/TerminalAgentByCarHouseActivity";
 }

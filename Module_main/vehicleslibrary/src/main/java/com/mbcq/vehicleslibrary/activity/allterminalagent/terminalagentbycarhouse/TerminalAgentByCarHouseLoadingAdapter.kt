@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse
+package com.mbcq.vehicleslibrary.activity.allterminalagent.terminalagentbycarhouse
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.allterminalagent.TerminalAgentByCarHouseBean
 
-class LocalGentShortFeederHouseInventoryAdapter (context: Context?):BaseRecyclerAdapter<LocalGentShortFeederHouseBean>(context){
+class TerminalAgentByCarHouseLoadingAdapter(context: Context?) : BaseRecyclerAdapter<TerminalAgentByCarHouseBean>(context) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_local_gent_short_bycar, parent, false))
     fun checkedAll(isC: Boolean) {
         for ((index, item) in mDatas.withIndex()) {
@@ -24,7 +25,7 @@ class LocalGentShortFeederHouseInventoryAdapter (context: Context?):BaseRecycler
     var mOnRemoveInterface: OnRemoveInterface? = null
 
     interface OnRemoveInterface {
-        fun onClick(position: Int, item: LocalGentShortFeederHouseBean)
+        fun onClick(position: Int, item: TerminalAgentByCarHouseBean)
     }
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -36,8 +37,8 @@ class LocalGentShortFeederHouseInventoryAdapter (context: Context?):BaseRecycler
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.shipper_tv.text = mDatas[position].shipper
         holder.receiver_tv.text = mDatas[position].consignee
-        holder.waybill_move_iv.rotation=180f
         holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].qty}件 ${mDatas[position].volumn}m³ ${mDatas[position].packages} ${mDatas[position].weight}Kg ${mDatas[position].accTypeStr}${mDatas[position].accSum}  "
+
         context?.let {
             holder.record_checkbox_iv.setImageDrawable(ContextCompat.getDrawable(it, if (mDatas[position].isChecked) R.drawable.ic_checked_icon else R.drawable.ic_unchecked_icon))
 
@@ -55,6 +56,7 @@ class LocalGentShortFeederHouseInventoryAdapter (context: Context?):BaseRecycler
             }
 
         })
+
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

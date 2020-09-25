@@ -2,20 +2,23 @@ package com.mbcq.vehicleslibrary.fragment.localagentshortfeeder
 
 
 import android.annotation.SuppressLint
+import android.graphics.Rect
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
+import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.vehicleslibrary.R
-import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordEvent
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localagent.LocalAgentEvent
-import kotlinx.android.synthetic.main.fragment_locala_gent_short_feeder.*
+import kotlinx.android.synthetic.main.fragment_locala_gent_bycar.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,10 +26,11 @@ import java.util.*
 /**
  * @author: lzy
  * @time: 2020-09-22 13:06
+ * 本地代理 - 按车
  */
 
-class LocalGentShortFeederFragment : BaseSmartMVPFragment<LocalGentShortFeederContract.View, LocalGentShortFeederPresenter, LocalGentShortFeederBean>(), LocalGentShortFeederContract.View {
-    override fun getLayoutResId(): Int = R.layout.fragment_locala_gent_short_feeder
+class LocalGentByCarFragment : BaseSmartMVPFragment<LocalGentByCarContract.View, LocalGentByCarPresenter, LocalGentByCarBean>(), LocalGentByCarContract.View {
+    override fun getLayoutResId(): Int = R.layout.fragment_locala_gent_bycar
     var mShippingOutletsTag = ""
     var mStartDateTag = ""
     var mEndDateTag = ""
@@ -104,12 +108,22 @@ class LocalGentShortFeederFragment : BaseSmartMVPFragment<LocalGentShortFeederCo
 
     }
 
+    override fun addItemDecoration(): RecyclerView.ItemDecoration = object : BaseItemDecoration(mContext) {
+        override fun configExtraSpace(position: Int, count: Int, rect: Rect) {
+            rect.top = ScreenSizeUtils.dp2px(mContext, 10f)
+        }
+
+        override fun doRule(position: Int, rect: Rect) {
+            rect.bottom = rect.top
+        }
+    }
+
     override fun getSmartLayoutId(): Int = R.id.local_short_feeder_smart
     override fun getSmartEmptyId(): Int = R.id.local_short_feeder_smart_frame
     override fun getRecyclerViewId(): Int = R.id.local_short_feeder_recycler
 
-    override fun setAdapter(): BaseRecyclerAdapter<LocalGentShortFeederBean> = LocalGentShortFeederAdapter(mContext)
-    override fun getPageS(list: List<LocalGentShortFeederBean>) {
+    override fun setAdapter(): BaseRecyclerAdapter<LocalGentByCarBean> = LocalGentByCarAdapter(mContext)
+    override fun getPageS(list: List<LocalGentByCarBean>) {
         appendDatas(list)
 
     }

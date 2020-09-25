@@ -1,6 +1,6 @@
 package com.mbcq.vehicleslibrary.fragment.localagentshortfeeder;
 
-public class LocalGentShortFeederBean {
+public class LocalGentByCarBean {
 
     /**
      * id : 27

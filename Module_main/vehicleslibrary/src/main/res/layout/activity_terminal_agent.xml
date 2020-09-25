@@ -4,29 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.alllocalagent.localagent.LocalAgentActivity">
-
+    tools:context=".activity.allterminalagent.terminalagent.TerminalAgentActivity">
     <com.mbcq.baselibrary.view.CnToolbar
-        android:id="@+id/local_agent_toolbar"
+        android:id="@+id/terminal_agent_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
         app:rightButtonIcon="@drawable/ic_search_icon"
-        app:centerTextViewText="本地代理-中转记录"
+        app:centerTextViewText="终端代理-中转记录"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/local_agent_tabLayout"
+        android:id="@+id/terminal_agent_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/local_agent_toolbar" />
-
+        app:layout_constraintTop_toBottomOf="@+id/terminal_agent_toolbar" />
     <fragment
-        android:id="@+id/localagent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:name="com.mbcq.vehicleslibrary.fragment.localagentshortfeeder.LocalGentByCarFragment"
+        android:id="@+id/mTerminalAgentByCarFragment"
+        app:layout_constraintTop_toBottomOf="@id/terminal_agent_tabLayout"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/local_agent_tabLayout" />
+        android:name="com.mbcq.vehicleslibrary.fragment.terminalagentbycar.TerminalAgentByCarFragment"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.activity.alllocalagent.fixlocalgentshortfeederhouse
+package com.mbcq.vehicleslibrary.activity.allterminalagent.fixedterminalagentbycar
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -6,14 +6,15 @@ import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseBean
+import com.mbcq.vehicleslibrary.activity.allterminalagent.TerminalAgentByCarHouseBean
 import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2020-09-23 11:05:00
+ * @time: 2020-09-25  11:30:15
  */
 
-class FixedLocalGentShortFeederHousePresenter : BasePresenterImpl<FixedLocalGentShortFeederHouseContract.View>(), FixedLocalGentShortFeederHouseContract.Presenter {
+class FixedTerminalAgentByCarPresenter : BasePresenterImpl<FixedTerminalAgentByCarContract.View>(), FixedTerminalAgentByCarContract.Presenter {
     /**
      * {"code":0,"msg":"","count":3,"data":[
     {
@@ -110,18 +111,17 @@ class FixedLocalGentShortFeederHousePresenter : BasePresenterImpl<FixedLocalGent
     ]}
      */
     override fun getInventory() {
-        get<String>(ApiInterface.LOCAL_AGENT_INVENTORY_GET + "?=", null, object : CallBacks {
+        get<String>(ApiInterface.TERMINAL_AGENT_INVENTORY_GET + "?=", null, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {
-                    mView?.getInventoryS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<LocalGentShortFeederHouseBean>>() {}.type))
+                    mView?.getInventoryS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<TerminalAgentByCarHouseBean>>() {}.type))
                 }
 
             }
 
         })
     }
-
     /**
      * {"code":0,"msg":"","count":2,"data":[
     {
@@ -217,24 +217,13 @@ class FixedLocalGentShortFeederHousePresenter : BasePresenterImpl<FixedLocalGent
     override fun getLoadingData(agentBillno: String) {
         val params = HttpParams()
         params.put("AgentBillno", agentBillno)
-        params.put("agentType", 1)
+        params.put("agentType", 2)
         get<String>(ApiInterface.LOCAL_AGENT_AND_TERMINAL_AGENT_FIXED_SELECT_LOADING_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {
-                    mView?.getLoadingDataS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<LocalGentShortFeederHouseBean>>() {}.type))
+                    mView?.getLoadingDataS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<TerminalAgentByCarHouseBean>>() {}.type))
                 }
-
-            }
-
-        })
-
-    }
-
-    override fun completeVehicle(s: JSONObject) {
-        post<String>(ApiInterface.LOCAL_AGENT_COMPLETE_VEHICLE_POST, getRequestBody(s), object : CallBacks {
-            override fun onResult(result: String) {
-                mView?.completeVehicleS()
 
             }
 
@@ -247,7 +236,7 @@ class FixedLocalGentShortFeederHousePresenter : BasePresenterImpl<FixedLocalGent
           obj.put("commonStr", commonStr)
           obj.put("id", id)
           obj.put("agentBillno", agentBillno)*/
-        post<String>(ApiInterface.LOCAL_AGENT_FIXED_REMOVE_LOADING_POST, getRequestBody(removeOrderData), object : CallBacks {
+        post<String>(ApiInterface.TERMINAL_AGENT_FIXED_REMOVE_LOADING_POST, getRequestBody(removeOrderData), object : CallBacks {
             override fun onResult(result: String) {
                 mView?.removeOrderS()
 
@@ -257,8 +246,8 @@ class FixedLocalGentShortFeederHousePresenter : BasePresenterImpl<FixedLocalGent
 
     }
 
-    override fun removeOrderItem(removeOrderData: JSONObject,position: Int, item: LocalGentShortFeederHouseBean) {
-        post<String>(ApiInterface.LOCAL_AGENT_FIXED_REMOVE_LOADING_POST, getRequestBody(removeOrderData), object : CallBacks {
+    override fun removeOrderItem(removeOrderData: JSONObject,position: Int, item: TerminalAgentByCarHouseBean) {
+        post<String>(ApiInterface.TERMINAL_AGENT_FIXED_REMOVE_LOADING_POST, getRequestBody(removeOrderData), object : CallBacks {
             override fun onResult(result: String) {
                 mView?.removeOrderItemS(position,item)
 
@@ -268,7 +257,7 @@ class FixedLocalGentShortFeederHousePresenter : BasePresenterImpl<FixedLocalGent
     }
 
     override fun addOrder(removeOrderData: String) {
-        post<String>(ApiInterface.LOCAL_AGENT_FIXED_ADD_LOADING_POST, getRequestBody(removeOrderData), object : CallBacks {
+        post<String>(ApiInterface.TERMINAL_AGENT_FIXED_ADD_LOADING_POST, getRequestBody(removeOrderData), object : CallBacks {
             override fun onResult(result: String) {
                 mView?.addOrderS()
             }
@@ -276,8 +265,8 @@ class FixedLocalGentShortFeederHousePresenter : BasePresenterImpl<FixedLocalGent
         })
     }
 
-    override fun addOrderItem(removeOrderData: String,position: Int, item: LocalGentShortFeederHouseBean) {
-        post<String>(ApiInterface.LOCAL_AGENT_FIXED_ADD_LOADING_POST, getRequestBody(removeOrderData), object : CallBacks {
+    override fun addOrderItem(removeOrderData: String,position: Int, item: TerminalAgentByCarHouseBean) {
+        post<String>(ApiInterface.TERMINAL_AGENT_FIXED_ADD_LOADING_POST, getRequestBody(removeOrderData), object : CallBacks {
             override fun onResult(result: String) {
                 mView?.addOrderItemS(position,item)
             }

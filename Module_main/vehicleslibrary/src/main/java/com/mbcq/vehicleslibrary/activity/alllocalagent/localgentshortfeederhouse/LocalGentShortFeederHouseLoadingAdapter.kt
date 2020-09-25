@@ -13,7 +13,7 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
 
 class LocalGentShortFeederHouseLoadingAdapter(context: Context?) : BaseRecyclerAdapter<LocalGentShortFeederHouseBean>(context) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_local_gent_short_feeder_house, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_local_gent_short_bycar, parent, false))
     fun checkedAll(isC: Boolean) {
         for ((index, item) in mDatas.withIndex()) {
             item.isChecked = isC

@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.fragment.localagentshortfeeder
+package com.mbcq.vehicleslibrary.fragment.terminalagentbycar
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,9 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseInventoryAdapter
+import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseLoadingAdapter
+import com.mbcq.vehicleslibrary.fragment.localagentshortfeeder.LocalGentByCarAdapter
 
-class LocalGentShortFeederAdapter(context: Context?) : BaseRecyclerAdapter<LocalGentShortFeederBean>(context) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_local_short_feeder, parent, false))
+class TerminalAgentByCarAdapter(context: Context?) : BaseRecyclerAdapter<TerminalAgentByCarBean>(context) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_terminal_agent_bycar, parent, false))
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -26,9 +29,9 @@ class LocalGentShortFeederAdapter(context: Context?) : BaseRecyclerAdapter<Local
         }
         holder.feeder_checkbox_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                for (index in 0 until mDatas.size){
-                    if (index!=position)
-                        mDatas[index].isChecked=false
+                for (index in 0 until mDatas.size) {
+                    if (index != position)
+                        mDatas[index].isChecked = false
                     else
                         mDatas[index].isChecked = !mDatas[index].isChecked
                 }
@@ -44,6 +47,5 @@ class LocalGentShortFeederAdapter(context: Context?) : BaseRecyclerAdapter<Local
         var departure_number_tv: TextView = itemView.findViewById(R.id.departure_number_tv)
         var vehicler_info_tv: TextView = itemView.findViewById(R.id.vehicler_info_tv)
         var short_feeder_time_tv: TextView = itemView.findViewById(R.id.short_feeder_time_tv)
-
     }
 }

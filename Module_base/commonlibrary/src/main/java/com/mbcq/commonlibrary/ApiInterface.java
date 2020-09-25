@@ -232,9 +232,10 @@ public class ApiInterface {
      */
     public static final String LOCAL_AGENT_FIXED_ADD_LOADING_POST = BASE_URI + "WaybillAgentOpe/CurWayAgeAddWay";
     /**
-     * 本地代理 修改 获取车辆的详细信息
+     * 本地代理  终端代理 修改 获取车辆的详细信息
+     * @1 本地代理 @2 终端代理
      */
-    public static final String LOCAL_AGENT_FIXED_SELECT_LOADING_GET = BASE_URI + "WaybillAgentOpe/SelWaybillAgentDetByCondition";
+    public static final String LOCAL_AGENT_AND_TERMINAL_AGENT_FIXED_SELECT_LOADING_GET = BASE_URI + "WaybillAgentOpe/SelWaybillAgentDetByCondition";
 
     /**
      * 本地代理 -添加 完成本车
@@ -242,9 +243,36 @@ public class ApiInterface {
     public static final String LOCAL_AGENT_COMPLETE_VEHICLE_POST = BASE_URI + "WaybillAgentOpe/AddWaybillAgent";
 
     /**
-     *  本地代理-取消本车
+     * 本地代理-取消本车
      */
     public static final String LOCAL_AGENT_CANCEL_VEHICLE_POST = BASE_URI + "WaybillAgentOpe/DelWaybillAgentByCon";
+    /**
+     * ---------------------------------------------------------------------------------------------***********************************************
+     */
+    /**
+     * 终端代理 获取终端代理发车批次号
+     */
+
+    public static final String TERMINAL_AGENT_BATCH_NUMBER_GET = BASE_URI + "WaybillAgentOpe/SelZddlInOneVehicleFlag";
+    /**
+     * 终端代理 获取终端代理发车批次号
+     */
+
+    public static final String TERMINAL_AGENT_INVENTORY_GET = BASE_URI + "WaybillFcdOpe/SelZddlWaybillFcdByCon";
+    /**
+     * 终端代理 获取终端代理发车批次号
+     */
+
+    public static final String TERMINAL_AGENT_COMPLETE_VEHICLE_GET = BASE_URI + "WaybillAgentOpe/AddWaybillAgentZd";
+    /**
+     * 终端代理 修改 剔除运单
+     */
+    public static final String TERMINAL_AGENT_FIXED_REMOVE_LOADING_POST = BASE_URI + "WaybillAgentOpe/CurWayAgeDelWay";
+    /**
+     * 终端代理 修改 本车加货
+     */
+    public static final String TERMINAL_AGENT_FIXED_ADD_LOADING_POST = BASE_URI + "WaybillAgentOpe/CurWayAgeAddWay";
+
 
 
 }

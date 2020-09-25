@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.activity.alllocalagent.addlocalgentshortfeeder
+package com.mbcq.vehicleslibrary.activity.allterminalagent.addterminalagentbycar
 
 
 import android.annotation.SuppressLint
@@ -18,16 +18,25 @@ import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.alldeparturerecord.addshortfeeder.NumberPlateBean
 import kotlinx.android.synthetic.main.activity_add_local_gent_short_feeder.*
+import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.*
+import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.contact_number_ed
+import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.dispatch_number_tv
+import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.driver_name_ed
+import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.next_step_btn
+import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.number_plate_tv
+import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.remark_ed
+import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.temporary_vehicle_ed
+import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.vehicle_type_ed
 import org.json.JSONObject
+
 
 /**
  * @author: lzy
- * @time: 2020-09-22 15:48
+ * @time: 2020-09-25 11:01:36
  */
-
-@Route(path = ARouterConstants.AddLocalGentShortFeederActivity)
-class AddLocalGentShortFeederActivity : BaseMVPActivity<AddLocalGentShortFeederContract.View, AddLocalGentShortFeederPresenter>(), AddLocalGentShortFeederContract.View {
-    override fun getLayoutId(): Int = R.layout.activity_add_local_gent_short_feeder
+@Route(path = ARouterConstants.AddTerminalAgentByCarActivity)
+class AddTerminalAgentByCarActivity : BaseMVPActivity<AddTerminalAgentByCarContract.View, AddTerminalAgentByCarPresenter>(), AddTerminalAgentByCarContract.View {
+    override fun getLayoutId(): Int = R.layout.activity_add_terminal_agent_by_car
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
@@ -36,7 +45,6 @@ class AddLocalGentShortFeederActivity : BaseMVPActivity<AddLocalGentShortFeederC
     override fun initDatas() {
         super.initDatas()
         mPresenter?.getDepartureBatchNumber()
-
     }
 
     fun saveVehicle() {
@@ -65,13 +73,13 @@ class AddLocalGentShortFeederActivity : BaseMVPActivity<AddLocalGentShortFeederC
         obj.put("ChaufferTel", contact_number_ed.text.toString())// 司机电话
         obj.put("AgentAccSend", contact_number_ed.text.toString())// 中转送货费
         obj.put("Remark", remark_ed.text.toString())// 备注
-        obj.put("AgentType", 1)// 代理类型编码
-        obj.put("AgentTypeStr", "本地代理")// 代理类型
-
-
+        obj.put("AgentType", 2)// 代理类型编码
+        obj.put("AgentTypeStr", "终端代理")// 代理类型
         val json = GsonUtils.toPrettyFormat(obj.toString())
-        ARouter.getInstance().build(ARouterConstants.LocalGentShortFeederHouseActivity).withString("LocalGentShortFeederHouse", json).navigation()
+
+        ARouter.getInstance().build(ARouterConstants.TerminalAgentByCarHouseActivity).withString("TerminalAgentByCarHouse", json).navigation()
         this.finish()
+
     }
 
     override fun onClick() {
@@ -86,11 +94,9 @@ class AddLocalGentShortFeederActivity : BaseMVPActivity<AddLocalGentShortFeederC
         number_plate_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 mPresenter?.getVehicles()
-
             }
-
         })
-        add_local_short_feeder_toolbar.setBackButtonOnClickListener(object : SingleClick() {
+        add_terminal_agent_bycar_toolbar.setBackButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 onBackPressed()
             }
@@ -98,9 +104,9 @@ class AddLocalGentShortFeederActivity : BaseMVPActivity<AddLocalGentShortFeederC
         })
     }
 
-
     override fun getDepartureBatchNumberS(inOneVehicleFlag: String) {
         dispatch_number_tv.text = inOneVehicleFlag
+
     }
 
     override fun getVehicleS(result: String) {
@@ -114,6 +120,6 @@ class AddLocalGentShortFeederActivity : BaseMVPActivity<AddLocalGentShortFeederC
                 vehicle_type_ed.setText(if (mSelectData.vehicletype == 1) "大车" else if (mSelectData.vehicletype == 2) "小车" else "未知车型")
             }
 
-        }).show(supportFragmentManager, "AddLocalGentShortFeederActivitygetVehicleSFilterDialog")
+        }).show(supportFragmentManager, "AddTerminalAgentByCarActivityGetVehicleSFilterDialog")
     }
 }
