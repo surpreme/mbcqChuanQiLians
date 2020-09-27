@@ -201,6 +201,10 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                 ARouter.getInstance().build(ARouterConstants.WaybillRecordActivity).navigation()
 
                             }
+                            9 -> {
+                                ARouter.getInstance().build(ARouterConstants.ShipmentInventoryActivity).navigation()
+
+                            }
                             11 -> {
                                 ARouter.getInstance().build(ARouterConstants.DepartureRecordActivity).navigation()
 
@@ -214,6 +218,14 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                         when (position) {
                             2 -> {
                                 ARouter.getInstance().build(ARouterConstants.ArrivalRecordActivity).navigation()
+
+                            }
+                            4 -> {
+                                ARouter.getInstance().build(ARouterConstants.ArrivalInventoryActivity).navigation()
+
+                            }
+                            8 -> {
+                                ARouter.getInstance().build(ARouterConstants.GoodsReceiptActivity).navigation()
 
                             }
                             10 -> {

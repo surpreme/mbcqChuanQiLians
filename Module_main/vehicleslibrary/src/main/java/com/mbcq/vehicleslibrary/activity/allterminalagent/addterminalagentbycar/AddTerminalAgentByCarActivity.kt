@@ -17,16 +17,7 @@ import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.alldeparturerecord.addshortfeeder.NumberPlateBean
-import kotlinx.android.synthetic.main.activity_add_local_gent_short_feeder.*
 import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.*
-import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.contact_number_ed
-import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.dispatch_number_tv
-import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.driver_name_ed
-import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.next_step_btn
-import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.number_plate_tv
-import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.remark_ed
-import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.temporary_vehicle_ed
-import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.vehicle_type_ed
 import org.json.JSONObject
 
 

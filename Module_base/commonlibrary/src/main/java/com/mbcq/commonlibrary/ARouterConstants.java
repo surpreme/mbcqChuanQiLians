@@ -26,4 +26,7 @@ public class ARouterConstants {
     public static final String AddTerminalAgentByCarActivity="/vehicles/AddTerminalAgentByCarActivity";
     public static final String FixedTerminalAgentByCarActivity="/vehicles/FixedTerminalAgentByCarActivity";
     public static final String TerminalAgentByCarHouseActivity="/vehicles/TerminalAgentByCarHouseActivity";
+    public static final String ArrivalInventoryActivity="/vehicles/ArrivalInventoryActivity";
+    public static final String ShipmentInventoryActivity="/vehicles/ShipmentInventoryActivity";
+    public static final String GoodsReceiptActivity="/vehicles/GoodsReceiptActivity";
 }

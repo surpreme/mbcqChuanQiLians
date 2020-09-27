@@ -272,7 +272,18 @@ public class ApiInterface {
      * 终端代理 修改 本车加货
      */
     public static final String TERMINAL_AGENT_FIXED_ADD_LOADING_POST = BASE_URI + "WaybillAgentOpe/CurWayAgeAddWay";
+    /**
+     * ------------------------------------------******************************************************----------------------------------------------
+     */
 
+    /**
+     * 到货库存
+     */
 
+    public static final String ARRIVAL_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelDhWaybillFcdByCon";
+    /**
+     * 发货库存
+     */
+    public static final String SHIPMENT_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelDhWaybillFcdByCon";
 
 }
