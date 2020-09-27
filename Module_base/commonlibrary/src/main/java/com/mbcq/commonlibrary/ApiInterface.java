@@ -233,6 +233,7 @@ public class ApiInterface {
     public static final String LOCAL_AGENT_FIXED_ADD_LOADING_POST = BASE_URI + "WaybillAgentOpe/CurWayAgeAddWay";
     /**
      * 本地代理  终端代理 修改 获取车辆的详细信息
+     *
      * @1 本地代理 @2 终端代理
      */
     public static final String LOCAL_AGENT_AND_TERMINAL_AGENT_FIXED_SELECT_LOADING_GET = BASE_URI + "WaybillAgentOpe/SelWaybillAgentDetByCondition";
@@ -285,5 +286,13 @@ public class ApiInterface {
      * 发货库存
      */
     public static final String SHIPMENT_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelDhWaybillFcdByCon";
+    /**
+     * 签收查询库存
+     */
+    public static final String SIGN_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelFetchWaybillFcdByCon";
+    /**
+     * 查询收款方式
+     */
+    public static final String PAYMENT_METHOD_SELECTED_INFO_GET = BASE_URI + "Alltype/SelAlltypeByCondition";
 
 }

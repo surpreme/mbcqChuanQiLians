@@ -28,5 +28,6 @@ public class ARouterConstants {
     public static final String TerminalAgentByCarHouseActivity="/vehicles/TerminalAgentByCarHouseActivity";
     public static final String ArrivalInventoryActivity="/vehicles/ArrivalInventoryActivity";
     public static final String ShipmentInventoryActivity="/vehicles/ShipmentInventoryActivity";
-    public static final String GoodsReceiptActivity="/vehicles/GoodsReceiptActivity";
+    public static final String GoodsReceiptActivity="/order/GoodsReceiptActivity";
+    public static final String GoodsReceiptInfoActivity="/order/GoodsReceiptInfoActivity";
 }

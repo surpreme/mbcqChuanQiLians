@@ -1,22 +1,22 @@
-package com.mbcq.orderlibrary.activity.goodsreceipt
+package com.mbcq.orderlibrary.activity.goodsreceiptinfo
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
 
 /**
  * @author: lzy
- * @time: 2020-09-27 11:18:00
+ * @time: 2020-09-27 14:40:05
  */
 
-class GoodsReceiptContract {
+class GoodsReceiptInfoContract {
 
     interface View : BaseView {
+        fun getPaymentWayS(result: String)
 
-        fun getPageS(list:List<GoodsReceiptBean>)
     }
 
     interface Presenter : BasePresenter<View> {
-        fun getPage(page: Int)
+        fun getPaymentWay()
 
     }
 }

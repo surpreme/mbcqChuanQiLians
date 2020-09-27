@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/waybill_number_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/base_blue"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="10056044789" />
+
+    <TextView
+        android:id="@+id/waybill_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="16sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2020-4-21 12:12:00" />
+
+    <TextView
+        android:id="@+id/shipper_outlets_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:lines="1"
+        android:maxEms="6"
+        android:text="汕头"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/waybill_number_tv" />
+
+    <TextView
+        android:id="@+id/center_address_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="   --  "
+        android:textColor="@color/black"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/shipper_outlets_tv"
+        app:layout_constraintLeft_toRightOf="@+id/shipper_outlets_tv"
+        app:layout_constraintTop_toTopOf="@+id/shipper_outlets_tv" />
+
+    <TextView
+        android:id="@+id/receiver_outlets_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:maxEms="6"
+        android:text="义乌青口"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/center_address_tv"
+        app:layout_constraintLeft_toRightOf="@+id/center_address_tv"
+        app:layout_constraintTop_toTopOf="@+id/center_address_tv" />
+
+    <TextView
+        android:id="@+id/destination_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="目的地:"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/receiver_outlets_tv"
+        app:layout_constraintLeft_toRightOf="@+id/receiver_outlets_tv"
+        app:layout_constraintTop_toTopOf="@+id/receiver_outlets_tv" />
+
+    <TextView
+        android:id="@+id/destination_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="义乌青口"
+        android:textColor="@color/black"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/destination_title_tv"
+        app:layout_constraintLeft_toRightOf="@+id/destination_title_tv"
+        app:layout_constraintTop_toTopOf="@+id/destination_title_tv" />
+
+
+    <TextView
+        android:id="@+id/receiver_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="收货人：吴轩"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="@+id/shipper_outlets_tv"
+        app:layout_constraintTop_toBottomOf="@+id/shipper_outlets_tv" />
+
+    <TextView
+        android:id="@+id/bag_fee_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="提包费：0元"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="@+id/shipper_outlets_tv"
+        app:layout_constraintTop_toBottomOf="@+id/receiver_tv" />
+
+    <TextView
+        android:id="@+id/withdraw_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="提   付：0元"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="@+id/shipper_outlets_tv"
+        app:layout_constraintTop_toBottomOf="@+id/bag_fee_tv" />
+
+    <TextView
+        android:id="@+id/payment_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="货   款：100元                    货款变更：300元"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="@+id/shipper_outlets_tv"
+        app:layout_constraintTop_toBottomOf="@+id/withdraw_tv" />
+
+    <TextView
+        android:id="@+id/receivable_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="应收：300元"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="@+id/shipper_outlets_tv"
+        app:layout_constraintTop_toBottomOf="@+id/payment_tv" />
+    <View
+        android:id="@+id/line_view"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/base_gray"
+        app:layout_constraintTop_toBottomOf="@+id/receivable_tv"
+        android:layout_marginTop="5dp"
+        android:alpha="0.9"/>
+    <TextView
+        android:id="@+id/remarks_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="备注：收货时，注意一下安全等等"
+        android:textColor="@color/black"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/shipper_outlets_tv"
+        app:layout_constraintTop_toBottomOf="@+id/line_view" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
