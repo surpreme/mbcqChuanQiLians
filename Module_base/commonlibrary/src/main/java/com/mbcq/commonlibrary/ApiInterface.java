@@ -294,5 +294,9 @@ public class ApiInterface {
      * 查询收款方式
      */
     public static final String PAYMENT_METHOD_SELECTED_INFO_GET = BASE_URI + "Alltype/SelAlltypeByCondition";
+    /**
+     * 签收货物
+     */
+    public static final String RECEIPT_GOODS_POST = BASE_URI + "WaybillFetchOpe/AddWaybillFetch";
 
 }

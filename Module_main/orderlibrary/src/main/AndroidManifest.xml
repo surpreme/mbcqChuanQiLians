@@ -3,7 +3,9 @@
     package="com.mbcq.orderlibrary">
 
     <application>
-        <activity android:name=".activity.goodsreceiptinfo.GoodsReceiptInfoActivity"></activity>
+        <activity android:name=".activity.allpay.paysuccess.PaymentSuccessActivity"></activity>
+        <activity android:name=".activity.allpay.paybar.PayBarActivity" />
+        <activity android:name=".activity.goodsreceiptinfo.GoodsReceiptInfoActivity" />
         <activity android:name=".activity.waybillrecord.WaybillRecordActivity" />
         <activity android:name=".activity.addreceiver.AddReceiverActivity" />
         <activity android:name=".activity.addshipper.AddShipperActivity" />

@@ -10,18 +10,19 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
-import com.mbcq.baselibrary.util.log.LogUtils
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.Constant
 import com.mbcq.commonlibrary.dialog.FilterDialog
+import com.mbcq.commonlibrary.dialog.PaymentDialog
 import com.mbcq.orderlibrary.R
-import com.mbcq.orderlibrary.activity.acceptbilling.AcceptReceiptRequirementBean
 import com.mbcq.orderlibrary.activity.goodsreceipt.GoodsReceiptBean
 import kotlinx.android.synthetic.main.activity_goods_receipt_info.*
-import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -34,12 +35,118 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
     @Autowired(name = "GoodsReceiptBean")
     @JvmField
     var mLastDataJson: String = ""
-    var mCertificateData = ""
+    var mCertificateData = ""//证件类型制造的本地json
+    var mSigningSituationData = ""//签收情况
+    var pickerCertificateTypeTag = 1//提货人证件类型
+    var agentCertificateTypeTag = 1//代理人证件类型
+    var mSigningSituationTag = 1//签收情况
+    var payMethodTag = 1
 
     override fun getLayoutId(): Int = R.layout.activity_goods_receipt_info
     override fun initExtra() {
         super.initExtra()
         ARouter.getInstance().inject(this)
+    }
+
+    fun getCanReceiptGoods(): Boolean {
+        if (picker_name_ed.text.toString().isBlank()) {
+            showToast("请输入提货人")
+            return false
+        }
+        if (picker_card_number_ed.text.toString().isBlank()) {
+            showToast("请输入提货人证件号")
+            return false
+        }
+        if (agent_name_ed.text.toString().isBlank()) {
+            showToast("请输入代理人")
+            return false
+        }
+        if (agent_card_number_ed.text.toString().isBlank()) {
+            showToast("请输入代理人证件号")
+            return false
+        }
+        return true
+    }
+
+    fun receiptGoods() {
+        val mGoodsReceiptBean = Gson().fromJson<GoodsReceiptBean>(mLastDataJson, GoodsReceiptBean::class.java)
+
+        val obj = JSONObject()
+        val CommonStr = mGoodsReceiptBean.billno//运单号
+        obj.put("CommonStr", CommonStr)
+        val Billno = mGoodsReceiptBean.billno//运单号
+        obj.put("Billno", Billno)
+
+        val FetComId = 0//签收公司
+        obj.put("FetComId", FetComId)
+
+        val FetchWebidCode = UserInformationUtil.getWebIdCode(mContext)//签收网点编码
+        obj.put("FetchWebidCode", FetchWebidCode)
+
+        val FetchWebidCodeStr = UserInformationUtil.getWebIdCodeStr(mContext)//签收网点
+        obj.put("FetchWebidCodeStr", FetchWebidCodeStr)
+
+        val FetchDate = delivery_date_tv.text.toString()//签收日期
+        obj.put("FetchDate", FetchDate)
+
+        val FetchMan = picker_name_ed.text.toString()///签收人
+        obj.put("FetchMan", FetchMan)
+
+        val FetManIdCarType = pickerCertificateTypeTag//签收人证件类型编码
+        obj.put("FetManIdCarType", FetManIdCarType)
+
+        val FetManIdCarTypeStr = picker_certificate_type_tv.text.toString()//签收人证件
+        obj.put("FetManIdCarTypeStr", FetManIdCarTypeStr)
+
+        val FetchIdCard = picker_card_number_ed.text.toString()//签收人证件号
+        obj.put("FetchIdCard", FetchIdCard)
+
+        val FetchAgent = agent_name_ed.text.toString()//代理人
+        obj.put("FetchAgent", FetchAgent)
+
+        val FetAgeIdCarType = agentCertificateTypeTag//代理人证件类型编码
+        obj.put("FetAgeIdCarType", FetAgeIdCarType)
+
+        val FetAgeIdCarTypeStr = agent_certificate_type_tv.text.toString()//代理人证件类型
+        obj.put("FetAgeIdCarTypeStr", FetAgeIdCarTypeStr)
+
+        val FetAgeIdCard = agent_card_number_ed.text.toString()//代理人证件号
+        obj.put("FetAgeIdCard", FetAgeIdCard)
+        /**
+         * 1代理 2提货 3送货 4外转
+         */
+        val FetchType = 2//签收类型编码
+        obj.put("FetchType", FetchType)
+
+        val FetchTypeStr = "提货"//签收类型
+        obj.put("FetchTypeStr", FetchTypeStr)
+
+        val PayType = payMethodTag//支付方式编码
+        obj.put("PayType", PayType)
+
+        val PayTypeStr = payment_method_tv.text.toString()//支付方式
+        obj.put("PayTypeStr", PayTypeStr)
+
+        val FetchCon = mSigningSituationTag//签收情况编码
+        obj.put("FetchCon", FetchCon)
+
+        val FetchConStr = signing_situation_ed.text.toString()//签收情况
+        obj.put("FetchConStr", FetchConStr)
+
+        val FetchRemark = ""//签收备注
+        obj.put("FetchRemark", FetchRemark)
+
+        val RecordDate = TimeUtils.getCurrTime2()//记录日期
+        obj.put("RecordDate", RecordDate)
+
+        val FromType = Constant.ANDROID////签收位置编码
+        obj.put("FromType", FromType)
+
+        val FromTypeStr = Constant.ANDROID_STR////签收位置
+        obj.put("FromTypeStr", FromTypeStr)
+        mPresenter?.receiptGoods(obj)
+
+
     }
 
     /**
@@ -98,10 +205,38 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
 
         }
         mCertificateData = Gson().toJson(jsonArray)
+
+
+        val mSigningSituationJsonArray = JsonArray()
+        val mSigningSituationObj = JsonObject()
+        mSigningSituationObj.addProperty("tag", 1)
+        mSigningSituationObj.addProperty("title", "正常")
+        mSigningSituationJsonArray.add(mSigningSituationObj)
+        mSigningSituationData = Gson().toJson(mSigningSituationJsonArray)
+
     }
 
     override fun onClick() {
         super.onClick()
+        confirm_receipt_btn.setOnClickListener(object : SingleClick(2000) {
+            override fun onSingleClick(v: View?) {
+                if (getCanReceiptGoods()) {
+                    PaymentDialog(object : PaymentDialog.OnSelectPaymentMethodInterface {
+                        override fun onResult(v: View, result: Int) {
+                            if (result == 1) {
+                                ARouter.getInstance().build(ARouterConstants.PayBarActivity).navigation()
+                            } else if (result == 3) {
+                                receiptGoods()
+                            }
+                        }
+
+                    }).show(supportFragmentManager, "confirm_receiptGoodsReceiptInfoActivityPaymentDialog")
+                }
+
+            }
+
+        })
+
         payment_method_ll.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 mPresenter?.getPaymentWay()
@@ -112,11 +247,25 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
             override fun onSingleClick(v: View?) {
                 FilterDialog(getScreenWidth(), mCertificateData, "title", "提货人证件类型", false, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
                     override fun onItemClick(v: View, position: Int, mResult: String) {
-
-                        picker_certificate_type_tv.text = JSONObject(mResult).optString("title")
+                        val obj = JSONObject(mResult)
+                        picker_certificate_type_tv.text = obj.optString("title")
+                        pickerCertificateTypeTag = obj.optInt("tag") + 1
                     }
 
                 }).show(supportFragmentManager, "picker_certificate_type_tvSFilterDialog")
+            }
+
+        })
+        signing_situation_down_iv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                FilterDialog(getScreenWidth(), mSigningSituationData, "title", "签收情况类型", false, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+                    override fun onItemClick(v: View, position: Int, mResult: String) {
+                        val obj = JSONObject(mResult)
+                        signing_situation_ed.setText(obj.optString("title"))
+                        mSigningSituationTag = obj.optInt("tag")
+                    }
+
+                }).show(supportFragmentManager, "signing_situation_down_ivSFilterDialog")
             }
 
         })
@@ -124,8 +273,9 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
             override fun onSingleClick(v: View?) {
                 FilterDialog(getScreenWidth(), mCertificateData, "title", "代理人证件类型", false, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
                     override fun onItemClick(v: View, position: Int, mResult: String) {
-
-                        agent_certificate_type_tv.text = JSONObject(mResult).optString("title")
+                        val obj = JSONObject(mResult)
+                        agent_certificate_type_tv.text = obj.optString("title")
+                        agentCertificateTypeTag = obj.optInt("tag") + 1
                     }
 
                 }).show(supportFragmentManager, "agent_certificate_type_llSFilterDialog")
@@ -143,10 +293,17 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
     override fun getPaymentWayS(result: String) {
         FilterDialog(getScreenWidth(), result, "tdescribe", "提货收款方式", false, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
-
-                payment_method_tv.text = JSONObject(mResult).optString("tdescribe")
+                val obj = JSONObject(mResult)
+                payment_method_tv.text = obj.optString("tdescribe")
+                payMethodTag = obj.optInt("typecode")
             }
 
-        }).show(supportFragmentManager, "getPaymentWaySSFilterDialog")
+        }).show(supportFragmentManager, "getPaymentWaySFilterDialog")
+    }
+
+    override fun receiptGoodsS() {
+        TalkSureDialog(mContext, getScreenWidth(), "货物签收成功，点击返回查看详情！") {
+            onBackPressed()
+        }.show()
     }
 }

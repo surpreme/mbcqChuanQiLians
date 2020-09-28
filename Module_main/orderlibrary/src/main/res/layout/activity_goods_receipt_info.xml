@@ -381,6 +381,7 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/picker_name_ed"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="15dp"
@@ -448,6 +449,7 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/picker_card_number_ed"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="15dp"
@@ -475,6 +477,7 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/agent_name_ed"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="15dp"
@@ -548,6 +551,7 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/agent_card_number_ed"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="15dp"
@@ -628,6 +632,40 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/signing_situation_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="签收情况"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/signing_situation_ed"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1" />
+
+
+                    <ImageView
+                        android:id="@+id/signing_situation_down_iv"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="4.45dp"
+                        android:layout_marginRight="15dp"
+                        android:src="@drawable/ic_down_icon" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
@@ -636,8 +674,8 @@
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
                         android:layout_gravity="center"
+                        android:layout_marginLeft="15dp"
                         android:buttonTint="@color/base_blue"
                         android:text="签收单" />
 
@@ -666,6 +704,7 @@
                         android:textColor="@color/base_red" />
 
                     <Button
+                        android:id="@+id/confirm_receipt_btn"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"

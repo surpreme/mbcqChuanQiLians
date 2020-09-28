@@ -6,6 +6,8 @@
         <attr name="backButtonIsShow" format="boolean"/>
         <attr name="centerTextViewText" format="string"/>
         <attr name="toolbarBackGround" format="color"/>
+        <attr name="centerTextViewTextColor" format="color"/>
+        <attr name="isDark" format="boolean"/>
 
 
     </declare-styleable>

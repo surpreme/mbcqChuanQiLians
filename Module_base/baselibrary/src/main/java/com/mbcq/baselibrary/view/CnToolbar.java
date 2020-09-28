@@ -71,7 +71,10 @@ public class CnToolbar extends Toolbar {
             setIsShowBackIcon(isShowBackIcon);
             int toolBarBackGroundColor = a.getColor(R.styleable.CnToolbar_toolbarBackGround, 0);
             setToolbarBackGround(toolBarBackGroundColor);
-
+            int centerTextViewTextColor = a.getColor(R.styleable.CnToolbar_centerTextViewTextColor,0);
+            setCenterTextViewTextColor(centerTextViewTextColor);
+            Boolean isDark = a.getBoolean(R.styleable.CnToolbar_isDark, false);
+            setIsDark(isDark);
 
 
           /*  //默认false
@@ -92,6 +95,19 @@ public class CnToolbar extends Toolbar {
             }
 
             a.recycle();
+        }
+
+    }
+
+    private void setIsDark(Boolean isDark) {
+        if (isDark) {
+            if (back_iv != null) {
+                back_iv.setColorFilter(Color.BLACK);
+            }
+        } else {
+            if (back_iv != null) {
+                back_iv.setColorFilter(Color.WHITE);
+            }
         }
 
     }
@@ -142,6 +158,17 @@ public class CnToolbar extends Toolbar {
         if (father_cl != null) {
             if (colorId != 0)
                 father_cl.setBackgroundResource(colorId);
+        }
+
+    }
+
+    public void setCenterTextViewTextColor(int colorId) {
+        if (mTextTitle != null) {
+            if (colorId != 0) {
+                mTextTitle.setTextColor(colorId);
+
+            }
+
         }
 
     }
