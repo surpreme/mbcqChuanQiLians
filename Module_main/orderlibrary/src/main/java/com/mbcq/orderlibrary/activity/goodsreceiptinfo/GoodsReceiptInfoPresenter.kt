@@ -2,6 +2,7 @@ package com.mbcq.orderlibrary.activity.goodsreceiptinfo
 
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
+import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ApiInterface
 import org.json.JSONObject
 
@@ -59,6 +60,16 @@ class GoodsReceiptInfoPresenter : BasePresenterImpl<GoodsReceiptInfoContract.Vie
             }
 
         })
+    }
+
+    override fun receiptGoods(job: JSONObject) {
+        post<String>(ApiInterface.RECEIPT_GOODS_POST, getRequestBody(job), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.receiptGoodsS()
+            }
+
+        })
+
     }
 
 }

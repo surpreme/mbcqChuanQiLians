@@ -14,8 +14,8 @@
         app:backButtonIsShow="true"
         app:centerTextViewText="货物签收"
         app:layout_constraintTop_toTopOf="parent"
-        app:rightButtonIcon="@drawable/ic_search_icon" />
-
+       />
+<!--app:rightButtonIcon="@drawable/ic_search_icon"-->
     <LinearLayout
         android:id="@+id/search_ll"
         android:layout_width="match_parent"
@@ -27,6 +27,7 @@
         app:layout_constraintTop_toBottomOf="@+id/goods_receipt_toolbar">
 
         <EditText
+            android:id="@+id/billno_ed"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -42,6 +43,7 @@
             android:src="@drawable/ic_scan_iccon" />
 
         <Button
+            android:id="@+id/search_btn"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="#EAC11E"

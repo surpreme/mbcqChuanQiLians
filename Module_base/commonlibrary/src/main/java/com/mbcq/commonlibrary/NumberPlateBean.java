@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.activity.alldeparturerecord.addshortfeeder;
+package com.mbcq.commonlibrary;
 
 public class NumberPlateBean {
 

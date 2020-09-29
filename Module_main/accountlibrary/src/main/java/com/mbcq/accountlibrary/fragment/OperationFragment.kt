@@ -142,7 +142,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                     mOperationViewBean.tag = 2
                     val listItem = arrayListOf<IconViewBean.ItemBean>()
 
-                    for (mItemIndex in 0..8) {
+                    for (mItemIndex in 0..9) {
                         val item = IconViewBean.ItemBean()
                         when (mItemIndex) {
                             0 -> {
@@ -173,6 +173,10 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                 item.itemText = "车辆档案"
                             }
 
+                            9 -> {
+                                item.itemText = "异常登记"
+                            }
+
                         }
                         listItem.add(item)
                     }
@@ -201,6 +205,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                 ARouter.getInstance().build(ARouterConstants.WaybillRecordActivity).navigation()
 
                             }
+
                             9 -> {
                                 ARouter.getInstance().build(ARouterConstants.ShipmentInventoryActivity).navigation()
 
@@ -220,6 +225,10 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                 ARouter.getInstance().build(ARouterConstants.ArrivalRecordActivity).navigation()
 
                             }
+                            7 -> {
+                                ARouter.getInstance().build(ARouterConstants.DeliverySomeThingActivity).navigation()
+
+                            }
                             4 -> {
                                 ARouter.getInstance().build(ARouterConstants.ArrivalInventoryActivity).navigation()
 
@@ -231,6 +240,12 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                             10 -> {
                                 ARouter.getInstance().build(ARouterConstants.TerminalAgentActivity).navigation()
 
+                            }
+                        }
+                    } else if (mResult == "5") {
+                        when (position) {
+                            9 -> {
+                                ARouter.getInstance().build(ARouterConstants.ExceptionRegistrationActivity).navigation()
                             }
                         }
                     }

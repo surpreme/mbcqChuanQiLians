@@ -12,11 +12,12 @@ class GoodsReceiptContract {
 
     interface View : BaseView {
 
-        fun getPageS(list:List<GoodsReceiptBean>)
+        fun getPageS(list: List<GoodsReceiptBean>)
     }
 
     interface Presenter : BasePresenter<View> {
         fun getPage(page: Int)
+        fun getBillNoData(billno: String)
 
     }
 }

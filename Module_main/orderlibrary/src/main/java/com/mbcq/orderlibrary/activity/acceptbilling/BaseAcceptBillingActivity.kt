@@ -74,11 +74,14 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
     lateinit var rxPermissions: RxPermissions
     protected val RESULT_DATA_CODE = 5848
     protected val RECEIVER_RESULT_DATA_CODE = 4439
+
     //运单号生成方式
     protected lateinit var waybillNumberTag: String
+
     //付货方式
     protected lateinit var okProcessStrTag: String
-    protected  var isTalkGoodsStrTag: Boolean = false
+    var okProcessStrTagIndex = 1
+    protected var isTalkGoodsStrTag: Boolean = false
     override fun isShowErrorDialog() = true
 
     override fun initExtra() {
@@ -164,6 +167,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         }
         return true
     }
+
     fun waybillNumber(isHandWriting: Boolean) {
         if (isHandWriting) {
             waybill_number_ed.isFocusableInTouchMode = true
@@ -216,7 +220,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
                 home_delivery_tv.setBackgroundResource(R.drawable.hollow_out_gray)
                 home_delivery_tv.setTextColor(Color.BLACK)
-                isTalkGoodsStrTag=false
+                isTalkGoodsStrTag = false
             }
             2 -> {
                 home_delivery_tv.setBackgroundResource(R.drawable.round_blue)
@@ -224,7 +228,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
                 customer_mention_tv.setBackgroundResource(R.drawable.hollow_out_gray)
                 customer_mention_tv.setTextColor(Color.BLACK)
-                isTalkGoodsStrTag=true
+                isTalkGoodsStrTag = true
 
             }
         }
@@ -235,6 +239,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
      *
      */
     fun initDeliveryMethod(type: Int) {
+        okProcessStrTagIndex=type
         when (type) {
             1 -> {
                 get_delivery_mention_tv.setBackgroundResource(R.drawable.round_blue)
@@ -245,7 +250,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
                 get_driver_direct_tv.setBackgroundResource(R.drawable.hollow_out_gray)
                 get_driver_direct_tv.setTextColor(Color.BLACK)
-                okProcessStrTag=get_delivery_mention_tv.text.toString()
+                okProcessStrTag = get_delivery_mention_tv.text.toString()
 
             }
             2 -> {
@@ -257,7 +262,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
                 get_driver_direct_tv.setBackgroundResource(R.drawable.hollow_out_gray)
                 get_driver_direct_tv.setTextColor(Color.BLACK)
-                okProcessStrTag=get_delivery_home_tv.text.toString()
+                okProcessStrTag = get_delivery_home_tv.text.toString()
 
             }
             3 -> {
@@ -269,7 +274,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
                 get_delivery_home_tv.setBackgroundResource(R.drawable.hollow_out_gray)
                 get_delivery_home_tv.setTextColor(Color.BLACK)
-                okProcessStrTag=get_driver_direct_tv.text.toString()
+                okProcessStrTag = get_driver_direct_tv.text.toString()
 
             }
         }

@@ -299,4 +299,24 @@ public class ApiInterface {
      */
     public static final String RECEIPT_GOODS_POST = BASE_URI + "WaybillFetchOpe/AddWaybillFetch";
 
+
+    /**
+     * --------------------------------------------------------------------------
+     */
+
+
+    /**
+     * 送货上门 -查询主表
+     */
+    public static final String DELIVERY_SOMETHING_SELECT_INFO_GET = BASE_URI + "WaybillSendOpe/SelWaybillSendByCondition";
+    /**
+     * 送货上门 -发车批次
+     */
+    public static final String DELIVERY_SOMETHING_DEPARTURE_GET = BASE_URI + "WaybillSendOpe/SelWaySenInOneVehicleFlag";
+    /**
+     * 送货上门 -库存
+     */
+    public static final String DELIVERY_SOMETHING_STOCK_GET = BASE_URI + "WaybillFcdOpe/SelWaySenWaybillFcdByCon";
+
+
 }

@@ -118,6 +118,23 @@ class GoodsReceiptPresenter : BasePresenterImpl<GoodsReceiptContract.View>(), Go
         val httpParams = HttpParams()
         httpParams.put("Page", page)
         httpParams.put("Limit", 15)
+
+
+        get<String>(ApiInterface.SIGN_INVENTORY_SELECTED_INFO_GET, httpParams, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    mView?.getPageS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<GoodsReceiptBean>>() {}.type))
+
+                }
+            }
+
+        })
+    }
+
+    override fun getBillNoData(billno: String) {
+        val httpParams = HttpParams()
+        httpParams.put("billno", billno)
         get<String>(ApiInterface.SIGN_INVENTORY_SELECTED_INFO_GET, httpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)

@@ -288,7 +288,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         jsonObj.addProperty("BillTypeStr", BillTypeStr)
 
         //付货方式编码
-        val OkProcess = ""
+        val OkProcess = okProcessStrTagIndex
         jsonObj.addProperty("OkProcess", OkProcess)
 
         //付货方式

@@ -16,7 +16,7 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.vehicleslibrary.R
-import com.mbcq.vehicleslibrary.activity.alldeparturerecord.addshortfeeder.NumberPlateBean
+import com.mbcq.commonlibrary.NumberPlateBean
 import kotlinx.android.synthetic.main.activity_add_terminal_agent_by_car.*
 import org.json.JSONObject
 
