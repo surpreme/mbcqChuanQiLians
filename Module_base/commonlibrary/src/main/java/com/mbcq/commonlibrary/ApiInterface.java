@@ -331,10 +331,18 @@ public class ApiInterface {
      */
     public static final String DELIVERY_SOMETHING_REMOVE_POST = BASE_URI + "WaybillSendOpe/CurWaybillSendDelWay";
 
- /**
+    /**
      * 送货上门 - 新增 完成本车
      */
     public static final String DELIVERY_SOMETHING_NEW_COMPELETE_POST = BASE_URI + "WaybillSendOpe/AddWaybillSend";
 
+    /**
+     * 签收记录
+     */
+    public static final String SIGN_FOR_RECORD_SELECT_GET = BASE_URI + "WaybillFetchOpe/SelWaybillFetchByCondition";
+  /**
+     * 签收记录 取消签收
+     */
+    public static final String SIGN_FOR_RECORD_CANCEL_POST = BASE_URI + "WaybillFetchOpe/DelWaybillFetch";
 
 }

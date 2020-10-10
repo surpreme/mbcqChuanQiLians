@@ -196,56 +196,64 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
             it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
                 override fun onItemClick(v: View, position: Int, mResult: String) {
                     LogUtils.d("result" + mResult + "position" + position)
-                    if (mResult == "1") {
-                        when (position) {
-                            0 -> {
-                                ARouter.getInstance().build(ARouterConstants.AcceptBillingActivity).navigation()
-                            }
-                            1 -> {
-                                ARouter.getInstance().build(ARouterConstants.WaybillRecordActivity).navigation()
+                    when (mResult) {
+                        "1" -> {
+                            when (position) {
+                                0 -> {
+                                    ARouter.getInstance().build(ARouterConstants.AcceptBillingActivity).navigation()
+                                }
+                                1 -> {
+                                    ARouter.getInstance().build(ARouterConstants.WaybillRecordActivity).navigation()
 
-                            }
+                                }
 
-                            9 -> {
-                                ARouter.getInstance().build(ARouterConstants.ShipmentInventoryActivity).navigation()
+                                9 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ShipmentInventoryActivity).navigation()
 
-                            }
-                            11 -> {
-                                ARouter.getInstance().build(ARouterConstants.DepartureRecordActivity).navigation()
+                                }
+                                11 -> {
+                                    ARouter.getInstance().build(ARouterConstants.DepartureRecordActivity).navigation()
 
-                            }
-                            12 -> {
-                                ARouter.getInstance().build(ARouterConstants.LocalAgentActivity).navigation()
+                                }
+                                12 -> {
+                                    ARouter.getInstance().build(ARouterConstants.LocalAgentActivity).navigation()
 
-                            }
-                        }
-                    } else if (mResult == "3") {
-                        when (position) {
-                            2 -> {
-                                ARouter.getInstance().build(ARouterConstants.ArrivalRecordActivity).navigation()
-
-                            }
-                            7 -> {
-                                ARouter.getInstance().build(ARouterConstants.DeliverySomeThingActivity).navigation()
-
-                            }
-                            4 -> {
-                                ARouter.getInstance().build(ARouterConstants.ArrivalInventoryActivity).navigation()
-
-                            }
-                            8 -> {
-                                ARouter.getInstance().build(ARouterConstants.GoodsReceiptActivity).navigation()
-
-                            }
-                            10 -> {
-                                ARouter.getInstance().build(ARouterConstants.TerminalAgentActivity).navigation()
-
+                                }
                             }
                         }
-                    } else if (mResult == "5") {
-                        when (position) {
-                            9 -> {
-                                ARouter.getInstance().build(ARouterConstants.ExceptionRegistrationActivity).navigation()
+                        "3" -> {
+                            when (position) {
+                                2 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ArrivalRecordActivity).navigation()
+
+                                }
+                                7 -> {
+                                    ARouter.getInstance().build(ARouterConstants.DeliverySomeThingActivity).navigation()
+
+                                }
+                                4 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ArrivalInventoryActivity).navigation()
+
+                                }
+                                8 -> {
+                                    ARouter.getInstance().build(ARouterConstants.GoodsReceiptActivity).navigation()
+
+                                }
+                                9 -> {
+                                    ARouter.getInstance().build(ARouterConstants.SignRecordActivity).navigation()
+
+                                }
+                                10 -> {
+                                    ARouter.getInstance().build(ARouterConstants.TerminalAgentActivity).navigation()
+
+                                }
+                            }
+                        }
+                        "5" -> {
+                            when (position) {
+                                9 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ExceptionRegistrationActivity).navigation()
+                                }
                             }
                         }
                     }

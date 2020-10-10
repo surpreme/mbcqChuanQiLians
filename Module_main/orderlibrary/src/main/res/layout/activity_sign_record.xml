@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.signrecord.SignRecordActivity">
+    <com.mbcq.baselibrary.view.CnToolbar
+        android:id="@+id/sign_record_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/base_blue"
+        app:backButtonIsShow="true"
+        app:centerTextViewText="签收记录（xxxxx）"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rightButtonIcon="@drawable/ic_search_icon" />
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/sign_record_smart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_line"
+        app:layout_constraintTop_toBottomOf="@id/sign_record_toolbar" >
+        <FrameLayout
+            android:id="@+id/sign_record_smart_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sign_record_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none"/>
+
+        </FrameLayout>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+    <View
+        android:id="@+id/bottom_line"
+        app:layout_constraintBottom_toTopOf="@+id/all_info_bottom_tv"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/base_gray"
+        android:layout_marginBottom="5dp"
+        android:alpha="0.5"/>
+    <CheckBox
+        android:id="@+id/check_all_box"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="9dp"
+        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="全选"
+        android:buttonTint="@color/base_blue"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_ll"/>
+    <TextView
+        android:id="@+id/all_info_bottom_tv"
+        android:textColor="@color/black"
+        android:layout_marginRight="9dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_ll"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="15dp"
+        android:layout_width="match_parent"
+        android:textSize="17sp"
+        android:gravity="right"
+        android:paddingRight="15dp"
+        android:layout_height="wrap_content"
+        android:text="合计：x票，x件，运费¥xxx"/>
+
+    <LinearLayout
+        android:id="@+id/bottom_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+
+        <Button
+            android:id="@+id/make_up_printing_btn"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_blue"
+            android:text="补打印"
+            android:textSize="18sp"
+            android:textColor="@color/white" />
+
+
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

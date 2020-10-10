@@ -1,14 +1,18 @@
 package com.mbcq.orderlibrary.activity.deliverysomething
 
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.ui.BaseSmartMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
+import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
+import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
@@ -73,6 +77,16 @@ class DeliverySomeThingActivity : BaseSmartMVPActivity<DeliverySomeThingContract
     override fun getRecyclerViewId(): Int = R.id.delivery_something_recycler
 
     override fun setAdapter(): BaseRecyclerAdapter<DeliverySomeThingBean> = DeliverySomeThingAdapter(mContext)
+    override fun addItemDecoration(): RecyclerView.ItemDecoration = object : BaseItemDecoration(mContext) {
+        override fun configExtraSpace(position: Int, count: Int, rect: Rect) {
+            rect.top = ScreenSizeUtils.dp2px(mContext, 10f)
+        }
+
+        override fun doRule(position: Int, rect: Rect) {
+            rect.bottom = rect.top
+        }
+    }
+
     override fun getDeliverySS(list: List<DeliverySomeThingBean>) {
         appendDatas(list)
     }
