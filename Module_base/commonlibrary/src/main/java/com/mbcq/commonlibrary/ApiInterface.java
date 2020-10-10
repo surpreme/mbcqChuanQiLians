@@ -317,6 +317,24 @@ public class ApiInterface {
      * 送货上门 -库存
      */
     public static final String DELIVERY_SOMETHING_STOCK_GET = BASE_URI + "WaybillFcdOpe/SelWaySenWaybillFcdByCon";
+    /**
+     * 送货上门 -修改 获取车辆的货物库存
+     */
+    public static final String DELIVERY_SOMETHING_LOADING_STOCK_GET = BASE_URI + "WaybillSendOpe/SelWaybillSendDetByCondition";
+    /**
+     * 送货上门 - 本车加货
+     */
+    public static final String DELIVERY_SOMETHING_ADD_POST = BASE_URI + "WaybillSendOpe/CurWaybillSendAddWay";
+
+    /**
+     * 送货上门 - 本车移出货物
+     */
+    public static final String DELIVERY_SOMETHING_REMOVE_POST = BASE_URI + "WaybillSendOpe/CurWaybillSendDelWay";
+
+ /**
+     * 送货上门 - 新增 完成本车
+     */
+    public static final String DELIVERY_SOMETHING_NEW_COMPELETE_POST = BASE_URI + "WaybillSendOpe/AddWaybillSend";
 
 
 }

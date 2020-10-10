@@ -62,6 +62,8 @@ class AddDeliverySomeThingActivity : BaseMVPActivity<AddDeliverySomeThingContrac
         obj.put("SendRemark", remarks_tv.text.toString())//备注
         obj.put("SendVehicleNo", number_plate_tv.text.toString())// 送货车牌号
         obj.put("SendDate", TimeUtils.getCurrTime2())// 送货时间
+        obj.put("SenWebCod", UserInformationUtil.getWebIdCode(mContext))// 送货网点
+        obj.put("SenWebCodStr", UserInformationUtil.getWebIdCodeStr(mContext))// 送货网点
 
         val json = GsonUtils.toPrettyFormat(obj.toString())
         ARouter.getInstance().build(ARouterConstants.DeliverySomethingHouseActivity).withString("AddDeliverySomeThing", json).navigation()

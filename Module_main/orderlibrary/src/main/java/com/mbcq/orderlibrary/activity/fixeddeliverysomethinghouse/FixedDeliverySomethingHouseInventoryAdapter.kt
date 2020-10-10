@@ -1,4 +1,4 @@
-package com.mbcq.orderlibrary.activity.deliverysomethinghouse
+package com.mbcq.orderlibrary.activity.fixeddeliverysomethinghouse
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,7 +12,7 @@ import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.orderlibrary.R
 
-class DeliverySomethingHouseLoadingAdapter (context: Context?):BaseRecyclerAdapter<DeliverySomethingHouseBean>(context){
+class FixedDeliverySomethingHouseInventoryAdapter (context: Context?):BaseRecyclerAdapter<FixedDeliverySomethingHouseBean>(context){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_delivery_something_loding, parent, false))
     fun checkedAll(isC: Boolean) {
         for ((index, item) in mDatas.withIndex()) {
@@ -24,7 +24,7 @@ class DeliverySomethingHouseLoadingAdapter (context: Context?):BaseRecyclerAdapt
     var mOnRemoveInterface: OnRemoveInterface? = null
 
     interface OnRemoveInterface {
-        fun onClick(position: Int, item: DeliverySomethingHouseBean)
+        fun onClick(position: Int, item: FixedDeliverySomethingHouseBean)
     }
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -36,7 +36,7 @@ class DeliverySomethingHouseLoadingAdapter (context: Context?):BaseRecyclerAdapt
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.shipper_tv.text = mDatas[position].shipper
         holder.receiver_tv.text = mDatas[position].consignee
-        holder.waybill_move_iv.rotation=0f
+        holder.waybill_move_iv.rotation=180f
         holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].qty}件 ${mDatas[position].volumn}m³ ${mDatas[position].packages} ${mDatas[position].weight}Kg ${mDatas[position].accTypeStr}${mDatas[position].accSum}  "
         context?.let {
             holder.record_checkbox_iv.setImageDrawable(ContextCompat.getDrawable(it, if (mDatas[position].isChecked) R.drawable.ic_checked_icon else R.drawable.ic_unchecked_icon))

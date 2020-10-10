@@ -2,6 +2,7 @@ package com.mbcq.orderlibrary.activity.deliverysomethinghouse
 
 
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
@@ -120,26 +121,16 @@ class DeliverySomethingHousePresenter : BasePresenterImpl<DeliverySomethingHouse
 
         })
     }
-
-    override fun removeOrder(removeOrderData: JSONObject) {
-        TODO("Not yet implemented")
-    }
-
-    override fun removeOrderItem(removeOrderData: JSONObject, position: Int, item: DeliverySomethingHouseBean) {
-        TODO("Not yet implemented")
-    }
-
-    override fun addOrder(removeOrderData: String) {
-    }
-
-    override fun addOrderItem(removeOrderData: String, position: Int, item: DeliverySomethingHouseBean) {
-       /* post<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_ADD_LOCAL_INFO_POST, getRequestBody(removeOrderData), object : CallBacks {
+    override fun saveInfo(ob: JSONObject) {
+        post<String>(ApiInterface.DELIVERY_SOMETHING_NEW_COMPELETE_POST, getRequestBody(ob), object : CallBacks {
             override fun onResult(result: String) {
-                mView?.addOrderItemS(position, item)
+                mView?.saveInfoS("")
 
             }
 
-        })*/
+        })
     }
+
+
 
 }

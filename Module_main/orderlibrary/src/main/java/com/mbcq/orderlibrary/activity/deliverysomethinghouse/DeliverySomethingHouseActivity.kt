@@ -2,24 +2,19 @@ package com.mbcq.orderlibrary.activity.deliverysomethinghouse
 
 
 import android.annotation.SuppressLint
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
-import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
-import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
-import com.mbcq.baselibrary.view.BaseItemDecoration
+import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.orderlibrary.R
 import kotlinx.android.synthetic.main.activity_delivery_something_house.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.lang.StringBuilder
 
 /**
  * @author: lzy
@@ -48,38 +43,71 @@ class DeliverySomethingHouseActivity : BaseDeliverySomethingHouseActivity<Delive
         mPresenter?.getInventory()
     }
 
-    override fun initInventoryList() {
-        super.initInventoryList()
-        mInventoryListAdapter?.mOnRemoveInterface = object : DeliverySomethingHouseInventoryAdapter.OnRemoveInterface {
-            override fun onClick(position: Int, item: DeliverySomethingHouseBean) {
-                val mDeliverySomethingHouseFixBean = Gson().fromJson<DeliverySomethingHouseFixBean>(mLastDataJson, DeliverySomethingHouseFixBean::class.java)
+    /**
+     * 完成本车保存
+     */
+    fun completeCar() {
+        mLoadingListAdapter?.getAllData()?.let {
+            if (it.isEmpty())
+                return
+            val mLastData = JSONObject(mLastDataJson)
+            val jarray = JSONArray()
+            val kk = StringBuilder()
 
-                mDeliverySomethingHouseFixBean.waybillSendDetLst = mutableListOf(item)
-                /* val mLastData = JSONObject(mLastDataJson)
-                 val listData = JSONArray()
-                 val itemObj = JSONObject()
-                 itemObj.put("billno", item.billno)
-                 itemObj.put("billno", item.billno)
-                 listData.put(itemObj)
-                 mLastData.put("WaybillSendDetLst", listData)*/
-                mPresenter?.addOrderItem(Gson().toJson(mDeliverySomethingHouseFixBean), position, item)
+            for ((index, item) in it.withIndex()) {
+                val obj = JSONObject()
+                obj.put("billno", item.billno)
+                kk.append(item.billno)
+                if (index != it.size - 1)
+                    kk.append(",")
+                jarray.put(obj)
             }
+//            mLastData.put("SendInOneFlag", mLastData.optString("SendInOneFlag"))
+            mLastData.put("WaybillSendDetLst", jarray)
+            mLastData.put("CommonStr", kk.toString())
+            mPresenter?.saveInfo(mLastData)
         }
+
     }
 
-    override fun initLoadingList() {
-        super.initLoadingList()
-        mLoadingListAdapter?.mOnRemoveInterface = object : DeliverySomethingHouseLoadingAdapter.OnRemoveInterface {
-            override fun onClick(position: Int, item: DeliverySomethingHouseBean) {
-                val mLastData = JSONObject(mLastDataJson)
-//                mPresenter?.removeOrderItem(item.billno, mLastData.optString("Id"), mLastData.optString("InoneVehicleFlag"), position, item)
-            }
-
-        }
-    }
 
     override fun onClick() {
         super.onClick()
+        complete_vehicle_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                completeCar()
+            }
+
+        })
+        all_selected_checked.setOnCheckedChangeListener { _, isChecked ->
+            if (mTypeIndex == 1)
+                mInventoryListAdapter?.checkedAll(isChecked)
+            else if (mTypeIndex == 2)
+                mLoadingListAdapter?.checkedAll(isChecked)
+
+        }
+        operating_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                if (operating_btn.text.toString() == "添加本车") {
+                    getSelectInventoryList()?.let {
+                        if (it.isEmpty()) {
+                            showToast("请至少选择一票进行添加！")
+                            return
+                        }
+                        addSomeThing()
+                    }
+                } else if (operating_btn.text.toString() == "移出本车") {
+                    if (getSelectLoadingOrderItem() == 0) {
+                        showToast("请至少选择一票进行移出！")
+                        return
+                    }
+                    removeSomeThing()
+                }
+                refreshTopNumber()
+
+            }
+
+        })
         inventory_list_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 selectIndex(1)
@@ -101,7 +129,17 @@ class DeliverySomethingHouseActivity : BaseDeliverySomethingHouseActivity<Delive
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun getInventoryS(list: List<DeliverySomethingHouseBean>) {
         mInventoryListAdapter?.appendData(list)
+        inventory_list_tv.text = "库存清单(${list.size})"
+
+    }
+
+    override fun saveInfoS(result: String) {
+        TalkSureDialog(mContext, getScreenWidth(), "送货上门${dispatch_number_tv.text}完成，点击查看详情！") {
+            onBackPressed()
+            this.finish()
+        }.show()
     }
 }

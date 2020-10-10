@@ -3,7 +3,8 @@
     package="com.mbcq.orderlibrary">
 
     <application>
-        <activity android:name=".activity.deliverysomethinghouse.DeliverySomethingHouseActivity"></activity>
+        <activity android:name=".activity.fixeddeliverysomethinghouse.FixedDeliverySomethingHouseActivity"/>
+        <activity android:name=".activity.deliverysomethinghouse.DeliverySomethingHouseActivity" />
         <activity android:name=".activity.adddeliverysomething.AddDeliverySomeThingActivity" />
         <activity android:name=".activity.deliverysomething.DeliverySomeThingActivity" />
         <activity android:name=".activity.exceptionregistration.ExceptionRegistrationActivity" />

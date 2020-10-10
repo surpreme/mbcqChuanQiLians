@@ -1,4 +1,4 @@
-package com.mbcq.orderlibrary.activity.deliverysomethinghouse
+package com.mbcq.orderlibrary.activity.fixeddeliverysomethinghouse
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,7 +12,7 @@ import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.orderlibrary.R
 
-class DeliverySomethingHouseLoadingAdapter (context: Context?):BaseRecyclerAdapter<DeliverySomethingHouseBean>(context){
+class FixedDeliverySomethingHouseLoadingAdapter (context: Context?):BaseRecyclerAdapter<FixedDeliverySomethingHouseBean>(context){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_delivery_something_loding, parent, false))
     fun checkedAll(isC: Boolean) {
         for ((index, item) in mDatas.withIndex()) {
@@ -24,7 +24,7 @@ class DeliverySomethingHouseLoadingAdapter (context: Context?):BaseRecyclerAdapt
     var mOnRemoveInterface: OnRemoveInterface? = null
 
     interface OnRemoveInterface {
-        fun onClick(position: Int, item: DeliverySomethingHouseBean)
+        fun onClick(position: Int, item: FixedDeliverySomethingHouseBean)
     }
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
