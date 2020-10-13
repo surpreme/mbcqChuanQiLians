@@ -18,6 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
+            android:textColorHighlight="#CCCCCC"
+            android:textIsSelectable="true"
             android:textColor="@color/base_blue"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"

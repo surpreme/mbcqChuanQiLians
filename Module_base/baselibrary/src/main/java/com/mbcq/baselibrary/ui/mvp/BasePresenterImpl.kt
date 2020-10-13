@@ -48,13 +48,17 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
     }
 
     protected fun <T> post(url: String, body: RequestBody, callback: CallBacks) {
-        post<T>(url, body, false, callback)
+        post<T>(url, body, null, false, callback)
+    }
+
+    protected fun <T> post(url: String, params: HttpParams, callback: CallBacks) {
+        post<T>(url, null, params, false, callback)
     }
 
     /**
      * 登录不需要传headers （token）
      */
-    protected fun <T> post(url: String, body: RequestBody, isAddHeader: Boolean, callback: CallBacks) {
+    protected fun <T> post(url: String, body: RequestBody?, params: HttpParams?, isAddHeader: Boolean, callback: CallBacks) {
         val mHttpHeaders = HttpHeaders()
         if (!isAddHeader) {
             mView?.getContext()?.let {
@@ -64,7 +68,8 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
             }
         }
 
-        OkGo.post<T>(url).tag(BaseApplication.getContext()).headers(if (isAddHeader) HttpHeaders() else mHttpHeaders).upRequestBody(body).execute(object : ResultDataCallBack<T>() {
+        OkGo.post<T>(url).tag(BaseApplication.getContext()).headers(if (isAddHeader) HttpHeaders() else mHttpHeaders).upRequestBody(body).params(params
+                ?: HttpParams()).execute(object : ResultDataCallBack<T>() {
             override fun onResult(result: String) {
                 if (result == "null") {
                     mView?.showError("服务器超时 请重试!")

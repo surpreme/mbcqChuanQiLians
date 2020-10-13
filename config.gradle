@@ -15,7 +15,7 @@ ext {
             fastjson    : 'com.alibaba:fastjson:1.2.61',
             SmartRefreshLayout        : 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0',
             SmartRefreshHeader    : 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0',
-            glide       : 'com.github.bumptech.glide:glide:4.10.0',
+            glide       : 'com.github.bumptech.glide:glide:4.11.0',
             multidex    : 'androidx.multidex:multidex:2.0.0'
 
     ]

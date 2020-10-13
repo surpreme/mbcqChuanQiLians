@@ -3,6 +3,7 @@ package com.mbcq.commonlibrary;
 public class ApiInterface {
     //    private static final String BASE_URI="http://47.96.133.133:7091/";
     private static final String BASE_URI = "http://192.168.2.43:8080/";
+    public static final String BASE_URIS = "http://192.168.2.43:8080/";
     /**
      * 登录
      */
@@ -335,14 +336,38 @@ public class ApiInterface {
      * 送货上门 - 新增 完成本车
      */
     public static final String DELIVERY_SOMETHING_NEW_COMPELETE_POST = BASE_URI + "WaybillSendOpe/AddWaybillSend";
+    /**
+     *
+     */
 
     /**
      * 签收记录
      */
     public static final String SIGN_FOR_RECORD_SELECT_GET = BASE_URI + "WaybillFetchOpe/SelWaybillFetchByCondition";
-  /**
+    /**
      * 签收记录 取消签收
      */
     public static final String SIGN_FOR_RECORD_CANCEL_POST = BASE_URI + "WaybillFetchOpe/DelWaybillFetch";
+    /**
+     *
+     */
+    /**
+     * 异常记录 新增 -查询运单的信息
+     */
+    public static final String EXCEPTION_RECORD_SELECT_ORDER_GET = BASE_URI + "WaybillOpe/SelWaybillByCondition";
+
+    /**
+     * 异常记录 新增 -差错类型
+     */
+    public static final String EXCEPTION_RECORD_SELECT_WRONG_TYPE_GET = BASE_URI + "BadType/SelAllTypeByType";
+    /**
+     * 异常记录 新增 -差错类型 子类
+     */
+    public static final String EXCEPTION_RECORD_SELECT_WRONG_CHILDREN_TYPE_GET = BASE_URI + "BadType/SelBadChildTypeByType";
+    /**
+     * 上传图片
+     */
+    public static final String POST_PICTURE_POST = BASE_URI + "AllImages/UploadAllImages";
+
 
 }

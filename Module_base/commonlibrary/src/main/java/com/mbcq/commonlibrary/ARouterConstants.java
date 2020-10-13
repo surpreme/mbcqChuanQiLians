@@ -38,4 +38,5 @@ public class ARouterConstants {
     public static final String DeliverySomethingHouseActivity="/order/DeliverySomethingHouseActivity";
     public static final String FixedDeliverySomethingHouseActivity="/order/FixedDeliverySomethingHouseActivity";
     public static final String SignRecordActivity="/order/SignRecordActivity";
+    public static final String TakePhotosActivity="/common/TakePhotosActivity";
 }

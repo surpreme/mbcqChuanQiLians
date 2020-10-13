@@ -30,7 +30,7 @@ import java.util.*
 
 /**
  * @author: lzy
- * @time: 2020-10-10 09:33:12 签收记录
+ * @time: 2020-10-10 09:33:12 签收记录  异常登记
  */
 @Route(path = ARouterConstants.SignRecordActivity)
 class SignRecordActivity : BaseSmartMVPActivity<SignRecordContract.View, SignRecordPresenter, SignRecordBean>(), SignRecordContract.View {

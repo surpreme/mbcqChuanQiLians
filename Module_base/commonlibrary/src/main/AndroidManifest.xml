@@ -3,6 +3,8 @@
     package="com.mbcq.commonlibrary">
 
     <application>
+        <activity android:name=".TakePhotosActivity" />
+
     </application>
 
 </manifest>
