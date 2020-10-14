@@ -251,6 +251,9 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                         }
                         "5" -> {
                             when (position) {
+                                8 -> {
+                                    ARouter.getInstance().build(ARouterConstants.VehicleArchivesActivity).navigation()
+                                }
                                 9 -> {
                                     ARouter.getInstance().build(ARouterConstants.ExceptionRegistrationActivity).navigation()
                                 }

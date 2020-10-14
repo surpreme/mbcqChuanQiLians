@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mSwipeMenuLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/number_plate_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/base_blue"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="沪AB1234" />
+
+    <TextView
+        android:id="@+id/vehicle_type_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/number_plate_tv"
+        app:layout_constraintRight_toLeftOf="@+id/vehicle_host_tv"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="大车" />
+
+    <TextView
+        android:id="@+id/vehicle_host_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="16sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="挂靠" />
+
+    <TextView
+        android:id="@+id/information_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="驾驶员：吴轩  15995675861  车主：林仙"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintTop_toBottomOf="@+id/number_plate_tv"
+        app:layout_constraintLeft_toLeftOf="@+id/number_plate_tv"
+        android:layout_marginTop="20dp"/>
+
+    <View
+        android:id="@+id/line_view"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/base_gray"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/information_tv"/>
+
+    <ImageView
+        android:id="@+id/record_checkbox_iv"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_checked_icon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_view"
+        app:tint="@color/base_blue" />
+
+    <TextView
+        android:id="@+id/date_sure_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/record_checkbox_iv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/record_checkbox_iv"
+        tools:text="年审日期：2024-08-11 " />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/date_sure_tv" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+

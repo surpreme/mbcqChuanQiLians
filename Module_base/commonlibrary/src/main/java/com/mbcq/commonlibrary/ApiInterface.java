@@ -372,6 +372,13 @@ public class ApiInterface {
      * 上传图片
      */
     public static final String POST_PICTURE_POST = BASE_URI + "AllImages/UploadAllImages";
+    /**
+     *
+     */
+    /**
+     * 车辆档案
+     */
+    public static final String VEHICLE_ARCHIVES_SELECT_GET = BASE_URI + "Vehicles/SelVehiclesByCondition";
 
 
 }
