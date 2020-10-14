@@ -238,6 +238,15 @@ class ExceptionRegistrationPresenter : BasePresenterImpl<ExceptionRegistrationCo
         })
     }
 
+    override fun updateAllInfo(jsonObject: JSONObject) {
+        post<String>(ApiInterface.EXCEPTION_RECORD_ADD_WRONG_POST,getRequestBody(jsonObject),object:CallBacks{
+            override fun onResult(result: String) {
+
+            }
+
+        })
+    }
+
     override fun getWrongChildrenType(id:String,companyid:String,typecode:String,partypcod:String,tdescribe:String,opeman:String,recorddate:String) {
         val params=HttpParams()
         params.put("id",id)

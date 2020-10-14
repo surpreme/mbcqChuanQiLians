@@ -50,9 +50,16 @@ abstract class BaseExceptionRegistrationActivity<V : BaseView, T : BasePresenter
     lateinit var rxPermissions: RxPermissions
     protected var mSelected: List<Uri> = ArrayList()
     val mShowImagesURL = mutableListOf<String>()
+    val mShowImagesFile = mutableListOf<File>()
     var mImageViewAdapter: ImageViewAdapter? = null
+    var mProblemTypeJson = ""
     var mProblemTypeTag = ""
+    var mProblemChildTypeTag = ""
     var mProblemTypeIndex = 0
+    var mProblemChildTypeIndex = 0
+    var mSafeMoney = ""
+
+
     override fun initExtra() {
         super.initExtra()
         rxPermissions = RxPermissions(this)
@@ -78,7 +85,7 @@ abstract class BaseExceptionRegistrationActivity<V : BaseView, T : BasePresenter
     }
 
 
-    fun getIsCanTakePictures(): Boolean {
+    fun getIsCanNext(): Boolean {
         if (order_info_cl.visibility == View.GONE) {
             showToast("请输入运单号")
             return false

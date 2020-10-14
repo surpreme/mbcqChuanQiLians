@@ -17,6 +17,7 @@ import com.google.gson.Gson
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.system.FileUtils
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.SingleClick
@@ -32,6 +33,7 @@ import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
 import com.zhihu.matisse.internal.entity.CaptureStrategy
 import kotlinx.android.synthetic.main.activity_exception_registration.*
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 
@@ -73,11 +75,19 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
 
         }
     }
+
     override fun onClick() {
         super.onClick()
+        commit_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                if (getIsCanNext())
+                    updateOvering()
+            }
+
+        })
         take_photos_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                if (getIsCanTakePictures())
+                if (getIsCanNext())
                     getCameraPermission()
             }
 
@@ -88,7 +98,7 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
                     showToast("请先选择差错类型后选择！")
                     return
                 }
-                val obj = JSONObject(mProblemTypeTag)
+                val obj = JSONObject(mProblemTypeJson)
                 mPresenter?.getWrongChildrenType(obj.optString("id"), obj.optString("companyid"), obj.optString("typecode"), mProblemTypeIndex.toString(), obj.optString("tdescribe"), obj.optString("opeman"), obj.optString("recorddate"))
             }
 
@@ -122,42 +132,42 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
         val obj = JSONObject()
         val Id = ""
         obj.put("Id", Id)
-        val Billno = ""
+        val Billno = waybill_number_tv.text
         obj.put("Billno", Billno)
-        val FindDate = ""
+        val FindDate = current_time_tv.text.toString()
         obj.put("FindDate", FindDate)
-        val FindMan = ""
+        val FindMan = problem_man_ed.text.toString()
         obj.put("FindMan", FindMan)
         val OpeMan = ""
         obj.put("OpeMan", OpeMan)
-        val OpeWebidCode = ""
+        val OpeWebidCode = UserInformationUtil.getWebIdCode(mContext)
         obj.put("OpeWebidCode", OpeWebidCode)
-        val OpeWebidCodeStr = ""
+        val OpeWebidCodeStr = UserInformationUtil.getWebIdCodeStr(mContext)
         obj.put("OpeWebidCodeStr", OpeWebidCodeStr)
-        val OpeDate = ""
+        val OpeDate = TimeUtils.getCurrTime2()
         obj.put("OpeDate", OpeDate)
-        val BadType = ""
+        val BadType = mProblemTypeIndex
         obj.put("BadType", BadType)
-        val BadTypeStr = ""
+        val BadTypeStr = mProblemTypeTag
         obj.put("BadTypeStr", BadTypeStr)
-        val BadChildType = ""
+        val BadChildType = mProblemChildTypeIndex
         obj.put("BadChildType", BadChildType)
-        val BadChildTypeStr = ""
+        val BadChildTypeStr = mProblemChildTypeTag
         obj.put("BadChildTypeStr", BadChildTypeStr)
-        val BadInfo = ""
+        val BadInfo = problem_info_tv.text.toString()
         obj.put("BadInfo", BadInfo)
-        val LoseCount = ""
+        val LoseCount = problem_less_ed.text.toString()
         obj.put("LoseCount", LoseCount)
-        val BadCount = ""
+        val BadCount = problem_bad_ed.text.toString()
         obj.put("BadCount", BadCount)
 
-        val GoodSworth = ""
+        val GoodSworth = mSafeMoney//保价金额=货物价值
         obj.put("GoodSworth", GoodSworth)
-        val ImageId = ""
+        val ImageId = mShowImagesURL[0].replace(ApiInterface.BASE_URIS, "")
         obj.put("ImageId", ImageId)
         val ConfirmMan = ""
         obj.put("ConfirmMan", ConfirmMan)
-        val ConfirmWebCod = ""
+        val ConfirmWebCod = 0
         obj.put("ConfirmWebCod", ConfirmWebCod)
         val ConfirmWebcodStr = ""
         obj.put("ConfirmWebcodStr", ConfirmWebcodStr)
@@ -167,8 +177,22 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
         obj.put("ConfirmDate", ConfirmDate)
         val InOnevehicleflag = ""
         obj.put("InOnevehicleflag", InOnevehicleflag)
+        /////////////////////////////////////////
         val AllImagesLst = ""
         obj.put("AllImagesLst", AllImagesLst)
+        val itemJay = JSONArray()
+        val itemObj = obj
+        itemObj.put("ImgSize", FileUtils.toFileSize(FileUtils.getFileSize(mShowImagesFile[0])))
+        itemObj.put("ImgPath", mShowImagesURL[0].replace(ApiInterface.BASE_URIS, ""))
+        itemObj.put("ImgName", mShowImagesURL[0].substring(mShowImagesURL[0].lastIndexOf("/") + 1))
+        itemObj.put("UploadDate", TimeUtils.getCurrTime2())
+        itemJay.put(itemObj)
+        /////////////////////////////////////////
+        val Fromtype = Constant.ANDROID
+        obj.put("Fromtype", Fromtype)
+        val FromtypeStr = Constant.ANDROID_STR
+        obj.put("FromtypeStr", FromtypeStr)
+        mPresenter?.updateAllInfo(obj)
 
     }
 
@@ -189,6 +213,7 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        var resultFile: File
         if (requestCode == Constant.CHOOSE_PHOTOS_REQUEST_CODE && resultCode == RESULT_OK) {
             mSelected = Matisse.obtainResult(data)
             Glide.with(mContext).load(mSelected[0]).into(result_image)
@@ -199,7 +224,9 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
             mImageViewAdapter?.appendData(mutableListOf(itemBean))
             if (!isDestroyed) {
                 val params = HttpParams()
-                params.put(System.currentTimeMillis().toString(), File(FileUtils.getPath(mContext, mSelected[0])))
+                resultFile = File(FileUtils.getPath(mContext, mSelected[0]))
+                mShowImagesFile.add(resultFile)
+                params.put(System.currentTimeMillis().toString(), resultFile)
                 mPresenter?.postImg(params)
             }
 
@@ -215,7 +242,9 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
                 mImageViewAdapter?.appendData(mutableListOf(itemBean))
                 if (!isDestroyed) {
                     val params = HttpParams()
-                    params.put(System.currentTimeMillis().toString(), FileUtils.getFile(imageBitmap, "mbcq"))
+                    resultFile = FileUtils.getFile(imageBitmap, "mbcq")
+                    mShowImagesFile.add(resultFile)
+                    params.put(System.currentTimeMillis().toString(), resultFile)
                     mPresenter?.postImg(params)
                 }
 
@@ -235,7 +264,7 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
                         }
                     }
                 } else if (msg.toString() == "2") {
-//                    TODO()
+//                    TODO() 知乎图片 拍照 返回闪退
                     Matisse.from(this@ExceptionRegistrationActivity)
                             .choose(MimeType.ofImage(), false) // 选择 mime 的类型
                             .countable(true)
@@ -257,12 +286,10 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
     }
 
 
-
-
-
     @SuppressLint("SetTextI18n")
     override fun getExceptionInfoS(data: JSONObject) {
         order_info_cl.visibility = View.VISIBLE
+        mSafeMoney = data.optString("safeMoney")// 保价金额
         waybill_number_tv.text = data.optString("billno")
         serial_number_tv.text = data.optString("goodsNum")
         shipper_outlets_tv.text = data.optString("webidCodeStr")
@@ -288,9 +315,13 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mSelectData = Gson().fromJson<ExceptionRegistrationWrongTypeBean>(mResult, ExceptionRegistrationWrongTypeBean::class.java)
                 problem_type_tv.text = mSelectData.tdescribe
-                mProblemTypeTag = mResult
+                mProblemTypeJson = mResult
+                mProblemTypeTag = mSelectData.tdescribe
                 mProblemTypeIndex = position + 1
+                //*****
                 problem_son_type_tv.text = ""
+                mProblemChildTypeTag = ""
+                mProblemChildTypeIndex = 0
             }
 
         }).show(supportFragmentManager, "getWrongTypeFilterDialog")
@@ -302,7 +333,8 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mSelectData = Gson().fromJson<ExceptionRegistrationWrongTypeBean>(mResult, ExceptionRegistrationWrongTypeBean::class.java)
                 problem_son_type_tv.text = mSelectData.tdescribe
-//                mProblemTypeTag = mResult
+                mProblemChildTypeTag = mSelectData.tdescribe
+                mProblemChildTypeIndex = position + 1
             }
 
         }).show(supportFragmentManager, "getWrongChildrenTypeSFilterDialog")

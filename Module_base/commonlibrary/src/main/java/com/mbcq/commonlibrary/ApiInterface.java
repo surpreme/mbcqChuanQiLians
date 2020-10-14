@@ -357,6 +357,10 @@ public class ApiInterface {
     public static final String EXCEPTION_RECORD_SELECT_ORDER_GET = BASE_URI + "WaybillOpe/SelWaybillByCondition";
 
     /**
+     * 异常记录 新增 提交
+     */
+    public static final String EXCEPTION_RECORD_ADD_WRONG_POST = BASE_URI + "BadWaybill/AddBadWaybillOpe";
+    /**
      * 异常记录 新增 -差错类型
      */
     public static final String EXCEPTION_RECORD_SELECT_WRONG_TYPE_GET = BASE_URI + "BadType/SelAllTypeByType";

@@ -25,6 +25,7 @@ class ExceptionRegistrationContract {
         fun getExceptionInfo(billno: String)
         fun postImg(params: HttpParams)
         fun getWrongType()
+        fun updateAllInfo(jsonObject: JSONObject)
 
         /**
          *    * id : 7
