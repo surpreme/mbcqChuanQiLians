@@ -49,7 +49,7 @@ class GoodsReceiptInfoPresenter : BasePresenterImpl<GoodsReceiptInfoContract.Vie
     override fun getPaymentWay() {
         val httpParmas = HttpParams()
         httpParmas.put("type", 26)
-        get<String>(ApiInterface.PAYMENT_METHOD_SELECTED_INFO_GET, httpParmas, object : CallBacks {
+        get<String>(ApiInterface.ALLTYPE_SELECT_GET, httpParmas, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {

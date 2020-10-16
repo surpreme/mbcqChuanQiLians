@@ -2,6 +2,7 @@ package com.mbcq.vehicleslibrary.activity.addvehiclesarchives
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
+import org.json.JSONObject
 
 /**
  * @author: lzy
@@ -11,10 +12,13 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class AddVehicleArchivesContract {
 
     interface View : BaseView {
+        fun saveInfoS(result:String)
+        fun getTransportModeS(result:String)
 
     }
 
     interface Presenter : BasePresenter<View> {
-
+        fun saveInfo(jsonObject:JSONObject)
+        fun getTransportMode()
     }
 }

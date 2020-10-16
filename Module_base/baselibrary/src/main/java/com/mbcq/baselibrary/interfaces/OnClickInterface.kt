@@ -15,6 +15,7 @@ class OnClickInterface {
         fun onResult(s1: String, s2: String)
     }
 
+
     //toolbar返回键
     interface OnToolBarClickInterface {
         fun back()

@@ -408,7 +408,7 @@
                 android:id="@+id/take_photos_tv"
                 android:layout_width="80dp"
                 android:layout_height="37dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="12dp"
                 android:layout_marginTop="40dp"
                 android:background="@drawable/hollow_out_gray"
                 android:gravity="center"

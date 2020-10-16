@@ -3,7 +3,6 @@ package com.mbcq.orderlibrary.activity.acceptbilling
 import com.google.gson.JsonObject
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
-import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.commonlibrary.ApiInterface
 import org.json.JSONArray
 import org.json.JSONObject
@@ -230,7 +229,7 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
     override fun getReceiptRequirement() {
         val params = HttpParams()
         params.put("type", "14")
-        get<String>(ApiInterface.ACCEPT_RECEIPT_REQUIREMENTS_GET, params, object : CallBacks {
+        get<String>(ApiInterface.ALLTYPE_SELECT_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 val data = obj.opt("data")
@@ -269,7 +268,7 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
     override fun getTransportMode() {
         val params = HttpParams()
         params.put("type", "9")
-        get<String>(ApiInterface.ACCEPT_RECEIPT_REQUIREMENTS_GET, params, object : CallBacks {
+        get<String>(ApiInterface.ALLTYPE_SELECT_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 val data = obj.opt("data")
@@ -310,7 +309,7 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
     override fun getPaymentMode() {
         val params = HttpParams()
         params.put("type", "13")
-        get<String>(ApiInterface.ACCEPT_RECEIPT_REQUIREMENTS_GET, params, object : CallBacks {
+        get<String>(ApiInterface.ALLTYPE_SELECT_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 val data = obj.opt("data")

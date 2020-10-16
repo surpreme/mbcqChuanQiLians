@@ -61,11 +61,38 @@ class VehicleArchivesPresenter : BasePresenterImpl<VehicleArchivesContract.View>
     }
     ]}
      */
-    override fun getPage(page: Int) {
-        val params=HttpParams()
-        params.put("Page",page)
-        params.put("Limit",15)
-        get<String>(ApiInterface.VEHICLE_ARCHIVES_SELECT_GET,params,object:CallBacks{
+    override fun getPage(page: Int, selWebidCode: String) {
+        val params = HttpParams()
+        params.put("Page", page)
+        params.put("Limit", 15)
+        params.put("SelWebidCode", selWebidCode)
+
+        get<String>(ApiInterface.VEHICLE_ARCHIVES_SELECT_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    mView?.getPageS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<VehicleArchivesBean>>() {}.type))
+
+                }
+            }
+
+        })
+    }
+
+    override fun deleteItem(json: String, position: Int) {
+        post<String>(ApiInterface.VEHICLE_ARCHIVES_DELETE_POST, getRequestBody(json), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.deleteItemS(position)
+            }
+
+        })
+    }
+
+    override fun searchItem(id: String, commonStr: String) {
+        val params = HttpParams()
+        params.put("id", id)
+        params.put("commonStr", commonStr)
+        get<String>(ApiInterface.VEHICLE_ARCHIVES_SELECT_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {

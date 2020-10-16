@@ -40,8 +40,16 @@ object TimeDialogUtil {
      */
 
     fun getChoiceTimer(mContext: Context, listener: OnTimeSelectListener, title: String, isStartCurrentTime: Boolean, isEndCurrentTime: Boolean, isYear: Boolean, isHM: Boolean): TimePickerView {
+        return getChoiceTimer(mContext, listener, title, isStartCurrentTime, isEndCurrentTime, isYear, isHM, true)
+    }
+
+
+    fun getChoiceTimer(mContext: Context, listener: OnTimeSelectListener, title: String, isStartCurrentTime: Boolean, isEndCurrentTime: Boolean, isYear: Boolean, isHM: Boolean, isDialog: Boolean): TimePickerView {
         val startDate = Calendar.getInstance()
         val endDate = Calendar.getInstance()
+        val selectDate = Calendar.getInstance()
+        selectDate.time = Date(System.currentTimeMillis())
+
         if (isStartCurrentTime)
             startDate.time = Date(System.currentTimeMillis())
         else
@@ -49,7 +57,7 @@ object TimeDialogUtil {
         if (isEndCurrentTime)
             endDate.time = Date(System.currentTimeMillis())
         else
-            endDate.set(2050, 11, 31)
+            endDate.set(2050, 11, 30)
         return TimePickerBuilder(mContext, listener)
                 .setType(booleanArrayOf(true, true, isYear, isHM, isHM, false)) // 默认全部显示
                 .setCancelText("取消") //取消按钮文字
@@ -60,10 +68,10 @@ object TimeDialogUtil {
                 .setCancelColor(Color.GRAY) //取消按钮文字颜色
                 .setTextColorCenter(Color.BLUE) //设置选中项的颜色
                 .setRangDate(startDate, endDate) //起始终止年月日设定
-                .setDate(endDate) //设置默认选中时间
+                .setDate(selectDate) //设置默认选中时间
                 .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
                 .setTitleText(title)
-                .isDialog(true) //是否显示为对话框样式
+                .isDialog(isDialog) //是否显示为对话框样式
                 .build()
     }
 }

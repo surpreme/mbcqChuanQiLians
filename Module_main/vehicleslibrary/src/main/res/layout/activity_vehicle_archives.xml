@@ -27,20 +27,14 @@
         app:layout_constraintTop_toBottomOf="@+id/vehicle_archives_toolbar">
 
         <EditText
-            android:id="@+id/billno_ed"
+            android:id="@+id/essential_ed"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="请输入运单号"
-            android:inputType="number"
+            android:hint="请输入关键字查询"
+            android:inputType="text"
             android:paddingLeft="15dp" />
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_scan_iccon" />
 
         <Button
             android:id="@+id/search_btn"
@@ -113,7 +107,7 @@
             app:cardCornerRadius="5dp">
 
             <Button
-                android:id="@+id/complete_btn"
+                android:id="@+id/update_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/base_blue"
@@ -131,7 +125,7 @@
             app:cardCornerRadius="5dp">
 
             <Button
-                android:id="@+id/x"
+                android:id="@+id/delete_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/base_blue"

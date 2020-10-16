@@ -19,10 +19,29 @@ class VehicleArchivesRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Ve
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ItemViewHolder).number_plate_tv.text=mDatas[position].vehicleno
-//        holder.vehicle_type_tv.text=mDatas[position].vehicleno
-        holder.vehicle_host_tv.text="驾驶员：${mDatas[position].chauffer}  ${mDatas[position].chauffermb}  车主：${mDatas[position].vowner}"
-        holder.date_sure_tv.text=mDatas[position].yeachedate
+        (holder as ItemViewHolder).number_plate_tv.text = mDatas[position].vehicleno
+        holder.vehicle_type_tv.text = if (mDatas[position].vehicletype == 1) "大车" else "小车"
+        when (mDatas[position].vusetype) {
+            1 -> {
+                holder.vehicle_host_tv.text = "挂靠"
+            }
+            2 -> {
+                holder.vehicle_host_tv.text = "合同"
+            }
+            3 -> {
+                holder.vehicle_host_tv.text = "外雇"
+            }
+            4 -> {
+                holder.vehicle_host_tv.text = "自有"
+            }
+            else->{
+                holder.vehicle_host_tv.text = "未知"
+
+            }
+        }
+        holder.date_sure_tv.text = "年审日期：${mDatas[position].yeachedate}"
+        //        android:text="驾驶员：吴轩  15995675861  车主：林仙"
+        holder.information_tv.text = "驾驶员：${mDatas[position].chauffer}  ${mDatas[position].chauffermb}   车主：${mDatas[position].vowner}"
         context?.let {
             holder.record_checkbox_iv.setImageDrawable(ContextCompat.getDrawable(it, if (mDatas[position].isChecked) R.drawable.ic_checked_icon else R.drawable.ic_unchecked_icon))
         }

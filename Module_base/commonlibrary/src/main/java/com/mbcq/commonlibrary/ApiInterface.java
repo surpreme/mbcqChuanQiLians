@@ -24,11 +24,16 @@ public class ApiInterface {
      */
     public static final String ACCEPT_DESTINATION_GET = BASE_URI + "Destination/SelDestinationByCondition";
     /**
+     * 获取种类表
      * 受理开单 获取回单要求 @14 receipt requirements
      * 运输方式  @9 transport mode
      * 付款方式  @13 payment mode
+     * ***************************
+     * 查询收款方式  @26
+     * **************************
+     * 车辆档案  选择车的来源 @5
      */
-    public static final String ACCEPT_RECEIPT_REQUIREMENTS_GET = BASE_URI + "Alltype/SelAlltypeByCondition";
+    public static final String ALLTYPE_SELECT_GET = BASE_URI + "Alltype/SelAlltypeByCondition";
     /**
      * 受理开单 查询货物名称
      */
@@ -292,10 +297,6 @@ public class ApiInterface {
      */
     public static final String SIGN_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelFetchWaybillFcdByCon";
     /**
-     * 查询收款方式
-     */
-    public static final String PAYMENT_METHOD_SELECTED_INFO_GET = BASE_URI + "Alltype/SelAlltypeByCondition";
-    /**
      * 签收货物
      */
     public static final String RECEIPT_GOODS_POST = BASE_URI + "WaybillFetchOpe/AddWaybillFetch";
@@ -376,9 +377,21 @@ public class ApiInterface {
      *
      */
     /**
-     * 车辆档案
+     * 车辆档案 记录
      */
     public static final String VEHICLE_ARCHIVES_SELECT_GET = BASE_URI + "Vehicles/SelVehiclesByCondition";
+    /**
+     * 车辆档案 添加
+     */
+    public static final String VEHICLE_ARCHIVES_ADD_POST = BASE_URI + "Vehicles/AddVehicles";
+    /**
+     * 车辆档案 修改
+     */
+    public static final String VEHICLE_ARCHIVES_CHANGE_POST = BASE_URI + "Vehicles/UpdVehiclesByCondition";
+    /**
+     * 车辆档案 删除
+     */
+    public static final String VEHICLE_ARCHIVES_DELETE_POST = BASE_URI + "Vehicles/DelVehiclesByCondition";
 
 
 }
