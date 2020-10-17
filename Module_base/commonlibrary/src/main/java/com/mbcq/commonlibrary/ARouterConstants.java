@@ -9,6 +9,9 @@ public class ARouterConstants {
     public static final String WaybillRecordActivity="/order/WaybillRecordActivity";
     public static final String AddShipperActivity="/order/AddShipperActivity";
     public static final String AddReceiverActivity="/order/AddReceiverActivity";
+    public static final String ControlManagementActivity="/order/ControlManagementActivity";
+    public static final String DeliveryAdjustmentActivity="/order/DeliveryAdjustmentActivity";
+    public static final String AcceptBillingRecordingActivity="/order/AcceptBillingRecordingActivity";
     //////////////////////////////////////////////////////////////////////////////
     public static final String LocationActivity="/map/LocationActivity";
     //////////////////////////////////////////////////////////////////////////////

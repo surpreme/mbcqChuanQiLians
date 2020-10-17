@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.acceptbillingrecording.AcceptBillingRecordingActivity">
+    <com.mbcq.baselibrary.view.CnToolbar
+        android:id="@+id/accept_billing_recording_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/base_blue"
+        app:backButtonIsShow="true"
+        app:centerTextViewText="受理开单"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rightButtonIcon="@drawable/ic_search_icon" />
+    <LinearLayout
+        android:id="@+id/search_ll"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/hollow_out_gray"
+        app:layout_constraintTop_toBottomOf="@+id/accept_billing_recording_toolbar">
+
+        <EditText
+            android:id="@+id/essential_ed"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="请输入运单号查询"
+            android:inputType="text"
+            android:paddingLeft="15dp" />
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_scan_iccon" />
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="#EAC11E"
+            android:text="查询"
+            android:textColor="@color/white"
+            android:textSize="19sp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

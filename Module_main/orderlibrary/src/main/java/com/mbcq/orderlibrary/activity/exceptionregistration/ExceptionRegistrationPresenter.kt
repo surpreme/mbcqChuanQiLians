@@ -1,12 +1,8 @@
 package com.mbcq.orderlibrary.activity.exceptionregistration
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
-import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
-import com.mbcq.orderlibrary.activity.signrecord.SignRecordBean
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
@@ -121,7 +117,7 @@ class ExceptionRegistrationPresenter : BasePresenterImpl<ExceptionRegistrationCo
     override fun getExceptionInfo(billno: String) {
         val params=HttpParams()
         params.put("Billno",billno)
-        get<String>(ApiInterface.EXCEPTION_RECORD_SELECT_ORDER_GET,params,object:CallBacks{
+        get<String>(ApiInterface.RECORD_SELECT_ORDER_INFO_GET,params,object:CallBacks{
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {

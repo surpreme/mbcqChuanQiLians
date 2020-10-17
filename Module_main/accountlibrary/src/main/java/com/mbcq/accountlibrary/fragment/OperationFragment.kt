@@ -142,7 +142,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                     mOperationViewBean.tag = 2
                     val listItem = arrayListOf<IconViewBean.ItemBean>()
 
-                    for (mItemIndex in 0..9) {
+                    for (mItemIndex in 0..10) {
                         val item = IconViewBean.ItemBean()
                         when (mItemIndex) {
                             0 -> {
@@ -175,6 +175,9 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
 
                             9 -> {
                                 item.itemText = "异常登记"
+                            }
+                            10 -> {
+                                item.itemText = "控货管理"
                             }
 
                         }
@@ -256,6 +259,9 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                 }
                                 9 -> {
                                     ARouter.getInstance().build(ARouterConstants.ExceptionRegistrationActivity).navigation()
+                                }
+                                10 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ControlManagementActivity).navigation()
                                 }
                             }
                         }

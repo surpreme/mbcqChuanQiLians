@@ -353,9 +353,9 @@ public class ApiInterface {
      *
      */
     /**
-     * 异常记录 新增 -查询运单的信息
+     *  -查询运单的信息
      */
-    public static final String EXCEPTION_RECORD_SELECT_ORDER_GET = BASE_URI + "WaybillOpe/SelWaybillByCondition";
+    public static final String RECORD_SELECT_ORDER_INFO_GET = BASE_URI + "WaybillOpe/SelWaybillByCondition";
 
     /**
      * 异常记录 新增 提交
@@ -392,6 +392,10 @@ public class ApiInterface {
      * 车辆档案 删除
      */
     public static final String VEHICLE_ARCHIVES_DELETE_POST = BASE_URI + "Vehicles/DelVehiclesByCondition";
+    /**
+     * 控货 - 修改信息
+     */
+    public static final String DELIVERY_ADJUSTMENT_UPDATE_POST= BASE_URI + "WaybillOpe/UpdWaybillByCondition";
 
 
 }

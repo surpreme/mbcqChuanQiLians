@@ -31,7 +31,7 @@ import java.util.*
 /**
  * @author: lzy
  * @time: 2020-09-10 10:07:09
- * 运单记录 WaybillRecord
+ * 运单记录
  */
 
 @Route(path = ARouterConstants.WaybillRecordActivity)

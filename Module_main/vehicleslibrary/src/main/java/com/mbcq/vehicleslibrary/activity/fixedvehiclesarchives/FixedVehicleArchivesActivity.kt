@@ -288,12 +288,6 @@ class FixedVehicleArchivesActivity : BaseMVPActivity<FixedVehicleArchivesContrac
                  */
 
 
-                /**
-                 * s1 网点id
-                 * s2 网点 名称
-                 * s3  start@end
-                 */
-
 
                 override fun onResult(s1: String, s2: String, s3: String) {
                     mSelectSharedWebIdList = s2.split(",")

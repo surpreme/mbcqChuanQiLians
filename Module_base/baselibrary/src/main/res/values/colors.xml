@@ -10,5 +10,6 @@
     <color name="base_grayDark">#A0A1A4</color>
     <color name="base_red">#FF0000</color>
     <color name="base_blue">#536DFF</color>
+    <color name="base_un_green">#9CF3FDF0</color>
 
 </resources>
