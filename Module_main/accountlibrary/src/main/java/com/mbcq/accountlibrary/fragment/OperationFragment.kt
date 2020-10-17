@@ -209,6 +209,10 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                     ARouter.getInstance().build(ARouterConstants.WaybillRecordActivity).navigation()
 
                                 }
+                                3 -> {
+                                    ARouter.getInstance().build(ARouterConstants.AcceptBillingRecordingActivity).navigation()
+
+                                }
 
                                 9 -> {
                                     ARouter.getInstance().build(ARouterConstants.ShipmentInventoryActivity).navigation()

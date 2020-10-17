@@ -78,6 +78,10 @@ public class ApiInterface {
      */
     public static final String WAYBILL_RECORD_SELECT_ALLINFO_GET = BASE_URI + "WaybillOpe/SelWaybillByCondition";
     /**
+     * 改单记录
+     */
+    public static final String FIXED_WAYBILL_RECORD_GET = BASE_URI + "WaybillUpdateApplyOpe/SelwaybillUpdateApplyByCondition";
+    /**
      * 运单记录  删除运单
      */
     public static final String WAYBILL_RECORD_DELETE_INFO_POST = BASE_URI + "WaybillOpe/DelWaybill";
@@ -353,7 +357,7 @@ public class ApiInterface {
      *
      */
     /**
-     *  -查询运单的信息
+     * -查询运单的信息
      */
     public static final String RECORD_SELECT_ORDER_INFO_GET = BASE_URI + "WaybillOpe/SelWaybillByCondition";
 
@@ -395,7 +399,7 @@ public class ApiInterface {
     /**
      * 控货 - 修改信息
      */
-    public static final String DELIVERY_ADJUSTMENT_UPDATE_POST= BASE_URI + "WaybillOpe/UpdWaybillByCondition";
+    public static final String DELIVERY_ADJUSTMENT_UPDATE_POST = BASE_URI + "WaybillOpe/UpdWaybillByCondition";
 
 
 }

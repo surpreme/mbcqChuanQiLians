@@ -10,6 +10,7 @@ import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.mbcq.baselibrary.db.SPUtil;
 import com.mbcq.baselibrary.finger.FingerConstant;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.header.WaterDropHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -99,7 +100,7 @@ public class BaseApplication extends Application {
             @Override
             public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
 //                layout.setPrimaryColorsId(R.color.purples, android.R.color.white);//全局设置主题颜色
-                return new WaterDropHeader(context);
+                return new MaterialHeader(context);
             }
         });
         //设置全局的Footer构建器

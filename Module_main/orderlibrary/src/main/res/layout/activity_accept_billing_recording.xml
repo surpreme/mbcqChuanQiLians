@@ -5,15 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.acceptbillingrecording.AcceptBillingRecordingActivity">
+
     <com.mbcq.baselibrary.view.CnToolbar
         android:id="@+id/accept_billing_recording_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
-        app:centerTextViewText="受理开单"
+        app:centerTextViewText="改单申请"
         app:layout_constraintTop_toTopOf="parent"
         app:rightButtonIcon="@drawable/ic_search_icon" />
+
     <LinearLayout
         android:id="@+id/search_ll"
         android:layout_width="match_parent"
@@ -33,11 +35,13 @@
             android:hint="请输入运单号查询"
             android:inputType="text"
             android:paddingLeft="15dp" />
+
         <ImageView
             android:layout_width="25dp"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
             android:src="@drawable/ic_scan_iccon" />
+
         <Button
             android:id="@+id/search_btn"
             android:layout_width="50dp"
@@ -48,4 +52,64 @@
             android:textSize="19sp" />
 
     </LinearLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/accept_billing_recording_smart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_ll"
+        app:layout_constraintTop_toBottomOf="@id/search_ll">
+
+        <FrameLayout
+            android:id="@+id/accept_billing_recording_smart_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/accept_billing_recording_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+
+        </FrameLayout>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <LinearLayout
+        android:id="@+id/bottom_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <Button
+            android:id="@+id/change_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/base_blue"
+            android:text="改单申请"
+            android:alpha="0.8"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/white"
+           />
+        <TextView
+            android:id="@+id/type_tv"
+            android:layout_width="100dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="全部"
+            android:textColor="@color/black"
+            android:textSize="19sp" />
+        <ImageView
+            android:id="@+id/down_iv"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ic_down_icon"
+            />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
