@@ -18,8 +18,11 @@ class AcceptBillingRecordingAdapter(context: Context?) : BaseRecyclerAdapter<Acc
 
         (holder as ItemViewHolder).waybill_number_tv.text=mDatas[position].billno
         holder.waybill_time_tv.text=mDatas[position].yyCheckDate
-        holder.applicant_tv.text="申请人：${mDatas[position].cwCheckMan}"
-        holder.modify_content_tv.text="申请网点：${mDatas[position].cwCheWebidCodeStr}"
+        holder.applicant_tv.text="申请人：${mDatas[position].opeMan}"
+        holder.apply_outlets_tv.text="申请网点：${mDatas[position].opeWebidCodeStr}"
+        holder.modify_reason_tv.text="修改原因：${mDatas[position].updateRemark}"
+        //修改内容
+        holder.modify_content_tv.text= mDatas[position].updateContent
 //        holder.modify_content_tv.text="申请网点：${mDatas[position].cwCheWebidCodeStr}"
     }
 
@@ -29,6 +32,7 @@ class AcceptBillingRecordingAdapter(context: Context?) : BaseRecyclerAdapter<Acc
         var applicant_tv = itemView.findViewById<TextView>(R.id.applicant_tv)
         var modify_content_tv = itemView.findViewById<TextView>(R.id.modify_content_tv)
         var modify_reason_tv = itemView.findViewById<TextView>(R.id.modify_reason_tv)
+        var apply_outlets_tv = itemView.findViewById<TextView>(R.id.apply_outlets_tv)
         var review_btn = itemView.findViewById<Button>(R.id.review_btn)
     }
 }

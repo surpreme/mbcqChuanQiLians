@@ -18,4 +18,8 @@ public class Constant extends BaseConstant {
      * 跳转拍照返回码
      */
     public static final int TAKE_PHOTOS_REQUEST_CODE =3471;
+    /**
+     * 打开gps的返回码
+     */
+    public static final int GPS_REQUEST_CODE =2180;
 }

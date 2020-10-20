@@ -114,12 +114,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             }
 
         })
-        receipt_requirements_name_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                mPresenter?.getReceiptRequirement()
-            }
 
-        })
         package_name_down_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 mPresenter?.getPackage()

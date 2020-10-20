@@ -63,6 +63,7 @@ public class TalkSureCancelDialog extends BaseSystemDialog {
             if (onClickInterface != null)
                 onClickInterface.onClick(v);
             dismiss();
+
         });
 
     }

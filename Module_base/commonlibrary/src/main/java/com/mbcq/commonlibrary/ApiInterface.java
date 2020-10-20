@@ -400,6 +400,10 @@ public class ApiInterface {
      * 控货 - 修改信息
      */
     public static final String DELIVERY_ADJUSTMENT_UPDATE_POST = BASE_URI + "WaybillOpe/UpdWaybillByCondition";
+    /**
+     * 改单申请 添加
+     */
+    public static final String CHANGE_ORDER_APPLICATION_ADD_POST = BASE_URI + "WaybillUpdateApplyOpe/AddWaybillUpdateApplyOpeByCondition";
 
 
 }

@@ -3,7 +3,7 @@
     package="com.mbcq.orderlibrary">
 
     <application>
-        <activity android:name=".activity.fixedacceptbilling.FixedAcceptBillingActivityActivity"></activity>
+        <activity android:name=".activity.fixedacceptbilling.FixedAcceptBillingActivity"></activity>
         <activity android:name=".activity.acceptbillingrecording.AcceptBillingRecordingActivity" />
         <activity android:name=".activity.deliveryadjustment.DeliveryAdjustmentActivity" />
         <activity android:name=".activity.controlmanagement.ControlManagementActivity" />

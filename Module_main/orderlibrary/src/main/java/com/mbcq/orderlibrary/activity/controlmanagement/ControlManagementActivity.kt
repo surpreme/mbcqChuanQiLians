@@ -49,8 +49,9 @@ class ControlManagementActivity : BaseSmartMVPActivity<ControlManagementContract
         val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
         val mDate = Date(System.currentTimeMillis())
         val format = mDateFormat.format(mDate)
-        mStartDateTag = "$format 00:00:00"
-        mEndDateTag = "${TimeUtils.getLastdayStr(7)} 23:59:59"
+        mStartDateTag = "${TimeUtils.getLastdayStr(7)} 23:59:59"
+        mEndDateTag = "$format 00:00:00"
+
         mShippingOutletsTag = UserInformationUtil.getWebIdCode(mContext)
     }
 
