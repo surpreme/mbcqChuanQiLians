@@ -1,8 +1,12 @@
 package com.mbcq.orderlibrary.activity.goodsreceiptinfo
 
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -14,14 +18,21 @@ import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.util.regular.IDNumberUtils
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.Constant
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.commonlibrary.dialog.PaymentDialog
+import com.mbcq.commonlibrary.dialog.UpdatePhotosFragment
 import com.mbcq.orderlibrary.R
 import com.mbcq.orderlibrary.activity.goodsreceipt.GoodsReceiptBean
+import com.tbruyelle.rxpermissions.RxPermissions
+import com.zhihu.matisse.Matisse
+import com.zhihu.matisse.MimeType
+import com.zhihu.matisse.engine.impl.GlideEngine
+import com.zhihu.matisse.internal.entity.CaptureStrategy
 import kotlinx.android.synthetic.main.activity_goods_receipt_info.*
 import org.json.JSONObject
 
@@ -35,6 +46,7 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
     @Autowired(name = "GoodsReceiptBean")
     @JvmField
     var mLastDataJson: String = ""
+    lateinit var rxPermissions: RxPermissions
     var mCertificateData = ""//证件类型制造的本地json
     var mSigningSituationData = ""//签收情况
     var pickerCertificateTypeTag = 1//提货人证件类型
@@ -46,6 +58,8 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
     override fun initExtra() {
         super.initExtra()
         ARouter.getInstance().inject(this)
+        rxPermissions = RxPermissions(this)
+
     }
 
     fun getCanReceiptGoods(): Boolean {
@@ -57,6 +71,13 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
             showToast("请输入提货人证件号")
             return false
         }
+        if (picker_certificate_type_tv.text.toString() == "身份证" &&!picker_card_number_ed.text.toString().isBlank()) {
+            if (!IDNumberUtils.isIDNumber(picker_card_number_ed.text.toString())){
+                showToast("请检查提货人证件号")
+                return false
+            }
+
+        }
         if (agent_name_ed.text.toString().isBlank()) {
             showToast("请输入代理人")
             return false
@@ -64,6 +85,13 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
         if (agent_card_number_ed.text.toString().isBlank()) {
             showToast("请输入代理人证件号")
             return false
+        }
+        if (agent_certificate_type_tv.text.toString() == "身份证" &&!agent_card_number_ed.text.toString().isBlank()) {
+            if (!IDNumberUtils.isIDNumber(agent_card_number_ed.text.toString())){
+                showToast("请检查代理人证件号")
+                return false
+            }
+
         }
         return true
     }
@@ -218,6 +246,12 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
 
     override fun onClick() {
         super.onClick()
+        take_photos_btn.setOnClickListener(object:SingleClick(){
+            override fun onSingleClick(v: View?) {
+                getCameraPermission()
+            }
+
+        })
         confirm_receipt_btn.setOnClickListener(object : SingleClick(2000) {
             override fun onSingleClick(v: View?) {
                 if (getCanReceiptGoods()) {
@@ -288,6 +322,51 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
             }
 
         })
+    }
+    fun takePhotoes() {
+        val mUpdatePhotosFragment = UpdatePhotosFragment()
+        mUpdatePhotosFragment.mlistener = object : UpdatePhotosFragment.OnThingClickInterface {
+            override fun getThing(msg: Any) {
+                if (msg.toString() == "1") {
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, Constant.TAKE_PHOTOS_REQUEST_CODE)
+                        }
+                    }
+                } else if (msg.toString() == "2") {
+//                    TODO() 知乎图片 拍照 返回闪退
+                    Matisse.from(this@GoodsReceiptInfoActivity)
+                            .choose(MimeType.ofImage(), false) // 选择 mime 的类型
+                            .countable(true)
+                            .capture(true) //使用拍照功能
+                            .captureStrategy(CaptureStrategy(true, Constant.TAKE_PHOTOS_FILE_PROVIDER))//是否拍照功能，并设置拍照后图片的保存路径
+                            .maxSelectable(9) // 图片选择的最多数量
+                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                            .thumbnailScale(0.85f) // 缩略图的比例
+                            .imageEngine(GlideEngine()) // 使用的图片加载引擎
+                            .theme(R.style.Matisse_Dracula)
+                            .forResult(Constant.CHOOSE_PHOTOS_REQUEST_CODE) // 设置作为标记的请求码
+                }
+            }
+
+        }
+        mUpdatePhotosFragment.show(supportFragmentManager, "GoodsReceiptInfoUpdatePhotosFragment")
+
+
+    }
+    fun getCameraPermission() {
+        rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe { granted ->
+                    if (granted) { // Always true pre-M
+                        // I can control the camera now
+                        takePhotoes()
+                    } else {
+                        // Oups permission denied
+                        TalkSureDialog(mContext, getScreenWidth(), "权限未赋予！照相机无法启动！请联系在线客服或手动进入系统设置授予摄像头以及读取存储权限！").show()
+
+                    }
+                }
+
     }
 
     override fun getPaymentWayS(result: String) {

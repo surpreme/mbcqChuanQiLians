@@ -2,8 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mbcq.orderlibrary">
 
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <application>
-        <activity android:name=".activity.fixedacceptbilling.FixedAcceptBillingActivity"></activity>
+        <activity android:name=".activity.waybilldetails.WaybillDetailsActivity" />
+        <activity android:name=".activity.fixedacceptbilling.FixedAcceptBillingActivity" />
         <activity android:name=".activity.acceptbillingrecording.AcceptBillingRecordingActivity" />
         <activity android:name=".activity.deliveryadjustment.DeliveryAdjustmentActivity" />
         <activity android:name=".activity.controlmanagement.ControlManagementActivity" />

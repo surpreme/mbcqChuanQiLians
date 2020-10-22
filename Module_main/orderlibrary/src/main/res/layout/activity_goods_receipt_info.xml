@@ -692,6 +692,7 @@
                         android:textColor="@color/base_red" />
 
                     <Button
+                        android:id="@+id/take_photos_btn"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"

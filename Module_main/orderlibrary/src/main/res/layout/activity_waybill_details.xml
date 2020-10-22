@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.waybilldetails.WaybillDetailsActivity">
+
+    <com.mbcq.baselibrary.view.CnToolbar
+        android:id="@+id/waybill_details_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/base_blue"
+        app:backButtonIsShow="true"
+        app:centerTextViewText="运单详情"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/options_index_tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabSelectedTextColor="@color/base_blue"
+        app:tabMode="scrollable"
+        app:tabBackground="@drawable/tab_select_background"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        app:layout_constraintTop_toBottomOf="@+id/waybill_details_toolbar"
+        app:tabIndicatorHeight="0dp" />
+
+    <com.mbcq.baselibrary.view.CustomizeViewPager
+        android:id="@+id/waybill_details_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/options_index_tablayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

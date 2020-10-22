@@ -23,19 +23,23 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--    蓝牙-->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <application
         android:name=".Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="2a1973c25b26f9d5397969ddc9c6238a"/>
+            android:value="2a1973c25b26f9d5397969ddc9c6238a" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.mbcq.chuanqilian.fileprovider"

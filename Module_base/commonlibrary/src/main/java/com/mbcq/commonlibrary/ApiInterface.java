@@ -294,6 +294,8 @@ public class ApiInterface {
     public static final String ARRIVAL_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelDhWaybillFcdByCon";
     /**
      * 发货库存
+     * //waybillFcd.SelType = 12;按开单时间查询
+     * //waybillFcd.SelType=17;按到货时间查询
      */
     public static final String SHIPMENT_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelDhWaybillFcdByCon";
     /**

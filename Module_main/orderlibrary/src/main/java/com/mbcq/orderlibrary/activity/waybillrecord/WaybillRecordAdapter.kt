@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.orderlibrary.R
+import com.mcxtzhang.swipemenulib.SwipeMenuLayout
 
 class WaybillRecordAdapter(context: Context?) : BaseRecyclerAdapter<WaybillRecordBean>(context) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -38,6 +40,12 @@ class WaybillRecordAdapter(context: Context?) : BaseRecyclerAdapter<WaybillRecor
             }
 
         })
+        holder.mFather_cl.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View) {
+                mClickInterface?.onItemClick(v,position,mDatas[position].billno)
+            }
+
+        })
 
     }
 
@@ -53,6 +61,7 @@ class WaybillRecordAdapter(context: Context?) : BaseRecyclerAdapter<WaybillRecor
         var shipper_tv: TextView = itemView.findViewById(R.id.shipper_tv)
         var receiver_tv: TextView = itemView.findViewById(R.id.receiver_tv)
         var delete_ll: LinearLayout = itemView.findViewById(R.id.delete_ll)
+        var mFather_cl: ConstraintLayout = itemView.findViewById(R.id.mFather_cl)
 
     }
 }

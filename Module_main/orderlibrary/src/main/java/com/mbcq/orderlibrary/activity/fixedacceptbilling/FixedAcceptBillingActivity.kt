@@ -45,74 +45,9 @@ import org.json.JSONObject
  */
 
 @Route(path = ARouterConstants.FixedAcceptBillingActivity)
-class FixedAcceptBillingActivity : BaseMVPActivity<FixedAcceptBillingActivityContract.View, FixedAcceptBillingActivityPresenter>(), FixedAcceptBillingActivityContract.View {
-    var mTransneed = ""//运输类型编码
-    var mTransneedStr = ""//运输类型
-
-    var mAccType = ""//付款方式编码
-    var mAccTypeStr = ""//付款方式
-
-    /**
-     * 到达网点
-     */
-    var endWebIdCode = ""
-    var endWebIdCodeStr = ""
-
-    /**
-     * 目的地
-     */
-    var destinationt = ""
-    var isTalkGoodsStrTag: Boolean = false
-
-    //付货方式
-    var okProcessStrTag: String = ""
-    var okProcessStrTagIndex = 1
-
-    /**
-     * 到达公司的id
-     * 这里从网点列表中获取
-     */
-    var eCompanyId = ""
-
-    /**
-     * 订单号产生方式
-     */
-    var waybillNumberTag = ""
-
-    /**
-     * 发货人信息
-     */
-    var mShipperId = ""//发货客户编号
-    var mShipperMb = ""//发货人手机号
-    var mShipperTel = ""//发货人固定电话
-    var mShipper = ""//发货人
-    var mShipperCid = ""//发货人身份证号
-    var mShipperAddr = ""//发货人地址
-
-    /**
-     * 收货人信息
-     */
-    var mConsigneeMb = ""//收货人手机号
-    var mConsigneeTel = ""//收货人固定电话
-    var mConsignee = ""//收货人
-    var mConsigneeAddr = ""//收货人地址
-    var mSearchaId = ""
-
-    lateinit var rxPermissions: RxPermissions
-    protected val RESULT_DATA_CODE = 4937
-    protected val RECEIVER_RESULT_DATA_CODE = 2369
+class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBillingActivityContract.View, FixedAcceptBillingActivityPresenter>(), FixedAcceptBillingActivityContract.View {
 
     override fun getLayoutId(): Int = R.layout.activity_fixed_accept_billing_activity
-    override fun initExtra() {
-        super.initExtra()
-        rxPermissions = RxPermissions(this)
-
-    }
-
-    override fun initViews(savedInstanceState: Bundle?) {
-        super.initViews(savedInstanceState)
-        setStatusBar(R.color.base_blue)
-    }
 
     override fun initDatas() {
         super.initDatas()
@@ -412,49 +347,7 @@ class FixedAcceptBillingActivity : BaseMVPActivity<FixedAcceptBillingActivityCon
 
     }
 
-    protected fun isCanSaveAcctBilling(): Boolean {
-        if (endWebIdCode.isEmpty()) {
-            showToast("请选择到达网点")
-            return false
-        }
-        if (destinationt.isEmpty()) {
-            showToast("请选择目的地")
-            return false
-        }
-        if (mShipperMb.isEmpty()) {
-            showToast("请选择发货人")
-            return false
-        }
-        if (mConsigneeMb.isEmpty()) {
-            showToast("请选择收货人")
-            return false
-        }
-        if (cargo_name_ed.text.toString().isEmpty()) {
-            showToast("请选择货物名称")
-            return false
-        }
-        if (package_name_ed.text.toString().isEmpty()) {
-            showToast("请选择包装")
-            return false
-        }
-        if (weight_name_ed.text.toString().isEmpty()) {
-            showToast("请输入重量")
-            return false
-        }
-        if (volume_name_tv.text.toString().isEmpty()) {
-            showToast("请输入体积")
-            return false
-        }
-        if (receipt_requirements_name_tv.text.toString().isEmpty()) {
-            showToast("请选择回单要求")
-            return false
-        }
-        if (modify_reason_ed.text.toString().isEmpty()) {
-            showToast("请输入修改原因")
-            return false
-        }
-        return true
-    }
+
 
     override fun onClick() {
         super.onClick()
@@ -576,12 +469,7 @@ class FixedAcceptBillingActivity : BaseMVPActivity<FixedAcceptBillingActivityCon
             }
 
         })
-        fixed_accept_billing_toolbar.setBackButtonOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                onBackPressed()
-            }
 
-        })
     }
 
     override fun getReceiptRequirementS(result: String) {
@@ -605,47 +493,6 @@ class FixedAcceptBillingActivity : BaseMVPActivity<FixedAcceptBillingActivityCon
 
     }
 
-    fun takeGPS() {
-        if (checkGPSIsOpen()) {
-            ARouter.getInstance().build(ARouterConstants.LocationActivity).navigation()
-        } else {
-            TalkSureCancelDialog(mContext, getScreenWidth(), "需要打开系统定位开关 用于提供精确的定位及导航服务") {
-                //跳转GPS设置界面
-                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivityForResult(intent, Constant.GPS_REQUEST_CODE)
-            }.show()
-
-        }
-    }
-
-    fun getLocation() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION)
-                    .subscribe { granted ->
-                        if (granted) { // Always true pre-M
-                            // I can control the camera now
-                            takeGPS()
-                        } else {
-                            // Oups permission denied
-                            showToast("您不给我权限就别想打开了 我也无能为力")
-                        }
-                    }
-        } else {
-            takeGPS()
-        }
-    }
-
-    /**
-     * 检测GPS是否打开
-     *
-     * @return
-     */
-    private fun checkGPSIsOpen(): Boolean {
-        val isOpen: Boolean
-        val locationManager: LocationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        isOpen = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        return isOpen
-    }
 
 
     override fun getTransportModeS(result: String) {
@@ -717,79 +564,7 @@ class FixedAcceptBillingActivity : BaseMVPActivity<FixedAcceptBillingActivityCon
         }
     }
 
-    /**
-     * 收货方式
-     * @1 客户自提
-     * @2 上门提货
-     */
-    fun initReceivingMethod(type: Int) {
-        when (type) {
-            1 -> {
-                customer_mention_tv.setBackgroundResource(R.drawable.round_blue)
-                customer_mention_tv.setTextColor(Color.WHITE)
 
-                home_delivery_tv.setBackgroundResource(R.drawable.hollow_out_gray)
-                home_delivery_tv.setTextColor(Color.BLACK)
-                isTalkGoodsStrTag = false
-            }
-            2 -> {
-                home_delivery_tv.setBackgroundResource(R.drawable.round_blue)
-                home_delivery_tv.setTextColor(Color.WHITE)
-
-                customer_mention_tv.setBackgroundResource(R.drawable.hollow_out_gray)
-                customer_mention_tv.setTextColor(Color.BLACK)
-                isTalkGoodsStrTag = true
-
-            }
-        }
-    }
-
-    /**
-     * 付货方式
-     *
-     */
-    fun initDeliveryMethod(type: Int) {
-        okProcessStrTagIndex = type
-        when (type) {
-            1 -> {
-                get_delivery_mention_tv.setBackgroundResource(R.drawable.round_blue)
-                get_delivery_mention_tv.setTextColor(Color.WHITE)
-
-                get_delivery_home_tv.setBackgroundResource(R.drawable.hollow_out_gray)
-                get_delivery_home_tv.setTextColor(Color.BLACK)
-
-                get_driver_direct_tv.setBackgroundResource(R.drawable.hollow_out_gray)
-                get_driver_direct_tv.setTextColor(Color.BLACK)
-                okProcessStrTag = get_delivery_mention_tv.text.toString()
-
-            }
-            2 -> {
-                get_delivery_home_tv.setBackgroundResource(R.drawable.round_blue)
-                get_delivery_home_tv.setTextColor(Color.WHITE)
-
-                get_delivery_mention_tv.setBackgroundResource(R.drawable.hollow_out_gray)
-                get_delivery_mention_tv.setTextColor(Color.BLACK)
-
-                get_driver_direct_tv.setBackgroundResource(R.drawable.hollow_out_gray)
-                get_driver_direct_tv.setTextColor(Color.BLACK)
-                okProcessStrTag = get_delivery_home_tv.text.toString()
-
-            }
-            3 -> {
-                get_driver_direct_tv.setBackgroundResource(R.drawable.round_blue)
-                get_driver_direct_tv.setTextColor(Color.WHITE)
-
-                get_delivery_mention_tv.setBackgroundResource(R.drawable.hollow_out_gray)
-                get_delivery_mention_tv.setTextColor(Color.BLACK)
-
-                get_delivery_home_tv.setBackgroundResource(R.drawable.hollow_out_gray)
-                get_delivery_home_tv.setTextColor(Color.BLACK)
-                okProcessStrTag = get_driver_direct_tv.text.toString()
-
-            }
-        }
-
-    }
 
     private fun showWebIdDialog(list: MutableList<WebAreaDbInfo>) {
         FilterDialog(getScreenWidth(), Gson().toJson(list), "webid", "选择到货网点", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
@@ -805,7 +580,6 @@ class FixedAcceptBillingActivity : BaseMVPActivity<FixedAcceptBillingActivityCon
         }).show(supportFragmentManager, "showWebIdDialogFilterDialog")
     }
 
-    var mEditTextAdapter: EditTextAdapter<BaseEditTextAdapterBean>? = null
 
 
     @SuppressLint("SetTextI18n")

@@ -3,7 +3,7 @@ package com.mbcq.accountlibrary.fragment.settingadapter;
 public class SettingIconBean {
     private int tag;
     private String title;
-    private String contentText;
+    private String contentText="";
 
     public int getTag() {
         return tag;

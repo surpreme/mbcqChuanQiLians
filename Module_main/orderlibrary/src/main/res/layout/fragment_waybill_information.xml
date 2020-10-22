@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:overScrollMode="never"
+    android:fadingEdge="none"
+    tools:context=".fragment.waybillinformation.WaybillInformationFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/waybill_state_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/base_gold"
+            android:textSize="17sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="上转在途" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/base_blue"
+            android:textSize="15sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="货款未收" />
+
+        <TextView
+            android:id="@+id/basic_info_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:lineSpacingExtra="10dp"
+            android:text="运  单 号：10056044123\n开单时间：2020-11-11 18:12\n货      号：44123-100\n发货网点：汕头                        到货网点：义乌青口\n目  的 地：义乌市                     运输方式：零担\n付货方式：送货"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/waybill_state_tv" />
+
+        <View
+            android:id="@+id/basic_info_line"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginTop="5dp"
+            android:alpha="0.6"
+            android:background="@color/base_gray"
+            app:layout_constraintTop_toBottomOf="@+id/basic_info_tv" />
+
+        <TextView
+            android:id="@+id/shipper_info_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:lineSpacingExtra="10dp"
+            android:text="发  货 人：吴轩\n手  机 号：15995675861\n地      址：上海市松江区东明花苑80号501\n发货人证件：1234567891234567898"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/basic_info_line" />
+
+        <View
+            android:id="@+id/shipper_info_line"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginTop="5dp"
+            android:alpha="0.6"
+            android:background="@color/base_gray"
+            app:layout_constraintTop_toBottomOf="@+id/shipper_info_tv" />
+
+        <TextView
+            android:id="@+id/receiver_info_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:lineSpacingExtra="10dp"
+            android:text="收  货 人：吴轩\n手  机 号：15995675861\n地      址：上海市松江区东明花苑80号501"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/shipper_info_line" />
+
+        <View
+            android:id="@+id/receiver_info_line"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginTop="5dp"
+            android:alpha="0.6"
+            android:background="@color/base_gray"
+            app:layout_constraintTop_toBottomOf="@+id/receiver_info_tv" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/receiver_info_line">
+
+            <TextView
+                android:id="@+id/goods_info_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:lineSpacingExtra="10dp"
+                android:text="货物名称：电脑\n包装方式：纸箱\n体      积：13m³\n保  价 费：4\n送  货 费：200\n返      款：30\n付款方式：提付\n实发货款：750\n备      注：等通知放货"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/goods_info_second_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:lineSpacingExtra="10dp"
+                android:text="件      数：100\n重      量：3200kg\n保价金额：2000\n提  货 费：100\n中  转 费：230\n合计运费：1000\n代收货款：800"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.core.widget.NestedScrollView>

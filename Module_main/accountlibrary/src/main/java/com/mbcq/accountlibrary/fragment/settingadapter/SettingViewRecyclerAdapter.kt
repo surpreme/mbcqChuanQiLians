@@ -12,11 +12,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.mbcq.accountlibrary.R
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.baselibrary.view.SingleClick
 
 
 class SettingViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<SettingIconBean>(context) {
@@ -34,6 +36,18 @@ class SettingViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Settin
 
         }
         return viewHolder
+    }
+
+    fun notifyCommonlyItemChanged(position: Int, data: String) {
+        mDatas[position].contentText = data
+        notifyItemChanged(position)
+    }
+
+    var mOnClickInterface: OnClickInterface? = null
+
+    interface OnClickInterface {
+        fun onExitLogIn(v: View)
+        fun onCommonly(v: View, position: Int, result: String)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -63,11 +77,23 @@ class SettingViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Settin
                     holder.configuration_line.visibility = View.VISIBLE
                 }
 
+                holder.setting_item_content_tv.text=mDatas[position].contentText
+                holder.itemView.setOnClickListener(object : SingleClick() {
+                    override fun onSingleClick(v: View) {
+                        mOnClickInterface?.onCommonly(v, position, Gson().toJson(mDatas[position]))
+                    }
+                })
             }
             EXIT_CONTENT_ITEM_TAG -> {
 
                 (holder as ExitViewHolder).textView.text = "退出登录"
                 holder.textView.setTextColor(Color.RED)
+                holder.itemView.setOnClickListener(object : SingleClick() {
+                    override fun onSingleClick(v: View) {
+                        mOnClickInterface?.onExitLogIn(v)
+                    }
+
+                })
                 context?.let {
                     //设置宽高
                     val params: ViewGroup.LayoutParams = holder.itemView.layoutParams as ViewGroup.LayoutParams
@@ -95,6 +121,7 @@ class SettingViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Settin
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var setting_item_content_tv: TextView = itemView.findViewById(R.id.setting_item_content_tv)
         var setting_item_title_tv: TextView = itemView.findViewById(R.id.setting_item_title_tv)
         var configuration_line: View = itemView.findViewById(R.id.configuration_line)
 

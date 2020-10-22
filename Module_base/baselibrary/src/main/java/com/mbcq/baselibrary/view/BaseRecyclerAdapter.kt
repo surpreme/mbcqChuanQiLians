@@ -24,7 +24,8 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     fun notifyItemChangeds(position: Int, data: T) {
-        notifyItemChanged(position, data)
+        mDatas.add(position, data)
+        notifyItemChanged(position)
     }
 
     fun getAllData(): ArrayList<T> {
@@ -36,7 +37,6 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, mDatas.size - position)
     }
-
 
 
     fun clearData() {

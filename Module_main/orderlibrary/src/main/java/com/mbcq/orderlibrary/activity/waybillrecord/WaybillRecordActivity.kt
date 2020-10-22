@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
@@ -103,7 +104,7 @@ class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, W
                 }
 
                 override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                    FilterWithTimeDialog(getScreenWidth(), Gson().toJson(list), "webid", "webidCode", true,"运单筛选", true,  mClickInterface = object : OnClickInterface.OnClickInterface {
+                    FilterWithTimeDialog(getScreenWidth(), Gson().toJson(list), "webid", "webidCode", true, "运单筛选", true, mClickInterface = object : OnClickInterface.OnClickInterface {
                         /**
                          * s1 网点
                          * s2  start@end
@@ -149,6 +150,13 @@ class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, W
                     mPresenter?.deleteWayBill(mResult, position)
                 }.show()
             }
+
+        }
+        it.mClickInterface = object :  OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                ARouter.getInstance().build(ARouterConstants.WaybillDetailsActivity).withString("WaybillDetails",mResult).navigation()
+            }
+
 
         }
     }

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mbcq.accountlibrary">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <application>
         <activity android:name=".activity.login.LogInActivity"/>
         <activity android:name=".activity.house.HouseActivity" />

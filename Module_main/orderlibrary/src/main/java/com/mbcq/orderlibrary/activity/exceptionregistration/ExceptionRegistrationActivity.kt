@@ -224,7 +224,7 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
             mImageViewAdapter?.appendData(mutableListOf(itemBean))
             if (!isDestroyed) {
                 val params = HttpParams()
-                resultFile = File(FileUtils.getPath(mContext, mSelected[0]))
+                resultFile = File(FileUtils.getRealFilePath(mContext, mSelected[0]))
                 mShowImagesFile.add(resultFile)
                 params.put(System.currentTimeMillis().toString(), resultFile)
                 mPresenter?.postImg(params)

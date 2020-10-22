@@ -22,4 +22,8 @@ public class Constant extends BaseConstant {
      * 打开gps的返回码
      */
     public static final int GPS_REQUEST_CODE =2180;
+    /**
+     * 打开蓝牙的返回码
+     */
+    public static final int BLUETOOTH_REQUEST_CODE =3215;
 }

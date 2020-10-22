@@ -2,17 +2,27 @@
 
 
     <!--控制头部据appbar的样式-->
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <!--用于控制toolbar溢出菜单的样式-->
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!-- 设置Toolbar标题字体的颜色大小 -->
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">56sp</item><!--toolbar标题字体大小-->
         <item name="android:textColor">#ffffff</item><!--toolbar标题字体颜色-->
     </style>
+    <!--    设置tablayout字体大小-->
+    <style name="TabLayoutTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">19sp</item>
+        <!--        <item name="android:textStyle">bold</item>-->
+    </style>
+    <!--    设置tablayout背景-->
 
-
+   <!-- <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
+        <item name="tabBackground">@drawable/tab_select_background</item>
+&lt;!&ndash;        <item name="tabIndicatorColor">#ff00ff</item>&ndash;&gt;
+&lt;!&ndash;        <item name="tabIndicatorHeight">2dp</item>&ndash;&gt;
+    </style>-->
     <!-- 自定义对话框风格 -->
     <style name="commonTipDialogStyle" parent="android:Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -42,6 +52,7 @@
 
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
+
     <style name="dialogWindowAnim" mce_bogus="1" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/fade_in</item>
         <item name="android:windowExitAnimation">@anim/fade_out</item>

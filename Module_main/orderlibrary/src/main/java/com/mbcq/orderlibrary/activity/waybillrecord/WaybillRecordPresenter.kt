@@ -130,7 +130,7 @@ class WaybillRecordPresenter : BasePresenterImpl<WaybillRecordContract.View>(), 
              mHttpParams.put("webidCode", UserInformationUtil.getWebIdCode(it))
 
          }*/
-        mHttpParams.put("commonStr", commonStr)
+        mHttpParams.put("SelWebidCode", commonStr)
         mHttpParams.put("startDate", startDate)
         mHttpParams.put("endDate", endDate)
 

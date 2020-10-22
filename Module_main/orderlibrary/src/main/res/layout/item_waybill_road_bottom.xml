@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/basic_info_tv"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/waybill_number_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="10056044123"
+            android:textColor="@color/base_blue"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/waybill_number_copy_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:padding="3dp"
+            android:src="@drawable/ic_copy_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/waybill_number_tv"
+            app:layout_constraintLeft_toRightOf="@+id/waybill_number_tv"
+            app:layout_constraintTop_toTopOf="@+id/waybill_number_tv" />
+
+        <TextView
+            android:id="@+id/consignee_info_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="收货人：吴轩    15995675863"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/waybill_number_tv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/basic_info_tv">
+
+        <TextView
+            android:id="@+id/consignee_title_tv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:alpha="0.6"
+            android:background="@drawable/circle_gray"
+            android:gravity="center"
+            android:text="收"
+            android:textColor="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="【收货地址】香港自治区九龙区001号财经大厦1003室"
+            app:layout_constraintBottom_toBottomOf="@+id/consignee_title_tv"
+            app:layout_constraintLeft_toRightOf="@+id/consignee_title_tv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/consignee_title_tv" />
+
+        <com.mbcq.baselibrary.view.DividerView
+            android:id="@+id/consignee_line"
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:layerType="software"
+            app:dashGap="4dp"
+            app:dashLength="1dp"
+            app:dashThickness="1dp"
+            app:divider_line_color="@color/base_gray"
+            app:divider_orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="@+id/consignee_title_tv"
+            app:layout_constraintRight_toRightOf="@+id/consignee_title_tv"
+            app:layout_constraintTop_toBottomOf="@+id/consignee_title_tv" />
+
+        <TextView
+            android:id="@+id/father_state_day_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="昨天"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="@+id/father_state_title_tv"
+            app:layout_constraintRight_toLeftOf="@+id/father_state_title_tv"
+            app:layout_constraintTop_toTopOf="@+id/father_state_title_tv" />
+
+        <TextView
+            android:id="@+id/father_state_hour_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:36"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintRight_toRightOf="@+id/father_state_day_tv"
+            app:layout_constraintTop_toBottomOf="@+id/father_state_day_tv" />
+
+        <ImageView
+            android:id="@+id/father_state_title_tv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="50dp"
+            android:alpha="0.6"
+            android:src="@drawable/ic_pending_icon"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/consignee_line"
+            app:tint="@color/base_blue" />
+
+        <TextView
+            android:id="@+id/father_state_content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="待取件"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/father_state_title_tv"
+            app:layout_constraintLeft_toRightOf="@+id/father_state_title_tv"
+            app:layout_constraintTop_toTopOf="@+id/father_state_title_tv" />
+
+        <TextView
+            android:id="@+id/father_state_content_remark_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:text="您的快递已放置香港自治区九龙区001号财经大厦1003室国际物流股份有限公司,请凭取货码及时领取。如有疑问请致电110"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintLeft_toLeftOf="@+id/father_state_content_tv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/father_state_content_tv" />
+
+        <com.mbcq.baselibrary.view.DividerView
+            android:id="@+id/father_state_line"
+            android:layout_width="1dp"
+            android:layout_height="60dp"
+            android:layerType="software"
+            app:dashGap="4dp"
+            app:dashLength="1dp"
+            app:dashThickness="1dp"
+            app:divider_line_color="@color/base_blue"
+            app:divider_orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="@+id/father_state_title_tv"
+            app:layout_constraintRight_toRightOf="@+id/father_state_title_tv"
+            app:layout_constraintTop_toBottomOf="@+id/father_state_title_tv" />
+
+        <TextView
+            android:id="@+id/father_state_day_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="昨天"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="@+id/father_state_title_tv2"
+            app:layout_constraintRight_toLeftOf="@+id/father_state_title_tv2"
+            app:layout_constraintTop_toTopOf="@+id/father_state_title_tv2" />
+
+        <TextView
+            android:id="@+id/father_state_hour_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:21"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintRight_toRightOf="@+id/father_state_day_tv2"
+            app:layout_constraintTop_toBottomOf="@+id/father_state_day_tv2" />
+
+        <ImageView
+            android:id="@+id/father_state_title_tv2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="50dp"
+            android:alpha="0.6"
+            android:src="@drawable/ic_transiting_icon"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/father_state_line"
+            app:tint="@color/base_blue" />
+
+        <TextView
+            android:id="@+id/father_state_content_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="运输中"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/father_state_title_tv2"
+            app:layout_constraintLeft_toRightOf="@+id/father_state_title_tv2"
+            app:layout_constraintTop_toTopOf="@+id/father_state_title_tv2" />
+
+        <TextView
+            android:id="@+id/father_state_content_remark_tv2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:text="【香港自治区】已离开澳门莲花分拨中心；发往 香港自治区九龙区分拨中心"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintLeft_toLeftOf="@+id/father_state_content_tv2"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/father_state_content_tv2" />
+
+        <com.mbcq.baselibrary.view.DividerView
+            android:id="@+id/father_state_line2"
+            android:layout_width="1dp"
+            android:layout_height="60dp"
+            android:layerType="software"
+            app:dashGap="4dp"
+            app:dashLength="1dp"
+            app:dashThickness="1dp"
+            app:divider_line_color="@color/base_blue"
+            app:divider_orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="@+id/father_state_title_tv2"
+            app:layout_constraintRight_toRightOf="@+id/father_state_title_tv2"
+            app:layout_constraintTop_toBottomOf="@+id/father_state_title_tv2" />
+
+        <ImageView
+            android:id="@+id/children_state_title_tv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_origin_icon"
+            app:layout_constraintLeft_toLeftOf="@+id/father_state_line2"
+            app:layout_constraintRight_toRightOf="@+id/father_state_line2"
+            app:layout_constraintTop_toBottomOf="@+id/father_state_line2"
+            app:tint="@color/base_blue" />
+
+        <TextView
+            android:id="@+id/children_state_content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="已经到达香港九龙自治区分拨中心"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/children_state_title_tv"
+            app:layout_constraintLeft_toRightOf="@+id/children_state_title_tv"
+            app:layout_constraintTop_toTopOf="@+id/children_state_title_tv" />
+
+        <com.mbcq.baselibrary.view.DividerView
+            android:id="@+id/children_state_content_line2"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layerType="software"
+            app:dashGap="4dp"
+            app:dashLength="1dp"
+            app:dashThickness="1dp"
+            app:divider_line_color="@color/base_blue"
+            app:divider_orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="@+id/children_state_title_tv"
+            app:layout_constraintRight_toRightOf="@+id/children_state_title_tv"
+            app:layout_constraintTop_toBottomOf="@+id/children_state_title_tv" />
+
+        <ImageView
+            android:id="@+id/children_state_title_tv2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_origin_icon"
+            app:layout_constraintLeft_toLeftOf="@+id/children_state_content_line2"
+            app:layout_constraintRight_toRightOf="@+id/children_state_content_line2"
+            app:layout_constraintTop_toBottomOf="@+id/children_state_content_line2"
+            app:tint="@color/base_blue" />
+
+        <TextView
+            android:id="@+id/children_state_content_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="已离开澳门自治区莲花区 发往香港自治区分拨中心"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/children_state_title_tv2"
+            app:layout_constraintLeft_toRightOf="@+id/children_state_title_tv2"
+            app:layout_constraintTop_toTopOf="@+id/children_state_title_tv2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
