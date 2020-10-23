@@ -47,9 +47,26 @@ object UserInformationUtil {
     private val USR_INFORMATION_PSW: String = "USR_INFORMATION_PSW"
 
     /**
-     * 两级保存用户key
+     * 运单打印机 蓝牙地址  address Waybill printer
      */
 
+    private val USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_ADDRESS_TAG: String = "USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_ADDRESS"
+
+    /**
+     * 两级保存运单打印机 蓝牙地址
+     */
+
+    fun setWayBillBlueToothPrinter(context: Context, address: String) {
+        BaseConstant.USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_ADDRESS = address
+        if (mSharePreferencesHelper == null)
+            mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
+        mSharePreferencesHelper?.put(USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_ADDRESS_TAG, address)
+
+    }
+
+    /**
+     * 两级保存用户key
+     */
     fun setUserKey(context: Context, key: String) {
         BaseConstant.USER_KEY = key
         if (mSharePreferencesHelper == null)
@@ -126,6 +143,21 @@ object UserInformationUtil {
 
         } else {
             ""
+        }
+    }
+
+    fun getWayBillBlueToothPrinter(context: Context): String {
+        return if (BaseConstant.USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_ADDRESS.isNullOrEmpty()) {
+            if (mSharePreferencesHelper == null)
+                mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
+            if (mSharePreferencesHelper?.contain(USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_ADDRESS_TAG)!!) {
+                mSharePreferencesHelper?.getSharePreference(USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_ADDRESS_TAG, "") as String
+            } else {
+                ""
+            }
+
+        } else {
+            BaseConstant.USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_ADDRESS
         }
     }
 

@@ -23,6 +23,7 @@ import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseFragment
 import com.mbcq.baselibrary.ui.BaseListFragment
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
@@ -47,11 +48,12 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
         }
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        /*  if (requestCode == Constant.BLUETOOTH_REQUEST_CODE) {
-              enableBlueTooth()
-          }*/
+        if (requestCode == Constant.BLUETOOTH_REQUEST_CODE) {
+            enableBlueTooth(mResultIndex,mResultBlue)
+        }
     }
 
     override fun addItemDecoration(): RecyclerView.ItemDecoration = object : BaseItemDecoration(mContext) {
@@ -196,8 +198,13 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 //{"title":"运单打印机","tag:"3"}
                 val obj = JSONObject(result)
-                val blueObj=JSONObject(mResult)
+                val blueObj = JSONObject(mResult)
                 obj.put("contentText", blueObj.optString("deviceName"))
+                if (obj.optString("title") == "运单打印机") {
+                    mContext?.let {
+                        UserInformationUtil.setWayBillBlueToothPrinter(it, blueObj.optString("deviceHardwareAddress"))
+                    }
+                }
                 showToast(GsonUtils.toPrettyFormat(obj))
                 val mSettingIconBean = Gson().fromJson<SettingIconBean>(GsonUtils.toPrettyFormat(obj), SettingIconBean::class.java)
                 adapter.notifyItemChangeds(mPosition, mSettingIconBean)
@@ -229,6 +236,7 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
     }
 
     var mResultBlue = ""
+    var mResultIndex = 0
     override fun getRecyclerViewId(): Int = R.id.setting_recycler_view
 
     override fun setAdapter(): BaseRecyclerAdapter<SettingIconBean> = SettingViewRecyclerAdapter(mContext).also {
@@ -242,6 +250,7 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
             override fun onCommonly(v: View, position: Int, result: String) {
                 val mSettingIconBean = Gson().fromJson<SettingIconBean>(result, SettingIconBean::class.java)
                 mResultBlue = result
+                mResultIndex = position
                 //{"title":"运单打印机","tag:"3"}
                 showToast(result)
                 when (mSettingIconBean.title) {

@@ -7,6 +7,7 @@
         <activity android:name=".activity.login.LogInActivity"/>
         <activity android:name=".activity.house.HouseActivity" />
         <activity android:name=".activity.setting.SettingActivity" />
+        <activity android:name=".fragment.setting.bluetooth.BlueActivity" />
     </application>
 
 </manifest>

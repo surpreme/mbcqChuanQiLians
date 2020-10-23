@@ -14,11 +14,14 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.Constant
+import com.mbcq.commonlibrary.PrintBlueToothBean
 import com.mbcq.commonlibrary.RadioGroupUtil
 import com.mbcq.commonlibrary.adapter.BaseEditTextAdapterBean
 import com.mbcq.commonlibrary.adapter.EditTextAdapter
@@ -91,6 +94,8 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
             }
         }
+
+
     }
 
     override fun onClick() {
@@ -228,79 +233,79 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
 
     private fun saveAcctBilling() {
-        val jsonObj = JsonObject()
+        val jsonObj = JSONObject()
         //到货公司编码
         val ECompanyId = eCompanyId
-        jsonObj.addProperty("ECompanyId", ECompanyId)
+        jsonObj.put("ECompanyId", ECompanyId)
 
         //目的地
         val Destination = destinationt
-        jsonObj.addProperty("Destination", Destination)
+        jsonObj.put("Destination", Destination)
 
         //订单号
         val OrderId = ""
-        jsonObj.addProperty("OrderId", OrderId)
+        jsonObj.put("OrderId", OrderId)
 
         //发货网点
         val WebidCodeStr = UserInformationUtil.getWebIdCodeStr(mContext)
-        jsonObj.addProperty("WebidCodeStr", WebidCodeStr)
+        jsonObj.put("WebidCodeStr", WebidCodeStr)
 
         //发货网点编码
         val WebidCode = UserInformationUtil.getWebIdCode(mContext)
-        jsonObj.addProperty("WebidCode", WebidCode)
+        jsonObj.put("WebidCode", WebidCode)
 
 
         //运单号
         val Billno = waybill_number_ed.text.toString()
-        jsonObj.addProperty("Billno", Billno)
+        jsonObj.put("Billno", Billno)
 
 
         //到货网点
         val EwebidCodeStr = endWebIdCodeStr
-        jsonObj.addProperty("EwebidCodeStr", EwebidCodeStr)
+        jsonObj.put("EwebidCodeStr", EwebidCodeStr)
 
         //到货网点编码
         val EwebidCode = endWebIdCode
-        jsonObj.addProperty("EwebidCode", EwebidCode)
+        jsonObj.put("EwebidCode", EwebidCode)
 
         //原单号
         val OBillno = ""
-        jsonObj.addProperty("OBillno", OBillno)
+        jsonObj.put("OBillno", OBillno)
 
 
         //开单日期
         val BillDate = TimeUtils.getCurrent()
-        jsonObj.addProperty("BillDate", BillDate)
+        jsonObj.put("BillDate", BillDate)
 
 
         //运单状态编码
         val BillState = ""
-        jsonObj.addProperty("BillState", BillState)
+        jsonObj.put("BillState", BillState)
 
 
         //运单类型 billTypeStr
         val BillTypeStr = waybillNumberTag
-        jsonObj.addProperty("BillTypeStr", BillTypeStr)
+        jsonObj.put("BillTypeStr", BillTypeStr)
 
         //付货方式编码
         val OkProcess = okProcessStrTagIndex
-        jsonObj.addProperty("OkProcess", OkProcess)
+        jsonObj.put("OkProcess", OkProcess)
 
         //付货方式
         val OkProcessStr = okProcessStrTag
-        jsonObj.addProperty("OkProcessStr", OkProcessStr)
+        jsonObj.put("OkProcessStr", OkProcessStr)
 
         //是否上门提货编码
         val IsTalkGoods = if (isTalkGoodsStrTag) "1" else "0"
-        jsonObj.addProperty("IsTalkGoods", IsTalkGoods)
+        jsonObj.put("IsTalkGoods", IsTalkGoods)
 
         //是否上门提货
         val IsTalkGoodsStr = if (isTalkGoodsStrTag) "是" else "否"
-        jsonObj.addProperty("IsTalkGoodsStr", IsTalkGoodsStr)
+        jsonObj.put("IsTalkGoodsStr", IsTalkGoodsStr)
 
         //会员卡号
         val VipId = bank_number_ed.text.toString()
-        jsonObj.addProperty("VipId", VipId)
+        jsonObj.put("VipId", VipId)
 
 
         /**
@@ -309,163 +314,163 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
          * TODO
          */
         val ShipperId = ""//发货客户编号
-        jsonObj.addProperty("ShipperId", ShipperId)
+        jsonObj.put("ShipperId", ShipperId)
 
         val ShipperMb = mShipperMb //发货人手机号
-        jsonObj.addProperty("ShipperMb", ShipperMb)
+        jsonObj.put("ShipperMb", ShipperMb)
 
         val ShipperTel = mShipperTel //发货人固定电话
-        jsonObj.addProperty("ShipperTel", ShipperTel)
+        jsonObj.put("ShipperTel", ShipperTel)
 
         val Shipper = mShipper //发货人
-        jsonObj.addProperty("Shipper", Shipper)
+        jsonObj.put("Shipper", Shipper)
 
         val ShipperCid = mShipperCid //发货人身份证号
-        jsonObj.addProperty("ShipperCid", ShipperCid)
+        jsonObj.put("ShipperCid", ShipperCid)
 
         val ShipperAddr = mShipperAddr //发货人地址
-        jsonObj.addProperty("ShipperAddr", ShipperAddr)
+        jsonObj.put("ShipperAddr", ShipperAddr)
 
         val IsUrgent = "0" //是否急货编码
-        jsonObj.addProperty("IsUrgent", IsUrgent)
+        jsonObj.put("IsUrgent", IsUrgent)
 
         val IsUrgentStr = "否" //是否急货
-        jsonObj.addProperty("IsUrgentStr", IsUrgentStr)
+        jsonObj.put("IsUrgentStr", IsUrgentStr)
 
         val Transneed = mTransneed  //运输类型编码
-        jsonObj.addProperty("Transneed", Transneed)
+        jsonObj.put("Transneed", Transneed)
 
         val TransneedStr = mTransneedStr //运输类型
-        jsonObj.addProperty("TransneedStr", TransneedStr)
+        jsonObj.put("TransneedStr", TransneedStr)
 
 
         /**
          * 收货人信息
          */
         val ConsigneeMb = mConsigneeMb //收货人手机号
-        jsonObj.addProperty("ConsigneeMb", ConsigneeMb)
+        jsonObj.put("ConsigneeMb", ConsigneeMb)
 
         val ConsigneeTel = mConsigneeTel //收货人固定电话
-        jsonObj.addProperty("ConsigneeTel", ConsigneeTel)
+        jsonObj.put("ConsigneeTel", ConsigneeTel)
 
         val Consignee = mConsignee //收货人
-        jsonObj.addProperty("Consignee", Consignee)
+        jsonObj.put("Consignee", Consignee)
 
         val ConsigneeAddr = mConsigneeAddr //收货人地址
-        jsonObj.addProperty("ConsigneeAddr", ConsigneeAddr)
+        jsonObj.put("ConsigneeAddr", ConsigneeAddr)
 
 
         //货物名称
         val Product = cargo_name_ed.text.toString()
-        jsonObj.addProperty("Product", Product)
+        jsonObj.put("Product", Product)
 
         //总件数  TODO
-        val TotalQty =numbers_name_ed.text.toString()
-        jsonObj.addProperty("TotalQty", TotalQty)
+        val TotalQty = numbers_name_ed.text.toString()
+        jsonObj.put("TotalQty", TotalQty)
 
 
         //件数
         val Qty = numbers_name_ed.text.toString()
-        jsonObj.addProperty("Qty", Qty)
+        jsonObj.put("Qty", Qty)
 
         //货号 运单号后五位+件数
         val GoodsNum = Billno.substring(Billno.length - 5) + "-" + Qty
-        jsonObj.addProperty("GoodsNum", GoodsNum)
+        jsonObj.put("GoodsNum", GoodsNum)
 
         //包装方式
         val Packages = package_name_ed.text.toString()
-        jsonObj.addProperty("Packages", Packages)
+        jsonObj.put("Packages", Packages)
 
 
         //重量
         val Weight = weight_name_ed.text.toString()
-        jsonObj.addProperty("Weight", Weight)
+        jsonObj.put("Weight", Weight)
 
         //体积
         val Volumn = volume_name_tv.text.toString()
-        jsonObj.addProperty("Volumn", Volumn)
+        jsonObj.put("Volumn", Volumn)
 
         //合计金额
         val AccSum = total_amount_tv.text.toString()
-        jsonObj.addProperty("AccSum", AccSum)
+        jsonObj.put("AccSum", AccSum)
         //付款方式编码
         val AccType = mAccType
-        jsonObj.addProperty("AccType", AccType)
+        jsonObj.put("AccType", AccType)
         //付款方式
         val AccTypeStr = mAccTypeStr
-        jsonObj.addProperty("AccTypeStr", AccTypeStr)
+        jsonObj.put("AccTypeStr", AccTypeStr)
         //回单要求
         val BackQty = receipt_requirements_name_tv.text.toString()
-        jsonObj.addProperty("BackQty", BackQty)
+        jsonObj.put("BackQty", BackQty)
         //是否等通知放货
         val IsWaitNoticeStr = if (wait_notice_check.isChecked) "是" else "否"
-        jsonObj.addProperty("IsWaitNoticeStr", IsWaitNoticeStr)
+        jsonObj.put("IsWaitNoticeStr", IsWaitNoticeStr)
         //是否等通知放货编码
         val IsWaitNotice = if (wait_notice_check.isChecked) "1" else "0"
-        jsonObj.addProperty("IsWaitNotice", IsWaitNotice)
+        jsonObj.put("IsWaitNotice", IsWaitNotice)
 
         //银行卡号
         val BankCode = bank_number_tv.text.toString()
-        jsonObj.addProperty("BankCode", BankCode)
+        jsonObj.put("BankCode", BankCode)
 
         //开户行
         val BankName = account_bank_tv.text.toString()
-        jsonObj.addProperty("BankName", BankName)
+        jsonObj.put("BankName", BankName)
         //开户名
         val BankMan = account_names_tv.text.toString()
-        jsonObj.addProperty("BankMan", BankMan)
+        jsonObj.put("BankMan", BankMan)
 
         //制单人
         val CreateMan = UserInformationUtil.getUserName(mContext)
-        jsonObj.addProperty("CreateMan", CreateMan)
+        jsonObj.put("CreateMan", CreateMan)
 
         //备注
         val Remark = remarks_tv.text.toString()
-        jsonObj.addProperty("Remark", Remark)
+        jsonObj.put("Remark", Remark)
 
         //设备端 3代表android
         val FromType = "3"
-        jsonObj.addProperty("FromType", FromType)
+        jsonObj.put("FromType", FromType)
         /**
          *
          */
         //运单号对应的货物清单
-        val WayGoosLst = JsonArray()
-        val testObj=JsonObject()
+        val WayGoosLst = JSONArray()
+        val testObj = JSONObject()
         //货物名称
-        testObj.addProperty("Product", Product)
+        testObj.put("Product", Product)
 
         //件数
-        testObj.addProperty("Qty", Qty)
+        testObj.put("Qty", Qty)
 
         //包装方式
-        testObj.addProperty("Packages", Packages)
+        testObj.put("Packages", Packages)
 
         //重量
-        testObj.addProperty("Weight", Weight)
+        testObj.put("Weight", Weight)
 
         //体积
-        testObj.addProperty("Volumn", Volumn)
+        testObj.put("Volumn", Volumn)
 
-        WayGoosLst.add(testObj)
+        WayGoosLst.put(testObj)
 
         /**
          *
          */
 //        WayGoosLst.add(test)
-        jsonObj.add("WayGoosLst", WayGoosLst)
+        jsonObj.put("WayGoosLst", WayGoosLst)
 
         /**
          * 费用的所有添加
          */
         mEditTextAdapter?.getData()?.let {
             for (item in it) {
-                jsonObj.addProperty(item.tag, item.inputStr)
+                jsonObj.put(item.tag, item.inputStr)
 
             }
         }
         mPresenter?.saveAcceptBilling(jsonObj)
-
+        print_LabelTemplated_XT423(Gson().fromJson(GsonUtils.toPrettyFormat(jsonObj.toString()), PrintBlueToothBean::class.java), 1, getZpBluetoothPrinter())
 
     }
 
@@ -624,6 +629,10 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
          * 添加数据到recyclerView
          */
         val mKK = mutableListOf<BaseEditTextAdapterBean>()
+        val mBasicAccTrans = BaseEditTextAdapterBean()
+        mBasicAccTrans.title = "基本运费"
+        mBasicAccTrans.tag = "accTrans"
+        mKK.add(mBasicAccTrans)
         for (mIndex in mShowCostStr.indices) {
             val mBaseEditTextAdapterBean = BaseEditTextAdapterBean()
             mBaseEditTextAdapterBean.title = mShowCostStr[mIndex]
@@ -682,6 +691,18 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             }
 
         }).show(supportFragmentManager, "showWebIdDialogFilterDialog")
+    }
+
+    override fun setBlueToothConnectInterface(): BlueToothConnectInterface = object : BlueToothConnectInterface {
+        override fun isUnUsed(reason: String) {
+            labelcheck.isChecked = false
+
+        }
+
+        override fun overring() {
+
+        }
+
     }
 
 }

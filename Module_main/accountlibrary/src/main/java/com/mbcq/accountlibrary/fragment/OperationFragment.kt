@@ -210,7 +210,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
 
                                 }
                                 2 -> {
-//                                    ARouter.getInstance().build(ARouterConstants.BlueActivity).navigation()
+                                    ARouter.getInstance().build(ARouterConstants.BlueActivity).navigation()
 
                                 }
                                 3 -> {

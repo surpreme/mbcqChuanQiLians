@@ -24,8 +24,9 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     fun notifyItemChangeds(position: Int, data: T) {
-        mDatas.add(position, data)
+        mDatas[position] = data
         notifyItemChanged(position)
+//        notifyItemRangeChanged(position , position + 1)
     }
 
     fun getAllData(): ArrayList<T> {

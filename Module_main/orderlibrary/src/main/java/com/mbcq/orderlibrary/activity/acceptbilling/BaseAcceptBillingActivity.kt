@@ -2,22 +2,28 @@ package com.mbcq.orderlibrary.activity.acceptbilling
 
 
 import android.Manifest
-import android.graphics.Color
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.res.Resources
+import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
+import android.text.TextPaint
 import com.alibaba.android.arouter.launcher.ARouter
-import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
-import com.mbcq.commonlibrary.ARouterConstants
-import com.mbcq.commonlibrary.CommonApplication
-import com.mbcq.commonlibrary.RadioGroupUtil
+import com.mbcq.commonlibrary.*
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.greendao.DaoSession
 import com.mbcq.commonlibrary.greendao.WebAreaDbInfoDao
 import com.mbcq.orderlibrary.R
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_accept_billing.*
+import zpSDK.zpSDK.zpBluetoothPrinter
+import java.io.InputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -25,7 +31,7 @@ import kotlinx.android.synthetic.main.activity_accept_billing.*
  * @time: 2018.08.25
  */
 
-abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
+abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>> : CommonPrintMVPActivity<V, T>(), BaseView {
 
     /**
      * 到达网点
@@ -98,8 +104,150 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         waybillNumber(false)
         initReceivingMethod(1)
         initDeliveryMethod(1)
-
+        labelcheck.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                enableBlueTooth()
+            }
+        }
+        waybillcheck.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                enableBlueTooth()
+            }
+        }
     }
+
+    /**
+     * 获取条码号
+     *
+     * @param billno
+     * @param index
+     * @return
+     */
+     fun GetBarcode(billno: String?, index: Int): String {
+        return String.format(Locale.getDefault(), "%s%04d", billno, index)
+    }
+
+    /**
+     * 创运物流XT423标签打印
+     *
+     * @param context 上下文结构对象
+     * @param kz      快找
+     * @param num     当前打印的第几份
+     * @param zpSDK1  sdk
+     */
+    fun print_LabelTemplated_XT423( kz: PrintBlueToothBean, num: Int, zpSDK1: zpBluetoothPrinter) {
+        val mSimpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+        val font_bold = Typeface.create(Typeface.SERIF, Typeface.BOLD)
+        val font = Typeface.SERIF
+        val date: Date?
+        date = try {
+            mSimpleDateFormat.parse(kz.billDate)
+        } catch (e: Exception) {
+            Date()
+        }
+        zpSDK1.pageSetup(578, 350)
+        val p = TextPaint()
+        if (kz.transneed == "马帮快线") {
+            zpSDK1.drawText(443, 10, "M", 6, 0, 1, true, false)
+        }
+        if (kz.transneed == "叮当小票") {
+            zpSDK1.drawText(443, 10, "D", 6, 0, 1, true, false)
+        }
+        zpSDK1.drawText(20, 280, SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date), 3, 0, 0, false, false)
+        zpSDK1.drawText(55, 305, SimpleDateFormat("HH:mm", Locale.getDefault()).format(date), 3, 0, 0, false, false)
+        zpSDK1.drawText(150, 125, "到", 2, 0, 0, false, false)
+        zpSDK1.drawText(5, 110, kz.webidCodeStr, 3, 0, 0, false, false)
+
+        p.typeface = font_bold
+        p.textSize = 40f
+        // 计算居中显示的位置
+        var w = p.measureText(kz.ewebidCodeStr).toInt() // 193 374
+        w = (560 - 180 - w) / 2
+        if (w > 0) zpSDK1.drawText(180 + w, 100, kz.ewebidCodeStr, 4, 0, 1, false, false) else zpSDK1.drawText(180, 100, kz.ewebidCodeStr, 4, 0, 1, false, false)
+
+        zpSDK1.drawText(150, 10, "单号:" + kz.billno, 3, 0, 0, false, false)
+        zpSDK1.drawText(150, 60, "货号:" + kz.goodsNum, 3, 0, 0, false, false)
+        p.textSize = 35f
+        zpSDK1.drawText(5, 150, kz.getConsignee(), 4, 0, 1, false, false)
+        p.typeface = font
+        p.textSize = 30f
+        zpSDK1.drawText(400, 160, "件数:" + num + "/" + kz.qty, 3, 0, 0, false, false)
+        zpSDK1.drawText(220, 160, "包装:" + kz.packages, 3, 0, 0, false, false)
+        zpSDK1.drawText(6, 220, kz.transneed, 4, 0, 1, false, false)
+        p.typeface = font
+        p.textSize = 28f
+        val unitstr: String = GetBarcode(kz.billno, num)
+        try {
+            // logo
+            val bmp = BitmapFactory.decodeResource(resources, R.drawable.print_chuangyun_logo)
+            val matrix = Matrix()
+            // 缩放原图
+            val inSampleSize = 100.toFloat() / bmp.width.toFloat()
+            matrix.postScale(inSampleSize, inSampleSize)
+            val bitmap2 = Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height, matrix, true)
+            // login
+            zpSDK1.drawGraphic(19, 4, bitmap2.width, bitmap2.height, bitmap2)
+            zpSDK1.drawBarCode(200, 211, unitstr, 1, false, 2, 80) // 绘制条码
+            // 底部数据条码内容
+            zpSDK1.drawText(230, 300, unitstr, 3, 0, 0, false, false)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        try {
+            zpSDK1.print(0, 1)
+            /**
+             *
+             */
+            zpSDK1.printerStatus()
+            showPrintEx(zpSDK1.GetStatus())
+            zpSDK1.disconnect()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    @SuppressLint("ResourceType")
+    protected fun printOrder(result: String) {
+        /**
+         *
+         */
+        if (!isCanPrint())
+            return
+
+
+        val zpSDK = getZpBluetoothPrinter()
+
+        /**
+         *
+         */
+        val res: Resources = resources
+        val `is`: InputStream = res.openRawResource(R.drawable.app_logo)
+        val bmpDraw = BitmapDrawable(`is`)
+        val bmp: Bitmap = bmpDraw.bitmap
+
+
+        zpSDK.pageSetup(568, 568)
+        zpSDK.drawBarCode(8, 540, "12345678901234567", 128, true, 3, 60)
+        zpSDK.drawGraphic(90, 48, 0, 0, bmp)
+        zpSDK.drawQrCode(350, 48, "111111111", 0, 3, 0)
+        zpSDK.drawText(90, 48 + 100, "400-8800-", 3, 0, 0, false, false)
+        zpSDK.drawText(100, 48 + 100 + 56, "株洲      张贺", 4, 0, 0, false, false)
+        zpSDK.drawText(250, 48 + 100 + 56 + 56, "经由  株洲", 2, 0, 0, false, false)
+
+        zpSDK.drawText(100, 48 + 100 + 56 + 56 + 80, "2015110101079-01-01   广州", 3, 0, 0, false, false)
+        zpSDK.drawText(100, 48 + 100 + 56 + 56 + 80 + 80, "2015-11-01  23:00    卡班", 3, 0, 0, false, false)
+
+        zpSDK.drawBarCode(124, 48 + 100 + 56 + 56 + 80 + 80 + 80, "12345678901234567", 128, false, 3, 60)
+        zpSDK.print(0, 0)
+
+        /**
+         *
+         */
+        zpSDK.printerStatus()
+        showPrintEx(zpSDK.GetStatus())
+        zpSDK.disconnect()
+    }
+
 
     interface WebDbInterface {
         fun isNull()
@@ -239,7 +387,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
      *
      */
     fun initDeliveryMethod(type: Int) {
-        okProcessStrTagIndex=type
+        okProcessStrTagIndex = type
         when (type) {
             1 -> {
                 get_delivery_mention_tv.setBackgroundResource(R.drawable.round_blue)
