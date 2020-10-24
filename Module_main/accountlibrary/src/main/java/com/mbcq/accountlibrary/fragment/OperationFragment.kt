@@ -210,11 +210,16 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
 
                                 }
                                 2 -> {
+                                    //TODO
                                     ARouter.getInstance().build(ARouterConstants.BlueActivity).navigation()
 
                                 }
                                 3 -> {
                                     ARouter.getInstance().build(ARouterConstants.AcceptBillingRecordingActivity).navigation()
+
+                                }
+                                7 -> {
+                                    ARouter.getInstance().build(ARouterConstants.PrintAcceptBillingActivity).navigation()
 
                                 }
 

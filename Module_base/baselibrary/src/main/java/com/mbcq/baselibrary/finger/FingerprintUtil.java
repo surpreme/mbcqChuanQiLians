@@ -22,6 +22,7 @@ public class FingerprintUtil {
      * @author HaganWu
      * @date 2019/1/29-13:35
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public static List<FingerprintBean> getFingerprintInfo(Context context) {
         String objStr = getFingerprintInfoString(context);
         if (!TextUtils.isEmpty(objStr)) {
@@ -56,6 +57,7 @@ public class FingerprintUtil {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public static boolean isLocalFingerprintInfoChange(Context context) {
         //最新的指纹库信息
         List<FingerprintBean> latestFingerprintInfo = getFingerprintInfo(context);

@@ -41,7 +41,7 @@ import java.lang.StringBuilder
  */
 
 @Route(path = ARouterConstants.AcceptBillingActivity)
-class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.View, AcceptBillingPresenter>(), AcceptBillingContract.View {
+class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingContract.View, AcceptBillingPresenter>(), AcceptBillingContract.View {
 
     override fun getLayoutId(): Int = R.layout.activity_accept_billing
 
@@ -459,6 +459,8 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
          */
 //        WayGoosLst.add(test)
         jsonObj.put("WayGoosLst", WayGoosLst)
+        //打印需要
+        val priceObj = JSONObject()
 
         /**
          * 费用的所有添加
@@ -466,11 +468,17 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         mEditTextAdapter?.getData()?.let {
             for (item in it) {
                 jsonObj.put(item.tag, item.inputStr)
+                priceObj.put(item.tag, item.inputStr)
 
             }
         }
+        if (labelcheck.isChecked && waybillcheck.isChecked) {
+            val printAdapter = getZpBluetoothPrinter()
+            print_YH_TYD_NEW1(Gson().fromJson(GsonUtils.toPrettyFormat(jsonObj.toString()), PrintBlueToothBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), priceObj,printAdapter)
+            print_LabelTemplated_XT423(Gson().fromJson(GsonUtils.toPrettyFormat(jsonObj.toString()), PrintBlueToothBean::class.java), 1, printAdapter)
+        }
+
         mPresenter?.saveAcceptBilling(jsonObj)
-        print_LabelTemplated_XT423(Gson().fromJson(GsonUtils.toPrettyFormat(jsonObj.toString()), PrintBlueToothBean::class.java), 1, getZpBluetoothPrinter())
 
     }
 
@@ -693,16 +701,5 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         }).show(supportFragmentManager, "showWebIdDialogFilterDialog")
     }
 
-    override fun setBlueToothConnectInterface(): BlueToothConnectInterface = object : BlueToothConnectInterface {
-        override fun isUnUsed(reason: String) {
-            labelcheck.isChecked = false
-
-        }
-
-        override fun overring() {
-
-        }
-
-    }
 
 }

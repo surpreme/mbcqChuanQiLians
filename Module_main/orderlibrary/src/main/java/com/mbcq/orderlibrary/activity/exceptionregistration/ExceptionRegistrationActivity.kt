@@ -264,7 +264,6 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
                         }
                     }
                 } else if (msg.toString() == "2") {
-//                    TODO() 知乎图片 拍照 返回闪退
                     Matisse.from(this@ExceptionRegistrationActivity)
                             .choose(MimeType.ofImage(), false) // 选择 mime 的类型
                             .countable(true)

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.printacceptbilling.PrintAcceptBillingActivity">
+
+    <com.mbcq.baselibrary.view.CnToolbar
+        android:id="@+id/print_accept_billing_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/base_blue"
+        app:backButtonIsShow="true"
+        app:centerTextViewText="运单标签补打印"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/search_ll"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/hollow_out_gray"
+        app:layout_constraintTop_toBottomOf="@+id/print_accept_billing_toolbar">
+
+        <EditText
+            android:id="@+id/billno_ed"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="请输入运单号查询"
+            android:inputType="number"
+            android:paddingLeft="15dp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_scan_iccon" />
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="#EAC11E"
+            android:text="查询"
+            android:textColor="@color/white"
+            android:textSize="19sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/waybill_info_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/base_gray"
+        android:paddingTop="5dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="15dp"
+        android:lineSpacingExtra="10dp"
+        android:text="运  单 号：12345678912\n货      号：8912-100\n货物名称：手机\n包      装：纸箱\n发货网点：汕头\n到货网点：义乌青口\n收  货 人：吴轩\n件      数：100"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/search_ll" />
+
+    <CheckBox
+        android:id="@+id/consignment_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:buttonTint="@color/base_blue"
+        android:text="托运单"
+        android:textSize="17sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/waybill_info_tv" />
+
+    <LinearLayout
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/consignment_checkbox"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/consignment_checkbox"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="打印"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/hollow_out_gray"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="1"
+            android:textColor="@color/base_blue" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="份"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="@+id/consignment_checkbox"
+            app:layout_constraintTop_toTopOf="@id/consignment_checkbox" />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/label_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:buttonTint="@color/base_blue"
+        android:text="标签"
+        android:textSize="17sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/consignment_checkbox" />
+
+    <LinearLayout
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/label_checkbox"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/label_checkbox"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="范围"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/hollow_out_gray"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="1"
+            android:textColor="@color/base_blue" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="@+id/consignment_checkbox"
+            app:layout_constraintTop_toTopOf="@id/consignment_checkbox" />
+
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/hollow_out_gray"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="2"
+            android:textColor="@color/base_blue" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/print_btn"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/base_blue"
+        android:text="打印"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

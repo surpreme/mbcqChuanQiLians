@@ -5,6 +5,7 @@ import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.greendao.WebAreaDbInfoDao
+import org.json.JSONObject
 
 /**
  * @author: lzy
@@ -77,7 +78,7 @@ class AcceptBillingContract {
         /**
          * 保存受理开单
          */
-        fun saveAcceptBilling(job: JsonObject)
+        fun saveAcceptBilling(job: JSONObject)
 
 
     }

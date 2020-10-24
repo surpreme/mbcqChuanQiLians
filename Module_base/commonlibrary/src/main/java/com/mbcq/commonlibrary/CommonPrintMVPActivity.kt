@@ -13,10 +13,14 @@ import zpSDK.zpSDK.zpBluetoothPrinter
 /**
  * @Auther: liziyang
  * @datetime: 2020-10-23
- * @desc:
+ * @desc: 打印工具类
  */
 abstract class CommonPrintMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
     protected var bluetoothAdapter: BluetoothAdapter? = null
+
+    /**
+     * 系统蓝牙打开检查和打印配置信息检查
+     */
     protected fun isCanPrint(): Boolean {
         if (!enableBlueTooth())
             return false
@@ -28,11 +32,27 @@ abstract class CommonPrintMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : 
         return true
     }
 
+    /**
+     * 关闭打印
+     * TIPS ：打印两份如果中间关闭则无法再次打印
+     */
+    protected fun closePrint(zpSDK1: zpBluetoothPrinter) {
+        zpSDK1.printerStatus()
+        showPrintEx(zpSDK1.GetStatus())
+        zpSDK1.disconnect()
+    }
+
+    /**
+     * 初始化蓝牙连接的回调接口
+     */
     override fun initExtra() {
         super.initExtra()
         mBlueToothConnectInterface = setBlueToothConnectInterface()
     }
 
+    /**
+     * 获取芝柯打印机对应的管理器
+     */
     protected fun getZpBluetoothPrinter(): zpBluetoothPrinter {
         val zpSDK = zpBluetoothPrinter(this)
         if (!zpSDK.connect(UserInformationUtil.getWayBillBlueToothPrinter(mContext))) {
@@ -41,7 +61,10 @@ abstract class CommonPrintMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : 
         return zpSDK
     }
 
-    protected fun showPrintEx(state: Int) {
+    /**
+     * 打印机回调状态的接口
+     */
+    private fun showPrintEx(state: Int) {
         when (state) {
             -1 -> {
                 TalkSureDialog(mContext, getScreenWidth(), "获取状态异常").show()
@@ -88,7 +111,9 @@ abstract class CommonPrintMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : 
         }
     }
 
-    //启动蓝牙
+    /**
+     * 打开系统蓝牙
+     */
     protected fun enableBlueTooth(): Boolean {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         if (bluetoothAdapter == null) {

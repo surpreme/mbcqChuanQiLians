@@ -15,6 +15,7 @@ public class ARouterConstants {
     public static final String AcceptBillingRecordingActivity="/order/AcceptBillingRecordingActivity";
     public static final String FixedAcceptBillingActivity="/order/FixedAcceptBillingActivity";
     public static final String WaybillDetailsActivity="/order/WaybillDetailsActivity";
+    public static final String PrintAcceptBillingActivity="/order/PrintAcceptBillingActivity";
     //////////////////////////////////////////////////////////////////////////////
     public static final String LocationActivity="/map/LocationActivity";
     //////////////////////////////////////////////////////////////////////////////
