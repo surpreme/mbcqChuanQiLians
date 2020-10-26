@@ -202,9 +202,8 @@ abstract class BaseLocationActivity<V : BaseView, T : BasePresenterImpl<V>> : Ba
         super.onSaveInstanceState(outState)
         location_map.onSaveInstanceState(outState)
     }
-
-    override fun onDestroys() {
-        super.onDestroys()
+    override fun onDestroy() {
+        super.onDestroy()
         mLocationClientSingle?.onDestroy()
         location_map.onDestroy()
     }

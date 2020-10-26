@@ -10,9 +10,12 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextPaint
 import android.text.TextUtils
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
+import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.*
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.greendao.DaoSession
@@ -104,9 +107,8 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         waybillNumber(false)
         initReceivingMethod(1)
         initDeliveryMethod(1)
-
+        initAddGoodsRecycler()
     }
-
 
 
     interface WebDbInterface {
@@ -136,6 +138,66 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         }
     }
 
+    override fun onClick() {
+        super.onClick()
+        cargo_info_add_iv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                if (isCanCargoInfoAdd()){
+                    val mAddGoodsAcceptBillingBean = AddGoodsAcceptBillingBean()
+                    mAddGoodsAcceptBillingBean.product = cargo_name_ed.text.toString()
+                    mAddGoodsAcceptBillingBean.qty = numbers_name_ed.text.toString()
+                    mAddGoodsAcceptBillingBean.packages = package_name_ed.text.toString()
+                    mAddGoodsAcceptBillingBean.weight = weight_name_ed.text.toString()
+                    mAddGoodsAcceptBillingBean.volumn = volume_name_tv.text.toString()
+                    mAddGoodsAcceptBillingAdapter.appendData(mutableListOf(mAddGoodsAcceptBillingBean))
+                    clearCargoInfoAdd()
+                }
+
+            }
+
+        })
+    }
+
+    lateinit var mAddGoodsAcceptBillingAdapter: AddGoodsAcceptBillingAdapter
+    protected fun initAddGoodsRecycler() {
+        cargo_info_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+        mAddGoodsAcceptBillingAdapter = AddGoodsAcceptBillingAdapter(mContext).also {
+            cargo_info_recycler.adapter = it
+        }
+    }
+
+    protected fun clearCargoInfoAdd() {
+        cargo_name_ed.setText("")
+        numbers_name_ed.setText("")
+        package_name_ed.setText("")
+        weight_name_ed.setText("")
+        volume_name_tv.setText("")
+    }
+    protected fun isCanCargoInfoAdd(): Boolean {
+        if (cargo_name_ed.text.toString().isEmpty()) {
+            showToast("请选择货物名称")
+            return false
+        }
+        if (numbers_name_ed.text.toString().isEmpty()) {
+            showToast("请输入件数")
+            return false
+        }
+        if (package_name_ed.text.toString().isEmpty()) {
+            showToast("请选择包装")
+            return false
+        }
+        if (weight_name_ed.text.toString().isEmpty()) {
+            showToast("请输入重量")
+            return false
+        }
+        if (volume_name_tv.text.toString().isEmpty()) {
+            showToast("请输入体积")
+            return false
+        }
+        return true
+
+    }
+
     protected fun isCanSaveAcctBilling(): Boolean {
         if (endWebIdCode.isEmpty()) {
             showToast("请选择到达网点")
@@ -153,7 +215,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
             showToast("请选择收货人")
             return false
         }
-        if (cargo_name_ed.text.toString().isEmpty()) {
+      /*  if (cargo_name_ed.text.toString().isEmpty()) {
             showToast("请选择货物名称")
             return false
         }
@@ -168,7 +230,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         if (volume_name_tv.text.toString().isEmpty()) {
             showToast("请输入体积")
             return false
-        }
+        }*/
         if (receipt_requirements_name_tv.text.toString().isEmpty()) {
             showToast("请选择回单要求")
             return false

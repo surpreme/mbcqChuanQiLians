@@ -380,6 +380,14 @@ public class ApiInterface {
      */
     public static final String POST_PICTURE_POST = BASE_URI + "AllImages/UploadAllImages";
     /**
+     * 下载
+     */
+    public static final String DOWNLOAD_PICTURE_GET = BASE_URI + "AllImages/SelAllImagesByCondition";
+    /**
+     * 获取运单轨迹
+     */
+    public static final String TRACK_ROAD_WAYBILL_GET = BASE_URI + "WaybillTrack/SelWaybillTrackByCondition";
+    /**
      *
      */
     /**

@@ -21,6 +21,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
     override fun initViews(view: View) {
         super.initViews(view)
         operation_toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
+
     }
 
     override fun initDatas() {

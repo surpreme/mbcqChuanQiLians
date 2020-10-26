@@ -105,6 +105,7 @@ abstract class CommonPrintMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : 
                 TalkSureDialog(mContext, getScreenWidth(), "请允许打开蓝牙，否则无法打印").show()
                 mBlueToothConnectInterface?.isUnUsed("请允许打开蓝牙，否则无法打印")
             } else {
+//                mBlueToothConnectInterface.
 //                enableBlueTooth()
 
             }

@@ -17,6 +17,8 @@ import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.baselibrary.view.SingleClick
+import kotlinx.android.synthetic.main.fragment_operation.*
 
 
 class IconViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<IconViewBean>(context) {
@@ -85,8 +87,11 @@ class IconViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<IconViewB
                     holder.itemView.layoutParams = marginParams
 
                 }
-                  mI.mClick=mClickInterface
+                mI.mClick = mClickInterface
                 (holder as CardViewHolder).card_recycler_view.adapter = mI
+                //isLayoutFrozen
+//                holder.card_recycler_view.isLayoutFrozen=true
+
                 holder.card_recycler_view.layoutManager = GridLayoutManager(context, 3)
             }
         }
@@ -137,11 +142,13 @@ class IconViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<IconViewB
             holder.tool_text_tv.text = mSonBean[position].itemText
             holder.tool_text_tv.textSize = 16f
 
-            holder.itemView.setOnClickListener {
-                mClick?.onItemClick(it, position, mIndexTag.toString())
-                LogUtils.d("position"+position+"mIndexTag"+mIndexTag)
-            }
+            holder.itemView.setOnClickListener(object :SingleClick(){
+                override fun onSingleClick(v: View) {
+                    mClick?.onItemClick(v, position, mIndexTag.toString())
 
+                }
+
+            })
 
             context?.let {
                 //设置宽高

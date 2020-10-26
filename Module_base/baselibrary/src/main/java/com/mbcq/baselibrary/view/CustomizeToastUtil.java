@@ -2,6 +2,7 @@ package com.mbcq.baselibrary.view;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,7 +66,7 @@ public class CustomizeToastUtil {
     public CustomizeToastUtil setGravity(int gravity) {
         View view = toast.getView();
         if (view != null) {
-            toast.setGravity(gravity, 0, 70);
+            toast.setGravity(gravity, 0, 0);
         }
         return this;
     }
@@ -82,7 +83,22 @@ public class CustomizeToastUtil {
         if (view != null) {
             TextView message = ((TextView) view.findViewById(android.R.id.message));
 //            message.setBackgroundResource(background);
-            message.setPadding(60,10,60,10);
+            message.setPadding(60, 10, 60, 10);
+            view.setBackgroundResource(background);
+            view.getBackground().setAlpha(210);//0~255透明度值
+//            message.getBackground().setAlpha(150);//0~255透明度值
+            message.setTextColor(messageColor);
+        }
+        return this;
+    }
+
+    public CustomizeToastUtil setErrorToast(int messageColor, int background) {
+        View view = toast.getView();
+        if (view != null) {
+            TextView message = ((TextView) view.findViewById(android.R.id.message));
+//            message.setBackgroundResource(background);
+            message.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+            message.setPadding(60, 10, 60, 10);
             view.setBackgroundResource(background);
             view.getBackground().setAlpha(210);//0~255透明度值
 //            message.getBackground().setAlpha(150);//0~255透明度值

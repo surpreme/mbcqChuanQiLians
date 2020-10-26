@@ -360,36 +360,6 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         jsonObj.put("ConsigneeAddr", ConsigneeAddr)
 
 
-        //货物名称
-        val Product = cargo_name_ed.text.toString()
-        jsonObj.put("Product", Product)
-
-        //总件数  TODO
-        val TotalQty = numbers_name_ed.text.toString()
-        jsonObj.put("TotalQty", TotalQty)
-
-
-        //件数
-        val Qty = numbers_name_ed.text.toString()
-        jsonObj.put("Qty", Qty)
-
-        //货号 运单号后五位+件数
-        val GoodsNum = Billno.substring(Billno.length - 5) + "-" + Qty
-        jsonObj.put("GoodsNum", GoodsNum)
-
-        //包装方式
-        val Packages = package_name_ed.text.toString()
-        jsonObj.put("Packages", Packages)
-
-
-        //重量
-        val Weight = weight_name_ed.text.toString()
-        jsonObj.put("Weight", Weight)
-
-        //体积
-        val Volumn = volume_name_tv.text.toString()
-        jsonObj.put("Volumn", Volumn)
-
         //合计金额
         val AccSum = total_amount_tv.text.toString()
         jsonObj.put("AccSum", AccSum)
@@ -436,24 +406,119 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
          */
         //运单号对应的货物清单
         val WayGoosLst = JSONArray()
-        val testObj = JSONObject()
-        //货物名称
-        testObj.put("Product", Product)
+//******************************************************************货物明细 多条货物***********************************************************************
+        /**
+         * 点击添加货物
+         */
+        if (mAddGoodsAcceptBillingAdapter.getAllData().isNotEmpty()) {
+            //总件数  TODO
+            var TotalQty = 0
+            for (item in mAddGoodsAcceptBillingAdapter.getAllData()) {
+                val testObj = JSONObject()
+                //货物名称
+                testObj.put("Product", item.product)
 
-        //件数
-        testObj.put("Qty", Qty)
+                //件数
+                testObj.put("Qty", item.qty)
+                if (isInteger(item.qty)) {
+                    TotalQty += (item.qty).toInt()
+                }
 
-        //包装方式
-        testObj.put("Packages", Packages)
+                //包装方式
+                testObj.put("Packages", item.packages)
 
-        //重量
-        testObj.put("Weight", Weight)
+                //重量
+                testObj.put("Weight", item.weight)
 
-        //体积
-        testObj.put("Volumn", Volumn)
+                //体积
+                testObj.put("Volumn", item.volumn)
 
-        WayGoosLst.put(testObj)
+                WayGoosLst.put(testObj)
+            }
+            jsonObj.put("TotalQty", TotalQty)
+            //货号 运单号后五位+件数
+            val GoodsNum = Billno.substring(Billno.length - 5) + "-" + TotalQty
+            jsonObj.put("GoodsNum", GoodsNum)
+        } else {
+            /**
+             * 不点击默认选择输入框
+             */
+            if (!isCanCargoInfoAdd()) {
+                return
+            }
+            val testObj = JSONObject()
+            //货物名称
+            testObj.put("Product", cargo_name_ed.text.toString())
 
+            //件数
+            testObj.put("Qty", numbers_name_ed.text.toString())
+
+            //包装方式
+            testObj.put("Packages", package_name_ed.text.toString())
+
+            //重量
+            testObj.put("Weight", weight_name_ed.text.toString())
+
+            //体积
+            testObj.put("Volumn", volume_name_tv.text.toString())
+
+            WayGoosLst.put(testObj)
+            //总件数  TODO
+            val TotalQty = numbers_name_ed.text.toString()
+            jsonObj.put("TotalQty", TotalQty)
+            //货号 运单号后五位+件数
+            val GoodsNum = Billno.substring(Billno.length - 5) + "-" + TotalQty
+            jsonObj.put("GoodsNum", GoodsNum)
+        }
+//******************************************************************货物展示页面（第一条） 不规范找后台***********************************************************************
+
+        if (mAddGoodsAcceptBillingAdapter.getAllData().isNotEmpty() && numbers_name_ed.text.toString().isBlank()) {
+            val ggbb = mAddGoodsAcceptBillingAdapter.getAllData()[0]
+
+            //货物名称
+            val Product = ggbb.product
+            jsonObj.put("Product", Product)
+
+            //件数
+            val Qty = ggbb.qty
+            jsonObj.put("Qty", Qty)
+
+
+            //包装方式
+            val Packages = ggbb.packages
+            jsonObj.put("Packages", Packages)
+
+
+            //重量
+            val Weight = ggbb.weight
+            jsonObj.put("Weight", Weight)
+
+            //体积
+            val Volumn = ggbb.volumn
+            jsonObj.put("Volumn", Volumn)
+        } else {
+            //货物名称
+            val Product = cargo_name_ed.text.toString()
+            jsonObj.put("Product", Product)
+
+            //件数
+            val Qty = numbers_name_ed.text.toString()
+            jsonObj.put("Qty", Qty)
+
+
+            //包装方式
+            val Packages = package_name_ed.text.toString()
+            jsonObj.put("Packages", Packages)
+
+
+            //重量
+            val Weight = weight_name_ed.text.toString()
+            jsonObj.put("Weight", Weight)
+
+            //体积
+            val Volumn = volume_name_tv.text.toString()
+            jsonObj.put("Volumn", Volumn)
+        }
         /**
          *
          */
@@ -474,7 +539,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         }
         if (labelcheck.isChecked && waybillcheck.isChecked) {
             val printAdapter = getZpBluetoothPrinter()
-            print_YH_TYD_NEW1(Gson().fromJson(GsonUtils.toPrettyFormat(jsonObj.toString()), PrintBlueToothBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), priceObj,printAdapter)
+            print_YH_TYD_NEW1(Gson().fromJson(GsonUtils.toPrettyFormat(jsonObj.toString()), PrintBlueToothBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), priceObj, printAdapter)
             print_LabelTemplated_XT423(Gson().fromJson(GsonUtils.toPrettyFormat(jsonObj.toString()), PrintBlueToothBean::class.java), 1, printAdapter)
         }
 

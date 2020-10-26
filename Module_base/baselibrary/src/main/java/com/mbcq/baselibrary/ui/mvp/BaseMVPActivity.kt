@@ -1,11 +1,15 @@
 package com.mbcq.baselibrary.ui.mvp
 
 import android.content.Context
+import android.graphics.Color
+import android.view.Gravity
+import com.mbcq.baselibrary.R
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.dialog.dialogfragment.LoadingDialogFragment
 import com.mbcq.baselibrary.ui.BaseActivity
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.ToastUtils
+import com.mbcq.baselibrary.view.CustomizeToastUtil
 import java.lang.reflect.ParameterizedType
 import java.util.regex.Pattern
 
@@ -16,10 +20,7 @@ import java.util.regex.Pattern
  */
 abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseActivity(), BaseView {
     protected var mIsCanCloseLoading = true
-    open fun onDestroys() {
-        if (mPresenter != null)
-            lifecycle.removeObserver(mPresenter!!)
-    }
+
 
     open fun isShowErrorDialog(): Boolean {
         return false
@@ -36,16 +37,21 @@ abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseAct
     override fun initExtra() {
         super.initExtra()
         mPresenter = getInstance<T>(this, 1)
-        mPresenter!!.attachView(this as V)
-        lifecycle.addObserver(mPresenter!!)//添加LifecycleObserver
+        mPresenter?.let {
+            it.attachView(this as V)
+            lifecycle.addObserver(it)//添加LifecycleObserver
+        }
+
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (mPresenter != null)
-            mPresenter!!.detachView()
-        onDestroys()
+        mPresenter?.let {
+            lifecycle.removeObserver(it)
+            it.detachView()
+
+        }
     }
 
     fun <T> getInstance(o: Any, i: Int): T? {
@@ -90,8 +96,12 @@ abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseAct
     override fun showError(msg: String) {
         if (isShowErrorDialog())
             TalkSureDialog(mContext, getScreenWidth(), msg).show()
-        else
+        else {
             ToastUtils.showToast(mContext, msg)
+            //*************************
+            /*  val toastUtil = CustomizeToastUtil()
+              toastUtil.Short(mContext, msg).setGravity(Gravity.TOP).setErrorToast(Color.WHITE, R.drawable.toast_radius).show()*/
+        }
         LogUtils.e(msg + this.localClassName)
     }
 

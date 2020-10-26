@@ -2,8 +2,10 @@ package com.mbcq.baselibrary.ui
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -14,6 +16,7 @@ import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.util.screen.StatusBarUtils
 import com.mbcq.baselibrary.util.system.ToastUtils
+import com.mbcq.baselibrary.view.CustomizeToastUtil
 import java.text.DecimalFormat
 
 
@@ -96,7 +99,8 @@ abstract class BaseActivity : AppCompatActivity() {
      */
     protected fun showToast(msg: String) {
         ToastUtils.showToast(mContext,msg)
-
+//        val toastUtil = CustomizeToastUtil()
+//        toastUtil.Short(mContext, msg).setGravity(Gravity.TOP).setErrorToast(Color.WHITE, R.drawable.toast_radius).show()
     }
 
     /**

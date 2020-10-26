@@ -297,6 +297,11 @@
             app:layout_constraintBottom_toBottomOf="@+id/children_state_title_tv2"
             app:layout_constraintLeft_toRightOf="@+id/children_state_title_tv2"
             app:layout_constraintTop_toTopOf="@+id/children_state_title_tv2" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/waybill_road_bottom_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/children_state_content_tv2"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

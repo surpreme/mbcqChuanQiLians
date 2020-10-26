@@ -10,6 +10,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.material.tabs.TabLayout
+import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.view.FragmentViewPagerAdapter
@@ -19,7 +20,7 @@ import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.orderlibrary.R
 import com.mbcq.orderlibrary.fragment.fixedwaybill.FixedWaybillFragment
 import com.mbcq.orderlibrary.fragment.waybillinformation.WaybillInformationFragment
-import com.mbcq.orderlibrary.fragment.waybillpicture.WaybillPictureFragment
+import com.mbcq.orderlibrary.fragment.waybillpictures.WaybillPictureFragment
 import com.mbcq.orderlibrary.fragment.waybillroad.WaybillRoadBottomFragment
 import com.mbcq.orderlibrary.fragment.waybillscan.WaybillScanFragment
 import kotlinx.android.synthetic.main.activity_waybill_details.*
@@ -77,6 +78,9 @@ class WaybillDetailsActivity : BaseMVPActivity<WaybillDetailsContract.View, Wayb
         val mBundle = Bundle()
         mBundle.putString("WaybillDetails", billnoInfoJson)
         fragments[0].arguments = mBundle
+        fragments[1].arguments = mBundle
+        fragments[2].arguments = mBundle
+        fragments[4].arguments = mBundle
         val mFragmentViewPagerAdapter = FragmentViewPagerAdapter(supportFragmentManager, fragments)
         waybill_details_viewpager.adapter = mFragmentViewPagerAdapter
         waybill_details_viewpager.offscreenPageLimit = options_index_tablayout.tabCount
@@ -94,6 +98,11 @@ class WaybillDetailsActivity : BaseMVPActivity<WaybillDetailsContract.View, Wayb
 
     }
 
+    override fun showError(msg: String) {
+      TalkSureDialog(mContext,getScreenWidth(),"系统异常！请联系管理员或稍后再试"){
+          onBackPressed()
+      }.show()
+    }
     override fun getWaybillDetailNull() {
 
     }

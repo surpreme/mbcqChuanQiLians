@@ -32,6 +32,14 @@ class WaybillInformationFragment : BaseMVPFragment<WaybillInformationContract.Vi
     override fun initViews(view: View) {
         val obj=JSONObject(WaybillDetails)
         waybill_state_tv.text= obj.optString("billStateStr")
+        obj.optString("hkIsOutStr").also {
+            if (it.isBlank()){
+                payment_state_tv.text="订单异常"
+            }else{
+                payment_state_tv.text= obj.optString("hkIsOutStr")
+
+            }
+        }
         basic_info_tv.text="运  单 号：${obj.optString("billno")}\n开单时间：${obj.optString("billDate")}\n货      号：${obj.optString("goodsNum")}\n发货网点：${obj.optString("webidCodeStr")}                        到货网点：${obj.optString("ewebidCodeStr")}\n目  的 地：${obj.optString("destination")}                     运输方式：${obj.optString("transneedStr")}\n付货方式：${obj.optString("okProcessStr")}"
         shipper_info_tv.text="发  货 人：${obj.optString("shipper")}\n手  机 号：${obj.optString("shipperMb")}\n地      址：${obj.optString("shipperAddr")}\n发货人证件：${obj.optString("shipperCid")}"
         receiver_info_tv.text="收  货 人：${obj.optString("consignee")}\n手  机 号：${obj.optString("consigneeMb")}\n地      址：${obj.optString("consigneeAddr")}"
