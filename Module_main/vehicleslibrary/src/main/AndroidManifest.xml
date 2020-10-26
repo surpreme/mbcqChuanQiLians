@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mbcq.vehicleslibrary">
+
+    <application>
+        <activity android:name=".activity.fixedvehiclesarchives.FixedVehicleArchivesActivity"></activity>
+        <activity android:name=".activity.addvehiclesarchives.AddVehicleArchivesActivity" />
+        <activity android:name=".activity.vehiclesarchives.VehicleArchivesActivity" />
+        <activity android:name=".activity.alldeparturerecord.shipmentinventory.ShipmentInventoryActivity" />
+        <activity android:name=".activity.allarrivalrecord.arrivalinventory.ArrivalInventoryActivity" />
+        <activity android:name=".activity.allterminalagent.terminalagentbycarhouse.TerminalAgentByCarHouseActivity" />
+        <activity android:name=".activity.allterminalagent.fixedterminalagentbycar.FixedTerminalAgentByCarActivity" />
+        <activity android:name=".activity.allterminalagent.addterminalagentbycar.AddTerminalAgentByCarActivity" />
+        <activity android:name=".activity.allterminalagent.terminalagent.TerminalAgentActivity" />
+        <activity android:name=".activity.alllocalagent.fixlocalgentshortfeederhouse.FixedLocalGentShortFeederHouseActivity" />
+        <activity android:name=".activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseActivity" />
+        <activity android:name=".activity.alllocalagent.addlocalgentshortfeeder.AddLocalGentShortFeederActivity" />
+        <activity android:name=".activity.alllocalagent.localagent.LocalAgentActivity" />
+        <activity android:name=".activity.allarrivalrecord.unloadingwarehousing.UnloadingWarehousingActivity" />
+        <activity android:name=".activity.allarrivalrecord.arrivalrecord.ArrivalRecordActivity" />
+        <activity android:name=".activity.alldeparturerecord.fixshortfeederhouse.FixShortFeederHouseActivity" />
+        <activity android:name=".activity.alldeparturerecord.fixtrunkdeparturehouse.FixedTrunkDepartureHouseActivity" />
+        <activity android:name=".activity.alldeparturerecord.trunkdeparturehouse.TrunkDepartureHouseActivity" />
+        <activity android:name=".activity.alldeparturerecord.shortfeederhouse.ShortFeederHouseActivity" />
+        <activity android:name=".activity.alldeparturerecord.addshortfeeder.AddShortFeederActivity" />
+        <activity android:name=".activity.alldeparturerecord.addtrunkdeparture.AddTrunkDepartureActivity" />
+        <activity android:name=".activity.alldeparturerecord.departurerecord.DepartureRecordActivity" />
+    </application>
+
+</manifest>
