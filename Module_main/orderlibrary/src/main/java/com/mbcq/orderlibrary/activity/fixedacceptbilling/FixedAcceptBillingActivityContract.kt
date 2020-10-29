@@ -22,6 +22,7 @@ class FixedAcceptBillingActivityContract {
         fun getCargoAppellationS(result: String)
         fun getPackageS(result: String)
         fun getReceiptRequirementS(result: String)
+        fun  updateDataS()
 
     }
 
@@ -39,6 +40,7 @@ class FixedAcceptBillingActivityContract {
          * 订单的信息
          */
         fun getWillByInfo(billno: String)
+        fun getWillByMoreInfo(billno: String)
         /**
          * 获取费用信息 显示的集合
          */
@@ -63,6 +65,6 @@ class FixedAcceptBillingActivityContract {
         /**
          * 修改订单
          */
-        fun updateData(jsonObject: JsonObject)
+        fun updateData(jsonObject: JSONObject)
     }
 }

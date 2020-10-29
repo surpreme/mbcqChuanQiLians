@@ -232,7 +232,7 @@ public class TimeUtils {
     /*
      * 将时间转换为时间戳
      */
-    public String dateToStamp(String time) throws ParseException {
+    public static String dateToStamp(String time) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = simpleDateFormat.parse(time);
         long ts = date.getTime();
@@ -256,6 +256,17 @@ public class TimeUtils {
     public static String stampToDate1(long timeMillis) {
 //        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd");
+
+        Date date = new Date(timeMillis);
+        return simpleDateFormat.format(date);
+    }
+
+  /*
+     * 将时间戳转换为时间
+     */
+    public static String stampToDate3(long timeMillis) {
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
 
         Date date = new Date(timeMillis);
         return simpleDateFormat.format(date);

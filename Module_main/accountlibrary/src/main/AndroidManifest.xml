@@ -8,6 +8,7 @@
         <activity android:name=".activity.house.HouseActivity" />
         <activity android:name=".activity.setting.SettingActivity" />
         <activity android:name=".fragment.setting.bluetooth.BlueActivity" />
+        <activity android:name=".activity.signature.SignatureActivity" />
     </application>
 
 </manifest>

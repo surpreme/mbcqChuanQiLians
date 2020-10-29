@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
@@ -32,15 +33,9 @@ import com.mbcq.commonlibrary.adapter.EditTextAdapter
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.orderlibrary.R
-import com.mbcq.orderlibrary.activity.acceptbilling.AcceptPackageBean
-import com.mbcq.orderlibrary.activity.acceptbilling.AcceptReceiptRequirementBean
-import com.mbcq.orderlibrary.activity.acceptbilling.CargoAppellationBean
-import com.mbcq.orderlibrary.activity.acceptbilling.DestinationtBean
+import com.mbcq.orderlibrary.activity.acceptbilling.*
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.*
-import org.json.JSONArray
-import org.json.JSONObject
-
 /**
  * @author: lzy
  * @time: 2020-10-17 13:32:00 改单申请
@@ -112,11 +107,38 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
+        initAddGoodsRecycler()
+
     }
 
 
 
 
+
+    protected fun isCanCargoInfoAdd(): Boolean {
+        if (cargo_name_ed.text.toString().isEmpty()) {
+            showToast("请选择货物名称")
+            return false
+        }
+        if (numbers_name_ed.text.toString().isEmpty()) {
+            showToast("请输入件数")
+            return false
+        }
+        if (package_name_ed.text.toString().isEmpty()) {
+            showToast("请选择包装")
+            return false
+        }
+        if (weight_name_ed.text.toString().isEmpty()) {
+            showToast("请输入重量")
+            return false
+        }
+        if (volume_name_tv.text.toString().isEmpty()) {
+            showToast("请输入体积")
+            return false
+        }
+        return true
+
+    }
 
     protected fun isCanSaveAcctBilling(): Boolean {
         if (endWebIdCode.isEmpty()) {
@@ -135,35 +157,67 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
             showToast("请选择收货人")
             return false
         }
-        if (cargo_name_ed.text.toString().isEmpty()) {
-            showToast("请选择货物名称")
-            return false
-        }
-        if (package_name_ed.text.toString().isEmpty()) {
-            showToast("请选择包装")
-            return false
-        }
-        if (weight_name_ed.text.toString().isEmpty()) {
-            showToast("请输入重量")
-            return false
-        }
-        if (volume_name_tv.text.toString().isEmpty()) {
-            showToast("请输入体积")
-            return false
-        }
+        /*  if (cargo_name_ed.text.toString().isEmpty()) {
+              showToast("请选择货物名称")
+              return false
+          }
+          if (package_name_ed.text.toString().isEmpty()) {
+              showToast("请选择包装")
+              return false
+          }
+          if (weight_name_ed.text.toString().isEmpty()) {
+              showToast("请输入重量")
+              return false
+          }
+          if (volume_name_tv.text.toString().isEmpty()) {
+              showToast("请输入体积")
+              return false
+          }*/
         if (receipt_requirements_name_tv.text.toString().isEmpty()) {
             showToast("请选择回单要求")
             return false
         }
-        if (modify_reason_ed.text.toString().isEmpty()) {
-            showToast("请输入修改原因")
-            return false
-        }
         return true
     }
+    lateinit var mAddGoodsAcceptBillingAdapter: AddGoodsAcceptBillingAdapter
+    protected fun initAddGoodsRecycler() {
+        fixed_cargo_info_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+        mAddGoodsAcceptBillingAdapter = AddGoodsAcceptBillingAdapter(mContext).also {
+            it.mOnRemoveItemInterface = object : AddGoodsAcceptBillingAdapter.OnRemoveItemInterface {
+                override fun onResult(v: View, position: Int, data: String) {
+                    it.removeItem(position)
+                }
 
+            }
+            fixed_cargo_info_recycler.adapter = it
+
+        }
+    }
+    protected fun clearCargoInfoAdd() {
+        cargo_name_ed.setText("")
+        numbers_name_ed.setText("")
+        package_name_ed.setText("")
+        weight_name_ed.setText("")
+        volume_name_tv.setText("")
+    }
     override fun onClick() {
         super.onClick()
+        fixed_cargo_info_add_iv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                if (isCanCargoInfoAdd()) {
+                    val mAddGoodsAcceptBillingBean = AddGoodsAcceptBillingBean()
+                    mAddGoodsAcceptBillingBean.product = cargo_name_ed.text.toString()
+                    mAddGoodsAcceptBillingBean.qty = numbers_name_ed.text.toString()
+                    mAddGoodsAcceptBillingBean.packages = package_name_ed.text.toString()
+                    mAddGoodsAcceptBillingBean.weight = weight_name_ed.text.toString()
+                    mAddGoodsAcceptBillingBean.volumn = volume_name_tv.text.toString()
+                    mAddGoodsAcceptBillingAdapter.appendData(mutableListOf(mAddGoodsAcceptBillingBean))
+                    clearCargoInfoAdd()
+                }
+
+            }
+
+        })
         fixed_accept_billing_toolbar.setBackButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 onBackPressed()

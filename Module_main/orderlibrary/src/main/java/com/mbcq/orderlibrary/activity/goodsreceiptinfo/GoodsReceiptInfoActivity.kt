@@ -71,8 +71,8 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
             showToast("请输入提货人证件号")
             return false
         }
-        if (picker_certificate_type_tv.text.toString() == "身份证" &&!picker_card_number_ed.text.toString().isBlank()) {
-            if (!IDNumberUtils.isIDNumber(picker_card_number_ed.text.toString())){
+        if (picker_certificate_type_tv.text.toString() == "身份证" && !picker_card_number_ed.text.toString().isBlank()) {
+            if (!IDNumberUtils.isIDNumber(picker_card_number_ed.text.toString())) {
                 showToast("请检查提货人证件号")
                 return false
             }
@@ -86,8 +86,8 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
             showToast("请输入代理人证件号")
             return false
         }
-        if (agent_certificate_type_tv.text.toString() == "身份证" &&!agent_card_number_ed.text.toString().isBlank()) {
-            if (!IDNumberUtils.isIDNumber(agent_card_number_ed.text.toString())){
+        if (agent_certificate_type_tv.text.toString() == "身份证" && !agent_card_number_ed.text.toString().isBlank()) {
+            if (!IDNumberUtils.isIDNumber(agent_card_number_ed.text.toString())) {
                 showToast("请检查代理人证件号")
                 return false
             }
@@ -246,7 +246,13 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
 
     override fun onClick() {
         super.onClick()
-        take_photos_btn.setOnClickListener(object:SingleClick(){
+        signature_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                ARouter.getInstance().build(ARouterConstants.SignatureActivity).navigation()
+            }
+
+        })
+        take_photos_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 getCameraPermission()
             }
@@ -323,6 +329,7 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
 
         })
     }
+
     fun takePhotoes() {
         val mUpdatePhotosFragment = UpdatePhotosFragment()
         mUpdatePhotosFragment.mlistener = object : UpdatePhotosFragment.OnThingClickInterface {
@@ -354,6 +361,7 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
 
 
     }
+
     fun getCameraPermission() {
         rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .subscribe { granted ->

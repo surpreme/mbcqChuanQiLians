@@ -8,5 +8,6 @@ interface BaseView {
     fun showError(msg: String)
     fun closeLoading()
     fun showLoading()
+    fun UnToken(msg: String)
 
 }

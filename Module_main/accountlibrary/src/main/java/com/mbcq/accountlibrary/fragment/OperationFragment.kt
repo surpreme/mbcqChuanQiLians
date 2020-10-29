@@ -268,6 +268,9 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                         }
                         "5" -> {
                             when (position) {
+                                5 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ClaimSettlementActivity).navigation()
+                                }
                                 8 -> {
                                     ARouter.getInstance().build(ARouterConstants.VehicleArchivesActivity).navigation()
                                 }

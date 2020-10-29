@@ -1,5 +1,6 @@
 package com.mbcq.orderlibrary.fragment.waybillroad
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -9,6 +10,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,6 +41,8 @@ class WaybillRoadBottomFragment : BaseEmptyMVPFragment<WaybillRoadBottomsContrac
     private var map_location_view: MapView? = null
     var WaybillRoadBottom = ""
     lateinit var waybill_road_bottom_recycler: RecyclerView
+    lateinit var waybill_number_tv: TextView
+    lateinit var consignee_info_tv: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,12 +51,19 @@ class WaybillRoadBottomFragment : BaseEmptyMVPFragment<WaybillRoadBottomsContrac
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun initDatas() {
         arguments?.let {
             WaybillRoadBottom = it.getString("WaybillDetails", "{}")
         }
+
         val obj = JSONObject(WaybillRoadBottom)
-        mPresenter?.getTrackRoad(obj.optString("billno"))
+        obj.optString("billno").also {
+            waybill_number_tv.text = it
+            mPresenter?.getTrackRoad(it)
+        }
+        consignee_info_tv.text = "收货人：${obj.optString("consignee")}   ${obj.optString("consigneeMb")}"
+        consignee_address_tv.text = "【收货地址】${obj.optString("consigneeAddr")}"
     }
 
     lateinit var mWaybillRoadBottomAdapter: WaybillRoadBottomAdapter
@@ -83,8 +94,10 @@ class WaybillRoadBottomFragment : BaseEmptyMVPFragment<WaybillRoadBottomsContrac
 //            initAMap(mLatLng, it)
 
         }
+        consignee_info_tv = mView.findViewById(R.id.consignee_info_tv)
+        waybill_number_tv = mView.findViewById(R.id.waybill_number_tv)
         waybill_road_bottom_recycler = mView.findViewById(R.id.waybill_road_bottom_recycler)
-        waybill_road_bottom_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+        waybill_road_bottom_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, true)
         mWaybillRoadBottomAdapter = WaybillRoadBottomAdapter(mContext).also {
             waybill_road_bottom_recycler.adapter = it
         }

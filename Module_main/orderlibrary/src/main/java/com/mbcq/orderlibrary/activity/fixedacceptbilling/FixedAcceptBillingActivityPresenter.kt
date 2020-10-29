@@ -53,10 +53,10 @@ class FixedAcceptBillingActivityPresenter : BasePresenterImpl<FixedAcceptBilling
         })
     }
 
-    override fun updateData(jsonObject: JsonObject) {
-        post<String>(ApiInterface.CHANGE_ORDER_APPLICATION_ADD_POST,getRequestBody(jsonObject),object :CallBacks{
+    override fun updateData(jsonObject: JSONObject) {
+        post<String>(ApiInterface.CHANGE_ORDER_APPLICATION_ADD_POST, getRequestBody(jsonObject), object : CallBacks {
             override fun onResult(result: String) {
-
+                mView?.updateDataS()
             }
 
         })
@@ -92,6 +92,7 @@ class FixedAcceptBillingActivityPresenter : BasePresenterImpl<FixedAcceptBilling
 
         })
     }
+
     /**
      * {"code":0,"msg":"","count":5,"data":[
     {
@@ -122,6 +123,7 @@ class FixedAcceptBillingActivityPresenter : BasePresenterImpl<FixedAcceptBilling
 
         })
     }
+
     /**
      * {"code":0,"msg":"","count":4,"data":[
     {
@@ -161,6 +163,7 @@ class FixedAcceptBillingActivityPresenter : BasePresenterImpl<FixedAcceptBilling
 
         })
     }
+
     /**
      * {"code":0,"msg":"","count":6,"data":[
     {
@@ -201,6 +204,7 @@ class FixedAcceptBillingActivityPresenter : BasePresenterImpl<FixedAcceptBilling
 
         })
     }
+
     /**
      * {"code":0,"msg":"","count":1,"data":[
     {
@@ -303,16 +307,16 @@ class FixedAcceptBillingActivityPresenter : BasePresenterImpl<FixedAcceptBilling
     ]}
      */
     override fun getWillByInfo(billno: String) {
-        val params= HttpParams()
-        params.put("Billno",billno)
-        get<String>(ApiInterface.RECORD_SELECT_ORDER_INFO_GET,params,object:CallBacks{
+        val params = HttpParams()
+        params.put("Billno", billno)
+        get<String>(ApiInterface.RECORD_SELECT_ORDER_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {
-                    if (!it.isNull(0)){
+                    if (!it.isNull(0)) {
                         mView?.getWillByInfoS(it.getJSONObject(0))
 
-                    }else{
+                    } else {
                         mView?.getWillByInfoNull()
                     }
 
@@ -321,6 +325,364 @@ class FixedAcceptBillingActivityPresenter : BasePresenterImpl<FixedAcceptBilling
 
         })
     }
+
+    /**
+     * {
+    "id": 186,
+    "eCompanyId": 2001,
+    "orderId": "",
+    "billno": "10030002172",
+    "oBillno": "",
+    "billDate": "2020-10-26T15:20:25",
+    "billState": 4,
+    "billStateStr": "到达",
+    "billType": 0,
+    "bilThState": 0,
+    "bilThStateStr": "",
+    "billTypeStr": "机打",
+    "goodsNum": "02172-3",
+    "okProcess": 2,
+    "okProcessStr": "送货上门",
+    "isUrgent": 0,
+    "isUrgentStr": "否",
+    "isTalkGoods": 1,
+    "isTalkGoodsStr": "是",
+    "webidCode": 1003,
+    "webidCodeStr": "汕头",
+    "ewebidCode": 1001,
+    "ewebidCodeStr": "义乌后湖",
+    "destination": "义乌后湖",
+    "transneed": 3,
+    "transneedStr": "整车",
+    "vipId": "",
+    "shipperId": "",
+    "shipperMb": "18614079732",
+    "shipperTel": "00688",
+    "shipper": "李紫洋",
+    "shipperCid": "",
+    "shipperAddr": "南极洲",
+    "consigneeMb": "18614079738",
+    "consigneeTel": "",
+    "consignee": "王可可",
+    "consigneeAddr": "澳大利亚",
+    "product": "北极熊",
+    "totalQty": 3,
+    "qty": 3,
+    "packages": "冰块",
+    "weight": 6000,
+    "volumn": 4000,
+    "weightJs": 0,
+    "safeMoney": 0,
+    "accDaiShou": 0,
+    "accHKChange": 0,
+    "hkChangeReason": "",
+    "sxf": 0,
+    "wPrice": 0,
+    "vPrice": 0,
+    "qtyPrice": 0,
+    "accNow": 0,
+    "accArrived": 0,
+    "accBack": 0,
+    "accMonth": 0,
+    "accHuoKuanKou": 0,
+    "accTrans": 12000,
+    "accFetch": 0,
+    "accPackage": 3450,
+    "accSend": 0,
+    "accGb": 0,
+    "accSafe": 0,
+    "accRyf": 0,
+    "accHuiKou": 0,
+    "accSms": 0,
+    "accZz": 0,
+    "accZx": 0,
+    "accCb": 0,
+    "accSl": 0,
+    "accAz": 0,
+    "accFj": 0,
+    "accWz": 0,
+    "accJc": 0,
+    "accSum": 15450,
+    "accType": 3,
+    "accTypeStr": "回单付",
+    "backQty": "打收条",
+    "backState": 0,
+    "isWaitNotice": 0,
+    "isWaitNoticeStr": "否",
+    "bankCode": "",
+    "bankName": "",
+    "bankMan": "",
+    "bankNumber": "",
+    "createMan": "lzy",
+    "salesMan": "",
+    "remark": "",
+    "fromType": 3,
+    "isTransferCount": 0,
+    "preVehicleNo": "",
+    "valueAddedService": "",
+    "billnos": null,
+    "fromTypeStr": "",
+    "proCode": 0,
+    "Id": 186,
+    "ECompanyId": 2001,
+    "OrderId": "",
+    "Billno": "10030002172",
+    "OBillno": "",
+    "BillDate": "2020-10-26T15:20:25",
+    "BillState": 4,
+    "BilThState": 0,
+    "BilThStateStr": "",
+    "BillStateStr": "到达",
+    "BillType": 0,
+    "BillTypeStr": "机打",
+    "GoodsNum": "02172-3",
+    "OkProcess": 2,
+    "OkProcessStr": "送货上门",
+    "IsUrgent": 0,
+    "IsUrgentStr": "否",
+    "IsTalkGoods": 1,
+    "IsTalkGoodsStr": "是",
+    "WebidCode": 1003,
+    "WebidCodeStr": "汕头",
+    "EwebidCode": 1001,
+    "EwebidCodeStr": "义乌后湖",
+    "Destination": "义乌后湖",
+    "Transneed": 3,
+    "TransneedStr": "整车",
+    "VipId": "",
+    "ShipperId": "",
+    "ShipperMb": "18614079732",
+    "ShipperTel": "00688",
+    "Shipper": "李紫洋",
+    "ShipperCid": "",
+    "ShipperAddr": "南极洲",
+    "ConsigneeMb": "18614079738",
+    "ConsigneeTel": "",
+    "Consignee": "王可可",
+    "ConsigneeAddr": "澳大利亚",
+    "Product": "北极熊",
+    "TotalQty": 3,
+    "Qty": 3,
+    "Packages": "冰块",
+    "Weight": 6000,
+    "Volumn": 4000,
+    "WeightJs": 0,
+    "SafeMoney": 0,
+    "AccDaiShou": 0,
+    "AccHKChange": 0,
+    "HkChangeReason": "",
+    "Sxf": 0,
+    "WPrice": 0,
+    "VPrice": 0,
+    "QtyPrice": 0,
+    "AccNow": 0,
+    "AccArrived": 0,
+    "AccBack": 0,
+    "AccMonth": 0,
+    "AccHuoKuanKou": 0,
+    "AccTrans": 12000,
+    "AccFetch": 0,
+    "AccPackage": 3450,
+    "AccSend": 0,
+    "AccGb": 0,
+    "AccSafe": 0,
+    "AccRyf": 0,
+    "AccHuiKou": 0,
+    "AccSms": 0,
+    "AccZz": 0,
+    "AccZx": 0,
+    "AccCb": 0,
+    "AccSl": 0,
+    "AccAz": 0,
+    "AccFj": 0,
+    "AccWz": 0,
+    "AccJc": 0,
+    "AccSum": 15450,
+    "AccType": 3,
+    "AccTypeStr": "回单付",
+    "BackQty": "打收条",
+    "BackState": 0,
+    "IsWaitNotice": 0,
+    "IsWaitNoticeStr": "否",
+    "BankCode": "",
+    "BankName": "",
+    "BankMan": "",
+    "BankNumber": "",
+    "CreateMan": "lzy",
+    "SalesMan": "",
+    "Remark": "",
+    "FromType": 3,
+    "IsTransferCount": 0,
+    "PreVehicleNo": "",
+    "ValueAddedService": "",
+    "WayGoosLst": [
+    {
+    "billno": "10030002172",
+    "product": "北极熊",
+    "qty": 3,
+    "packages": "冰块",
+    "weight": 6000,
+    "volumn": 4000,
+    "weightJs": 0,
+    "fromType": 0,
+    "fromTypeStr": "",
+    "proCode": 0,
+    "Billno": "10030002172",
+    "Product": "北极熊",
+    "Qty": 3,
+    "Packages": "冰块",
+    "Weight": 6000,
+    "Volumn": 4000,
+    "WeightJs": 0,
+    "CompanyId": 0,
+    "OpeMan": null,
+    "OpeManNum": 0,
+    "SelWebidCode": null,
+    "SelEwebidCode": null,
+    "LoginWebidCode": 0,
+    "LoginWebidCodeStr": null,
+    "Page": 1,
+    "Limit": 10,
+    "SelType": 0,
+    "SelLoc": 0,
+    "UpdType": 0,
+    "DelType": 0,
+    "StartDate": "0001-01-01T00:00:00",
+    "EndDate": "0001-01-01T00:00:00",
+    "LDataTable": null,
+    "LMySqlTransaction": null,
+    "SqlOrPro": "",
+    "LCommandType": 1,
+    "LMySqlCommand": null,
+    "CommonStr": null,
+    "FromType": 0,
+    "FromTypeStr": "",
+    "ProCode": 0
+    }
+    ],
+    "WaybillState": {
+    "id": 0,
+    "billno": "",
+    "reportState": 0,
+    "reportStateStr": "",
+    "reportDate": "1900-01-01T00:00:00",
+    "reportMan": "",
+    "conRepSta": 0,
+    "conRepStaStr": "",
+    "conRepDat": "1900-01-01T00:00:00",
+    "conRepMan": "",
+    "hkIsBack": 0,
+    "hkIsOut": 0,
+    "accArrivedState": "1900-01-01T00:00:00",
+    "hkIsArrived": 0,
+    "hkArrivedDate": "1900-01-01T00:00:00",
+    "hkArrivedMan": "",
+    "isReturn": 0,
+    "isReturnStr": "",
+    "planReturnDt": "1900-01-01T00:00:00",
+    "planReTurnMan": "",
+    "confirmReturnDt": "1900-01-01T00:00:00",
+    "confirmReturnMan": "",
+    "accTransState": 0,
+    "accTransStateStr": "",
+    "fromType": 0,
+    "fromTypeStr": "",
+    "proCode": 0,
+    "AccTransState": 0,
+    "AccTransStateStr": "",
+    "Id": 0,
+    "Billno": "",
+    "ReportState": 0,
+    "ReportStateStr": "",
+    "ReportDate": "1900-01-01T00:00:00",
+    "ReportMan": "",
+    "ConRepSta": 0,
+    "ConRepStaStr": "",
+    "ConRepDat": "1900-01-01T00:00:00",
+    "ConRepMan": "",
+    "HkIsBack": 0,
+    "HkIsOut": 0,
+    "AccArrivedState": "1900-01-01T00:00:00",
+    "HkIsArrived": 0,
+    "HkArrivedDate": "1900-01-01T00:00:00",
+    "HkArrivedMan": "",
+    "IsReturn": 0,
+    "IsReturnStr": "",
+    "PlanReturnDt": "1900-01-01T00:00:00",
+    "PlanReTurnMan": "",
+    "ConfirmReturnDt": "1900-01-01T00:00:00",
+    "ConfirmReturnMan": "",
+    "CompanyId": 0,
+    "OpeMan": null,
+    "OpeManNum": 0,
+    "SelWebidCode": null,
+    "SelEwebidCode": null,
+    "LoginWebidCode": 0,
+    "LoginWebidCodeStr": null,
+    "Page": 1,
+    "Limit": 10,
+    "SelType": 0,
+    "SelLoc": 0,
+    "UpdType": 0,
+    "DelType": 0,
+    "StartDate": "0001-01-01T00:00:00",
+    "EndDate": "0001-01-01T00:00:00",
+    "LDataTable": null,
+    "LMySqlTransaction": null,
+    "SqlOrPro": "",
+    "LCommandType": 1,
+    "LMySqlCommand": null,
+    "CommonStr": null,
+    "FromType": 0,
+    "FromTypeStr": "",
+    "ProCode": 0
+    },
+    "Billnos": null,
+    "CompanyId": 2001,
+    "OpeMan": "lzy",
+    "OpeManNum": 0,
+    "SelWebidCode": null,
+    "SelEwebidCode": null,
+    "LoginWebidCode": 0,
+    "LoginWebidCodeStr": null,
+    "Page": 1,
+    "Limit": 10,
+    "SelType": 0,
+    "SelLoc": 0,
+    "UpdType": 0,
+    "DelType": 0,
+    "StartDate": "0001-01-01T00:00:00",
+    "EndDate": "0001-01-01T00:00:00",
+    "LDataTable": null,
+    "LMySqlTransaction": null,
+    "SqlOrPro": "",
+    "LCommandType": 1,
+    "LMySqlCommand": null,
+    "CommonStr": null,
+    "FromTypeStr": "",
+    "ProCode": 0
+    }
+     */
+    override fun getWillByMoreInfo(billno: String) {
+        val params = HttpParams()
+        params.put("Billno", billno)
+        get<String>(ApiInterface.RECORD_SELECT_ORDER_MORE_INFO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    if (!it.isNull(0)) {
+                        mView?.getWillByInfoS(it.getJSONObject(0))
+
+                    } else {
+                        mView?.getWillByInfoNull()
+                    }
+
+                }
+            }
+
+        })
+    }
+
     /**
      * {"code":0,"msg":"","count":1,"data":[
     {
@@ -365,7 +727,7 @@ class FixedAcceptBillingActivityPresenter : BasePresenterImpl<FixedAcceptBilling
     }
     ]}
      */
-    override fun getCostInformation(webidCode: String,fatherData:JSONObject) {
+    override fun getCostInformation(webidCode: String, fatherData: JSONObject) {
         val params = HttpParams()
         params.put("webidCode", webidCode)
         get<String>(ApiInterface.ACCEPT_SELECT_COST_INFORMATION_GET, params, object : CallBacks {
@@ -376,7 +738,7 @@ class FixedAcceptBillingActivityPresenter : BasePresenterImpl<FixedAcceptBilling
                 if (json is JSONArray) {
                     obj.optJSONArray("data")?.let {
                         if (!it.isNull(0)) {
-                            mView?. getCostInformationS(it.get(0).toString(),fatherData)
+                            mView?.getCostInformationS(it.get(0).toString(), fatherData)
                         }
 
 
@@ -389,6 +751,7 @@ class FixedAcceptBillingActivityPresenter : BasePresenterImpl<FixedAcceptBilling
 
         })
     }
+
     /**
      * {"code":0,"msg":"","count":15,"data":[
     {

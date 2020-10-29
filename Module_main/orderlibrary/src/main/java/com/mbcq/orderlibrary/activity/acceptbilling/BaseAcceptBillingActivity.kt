@@ -142,7 +142,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         super.onClick()
         cargo_info_add_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                if (isCanCargoInfoAdd()){
+                if (isCanCargoInfoAdd()) {
                     val mAddGoodsAcceptBillingBean = AddGoodsAcceptBillingBean()
                     mAddGoodsAcceptBillingBean.product = cargo_name_ed.text.toString()
                     mAddGoodsAcceptBillingBean.qty = numbers_name_ed.text.toString()
@@ -162,7 +162,14 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
     protected fun initAddGoodsRecycler() {
         cargo_info_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         mAddGoodsAcceptBillingAdapter = AddGoodsAcceptBillingAdapter(mContext).also {
+            it.mOnRemoveItemInterface = object : AddGoodsAcceptBillingAdapter.OnRemoveItemInterface {
+                override fun onResult(v: View, position: Int, data: String) {
+                    it.removeItem(position)
+                }
+
+            }
             cargo_info_recycler.adapter = it
+
         }
     }
 
@@ -173,6 +180,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         weight_name_ed.setText("")
         volume_name_tv.setText("")
     }
+
     protected fun isCanCargoInfoAdd(): Boolean {
         if (cargo_name_ed.text.toString().isEmpty()) {
             showToast("请选择货物名称")
@@ -215,22 +223,22 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
             showToast("请选择收货人")
             return false
         }
-      /*  if (cargo_name_ed.text.toString().isEmpty()) {
-            showToast("请选择货物名称")
-            return false
-        }
-        if (package_name_ed.text.toString().isEmpty()) {
-            showToast("请选择包装")
-            return false
-        }
-        if (weight_name_ed.text.toString().isEmpty()) {
-            showToast("请输入重量")
-            return false
-        }
-        if (volume_name_tv.text.toString().isEmpty()) {
-            showToast("请输入体积")
-            return false
-        }*/
+        /*  if (cargo_name_ed.text.toString().isEmpty()) {
+              showToast("请选择货物名称")
+              return false
+          }
+          if (package_name_ed.text.toString().isEmpty()) {
+              showToast("请选择包装")
+              return false
+          }
+          if (weight_name_ed.text.toString().isEmpty()) {
+              showToast("请输入重量")
+              return false
+          }
+          if (volume_name_tv.text.toString().isEmpty()) {
+              showToast("请输入体积")
+              return false
+          }*/
         if (receipt_requirements_name_tv.text.toString().isEmpty()) {
             showToast("请选择回单要求")
             return false

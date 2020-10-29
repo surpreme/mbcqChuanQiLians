@@ -3,7 +3,9 @@ ext {
             compileSdkVersion: 29,
             buildToolsVersion: '28.0.3',
             minSdkVersion    : 22,
-            targetSdkVersion : 29
+            targetSdkVersion : 29,
+            versionCode : 1,
+            versionName : '1.0'
     ]
     dependencies = [
             appcompatX  : 'androidx.appcompat:appcompat:1.0.0',

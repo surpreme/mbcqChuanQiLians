@@ -506,7 +506,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/receiver_circle_line" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/fixed_cargo_info_add_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
@@ -750,6 +750,11 @@
 
 
             </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fixed_cargo_info_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/cargo_info_ll" />
             <!--
 
                         <TextView
@@ -977,7 +982,7 @@
                 android:layout_height="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/base_gray"
-                app:layout_constraintTop_toBottomOf="@+id/cargo_info_ll" />
+                app:layout_constraintTop_toBottomOf="@+id/fixed_cargo_info_recycler" />
 
             <LinearLayout
                 android:id="@+id/cost_information_ll"

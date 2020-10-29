@@ -42,7 +42,9 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_weight="1"
+        android:ellipsize="end"
         android:gravity="center|left"
+        android:singleLine="true"
         android:text=""
         android:textSize="19sp"
         tools:text="100kg" />
@@ -52,7 +54,9 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_weight="1"
+        android:ellipsize="end"
         android:gravity="center|left"
+        android:singleLine="true"
         android:text=""
         android:textSize="19sp"
         tools:text="2m³" />

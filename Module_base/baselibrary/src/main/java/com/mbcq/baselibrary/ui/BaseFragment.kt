@@ -116,7 +116,10 @@ abstract class BaseFragment : Fragment() {
      * 屏幕的尺寸
      */
     protected fun getScreenWidth(): Int {
-        return ScreenSizeUtils.getScreenWidth(mContext!!)
+        mContext?.let {
+            return ScreenSizeUtils.getScreenWidth(it)
+        }
+        return 0
     }
 
     protected fun getScreenHeight(): Int {

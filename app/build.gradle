@@ -20,8 +20,8 @@ android {
         applicationId "com.mbcq.chuanqilian"
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode config.versionCode
+        versionName config.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -51,7 +51,19 @@ android {
         }
     }
 
+    /**
+     * 生成apk的名字
+     */
+    applicationVariants.all{ variant->
+        variant.outputs.all { output->
+            if (variant.buildType.name == 'release' ) {
+                outputFileName= "MBCQ_lzy_release_V ${versionName}.apk"
+            }else if ( variant.buildType.name == 'debug'){
+                outputFileName= "MBCQ_lzy_debug_V ${versionName}.apk"
 
+            }
+        }
+    }
     /**
      * 测试版和正式版key设置为一样
      */

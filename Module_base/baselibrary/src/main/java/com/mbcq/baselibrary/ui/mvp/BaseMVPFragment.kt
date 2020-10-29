@@ -1,6 +1,8 @@
 package com.mbcq.baselibrary.ui.mvp
 
 import android.content.Context
+import com.alibaba.android.arouter.launcher.ARouter
+import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.dialog.dialogfragment.LoadingDialogFragment
 import com.mbcq.baselibrary.ui.BaseFragment
 import com.mbcq.baselibrary.util.log.LogUtils
@@ -19,6 +21,16 @@ abstract class BaseMVPFragment<V : BaseView, T : BasePresenterImpl<V>> : BaseFra
         super.initExtra()
         mPresenter = getInstance<T>(this, 1)
         mPresenter!!.attachView(this as V)
+
+    }
+
+    override fun UnToken(msg: String) {
+        activity?.let {
+            TalkSureDialog(it, getScreenWidth(), "登录身份失效，您需要重新登录") {
+                ARouter.getInstance().build("/account/LogInActivity").navigation()
+            }.show()
+        }
+
 
     }
 

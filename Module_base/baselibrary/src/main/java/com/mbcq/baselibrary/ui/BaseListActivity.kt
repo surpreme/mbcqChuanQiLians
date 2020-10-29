@@ -29,7 +29,7 @@ import java.text.DecimalFormat
  * @datetime: 2020-01-18
  * @desc:
  */
-abstract class BaseListActivity<X> : BaseActivity(),BaseView {
+abstract class BaseListActivity<X> : BaseActivity() {
     abstract fun getRecyclerViewId(): Int
     lateinit var recycler_view: RecyclerView
     abstract fun setAdapter(): BaseRecyclerAdapter<X>

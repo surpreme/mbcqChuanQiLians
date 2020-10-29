@@ -362,6 +362,10 @@ public class ApiInterface {
      * -查询运单的信息
      */
     public static final String RECORD_SELECT_ORDER_INFO_GET = BASE_URI + "WaybillOpe/SelWaybillByCondition";
+    /**
+     * 查询运单的信息 详细
+     */
+    public static final String RECORD_SELECT_ORDER_MORE_INFO_GET = BASE_URI + "WaybillOpe/SelOneWaybillById";
 
     /**
      * 异常记录 新增 提交

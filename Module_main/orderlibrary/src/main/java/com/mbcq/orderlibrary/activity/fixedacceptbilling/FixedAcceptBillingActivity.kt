@@ -19,6 +19,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
@@ -30,12 +31,43 @@ import com.mbcq.commonlibrary.adapter.EditTextAdapter
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.orderlibrary.R
-import com.mbcq.orderlibrary.activity.acceptbilling.AcceptPackageBean
-import com.mbcq.orderlibrary.activity.acceptbilling.AcceptReceiptRequirementBean
-import com.mbcq.orderlibrary.activity.acceptbilling.CargoAppellationBean
-import com.mbcq.orderlibrary.activity.acceptbilling.DestinationtBean
+import com.mbcq.orderlibrary.activity.acceptbilling.*
 import com.tbruyelle.rxpermissions.RxPermissions
+import kotlinx.android.synthetic.main.activity_accept_billing.*
 import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.*
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.account_bank_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.account_names_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.add_receiver_iv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.add_receiver_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.add_shipper_iv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.add_shipper_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.arrive_outlet_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.bank_number_ed
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.bank_number_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.cargo_name_down_iv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.cargo_name_ed
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.cost_information_recycler
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.customer_mention_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.destinationt_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.get_delivery_home_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.get_delivery_mention_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.get_driver_direct_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.home_delivery_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.location_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.numbers_name_ed
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.package_name_down_iv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.package_name_ed
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.pay_way_title_rg
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.receipt_requirements_name_down_iv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.receipt_requirements_name_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.remarks_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.save_btn
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.total_amount_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.transport_method_rg
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.volume_name_tv
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.wait_notice_check
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.waybill_number_ed
+import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.weight_name_ed
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -94,82 +126,82 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
     }
 
     private fun saveAcctBilling() {
-        val jsonObj = JsonObject()
+        val jsonObj = JSONObject()
         //id
         val Id = mSearchaId
-        jsonObj.addProperty("Id", Id)
+        jsonObj.put("Id", Id)
         //到货公司编码
         val ECompanyId = eCompanyId
-        jsonObj.addProperty("ECompanyId", ECompanyId)
+        jsonObj.put("ECompanyId", ECompanyId)
 
         //目的地
         val Destination = destinationt
-        jsonObj.addProperty("Destination", Destination)
+        jsonObj.put("Destination", Destination)
 
         //订单号
         val OrderId = ""
-        jsonObj.addProperty("OrderId", OrderId)
+        jsonObj.put("OrderId", OrderId)
 
         //发货网点
         val WebidCodeStr = UserInformationUtil.getWebIdCodeStr(mContext)
-        jsonObj.addProperty("WebidCodeStr", WebidCodeStr)
+        jsonObj.put("WebidCodeStr", WebidCodeStr)
 
         //发货网点编码
         val WebidCode = UserInformationUtil.getWebIdCode(mContext)
-        jsonObj.addProperty("WebidCode", WebidCode)
+        jsonObj.put("WebidCode", WebidCode)
 
 
         //运单号
         val Billno = waybill_number_ed.text.toString()
-        jsonObj.addProperty("Billno", Billno)
+        jsonObj.put("Billno", Billno)
 
 
         //到货网点
         val EwebidCodeStr = endWebIdCodeStr
-        jsonObj.addProperty("EwebidCodeStr", EwebidCodeStr)
+        jsonObj.put("EwebidCodeStr", EwebidCodeStr)
 
         //到货网点编码
         val EwebidCode = endWebIdCode
-        jsonObj.addProperty("EwebidCode", EwebidCode)
+        jsonObj.put("EwebidCode", EwebidCode)
 
         //原单号
         val OBillno = ""
-        jsonObj.addProperty("OBillno", OBillno)
+        jsonObj.put("OBillno", OBillno)
 
 
-        /*//开单日期
-        val BillDate = TimeUtils.getCurrent()
-        jsonObj.addProperty("BillDate", BillDate)*/
+        //开单日期
+        /*val BillDate = TimeUtils.getCurrent()
+        jsonObj.put("BillDate", BillDate)*/
 
 
         //运单状态编码
         val BillState = ""
-        jsonObj.addProperty("BillState", BillState)
+        jsonObj.put("BillState", BillState)
 
 
         //运单类型 billTypeStr
         val BillTypeStr = waybillNumberTag
-        jsonObj.addProperty("BillTypeStr", BillTypeStr)
+        jsonObj.put("BillTypeStr", BillTypeStr)
 
         //付货方式编码
         val OkProcess = okProcessStrTagIndex
-        jsonObj.addProperty("OkProcess", OkProcess)
+        jsonObj.put("OkProcess", OkProcess)
 
         //付货方式
         val OkProcessStr = okProcessStrTag
-        jsonObj.addProperty("OkProcessStr", OkProcessStr)
+        jsonObj.put("OkProcessStr", OkProcessStr)
 
         //是否上门提货编码
         val IsTalkGoods = if (isTalkGoodsStrTag) "1" else "0"
-        jsonObj.addProperty("IsTalkGoods", IsTalkGoods)
+        jsonObj.put("IsTalkGoods", IsTalkGoods)
 
         //是否上门提货
         val IsTalkGoodsStr = if (isTalkGoodsStrTag) "是" else "否"
-        jsonObj.addProperty("IsTalkGoodsStr", IsTalkGoodsStr)
+        jsonObj.put("IsTalkGoodsStr", IsTalkGoodsStr)
 
         //会员卡号
         val VipId = bank_number_ed.text.toString()
-        jsonObj.addProperty("VipId", VipId)
+        jsonObj.put("VipId", VipId)
 
 
         /**
@@ -178,175 +210,236 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
          * TODO
          */
         val ShipperId = ""//发货客户编号
-        jsonObj.addProperty("ShipperId", ShipperId)
+        jsonObj.put("ShipperId", ShipperId)
 
         val ShipperMb = mShipperMb //发货人手机号
-        jsonObj.addProperty("ShipperMb", ShipperMb)
+        jsonObj.put("ShipperMb", ShipperMb)
 
         val ShipperTel = mShipperTel //发货人固定电话
-        jsonObj.addProperty("ShipperTel", ShipperTel)
+        jsonObj.put("ShipperTel", ShipperTel)
 
         val Shipper = mShipper //发货人
-        jsonObj.addProperty("Shipper", Shipper)
+        jsonObj.put("Shipper", Shipper)
 
         val ShipperCid = mShipperCid //发货人身份证号
-        jsonObj.addProperty("ShipperCid", ShipperCid)
+        jsonObj.put("ShipperCid", ShipperCid)
 
         val ShipperAddr = mShipperAddr //发货人地址
-        jsonObj.addProperty("ShipperAddr", ShipperAddr)
+        jsonObj.put("ShipperAddr", ShipperAddr)
 
         val IsUrgent = "0" //是否急货编码
-        jsonObj.addProperty("IsUrgent", IsUrgent)
+        jsonObj.put("IsUrgent", IsUrgent)
 
         val IsUrgentStr = "否" //是否急货
-        jsonObj.addProperty("IsUrgentStr", IsUrgentStr)
+        jsonObj.put("IsUrgentStr", IsUrgentStr)
 
         val Transneed = mTransneed  //运输类型编码
-        jsonObj.addProperty("Transneed", Transneed)
+        jsonObj.put("Transneed", Transneed)
 
         val TransneedStr = mTransneedStr //运输类型
-        jsonObj.addProperty("TransneedStr", TransneedStr)
+        jsonObj.put("TransneedStr", TransneedStr)
 
 
         /**
          * 收货人信息
          */
         val ConsigneeMb = mConsigneeMb //收货人手机号
-        jsonObj.addProperty("ConsigneeMb", ConsigneeMb)
+        jsonObj.put("ConsigneeMb", ConsigneeMb)
 
         val ConsigneeTel = mConsigneeTel //收货人固定电话
-        jsonObj.addProperty("ConsigneeTel", ConsigneeTel)
+        jsonObj.put("ConsigneeTel", ConsigneeTel)
 
         val Consignee = mConsignee //收货人
-        jsonObj.addProperty("Consignee", Consignee)
+        jsonObj.put("Consignee", Consignee)
 
         val ConsigneeAddr = mConsigneeAddr //收货人地址
-        jsonObj.addProperty("ConsigneeAddr", ConsigneeAddr)
+        jsonObj.put("ConsigneeAddr", ConsigneeAddr)
 
-
-        //货物名称
-        val Product = cargo_name_ed.text.toString()
-        jsonObj.addProperty("Product", Product)
-
-        //总件数  TODO
-        val TotalQty = numbers_name_ed.text.toString()
-        jsonObj.addProperty("TotalQty", TotalQty)
-
-
-        //件数
-        val Qty = numbers_name_ed.text.toString()
-        jsonObj.addProperty("Qty", Qty)
-
-        //货号 运单号后五位+件数
-        val GoodsNum = Billno.substring(Billno.length - 5) + "-" + Qty
-        jsonObj.addProperty("GoodsNum", GoodsNum)
-
-        //包装方式
-        val Packages = package_name_ed.text.toString()
-        jsonObj.addProperty("Packages", Packages)
-
-
-        //重量
-        val Weight = weight_name_ed.text.toString()
-        jsonObj.addProperty("Weight", Weight)
-
-        //体积
-        val Volumn = volume_name_tv.text.toString()
-        jsonObj.addProperty("Volumn", Volumn)
 
         //合计金额
         val AccSum = total_amount_tv.text.toString()
-        jsonObj.addProperty("AccSum", AccSum)
+        jsonObj.put("AccSum", AccSum)
         //付款方式编码
         val AccType = mAccType
-        jsonObj.addProperty("AccType", AccType)
+        jsonObj.put("AccType", AccType)
         //付款方式
         val AccTypeStr = mAccTypeStr
-        jsonObj.addProperty("AccTypeStr", AccTypeStr)
+        jsonObj.put("AccTypeStr", AccTypeStr)
         //回单要求
         val BackQty = receipt_requirements_name_tv.text.toString()
-        jsonObj.addProperty("BackQty", BackQty)
+        jsonObj.put("BackQty", BackQty)
         //是否等通知放货
         val IsWaitNoticeStr = if (wait_notice_check.isChecked) "是" else "否"
-        jsonObj.addProperty("IsWaitNoticeStr", IsWaitNoticeStr)
+        jsonObj.put("IsWaitNoticeStr", IsWaitNoticeStr)
         //是否等通知放货编码
         val IsWaitNotice = if (wait_notice_check.isChecked) "1" else "0"
-        jsonObj.addProperty("IsWaitNotice", IsWaitNotice)
+        jsonObj.put("IsWaitNotice", IsWaitNotice)
 
         //银行卡号
         val BankCode = bank_number_tv.text.toString()
-        jsonObj.addProperty("BankCode", BankCode)
+        jsonObj.put("BankCode", BankCode)
 
         //开户行
         val BankName = account_bank_tv.text.toString()
-        jsonObj.addProperty("BankName", BankName)
+        jsonObj.put("BankName", BankName)
         //开户名
         val BankMan = account_names_tv.text.toString()
-        jsonObj.addProperty("BankMan", BankMan)
+        jsonObj.put("BankMan", BankMan)
 
         //制单人
         val CreateMan = UserInformationUtil.getUserName(mContext)
-        jsonObj.addProperty("CreateMan", CreateMan)
+        jsonObj.put("CreateMan", CreateMan)
 
         //备注
         val Remark = remarks_tv.text.toString()
-        jsonObj.addProperty("Remark", Remark)
+        jsonObj.put("Remark", Remark)
 
         //设备端 3代表android
         val FromType = "3"
-        jsonObj.addProperty("FromType", FromType)
+        jsonObj.put("FromType", FromType)
         /**
          *
          */
         //运单号对应的货物清单
-        val WayGoosLst = JsonArray()
-        val testObj = JsonObject()
-        //货物名称
-        testObj.addProperty("Product", Product)
-
-        //件数
-        testObj.addProperty("Qty", Qty)
-
-        //包装方式
-        testObj.addProperty("Packages", Packages)
-
-        //重量
-        testObj.addProperty("Weight", Weight)
-
-        //体积
-        testObj.addProperty("Volumn", Volumn)
-
-
-        WayGoosLst.add(testObj)
+        val WayGoosLst = JSONArray()
+//******************************************************************货物明细 多条货物***********************************************************************
         /**
-         * 修改原因
+         * 点击添加货物
          */
-        jsonObj.addProperty("updateRemark",modify_reason_ed.text.toString())
+        if (mAddGoodsAcceptBillingAdapter.getAllData().isNotEmpty()) {
+            //总件数  TODO
+            var TotalQty = 0
+            for (item in mAddGoodsAcceptBillingAdapter.getAllData()) {
+                val testObj = JSONObject()
+                //货物名称
+                testObj.put("Product", item.product)
+
+                //件数
+                testObj.put("Qty", item.qty)
+                if (isInteger(item.qty)) {
+                    TotalQty += (item.qty).toInt()
+                }
+
+                //包装方式
+                testObj.put("Packages", item.packages)
+
+                //重量
+                testObj.put("Weight", item.weight)
+
+                //体积
+                testObj.put("Volumn", item.volumn)
+
+                WayGoosLst.put(testObj)
+            }
+            jsonObj.put("TotalQty", TotalQty)
+            //货号 运单号后五位+件数
+            val GoodsNum = Billno.substring(Billno.length - 5) + "-" + TotalQty
+            jsonObj.put("GoodsNum", GoodsNum)
+        } else {
+            /**
+             * 不点击默认选择输入框
+             */
+            if (!isCanCargoInfoAdd()) {
+                return
+            }
+            val testObj = JSONObject()
+            //货物名称
+            testObj.put("Product", cargo_name_ed.text.toString())
+
+            //件数
+            testObj.put("Qty", numbers_name_ed.text.toString())
+
+            //包装方式
+            testObj.put("Packages", package_name_ed.text.toString())
+
+            //重量
+            testObj.put("Weight", weight_name_ed.text.toString())
+
+            //体积
+            testObj.put("Volumn", volume_name_tv.text.toString())
+
+            WayGoosLst.put(testObj)
+            //总件数  TODO
+            val TotalQty = numbers_name_ed.text.toString()
+            jsonObj.put("TotalQty", TotalQty)
+            //货号 运单号后五位+件数
+            val GoodsNum = Billno.substring(Billno.length - 5) + "-" + TotalQty
+            jsonObj.put("GoodsNum", GoodsNum)
+        }
+//******************************************************************货物展示页面（第一条） 不规范找后台***********************************************************************
+
+        if (mAddGoodsAcceptBillingAdapter.getAllData().isNotEmpty() && numbers_name_ed.text.toString().isBlank()) {
+            val ggbb = mAddGoodsAcceptBillingAdapter.getAllData()[0]
+
+            //货物名称
+            val Product = ggbb.product
+            jsonObj.put("Product", Product)
+
+            //件数
+            val Qty = ggbb.qty
+            jsonObj.put("Qty", Qty)
+
+
+            //包装方式
+            val Packages = ggbb.packages
+            jsonObj.put("Packages", Packages)
+
+
+            //重量
+            val Weight = ggbb.weight
+            jsonObj.put("Weight", Weight)
+
+            //体积
+            val Volumn = ggbb.volumn
+            jsonObj.put("Volumn", Volumn)
+        } else {
+            //货物名称
+            val Product = cargo_name_ed.text.toString()
+            jsonObj.put("Product", Product)
+
+            //件数
+            val Qty = numbers_name_ed.text.toString()
+            jsonObj.put("Qty", Qty)
+
+
+            //包装方式
+            val Packages = package_name_ed.text.toString()
+            jsonObj.put("Packages", Packages)
+
+
+            //重量
+            val Weight = weight_name_ed.text.toString()
+            jsonObj.put("Weight", Weight)
+
+            //体积
+            val Volumn = volume_name_tv.text.toString()
+            jsonObj.put("Volumn", Volumn)
+        }
         /**
          *
          */
 //        WayGoosLst.add(test)
-        jsonObj.add("WayGoosLst", WayGoosLst)
+        jsonObj.put("WayGoosLst", WayGoosLst)
+
 
         /**
          * 费用的所有添加
          */
         mEditTextAdapter?.getData()?.let {
             for (item in it) {
-                jsonObj.addProperty(item.tag, item.inputStr)
+                jsonObj.put(item.tag, item.inputStr)
 
             }
         }
-        val farthObj =JsonObject()
-        farthObj.addProperty("Id",mSearchaId)
-        farthObj.addProperty("Billno",waybill_number_ed.text.toString())
-        farthObj.addProperty("updateRemark",modify_reason_ed.text.toString())
-        farthObj.add("WaybillUpdated",jsonObj)
+        val farthObj = JSONObject()
+        farthObj.put("Id", mSearchaId)
+        farthObj.put("Billno", waybill_number_ed.text.toString())
+        farthObj.put("updateRemark", modify_reason_ed.text.toString())
+        farthObj.put("WaybillUpdated", jsonObj)
         mPresenter?.updateData(farthObj)
 
 
     }
-
 
 
     override fun onClick() {
@@ -462,7 +555,9 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
         waybill_number_search_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (waybill_number_ed.text.toString().isNotBlank()) {
-                    mPresenter?.getWillByInfo(waybill_number_ed.text.toString())
+                    if (mAddGoodsAcceptBillingAdapter.getAllData().isNotEmpty())
+                        mAddGoodsAcceptBillingAdapter.clearData()
+                    mPresenter?.getWillByMoreInfo(waybill_number_ed.text.toString())
                 } else {
                     showToast("请输入运单号")
                 }
@@ -482,6 +577,12 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
         }).show(supportFragmentManager, "getReceiptRequirementSFilterDialog")
     }
 
+    override fun updateDataS() {
+        TalkSureDialog(mContext, getScreenWidth(), "修改运单已修改完毕 您可以去运单记录查看详情！") {
+            onBackPressed()
+        }.show()
+    }
+
     override fun getPackageS(result: String) {
         FilterDialog(getScreenWidth(), result, "packages", "包装", false, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
@@ -492,7 +593,6 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
         }).show(supportFragmentManager, "getPackagesFilterDialog")
 
     }
-
 
 
     override fun getTransportModeS(result: String) {
@@ -565,7 +665,6 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
     }
 
 
-
     private fun showWebIdDialog(list: MutableList<WebAreaDbInfo>) {
         FilterDialog(getScreenWidth(), Gson().toJson(list), "webid", "选择到货网点", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
@@ -579,7 +678,6 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
 
         }).show(supportFragmentManager, "showWebIdDialogFilterDialog")
     }
-
 
 
     @SuppressLint("SetTextI18n")
@@ -615,11 +713,11 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
         mSearchaId = data.optString("id")
 
         initReceivingMethod(if (isTalkGoodsStrTag) 2 else 1)
-        cargo_name_ed.setText(data.optString("product"))
-        numbers_name_ed.setText(data.optString("totalQty"))
-        package_name_ed.setText(data.optString("packages"))
-        weight_name_ed.setText(data.optString("weight"))
-        volume_name_tv.setText(data.optString("volumn"))
+//        cargo_name_ed.setText(data.optString("product"))
+//        numbers_name_ed.setText(data.optString("totalQty"))
+//        package_name_ed.setText(data.optString("packages"))
+//        weight_name_ed.setText(data.optString("weight"))
+//        volume_name_tv.setText(data.optString("volumn"))
         receipt_requirements_name_tv.text = data.optString("backQty")
         account_names_tv.text = data.optString("bankMan")
         account_bank_tv.text = data.optString("bankName")
@@ -627,6 +725,29 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
         remarks_tv.setText(data.optString("remark"))
         total_amount_tv.text = data.optString("accSum")
         wait_notice_check.isChecked = data.optInt("isWaitNotice", 0) == 1
+        data.optJSONArray("WayGoosLst")?.let {
+            val mAdapterList = mutableListOf<AddGoodsAcceptBillingBean>()
+            for (index in 0 until it.length()) {
+                val mAddGoodsAcceptBillingBean = AddGoodsAcceptBillingBean()
+                mAddGoodsAcceptBillingBean.product = it.getJSONObject(index).optString("product")
+                mAddGoodsAcceptBillingBean.qty = it.getJSONObject(index).optString("qty")
+                mAddGoodsAcceptBillingBean.packages = it.getJSONObject(index).optString("packages")
+                mAddGoodsAcceptBillingBean.weight = it.getJSONObject(index).optString("weight")
+                mAddGoodsAcceptBillingBean.volumn = it.getJSONObject(index).optString("volumn")
+                mAdapterList.add(mAddGoodsAcceptBillingBean)
+            }
+            if (mAdapterList.isNotEmpty())
+                mAddGoodsAcceptBillingAdapter.appendData(mAdapterList)
+
+        }
+        /**
+         * 防止多次查询运单
+         */
+        mEditTextAdapter?.getData()?.let {
+            if (it.isNotEmpty()) {
+                mEditTextAdapter?.clearDatas()
+            }
+        }
         mPresenter?.getCostInformation(UserInformationUtil.getWebIdCode(mContext), data)
     }
 
@@ -643,10 +764,17 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
          * 后台返回费用信息的判断
          */
         if (mShowCostFilNam.size != mShowCostStr.size) return
+
         /**
          * 添加数据到recyclerView
          */
         val mKK = mutableListOf<BaseEditTextAdapterBean>()
+        val mBasicAccTrans = BaseEditTextAdapterBean()
+        mBasicAccTrans.title = "基本运费"
+        mBasicAccTrans.tag = "accTrans"
+        mBasicAccTrans.inputStr = fatherData.optString("accTrans")
+
+        mKK.add(mBasicAccTrans)
         for (mIndex in mShowCostStr.indices) {
             val mBaseEditTextAdapterBean = BaseEditTextAdapterBean()
             mBaseEditTextAdapterBean.title = mShowCostStr[mIndex]

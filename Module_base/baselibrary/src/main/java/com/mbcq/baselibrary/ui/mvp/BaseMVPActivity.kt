@@ -3,6 +3,7 @@ package com.mbcq.baselibrary.ui.mvp
 import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
+import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.R
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.dialog.dialogfragment.LoadingDialogFragment
@@ -33,6 +34,13 @@ abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseAct
         return this
     }
 
+    override fun UnToken(msg: String) {
+        TalkSureDialog(mContext, getScreenWidth(), "登录身份失效，您需要重新登录") {
+            ARouter.getInstance().build("/account/LogInActivity").navigation()
+            this.finish()
+        }.show()
+
+    }
 
     override fun initExtra() {
         super.initExtra()

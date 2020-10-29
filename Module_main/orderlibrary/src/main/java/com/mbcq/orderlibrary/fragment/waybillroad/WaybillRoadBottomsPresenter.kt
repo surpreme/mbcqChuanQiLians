@@ -19,7 +19,7 @@ class WaybillRoadBottomsPresenter : BasePresenterImpl<WaybillRoadBottomsContract
         params.put("Billno",billno)
         get<String>(ApiInterface.TRACK_ROAD_WAYBILL_GET,params,object :CallBacks{
             override fun onResult(result: String) {
-                val obj=JSONObject()
+                val obj=JSONObject(result)
                 obj.optJSONArray("data")?.let {
                     mView?.getTrackRoadS( Gson().fromJson<List<WaybillRoadBottomBean>>(obj.optString("data"), object : TypeToken<List<WaybillRoadBottomBean>>() {}.type))
 

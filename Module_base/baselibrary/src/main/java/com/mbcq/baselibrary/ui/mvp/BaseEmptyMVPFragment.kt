@@ -3,9 +3,12 @@ package com.mbcq.baselibrary.ui.mvp
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.alibaba.android.arouter.launcher.ARouter
+import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.dialog.dialogfragment.LoadingDialogFragment
 import com.mbcq.baselibrary.ui.BaseFragment
 import com.mbcq.baselibrary.util.log.LogUtils
+import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.util.system.ToastUtils
 import java.lang.reflect.ParameterizedType
 
@@ -30,12 +33,34 @@ abstract class BaseEmptyMVPFragment<V : BaseView, T : BasePresenterImpl<V>> : Fr
         mPresenter?.attachView(this as V)
     }
 
+    override fun UnToken(msg: String) {
+        activity?.let {
+            TalkSureDialog(it, getScreenWidth(), "登录身份失效，您需要重新登录") {
+                ARouter.getInstance().build("/account/LogInActivity").navigation()
+            }.show()
+        }
+
+
+    }
+
+    /**
+     * 屏幕的尺寸
+     */
+    protected fun getScreenWidth(): Int {
+        mContext?.let {
+            return ScreenSizeUtils.getScreenWidth(it)
+
+        }
+        return 0
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         mPresenter?.detachView()
 
     }
-    override fun getContext(): Context= activity!!
+
+    override fun getContext(): Context = activity!!
 
     override fun showError(msg: String) {
         ToastUtils.showToast(mContext, msg)

@@ -9,10 +9,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.orderlibrary.R
 import com.mbcq.orderlibrary.activity.acceptbillingrecording.AcceptBillingRecordingAdapter
 
 class AddGoodsAcceptBillingAdapter(context: Context?) : BaseRecyclerAdapter<AddGoodsAcceptBillingBean>(context) {
+    interface OnRemoveItemInterface {
+        fun onResult(v: View, position: Int, data: String)
+    }
+
+    var mOnRemoveItemInterface: OnRemoveItemInterface? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_add_goods_accept_billing, parent, false))
 
@@ -22,8 +28,14 @@ class AddGoodsAcceptBillingAdapter(context: Context?) : BaseRecyclerAdapter<AddG
         (holder as ItemViewHolder).product_tv.text = mDatas[position].product
         holder.qty_tv.text = mDatas[position].qty
         holder.packages_tv.text = mDatas[position].packages
-        holder.weight_tv.text = mDatas[position].weight+"KG"
-        holder.volumn_tv.text = mDatas[position].volumn+"m³"
+        holder.weight_tv.text = mDatas[position].weight + "KG"
+        holder.volumn_tv.text = mDatas[position].volumn + "m³"
+        holder.remove_iv.setOnClickListener(object:SingleClick(){
+            override fun onSingleClick(v: View) {
+                mOnRemoveItemInterface?.onResult(v,position,"")
+            }
+
+        })
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

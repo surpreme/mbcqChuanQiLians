@@ -18,54 +18,56 @@
         app:layout_constraintTop_toTopOf="parent"
         app:divider_line_color="@color/base_blue"
         app:divider_orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="@+id/father_state_title_tv2"
-        app:layout_constraintRight_toRightOf="@+id/father_state_title_tv2" />
+        app:layout_constraintLeft_toLeftOf="@+id/father_state_tag_iv"
+        app:layout_constraintRight_toRightOf="@+id/father_state_tag_iv" />
+
     <TextView
-        android:id="@+id/father_state_day_tv2"
+        android:id="@+id/father_state_day_tv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginRight="5dp"
-        android:text="昨天"
+        android:text="03.12"
         android:textColor="@color/black"
         android:textSize="17sp"
-        app:layout_constraintBottom_toBottomOf="@+id/father_state_title_tv2"
-        app:layout_constraintRight_toLeftOf="@+id/father_state_title_tv2"
-        app:layout_constraintTop_toTopOf="@+id/father_state_title_tv2" />
+        app:layout_constraintBottom_toBottomOf="@+id/father_state_tag_iv"
+        app:layout_constraintRight_toLeftOf="@+id/father_state_tag_iv"
+        app:layout_constraintTop_toTopOf="@+id/father_state_tag_iv" />
 
     <TextView
-        android:id="@+id/father_state_hour_tv2"
+        android:id="@+id/father_state_hour_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00:21"
+        android:text="00:13"
         android:textColor="@color/black"
         android:textSize="13sp"
-        app:layout_constraintRight_toRightOf="@+id/father_state_day_tv2"
-        app:layout_constraintTop_toBottomOf="@+id/father_state_day_tv2" />
+        app:layout_constraintRight_toRightOf="@+id/father_state_day_tv"
+        app:layout_constraintTop_toBottomOf="@+id/father_state_day_tv" />
 
     <ImageView
-        android:id="@+id/father_state_title_tv2"
+        android:id="@+id/father_state_tag_iv"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="60dp"
         android:alpha="0.6"
+        android:scaleType="fitXY"
         android:src="@drawable/ic_transiting_icon"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/father_state_line"
         app:tint="@color/base_blue" />
 
     <TextView
-        android:id="@+id/father_state_content_tv2"
+        android:id="@+id/father_state_content_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="运输中"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/father_state_title_tv2"
-        app:layout_constraintLeft_toRightOf="@+id/father_state_title_tv2"
-        app:layout_constraintTop_toTopOf="@+id/father_state_title_tv2" />
+        app:layout_constraintBottom_toBottomOf="@+id/father_state_tag_iv"
+        app:layout_constraintLeft_toRightOf="@+id/father_state_tag_iv"
+        app:layout_constraintTop_toTopOf="@+id/father_state_tag_iv" />
 
     <TextView
-        android:id="@+id/father_state_content_remark_tv2"
+        android:id="@+id/father_state_content_remark_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -73,9 +75,9 @@
         android:text="【香港自治区】已离开澳门莲花分拨中心；发往 香港自治区九龙区分拨中心"
         android:textColor="@color/black"
         android:textSize="13sp"
-        app:layout_constraintLeft_toLeftOf="@+id/father_state_content_tv2"
+        app:layout_constraintLeft_toLeftOf="@+id/father_state_content_tv"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/father_state_content_tv2" />
+        app:layout_constraintTop_toBottomOf="@+id/father_state_content_tv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

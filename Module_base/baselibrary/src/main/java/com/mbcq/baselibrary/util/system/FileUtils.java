@@ -34,7 +34,7 @@ public class FileUtils {
      * other file-based ContentProviders.
      *
      * @param context The context.
-     * @param uri The Uri to query.
+     * @param uri     The Uri to query.
      * @author paulburke
      */
     public static String getPath(final Context context, final Uri uri) {
@@ -80,7 +80,7 @@ public class FileUtils {
                 }
 
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[] {
+                final String[] selectionArgs = new String[]{
                         split[1]
                 };
 
@@ -103,10 +103,11 @@ public class FileUtils {
 
         return null;
     }
+
     /**
      * https://blog.csdn.net/w13576267399/article/details/83185994
-     *  解决知乎图片选择器 拍照闪退
-     *  根据Uri获取文件真实地址
+     * 解决知乎图片选择器 拍照闪退
+     * 根据Uri获取文件真实地址
      */
     public static String getRealFilePath(Context context, Uri uri) {
         if (null == uri) return null;
@@ -151,9 +152,10 @@ public class FileUtils {
         }
         return realPath;
     }
+
     /**
-     *将bitmap转为File
-     *phone 是我给图片命名用的，你不需要可以不加，用时间命名也行
+     * 将bitmap转为File
+     * phone 是我给图片命名用的，你不需要可以不加，用时间命名也行
      */
     public static File getFile(Bitmap bitmap, String phone) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -176,8 +178,9 @@ public class FileUtils {
         }
         return file;
     }
+
     /**
-     * 获取指定文件大小 　　
+     * 获取指定文件大小
      */
     public static long getFileSize(File file) throws Exception {
         long size = 0;
@@ -191,6 +194,7 @@ public class FileUtils {
         }
         return size;
     }
+
     /**
      * 转换文件大小
      */
@@ -214,13 +218,13 @@ public class FileUtils {
     }
 
     /**
-     **
+     * *
      * Get the value of the data column for this Uri. This is useful for
      * MediaStore Uris, and other file-based ContentProviders.
      *
-     * @param context The context.
-     * @param uri The Uri to query.
-     * @param selection (Optional) Filter used in the query.
+     * @param context       The context.
+     * @param uri           The Uri to query.
+     * @param selection     (Optional) Filter used in the query.
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
