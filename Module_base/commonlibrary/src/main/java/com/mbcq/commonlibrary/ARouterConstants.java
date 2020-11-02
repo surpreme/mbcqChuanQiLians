@@ -18,6 +18,17 @@ public class ARouterConstants {
     public static final String WaybillDetailsActivity="/order/WaybillDetailsActivity";
     public static final String PrintAcceptBillingActivity="/order/PrintAcceptBillingActivity";
     public static final String ClaimSettlementActivity="/order/ClaimSettlementActivity";
+    public static final String ChoiceShipperActivity="/order/ChoiceShipperActivity";
+    public static final String GoodsReceiptActivity="/order/GoodsReceiptActivity";
+    public static final String GoodsReceiptInfoActivity="/order/GoodsReceiptInfoActivity";
+    public static final String PayBarActivity="/order/PayBarActivity";
+    public static final String PaymentSuccessActivity="/order/PaymentSuccessActivity";
+    public static final String ExceptionRegistrationActivity="/order/ExceptionRegistrationActivity";
+    public static final String DeliverySomeThingActivity="/order/DeliverySomeThingActivity";
+    public static final String AddDeliverySomeThingActivity="/order/AddDeliverySomeThingActivity";
+    public static final String DeliverySomethingHouseActivity="/order/DeliverySomethingHouseActivity";
+    public static final String FixedDeliverySomethingHouseActivity="/order/FixedDeliverySomethingHouseActivity";
+    public static final String SignRecordActivity="/order/SignRecordActivity";
     //////////////////////////////////////////////////////////////////////////////
     public static final String LocationActivity="/map/LocationActivity";
     //////////////////////////////////////////////////////////////////////////////
@@ -43,17 +54,10 @@ public class ARouterConstants {
     public static final String ShipmentInventoryActivity="/vehicles/ShipmentInventoryActivity";
     public static final String AddVehicleArchivesActivity="/vehicles/AddVehicleArchivesActivity";
     public static final String FixedVehicleArchivesActivity="/vehicles/FixedVehicleArchivesActivity";
+    public static final String ArrivalVehiclesScanActivity="/vehicles/ArrivalVehiclesScanActivity";
+    public static final String ArrivalTrunkDepartureScanOperatingActivity="/vehicles/ArrivalTrunkDepartureScanOperatingActivity";
     //////////////////////////////////////////////////////////////////////////////
-    public static final String GoodsReceiptActivity="/order/GoodsReceiptActivity";
-    public static final String GoodsReceiptInfoActivity="/order/GoodsReceiptInfoActivity";
-    public static final String PayBarActivity="/order/PayBarActivity";
-    public static final String PaymentSuccessActivity="/order/PaymentSuccessActivity";
-    public static final String ExceptionRegistrationActivity="/order/ExceptionRegistrationActivity";
-    public static final String DeliverySomeThingActivity="/order/DeliverySomeThingActivity";
-    public static final String AddDeliverySomeThingActivity="/order/AddDeliverySomeThingActivity";
-    public static final String DeliverySomethingHouseActivity="/order/DeliverySomethingHouseActivity";
-    public static final String FixedDeliverySomethingHouseActivity="/order/FixedDeliverySomethingHouseActivity";
-    public static final String SignRecordActivity="/order/SignRecordActivity";
+
     //////////////////////////////////////////////////////////////////////////////
     public static final String TakePhotosActivity="/common/TakePhotosActivity";
 }

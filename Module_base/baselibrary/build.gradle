@@ -13,7 +13,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
     defaultConfig {
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
@@ -115,6 +119,8 @@ dependencies {
     api 'com.github.bumptech.glide:okhttp3-integration:4.11.0'
     // 查看大图
     api 'com.github.SherlockGougou:BigImageViewPager:androidx-6.0.2'
+    //今日头条屏幕适配
+    implementation 'me.jessyan:autosize:1.2.1'
 
 
 }

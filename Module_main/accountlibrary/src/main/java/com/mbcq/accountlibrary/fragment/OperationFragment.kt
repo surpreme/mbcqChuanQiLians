@@ -240,6 +240,10 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                         }
                         "3" -> {
                             when (position) {
+                                0->{
+                                    ARouter.getInstance().build(ARouterConstants.ArrivalVehiclesScanActivity).navigation()
+
+                                }
                                 2 -> {
                                     ARouter.getInstance().build(ARouterConstants.ArrivalRecordActivity).navigation()
 

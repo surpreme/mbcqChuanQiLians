@@ -3,6 +3,8 @@
     package="com.mbcq.commonlibrary">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application>
         <activity android:name=".TakePhotosActivity" />
 

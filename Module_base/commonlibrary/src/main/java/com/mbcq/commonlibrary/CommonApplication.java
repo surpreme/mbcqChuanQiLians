@@ -1,5 +1,7 @@
 package com.mbcq.commonlibrary;
 
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.mbcq.baselibrary.BaseApplication;
 import com.mbcq.commonlibrary.greendao.DaoMaster;
 import com.mbcq.commonlibrary.greendao.DaoSession;
@@ -24,6 +26,8 @@ public class CommonApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         initGreenDao();
+        SpeechUtility.createUtility(this, SpeechConstant.APPID +"=5f4da9b3");
+
     }
 
 

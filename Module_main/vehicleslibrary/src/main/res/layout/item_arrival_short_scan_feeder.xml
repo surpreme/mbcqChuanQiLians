@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <!--    发车批次-->
+    <TextView
+        android:id="@+id/departure_number_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/base_blue"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="DB00004-20200418-001" />
+
+    <!--    运输类型-->
+    <TextView
+        android:id="@+id/transport_type_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/departure_number_tv"
+        app:layout_constraintRight_toLeftOf="@+id/short_feeder_time_tv"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="普运" />
+
+    <TextView
+        android:id="@+id/short_feeder_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="16sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2020-4-21 12:12:00" />
+
+    <TextView
+        android:id="@+id/shipper_outlets_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:lines="1"
+        android:maxEms="6"
+        android:text="汕头"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/departure_number_tv" />
+
+    <TextView
+        android:id="@+id/center_address_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="   --  "
+        android:textColor="@color/black"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/shipper_outlets_tv"
+        app:layout_constraintLeft_toRightOf="@+id/shipper_outlets_tv"
+        app:layout_constraintTop_toTopOf="@+id/shipper_outlets_tv" />
+
+    <TextView
+        android:id="@+id/receiver_outlets_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:maxEms="6"
+        android:text="义乌青口"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/center_address_tv"
+        app:layout_constraintLeft_toRightOf="@+id/center_address_tv"
+        app:layout_constraintTop_toTopOf="@+id/center_address_tv" />
+
+    <TextView
+        android:id="@+id/vehicler_info_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="沪AB123  程洪骑  15995675861"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintLeft_toLeftOf="@+id/shipper_outlets_tv"
+        app:layout_constraintTop_toBottomOf="@+id/shipper_outlets_tv" />
+
+
+    <TextView
+        android:id="@+id/feeder_state_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="发车计划中"
+        android:textColor="#DD870E"
+        app:layout_constraintBottom_toBottomOf="@+id/vehicler_info_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/receiver_outlets_tv" />
+
+
+    <View
+        android:id="@+id/line_view"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/base_gray"
+        app:layout_constraintTop_toBottomOf="@+id/vehicler_info_tv" />
+    <!--
+
+        <ImageView
+            android:id="@+id/feeder_checkbox_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_unchecked_icon"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_view" />
+    -->
+
+
+    <Button
+        android:id="@+id/feeder_confirm_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/base_blue"
+        android:padding="7dp"
+        android:text="确认到车"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_view" />
+
+    <TextView
+        android:id="@+id/scan_rate_tv"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#EABA76"
+        android:gravity="center"
+        android:text="扫描率：65.2%"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/feeder_confirm_btn" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/base_gray"
+        app:layout_constraintTop_toBottomOf="@+id/scan_rate_tv" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

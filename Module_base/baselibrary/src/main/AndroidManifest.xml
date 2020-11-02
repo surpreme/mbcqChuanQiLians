@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mbcq.baselibrary" >
+    package="com.mbcq.baselibrary">
 
     <uses-permission android:name="android.permission.SET_TIME" />
     <uses-permission android:name="android.permission.SET_TIME_ZONE" />

@@ -5,7 +5,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application>
-        <activity android:name=".activity.claimsettlement.ClaimSettlementActivity"></activity>
+        <activity android:name=".activity.choiceshipper.ChoiceShipperActivity"></activity>
+        <activity android:name=".activity.claimsettlement.ClaimSettlementActivity" />
         <activity android:name=".activity.printacceptbilling.PrintAcceptBillingActivity" />
         <activity android:name=".activity.waybilldetails.WaybillDetailsActivity" />
         <activity android:name=".activity.fixedacceptbilling.FixedAcceptBillingActivity" />

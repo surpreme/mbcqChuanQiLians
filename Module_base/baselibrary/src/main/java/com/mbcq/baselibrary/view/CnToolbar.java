@@ -31,7 +31,7 @@ public class CnToolbar extends Toolbar {
     private LayoutInflater mInflater;
 
     private View mView;
-    private TextView mTextTitle;
+    private TextView mTextTitle, right_tv;
     private ImageView right_iv, back_iv;
     private ConstraintLayout father_cl;
 
@@ -71,7 +71,7 @@ public class CnToolbar extends Toolbar {
             setIsShowBackIcon(isShowBackIcon);
             int toolBarBackGroundColor = a.getColor(R.styleable.CnToolbar_toolbarBackGround, 0);
             setToolbarBackGround(toolBarBackGroundColor);
-            int centerTextViewTextColor = a.getColor(R.styleable.CnToolbar_centerTextViewTextColor,0);
+            int centerTextViewTextColor = a.getColor(R.styleable.CnToolbar_centerTextViewTextColor, 0);
             setCenterTextViewTextColor(centerTextViewTextColor);
             Boolean isDark = a.getBoolean(R.styleable.CnToolbar_isDark, false);
             setIsDark(isDark);
@@ -92,6 +92,11 @@ public class CnToolbar extends Toolbar {
             CharSequence centerTextViewText = a.getText(R.styleable.CnToolbar_centerTextViewText);
             if (centerTextViewText != null) {
                 setCenterTitleText(centerTextViewText);
+            }
+            @SuppressLint("RestrictedApi")
+            CharSequence rightTextViewText = a.getText(R.styleable.CnToolbar_rightTextViewText);
+            if (rightTextViewText != null) {
+                setRightTitleText(rightTextViewText);
             }
 
             a.recycle();
@@ -120,6 +125,7 @@ public class CnToolbar extends Toolbar {
             mView = mInflater.inflate(R.layout.custom_toolbar, null);
 
             father_cl = findViewById(R.id.father_cl);
+            right_tv = (TextView) mView.findViewById(R.id.right_tv);
             mTextTitle = (TextView) mView.findViewById(R.id.center_tv);
             right_iv = (ImageView) mView.findViewById(R.id.right_iv);
             back_iv = (ImageView) mView.findViewById(R.id.back_iv);
@@ -191,6 +197,11 @@ public class CnToolbar extends Toolbar {
     public void setCenterTitleText(CharSequence text) {
         mTextTitle.setText(text);
         mTextTitle.setVisibility(VISIBLE);
+    }
+
+    public void setRightTitleText(CharSequence text) {
+        right_tv.setText(text);
+        right_tv.setVisibility(VISIBLE);
     }
 
 

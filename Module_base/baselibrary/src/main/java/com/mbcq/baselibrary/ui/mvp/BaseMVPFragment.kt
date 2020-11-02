@@ -16,7 +16,7 @@ import java.lang.reflect.ParameterizedType
 abstract class BaseMVPFragment<V : BaseView, T : BasePresenterImpl<V>> : BaseFragment(), BaseView {
     var mPresenter: T? = null
 
-
+    open fun setIsShowNetLoading(): Boolean = true
     override fun initExtra() {
         super.initExtra()
         mPresenter = getInstance<T>(this, 1)
@@ -49,8 +49,11 @@ abstract class BaseMVPFragment<V : BaseView, T : BasePresenterImpl<V>> : BaseFra
 
     var mLoadingDialogFragment: LoadingDialogFragment? = null
     override fun showLoading() {
-        mLoadingDialogFragment = LoadingDialogFragment()
-        mLoadingDialogFragment?.show(childFragmentManager, "LoadingDialogFragment")
+        if (setIsShowNetLoading()) {
+            mLoadingDialogFragment = LoadingDialogFragment()
+            mLoadingDialogFragment?.show(childFragmentManager, "LoadingDialogFragment")
+        }
+
     }
 
     override fun onStop() {
@@ -59,9 +62,11 @@ abstract class BaseMVPFragment<V : BaseView, T : BasePresenterImpl<V>> : BaseFra
     }
 
     override fun closeLoading() {
-        if (mLoadingDialogFragment != null) {
-            if (mLoadingDialogFragment!!.isResumed)
-                mLoadingDialogFragment?.dismiss()
+        if (setIsShowNetLoading()) {
+            if (mLoadingDialogFragment != null) {
+                if (mLoadingDialogFragment!!.isResumed)
+                    mLoadingDialogFragment?.dismiss()
+            }
         }
 
 

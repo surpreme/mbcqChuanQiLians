@@ -37,10 +37,6 @@ class ArrivalRecordActivity : BaseArrivalRecordActivity<ArrivalRecordContract.Vi
                          * s1 网点
                          * s2  start@end
                          */
-                        /**
-                         * s1 网点
-                         * s2  start@end
-                         */
                         override fun onResult(s1: String, s2: String) {
                             val mArrivalRecordEvent = ArrivalRecordEvent()
                             mArrivalRecordEvent.type = mFragmentTag_index

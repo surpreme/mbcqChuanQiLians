@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.dialog.dialogfragment.BaseDialogFragment
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.commonlibrary.R
 import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean
 import com.mbcq.commonlibrary.adapter.TextViewAdapter
@@ -34,6 +35,10 @@ class FilterDialog : BaseDialogFragment {
     override fun setDialogWidth(): Int {
         return mScreenWidth / 4 * 3
     }
+
+   /* override fun setDialogHeight(): Int {
+        return if (activity == null) 200 else ScreenSizeUtils.getScreenHeight(activity!!) / 10 * 3
+    }*/
 
     /**
      * mScreenWidth 为了适配屏幕宽度

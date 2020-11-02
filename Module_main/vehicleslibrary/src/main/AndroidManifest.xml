@@ -3,7 +3,9 @@
     package="com.mbcq.vehicleslibrary">
 
     <application>
-        <activity android:name=".activity.fixedvehiclesarchives.FixedVehicleArchivesActivity"></activity>
+        <activity android:name=".activity.arrivaltrunkdeparturescanoperating.ArrivalTrunkDepartureScanOperatingActivity"></activity>
+        <activity android:name=".activity.arrivalvehiclesscan.ArrivalVehiclesScanActivity" />
+        <activity android:name=".activity.fixedvehiclesarchives.FixedVehicleArchivesActivity" />
         <activity android:name=".activity.addvehiclesarchives.AddVehicleArchivesActivity" />
         <activity android:name=".activity.vehiclesarchives.VehicleArchivesActivity" />
         <activity android:name=".activity.alldeparturerecord.shipmentinventory.ShipmentInventoryActivity" />

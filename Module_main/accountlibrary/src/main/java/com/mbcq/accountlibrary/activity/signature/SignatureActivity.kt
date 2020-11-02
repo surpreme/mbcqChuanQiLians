@@ -13,7 +13,7 @@ import com.mbcq.commonlibrary.ARouterConstants
 import kotlinx.android.synthetic.main.activity_signature.*
 
 /**
- * @time 2020-10-29 09:57:00 签名
+ * @time 2020-10-29 09:57:00 签名 
  * @author lzy
  */
 @Route(path = ARouterConstants.SignatureActivity)

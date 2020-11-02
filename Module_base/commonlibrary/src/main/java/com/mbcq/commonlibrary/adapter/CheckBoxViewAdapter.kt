@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.commonlibrary.R
-
 class CheckBoxViewAdapter<T : BaseCheckedAdapterBean> : RecyclerView.Adapter<CheckBoxViewAdapter.ItemViewHolder> {
     private var context: Context?
     private val inflater: LayoutInflater

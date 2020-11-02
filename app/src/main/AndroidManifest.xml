@@ -38,6 +38,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <meta-data
+            android:name="design_width_in_dp"
+            android:value="375" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="843" />
+        <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="2a1973c25b26f9d5397969ddc9c6238a" />
         <provider

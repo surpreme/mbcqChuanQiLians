@@ -28,7 +28,7 @@ abstract class BaseFragment : Fragment() {
     abstract fun initViews(view: View)
     open fun initViews(view: View, savedInstanceState: Bundle) {}
     open fun initDatas() {}
-    protected var mContext: Context? = null
+    protected lateinit var mContext: Context
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
