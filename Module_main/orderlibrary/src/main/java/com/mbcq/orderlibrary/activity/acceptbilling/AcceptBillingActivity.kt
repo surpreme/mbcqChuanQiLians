@@ -3,15 +3,11 @@ package com.mbcq.orderlibrary.activity.acceptbilling
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
-import android.widget.RadioGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.gson.GsonUtils
@@ -20,7 +16,6 @@ import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
-import com.mbcq.commonlibrary.Constant
 import com.mbcq.commonlibrary.PrintBlueToothBean
 import com.mbcq.commonlibrary.RadioGroupUtil
 import com.mbcq.commonlibrary.adapter.BaseEditTextAdapterBean
@@ -28,16 +23,16 @@ import com.mbcq.commonlibrary.adapter.EditTextAdapter
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.orderlibrary.R
+import com.mbcq.orderlibrary.activity.acceptbilling.billingweightcalculator.BillingWeightCalculatorDialog
 import kotlinx.android.synthetic.main.activity_accept_billing.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.lang.StringBuilder
 
 
 /**
  * @author: lzy
  * @time: 2018.08.25login
- * 受理开单
+ * 受理开单 计算器 Calculator 重量 weight
  */
 
 @Route(path = ARouterConstants.AcceptBillingActivity)
@@ -98,6 +93,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
     }
 
+
     override fun onClick() {
         super.onClick()
         save_btn.setOnClickListener(object : SingleClick() {
@@ -131,6 +127,30 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             override fun onSingleClick(v: View?) {
                 mPresenter?.getCargoAppellation()
 
+            }
+
+        })
+        shipper_circle_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                ARouter.getInstance().build(ARouterConstants.ChoiceShipperActivity).navigation(this@AcceptBillingActivity, RESULT_DATA_CODE)
+            }
+
+        })
+        add_shipper_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                ARouter.getInstance().build(ARouterConstants.ChoiceShipperActivity).navigation(this@AcceptBillingActivity, RESULT_DATA_CODE)
+            }
+
+        })
+        receiver_circle_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                ARouter.getInstance().build(ARouterConstants.ChoiceReceiverActivity).navigation(this@AcceptBillingActivity, RECEIVER_RESULT_DATA_CODE)
+            }
+
+        })
+        add_receiver_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                ARouter.getInstance().build(ARouterConstants.ChoiceReceiverActivity).navigation(this@AcceptBillingActivity, RECEIVER_RESULT_DATA_CODE)
             }
 
         })
@@ -219,6 +239,20 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         waybill_number_machine_printed_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 waybillNumber(false)
+            }
+
+        })
+        weight_name_calculation_iv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                if (mBillingWeightCalculatorDialog == null) {
+                    mBillingWeightCalculatorDialog = BillingWeightCalculatorDialog(getScreenWidth(), object : BillingWeightCalculatorDialog.OnResultInterface {
+                        override fun onResult(totalWeight: String) {
+                            weight_name_ed.setText(totalWeight)
+                        }
+
+                    })
+                }
+                mBillingWeightCalculatorDialog?.show(supportFragmentManager, "BillingWeightCalculatorDialog")
             }
 
         })

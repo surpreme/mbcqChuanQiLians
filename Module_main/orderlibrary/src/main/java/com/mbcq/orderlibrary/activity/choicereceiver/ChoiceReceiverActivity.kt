@@ -1,4 +1,4 @@
-package com.mbcq.orderlibrary.activity.choiceshipper
+package com.mbcq.orderlibrary.activity.choicereceiver
 
 
 import android.content.Intent
@@ -13,34 +13,33 @@ import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.orderlibrary.R
-import kotlinx.android.synthetic.main.activity_choice_shipper.*
+import kotlinx.android.synthetic.main.activity_choice_receiver.*
 import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2020-11-02 11:06:45  选择发货人
+ * @time: 2020-11-02 15:08:32 选择收货人
  */
 
-@Route(path = ARouterConstants.ChoiceShipperActivity)
-class ChoiceShipperActivity : BaseListMVPActivity<ChoiceShipperContract.View, ChoiceShipperPresenter, ChoiceShipperBean>(), ChoiceShipperContract.View {
-    private val RESULT_DATA_CODE = 5848
+@Route(path = ARouterConstants.ChoiceReceiverActivity)
+class ChoiceReceiverActivity : BaseListMVPActivity<ChoiceReceiverContract.View, ChoiceReceiverPresenter, ChoiceReceiverBean>(), ChoiceReceiverContract.View {
+     val RECEIVER_RESULT_DATA_CODE = 4439
 
-    override fun getLayoutId(): Int = R.layout.activity_choice_shipper
+    override fun getLayoutId(): Int = R.layout.activity_choice_receiver
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
-
     }
 
     override fun initDatas() {
         super.initDatas()
         mPresenter?.getInfo()
-    }
 
+    }
 
     override fun onClick() {
         super.onClick()
-        choice_shipper_toolbar.setBackButtonOnClickListener(object : SingleClick() {
+        choice_receiver_toolbar.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 onBackPressed()
             }
@@ -48,29 +47,26 @@ class ChoiceShipperActivity : BaseListMVPActivity<ChoiceShipperContract.View, Ch
         })
     }
 
-    override fun getRecyclerViewId(): Int = R.id.choice_shipper_recycler
-
-    override fun setAdapter(): BaseRecyclerAdapter<ChoiceShipperBean> = ChoiceShipperAdapter(mContext).also {
+    override fun getRecyclerViewId(): Int = R.id.choice_receiver_recycler
+    override fun setAdapter(): BaseRecyclerAdapter<ChoiceReceiverBean> = ChoiceReceiverAdapter(mContext).also {
         it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
 
                 val resultObj = JSONObject(mResult)
                 val obj = JSONObject()
                 obj.put("name", resultObj.optString("contactMan"))
-                obj.put("phone", resultObj.optString("contactMb"))
+                obj.put("phone", resultObj.optString("shipperMb"))
                 obj.put("address", resultObj.optString("address"))
-                obj.put("shipperTel", resultObj.optString("contactTel"))
-                obj.put("shipperCid", "")
-                obj.put("shipperId", "")
+                obj.put("shipperTel", resultObj.optString("shipperTel"))
                 val json = GsonUtils.toPrettyFormat(obj.toString())
-                setResult(RESULT_DATA_CODE, Intent().putExtra("AddShipperResultData", json))
+                setResult(RECEIVER_RESULT_DATA_CODE, Intent().putExtra("AddReceiveResultData", json))
                 finish()
             }
 
         }
     }
 
-    override fun getInfoS(list: List<ChoiceShipperBean>) {
+    override fun getInfoS(list: List<ChoiceReceiverBean>) {
         adapter.appendData(list)
     }
 }

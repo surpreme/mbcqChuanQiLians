@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.choiceshipper.ChoiceShipperActivity">
-
+    tools:context=".activity.choicereceiver.ChoiceReceiverActivity">
     <com.mbcq.baselibrary.view.CnToolbar
-        android:id="@+id/choice_shipper_toolbar"
+        android:id="@+id/choice_receiver_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
@@ -28,10 +27,10 @@
         android:hint="   请输入姓名/电话"
         android:paddingLeft="15dp"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/choice_shipper_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/choice_receiver_toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/choice_shipper_recycler"
+        android:id="@+id/choice_receiver_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:overScrollMode="never"

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * lzy
- * 阻尼效果的recycyclerview
+ * 阻尼效果的recyclerview
  */
 public class OverScrollLayout extends LinearLayout {
     /**

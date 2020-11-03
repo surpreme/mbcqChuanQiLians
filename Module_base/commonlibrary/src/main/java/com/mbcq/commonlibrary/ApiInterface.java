@@ -363,6 +363,14 @@ public class ApiInterface {
      */
     public static final String RECORD_SELECT_ORDER_INFO_GET = BASE_URI + "WaybillOpe/SelWaybillByCondition";
     /**
+     * 获取发货人列表
+     */
+    public static final String SHIPPER_SELECT_INFO_GET = BASE_URI + "Shipper/SelShipperByCondition";
+    /**
+     * 获取收货人列表
+     */
+    public static final String RECEIVER_SELECT_INFO_GET = BASE_URI + "Consignee/SelConsigneeByCondition";
+    /**
      * 查询运单的信息 详细
      */
     public static final String RECORD_SELECT_ORDER_MORE_INFO_GET = BASE_URI + "WaybillOpe/SelOneWaybillById";

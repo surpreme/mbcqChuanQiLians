@@ -19,6 +19,7 @@ public class ARouterConstants {
     public static final String PrintAcceptBillingActivity="/order/PrintAcceptBillingActivity";
     public static final String ClaimSettlementActivity="/order/ClaimSettlementActivity";
     public static final String ChoiceShipperActivity="/order/ChoiceShipperActivity";
+    public static final String ChoiceReceiverActivity="/order/ChoiceReceiverActivity";
     public static final String GoodsReceiptActivity="/order/GoodsReceiptActivity";
     public static final String GoodsReceiptInfoActivity="/order/GoodsReceiptInfoActivity";
     public static final String PayBarActivity="/order/PayBarActivity";
@@ -29,6 +30,7 @@ public class ARouterConstants {
     public static final String DeliverySomethingHouseActivity="/order/DeliverySomethingHouseActivity";
     public static final String FixedDeliverySomethingHouseActivity="/order/FixedDeliverySomethingHouseActivity";
     public static final String SignRecordActivity="/order/SignRecordActivity";
+    public static final String AddClaimSettlementActivity="/order/AddClaimSettlementActivity";
     //////////////////////////////////////////////////////////////////////////////
     public static final String LocationActivity="/map/LocationActivity";
     //////////////////////////////////////////////////////////////////////////////

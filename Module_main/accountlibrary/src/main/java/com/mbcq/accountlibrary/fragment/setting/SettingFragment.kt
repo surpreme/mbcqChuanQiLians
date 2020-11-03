@@ -52,7 +52,13 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constant.BLUETOOTH_REQUEST_CODE) {
-            enableBlueTooth(mResultIndex,mResultBlue)
+            bluetoothAdapter?.let {
+                if (!it.isEnabled) {
+                    TalkSureDialog(mContext, getScreenWidth(), "请打开蓝牙后再继续使用！！").show()
+                } else {
+                    enableBlueTooth(mResultIndex, mResultBlue)
+                }
+            }
         }
     }
 
@@ -217,7 +223,7 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
     private fun enableBlueTooth(position: Int, result: String) {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         if (bluetoothAdapter == null) {
-            mContext?.let {
+            mContext.let {
                 TalkSureDialog(it, getScreenWidth(), "设备不支持蓝牙功能").show()
 
             }

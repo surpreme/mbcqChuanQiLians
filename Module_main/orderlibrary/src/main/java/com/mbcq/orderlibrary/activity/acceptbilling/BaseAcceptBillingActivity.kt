@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.text.TextPaint
 import android.text.TextUtils
 import android.view.View
+import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
@@ -21,6 +22,7 @@ import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.greendao.DaoSession
 import com.mbcq.commonlibrary.greendao.WebAreaDbInfoDao
 import com.mbcq.orderlibrary.R
+import com.mbcq.orderlibrary.activity.acceptbilling.billingweightcalculator.BillingWeightCalculatorDialog
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_accept_billing.*
 import zpSDK.zpSDK.zpBluetoothPrinter
@@ -79,6 +81,11 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
     var mConsigneeTel = ""//收货人固定电话
     var mConsignee = ""//收货人
     var mConsigneeAddr = ""//收货人地址
+
+    /**
+     * 计算重量 弹窗 需要保存状态
+     */
+    var mBillingWeightCalculatorDialog: BillingWeightCalculatorDialog? = null
 
     lateinit var rxPermissions: RxPermissions
     protected val RESULT_DATA_CODE = 5848
@@ -184,22 +191,27 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
     protected fun isCanCargoInfoAdd(): Boolean {
         if (cargo_name_ed.text.toString().isEmpty()) {
             showToast("请选择货物名称")
+            showEditTextFocus(cargo_name_ed)
             return false
         }
         if (numbers_name_ed.text.toString().isEmpty()) {
             showToast("请输入件数")
+            showEditTextFocus(numbers_name_ed)
             return false
         }
         if (package_name_ed.text.toString().isEmpty()) {
             showToast("请选择包装")
+            showEditTextFocus(package_name_ed)
             return false
         }
         if (weight_name_ed.text.toString().isEmpty()) {
             showToast("请输入重量")
+            showEditTextFocus(weight_name_ed)
             return false
         }
         if (volume_name_tv.text.toString().isEmpty()) {
             showToast("请输入体积")
+            showEditTextFocus(volume_name_tv)
             return false
         }
         return true
@@ -423,6 +435,12 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
         }
         pay_way_title_rg.check(0)
+    }
+
+    protected fun showEditTextFocus(editText: EditText) {
+        editText.isFocusable = true
+        editText.isFocusableInTouchMode = true
+        editText.requestFocus()
     }
 
     fun getLocation() {

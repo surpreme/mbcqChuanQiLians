@@ -11,10 +11,12 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class ChoiceShipperContract {
 
     interface View : BaseView {
+        fun  getInfoS(list: List<ChoiceShipperBean>)
 
     }
 
     interface Presenter : BasePresenter<View> {
+        fun  getInfo()
 
     }
 }

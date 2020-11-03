@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.mbcq.baselibrary.R
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
@@ -63,16 +64,23 @@ abstract class BaseActivity : AppCompatActivity() {
             0 -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     StatusBarUtils.setColor(this, getColor(R.color.white))
+                } else {
+                    StatusBarUtils.setColor(this, ContextCompat.getColor(mContext, R.color.base_gray))
                 }
             }
             1 -> {
                 StatusBarUtils.setTransparent(mContext)
             }
             else -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (s is Int)
+                if (s is Int) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         StatusBarUtils.setColor(this, getColor(s))
+                    } else {
+                        StatusBarUtils.setColor(this, ContextCompat.getColor(mContext, s))
+
+                    }
                 }
+
             }
         }
     }
@@ -98,7 +106,7 @@ abstract class BaseActivity : AppCompatActivity() {
      * toast
      */
     protected fun showToast(msg: String) {
-        ToastUtils.showToast(mContext,msg)
+        ToastUtils.showToast(mContext, msg)
 //        val toastUtil = CustomizeToastUtil()
 //        toastUtil.Short(mContext, msg).setGravity(Gravity.TOP).setErrorToast(Color.WHITE, R.drawable.toast_radius).show()
     }

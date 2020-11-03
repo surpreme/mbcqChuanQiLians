@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="7dp"
+    app:cardCornerRadius="7dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/basic_info_tv"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:text="吴志军   159999995862"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/address_info_tv"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:text="地址：上海市青浦区蟠龙路2334号"
+            android:textColor="@color/base_grayDark"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/basic_info_tv" />
+
+        <TextView
+            android:id="@+id/company_info_tv"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:text="公司：上海数字科技有限公司"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/address_info_tv" />
+
+        <TextView
+            android:id="@+id/telphone_info_tv"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:text="固定电话：021-23456789"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/company_info_tv" />
+
+        <ImageView
+            android:id="@+id/modify_info_tv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="15dp"
+            android:padding="3dp"
+            android:src="@drawable/ic_modify_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>
