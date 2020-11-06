@@ -12,5 +12,7 @@
     <color name="base_blue">#536DFF</color>
     <color name="base_gold">#CAA93F</color>
     <color name="base_un_green">#9CF3FDF0</color>
+    <color name="base_green">#3EEE0A</color>
+    <color name="base_coffee">#F2AD4A</color>
 
 </resources>

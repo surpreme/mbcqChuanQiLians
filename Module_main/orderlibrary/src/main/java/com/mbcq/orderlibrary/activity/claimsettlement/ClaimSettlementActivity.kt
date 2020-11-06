@@ -10,8 +10,10 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.ui.BaseSmartMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
+import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.WebDbUtil
@@ -23,11 +25,11 @@ import kotlinx.android.synthetic.main.activity_claim_settlement.*
 
 /**
  * @author: lzy
- * @time: 2020-10-28 15:29:45 理赔 记录
+ * @time: 2020-10-28 15:29:45 理赔记录
  */
 
 @Route(path = ARouterConstants.ClaimSettlementActivity)
-class ClaimSettlementActivity : BaseMVPActivity<ClaimSettlementContract.View, ClaimSettlementPresenter>(), ClaimSettlementContract.View {
+class ClaimSettlementActivity : BaseSmartMVPActivity<ClaimSettlementContract.View, ClaimSettlementPresenter, ClaimSettlementBean>(), ClaimSettlementContract.View {
     var mStartDateTag = ""
     var mEndDateTag = ""
     var mShippingOutletsTag = ""
@@ -83,5 +85,16 @@ class ClaimSettlementActivity : BaseMVPActivity<ClaimSettlementContract.View, Cl
 
         })
 
+    }
+
+    override fun getPageDatas(mCurrentPage: Int) {
+        super.getPageDatas(mCurrentPage)
+    }
+    override fun getSmartLayoutId() = R.id.claim_settlement_smart
+    override fun getSmartEmptyId() = R.id.claim_settlement_smart_frame
+    override fun getRecyclerViewId(): Int = R.id.claim_settlement_recycler
+
+    override fun setAdapter(): BaseRecyclerAdapter<ClaimSettlementBean> = ClaimSettlementAdapter(mContext).also {
+        it.appendData(mutableListOf(ClaimSettlementBean()))
     }
 }
