@@ -25,7 +25,7 @@ import com.mbcq.commonlibrary.R
  *  可参考 已实现
  *
  * */
-class ScanDialogFragment(mScreenWidth: Int, var mOnClickInterface: OnClickInterface.OnClickInterface? = null) : BaseDialogFragment(), QRCodeView.Delegate {
+class ScanDialogFragment(mScreenWidth: Int, var soundStr: String? = null, var mOnClickInterface: OnClickInterface.OnClickInterface? = null) : BaseDialogFragment(), QRCodeView.Delegate {
     var mZXingView: ZXingView? = null
     var mTts: SpeechSynthesizer? = null
     var mScreenWidths: Int = mScreenWidth
@@ -40,7 +40,10 @@ class ScanDialogFragment(mScreenWidth: Int, var mOnClickInterface: OnClickInterf
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar)
-        initTts()
+        soundStr?.let {
+            initTts()
+
+        }
     }
 
     override fun setContentView(): Int = R.layout.dialog_scan_login
@@ -53,9 +56,12 @@ class ScanDialogFragment(mScreenWidth: Int, var mOnClickInterface: OnClickInterf
     override fun onDestroy() {
         super.onDestroy()
         mZXingView?.onDestroy()
-        mTts?.stopSpeaking()
-        // 退出时释放连接
-        mTts?.destroy()
+        soundStr?.let {
+            mTts?.stopSpeaking()
+            // 退出时释放连接
+            mTts?.destroy()
+        }
+
 
 
     }
@@ -74,7 +80,10 @@ class ScanDialogFragment(mScreenWidth: Int, var mOnClickInterface: OnClickInterf
     fun openVibrator() {
         val vibrator = activity?.getSystemService(VIBRATOR_SERVICE) as Vibrator?
         vibrator?.vibrate(200)
-        mTts?.startSpeaking("恭喜发财", null)
+        soundStr?.let {
+            mTts?.startSpeaking(soundStr, null)
+
+        }
     }
 
     override fun onScanQRCodeSuccess(result: String) {

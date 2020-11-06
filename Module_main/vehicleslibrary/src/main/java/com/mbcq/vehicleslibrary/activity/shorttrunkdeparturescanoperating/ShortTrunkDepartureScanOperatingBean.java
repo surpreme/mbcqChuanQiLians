@@ -217,6 +217,7 @@ public class ShortTrunkDepartureScanOperatingBean {
     private String salesMan;
     private String opeMan;
     private String remark;
+    private int scaneds;
 
     public String getSendOpeMan() {
         return sendOpeMan;
@@ -1064,5 +1065,13 @@ public class ShortTrunkDepartureScanOperatingBean {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public int getScaneds() {
+        return scaneds;
+    }
+
+    public void setScaneds(int scaneds) {
+        this.scaneds = scaneds;
     }
 }

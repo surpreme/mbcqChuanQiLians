@@ -138,6 +138,10 @@ public class ApiInterface {
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_LOCAL_INFO_GET = BASE_URI + "DbVehicleOpe/SelSmDbVehicleByCondition";
     /**
+     * 短驳发车 有计划扫描
+     */
+    public static final String DEPARTURE_SHORT_FEEDER_DEPARTURE_scan_INFO_GET = BASE_URI + "Scan/AddDbFcPlanWaybillScan";
+    /**
      * 短驳发车 确认到车
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_ARRIVAL_CONFIRM_LOCAL_INFO_POST = BASE_URI + "DbVehicleOpe/UpdCofArrDbVehicle";

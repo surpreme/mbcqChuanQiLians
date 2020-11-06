@@ -18,7 +18,7 @@ class ShortTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecyclerAd
         holder.receiver_tv.text = mDatas[position].consignee
         holder.address_tv.text = "${mDatas[position].webidCodeStrDb}---${mDatas[position].ewebidCodeStrDb}"
         holder.goods_name_tv.text = mDatas[position].product
-        holder.goods_number_ifo_tv.text ="已扫:x     本车:xxx    剩余:xx     总件数:${mDatas[position].totalQty}"
+        holder.goods_number_ifo_tv.text = "已扫:${mDatas[position].totalQty-mDatas[position].unLoadQty}     本车:${mDatas[position].totalQty}    剩余:${mDatas[position].unLoadQty}     总件数:${mDatas[position].totalQty}"
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

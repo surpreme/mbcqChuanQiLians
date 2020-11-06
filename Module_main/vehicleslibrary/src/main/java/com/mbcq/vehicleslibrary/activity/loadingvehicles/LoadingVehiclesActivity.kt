@@ -70,7 +70,7 @@ class LoadingVehiclesActivity : BaseListMVPActivity<LoadingVehiclesContract.View
         })
         loading_vehicles_toolbar.setRightButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                ScanDialogFragment(getScreenWidth(), object : OnClickInterface.OnClickInterface {
+                ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
                     override fun onResult(s1: String, s2: String) {
                         mPresenter?.searchShortFeeder(s1)
                     }
@@ -95,7 +95,7 @@ class LoadingVehiclesActivity : BaseListMVPActivity<LoadingVehiclesContract.View
                         ScanDialogFragment(getScreenWidth()).show(supportFragmentManager, "ScanDialogFragment")
                     } else {
                         // Oups permission denied
-                        ScanDialogFragment(getScreenWidth(), object : OnClickInterface.OnClickInterface {
+                        ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
                             override fun onResult(s1: String, s2: String) {
                                 mPresenter?.searchShortFeeder(s1)
                             }
