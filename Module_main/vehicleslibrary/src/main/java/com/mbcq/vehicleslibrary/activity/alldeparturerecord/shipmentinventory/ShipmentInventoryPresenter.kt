@@ -117,7 +117,6 @@ class ShipmentInventoryPresenter : BasePresenterImpl<ShipmentInventoryContract.V
         params.put("SelType", 12)
         mView?.getContext()?.let {
             params.put("SelWebidCode", selWebidCode)
-
         }
         get<String>(ApiInterface.SHIPMENT_INVENTORY_SELECTED_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {

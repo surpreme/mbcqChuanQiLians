@@ -101,10 +101,12 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
                 3 -> {
                     mSettingIconBean.tag = 3
                     mSettingIconBean.title = "运单打印机"
+                    mSettingIconBean.contentText = UserInformationUtil.getWayBillBlueToothPrinterName(mContext)
                 }
                 4 -> {
                     mSettingIconBean.tag = 3
                     mSettingIconBean.title = "标签打印机"
+                    mSettingIconBean.contentText = UserInformationUtil.getWayBillBlueToothPrinterName(mContext)
 
                 }
                 5 -> {
@@ -207,8 +209,9 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
                 val blueObj = JSONObject(mResult)
                 obj.put("contentText", blueObj.optString("deviceName"))
                 if (obj.optString("title") == "运单打印机") {
-                    mContext?.let {
+                    mContext.let {
                         UserInformationUtil.setWayBillBlueToothPrinter(it, blueObj.optString("deviceHardwareAddress"))
+                        UserInformationUtil.setWayBillBlueToothPrinterName(it, blueObj.optString("deviceName"))
                     }
                 }
                 showToast(GsonUtils.toPrettyFormat(obj))

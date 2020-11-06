@@ -22,6 +22,7 @@ import org.json.JSONObject
 /**
  * @author: lzy
  * @time: 2020-09-14 11:02:45
+ * 干线计划装车
  */
 @Route(path = ARouterConstants.AddTrunkDepartureActivity)
 class AddTrunkDepartureActivity : BaseAddTrunkDepartureActivity<AddTrunkDepartureContract.View, AddTrunkDeparturePresenter>(), AddTrunkDepartureContract.View {

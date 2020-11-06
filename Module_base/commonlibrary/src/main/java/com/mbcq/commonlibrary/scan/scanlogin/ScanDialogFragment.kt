@@ -15,6 +15,7 @@ import com.iflytek.cloud.SpeechConstant
 import com.iflytek.cloud.SpeechSynthesizer
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.dialog.dialogfragment.BaseDialogFragment
+import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.commonlibrary.R
 
@@ -24,20 +25,16 @@ import com.mbcq.commonlibrary.R
  *  可参考 已实现
  *
  * */
-class ScanDialogFragment : BaseDialogFragment, QRCodeView.Delegate {
+class ScanDialogFragment(mScreenWidth: Int, var mOnClickInterface: OnClickInterface.OnClickInterface? = null) : BaseDialogFragment(), QRCodeView.Delegate {
     var mZXingView: ZXingView? = null
     var mTts: SpeechSynthesizer? = null
-    var mScreenWidths: Int
+    var mScreenWidths: Int = mScreenWidth
     override fun setDialogWidth(): Int {
         return mScreenWidths / 4 * 3
     }
 
     override fun setDialogHeight(): Int {
         return mScreenWidths
-    }
-
-    constructor(mScreenWidth: Int) : super() {
-        mScreenWidths = mScreenWidth
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,16 +74,21 @@ class ScanDialogFragment : BaseDialogFragment, QRCodeView.Delegate {
     fun openVibrator() {
         val vibrator = activity?.getSystemService(VIBRATOR_SERVICE) as Vibrator?
         vibrator?.vibrate(200)
-        mTts?.startSpeaking("小乐 我爱你 扑盖 老子要杀了你 么么哒", null)
+        mTts?.startSpeaking("恭喜发财", null)
     }
 
-    override fun onScanQRCodeSuccess(result: String?) {
+    override fun onScanQRCodeSuccess(result: String) {
         openVibrator()
         mZXingView?.stopSpot()
 
         TalkSureDialog(mContext, 1200, result) {
-            mZXingView?.startSpot()
-
+//TODO
+            if (mOnClickInterface == null) {
+                mZXingView?.startSpot()
+            } else {
+                mOnClickInterface?.onResult(result, "")
+                dismiss()
+            }
         }.show()
     }
 
@@ -133,7 +135,9 @@ class ScanDialogFragment : BaseDialogFragment, QRCodeView.Delegate {
     override fun setIsShowBackDark(): Boolean = true
 
     override fun onScanQRCodeOpenCameraError() {
-        TalkSureDialog(mContext, 1200, "打开系统摄像头失败\n请打开权限重试").show()
+        TalkSureDialog(mContext, 1200, "打开系统摄像头失败\n请打开权限重试") {
+        }.show()
+
 
     }
 

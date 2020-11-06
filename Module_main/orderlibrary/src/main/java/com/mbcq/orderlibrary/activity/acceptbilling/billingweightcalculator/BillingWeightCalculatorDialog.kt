@@ -14,6 +14,11 @@ import com.mbcq.orderlibrary.R
 import com.mbcq.orderlibrary.activity.acceptbilling.AddGoodsAcceptBillingAdapter
 import kotlinx.android.synthetic.main.dialog_billing_weight_calculator.*
 
+/**
+ * @time 2020-11-04
+ * @author lzy
+ * 受理开单 重量计算器
+ */
 class BillingWeightCalculatorDialog(val mScreenWidth: Int, var mOnResultInterface: OnResultInterface? = null) : BaseDialogFragment() {
     interface OnResultInterface {
         fun onResult(totalWeight: String)
@@ -55,7 +60,7 @@ class BillingWeightCalculatorDialog(val mScreenWidth: Int, var mOnResultInterfac
             }
         }
         calculator_recycler_view.adapter = mBillingWeightCalculatorAdapter
-
+        planTotal()
 
     }
 

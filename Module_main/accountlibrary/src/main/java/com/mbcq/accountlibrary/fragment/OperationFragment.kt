@@ -219,6 +219,10 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                     ARouter.getInstance().build(ARouterConstants.AcceptBillingRecordingActivity).navigation()
 
                                 }
+                                4 -> {
+                                    ARouter.getInstance().build(ARouterConstants.LoadingVehiclesActivity).navigation()
+
+                                }
                                 7 -> {
                                     ARouter.getInstance().build(ARouterConstants.PrintAcceptBillingActivity).navigation()
 
@@ -240,7 +244,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                         }
                         "3" -> {
                             when (position) {
-                                0->{
+                                0 -> {
                                     ARouter.getInstance().build(ARouterConstants.ArrivalVehiclesScanActivity).navigation()
 
                                 }

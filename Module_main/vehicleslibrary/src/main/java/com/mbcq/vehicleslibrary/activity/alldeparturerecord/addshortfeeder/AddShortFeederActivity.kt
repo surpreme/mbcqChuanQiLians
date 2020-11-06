@@ -75,6 +75,7 @@ class AddShortFeederActivity : BaseAddShortFeederActivity<AddShortFeederContract
         obj.put("AccZx", loading_fee_ed.text.toString())// 装卸费
         obj.put("AccJh", 0)// 接货费
         obj.put("AccTansSum", total_freight_tv.text.toString())// 运费合计
+        obj.put("isScan", if (choice_scan_checkBox.isChecked) "1" else "0")// 运费合计
         obj.put("AccArrSum", mToPayTotalPrice)// 到付合计
         obj.put("AccOther", 0)// 其它费用
         obj.put("VehicleInterval", UserInformationUtil.getWebIdCodeStr(mContext) + "-" + destination_tv.text.toString())// 发车区间  A-B
