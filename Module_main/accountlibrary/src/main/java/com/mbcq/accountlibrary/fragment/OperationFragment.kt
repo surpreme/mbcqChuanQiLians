@@ -27,7 +27,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
     override fun initDatas() {
         super.initDatas()
         val list = arrayListOf<IconViewBean>()
-        for (index in 0..5) {
+        for (index in 0..7) {
             val mOperationViewBean = IconViewBean()
             when (index) {
                 0 -> {
@@ -137,9 +137,44 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                 }
                 4 -> {
                     mOperationViewBean.tag = 1
-                    mOperationViewBean.title = "其他管理"
+                    mOperationViewBean.title = "回单管理"
                 }
                 5 -> {
+                    mOperationViewBean.tag = 2
+                    val listItem = arrayListOf<IconViewBean.ItemBean>()
+
+                    for (mItemIndex in 0..5) {
+                        val item = IconViewBean.ItemBean()
+                        when (mItemIndex) {
+                            0 -> {
+                                item.itemText = "回单签收"
+                            }
+                            1 -> {
+                                item.itemText = "回单寄出"
+                            }
+                            2 -> {
+                                item.itemText = "回单接受"
+                            }
+                            3 -> {
+                                item.itemText = "回单返厂"
+                            }
+                            4 -> {
+                                item.itemText = "回单总账"
+                            }
+                            5 -> {
+                                item.itemText = "取消操作"
+                            }
+
+                        }
+                        listItem.add(item)
+                    }
+                    mOperationViewBean.item = listItem
+                }
+                6 -> {
+                    mOperationViewBean.tag = 1
+                    mOperationViewBean.title = "其他管理"
+                }
+                7 -> {
                     mOperationViewBean.tag = 2
                     val listItem = arrayListOf<IconViewBean.ItemBean>()
 
@@ -275,6 +310,14 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                             }
                         }
                         "5" -> {
+                            when (position) {
+                                0 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ReceiptSignActivity).navigation()
+
+                                }
+                            }
+                        }
+                        "7" -> {
                             when (position) {
                                 5 -> {
                                     ARouter.getInstance().build(ARouterConstants.ClaimSettlementActivity).navigation()

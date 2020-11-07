@@ -352,6 +352,18 @@ public class ApiInterface {
      */
 
     /**
+     *
+     */
+    /**
+     * 回单管理 回单签收记录——提取库存
+     */
+    public static final String RECEIPT_MANAGEMENT_SIGN_LOAD_GET = BASE_URI + "BackFetchOpe/SelKcBackFetchByCondition";
+
+    /**
+     *
+     */
+
+    /**
      * 签收记录
      */
     public static final String SIGN_FOR_RECORD_SELECT_GET = BASE_URI + "WaybillFetchOpe/SelWaybillFetchByCondition";

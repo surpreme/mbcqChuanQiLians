@@ -169,8 +169,8 @@ public class ShortTrunkDepartureScanOperatingBean {
     private int totalQty;
     private int qty;
     private String packages;
-    private int weight;
-    private int volumn;
+    private Double weight;
+    private Double volumn;
     private int weightJs;
     private int safeMoney;
     private int accDaiShou;
@@ -683,19 +683,19 @@ public class ShortTrunkDepartureScanOperatingBean {
         this.packages = packages;
     }
 
-    public int getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
-    public int getVolumn() {
+    public Double getVolumn() {
         return volumn;
     }
 
-    public void setVolumn(int volumn) {
+    public void setVolumn(Double volumn) {
         this.volumn = volumn;
     }
 

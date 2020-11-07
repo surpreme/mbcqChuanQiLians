@@ -18,11 +18,11 @@
     </style>
     <!--    设置tablayout背景-->
 
-   <!-- <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
-        <item name="tabBackground">@drawable/tab_select_background</item>
-&lt;!&ndash;        <item name="tabIndicatorColor">#ff00ff</item>&ndash;&gt;
-&lt;!&ndash;        <item name="tabIndicatorHeight">2dp</item>&ndash;&gt;
-    </style>-->
+    <!-- <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
+         <item name="tabBackground">@drawable/tab_select_background</item>
+ &lt;!&ndash;        <item name="tabIndicatorColor">#ff00ff</item>&ndash;&gt;
+ &lt;!&ndash;        <item name="tabIndicatorHeight">2dp</item>&ndash;&gt;
+     </style>-->
     <!-- 自定义对话框风格 -->
     <style name="commonTipDialogStyle" parent="android:Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -58,4 +58,23 @@
         <item name="android:windowExitAnimation">@anim/fade_out</item>
     </style>
 
+    <style name="update_progress_red_horizontal" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">false</item>
+        <!--进度条的进度颜色drawable文件-->
+        <item name="android:progressDrawable">@drawable/progress_indeterminate_horizontal</item>
+        <!--进度条的最小高度-->
+        <item name="android:minHeight">17dp</item>
+        <!--进度条的最大高度-->
+        <item name="android:maxHeight">17dp</item>
+    </style>
+
+    <style name="update_progress_green_horizontal" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">false</item>
+        <!--进度条的进度颜色drawable文件-->
+        <item name="android:progressDrawable">@drawable/progress_indeterminate_horizontal</item>
+        <!--进度条的最小高度-->
+        <item name="android:minHeight">17dp</item>
+        <!--进度条的最大高度-->
+        <item name="android:maxHeight">17dp</item>
+    </style>
 </resources>

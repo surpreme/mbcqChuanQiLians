@@ -3,6 +3,8 @@ package com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.media.AudioManager
+import android.media.SoundPool
 import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
@@ -15,7 +17,6 @@ import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
-import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
@@ -27,6 +28,7 @@ import com.mbcq.vehicleslibrary.R
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.*
 import org.json.JSONObject
+
 
 /**
  * @author: lzy
@@ -40,7 +42,9 @@ class ShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ShortTrunkD
     var mLastData: String = ""
     lateinit var rxPermissions: RxPermissions
     var mTts: SpeechSynthesizer? = null
-
+    var mSoundPool: SoundPool? = null
+    private var soundPoolMap: HashMap<Int, Int>? = null
+    val SCAN_SOUND_ERROR_TAG = 1
 
     override fun getLayoutId(): Int = R.layout.activity_short_trunk_departure_scan_operating
 
@@ -49,6 +53,17 @@ class ShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ShortTrunkD
         rxPermissions = RxPermissions(this)
         ARouter.getInstance().inject(this)
         initTts()
+        initSoundPool()
+    }
+
+    fun initSoundPool() {
+        mSoundPool = SoundPool(1, AudioManager.STREAM_ALARM, 0)
+//        mSoundPool?.setOnLoadCompleteListener { soundPool, sampleId, status -> }
+        soundPoolMap = HashMap<Int, Int>()
+        mSoundPool?.let {
+            soundPoolMap?.put(SCAN_SOUND_ERROR_TAG, it.load(this, com.mbcq.commonlibrary.R.raw.scan_error, 1))
+
+        }
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
@@ -96,8 +111,17 @@ class ShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ShortTrunkD
                                             soundString = item.ewebidCodeStr
                                         }
                                     }
-                                    mTts?.startSpeaking(soundString, null)
-                                    mPresenter?.scanOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString)
+                                    if (soundString != "未知地址") {
+                                        mPresenter?.scanOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString)
+                                    } else {
+
+                                        soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
+
+                                        /*  val uri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM) //系统自带警告声
+                                        val rt = RingtoneManager.getRingtone(applicationContext, uri)
+                                        rt.play()*/
+
+                                    }
                                 }
                             }
 
@@ -149,17 +173,82 @@ class ShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ShortTrunkD
         return true
     }
 
+    /***
+     * 全部未扫描数量
+     */
+    var mTotalUnLoadingNum = 0
+
+    /***
+     * 全部未扫描重量
+     */
+    var mTotalUnLoadingWeight = 0.00
+
+    /***
+     * 全部未扫描重量
+     */
+    var mTotalLoadingWeight = 0.00
+
+    /***
+     * 全部未扫描体积
+     */
+    var mTotalUnLoadingVolume = 0.00
+
+    /***
+     * 全部扫描体积
+     */
+    var mTotalLoadingVolume = 0.00
+
+    /**
+     * 本车全部货物数量
+     */
+    var totalLoadingNum = 0
+
+    /**
+     *全部未扫描单子
+     */
+    var mTotalUnLoadingOrderNum = 0
+
+    /**
+     *全部扫描单子
+     */
+    var mTotalLoadingOrderNum = 0
+
+    /**
+     * unLoadQty 已扫数量
+     */
+    @SuppressLint("SetTextI18n")
     override fun getCarInfoS(list: List<ShortTrunkDepartureScanOperatingBean>) {
         adapter.appendData(list)
+        for (item in list) {
+
+            totalLoadingNum = (totalLoadingNum + item.totalQty)//本车全部货物数量+
+            mTotalUnLoadingNum = (mTotalUnLoadingNum + (item.totalQty - item.unLoadQty))//全部未扫描数量
+            mTotalUnLoadingVolume = (mTotalUnLoadingVolume + (item.volumn / item.totalQty) * (item.totalQty - item.unLoadQty))//全部未扫描体积
+            mTotalLoadingVolume = (mTotalLoadingVolume + (item.volumn / item.totalQty) * item.unLoadQty)//全部扫描体积
+            mTotalUnLoadingWeight = (mTotalUnLoadingWeight + (item.weight / item.totalQty) * (item.totalQty - item.unLoadQty))//全部未扫描重量
+            mTotalLoadingWeight = (mTotalLoadingWeight + (item.weight / item.totalQty) * item.unLoadQty)//全部扫描重量
+            if (item.unLoadQty != item.totalQty) {
+                mTotalUnLoadingOrderNum = (mTotalUnLoadingOrderNum + 1)//全部未扫描单子
+            } else {
+                mTotalLoadingOrderNum = (mTotalLoadingOrderNum + 1)//全部扫描单子
+
+            }
+        }
+        unScan_info_tv.text = "未扫：${mTotalUnLoadingOrderNum}票 ${mTotalUnLoadingNum}件 ${mTotalUnLoadingWeight}kg  ${mTotalUnLoadingVolume}m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
+        scaned_info__tv.text = "已扫：${mTotalLoadingOrderNum}票 ${totalLoadingNum - mTotalUnLoadingNum}件 ${mTotalLoadingWeight}kg  ${mTotalLoadingVolume}m³             金额:xxxx"
+        scan_progressBar.progress = (((totalLoadingNum - mTotalUnLoadingNum)  * 100) / totalLoadingNum)
+        scan_number_total_tv.text="${totalLoadingNum - mTotalUnLoadingNum} / $totalLoadingNum"
     }
 
     override fun scanOrderS(billno: String, soundStr: String) {
         for ((index, item) in adapter.getAllData().withIndex()) {
             if (item.billno == billno) {
                 val ii = item
-                ii.unLoadQty = ii.unLoadQty--
+                ii.unLoadQty = item.unLoadQty + 1
                 adapter.notifyItemChangeds(index, ii)
             }
         }
+        mTts?.startSpeaking(soundStr, null)
+
     }
 }

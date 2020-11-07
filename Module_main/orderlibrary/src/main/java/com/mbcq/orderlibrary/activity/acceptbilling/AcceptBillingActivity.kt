@@ -571,10 +571,14 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
             }
         }
-        if (labelcheck.isChecked && waybillcheck.isChecked) {
+        if (labelcheck.isChecked or waybillcheck.isChecked) {
             val printAdapter = getZpBluetoothPrinter()
-            print_YH_TYD_NEW1(Gson().fromJson(GsonUtils.toPrettyFormat(jsonObj.toString()), PrintBlueToothBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), priceObj, printAdapter)
-            printMoreLabel(Gson().fromJson(GsonUtils.toPrettyFormat(jsonObj.toString()), PrintBlueToothBean::class.java), jsonObj.getInt("TotalQty"), printAdapter)
+            if (waybillcheck.isChecked)
+                print_YH_TYD_NEW1(Gson().fromJson(GsonUtils.toPrettyFormat(jsonObj.toString()), PrintBlueToothBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), priceObj, printAdapter)
+            if (labelcheck.isChecked)
+                printMoreLabel(Gson().fromJson(GsonUtils.toPrettyFormat(jsonObj.toString()), PrintBlueToothBean::class.java), jsonObj.getInt("TotalQty"), printAdapter)
+            closePrint(printAdapter)
+
         }
 
         mPresenter?.saveAcceptBilling(jsonObj)

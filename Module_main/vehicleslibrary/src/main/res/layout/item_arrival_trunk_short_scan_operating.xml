@@ -1,75 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
     android:layout_marginLeft="5dp"
+    android:layout_marginTop="5dp"
     android:layout_marginRight="5dp"
-    android:background="@drawable/hollow_out_gray"
-    android:paddingTop="2.5dp"
-    android:paddingBottom="2.5dp"
     tools:context=".activity.shorttrunkdeparturescanoperating.ShortTrunkDepartureScanOperatingAdapter">
 
-
-    <TextView
-        android:id="@+id/billno_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        tools:text="10056044123"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/receiver_tv"
-        android:layout_width="46dp"
-        android:layout_height="19dp"
-        android:layout_marginLeft="15dp"
-        tools:text="收货人"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toRightOf="@+id/billno_tv"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/address_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="汕头———义乌青口"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toRightOf="@+id/receiver_tv"
-        app:layout_constraintRight_toLeftOf="@+id/goods_name_tv"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/goods_name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
-        tools:text="货物名称"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/goods_number_ifo_tv"
+    <ProgressBar
+        android:id="@+id/operating_progressbar"
+        style="@style/update_progress_red_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center|left"
-        tools:text="已扫:x     本车:xxx    剩余:xx     总件数:60"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/billno_tv" />
+        android:layout_height="60dp"
+        android:max="100"
+        tools:progress="30" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/hollow_out_gray">
+
+        <TextView
+            android:id="@+id/billno_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="10056044123" />
+
+        <TextView
+            android:id="@+id/receiver_tv"
+            android:layout_width="46dp"
+            android:layout_height="19dp"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toRightOf="@+id/billno_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="收货人" />
+
+        <TextView
+            android:id="@+id/address_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toRightOf="@+id/receiver_tv"
+            app:layout_constraintRight_toLeftOf="@+id/goods_name_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="汕头———义乌青口" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/goods_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="货物名称" />
+
+
+        <TextView
+            android:id="@+id/goods_number_ifo_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center|left"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/billno_tv"
+            tools:text="已扫:x     本车:xxx    剩余:xx     总件数:60" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

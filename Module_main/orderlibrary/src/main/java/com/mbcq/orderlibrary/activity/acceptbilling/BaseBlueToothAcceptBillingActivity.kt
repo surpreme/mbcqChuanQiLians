@@ -143,7 +143,6 @@ abstract class BaseBlueToothAcceptBillingActivity<V : BaseView, T : BasePresente
         for (index in 1..num) {
             print_LabelTemplated_XT423(kz, index, zpSDK1)
         }
-        closePrint(zpSDK1)
     }
 
     /**
