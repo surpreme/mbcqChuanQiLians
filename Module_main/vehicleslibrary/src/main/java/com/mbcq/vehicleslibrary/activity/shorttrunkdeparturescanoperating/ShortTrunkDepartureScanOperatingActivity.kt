@@ -72,8 +72,9 @@ class ShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ShortTrunkD
     }
 
     @SuppressLint("SetTextI18n")
-    override fun initDatas() {
-        super.initDatas()
+    override fun onResume() {
+        super.onResume()
+        clearInfo()
         val obj = JSONObject(mLastData)
         mPresenter?.getCarInfo(obj.optString("inoneVehicleFlag"))
         unloading_batch_tv.text = "卸车批次:${obj.optString("inoneVehicleFlag")}"
@@ -82,6 +83,23 @@ class ShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ShortTrunkD
 
     override fun onClick() {
         super.onClick()
+        save_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                if (mTotalUnLoadingNum != 0) {
+                    showToast("请扫描完毕再发车")
+                    return
+                }
+                val modifyData = JSONObject(mLastData)
+                mPresenter?.saveScanPost(modifyData.optInt("id"), modifyData.optString("inoneVehicleFlag"))
+            }
+
+        })
+        short_vehicles_scan_operating_toolbar.setRightTitleOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                ARouter.getInstance().build(ARouterConstants.RevokeShortTrunkDepartureScanOperatingActivity).withString("RevokeShortLoadingVehicles", mLastData).navigation()
+            }
+
+        })
         scan_number_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 getCameraPermission()
@@ -114,7 +132,6 @@ class ShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ShortTrunkD
                                     if (soundString != "未知地址") {
                                         mPresenter?.scanOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString)
                                     } else {
-
                                         soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
 
                                         /*  val uri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM) //系统自带警告声
@@ -218,6 +235,9 @@ class ShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ShortTrunkD
      */
     @SuppressLint("SetTextI18n")
     override fun getCarInfoS(list: List<ShortTrunkDepartureScanOperatingBean>) {
+        if (!adapter.getAllData().isNullOrEmpty()) {
+            adapter.clearData()
+        }
         adapter.appendData(list)
         for (item in list) {
 
@@ -234,10 +254,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ShortTrunkD
 
             }
         }
-        unScan_info_tv.text = "未扫：${mTotalUnLoadingOrderNum}票 ${mTotalUnLoadingNum}件 ${mTotalUnLoadingWeight}kg  ${mTotalUnLoadingVolume}m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
-        scaned_info__tv.text = "已扫：${mTotalLoadingOrderNum}票 ${totalLoadingNum - mTotalUnLoadingNum}件 ${mTotalLoadingWeight}kg  ${mTotalLoadingVolume}m³             金额:xxxx"
-        scan_progressBar.progress = (((totalLoadingNum - mTotalUnLoadingNum)  * 100) / totalLoadingNum)
-        scan_number_total_tv.text="${totalLoadingNum - mTotalUnLoadingNum} / $totalLoadingNum"
+        notifyMathChange()
     }
 
     override fun scanOrderS(billno: String, soundStr: String) {
@@ -246,9 +263,76 @@ class ShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ShortTrunkD
                 val ii = item
                 ii.unLoadQty = item.unLoadQty + 1
                 adapter.notifyItemChangeds(index, ii)
+                if (ii.unLoadQty == ii.totalQty) {
+                    mTotalUnLoadingOrderNum -= 1//全部未扫描单子
+                    mTotalLoadingOrderNum += 1//全部扫描单子
+                }
+                mTotalUnLoadingNum -= 1//全部未扫描数量
+                mTotalUnLoadingVolume = (mTotalUnLoadingVolume - ((ii.volumn) / ii.totalQty))//全部未扫描体积
+                mTotalLoadingVolume = (mTotalLoadingVolume + ((ii.volumn) / ii.totalQty))//全部扫描体积
+                mTotalUnLoadingWeight = (mTotalUnLoadingWeight - ((ii.weight) / ii.totalQty))//全部未扫描重量
+                mTotalLoadingWeight = (mTotalLoadingWeight + ((ii.weight) / ii.totalQty))//全部扫描重量
+                notifyMathChange()
             }
         }
         mTts?.startSpeaking(soundStr, null)
 
+    }
+
+    override fun saveScanPostS(result: String) {
+        val obj = JSONObject(mLastData)
+        TalkSureDialog(mContext, getScreenWidth(), "车次为${obj.optString("inoneVehicleFlag")}的车辆已经扫描发车，点击此处返回！") {
+            onBackPressed()
+        }.show()
+    }
+
+    fun clearInfo() {
+        /***
+         * 全部未扫描数量
+         */
+        mTotalUnLoadingNum = 0
+
+        /***
+         * 全部未扫描重量
+         */
+        mTotalUnLoadingWeight = 0.00
+
+        /***
+         * 全部未扫描重量
+         */
+        mTotalLoadingWeight = 0.00
+
+        /***
+         * 全部未扫描体积
+         */
+        mTotalUnLoadingVolume = 0.00
+
+        /***
+         * 全部扫描体积
+         */
+        mTotalLoadingVolume = 0.00
+
+        /**
+         * 本车全部货物数量
+         */
+        totalLoadingNum = 0
+
+        /**
+         *全部未扫描单子
+         */
+        mTotalUnLoadingOrderNum = 0
+
+        /**
+         *全部扫描单子
+         */
+        mTotalLoadingOrderNum = 0
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun notifyMathChange() {
+        unScan_info_tv.text = "未扫：${mTotalUnLoadingOrderNum}票 ${mTotalUnLoadingNum}件 ${mTotalUnLoadingWeight}kg  ${mTotalUnLoadingVolume}m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
+        scaned_info__tv.text = "已扫：${mTotalLoadingOrderNum}票 ${totalLoadingNum - mTotalUnLoadingNum}件 ${mTotalLoadingWeight}kg  ${mTotalLoadingVolume}m³             金额:xxxx"
+        scan_progressBar.progress = (((totalLoadingNum - mTotalUnLoadingNum) * 100) / totalLoadingNum)
+        scan_number_total_tv.text = "${totalLoadingNum - mTotalUnLoadingNum} / $totalLoadingNum"
     }
 }

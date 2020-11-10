@@ -140,7 +140,11 @@ public class ApiInterface {
     /**
      * 短驳发车 有计划扫描
      */
-    public static final String DEPARTURE_SHORT_FEEDER_DEPARTURE_scan_INFO_GET = BASE_URI + "Scan/AddDbFcPlanWaybillScan";
+    public static final String DEPARTURE_SHORT_FEEDER_DEPARTURE_SCAN_INFO_POST = BASE_URI + "Scan/AddDbFcPlanWaybillScan";
+    /**
+     * 短驳发车 有计划扫描撤销
+     */
+    public static final String DEPARTURE_SHORT_FEEDER_DEPARTURE_SCAN_INFO_REVOKE_POST = BASE_URI + "Scan/DelDbFcPlanWaybillScan";
     /**
      * 短驳发车 确认到车
      */

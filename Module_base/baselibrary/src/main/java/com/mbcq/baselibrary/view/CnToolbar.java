@@ -194,6 +194,10 @@ public class CnToolbar extends Toolbar {
         back_iv.setOnClickListener(li);
     }
 
+    public void setRightTitleOnClickListener(OnClickListener li) {
+        right_tv.setOnClickListener(li);
+    }
+
     public void setCenterTitleText(CharSequence text) {
         mTextTitle.setText(text);
         mTextTitle.setVisibility(VISIBLE);

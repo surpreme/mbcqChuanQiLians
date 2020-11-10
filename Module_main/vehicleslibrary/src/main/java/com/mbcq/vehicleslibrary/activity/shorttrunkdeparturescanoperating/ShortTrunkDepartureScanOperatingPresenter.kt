@@ -1,6 +1,7 @@
 package com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating
 
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
@@ -52,9 +53,22 @@ class ShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ShortTrunkDe
         jsonO.put("InOneVehicleFlag", inOneVehicleFlag)
         jsonO.put("ScanType", 0)
         jsonO.put("ScanTypeStr", "PDA")
-        post<String>(ApiInterface.DEPARTURE_SHORT_FEEDER_DEPARTURE_scan_INFO_GET, getRequestBody(jsonO), object : CallBacks {
+        post<String>(ApiInterface.DEPARTURE_SHORT_FEEDER_DEPARTURE_SCAN_INFO_POST, getRequestBody(jsonO), object : CallBacks {
             override fun onResult(result: String) {
                 mView?.scanOrderS(billno, soundStr)
+
+            }
+
+        })
+    }
+
+    override fun saveScanPost(id: Int, inoneVehicleFlag: String) {
+        val postBody = JsonObject()
+        postBody.addProperty("id", id)
+        postBody.addProperty("InoneVehicleFlag", inoneVehicleFlag)
+        post<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_COMPLETE_LOCAL_INFO_POST, getRequestBody(postBody), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.saveScanPostS("")
 
             }
 

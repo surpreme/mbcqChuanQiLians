@@ -62,6 +62,7 @@ public class ARouterConstants {
     public static final String ArrivalTrunkDepartureScanOperatingActivity="/vehicles/ArrivalTrunkDepartureScanOperatingActivity";
     public static final String DepartureTrunkDepartureScanOperatingActivity="/vehicles/DepartureTrunkDepartureScanOperatingActivity";
     public static final String ShortTrunkDepartureScanOperatingActivity="/vehicles/ShortTrunkDepartureScanOperatingActivity";
+    public static final String RevokeShortTrunkDepartureScanOperatingActivity="/vehicles/RevokeShortTrunkDepartureScanOperatingActivity";
     //////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////////////////////////////////
