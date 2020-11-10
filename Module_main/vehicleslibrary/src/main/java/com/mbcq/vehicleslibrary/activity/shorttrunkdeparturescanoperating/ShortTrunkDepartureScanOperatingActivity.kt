@@ -36,40 +36,12 @@ import org.json.JSONObject
  */
 
 @Route(path = ARouterConstants.ShortTrunkDepartureScanOperatingActivity)
-class ShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ShortTrunkDepartureScanOperatingContract.View, ShortTrunkDepartureScanOperatingPresenter, ShortTrunkDepartureScanOperatingBean>(), ShortTrunkDepartureScanOperatingContract.View {
+class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOperatingActivity<ShortTrunkDepartureScanOperatingContract.View, ShortTrunkDepartureScanOperatingPresenter, ShortTrunkDepartureScanOperatingBean>(), ShortTrunkDepartureScanOperatingContract.View {
     @Autowired(name = "ShortLoadingVehicles")
     @JvmField
     var mLastData: String = ""
-    lateinit var rxPermissions: RxPermissions
-    var mTts: SpeechSynthesizer? = null
-    var mSoundPool: SoundPool? = null
-    private var soundPoolMap: HashMap<Int, Int>? = null
-    val SCAN_SOUND_ERROR_TAG = 1
 
     override fun getLayoutId(): Int = R.layout.activity_short_trunk_departure_scan_operating
-
-    override fun initExtra() {
-        super.initExtra()
-        rxPermissions = RxPermissions(this)
-        ARouter.getInstance().inject(this)
-        initTts()
-        initSoundPool()
-    }
-
-    fun initSoundPool() {
-        mSoundPool = SoundPool(1, AudioManager.STREAM_ALARM, 0)
-//        mSoundPool?.setOnLoadCompleteListener { soundPool, sampleId, status -> }
-        soundPoolMap = HashMap<Int, Int>()
-        mSoundPool?.let {
-            soundPoolMap?.put(SCAN_SOUND_ERROR_TAG, it.load(this, com.mbcq.commonlibrary.R.raw.scan_error, 1))
-
-        }
-    }
-
-    override fun initViews(savedInstanceState: Bundle?) {
-        super.initViews(savedInstanceState)
-        setStatusBar(R.color.base_blue)
-    }
 
     @SuppressLint("SetTextI18n")
     override fun onResume() {
@@ -106,12 +78,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ShortTrunkD
             }
 
         })
-        short_vehicles_scan_operating_toolbar.setBackButtonOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                onBackPressed()
-            }
 
-        })
     }
 
     fun getCameraPermission() {
@@ -152,83 +119,15 @@ class ShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ShortTrunkD
 
     }
 
-    private fun initTts() {
-        if (mTts == null) {
-            mTts = SpeechSynthesizer.createSynthesizer(mContext) { p0 ->
-                if (p0 != ErrorCode.SUCCESS) {
-                    LogUtils.i("TTS", "语音初始化失败,错误码：$p0")
-                    TalkSureCancelDialog(mContext, getScreenWidth(), "语音初始化失败,请稍后重试，如需继续使用请点取消，点击确定即可退出！") {
-                        onBackPressed()
-                    }.show()
-                }
-            }
-            //设置发音人
-            mTts?.setParameter(SpeechConstant.VOICE_NAME, "x2_xiaoxue")
-            //设置语速,值范围：[0, 100],默认值：50
-            mTts?.setParameter(SpeechConstant.SPEED, "49")
-            //设置音量
-            mTts?.setParameter(SpeechConstant.VOLUME, "tts_volume")
-            //设置语调
-            mTts?.setParameter(SpeechConstant.PITCH, "tts_pitch")
-        }
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mTts?.stopSpeaking()
-        // 退出时释放连接
-        mTts?.destroy()
-    }
 
     override fun getRecyclerViewId(): Int = R.id.short_vehicles_scan_operating_recycler
 
-    override fun setAdapter(): BaseRecyclerAdapter<ShortTrunkDepartureScanOperatingBean> = ShortTrunkDepartureScanOperatingAdapter(mContext).also {
+    override fun setAdapter(): BaseRecyclerAdapter<ShortTrunkDepartureScanOperatingBean> = ShortTrunkDepartureScanOperatingAdapter(mContext)
 
-    }
 
-    override fun isShowErrorDialog(): Boolean {
-        return true
-    }
 
-    /***
-     * 全部未扫描数量
-     */
-    var mTotalUnLoadingNum = 0
 
-    /***
-     * 全部未扫描重量
-     */
-    var mTotalUnLoadingWeight = 0.00
-
-    /***
-     * 全部未扫描重量
-     */
-    var mTotalLoadingWeight = 0.00
-
-    /***
-     * 全部未扫描体积
-     */
-    var mTotalUnLoadingVolume = 0.00
-
-    /***
-     * 全部扫描体积
-     */
-    var mTotalLoadingVolume = 0.00
-
-    /**
-     * 本车全部货物数量
-     */
-    var totalLoadingNum = 0
-
-    /**
-     *全部未扫描单子
-     */
-    var mTotalUnLoadingOrderNum = 0
-
-    /**
-     *全部扫描单子
-     */
-    var mTotalLoadingOrderNum = 0
 
     /**
      * unLoadQty 已扫数量
@@ -286,53 +185,5 @@ class ShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ShortTrunkD
         }.show()
     }
 
-    fun clearInfo() {
-        /***
-         * 全部未扫描数量
-         */
-        mTotalUnLoadingNum = 0
 
-        /***
-         * 全部未扫描重量
-         */
-        mTotalUnLoadingWeight = 0.00
-
-        /***
-         * 全部未扫描重量
-         */
-        mTotalLoadingWeight = 0.00
-
-        /***
-         * 全部未扫描体积
-         */
-        mTotalUnLoadingVolume = 0.00
-
-        /***
-         * 全部扫描体积
-         */
-        mTotalLoadingVolume = 0.00
-
-        /**
-         * 本车全部货物数量
-         */
-        totalLoadingNum = 0
-
-        /**
-         *全部未扫描单子
-         */
-        mTotalUnLoadingOrderNum = 0
-
-        /**
-         *全部扫描单子
-         */
-        mTotalLoadingOrderNum = 0
-    }
-
-    @SuppressLint("SetTextI18n")
-    fun notifyMathChange() {
-        unScan_info_tv.text = "未扫：${mTotalUnLoadingOrderNum}票 ${mTotalUnLoadingNum}件 ${mTotalUnLoadingWeight}kg  ${mTotalUnLoadingVolume}m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
-        scaned_info__tv.text = "已扫：${mTotalLoadingOrderNum}票 ${totalLoadingNum - mTotalUnLoadingNum}件 ${mTotalLoadingWeight}kg  ${mTotalLoadingVolume}m³             金额:xxxx"
-        scan_progressBar.progress = (((totalLoadingNum - mTotalUnLoadingNum) * 100) / totalLoadingNum)
-        scan_number_total_tv.text = "${totalLoadingNum - mTotalUnLoadingNum} / $totalLoadingNum"
-    }
 }
