@@ -22,7 +22,7 @@ import com.mbcq.commonlibrary.R
 
 /**
  * 扫码弹窗
- *  可参考 已实现
+ *  已实现
  *
  * */
 class ScanDialogFragment(mScreenWidth: Int, var soundStr: String? = null, var mOnClickInterface: OnClickInterface.OnClickInterface? = null) : BaseDialogFragment(), QRCodeView.Delegate {
@@ -61,7 +61,6 @@ class ScanDialogFragment(mScreenWidth: Int, var soundStr: String? = null, var mO
             // 退出时释放连接
             mTts?.destroy()
         }
-
 
 
     }

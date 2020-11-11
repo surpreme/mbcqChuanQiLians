@@ -32,7 +32,7 @@ import org.json.JSONObject
 /**
  * @author: lzy
  * @time: 2018.08.25login
- * 受理开单 计算器 Calculator 重量 weight
+ * 受理开单
  */
 
 @Route(path = ARouterConstants.AcceptBillingActivity)

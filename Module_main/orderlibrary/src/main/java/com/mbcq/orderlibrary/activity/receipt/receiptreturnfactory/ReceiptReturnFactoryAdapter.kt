@@ -1,4 +1,4 @@
-package com.mbcq.orderlibrary.activity.receipt.receiptsign
+package com.mbcq.orderlibrary.activity.receipt.receiptreturnfactory
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.orderlibrary.R
+import com.mbcq.orderlibrary.activity.receipt.receiptconsignment.ReceiptConsignmentAdapter
 
-class ReceiptSignAdapter(context: Context) : BaseRecyclerAdapter<ReceiptSignBean>(context) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_receipt_sign, parent, false))
+class ReceiptReturnFactoryAdapter (context: Context):BaseRecyclerAdapter<ReceiptReturnFactoryBean>(context){
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_receipt_return_factory, parent, false))
+
     fun checkedAll(isC: Boolean) {
         for ((index, item) in mDatas.withIndex()) {
             item.isChecked = isC
@@ -49,7 +51,6 @@ class ReceiptSignAdapter(context: Context) : BaseRecyclerAdapter<ReceiptSignBean
 
         })
     }
-
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var waybill_time_tv: TextView = itemView.findViewById(R.id.waybill_time_tv)
         var receipt_requirements_tv: TextView = itemView.findViewById(R.id.receipt_requirements_tv)
@@ -61,4 +62,5 @@ class ReceiptSignAdapter(context: Context) : BaseRecyclerAdapter<ReceiptSignBean
         var shipper_tv: TextView = itemView.findViewById(R.id.shipper_tv)
         var receiver_tv: TextView = itemView.findViewById(R.id.receiver_tv)
     }
+
 }

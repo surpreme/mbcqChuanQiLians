@@ -120,13 +120,9 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
     }
 
 
-
     override fun getRecyclerViewId(): Int = R.id.short_vehicles_scan_operating_recycler
 
     override fun setAdapter(): BaseRecyclerAdapter<ShortTrunkDepartureScanOperatingBean> = ShortTrunkDepartureScanOperatingAdapter(mContext)
-
-
-
 
 
     /**

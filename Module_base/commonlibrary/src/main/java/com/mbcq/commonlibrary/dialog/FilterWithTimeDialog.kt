@@ -70,7 +70,10 @@ class FilterWithTimeDialog : BaseDialogFragment {
     /*  constructor(mScreenWidth: Int, mDatas: String, showTag: String, tips: String, isGridLayoutManager: Boolean, isShowOutSide: Boolean, mClickInterface: OnClickInterface.OnClickInterface) {
           init(mScreenWidth, mDatas, showTag, "", tips, isGridLayoutManager, isShowOutSide, mClickInterface)
       }*/
-
+    /**
+     * s1 网点
+     * s2  start@end
+     */
     constructor(mScreenWidth: Int, mDatas: String, showTag: String, resultTag: String, isWebCodeDialog: Boolean, tips: String, isGridLayoutManager: Boolean, mClickInterface: OnClickInterface.OnClickInterface) {
         val dataslist = JSONArray(mDatas)
         val showDatas = mutableListOf<BaseCheckedAdapterBean>()

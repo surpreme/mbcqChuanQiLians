@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.receipt.receiptsign.ReceiptSignActivity">
+    tools:context=".activity.receipt.receiptconsignment.ReceiptConsignmentActivity">
 
     <com.mbcq.baselibrary.view.CnToolbar
-        android:id="@+id/receipt_sign_toolbar"
+        android:id="@+id/receipt_consignment_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
-        app:centerTextViewText="回单签收"
+        app:centerTextViewText="回单寄出"
         app:layout_constraintTop_toTopOf="parent"
         app:rightButtonIcon="@drawable/ic_search_icon" />
 
@@ -24,7 +24,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/hollow_out_gray"
-        app:layout_constraintTop_toBottomOf="@+id/receipt_sign_toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/receipt_consignment_toolbar">
 
         <EditText
             android:id="@+id/billno_ed"
@@ -36,25 +36,10 @@
             android:inputType="number"
             android:paddingLeft="15dp" />
 
-        <ImageView
-            android:id="@+id/scan_order_iv"
-            android:layout_width="27dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_scan_iccon" />
-
-        <Button
-            android:id="@+id/search_btn"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:background="#EAC11E"
-            android:text="查询"
-            android:textColor="@color/white"
-            android:textSize="19sp" />
     </LinearLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/receipt_sign_smart"
+        android:id="@+id/receipt_consignment_smart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
@@ -62,13 +47,13 @@
         app:layout_constraintTop_toBottomOf="@id/search_ll">
 
         <FrameLayout
-            android:id="@+id/receipt_sign_smart_frame"
+            android:id="@+id/receipt_consignment_smart_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/receipt_sign_recycler"
+                android:id="@+id/receipt_consignment_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:overScrollMode="never"
@@ -86,14 +71,14 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <CheckBox
-            android:id="@+id/receipt_sign_checkbox"
+            android:id="@+id/receipt_consignment_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"
             android:buttonTint="@color/base_blue"
             android:text="全选"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/receipt_sign_btn"
+            app:layout_constraintBottom_toTopOf="@+id/receipt_consignment_btn"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -103,18 +88,18 @@
             android:layout_marginRight="20dp"
             android:text="已选：2票，300件"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/receipt_sign_btn"
+            app:layout_constraintBottom_toTopOf="@id/receipt_consignment_btn"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/receipt_sign_btn"
+            android:id="@+id/receipt_consignment_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="26dp"
             android:layout_marginRight="26dp"
             android:backgroundTint="@color/base_blue"
-            android:text="回单签收"
+            android:text="回单寄出"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent" />

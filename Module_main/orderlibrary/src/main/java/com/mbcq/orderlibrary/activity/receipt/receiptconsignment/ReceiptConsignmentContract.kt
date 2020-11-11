@@ -1,22 +1,22 @@
-package com.mbcq.orderlibrary.activity.receipt.receiptsign
+package com.mbcq.orderlibrary.activity.receipt.receiptconsignment
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
 
 /**
  * @author: lzy
- * @time: 2020-11-07 09:06:21 回单签收
+ * @time: 2020-11-10 18:11:43 回单寄出
  */
 
-class ReceiptSignContract {
+class ReceiptConsignmentContract {
 
     interface View : BaseView {
-        fun getPageS(list: List<ReceiptSignBean>)
+        fun getPageS(list:List<ReceiptConsignmentBean>)
 
     }
 
     interface Presenter : BasePresenter<View> {
         fun getPage(page: Int, selWebidCode: String, startDate: String, endDate: String)
-        fun complete(commonStr: String)
+
     }
 }

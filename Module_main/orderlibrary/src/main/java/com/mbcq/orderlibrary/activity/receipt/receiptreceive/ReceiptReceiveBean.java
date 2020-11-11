@@ -1,16 +1,22 @@
-package com.mbcq.orderlibrary.activity.receipt.receiptsign;
+package com.mbcq.orderlibrary.activity.receipt.receiptreceive;
 
-public class ReceiptSignBean {
+public class ReceiptReceiveBean {
 
     /**
-     * fetchType : 1
-     * fetchTypeStr : 本地签收
-     * billDate : 2020-06-28T14:01:28
-     * billno : 10010000019
+     * billState : 2
+     * billStateStr : 在库
+     * billDate : 2020-06-19T13:08:47
+     * billno : 10030000126
+     * sendOutWbidCode : 0
+     * sendOutWbidCodeStr :
+     * sendOutDate : 2020-11-07T00:00:00
+     * giveOutOpeMan :
      * product : 玻璃
-     * qty : 20
-     * webidCode : 1001
-     * webidCodeStr : 义乌后湖
+     * qty : 1
+     * webidCode : 1003
+     * webidCodeStr : 汕头
+     * ewebidCode : 1001
+     * ewebidCodeStr : 义乌后湖
      * backQty : 签回单
      * shipper : 王哓我
      * consignee : 1禾
@@ -18,26 +24,32 @@ public class ReceiptSignBean {
      * accArrived : 0.0
      * accBack : 0.0
      * accMonth : 0.0
-     * destination : 北京1
-     * fetchMan : 义乌后湖
-     * fetchdate : 2020-06-28T14:38:42
-     * fetchidcard :
+     * destination : 义乌后湖1
      * salesMan :
      * createMan :
      * consigneeAddr : 蜚厘士别三日奔奔夺
      * shipperTel : 0123-1234567
      * shipperMb : 17530957256
-     * fetchCompanyId : 0
+     * receiveWebidCode : 1010
+     * receiveWebidCodeStr : 永康中田
+     * backState : 1
+     * backRemark :
      */
 
-    private int fetchType;
-    private String fetchTypeStr;
+    private int billState;
+    private String billStateStr;
     private String billDate;
     private String billno;
+    private int sendOutWbidCode;
+    private String sendOutWbidCodeStr;
+    private String sendOutDate;
+    private String giveOutOpeMan;
     private String product;
     private int qty;
     private int webidCode;
     private String webidCodeStr;
+    private int ewebidCode;
+    private String ewebidCodeStr;
     private String backQty;
     private String shipper;
     private String consignee;
@@ -46,31 +58,31 @@ public class ReceiptSignBean {
     private double accBack;
     private double accMonth;
     private String destination;
-    private String fetchMan;
-    private String fetchdate;
-    private String fetchidcard;
     private String salesMan;
     private String createMan;
     private String consigneeAddr;
     private String shipperTel;
     private String shipperMb;
-    private int fetchCompanyId;
-    private boolean isChecked = false;
+    private int receiveWebidCode;
+    private String receiveWebidCodeStr;
+    private int backState;
+    private String backRemark;
+    private boolean isChecked=false;
 
-    public int getFetchType() {
-        return fetchType;
+    public int getBillState() {
+        return billState;
     }
 
-    public void setFetchType(int fetchType) {
-        this.fetchType = fetchType;
+    public void setBillState(int billState) {
+        this.billState = billState;
     }
 
-    public String getFetchTypeStr() {
-        return fetchTypeStr;
+    public String getBillStateStr() {
+        return billStateStr;
     }
 
-    public void setFetchTypeStr(String fetchTypeStr) {
-        this.fetchTypeStr = fetchTypeStr;
+    public void setBillStateStr(String billStateStr) {
+        this.billStateStr = billStateStr;
     }
 
     public String getBillDate() {
@@ -87,6 +99,38 @@ public class ReceiptSignBean {
 
     public void setBillno(String billno) {
         this.billno = billno;
+    }
+
+    public int getSendOutWbidCode() {
+        return sendOutWbidCode;
+    }
+
+    public void setSendOutWbidCode(int sendOutWbidCode) {
+        this.sendOutWbidCode = sendOutWbidCode;
+    }
+
+    public String getSendOutWbidCodeStr() {
+        return sendOutWbidCodeStr;
+    }
+
+    public void setSendOutWbidCodeStr(String sendOutWbidCodeStr) {
+        this.sendOutWbidCodeStr = sendOutWbidCodeStr;
+    }
+
+    public String getSendOutDate() {
+        return sendOutDate;
+    }
+
+    public void setSendOutDate(String sendOutDate) {
+        this.sendOutDate = sendOutDate;
+    }
+
+    public String getGiveOutOpeMan() {
+        return giveOutOpeMan;
+    }
+
+    public void setGiveOutOpeMan(String giveOutOpeMan) {
+        this.giveOutOpeMan = giveOutOpeMan;
     }
 
     public String getProduct() {
@@ -119,6 +163,22 @@ public class ReceiptSignBean {
 
     public void setWebidCodeStr(String webidCodeStr) {
         this.webidCodeStr = webidCodeStr;
+    }
+
+    public int getEwebidCode() {
+        return ewebidCode;
+    }
+
+    public void setEwebidCode(int ewebidCode) {
+        this.ewebidCode = ewebidCode;
+    }
+
+    public String getEwebidCodeStr() {
+        return ewebidCodeStr;
+    }
+
+    public void setEwebidCodeStr(String ewebidCodeStr) {
+        this.ewebidCodeStr = ewebidCodeStr;
     }
 
     public String getBackQty() {
@@ -185,30 +245,6 @@ public class ReceiptSignBean {
         this.destination = destination;
     }
 
-    public String getFetchMan() {
-        return fetchMan;
-    }
-
-    public void setFetchMan(String fetchMan) {
-        this.fetchMan = fetchMan;
-    }
-
-    public String getFetchdate() {
-        return fetchdate;
-    }
-
-    public void setFetchdate(String fetchdate) {
-        this.fetchdate = fetchdate;
-    }
-
-    public String getFetchidcard() {
-        return fetchidcard;
-    }
-
-    public void setFetchidcard(String fetchidcard) {
-        this.fetchidcard = fetchidcard;
-    }
-
     public String getSalesMan() {
         return salesMan;
     }
@@ -249,12 +285,36 @@ public class ReceiptSignBean {
         this.shipperMb = shipperMb;
     }
 
-    public int getFetchCompanyId() {
-        return fetchCompanyId;
+    public int getReceiveWebidCode() {
+        return receiveWebidCode;
     }
 
-    public void setFetchCompanyId(int fetchCompanyId) {
-        this.fetchCompanyId = fetchCompanyId;
+    public void setReceiveWebidCode(int receiveWebidCode) {
+        this.receiveWebidCode = receiveWebidCode;
+    }
+
+    public String getReceiveWebidCodeStr() {
+        return receiveWebidCodeStr;
+    }
+
+    public void setReceiveWebidCodeStr(String receiveWebidCodeStr) {
+        this.receiveWebidCodeStr = receiveWebidCodeStr;
+    }
+
+    public int getBackState() {
+        return backState;
+    }
+
+    public void setBackState(int backState) {
+        this.backState = backState;
+    }
+
+    public String getBackRemark() {
+        return backRemark;
+    }
+
+    public void setBackRemark(String backRemark) {
+        this.backRemark = backRemark;
     }
 
     public boolean isChecked() {

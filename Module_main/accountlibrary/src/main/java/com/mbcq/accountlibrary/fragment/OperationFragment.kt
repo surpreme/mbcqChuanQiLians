@@ -315,6 +315,18 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                     ARouter.getInstance().build(ARouterConstants.ReceiptSignActivity).navigation()
 
                                 }
+                                1 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ReceiptConsignmentActivity).navigation()
+
+                                }
+                                2 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ReceiptReceiveActivity).navigation()
+
+                                }
+                                3 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ReceiptReturnFactoryActivity).navigation()
+
+                                }
                             }
                         }
                         "7" -> {

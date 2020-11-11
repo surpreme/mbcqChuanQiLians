@@ -362,6 +362,21 @@ public class ApiInterface {
      * 回单管理 回单签收记录——提取库存
      */
     public static final String RECEIPT_MANAGEMENT_SIGN_LOAD_GET = BASE_URI + "BackFetchOpe/SelKcBackFetchByCondition";
+    /**
+     * 回单管理 回单寄出记录——提取库存
+     */
+    public static final String RECEIPT_MANAGEMENT_CONSIGNMENT_LOAD_GET = BASE_URI + "BackFetchOpe/SelJcBackFetchByCondition";
+    /**
+     * 回单管理 回单接收记录——提取库存
+     */
+
+    public static final String RECEIPT_MANAGEMENT_RECEIVE_LOAD_GET = BASE_URI + "BackFetchOpe/SelJsBackFetchByCondition";
+
+  /**
+     * 回单管理 回单接收记录——提取库存
+     */
+
+    public static final String RECEIPT_MANAGEMENT_RETURN_FACTORY_LOAD_GET = BASE_URI + "BackFetchOpe/SelFcBackFetchByCondition";
 
     /**
      *

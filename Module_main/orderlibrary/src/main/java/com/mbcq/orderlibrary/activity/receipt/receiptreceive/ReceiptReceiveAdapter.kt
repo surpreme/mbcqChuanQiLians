@@ -1,4 +1,4 @@
-package com.mbcq.orderlibrary.activity.receipt.receiptsign
+package com.mbcq.orderlibrary.activity.receipt.receiptreceive
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,8 +12,9 @@ import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.orderlibrary.R
 
-class ReceiptSignAdapter(context: Context) : BaseRecyclerAdapter<ReceiptSignBean>(context) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_receipt_sign, parent, false))
+class ReceiptReceiveAdapter(context: Context) : BaseRecyclerAdapter<ReceiptReceiveBean>(context) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_receipt_receive, parent, false))
+
     fun checkedAll(isC: Boolean) {
         for ((index, item) in mDatas.withIndex()) {
             item.isChecked = isC

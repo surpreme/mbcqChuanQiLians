@@ -1,8 +1,18 @@
 package com.mbcq.commonlibrary.adapter;
 
 public class BaseTextAdapterBean {
-    private String title="";
-    private String tag="";
+
+    public BaseTextAdapterBean() {
+
+    }
+
+    public BaseTextAdapterBean(String title, String tag) {
+        this.title = title;
+        this.tag = tag;
+    }
+
+    private String tag = "";
+    private String title = "";
 
     public void setTitle(String title) {
         this.title = title;
