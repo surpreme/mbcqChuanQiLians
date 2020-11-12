@@ -11,12 +11,13 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class ReceiptConsignmentContract {
 
     interface View : BaseView {
-        fun getPageS(list:List<ReceiptConsignmentBean>)
+        fun getPageS(list: List<ReceiptConsignmentBean>)
 
     }
 
     interface Presenter : BasePresenter<View> {
         fun getPage(page: Int, selWebidCode: String, startDate: String, endDate: String)
+        fun complete(jsonStr: String)
 
     }
 }

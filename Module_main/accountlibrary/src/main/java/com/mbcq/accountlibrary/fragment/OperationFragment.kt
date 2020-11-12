@@ -327,6 +327,14 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                     ARouter.getInstance().build(ARouterConstants.ReceiptReturnFactoryActivity).navigation()
 
                                 }
+                                4 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ReceiptGeneralLedgerActivity).navigation()
+
+                                }
+                                5 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ReceiptCancelActivity).navigation()
+
+                                }
                             }
                         }
                         "7" -> {

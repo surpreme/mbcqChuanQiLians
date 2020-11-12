@@ -67,6 +67,7 @@ public class ReceiptReceiveBean {
     private String receiveWebidCodeStr;
     private int backState;
     private String backRemark;
+    private String receiveDate;
     private boolean isChecked=false;
 
     public int getBillState() {
@@ -323,5 +324,13 @@ public class ReceiptReceiveBean {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    public String getReceiveDate() {
+        return receiveDate;
+    }
+
+    public void setReceiveDate(String receiveDate) {
+        this.receiveDate = receiveDate;
     }
 }

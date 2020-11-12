@@ -36,6 +36,8 @@ public class ARouterConstants {
     public static final String ReceiptConsignmentActivity="/order/ReceiptConsignmentActivity";
     public static final String ReceiptReceiveActivity="/order/ReceiptReceiveActivity";
     public static final String ReceiptReturnFactoryActivity="/order/ReceiptReturnFactoryActivity";
+    public static final String ReceiptGeneralLedgerActivity="/order/ReceiptGeneralLedgerActivity";
+    public static final String ReceiptCancelActivity="/order/ReceiptCancelActivity";
     //////////////////////////////////////////////////////////////////////////////
     public static final String LocationActivity="/map/LocationActivity";
     //////////////////////////////////////////////////////////////////////////////

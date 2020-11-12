@@ -5,7 +5,9 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application>
-        <activity android:name=".activity.receipt.receiptreturnfactory.ReceiptReturnFactoryActivity"></activity>
+        <activity android:name=".activity.receipt.receiptcancel.ReceiptCancelActivity"></activity>
+        <activity android:name=".activity.receipt.receiptgeneralledger.ReceiptGeneralLedgerActivity" />
+        <activity android:name=".activity.receipt.receiptreturnfactory.ReceiptReturnFactoryActivity" />
         <activity android:name=".activity.receipt.receiptreceive.ReceiptReceiveActivity" />
         <activity android:name=".activity.receipt.receiptconsignment.ReceiptConsignmentActivity" />
         <activity android:name=".activity.receipt.receiptinfo.ReceiptInformationActivity" />

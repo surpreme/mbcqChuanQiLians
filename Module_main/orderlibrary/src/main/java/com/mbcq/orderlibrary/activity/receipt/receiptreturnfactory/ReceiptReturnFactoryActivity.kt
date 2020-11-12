@@ -5,7 +5,9 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
+import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseSmartMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
@@ -19,7 +21,10 @@ import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import com.mbcq.orderlibrary.R
+import com.mbcq.orderlibrary.activity.receipt.receiptreceive.ReceiptReceiveCompleteDialog
+import com.mbcq.orderlibrary.activity.receipt.receiptsign.ReceiptSignBean
 import kotlinx.android.synthetic.main.activity_receipt_return_factory.*
+import java.lang.StringBuilder
 
 /**
  * @author: lzy
@@ -45,6 +50,8 @@ class ReceiptReturnFactoryActivity : BaseSmartMVPActivity<ReceiptReturnFactoryCo
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
+        mSmartRefreshLayout.setEnableLoadMore(false)
+
     }
 
     override fun getPageDatas(mCurrentPage: Int) {
@@ -54,6 +61,41 @@ class ReceiptReturnFactoryActivity : BaseSmartMVPActivity<ReceiptReturnFactoryCo
 
     override fun onClick() {
         super.onClick()
+        receipt_return_factory_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View) {
+                hideKeyboard(v)
+                val selectStr = StringBuilder()
+                val mmmData = adapter.getAllData()
+                for ((index, item) in mmmData.withIndex()) {
+                    if (item.isChecked) {
+                        selectStr.append(item.billno)
+                    }
+                    if (index != mmmData.size) {
+                        selectStr.append(",")
+                    }
+
+                }
+                if (selectStr.toString().replace(",", "").isBlank()) {
+                    showToast("请至少选择一个运单进行操作")
+                    return
+                }
+                ReceiptReturnFactoryDialog(getScreenWidth(), object : ReceiptReturnFactoryDialog.OnResultInterface {
+                    override fun onResult(mDate: String, mState: String, mCompany: String, mBillNo: String) {
+                        val selectListData = mutableListOf<ReceiptReturnFactoryBean>()
+                        for (item in mmmData) {
+                            if (item.isChecked) {
+                                item.returnFactory = mCompany
+                                selectListData.add(item)
+                            }
+                        }
+                        mPresenter?.complete(Gson().toJson(selectListData))
+                    }
+
+                }).show(supportFragmentManager, "ReceiptReturnFactoryDialog")
+            }
+
+        })
+
         receipt_return_factory_toolbar.setRightButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 WebDbUtil.getDbWebId(application, object : WebsDbInterface {
@@ -96,10 +138,22 @@ class ReceiptReturnFactoryActivity : BaseSmartMVPActivity<ReceiptReturnFactoryCo
         receipt_return_factory_checkbox.setOnCheckedChangeListener { _, isChecked ->
             it.checkedAll(isChecked)
         }
+        it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                ARouter.getInstance().build(ARouterConstants.ReceiptInformationActivity).withString("", mResult).navigation()
+            }
+
+        }
     }
 
     override fun getPageS(list: List<ReceiptReturnFactoryBean>) {
         appendDatas(list)
+    }
+
+    override fun completeS(result: String) {
+        TalkSureDialog(mContext, getScreenWidth(), "回单返厂成功，点击返回！") {
+            onBackPressed()
+        }.show()
     }
 
 }

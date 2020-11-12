@@ -1,4 +1,4 @@
-package com.mbcq.orderlibrary.activity.receipt.receiptreceive
+package com.mbcq.orderlibrary.activity.receipt.receiptreturnfactory
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -13,16 +13,15 @@ import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean
 import com.mbcq.commonlibrary.dialog.TimeDialogUtil
 import com.mbcq.orderlibrary.R
 import com.mbcq.orderlibrary.activity.receipt.receiptconsignment.ReceiptConsignmentCompleteBottomDialog
-import kotlinx.android.synthetic.main.dialog_receipt_receive_compelete.*
+import kotlinx.android.synthetic.main.dialog_receipt_return_receive_compelete.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
-class ReceiptReceiveCompleteDialog(val mScreenWidth: Int, var mOnResultInterface: OnResultInterface? = null) : BaseDialogFragment() {
-    interface OnResultInterface {
-        fun onResult(mReceiveDate: String, mState: String)
-    }
-
+class ReceiptReturnFactoryDialog(val mScreenWidth: Int, var mOnResultInterface: OnResultInterface? = null) : BaseDialogFragment() {
     override fun setDialogWidth(): Int = mScreenWidth / 10 * 9
+    interface OnResultInterface {
+        fun onResult(mDate: String, mState: String, mCompany: String, mBillNo: String)
+    }
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         return_situation_ll.setOnClickListener(object : SingleClick() {
@@ -51,17 +50,17 @@ class ReceiptReceiveCompleteDialog(val mScreenWidth: Int, var mOnResultInterface
                     val format: String = mDateFormat.format(date)
                     return_time_tv.text = format
 
-                }, "选择寄出时间", isStartCurrentTime = false, isEndCurrentTime = false, isYear = true, isHM = false, isDialog = true).show(return_time_ll)
+                }, "选择返厂时间", isStartCurrentTime = false, isEndCurrentTime = false, isYear = true, isHM = false, isDialog = true).show(return_time_ll)
             }
 
         })
         commit_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                mOnResultInterface?.onResult(return_time_tv.text.toString(),  return_situation_tv.text.toString() )
+                //(mDate: String, mState: String, mCompany: String, mBillNo: String)
+                mOnResultInterface?.onResult(return_time_tv.text.toString(), return_situation_tv.text.toString(), out_company_tv.text.toString(), out_biilno_tv.text.toString())
             }
 
         })
-//
         dismiss_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 dismiss()
@@ -70,6 +69,5 @@ class ReceiptReceiveCompleteDialog(val mScreenWidth: Int, var mOnResultInterface
         })
     }
 
-    override fun setContentView(): Int = R.layout.dialog_receipt_receive_compelete
-
+    override fun setContentView(): Int = R.layout.dialog_receipt_return_receive_compelete
 }

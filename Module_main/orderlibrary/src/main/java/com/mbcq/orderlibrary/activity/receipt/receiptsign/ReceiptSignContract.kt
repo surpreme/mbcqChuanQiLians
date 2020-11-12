@@ -13,10 +13,11 @@ class ReceiptSignContract {
     interface View : BaseView {
         fun getPageS(list: List<ReceiptSignBean>)
 
+        fun completeS(result: String)
     }
 
     interface Presenter : BasePresenter<View> {
         fun getPage(page: Int, selWebidCode: String, startDate: String, endDate: String)
-        fun complete(commonStr: String)
+        fun complete(jsonStr: String)
     }
 }

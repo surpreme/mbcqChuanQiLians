@@ -15,8 +15,8 @@ import org.json.JSONObject
 class ReceiptSignPresenter : BasePresenterImpl<ReceiptSignContract.View>(), ReceiptSignContract.Presenter {
     override fun getPage(page: Int, selWebidCode: String, startDate: String, endDate: String) {
         val params = HttpParams()
-        params.put("Page",page)
-        params.put("Limit",15)
+        params.put("Page", page)
+        params.put("Limit", 15)
 //        params.put("SelWebidCode", selWebidCode)
 //        params.put("startDate", startDate)
 //        params.put("endDate", endDate)
@@ -31,8 +31,13 @@ class ReceiptSignPresenter : BasePresenterImpl<ReceiptSignContract.View>(), Rece
         })
     }
 
-    override fun complete(commonStr: String) {
+    override fun complete(jsonStr: String) {
+        post<String>(ApiInterface.RECEIPT_MANAGEMENT_SIGN_OVER_POST, getRequestBody(jsonStr), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.completeS("")
+            }
 
+        })
     }
 
 }

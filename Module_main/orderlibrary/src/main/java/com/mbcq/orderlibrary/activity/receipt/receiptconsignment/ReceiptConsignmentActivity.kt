@@ -5,7 +5,9 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseSmartMVPActivity
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
@@ -19,6 +21,8 @@ import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import com.mbcq.orderlibrary.R
 import kotlinx.android.synthetic.main.activity_receipt_consignment.*
+import org.json.JSONArray
+import org.json.JSONObject
 import java.lang.StringBuilder
 
 
@@ -46,6 +50,7 @@ class ReceiptConsignmentActivity : BaseSmartMVPActivity<ReceiptConsignmentContra
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
+        mSmartRefreshLayout.setEnableLoadMore(false)
     }
 
     override fun getPageDatas(mCurrentPage: Int) {
@@ -73,7 +78,31 @@ class ReceiptConsignmentActivity : BaseSmartMVPActivity<ReceiptConsignmentContra
                     showToast("请至少选择一个运单进行操作")
                     return
                 }
-                ReceiptConsignmentCompleteDialog(getScreenWidth()).show(supportFragmentManager, "ReceiptConsignmentCompleteDialog")
+                ReceiptConsignmentCompleteDialog(getScreenWidth(), object : ReceiptConsignmentCompleteDialog.OnResultInterface {
+                    override fun onResult(mSendOutDate: String, mSendOutCompanyId: String, mSendOutWbidCode: String, mSendOutWbidCodeStr: String, mGiveOutCondition: String) {
+                        val mDataList = mutableListOf<ReceiptConsignmentBean>()
+
+                        for (item in mmmData) {
+                            if (item.isChecked) {
+                                item.sendOutDate = mSendOutDate//寄出时间
+//                            item.sendOutCompanyId = mSendOutCompanyId//寄出公司id
+                                item.sendOutWbidCode = mSendOutWbidCode.toInt()//寄出网点编码
+                                item.sendOutWbidCodeStr = mSendOutWbidCodeStr//寄出网点编码
+                                item.giveOutCondition = mGiveOutCondition//寄出备注
+                                mDataList.add(item)
+                            }
+//                              jsonObj.put("SendOutDate", mSendOutDate)//寄出时间
+//                              jsonObj.put("SendOutCompanyId", mSendOutCompanyId)//寄出公司id
+//                              jsonObj.put("SendOutWbidCode", mSendOutWbidCode)//寄出网点编码
+//                              jsonObj.put("SendOutWbidCodeStr", mSendOutWbidCodeStr)//寄出网点
+//                              jsonObj.put("GiveOutCondition", mGiveOutCondition)//寄出备注
+//                              jarry.put(jsonObj)
+                        }
+
+                        mPresenter?.complete(Gson().toJson(mDataList))
+                    }
+
+                }).show(supportFragmentManager, "ReceiptConsignmentCompleteDialog")
             }
 
         })
@@ -119,6 +148,12 @@ class ReceiptConsignmentActivity : BaseSmartMVPActivity<ReceiptConsignmentContra
     override fun setAdapter(): BaseRecyclerAdapter<ReceiptConsignmentBean> = ReceiptConsignmentAdapter(mContext).also {
         receipt_consignment_checkbox.setOnCheckedChangeListener { _, isChecked ->
             it.checkedAll(isChecked)
+        }
+        it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                ARouter.getInstance().build(ARouterConstants.ReceiptInformationActivity).withString("", mResult).navigation()
+            }
+
         }
     }
 

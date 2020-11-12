@@ -363,20 +363,53 @@ public class ApiInterface {
      */
     public static final String RECEIPT_MANAGEMENT_SIGN_LOAD_GET = BASE_URI + "BackFetchOpe/SelKcBackFetchByCondition";
     /**
+     * 回单管理 回单签收记录——完成
+     */
+    public static final String RECEIPT_MANAGEMENT_SIGN_OVER_POST = BASE_URI + "BackFetchOpe/AddBackFetch";
+    /**
      * 回单管理 回单寄出记录——提取库存
      */
-    public static final String RECEIPT_MANAGEMENT_CONSIGNMENT_LOAD_GET = BASE_URI + "BackFetchOpe/SelJcBackFetchByCondition";
+    public static final String RECEIPT_MANAGEMENT_CONSIGNMENT_LOAD_GET = BASE_URI + "BackFetchOpe/SelJcKcBackFetchByCondition";
+    /**
+     * 回单管理 回单寄出记录——完成
+     */
+    public static final String RECEIPT_MANAGEMENT_CONSIGNMENT_OVER_POST = BASE_URI + "BackFetchOpe/AddJcBackFetch";
     /**
      * 回单管理 回单接收记录——提取库存
      */
 
-    public static final String RECEIPT_MANAGEMENT_RECEIVE_LOAD_GET = BASE_URI + "BackFetchOpe/SelJsBackFetchByCondition";
-
-  /**
-     * 回单管理 回单接收记录——提取库存
+    public static final String RECEIPT_MANAGEMENT_RECEIVE_LOAD_GET = BASE_URI + "BackFetchOpe/SelJsKcBackFetchByCondition";
+    /**
+     * 回单管理 取消查询详情
      */
 
-    public static final String RECEIPT_MANAGEMENT_RETURN_FACTORY_LOAD_GET = BASE_URI + "BackFetchOpe/SelFcBackFetchByCondition";
+    public static final String RECEIPT_CANCEL_RECEIVE_INFO_GET = BASE_URI + "BackFetchOpe/SelQxBackFetchByCondition";
+  /**
+     * 回单管理 取消
+     */
+
+    public static final String RECEIPT_CANCEL_RECEIVE_REMOVE_STATE_GET = BASE_URI + "BackFetchOpe/CancelBackFetchByCondition";
+
+    /**
+     * 回单管理 回单接收记录——完成
+     */
+
+    public static final String RECEIPT_MANAGEMENT_RECEIVE_OVER_POST = BASE_URI + "BackFetchOpe/AddJsBackFetch";
+
+    /**
+     * 回单管理 回单返厂记录——提取库存
+     */
+
+    public static final String RECEIPT_MANAGEMENT_RETURN_FACTORY_LOAD_GET = BASE_URI + "BackFetchOpe/SelFcKcBackFetchByCondition";
+    /**
+     * 回单管理 回单返厂记录——完成
+     */
+
+    public static final String RECEIPT_MANAGEMENT_RETURN_FACTORY_OVER_POST = BASE_URI + "BackFetchOpe/UpdBackFetchByCondition";
+    /**
+     * * 回单管理 回单总账——全部
+     */
+    public static final String RECEIPT_GENERAL_LEDGER_RETURN_FACTORY_OVER_POST = BASE_URI + "BackFetchOpe/SelHdGeneralLedgerByCondition";
 
     /**
      *

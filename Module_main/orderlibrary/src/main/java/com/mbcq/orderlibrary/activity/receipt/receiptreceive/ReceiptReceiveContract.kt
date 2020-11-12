@@ -12,12 +12,13 @@ import com.mbcq.orderlibrary.activity.receipt.receiptconsignment.ReceiptConsignm
 class ReceiptReceiveContract {
 
     interface View : BaseView {
-        fun getPageS(list:List<ReceiptReceiveBean>)
-
+        fun getPageS(list: List<ReceiptReceiveBean>)
+        fun completeS(result: String)
     }
 
     interface Presenter : BasePresenter<View> {
         fun getPage(page: Int, selWebidCode: String, startDate: String, endDate: String)
+        fun complete(jsonStr: String)
 
     }
 }

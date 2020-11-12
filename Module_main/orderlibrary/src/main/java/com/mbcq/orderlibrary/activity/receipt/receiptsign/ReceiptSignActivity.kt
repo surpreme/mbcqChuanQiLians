@@ -37,7 +37,7 @@ import java.util.*
 
 /**
  * @author: lzy
- * @time: 2020-11-07 09:06:21 回单签收 FetchDate
+ * @time: 2020-11-07 09:06:21 回单签收
  */
 
 @Route(path = ARouterConstants.ReceiptSignActivity)
@@ -65,6 +65,8 @@ class ReceiptSignActivity : BaseSmartMVPActivity<ReceiptSignContract.View, Recei
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
+        mSmartRefreshLayout.setEnableLoadMore(false)
+
     }
 
     override fun getPageDatas(mCurrentPage: Int) {
@@ -97,7 +99,14 @@ class ReceiptSignActivity : BaseSmartMVPActivity<ReceiptSignContract.View, Recei
                     val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
                     val format: String = mDateFormat.format(date)
 //                    annual_review_date_tv.text = format
-
+                    val selectListData = mutableListOf<ReceiptSignBean>()
+                    for (item in mmmData) {
+                        if (item.isChecked) {
+                            item.fetchdate = format
+                            selectListData.add(item)
+                        }
+                    }
+                    mPresenter?.complete(Gson().toJson(selectListData))
 
                 }, "选择回单签收时间", isStartCurrentTime = false, isEndCurrentTime = false, isYear = true, isHM = false, isDialog = false).show(receipt_sign_btn)
             }
@@ -200,5 +209,11 @@ class ReceiptSignActivity : BaseSmartMVPActivity<ReceiptSignContract.View, Recei
 
     override fun getPageS(list: List<ReceiptSignBean>) {
         appendDatas(list)
+    }
+
+    override fun completeS(result: String) {
+        TalkSureDialog(mContext, getScreenWidth(), "签收成功，点击返回!") {
+            onBackPressed()
+        }.show()
     }
 }

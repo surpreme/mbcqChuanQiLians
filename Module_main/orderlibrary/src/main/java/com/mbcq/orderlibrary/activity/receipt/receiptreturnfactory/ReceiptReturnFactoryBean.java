@@ -66,6 +66,7 @@ public class ReceiptReturnFactoryBean {
     private String receiveWebidCodeStr;
     private int backState;
     private String backRemark;
+    private String returnFactory;
     private boolean isChecked = false;
 
 
@@ -323,5 +324,13 @@ public class ReceiptReturnFactoryBean {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    public String getReturnFactory() {
+        return returnFactory;
+    }
+
+    public void setReturnFactory(String returnFactory) {
+        this.returnFactory = returnFactory;
     }
 }

@@ -68,6 +68,8 @@ public class ReceiptConsignmentBean {
     private String receiveWebidCodeStr;
     private int backState;
     private String backRemark;
+    private String sendOutCompanyId;
+    private String giveOutCondition;
     private boolean isChecked = false;
 
 
@@ -325,5 +327,21 @@ public class ReceiptConsignmentBean {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    public String getSendOutCompanyId() {
+        return sendOutCompanyId;
+    }
+
+    public void setSendOutCompanyId(String sendOutCompanyId) {
+        this.sendOutCompanyId = sendOutCompanyId;
+    }
+
+    public String getGiveOutCondition() {
+        return giveOutCondition;
+    }
+
+    public void setGiveOutCondition(String giveOutCondition) {
+        this.giveOutCondition = giveOutCondition;
     }
 }

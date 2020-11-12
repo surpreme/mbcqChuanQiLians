@@ -33,4 +33,14 @@ class ReceiptReceivePresenter : BasePresenterImpl<ReceiptReceiveContract.View>()
         })
     }
 
+    override fun complete(jsonStr: String) {
+        post<String>(ApiInterface.RECEIPT_MANAGEMENT_RECEIVE_OVER_POST, getRequestBody(jsonStr), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.completeS("")
+
+            }
+
+        })
+    }
+
 }

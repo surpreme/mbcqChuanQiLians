@@ -32,4 +32,14 @@ class ReceiptReturnFactoryPresenter : BasePresenterImpl<ReceiptReturnFactoryCont
         })
     }
 
+    override fun complete(jsonStr: String) {
+        post<String>(ApiInterface.RECEIPT_MANAGEMENT_RETURN_FACTORY_OVER_POST, getRequestBody(jsonStr), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.completeS("")
+
+            }
+
+        })
+    }
+//
 }

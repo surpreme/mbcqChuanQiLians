@@ -101,7 +101,7 @@
             android:layout_marginLeft="26dp"
             android:layout_marginRight="26dp"
             android:backgroundTint="@color/base_blue"
-            android:text="回单寄出"
+            android:text="回单返厂"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent" />

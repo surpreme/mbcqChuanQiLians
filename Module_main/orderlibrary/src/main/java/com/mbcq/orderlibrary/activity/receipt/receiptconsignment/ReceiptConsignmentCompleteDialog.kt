@@ -15,7 +15,9 @@ import com.google.gson.reflect.TypeToken
 import com.mbcq.baselibrary.dialog.dialogfragment.BaseDialogFragment
 import com.mbcq.baselibrary.dialog.popup.XDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
+import com.mbcq.baselibrary.util.system.ToastUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.WebDbUtil
 import com.mbcq.commonlibrary.WebsDbInterface
@@ -35,12 +37,16 @@ import java.text.SimpleDateFormat
 /**
  * 完整
  */
-class ReceiptConsignmentCompleteDialog(val mScreenWidth: Int) : BaseDialogFragment() {
+class ReceiptConsignmentCompleteDialog(val mScreenWidth: Int, var mOnResultInterface: OnResultInterface? = null) : BaseDialogFragment() {
     private var options1Items: List<AreaDataBean> = ArrayList()
     private val options2Items: ArrayList<ArrayList<String>> = ArrayList()
     private val options3Items: ArrayList<ArrayList<ArrayList<String>>> = ArrayList()
     var mLock = false
+    var mSelectWebId = ""
     override fun setDialogWidth(): Int = mScreenWidth / 10 * 9
+    interface OnResultInterface {
+        fun onResult(mSendOutDate: String, mSendOutCompanyId: String, mSendOutWbidCode: String, mSendOutWbidCodeStr: String, mGiveOutCondition: String)
+    }
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         initAreaData()
@@ -93,7 +99,7 @@ class ReceiptConsignmentCompleteDialog(val mScreenWidth: Int) : BaseDialogFragme
                         override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
                             val mDatassss = mutableListOf<BaseTextAdapterBean>()
                             for (item in list) {
-                                mDatassss.add(BaseTextAdapterBean(item.webid, item.webid))
+                                mDatassss.add(BaseTextAdapterBean(item.webid, item.webid + "@" + item.webidCode))
                             }
                             XDialog.Builder(mContext)
                                     .setContentView(R.layout.dialog_receipt_consignment_compelete_bottom)
@@ -102,7 +108,9 @@ class ReceiptConsignmentCompleteDialog(val mScreenWidth: Int) : BaseDialogFragme
                                     .asCustom(ReceiptConsignmentCompleteBottomDialog(mContext, mDatassss).also {
                                         it.mCclick = object : OnClickInterface.OnRecyclerClickInterface {
                                             override fun onItemClick(v: View, position: Int, mResult: String) {
-                                                send_branch_tv.text = mResult
+                                                mSelectWebId = mResult
+                                                send_branch_tv.text = mResult.split("@")[0]
+
                                             }
 
                                         }
@@ -152,6 +160,18 @@ class ReceiptConsignmentCompleteDialog(val mScreenWidth: Int) : BaseDialogFragme
                             }
                         })
                         .show(delivery_status_receipt_ll)
+            }
+
+        })
+        commit_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                //   (mSendOutDate: String, mSendOutCompanyId: String, mSendOutWbidCode: String, mSendOutWbidCodeStr: String, mGiveOutCondition: String)
+                if (mSelectWebId.isNotBlank() && mSelectWebId.split("@").size == 2) {
+                    mOnResultInterface?.onResult(send_time_tv.text.toString(), "", mSelectWebId.split("@")[1], mSelectWebId.split("@")[0], giveoutcondition_remark_tv.text.toString())
+                    dismiss()
+                } else {
+                    ToastUtils.showToast(context, "请选择寄到网点")
+                }
             }
 
         })

@@ -31,7 +31,7 @@ class ReceiptConsignmentCompleteBottomDialog(context: Context, val list: List<Ba
         if (receipt_consignment_complete_bottom_recycler.itemDecorationCount == 0) {
             receipt_consignment_complete_bottom_recycler.addItemDecoration(object : BaseItemDecoration(context) {
                 override fun configExtraSpace(position: Int, count: Int, rect: Rect) {
-                    rect.top = ScreenSizeUtils.dp2px(context, 2f)
+                    rect.top = ScreenSizeUtils.dp2px(context, 1f)
 
                 }
 

@@ -5,7 +5,9 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
+import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
 import com.mbcq.baselibrary.ui.BaseSmartMVPActivity
@@ -20,6 +22,7 @@ import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import com.mbcq.orderlibrary.R
+import com.mbcq.orderlibrary.activity.receipt.receiptconsignment.ReceiptConsignmentBean
 import kotlinx.android.synthetic.main.activity_receipt_receive.*
 import java.lang.StringBuilder
 
@@ -47,6 +50,8 @@ class ReceiptReceiveActivity : BaseSmartMVPActivity<ReceiptReceiveContract.View,
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
+        mSmartRefreshLayout.setEnableLoadMore(false)
+
     }
 
     override fun getPageDatas(mCurrentPage: Int) {
@@ -75,7 +80,23 @@ class ReceiptReceiveActivity : BaseSmartMVPActivity<ReceiptReceiveContract.View,
                     showToast("请至少选择一个运单进行操作")
                     return
                 }
-                ReceiptReceiveCompleteDialog(getScreenWidth()).show(supportFragmentManager, "ReceiptReceiveCompleteDialog")
+                ReceiptReceiveCompleteDialog(getScreenWidth(), object : ReceiptReceiveCompleteDialog.OnResultInterface {
+                    override fun onResult(mReceiveDate: String, mState: String) {
+
+                        val mDataList = mutableListOf<ReceiptReceiveBean>()
+
+                        for (item in mmmData) {
+                            if (item.isChecked) {
+                                //TODO
+                                item.receiveDate = mReceiveDate//接收时间
+                                mDataList.add(item)
+                            }
+                        }
+
+                        mPresenter?.complete(Gson().toJson(mDataList))
+                    }
+
+                }).show(supportFragmentManager, "ReceiptReceiveCompleteDialog")
             }
 
         })
@@ -120,9 +141,21 @@ class ReceiptReceiveActivity : BaseSmartMVPActivity<ReceiptReceiveContract.View,
         receipt_receive_checkbox.setOnCheckedChangeListener { _, isChecked ->
             it.checkedAll(isChecked)
         }
+        it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                ARouter.getInstance().build(ARouterConstants.ReceiptInformationActivity).withString("", mResult).navigation()
+            }
+
+        }
     }
 
     override fun getPageS(list: List<ReceiptReceiveBean>) {
         appendDatas(list)
+    }
+
+    override fun completeS(result: String) {
+        TalkSureDialog(mContext, getScreenWidth(), "回单接收成功，点击返回！") {
+            onBackPressed()
+        }.show()
     }
 }
