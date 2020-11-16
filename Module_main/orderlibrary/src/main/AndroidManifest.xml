@@ -5,13 +5,25 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application>
-        <activity android:name=".activity.receipt.receiptcancel.ReceiptCancelActivity"></activity>
-        <activity android:name=".activity.receipt.receiptgeneralledger.ReceiptGeneralLedgerActivity" />
-        <activity android:name=".activity.receipt.receiptreturnfactory.ReceiptReturnFactoryActivity" />
-        <activity android:name=".activity.receipt.receiptreceive.ReceiptReceiveActivity" />
-        <activity android:name=".activity.receipt.receiptconsignment.ReceiptConsignmentActivity" />
+        <activity
+            android:name=".activity.receipt.receiptcancel.ReceiptCancelActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.receipt.receiptgeneralledger.ReceiptGeneralLedgerActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.receipt.receiptreturnfactory.ReceiptReturnFactoryActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.receipt.receiptreceive.ReceiptReceiveActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.receipt.receiptconsignment.ReceiptConsignmentActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.receipt.receiptinfo.ReceiptInformationActivity" />
-        <activity android:name=".activity.receipt.receiptsign.ReceiptSignActivity" />
+        <activity
+            android:name=".activity.receipt.receiptsign.ReceiptSignActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.addclaimsettlement.AddClaimSettlementActivity" />
         <activity android:name=".activity.choicereceiver.ChoiceReceiverActivity" />
         <activity android:name=".activity.choiceshipper.ChoiceShipperActivity" />
@@ -19,7 +31,9 @@
         <activity android:name=".activity.printacceptbilling.PrintAcceptBillingActivity" />
         <activity android:name=".activity.waybilldetails.WaybillDetailsActivity" />
         <activity android:name=".activity.fixedacceptbilling.FixedAcceptBillingActivity" />
-        <activity android:name=".activity.acceptbillingrecording.AcceptBillingRecordingActivity" />
+        <activity
+            android:name=".activity.acceptbillingrecording.AcceptBillingRecordingActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.deliveryadjustment.DeliveryAdjustmentActivity" />
         <activity android:name=".activity.controlmanagement.ControlManagementActivity" />
         <activity android:name=".activity.signrecord.SignRecordActivity" />
@@ -35,7 +49,9 @@
         <activity android:name=".activity.addreceiver.AddReceiverActivity" />
         <activity android:name=".activity.addshipper.AddShipperActivity" />
         <activity android:name=".activity.acceptbilling.AcceptBillingActivity" />
-        <activity android:name=".activity.goodsreceipt.GoodsReceiptActivity" />
+        <activity
+            android:name=".activity.goodsreceipt.GoodsReceiptActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
 </manifest>

@@ -22,6 +22,7 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_loading_vehicles.*
 import org.json.JSONObject
@@ -45,6 +46,13 @@ class LoadingVehiclesActivity : BaseListMVPActivity<LoadingVehiclesContract.View
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
+        loading_vehicles_smart.setEnableLoadMore(false)
+        loading_vehicles_smart.setRefreshHeader(ClassicsHeader(mContext))
+        loading_vehicles_smart.setOnRefreshListener {
+            adapter.clearData()
+            initDatas()
+            it.finishRefresh()
+        }
     }
 
     override fun onClick() {
@@ -79,6 +87,13 @@ class LoadingVehiclesActivity : BaseListMVPActivity<LoadingVehiclesContract.View
             }
 
         })
+        short_vehicles_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                ARouter.getInstance().build(ARouterConstants.AddScanShortFeederActivity).navigation()
+            }
+
+        })
+
         loading_vehicles_toolbar.setBackButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 onBackPressed()
@@ -128,28 +143,30 @@ class LoadingVehiclesActivity : BaseListMVPActivity<LoadingVehiclesContract.View
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val obj = JSONObject(mResult)
                 /**
-                 * 0短驳 1干线
+                 * @type 0短驳 1干线
                  */
                 if (obj.optInt("type") == 1)
                     ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingActivity).withString("LoadingVehicles", mResult).navigation()
-                else if (obj.optInt("type") == 0)
-                    ARouter.getInstance().build(ARouterConstants.ShortTrunkDepartureScanOperatingActivity).withString("ShortLoadingVehicles", mResult).navigation()
+                else if (obj.optInt("type") == 0) {
+                    if (obj.optInt("isScan") == 1)
+                        ARouter.getInstance().build(ARouterConstants.ShortTrunkDepartureScanOperatingActivity).withString("ShortLoadingVehicles", mResult).navigation()
+                    else if (obj.optInt("isScan") == 2)
+                        ARouter.getInstance().build(ARouterConstants.RevokeShortTrunkDepartureUnPlanScanOperatingActivity).withString("ShortLoadingVehicles", mResult).navigation()
+
+
+                }
             }
 
         }
     }
 
     override fun getShortFeederS(list: List<LoadingVehiclesBean>, isScan: Boolean) {
-        if (isScan && list.isNotEmpty())
-            adapter.clearData()
         adapter.appendData(list)
         if (!isScan)
             mPresenter?.getTrunkDeparture()
     }
 
     override fun getTrunkDepartureS(list: List<LoadingVehiclesBean>, isScan: Boolean) {
-        if (isScan && list.isNotEmpty())
-            adapter.clearData()
         adapter.appendData(list)
     }
 }

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:orientation="horizontal">
-<!--        android:drawableLeft="@drawable/ic_message_icon"-->
+        <!--        android:drawableLeft="@drawable/ic_message_icon"-->
 
         <TextView
             android:id="@+id/setting_item_title_tv"
@@ -42,5 +42,6 @@
         android:layout_marginLeft="50dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="10dp"
-        android:background="@color/base_grayDark" />
+        android:background="@color/base_grayDark"
+        android:visibility="gone" />
 </LinearLayout>

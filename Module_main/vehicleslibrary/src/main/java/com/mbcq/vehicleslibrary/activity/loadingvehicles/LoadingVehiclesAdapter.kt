@@ -5,6 +5,8 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -25,6 +27,10 @@ class LoadingVehiclesAdapter(context: Context) : BaseRecyclerAdapter<LoadingVehi
         holder.shipper_outlets_tv.text = mDatas[position].webidCodeStr
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.feeder_state_tv.text = mDatas[position].vehicleStateStr
+        holder.scan_rate_tv.text = "扫描率：${if (mDatas[position].scanPercentage.isNullOrBlank()) "0" else mDatas[position].scanPercentage}%"
+        holder.operating_progressbar.progress = if (!mDatas[position].scanPercentage.isNullOrBlank() && mDatas[position].scanPercentage != "null") mDatas[position].scanPercentage.toInt() else 0
+        holder.pre_installed_tv.visibility = if (mDatas[position].isScan == 2) View.VISIBLE else View.GONE
+        holder.operating_ll.visibility = if (mDatas[position].isScan == 2) View.VISIBLE else View.GONE
         holder.vehicler_info_tv.text = "${mDatas[position].vehicleNo} ${mDatas[position].chauffer} ${mDatas[position].chaufferMb}"
         holder.itemView.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
@@ -35,6 +41,8 @@ class LoadingVehiclesAdapter(context: Context) : BaseRecyclerAdapter<LoadingVehi
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var operating_progressbar: ProgressBar = itemView.findViewById(R.id.operating_progressbar)
+        var operating_ll: LinearLayout = itemView.findViewById(R.id.operating_ll)
         var departure_number_tv: TextView = itemView.findViewById(R.id.departure_number_tv)
         var short_feeder_time_tv: TextView = itemView.findViewById(R.id.short_feeder_time_tv)
         var shipper_outlets_tv: TextView = itemView.findViewById(R.id.shipper_outlets_tv)
@@ -43,6 +51,7 @@ class LoadingVehiclesAdapter(context: Context) : BaseRecyclerAdapter<LoadingVehi
         var information_tv: TextView = itemView.findViewById(R.id.information_tv)
         var receiver_outlets_tv: TextView = itemView.findViewById(R.id.receiver_outlets_tv)
         var loading_type_tv: TextView = itemView.findViewById(R.id.loading_type_tv)
+        var pre_installed_tv: TextView = itemView.findViewById(R.id.pre_installed_tv)
         var scan_rate_tv: TextView = itemView.findViewById(R.id.scan_rate_tv)
     }
 }

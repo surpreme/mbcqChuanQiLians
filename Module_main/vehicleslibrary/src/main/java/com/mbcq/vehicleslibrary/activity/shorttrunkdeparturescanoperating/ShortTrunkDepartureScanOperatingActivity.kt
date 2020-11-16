@@ -26,13 +26,19 @@ import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
 import com.tbruyelle.rxpermissions.RxPermissions
+import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.*
 import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.*
+import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.save_btn
+import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.scan_number_iv
+import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.scan_progressBar
+import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.unScan_info_tv
+import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.unloading_batch_tv
 import org.json.JSONObject
 
 
 /**
  * @author: lzy
- * @time: 2020-11-04 16:05:23 短驳干线发车
+ * @time: 2020-11-04 16:05:23 短驳发车
  */
 
 @Route(path = ARouterConstants.ShortTrunkDepartureScanOperatingActivity)
@@ -97,7 +103,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
                                         }
                                     }
                                     if (soundString != "未知地址") {
-                                        mPresenter?.scanOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString)
+                                        mPresenter?.scanOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString, scan_progressBar.progress.toString())
                                     } else {
                                         soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
 

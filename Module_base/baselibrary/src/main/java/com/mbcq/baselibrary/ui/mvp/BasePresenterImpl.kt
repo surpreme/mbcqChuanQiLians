@@ -143,6 +143,10 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
                     val obj = JSONObject(result)
                     val msg = obj.optString("msg")
                     if (msg.isNotEmpty()) {
+                        if (msg.contains("token值无效")) {
+                            mView?.UnToken(msg)
+                            return
+                        }
                         mView?.showError(msg)
                         return
                     }
@@ -153,7 +157,10 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
                                 callback.onResult(result)
                             else {
                                 val errorLog = obj.optString("msg")
-                                mView?.showError(errorLog)
+                                if (errorLog.contains("token值无效")) {
+                                    mView?.UnToken(errorLog)
+                                } else
+                                    mView?.showError(errorLog)
                             }
                         }
                     }

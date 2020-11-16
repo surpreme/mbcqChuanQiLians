@@ -45,6 +45,9 @@ public class LoadingVehiclesBean {
      * remark :
      * fromType : 0
      * fromTypeStr :
+     * isScan :1
+     * scanPercentage:65
+     * scanWebidType 1   默认0 1代表只装所选到货网点 2不限到货网点
      */
 
     private int id;
@@ -90,6 +93,9 @@ public class LoadingVehiclesBean {
     private String remark;
     private int fromType;
     private String fromTypeStr;
+    private int isScan;
+    private String scanPercentage;
+    private String ScanWebidType;
 
     public int getId() {
         return id;
@@ -433,5 +439,30 @@ public class LoadingVehiclesBean {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public int getIsScan() {
+        return isScan;
+    }
+
+    public void setIsScan(int isScan) {
+        this.isScan = isScan;
+    }
+
+    public String getScanPercentage() {
+        return scanPercentage;
+    }
+
+    public void setScanPercentage(String scanPercentage) {
+        this.scanPercentage = scanPercentage;
+    }
+
+
+    public String getScanWebidType() {
+        return ScanWebidType;
+    }
+
+    public void setScanWebidType(String scanWebidType) {
+        ScanWebidType = scanWebidType;
     }
 }

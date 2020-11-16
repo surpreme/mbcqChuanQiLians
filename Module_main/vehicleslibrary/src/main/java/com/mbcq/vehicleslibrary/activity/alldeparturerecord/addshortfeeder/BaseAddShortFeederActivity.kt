@@ -10,6 +10,7 @@ import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
+import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.CommonApplication
 import com.mbcq.commonlibrary.RadioGroupUtil
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
@@ -49,6 +50,72 @@ abstract class BaseAddShortFeederActivity<V : BaseView, T : BasePresenterImpl<V>
 
     }
 
+    override fun onClick() {
+        super.onClick()
+        oil_card_first_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                getDbWebId(object : WebDbInterface {
+                    override fun isNull() {
+                    }
+
+                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
+                        geDeliveryPointLocal(list, 1)
+                    }
+
+                })
+
+            }
+
+        })
+        oil_card_second_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                getDbWebId(object : WebDbInterface {
+                    override fun isNull() {
+                    }
+
+                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
+                        geDeliveryPointLocal(list, 2)
+                    }
+
+                })
+            }
+
+        })
+        oil_card_third_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                getDbWebId(object : WebDbInterface {
+                    override fun isNull() {
+                    }
+
+                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
+                        geDeliveryPointLocal(list, 3)
+                    }
+
+                })
+            }
+
+        })
+        destination_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                getDbWebId(object : WebDbInterface {
+                    override fun isNull() {
+                    }
+
+                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
+                        geDeliveryPointLocal(list, 0)
+                    }
+
+                })
+            }
+
+        })
+        add_short_feeder_toolbar.setBackButtonOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                onBackPressed()
+            }
+
+        })
+    }
     private fun initTotalPrice() {
 
         cash_freight_ed.addTextChangedListener(object : TextWatcher {

@@ -65,11 +65,14 @@ public class ARouterConstants {
     public static final String AddVehicleArchivesActivity="/vehicles/AddVehicleArchivesActivity";
     public static final String FixedVehicleArchivesActivity="/vehicles/FixedVehicleArchivesActivity";
     public static final String ArrivalVehiclesScanActivity="/vehicles/ArrivalVehiclesScanActivity";
+    public static final String AddScanShortFeederActivity="/vehicles/AddScanShortFeederActivity";
     public static final String ArrivalTrunkDepartureScanOperatingActivity="/vehicles/ArrivalTrunkDepartureScanOperatingActivity";
     public static final String DepartureTrunkDepartureScanOperatingActivity="/vehicles/DepartureTrunkDepartureScanOperatingActivity";
     public static final String ShortTrunkDepartureScanOperatingActivity="/vehicles/ShortTrunkDepartureScanOperatingActivity";
     public static final String RevokeShortTrunkDepartureScanOperatingActivity="/vehicles/RevokeShortTrunkDepartureScanOperatingActivity";
+    public static final String RevokeShortTrunkDepartureUnPlanScanOperatingActivity="/vehicles/RevokeShortTrunkDepartureUnPlanScanOperatingActivity";
     //////////////////////////////////////////////////////////////////////////////
+    public static final String LoanChangeActivity="/amount/LoanChangeActivity";
 
     //////////////////////////////////////////////////////////////////////////////
     public static final String TakePhotosActivity="/common/TakePhotosActivity";

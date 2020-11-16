@@ -76,7 +76,12 @@ abstract class BaseShortTrunkDepartureScanOperatingActivity<V : BaseView, T : Ba
         initSoundPool()
     }
 
+    override fun onBeforeCreate() {
+        super.onBeforeCreate()
+        window.setFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+                android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+    }
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
@@ -91,9 +96,11 @@ abstract class BaseShortTrunkDepartureScanOperatingActivity<V : BaseView, T : Ba
 
         })
     }
+
     override fun isShowErrorDialog(): Boolean {
         return true
     }
+
     fun initSoundPool() {
         mSoundPool = SoundPool(1, AudioManager.STREAM_ALARM, 0)
 //        mSoundPool?.setOnLoadCompleteListener { soundPool, sampleId, status -> }
@@ -169,8 +176,8 @@ abstract class BaseShortTrunkDepartureScanOperatingActivity<V : BaseView, T : Ba
 
     @SuppressLint("SetTextI18n")
     fun notifyMathChange() {
-        unScan_info_tv.text = "未扫：${mTotalUnLoadingOrderNum}票 ${mTotalUnLoadingNum}件 ${mTotalUnLoadingWeight}kg  ${mTotalUnLoadingVolume}m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
-        scaned_info__tv.text = "已扫：${mTotalLoadingOrderNum}票 ${totalLoadingNum - mTotalUnLoadingNum}件 ${mTotalLoadingWeight}kg  ${mTotalLoadingVolume}m³             金额:xxxx"
+        unScan_info_tv.text = "未扫：${mTotalUnLoadingOrderNum}票 ${mTotalUnLoadingNum}件 ${haveTwoDouble(mTotalUnLoadingWeight)}kg  ${haveTwoDouble(mTotalUnLoadingVolume)}m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
+        scaned_info__tv.text = "已扫：${mTotalLoadingOrderNum}票 ${totalLoadingNum - mTotalUnLoadingNum}件 ${haveTwoDouble(mTotalLoadingWeight)}kg  ${haveTwoDouble(mTotalLoadingVolume)}m³             金额:xxxx"
         scan_progressBar.progress = (((totalLoadingNum - mTotalUnLoadingNum) * 100) / totalLoadingNum)
         scan_number_total_tv.text = "${totalLoadingNum - mTotalUnLoadingNum} / $totalLoadingNum"
     }

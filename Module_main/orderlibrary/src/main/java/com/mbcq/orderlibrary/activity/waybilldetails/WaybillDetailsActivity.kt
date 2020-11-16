@@ -77,10 +77,9 @@ class WaybillDetailsActivity : BaseMVPActivity<WaybillDetailsContract.View, Wayb
         fragments.add(WaybillPictureFragment())
         val mBundle = Bundle()
         mBundle.putString("WaybillDetails", billnoInfoJson)
-        fragments[0].arguments = mBundle
-        fragments[1].arguments = mBundle
-        fragments[2].arguments = mBundle
-        fragments[4].arguments = mBundle
+        for (index in 0..4) {
+            fragments[index].arguments = mBundle
+        }
         val mFragmentViewPagerAdapter = FragmentViewPagerAdapter(supportFragmentManager, fragments)
         waybill_details_viewpager.adapter = mFragmentViewPagerAdapter
         waybill_details_viewpager.offscreenPageLimit = options_index_tablayout.tabCount
@@ -99,10 +98,11 @@ class WaybillDetailsActivity : BaseMVPActivity<WaybillDetailsContract.View, Wayb
     }
 
     override fun showError(msg: String) {
-      TalkSureDialog(mContext,getScreenWidth(),"系统异常！请联系管理员或稍后再试"){
-          onBackPressed()
-      }.show()
+        TalkSureDialog(mContext, getScreenWidth(), "系统异常！请联系管理员或稍后再试") {
+            onBackPressed()
+        }.show()
     }
+
     override fun getWaybillDetailNull() {
 
     }

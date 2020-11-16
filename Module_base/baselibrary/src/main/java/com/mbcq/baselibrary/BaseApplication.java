@@ -12,6 +12,7 @@ import com.mbcq.baselibrary.db.SPUtil;
 import com.mbcq.baselibrary.finger.FingerConstant;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.header.WaterDropHeader;
+import com.scwang.smartrefresh.header.WaveSwipeHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -19,6 +20,7 @@ import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 import cat.ereza.customactivityoncrash.config.CaocConfig;
@@ -100,7 +102,7 @@ public class BaseApplication extends Application {
             @Override
             public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
 //                layout.setPrimaryColorsId(R.color.purples, android.R.color.white);//全局设置主题颜色
-                return new MaterialHeader(context);
+                return new ClassicsHeader(context);
             }
         });
         //设置全局的Footer构建器

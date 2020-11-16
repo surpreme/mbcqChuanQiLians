@@ -10,6 +10,7 @@ import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.scwang.smartrefresh.header.WaterDropHeader
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
 
 /**
  * @Auther: liziyang
@@ -29,7 +30,7 @@ abstract class BaseSmartMVPFragment<V : BaseView, T : BasePresenterImpl<V>, X> :
     override fun initViews(view: View) {
         super.initViews(view)
         mSmartRefreshLayout = view.findViewById(getSmartLayoutId())
-        mSmartRefreshLayout.setRefreshHeader(WaterDropHeader(mContext))
+        mSmartRefreshLayout.setRefreshHeader(ClassicsHeader(mContext))
         mSmartFrameLayout = view.findViewById(getSmartEmptyId())
         showNoData()
         mSmartRefreshLayout.setOnRefreshListener {

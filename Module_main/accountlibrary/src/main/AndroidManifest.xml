@@ -4,8 +4,10 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <application>
-        <activity android:name=".activity.login.LogInActivity"/>
-        <activity android:name=".activity.house.HouseActivity" />
+        <activity android:name=".activity.login.LogInActivity" />
+        <activity
+            android:name=".activity.house.HouseActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.setting.SettingActivity" />
         <activity android:name=".fragment.setting.bluetooth.BlueActivity" />
         <activity android:name=".activity.signature.SignatureActivity" />

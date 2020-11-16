@@ -3,10 +3,14 @@
     package="com.mbcq.vehicleslibrary">
 
     <application>
-        <activity android:name=".activity.shorttrunkdeparturescanoperating.revoke.RevokeShortTrunkDepartureScanOperatingActivity"></activity>
+        <activity android:name=".activity.shorttrunkdepartureunplanscanoperating.RevokeShortTrunkDepartureUnPlanScanOperatingActivity" />
+        <activity android:name=".activity.addscanshortfeeder.AddScanShortFeederActivity" />
+        <activity android:name=".activity.shorttrunkdeparturescanoperating.revoke.RevokeShortTrunkDepartureScanOperatingActivity" />
         <activity android:name=".activity.shorttrunkdeparturescanoperating.ShortTrunkDepartureScanOperatingActivity" />
         <activity android:name=".activity.departuretrunkdeparturescanoperating.DepartureTrunkDepartureScanOperatingActivity" />
-        <activity android:name=".activity.loadingvehicles.LoadingVehiclesActivity" />
+        <activity
+            android:name=".activity.loadingvehicles.LoadingVehiclesActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.arrivaltrunkdeparturescanoperating.ArrivalTrunkDepartureScanOperatingActivity" />
         <activity android:name=".activity.arrivalvehiclesscan.ArrivalVehiclesScanActivity" />
         <activity android:name=".activity.fixedvehiclesarchives.FixedVehicleArchivesActivity" />

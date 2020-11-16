@@ -23,7 +23,7 @@ import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2020-11-10 10:02:03 撤销干线装车扫描
+ * @time: 2020-11-10 10:02:03 撤销短驳装车扫描
  */
 
 @Route(path = ARouterConstants.RevokeShortTrunkDepartureScanOperatingActivity)

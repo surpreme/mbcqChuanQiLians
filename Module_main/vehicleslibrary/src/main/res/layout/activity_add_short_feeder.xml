@@ -162,8 +162,8 @@
 
             <TextView
                 android:id="@+id/arrival_company_title_tv"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="80dp"
+                android:layout_height="45dp"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
                 android:text="到站公司"
@@ -184,7 +184,7 @@
                 android:gravity="center|left"
                 android:inputType="phone"
                 android:paddingLeft="10dp"
-                android:text="苏州快运"
+                tools:text="苏州快运"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="@id/arrival_company_title_tv"
                 app:layout_constraintLeft_toRightOf="@id/arrival_company_title_tv"
@@ -192,8 +192,8 @@
                 app:layout_constraintTop_toTopOf="@id/arrival_company_title_tv" />
 
             <ImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginRight="15dp"
                 android:src="@drawable/ic_down_icon"

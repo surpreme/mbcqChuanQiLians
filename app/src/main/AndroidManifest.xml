@@ -26,6 +26,8 @@
     <!--    蓝牙-->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!--    屏幕常亮-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".Application"
@@ -46,6 +48,7 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="2a1973c25b26f9d5397969ddc9c6238a" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.mbcq.chuanqilian.fileprovider"

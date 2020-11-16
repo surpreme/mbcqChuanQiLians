@@ -19,9 +19,9 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
         params.put("page", 1)
         params.put("limit", 1000)
         params.put("vehicleState", 0)//发车计划中
-        params.put("CommonStr", 0)//发车计划中
-        params.put("VehicleStateStr", 0)//发车计划中
-        params.put("IsScan", 1)//是否扫描
+//        params.put("VehicleStateStr", 0)//发车计划中
+//        params.put("IsScan", 1)//是否扫描
+        params.put("CommonStr", "1,2")//是否扫描
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)

@@ -47,7 +47,7 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
         super.onClick()
         modify_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                mContext?.let {
+                mContext.let {
                     var mItemdata: ShortFeederBean? = null
                     for (item in adapter.getAllData()) {
                         if (item.isChecked) {
@@ -69,7 +69,7 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
         })
         invalid_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                mContext?.let {
+                mContext.let {
                     var data: ShortFeederBean? = null
                     for (item in adapter.getAllData()) {
                         if (item.isChecked) {

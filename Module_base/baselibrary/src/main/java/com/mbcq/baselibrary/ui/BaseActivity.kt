@@ -2,10 +2,8 @@ package com.mbcq.baselibrary.ui
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -17,7 +15,6 @@ import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.util.screen.StatusBarUtils
 import com.mbcq.baselibrary.util.system.ToastUtils
-import com.mbcq.baselibrary.view.CustomizeToastUtil
 import java.text.DecimalFormat
 
 
@@ -25,9 +22,11 @@ abstract class BaseActivity : AppCompatActivity() {
     abstract fun getLayoutId(): Int
     open fun initViews(savedInstanceState: Bundle?) {}
     open fun initDatas() {}
+    open fun onBeforeCreate() {}
     protected lateinit var mContext: Context
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        onBeforeCreate()
         setContentView(getLayoutId())
         mContext = this
 

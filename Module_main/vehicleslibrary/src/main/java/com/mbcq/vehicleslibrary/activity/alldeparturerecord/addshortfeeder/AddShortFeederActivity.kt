@@ -75,7 +75,7 @@ class AddShortFeederActivity : BaseAddShortFeederActivity<AddShortFeederContract
         obj.put("AccZx", loading_fee_ed.text.toString())// 装卸费
         obj.put("AccJh", 0)// 接货费
         obj.put("AccTansSum", total_freight_tv.text.toString())// 运费合计
-        obj.put("isScan", if (choice_scan_checkBox.isChecked) "1" else "0")// 运费合计
+        obj.put("isScan", if (choice_scan_checkBox.isChecked) "1" else "0")// 是否扫描发车
         obj.put("AccArrSum", mToPayTotalPrice)// 到付合计
         obj.put("AccOther", 0)// 其它费用
         obj.put("VehicleInterval", UserInformationUtil.getWebIdCodeStr(mContext) + "-" + destination_tv.text.toString())// 发车区间  A-B
@@ -123,69 +123,7 @@ class AddShortFeederActivity : BaseAddShortFeederActivity<AddShortFeederContract
             }
 
         })
-        oil_card_first_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
-                    override fun isNull() {
-                    }
 
-                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                        geDeliveryPointLocal(list, 1)
-                    }
-
-                })
-
-            }
-
-        })
-        oil_card_second_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
-                    override fun isNull() {
-                    }
-
-                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                        geDeliveryPointLocal(list, 2)
-                    }
-
-                })
-            }
-
-        })
-        oil_card_third_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
-                    override fun isNull() {
-                    }
-
-                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                        geDeliveryPointLocal(list, 3)
-                    }
-
-                })
-            }
-
-        })
-        destination_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
-                    override fun isNull() {
-                    }
-
-                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                        geDeliveryPointLocal(list, 0)
-                    }
-
-                })
-            }
-
-        })
-        add_short_feeder_toolbar.setBackButtonOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                onBackPressed()
-            }
-
-        })
     }
 
 

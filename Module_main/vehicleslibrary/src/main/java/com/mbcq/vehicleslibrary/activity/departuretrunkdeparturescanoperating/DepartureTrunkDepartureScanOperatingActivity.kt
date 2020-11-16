@@ -39,7 +39,12 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseListMVPActivity<Departu
         rxPermissions = RxPermissions(this)
         ARouter.getInstance().inject(this)
     }
+    override fun onBeforeCreate() {
+        super.onBeforeCreate()
+        window.setFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+                android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+    }
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)

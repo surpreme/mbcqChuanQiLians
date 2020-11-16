@@ -42,7 +42,9 @@ public class ReceiptConsignmentBean {
     private String billDate;
     private String billno;
     private int sendOutWbidCode;
+    private int receiveWebidCode;
     private String sendOutWbidCodeStr;
+    private String receiveWebidCodeStr;
     private String sendOutDate;
     private String giveOutOpeMan;
     private String product;
@@ -64,8 +66,6 @@ public class ReceiptConsignmentBean {
     private String consigneeAddr;
     private String shipperTel;
     private String shipperMb;
-    private int receiveWebidCode;
-    private String receiveWebidCodeStr;
     private int backState;
     private String backRemark;
     private String sendOutCompanyId;

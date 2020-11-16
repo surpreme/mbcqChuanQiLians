@@ -26,7 +26,7 @@ class ReceiptReceiveAdapter(context: Context) : BaseRecyclerAdapter<ReceiptRecei
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ItemViewHolder).waybill_number_tv.text = mDatas[position].billno
-        holder.waybill_time_tv.text = "开单日期：${mDatas[position].billDate}"
+        holder.waybill_time_tv.text = "开单日期：${mDatas[position].sendOutDate}"
         holder.receipt_requirements_tv.text = "回单要求：${mDatas[position].backQty}"
         holder.shipper_outlets_tv.text = mDatas[position].webidCodeStr
         holder.receiver_outlets_tv.text = "xxx"

@@ -95,6 +95,17 @@
         app:layout_constraintLeft_toLeftOf="@+id/shipper_outlets_tv"
         app:layout_constraintTop_toBottomOf="@+id/shipper_outlets_tv" />
 
+    <TextView
+        android:id="@+id/pre_installed_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="预"
+        android:textColor="@color/base_green"
+        android:textSize="23sp"
+        app:layout_constraintLeft_toRightOf="@+id/vehicler_info_tv"
+        app:layout_constraintRight_toLeftOf="@+id/feeder_state_tv"
+        app:layout_constraintTop_toTopOf="@+id/receiver_outlets_tv" />
+
 
     <TextView
         android:id="@+id/feeder_state_tv"
@@ -121,12 +132,22 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vehicler_info_tv" />
 
+    <ProgressBar
+        android:id="@+id/operating_progressbar"
+        style="@style/update_progress_uncircle_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:max="100"
+        android:progress="80"
+        app:layout_constraintBottom_toBottomOf="@+id/scan_rate_tv"
+        app:layout_constraintTop_toTopOf="@+id/scan_rate_tv" />
+
     <TextView
         android:id="@+id/scan_rate_tv"
         android:layout_width="match_parent"
         android:layout_height="26dp"
         android:layout_marginTop="3dp"
-        android:background="#55EABA76"
+        android:background="@null"
         android:gravity="center"
         android:text="扫描率:36.00%"
         android:textColor="@color/black"
@@ -134,15 +155,44 @@
         app:layout_constraintTop_toBottomOf="@+id/information_tv" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/post_vehicles_tv"
+        android:layout_width="0dp"
         android:layout_height="40dp"
-        android:gravity="center"
         android:alpha="0.8"
         android:background="@color/base_blue"
+        android:gravity="center"
         android:text="发车"
         android:textColor="@color/white"
         android:textSize="19sp"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/operating_ll"
         app:layout_constraintTop_toBottomOf="@+id/scan_rate_tv" />
+
+    <LinearLayout
+        android:id="@+id/operating_ll"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/post_vehicles_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/post_vehicles_tv">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="修改" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="@color/base_red" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

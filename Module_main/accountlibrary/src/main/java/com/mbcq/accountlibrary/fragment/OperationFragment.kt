@@ -27,7 +27,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
     override fun initDatas() {
         super.initDatas()
         val list = arrayListOf<IconViewBean>()
-        for (index in 0..7) {
+        for (index in 0..9) {
             val mOperationViewBean = IconViewBean()
             when (index) {
                 0 -> {
@@ -221,6 +221,35 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                     }
                     mOperationViewBean.item = listItem
                 }
+                8 -> {
+                    mOperationViewBean.tag = 1
+                    mOperationViewBean.title = "货款管理"
+                }
+                9 -> {
+                    mOperationViewBean.tag = 2
+                    val listItem = arrayListOf<IconViewBean.ItemBean>()
+
+                    for (mItemIndex in 0..3) {
+                        val item = IconViewBean.ItemBean()
+                        when (mItemIndex) {
+                            0 -> {
+                                item.itemText = "货款变更"
+                            }
+                            1 -> {
+                                item.itemText = "货款回收"
+                            }
+                            2 -> {
+                                item.itemText = "货款发放"
+                            }
+                            3 -> {
+                                item.itemText = "货款总账"
+                            }
+
+                        }
+                        listItem.add(item)
+                    }
+                    mOperationViewBean.item = listItem
+                }
             }
             list.add(mOperationViewBean)
 
@@ -350,6 +379,14 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                 }
                                 10 -> {
                                     ARouter.getInstance().build(ARouterConstants.ControlManagementActivity).navigation()
+                                }
+                            }
+                        }
+                        "9" -> {
+                            when (position) {
+                                0 -> {
+                                    ARouter.getInstance().build(ARouterConstants.LoanChangeActivity).navigation()
+
                                 }
                             }
                         }

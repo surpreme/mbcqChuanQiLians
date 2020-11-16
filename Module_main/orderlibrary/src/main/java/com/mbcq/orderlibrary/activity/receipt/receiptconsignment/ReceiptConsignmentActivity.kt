@@ -86,8 +86,8 @@ class ReceiptConsignmentActivity : BaseSmartMVPActivity<ReceiptConsignmentContra
                             if (item.isChecked) {
                                 item.sendOutDate = mSendOutDate//寄出时间
 //                            item.sendOutCompanyId = mSendOutCompanyId//寄出公司id
-                                item.sendOutWbidCode = mSendOutWbidCode.toInt()//寄出网点编码
-                                item.sendOutWbidCodeStr = mSendOutWbidCodeStr//寄出网点编码
+                                item.receiveWebidCode = mSendOutWbidCode.toInt()//寄到网点编码
+                                item.receiveWebidCodeStr = mSendOutWbidCodeStr//寄到网点编码
                                 item.giveOutCondition = mGiveOutCondition//寄出备注
                                 mDataList.add(item)
                             }

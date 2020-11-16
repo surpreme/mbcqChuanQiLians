@@ -45,7 +45,7 @@ class ShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ShortTrunkDe
     {"code":0,"ljCode":1,"msg":"标签号已扫描，不能重复扫描"}
     {"code":0,"ljCode":0,"msg":""}
      */
-    override fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String) {
+    override fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, scanPercentage: String) {
         val jsonO = JSONObject()
         jsonO.put("Billno", billno)
         jsonO.put("LableNo", lableNo)
@@ -53,6 +53,7 @@ class ShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ShortTrunkDe
         jsonO.put("InOneVehicleFlag", inOneVehicleFlag)
         jsonO.put("ScanType", 0)
         jsonO.put("ScanTypeStr", "PDA")
+        jsonO.put("scanPercentage", scanPercentage)
         post<String>(ApiInterface.DEPARTURE_SHORT_FEEDER_DEPARTURE_SCAN_INFO_POST, getRequestBody(jsonO), object : CallBacks {
             override fun onResult(result: String) {
                 mView?.scanOrderS(billno, soundStr)

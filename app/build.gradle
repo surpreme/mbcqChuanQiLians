@@ -100,4 +100,5 @@ dependencies {
     implementation project( ':Module_main:orderlibrary')
     implementation project( ':Module_main:maplibrary')
     implementation project( ':Module_main:Vehicleslibrary')
+    implementation project( ':Module_main:amountlibrary')
 }

@@ -7,8 +7,12 @@ import android.widget.ImageView
 import com.mbcq.baselibrary.R
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
+import com.scwang.smartrefresh.header.DeliveryHeader
+import com.scwang.smartrefresh.header.TaurusHeader
 import com.scwang.smartrefresh.header.WaterDropHeader
+import com.scwang.smartrefresh.header.WaveSwipeHeader
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
 
 /**
  * @Auther: liziyang
@@ -29,7 +33,7 @@ abstract class BaseSmartMVPActivity<V : BaseView, T : BasePresenterImpl<V>, X> :
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         mSmartRefreshLayout = this.findViewById(getSmartLayoutId())
-        mSmartRefreshLayout.setRefreshHeader(WaterDropHeader(mContext))
+        mSmartRefreshLayout.setRefreshHeader(ClassicsHeader(mContext))
         mSmartFrameLayout = this.findViewById(getSmartEmptyId())
         showNoData()
         mSmartRefreshLayout.setOnRefreshListener {

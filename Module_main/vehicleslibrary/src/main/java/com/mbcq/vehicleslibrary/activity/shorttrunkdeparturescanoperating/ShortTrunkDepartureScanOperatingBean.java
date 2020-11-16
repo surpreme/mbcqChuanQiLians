@@ -5,11 +5,11 @@ public class ShortTrunkDepartureScanOperatingBean {
     /**
      * sendOpeMan : lzy
      * arriOpeMan :
-     * sendDate : 2020-11-05T09:52:41
+     * sendDate : 2020-11-16T13:17:57
      * arrivedDate : 1900-01-01T00:00:00
-     * inoneVehicleFlag : DB1003-20201105-001
-     * qtyDb : 110
-     * unLoadQty : 0
+     * inoneVehicleFlag : DB1003-20201116-006
+     * qtyDb : 1
+     * unLoadQty : 1
      * loadQty : 0
      * webidCodeDb : 1003
      * webidCodeStrDb : 汕头
@@ -18,21 +18,21 @@ public class ShortTrunkDepartureScanOperatingBean {
      * state : 1
      * stateStr : 发货
      * sendTimes : 0
-     * sfWeight : 85
-     * sfVolumn : 66
+     * sfWeight : 2.5
+     * sfVolumn : 2.5
      * inPdaState : 0
      * outPdaState : 0
      * finishState : 0
-     * accForktruck : 0
+     * accForktruck : 0.0
      * orderId :
-     * billno : 10030002643
+     * billno : 10030002793
      * oBillno :
-     * billDate : 2020-11-05T09:52:19
+     * billDate : 2020-11-16T11:32:45
      * billState : 3
      * billStateStr : 短驳在途
      * billType : 0
      * billTypeStr : 机打
-     * goodsNum : 02643-110
+     * goodsNum : 02793-2
      * okProcess : 1
      * okProcessStr : 客户自提
      * isUrgent : 0
@@ -44,8 +44,8 @@ public class ShortTrunkDepartureScanOperatingBean {
      * ewebidCode : 1002
      * ewebidCodeStr : 义乌篁园
      * destination : 篁园a
-     * transneed : 1
-     * transneedStr : 零担
+     * transneed : 2
+     * transneedStr : 马帮快线
      * vipId :
      * shipperId :
      * shipperMb : 17530957256
@@ -57,44 +57,44 @@ public class ShortTrunkDepartureScanOperatingBean {
      * consigneeTel :
      * consignee : t111111111
      * consigneeAddr : t222222222
-     * product : 货物 服饰 文具
-     * totalQty : 110
-     * qty : 55
+     * product : 玻璃
+     * totalQty : 2
+     * qty : 2
      * packages : 工工式
-     * weight : 85
-     * volumn : 66
-     * weightJs : 0
-     * safeMoney : 0
-     * accDaiShou : 0
-     * accHKChange : 0
+     * weight : 5.0
+     * volumn : 5.0
+     * weightJs : 0.0
+     * safeMoney : 0.0
+     * accDaiShou : 0.0
+     * accHKChange : 0.0
      * hkChangeReason :
-     * sxf : 0
-     * wPrice : 0
-     * vPrice : 0
-     * qtyPrice : 0
-     * accNow : 0
-     * accArrived : 0
-     * accBack : 0
-     * accMonth : 0
-     * accHuoKuanKou : 0
-     * accTrans : 66
-     * accFetch : 0
-     * accPackage : 96
-     * accSend : 0
-     * accGb : 0
-     * accSafe : 0
-     * accRyf : 0
-     * accHuiKou : 0
-     * accSms : 0
-     * accZz : 0
-     * accZx : 0
-     * accCb : 0
-     * accSl : 0
-     * accAz : 0
-     * accFj : 0
-     * accWz : 0
-     * accJc : 0
-     * accSum : 162
+     * sxf : 0.0
+     * wPrice : 0.0
+     * vPrice : 0.0
+     * qtyPrice : 0.0
+     * accNow : 0.0
+     * accArrived : 0.0
+     * accBack : 0.0
+     * accMonth : 0.0
+     * accHuoKuanKou : 0.0
+     * accTrans : 36.0
+     * accFetch : 0.0
+     * accPackage : 2.0
+     * accSend : 0.0
+     * accGb : 0.0
+     * accSafe : 0.0
+     * accRyf : 0.0
+     * accHuiKou : 0.0
+     * accSms : 0.0
+     * accZz : 0.0
+     * accZx : 0.0
+     * accCb : 0.0
+     * accSl : 0.0
+     * accAz : 0.0
+     * accFj : 0.0
+     * accWz : 0.0
+     * accJc : 0.0
+     * accSum : 38.0
      * accType : 2
      * accTypeStr : 提付
      * backQty : 签回单
@@ -126,12 +126,12 @@ public class ShortTrunkDepartureScanOperatingBean {
     private int state;
     private String stateStr;
     private int sendTimes;
-    private int sfWeight;
-    private int sfVolumn;
+    private double sfWeight;
+    private double sfVolumn;
     private int inPdaState;
     private int outPdaState;
     private int finishState;
-    private int accForktruck;
+    private double accForktruck;
     private String orderId;
     private String billno;
     private String oBillno;
@@ -169,40 +169,40 @@ public class ShortTrunkDepartureScanOperatingBean {
     private int totalQty;
     private int qty;
     private String packages;
-    private Double weight;
-    private Double volumn;
-    private int weightJs;
-    private int safeMoney;
-    private int accDaiShou;
-    private int accHKChange;
+    private double weight;
+    private double volumn;
+    private double weightJs;
+    private double safeMoney;
+    private double accDaiShou;
+    private double accHKChange;
     private String hkChangeReason;
-    private int sxf;
-    private int wPrice;
-    private int vPrice;
-    private int qtyPrice;
-    private int accNow;
-    private int accArrived;
-    private int accBack;
-    private int accMonth;
-    private int accHuoKuanKou;
-    private int accTrans;
-    private int accFetch;
-    private int accPackage;
-    private int accSend;
-    private int accGb;
-    private int accSafe;
-    private int accRyf;
-    private int accHuiKou;
-    private int accSms;
-    private int accZz;
-    private int accZx;
-    private int accCb;
-    private int accSl;
-    private int accAz;
-    private int accFj;
-    private int accWz;
-    private int accJc;
-    private int accSum;
+    private double sxf;
+    private double wPrice;
+    private double vPrice;
+    private double qtyPrice;
+    private double accNow;
+    private double accArrived;
+    private double accBack;
+    private double accMonth;
+    private double accHuoKuanKou;
+    private double accTrans;
+    private double accFetch;
+    private double accPackage;
+    private double accSend;
+    private double accGb;
+    private double accSafe;
+    private double accRyf;
+    private double accHuiKou;
+    private double accSms;
+    private double accZz;
+    private double accZx;
+    private double accCb;
+    private double accSl;
+    private double accAz;
+    private double accFj;
+    private double accWz;
+    private double accJc;
+    private double accSum;
     private int accType;
     private String accTypeStr;
     private String backQty;
@@ -217,7 +217,6 @@ public class ShortTrunkDepartureScanOperatingBean {
     private String salesMan;
     private String opeMan;
     private String remark;
-    private int scaneds;
 
     public String getSendOpeMan() {
         return sendOpeMan;
@@ -339,19 +338,19 @@ public class ShortTrunkDepartureScanOperatingBean {
         this.sendTimes = sendTimes;
     }
 
-    public int getSfWeight() {
+    public double getSfWeight() {
         return sfWeight;
     }
 
-    public void setSfWeight(int sfWeight) {
+    public void setSfWeight(double sfWeight) {
         this.sfWeight = sfWeight;
     }
 
-    public int getSfVolumn() {
+    public double getSfVolumn() {
         return sfVolumn;
     }
 
-    public void setSfVolumn(int sfVolumn) {
+    public void setSfVolumn(double sfVolumn) {
         this.sfVolumn = sfVolumn;
     }
 
@@ -379,11 +378,11 @@ public class ShortTrunkDepartureScanOperatingBean {
         this.finishState = finishState;
     }
 
-    public int getAccForktruck() {
+    public double getAccForktruck() {
         return accForktruck;
     }
 
-    public void setAccForktruck(int accForktruck) {
+    public void setAccForktruck(double accForktruck) {
         this.accForktruck = accForktruck;
     }
 
@@ -683,51 +682,51 @@ public class ShortTrunkDepartureScanOperatingBean {
         this.packages = packages;
     }
 
-    public Double getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 
-    public Double getVolumn() {
+    public double getVolumn() {
         return volumn;
     }
 
-    public void setVolumn(Double volumn) {
+    public void setVolumn(double volumn) {
         this.volumn = volumn;
     }
 
-    public int getWeightJs() {
+    public double getWeightJs() {
         return weightJs;
     }
 
-    public void setWeightJs(int weightJs) {
+    public void setWeightJs(double weightJs) {
         this.weightJs = weightJs;
     }
 
-    public int getSafeMoney() {
+    public double getSafeMoney() {
         return safeMoney;
     }
 
-    public void setSafeMoney(int safeMoney) {
+    public void setSafeMoney(double safeMoney) {
         this.safeMoney = safeMoney;
     }
 
-    public int getAccDaiShou() {
+    public double getAccDaiShou() {
         return accDaiShou;
     }
 
-    public void setAccDaiShou(int accDaiShou) {
+    public void setAccDaiShou(double accDaiShou) {
         this.accDaiShou = accDaiShou;
     }
 
-    public int getAccHKChange() {
+    public double getAccHKChange() {
         return accHKChange;
     }
 
-    public void setAccHKChange(int accHKChange) {
+    public void setAccHKChange(double accHKChange) {
         this.accHKChange = accHKChange;
     }
 
@@ -739,219 +738,219 @@ public class ShortTrunkDepartureScanOperatingBean {
         this.hkChangeReason = hkChangeReason;
     }
 
-    public int getSxf() {
+    public double getSxf() {
         return sxf;
     }
 
-    public void setSxf(int sxf) {
+    public void setSxf(double sxf) {
         this.sxf = sxf;
     }
 
-    public int getWPrice() {
+    public double getWPrice() {
         return wPrice;
     }
 
-    public void setWPrice(int wPrice) {
+    public void setWPrice(double wPrice) {
         this.wPrice = wPrice;
     }
 
-    public int getVPrice() {
+    public double getVPrice() {
         return vPrice;
     }
 
-    public void setVPrice(int vPrice) {
+    public void setVPrice(double vPrice) {
         this.vPrice = vPrice;
     }
 
-    public int getQtyPrice() {
+    public double getQtyPrice() {
         return qtyPrice;
     }
 
-    public void setQtyPrice(int qtyPrice) {
+    public void setQtyPrice(double qtyPrice) {
         this.qtyPrice = qtyPrice;
     }
 
-    public int getAccNow() {
+    public double getAccNow() {
         return accNow;
     }
 
-    public void setAccNow(int accNow) {
+    public void setAccNow(double accNow) {
         this.accNow = accNow;
     }
 
-    public int getAccArrived() {
+    public double getAccArrived() {
         return accArrived;
     }
 
-    public void setAccArrived(int accArrived) {
+    public void setAccArrived(double accArrived) {
         this.accArrived = accArrived;
     }
 
-    public int getAccBack() {
+    public double getAccBack() {
         return accBack;
     }
 
-    public void setAccBack(int accBack) {
+    public void setAccBack(double accBack) {
         this.accBack = accBack;
     }
 
-    public int getAccMonth() {
+    public double getAccMonth() {
         return accMonth;
     }
 
-    public void setAccMonth(int accMonth) {
+    public void setAccMonth(double accMonth) {
         this.accMonth = accMonth;
     }
 
-    public int getAccHuoKuanKou() {
+    public double getAccHuoKuanKou() {
         return accHuoKuanKou;
     }
 
-    public void setAccHuoKuanKou(int accHuoKuanKou) {
+    public void setAccHuoKuanKou(double accHuoKuanKou) {
         this.accHuoKuanKou = accHuoKuanKou;
     }
 
-    public int getAccTrans() {
+    public double getAccTrans() {
         return accTrans;
     }
 
-    public void setAccTrans(int accTrans) {
+    public void setAccTrans(double accTrans) {
         this.accTrans = accTrans;
     }
 
-    public int getAccFetch() {
+    public double getAccFetch() {
         return accFetch;
     }
 
-    public void setAccFetch(int accFetch) {
+    public void setAccFetch(double accFetch) {
         this.accFetch = accFetch;
     }
 
-    public int getAccPackage() {
+    public double getAccPackage() {
         return accPackage;
     }
 
-    public void setAccPackage(int accPackage) {
+    public void setAccPackage(double accPackage) {
         this.accPackage = accPackage;
     }
 
-    public int getAccSend() {
+    public double getAccSend() {
         return accSend;
     }
 
-    public void setAccSend(int accSend) {
+    public void setAccSend(double accSend) {
         this.accSend = accSend;
     }
 
-    public int getAccGb() {
+    public double getAccGb() {
         return accGb;
     }
 
-    public void setAccGb(int accGb) {
+    public void setAccGb(double accGb) {
         this.accGb = accGb;
     }
 
-    public int getAccSafe() {
+    public double getAccSafe() {
         return accSafe;
     }
 
-    public void setAccSafe(int accSafe) {
+    public void setAccSafe(double accSafe) {
         this.accSafe = accSafe;
     }
 
-    public int getAccRyf() {
+    public double getAccRyf() {
         return accRyf;
     }
 
-    public void setAccRyf(int accRyf) {
+    public void setAccRyf(double accRyf) {
         this.accRyf = accRyf;
     }
 
-    public int getAccHuiKou() {
+    public double getAccHuiKou() {
         return accHuiKou;
     }
 
-    public void setAccHuiKou(int accHuiKou) {
+    public void setAccHuiKou(double accHuiKou) {
         this.accHuiKou = accHuiKou;
     }
 
-    public int getAccSms() {
+    public double getAccSms() {
         return accSms;
     }
 
-    public void setAccSms(int accSms) {
+    public void setAccSms(double accSms) {
         this.accSms = accSms;
     }
 
-    public int getAccZz() {
+    public double getAccZz() {
         return accZz;
     }
 
-    public void setAccZz(int accZz) {
+    public void setAccZz(double accZz) {
         this.accZz = accZz;
     }
 
-    public int getAccZx() {
+    public double getAccZx() {
         return accZx;
     }
 
-    public void setAccZx(int accZx) {
+    public void setAccZx(double accZx) {
         this.accZx = accZx;
     }
 
-    public int getAccCb() {
+    public double getAccCb() {
         return accCb;
     }
 
-    public void setAccCb(int accCb) {
+    public void setAccCb(double accCb) {
         this.accCb = accCb;
     }
 
-    public int getAccSl() {
+    public double getAccSl() {
         return accSl;
     }
 
-    public void setAccSl(int accSl) {
+    public void setAccSl(double accSl) {
         this.accSl = accSl;
     }
 
-    public int getAccAz() {
+    public double getAccAz() {
         return accAz;
     }
 
-    public void setAccAz(int accAz) {
+    public void setAccAz(double accAz) {
         this.accAz = accAz;
     }
 
-    public int getAccFj() {
+    public double getAccFj() {
         return accFj;
     }
 
-    public void setAccFj(int accFj) {
+    public void setAccFj(double accFj) {
         this.accFj = accFj;
     }
 
-    public int getAccWz() {
+    public double getAccWz() {
         return accWz;
     }
 
-    public void setAccWz(int accWz) {
+    public void setAccWz(double accWz) {
         this.accWz = accWz;
     }
 
-    public int getAccJc() {
+    public double getAccJc() {
         return accJc;
     }
 
-    public void setAccJc(int accJc) {
+    public void setAccJc(double accJc) {
         this.accJc = accJc;
     }
 
-    public int getAccSum() {
+    public double getAccSum() {
         return accSum;
     }
 
-    public void setAccSum(int accSum) {
+    public void setAccSum(double accSum) {
         this.accSum = accSum;
     }
 
@@ -1065,13 +1064,5 @@ public class ShortTrunkDepartureScanOperatingBean {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public int getScaneds() {
-        return scaneds;
-    }
-
-    public void setScaneds(int scaneds) {
-        this.scaneds = scaneds;
     }
 }

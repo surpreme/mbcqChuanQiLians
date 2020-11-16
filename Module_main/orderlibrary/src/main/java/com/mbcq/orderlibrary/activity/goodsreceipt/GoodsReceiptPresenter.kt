@@ -117,7 +117,7 @@ class GoodsReceiptPresenter : BasePresenterImpl<GoodsReceiptContract.View>(), Go
     override fun getPage(page: Int) {
         val httpParams = HttpParams()
         httpParams.put("Page", page)
-        httpParams.put("Limit", 15)
+        httpParams.put("Limit", 1000)
 
 
         get<String>(ApiInterface.SIGN_INVENTORY_SELECTED_INFO_GET, httpParams, object : CallBacks {
