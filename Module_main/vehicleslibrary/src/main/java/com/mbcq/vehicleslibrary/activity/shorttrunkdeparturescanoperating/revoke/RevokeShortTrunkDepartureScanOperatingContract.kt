@@ -2,6 +2,7 @@ package com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.revok
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
+import com.mbcq.vehicleslibrary.activity.shorttrunkdepartureunplanscanoperating.RevokeShortTrunkDepartureUnPlanScanOperatingBean
 
 /**
  * @author: lzy
@@ -12,10 +13,13 @@ class RevokeShortTrunkDepartureScanOperatingContract {
 
     interface View : BaseView {
         fun revokeOrderS(result: String)
+        fun getCarInfoS(list: List<RevokeShortTrunkDepartureScanOperatingBean>)
+
     }
 
     interface Presenter : BasePresenter<View> {
         fun revokeOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String)
+        fun getCarInfo(inoneVehicleFlag: String)
 
     }
 }

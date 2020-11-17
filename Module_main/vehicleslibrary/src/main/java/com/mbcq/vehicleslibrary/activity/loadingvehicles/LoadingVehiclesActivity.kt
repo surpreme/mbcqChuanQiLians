@@ -144,6 +144,7 @@ class LoadingVehiclesActivity : BaseListMVPActivity<LoadingVehiclesContract.View
                 val obj = JSONObject(mResult)
                 /**
                  * @type 0短驳 1干线
+                 * @isScan 1有计划 2无计划
                  */
                 if (obj.optInt("type") == 1)
                     ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingActivity).withString("LoadingVehicles", mResult).navigation()

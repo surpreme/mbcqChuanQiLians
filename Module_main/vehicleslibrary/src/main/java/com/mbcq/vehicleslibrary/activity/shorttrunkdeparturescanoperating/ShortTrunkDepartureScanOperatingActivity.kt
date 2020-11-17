@@ -103,7 +103,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
                                         }
                                     }
                                     if (soundString != "未知地址") {
-                                        mPresenter?.scanOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString, scan_progressBar.progress.toString())
+                                        mPresenter?.scanOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString, (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString())
                                     } else {
                                         soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
 

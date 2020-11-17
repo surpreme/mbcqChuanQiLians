@@ -1,7 +1,11 @@
 package com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.revoke
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
+import com.mbcq.vehicleslibrary.activity.shorttrunkdepartureunplanscanoperating.RevokeShortTrunkDepartureUnPlanScanOperatingBean
 import org.json.JSONObject
 
 /**
@@ -26,5 +30,20 @@ class RevokeShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<Revoke
 
         })
     }
+    override fun getCarInfo(inoneVehicleFlag: String) {
+        val params = HttpParams()
+        params.put("InoneVehicleFlag", inoneVehicleFlag)
+        get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_LOCAL_INFO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    if (!it.isNull(1)) {
+                        val dataObj = it.optJSONObject(1)
+                        mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<RevokeShortTrunkDepartureScanOperatingBean>>() {}.type))
+                    }
+                }
+            }
 
+        })
+    }
 }

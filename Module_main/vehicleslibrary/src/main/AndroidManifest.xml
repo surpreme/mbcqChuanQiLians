@@ -6,7 +6,9 @@
         <activity android:name=".activity.shorttrunkdepartureunplanscanoperating.RevokeShortTrunkDepartureUnPlanScanOperatingActivity" />
         <activity android:name=".activity.addscanshortfeeder.AddScanShortFeederActivity" />
         <activity android:name=".activity.shorttrunkdeparturescanoperating.revoke.RevokeShortTrunkDepartureScanOperatingActivity" />
-        <activity android:name=".activity.shorttrunkdeparturescanoperating.ShortTrunkDepartureScanOperatingActivity" />
+        <activity
+            android:name=".activity.shorttrunkdeparturescanoperating.ShortTrunkDepartureScanOperatingActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.departuretrunkdeparturescanoperating.DepartureTrunkDepartureScanOperatingActivity" />
         <activity
             android:name=".activity.loadingvehicles.LoadingVehiclesActivity"
