@@ -1315,6 +1315,18 @@
 
 
             </LinearLayout>
+            <CheckBox
+                android:id="@+id/choice_scan_checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:backgroundTint="@color/base_blue"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:layout_marginTop="5dp"
+                android:text="是否扫描发车"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/route_fee_breakdown_hide_ll" />
 
             <Button
                 android:id="@+id/next_step_btn"
@@ -1327,7 +1339,7 @@
                 android:text="下一步"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/route_fee_breakdown_hide_ll" />
+                app:layout_constraintTop_toBottomOf="@+id/choice_scan_checkBox" />
 
             <View
                 android:layout_width="match_parent"

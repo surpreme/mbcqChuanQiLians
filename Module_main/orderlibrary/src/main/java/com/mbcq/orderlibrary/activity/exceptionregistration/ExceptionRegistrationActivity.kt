@@ -175,7 +175,7 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
         obj.put("ConcomId", ConcomId)
         val ConfirmDate = ""
         obj.put("ConfirmDate", ConfirmDate)
-        val InOnevehicleflag = ""
+        val InOnevehicleflag = "DB1003-20201117-004"//TODO
         obj.put("InOnevehicleflag", InOnevehicleflag)
         /////////////////////////////////////////
         val AllImagesLst = ""

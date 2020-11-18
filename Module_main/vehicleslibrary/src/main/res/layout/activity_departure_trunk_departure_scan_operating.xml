@@ -47,7 +47,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:foregroundTint="@color/base_orange"
-        android:progress="20"
+        tools:progress="20"
         android:progressTint="@color/base_orange"
         app:layout_constraintBottom_toBottomOf="@+id/scan_progress_title_tv"
         app:layout_constraintLeft_toRightOf="@+id/scan_progress_title_tv"
@@ -81,7 +81,7 @@
         android:id="@+id/unScan_info__tv"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="12dp"
         android:gravity="center"
         android:lines="1"
         android:text="未扫：10票 100件 2000kg  23m³             扫描人：吴轩"
@@ -145,7 +145,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
-            android:id="@+id/change_btn"
+            android:id="@+id/commit_btn"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_marginLeft="20dp"
@@ -153,7 +153,7 @@
             android:layout_weight="1"
             android:alpha="0.8"
             android:backgroundTint="@color/base_blue"
-            android:text="查看扫描详情"
+            android:text="保存"
             android:textColor="@color/white"
             android:textSize="18sp" />
 

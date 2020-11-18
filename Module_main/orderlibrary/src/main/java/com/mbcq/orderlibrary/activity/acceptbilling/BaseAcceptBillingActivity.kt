@@ -8,6 +8,7 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
+import android.text.InputFilter
 import android.text.TextPaint
 import android.text.TextUtils
 import android.view.View
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
+import com.mbcq.baselibrary.view.MoneyInputFilter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.*
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
@@ -115,6 +117,8 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         initReceivingMethod(1)
         initDeliveryMethod(1)
         initAddGoodsRecycler()
+        weight_name_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
+        volume_name_tv.filters = arrayOf<InputFilter>(MoneyInputFilter())
     }
 
 

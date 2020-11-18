@@ -2,8 +2,8 @@ package com.mbcq.commonlibrary.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.view.MoneyInputFilter
 import com.mbcq.commonlibrary.R
 
 class EditTextAdapter<T : BaseEditTextAdapterBean> : RecyclerView.Adapter<EditTextAdapter.ItemViewHolder> {
@@ -61,6 +62,8 @@ class EditTextAdapter<T : BaseEditTextAdapterBean> : RecyclerView.Adapter<EditTe
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.title_tv.text = mSonBean[position].title
         holder.inputStr_ed.setText(mSonBean[position].inputStr)
+//        InputFilter[] filters={new CashierInputFilter()};
+        holder.inputStr_ed.filters = arrayOf<InputFilter>(MoneyInputFilter()) //设置金额输入的过滤器，保证只能输入金额类型
         holder.inputStr_ed.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 

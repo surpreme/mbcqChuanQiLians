@@ -14,5 +14,7 @@
     <color name="base_un_green">#9CF3FDF0</color>
     <color name="base_green">#3EEE0A</color>
     <color name="base_coffee">#F2AD4A</color>
+    <color name="dark_keyboard">#9d472c</color>
+    <color name="light_keyboard">#c35b3a</color>
 
 </resources>

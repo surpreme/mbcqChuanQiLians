@@ -5,11 +5,14 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
+import androidx.core.view.forEachIndexed
+import androidx.core.view.get
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
@@ -30,6 +33,9 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
     @Autowired(name = "TrunkDepartureHouse")
     @JvmField
     var mLastDataJson: String = ""
+    var mStartWebCode = ""
+    var mEndWebCode = ""
+    val mOutList = mutableListOf<String>()
 
     override fun getLayoutId(): Int = R.layout.activity_add_trunk_departure_house
 
@@ -40,6 +46,9 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
         val mLastData = JSONObject(mLastDataJson)
         mDepartureLot = mLastData.optString("InoneVehicleFlag")
         departure_lot_tv.text = "发车批次: $mDepartureLot"
+        mStartWebCode = mLastData.optString("WebidCodeStr")
+        mEndWebCode = mLastData.optString("EwebidCodeStr")
+        operating_interval_tv.text = "$mStartWebCode-$mEndWebCode"
     }
 
     /**
@@ -61,7 +70,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
                     kk.append(",")
                 jarray.put(obj)
             }
-            val VehicleInterval = ""//发车区间
+            val VehicleInterval = operating_interval_tv.text.toString()//发车区间
             mLastData.put("VehicleInterval", VehicleInterval)
 
             val YtWebidCode = ""//沿途网点编码
@@ -79,6 +88,26 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
 
     override fun onClick() {
         super.onClick()
+        remove_operating_interval_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                for (index in 0 until operating_interval_ll.childCount) {
+                    val itemCheckBox = operating_interval_ll[index] as CheckBox
+                    if (itemCheckBox.isChecked) {
+                        mOutList.remove(itemCheckBox.text.toString())
+                    }
+                }
+                operating_interval_ll.removeAllViews()
+                for (item in mOutList) {
+                    val checkBox = CheckBox(mContext)
+                    checkBox.text = item
+                    operating_interval_ll.addView(checkBox)
+                }
+
+                refreshShowOut()
+
+            }
+
+        })
         complete_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 completeCar()
@@ -123,12 +152,55 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
         }
     }
 
+    fun refreshShowOut() {
+        var showStr = mStartWebCode
+        for (item in mOutList) {
+            showStr = "$showStr-$item"
+        }
+        showStr = "$showStr-$mEndWebCode"
+
+        operating_interval_tv.text = showStr
+    }
+
     fun geDeliveryPointLocal(list: MutableList<WebAreaDbInfo>) {
         FilterDialog(getScreenWidth(), Gson().toJson(list), "webid", "选择沿途网点", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            @SuppressLint("SetTextI18n")
             override fun onItemClick(v: View, position: Int, mResult: String) {
-                val checkBox = CheckBox(mContext)
-                checkBox.text = list[position].webid
-                operating_interval_ll.addView(checkBox)
+                var mHas = false
+                for (index in 0 until operating_interval_ll.childCount) {
+                    val itemCheckBox = operating_interval_ll[index] as CheckBox
+                    when {
+                        itemCheckBox.text.toString() == list[position].webid -> {
+                            mHas = true
+                        }
+                        itemCheckBox.text.toString() == mStartWebCode -> {
+                            mHas = true
+                        }
+                        itemCheckBox.text.toString() == mEndWebCode -> {
+                            mHas = true
+                        }
+                    }
+
+
+                }
+                when (list[position].webid) {
+                    mStartWebCode -> {
+                        mHas = true
+                    }
+                    mEndWebCode -> {
+                        mHas = true
+                    }
+                }
+                if (!mHas) {
+                    val checkBox = CheckBox(mContext)
+                    checkBox.text = list[position].webid
+                    mOutList.add(list[position].webid)
+                    operating_interval_ll.addView(checkBox)
+                    refreshShowOut()
+
+                } else {
+                    showToast("您已经选过${list[position].webid}了")
+                }
 
             }
 
