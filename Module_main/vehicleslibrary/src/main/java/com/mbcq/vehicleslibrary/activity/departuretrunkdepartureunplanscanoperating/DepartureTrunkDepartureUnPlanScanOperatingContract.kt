@@ -1,31 +1,31 @@
-package com.mbcq.vehicleslibrary.activity.shorttrunkdepartureunplanscanoperating
+package com.mbcq.vehicleslibrary.activity.departuretrunkdepartureunplanscanoperating
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
-import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.ShortTrunkDepartureScanOperatingBean
+import com.mbcq.vehicleslibrary.activity.shorttrunkdepartureunplanscanoperating.ShortTrunkDepartureUnPlanScanOperatingBean
 import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2020-11-13 13:40:46 短驳扫描无计划装车
+ * @time: 2020-11-19 09:49:03 干线无计划扫描
  */
 
-class RevokeShortTrunkDepartureUnPlanScanOperatingContract {
+class DepartureTrunkDepartureUnPlanScanOperatingContract {
 
     interface View : BaseView {
         fun getWillByInfoS(data: JSONObject, resultBillno: String)
         fun getWillByInfoNull()
         fun scanOrderS(billno: String, soundStr: String)
-        fun getCarInfoS(list: List<RevokeShortTrunkDepartureUnPlanScanOperatingBean>)
         fun saveScanPostS(result: String)
+        fun getCarInfoS(list: List<DepartureTrunkDepartureUnPlanScanOperatingBean>)
 
     }
 
     interface Presenter : BasePresenter<View> {
         fun getWillByInfo(billno: String, resultBillno: String)
         fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String)
-        fun getCarInfo(inoneVehicleFlag: String)
         fun saveScanPost(id: Int, inoneVehicleFlag: String)
+        fun getCarInfo(inoneVehicleFlag: String)
 
     }
 }

@@ -51,7 +51,7 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
     @SuppressLint("SimpleDateFormat")
     override fun initExtra() {
         super.initExtra()
-        mContext?.let {
+        mContext.let {
             val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
             val mDate = Date(System.currentTimeMillis())
             val format = mDateFormat.format(mDate)
@@ -67,7 +67,7 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
         super.onClick()//
         modify_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                mContext?.let {
+                mContext.let {
                     var mItemdata: TrunkDepartureBean? = null
                     for (item in adapter.getAllData()) {
                         if (item.isChecked) {
@@ -89,7 +89,7 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
         })
         invalid_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                mContext?.let {
+                mContext.let {
                     var data: TrunkDepartureBean? = null
                     for (item in adapter.getAllData()) {
                         if (item.isChecked) {

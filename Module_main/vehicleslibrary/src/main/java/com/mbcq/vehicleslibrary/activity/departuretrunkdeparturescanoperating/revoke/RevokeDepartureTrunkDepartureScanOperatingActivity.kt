@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.revoke
+package com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.revoke
 
 
 import android.Manifest
@@ -12,33 +12,35 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
+import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.revoke.RevokeShortTrunkDepartureScanOperatingBean
 import com.tbruyelle.rxpermissions.RxPermissions
-import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_scan_operating.*
+import kotlinx.android.synthetic.main.activity_revoke_departure_trunk_departure_scan_operating.*
 import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2020-11-10 10:02:03 撤销短驳装车扫描
+ * @time: 2020-11-19 08:31:06 撤销干线扫描
  */
 
-@Route(path = ARouterConstants.RevokeShortTrunkDepartureScanOperatingActivity)
-class RevokeShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<RevokeShortTrunkDepartureScanOperatingContract.View, RevokeShortTrunkDepartureScanOperatingPresenter, RevokeShortTrunkDepartureScanOperatingBean>(), RevokeShortTrunkDepartureScanOperatingContract.View {
-    @Autowired(name = "RevokeShortLoadingVehicles")
+@Route(path = ARouterConstants.RevokeDepartureTrunkDepartureScanOperatingActivity)
+class RevokeDepartureTrunkDepartureScanOperatingActivity : BaseListMVPActivity<RevokeDepartureTrunkDepartureScanOperatingContract.View, RevokeDepartureTrunkDepartureScanOperatingPresenter, RevokeDepartureTrunkDepartureScanOperatingBean>(), RevokeDepartureTrunkDepartureScanOperatingContract.View {
+    @Autowired(name = "RevokeDepartureLoadingVehicles")
     @JvmField
     var mLastData: String = ""
+
     lateinit var rxPermissions: RxPermissions
     var mSoundPool: SoundPool? = null
     private var soundPoolMap: HashMap<Int, Int>? = null
     val SCAN_SOUND_ERROR_TAG = 1
 
-
-    override fun getLayoutId(): Int = R.layout.activity_revoke_short_trunk_departure_scan_operating
+    override fun getLayoutId(): Int = R.layout.activity_revoke_departure_trunk_departure_scan_operating
 
     override fun initExtra() {
         super.initExtra()
@@ -52,12 +54,10 @@ class RevokeShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<Revok
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
     }
-
     override fun initDatas() {
         super.initDatas()
         mPresenter?.getCarInfo(JSONObject(mLastData).optString("inoneVehicleFlag"))
     }
-
     override fun onClick() {
         super.onClick()
         scan_number_iv.setOnClickListener(object : SingleClick() {
@@ -66,7 +66,7 @@ class RevokeShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<Revok
             }
 
         })
-        short_trunk_departure_scan_operating_toolbar.setBackButtonOnClickListener(object : SingleClick() {
+        departure_trunk_departure_scan_operating_toolbar.setBackButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 onBackPressed()
             }
@@ -130,16 +130,17 @@ class RevokeShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<Revok
             }
         }
     }
-
-    override fun getRecyclerViewId(): Int = R.id.short_trunk_departure_scan_operating_recycler
-
-    override fun setAdapter(): BaseRecyclerAdapter<RevokeShortTrunkDepartureScanOperatingBean> = RevokeShortTrunkDepartureScanOperatingAdapter(mContext)
-    val mCarList = mutableListOf<RevokeShortTrunkDepartureScanOperatingBean>()
+    val mCarList = mutableListOf<RevokeDepartureTrunkDepartureScanOperatingBean>()
     val mRemoveBillno = mutableListOf<String>()
-    override fun getCarInfoS(list: List<RevokeShortTrunkDepartureScanOperatingBean>) {
+    override fun getCarInfoS(list: List<RevokeDepartureTrunkDepartureScanOperatingBean>) {
         if (mCarList.isNotEmpty()) {
             mCarList.clear()
         }
         mCarList.addAll(list)
     }
+
+    override fun getRecyclerViewId(): Int = R.id.departure_trunk_departure_scan_operating_recycler
+
+
+    override fun setAdapter(): BaseRecyclerAdapter<RevokeDepartureTrunkDepartureScanOperatingBean> = RevokeDepartureTrunkDepartureScanOperatingAdapter(mContext)
 }

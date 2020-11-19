@@ -150,6 +150,10 @@ public class ApiInterface {
      */
     public static final String DEPARTURE_SHORT_FEEDER_DEPARTURE_SCAN_INFO_REVOKE_POST = BASE_URI + "Scan/DelDbFcPlanWaybillScan";
     /**
+     * 干线发车 有计划扫描撤销
+     */
+    public static final String DEPARTURE_DEPARTURE_FEEDER_DEPARTURE_SCAN_INFO_REVOKE_POST = BASE_URI + "Scan/DelGxFcPlanWaybillScan";
+    /**
      * 短驳发车 确认到车
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_ARRIVAL_CONFIRM_LOCAL_INFO_POST = BASE_URI + "DbVehicleOpe/UpdCofArrDbVehicle";

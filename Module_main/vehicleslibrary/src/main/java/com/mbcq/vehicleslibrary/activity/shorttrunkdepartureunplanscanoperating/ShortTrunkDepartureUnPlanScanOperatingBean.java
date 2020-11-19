@@ -1,6 +1,6 @@
 package com.mbcq.vehicleslibrary.activity.shorttrunkdepartureunplanscanoperating;
 
-public class RevokeShortTrunkDepartureUnPlanScanOperatingBean {
+public class ShortTrunkDepartureUnPlanScanOperatingBean {
 
 
     /**

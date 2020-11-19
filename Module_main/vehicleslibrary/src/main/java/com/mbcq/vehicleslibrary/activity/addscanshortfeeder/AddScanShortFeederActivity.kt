@@ -116,8 +116,9 @@ class AddScanShortFeederActivity : BaseAddScanShortFeederActivity<AddScanShortFe
         obj.put("sendOpeMan", UserInformationUtil.getUserName(mContext))// 发车操作人
         obj.put("webidCode", UserInformationUtil.getWebIdCode(mContext))// 发车网点编码
         obj.put("webidCodeStr", UserInformationUtil.getWebIdCodeStr(mContext))// 发车网点
-        obj.put("scanWebidType", mScanType)// 发车网点
+        obj.put("scanWebidType", mScanType)// 到车网点限制
         obj.put("fromType", Constant.ANDROID)//
+        obj.put("fromtypeStr", Constant.ANDROID_STR)
 //        val json = GsonUtils.toPrettyFormat(obj.toString())
         //TODO
         val testJay = JSONArray()
@@ -192,7 +193,7 @@ class AddScanShortFeederActivity : BaseAddScanShortFeederActivity<AddScanShortFe
     }
 
     override fun saveInfoS(result: String) {
-        ARouter.getInstance().build(ARouterConstants.RevokeShortTrunkDepartureUnPlanScanOperatingActivity).withString("ShortLoadingVehicles", result).navigation()
+        ARouter.getInstance().build(ARouterConstants.ShortTrunkDepartureUnPlanScanOperatingActivity).withString("ShortLoadingVehicles", result).navigation()
 
     }
 

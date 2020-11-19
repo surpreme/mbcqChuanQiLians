@@ -28,8 +28,8 @@ import org.json.JSONObject
  * @time: 2020-11-13 13:40:46 短驳扫描无计划装车
  */
 
-@Route(path = ARouterConstants.RevokeShortTrunkDepartureUnPlanScanOperatingActivity)
-class RevokeShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUnPlanScanOperatingActivity<RevokeShortTrunkDepartureUnPlanScanOperatingContract.View, RevokeShortTrunkDepartureUnPlanScanOperatingPresenter, RevokeShortTrunkDepartureUnPlanScanOperatingBean>(), RevokeShortTrunkDepartureUnPlanScanOperatingContract.View {
+@Route(path = ARouterConstants.ShortTrunkDepartureUnPlanScanOperatingActivity)
+class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUnPlanScanOperatingActivity<ShortTrunkDepartureUnPlanScanOperatingContract.View, ShortTrunkDepartureUnPlanScanOperatingPresenter, ShortTrunkDepartureUnPlanScanOperatingBean>(), ShortTrunkDepartureUnPlanScanOperatingContract.View {
     @Autowired(name = "ShortLoadingVehicles")
     @JvmField
     var mLastData: String = ""
@@ -149,7 +149,7 @@ class RevokeShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepar
     }
 
     override fun getRecyclerViewId(): Int = R.id.short_vehicles_unplan_scan_operating_recycler
-    override fun setAdapter(): BaseRecyclerAdapter<RevokeShortTrunkDepartureUnPlanScanOperatingBean> = RevokeShortTrunkDepartureUnPlanScanOperatingAdapter(mContext)
+    override fun setAdapter(): BaseRecyclerAdapter<ShortTrunkDepartureUnPlanScanOperatingBean> = ShortTrunkDepartureUnPlanScanOperatingAdapter(mContext)
     override fun getWillByInfoS(data: JSONObject, resultBillno: String) {
         //3在途
         if (data.optInt("billState") != 3) {
@@ -163,7 +163,7 @@ class RevokeShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepar
                     return
                 }
             }
-            val iodjjk = Gson().fromJson(GsonUtils.toPrettyFormat(data), RevokeShortTrunkDepartureUnPlanScanOperatingBean::class.java)
+            val iodjjk = Gson().fromJson(GsonUtils.toPrettyFormat(data), ShortTrunkDepartureUnPlanScanOperatingBean::class.java)
             iodjjk.ewebidCodeStrDb = iodjjk.ewebidCodeStr
             iodjjk.webidCodeStrDb = iodjjk.webidCodeStr
             adapter.appendData(mutableListOf(iodjjk))
@@ -228,7 +228,7 @@ class RevokeShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepar
 
     }
 
-    override fun getCarInfoS(list: List<RevokeShortTrunkDepartureUnPlanScanOperatingBean>) {
+    override fun getCarInfoS(list: List<ShortTrunkDepartureUnPlanScanOperatingBean>) {
         if (!adapter.getAllData().isNullOrEmpty()) {
             adapter.clearData()
         }

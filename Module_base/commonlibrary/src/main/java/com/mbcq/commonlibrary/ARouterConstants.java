@@ -66,11 +66,14 @@ public class ARouterConstants {
     public static final String FixedVehicleArchivesActivity="/vehicles/FixedVehicleArchivesActivity";
     public static final String ArrivalVehiclesScanActivity="/vehicles/ArrivalVehiclesScanActivity";
     public static final String AddScanShortFeederActivity="/vehicles/AddScanShortFeederActivity";
+    public static final String AddDepartureTrunkActivity="/vehicles/AddDepartureTrunkActivity";
     public static final String ArrivalTrunkDepartureScanOperatingActivity="/vehicles/ArrivalTrunkDepartureScanOperatingActivity";
     public static final String DepartureTrunkDepartureScanOperatingActivity="/vehicles/DepartureTrunkDepartureScanOperatingActivity";
     public static final String ShortTrunkDepartureScanOperatingActivity="/vehicles/ShortTrunkDepartureScanOperatingActivity";
     public static final String RevokeShortTrunkDepartureScanOperatingActivity="/vehicles/RevokeShortTrunkDepartureScanOperatingActivity";
-    public static final String RevokeShortTrunkDepartureUnPlanScanOperatingActivity="/vehicles/RevokeShortTrunkDepartureUnPlanScanOperatingActivity";
+    public static final String ShortTrunkDepartureUnPlanScanOperatingActivity="/vehicles/ShortTrunkDepartureUnPlanScanOperatingActivity";
+    public static final String RevokeDepartureTrunkDepartureScanOperatingActivity="/vehicles/RevokeDepartureTrunkDepartureScanOperatingActivity";
+    public static final String DepartureTrunkDepartureUnPlanScanOperatingActivity="/vehicles/DepartureTrunkDepartureUnPlanScanOperatingActivity";
     //////////////////////////////////////////////////////////////////////////////
     public static final String LoanChangeActivity="/amount/LoanChangeActivity";
 

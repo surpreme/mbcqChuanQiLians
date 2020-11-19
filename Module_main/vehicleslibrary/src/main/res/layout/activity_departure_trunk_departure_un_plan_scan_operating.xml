@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.shorttrunkdepartureunplanscanoperating.ShortTrunkDepartureUnPlanScanOperatingActivity">
+    tools:context=".activity.departuretrunkdepartureunplanscanoperating.DepartureTrunkDepartureUnPlanScanOperatingActivity">
     <com.mbcq.baselibrary.view.CnToolbar
-        android:id="@+id/short_vehicles_un_plan_scan_operating_toolbar"
+        android:id="@+id/departure_vehicles_un_plan_scan_operating_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
-        app:centerTextViewText="短驳无计划扫描发车"
+        app:centerTextViewText="干线无计划扫描发车"
         app:layout_constraintTop_toTopOf="parent"
         app:rightTextViewText="撤销" />
 
@@ -25,7 +25,7 @@
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/short_vehicles_un_plan_scan_operating_toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/departure_vehicles_un_plan_scan_operating_toolbar" />
 
     <TextView
         android:id="@+id/scan_progress_title_tv"
@@ -130,7 +130,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/short_vehicles_unplan_scan_operating_recycler"
+        android:id="@+id/departure_vehicles_unplan_scan_operating_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:overScrollMode="never"

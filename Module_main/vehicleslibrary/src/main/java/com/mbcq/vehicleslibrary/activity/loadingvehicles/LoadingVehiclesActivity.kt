@@ -93,6 +93,12 @@ class LoadingVehiclesActivity : BaseListMVPActivity<LoadingVehiclesContract.View
             }
 
         })
+        trunk_vehicles_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                ARouter.getInstance().build(ARouterConstants.AddDepartureTrunkActivity).navigation()
+            }
+
+        })
 
         loading_vehicles_toolbar.setBackButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
@@ -146,13 +152,17 @@ class LoadingVehiclesActivity : BaseListMVPActivity<LoadingVehiclesContract.View
                  * @type 0短驳 1干线
                  * @isScan 1有计划 2无计划
                  */
-                if (obj.optInt("type") == 1)
-                    ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingActivity).withString("LoadingVehicles", mResult).navigation()
-                else if (obj.optInt("type") == 0) {
+                if (obj.optInt("type") == 1) {
+                    if (obj.optInt("isScan") == 1)
+                        ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingActivity).withString("LoadingVehicles", mResult).navigation()
+                    else if (obj.optInt("isScan") == 2)
+                        ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureUnPlanScanOperatingActivity).withString("DepartureLoadingVehicles", mResult).navigation()
+
+                } else if (obj.optInt("type") == 0) {
                     if (obj.optInt("isScan") == 1)
                         ARouter.getInstance().build(ARouterConstants.ShortTrunkDepartureScanOperatingActivity).withString("ShortLoadingVehicles", mResult).navigation()
                     else if (obj.optInt("isScan") == 2)
-                        ARouter.getInstance().build(ARouterConstants.RevokeShortTrunkDepartureUnPlanScanOperatingActivity).withString("ShortLoadingVehicles", mResult).navigation()
+                        ARouter.getInstance().build(ARouterConstants.ShortTrunkDepartureUnPlanScanOperatingActivity).withString("ShortLoadingVehicles", mResult).navigation()
 
 
                 }

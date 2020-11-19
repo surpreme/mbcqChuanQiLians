@@ -46,6 +46,7 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
     @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
+        clearInfo()
         val obj = JSONObject(mLastData)
         mPresenter?.getCarInfo(obj.optString("inoneVehicleFlag"))
         unloading_batch_tv.text = "卸车批次:${obj.optString("inoneVehicleFlag")}"
@@ -53,6 +54,13 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
 
     override fun onClick() {
         super.onClick()
+        departure_vehicles_scan_operating_toolbar.setRightTitleOnClickListener(object :SingleClick(){
+            override fun onSingleClick(v: View?) {
+                ARouter.getInstance().build(ARouterConstants.RevokeDepartureTrunkDepartureScanOperatingActivity).withString("RevokeDepartureLoadingVehicles", mLastData).navigation()
+
+            }
+
+        })
         commit_btn.setOnClickListener(object :SingleClick(){
             override fun onSingleClick(v: View?) {
                 if (mTotalUnLoadingNum != 0) {

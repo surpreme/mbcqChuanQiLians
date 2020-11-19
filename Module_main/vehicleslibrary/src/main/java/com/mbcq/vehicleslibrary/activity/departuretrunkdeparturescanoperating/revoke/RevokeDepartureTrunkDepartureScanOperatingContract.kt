@@ -1,18 +1,19 @@
-package com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.revoke
+package com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.revoke
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
+import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.revoke.RevokeShortTrunkDepartureScanOperatingBean
 
 /**
  * @author: lzy
- * @time: 2020-11-10 10:02:03 撤销干线装车扫描
+ * @time: 2020-11-19 08:31:06 干线撤销扫描
  */
 
-class RevokeShortTrunkDepartureScanOperatingContract {
+class RevokeDepartureTrunkDepartureScanOperatingContract {
 
     interface View : BaseView {
         fun revokeOrderS(result: String)
-        fun getCarInfoS(list: List<RevokeShortTrunkDepartureScanOperatingBean>)
+        fun getCarInfoS(list: List<RevokeDepartureTrunkDepartureScanOperatingBean>)
 
     }
 

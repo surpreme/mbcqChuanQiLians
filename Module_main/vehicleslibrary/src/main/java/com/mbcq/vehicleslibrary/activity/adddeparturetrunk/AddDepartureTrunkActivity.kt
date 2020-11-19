@@ -1,4 +1,5 @@
-package com.mbcq.vehicleslibrary.activity.alldeparturerecord.addtrunkdeparture
+package com.mbcq.vehicleslibrary.activity.adddeparturetrunk
+
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -8,35 +9,42 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.Constant
+import com.mbcq.commonlibrary.NumberPlateBean
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.vehicleslibrary.R
-import com.mbcq.commonlibrary.NumberPlateBean
-import kotlinx.android.synthetic.main.activity_add_trunk_departure.*
+import kotlinx.android.synthetic.main.activity_add_departure_trunk.*
+import org.json.JSONArray
 import org.json.JSONObject
+
 
 /**
  * @author: lzy
- * @time: 2020-09-14 11:02:45
- * 干线计划装车
+ * @time: 2020-11-19 10:14:45 添加无计划干线扫描
  */
-@Route(path = ARouterConstants.AddTrunkDepartureActivity)
-class AddTrunkDepartureActivity : BaseAddTrunkDepartureActivity<AddTrunkDepartureContract.View, AddTrunkDeparturePresenter>(), AddTrunkDepartureContract.View {
-    override fun getLayoutId(): Int = R.layout.activity_add_trunk_departure
+
+@Route(path = ARouterConstants.AddDepartureTrunkActivity)
+class AddDepartureTrunkActivity : BaseAddDepartureTrunkActivity<AddDepartureTrunkContract.View, AddDepartureTrunkPresenter>(), AddDepartureTrunkContract.View {
+    override fun getLayoutId(): Int = R.layout.activity_add_departure_trunk
+
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         initModeOfTransport()
+        initScanLoadingType()
+
     }
 
     override fun initDatas() {
         super.initDatas()
         mPresenter?.getDepartureBatchNumber()
-    }
 
+    }
 
     fun saveCarInfoTrunk() {
         if (number_plate_tv.text.toString().isEmpty()) {
@@ -56,46 +64,55 @@ class AddTrunkDepartureActivity : BaseAddTrunkDepartureActivity<AddTrunkDepartur
             return
         }
         val obj = JSONObject()
-        obj.put("InoneVehicleFlag", contract_No_tv.text.toString())
-        obj.put("ContractNo", contract_No_tv.text.toString())
-        obj.put("EcompanyId", mECompanyId)// 到车公司编码
-        obj.put("EwebidCode", mWebCodeId)// 到车网点编码
-        obj.put("Transneed", mTransneed)// 运输类型编码
-        obj.put("TransneedStr", mTransneedStr)// 运输类型
-        obj.put("AccNow", cash_freight_ed.text.toString())// 现付
-        obj.put("AccBack", return_freight_ed.text.toString())// 回付
-        obj.put("AccYk", cash_card_ed.text.toString())// 油费
-        obj.put("YkCard", oil_card_number_ed.text.toString())// 油卡
-        obj.put("EwebidCode1", mFirstEwebidCode)// 到付网点1
-        obj.put("EwebidCodeStr1", oil_card_first_tv.text.toString())// 到付网点1
-        obj.put("AccArrived1", oil_card_first_ed.text.toString())// 到付金额
-        obj.put("EwebidCode2", mSencondEwebidCode)// 到付网点2
-        obj.put("EwebidCodeStr2", oil_card_second_tv.text.toString())// 到付网点2
-        obj.put("AccArrived2", oil_card_second_ed.text.toString())// 到付金额2
-        obj.put("EwebidCode3", mThridEwebidCode)// 到付网点3
-        obj.put("EwebidCodeStr3", oil_card_third_tv.text.toString())// 到付网点3
-        obj.put("AccArrived3", oil_card_third_ed.text.toString())// 到付金额3
-        obj.put("AccZx", loading_fee_ed.text.toString())// 装卸费
-        obj.put("AccJh", 0)// 接货费
-        obj.put("isScan", if (choice_scan_checkBox.isChecked) "1" else "0")// 是否扫描发车
-        obj.put("AccTansSum", total_freight_tv.text.toString())// 运费合计
-        obj.put("AccArrSum", mToPayTotalPrice)// 到付合计
-        obj.put("AccOther", 0)// 其它费用
-        obj.put("VehicleInterval", UserInformationUtil.getWebIdCodeStr(mContext) + "-" + destination_tv.text.toString())// 发车区间  A-B
-        obj.put("Remark", "")// 备注
+        obj.put("inoneVehicleFlag", contract_No_tv.text.toString())
+        obj.put("contractNo", contract_No_tv.text.toString())
+        obj.put("ecompanyId", mECompanyId)// 到车公司编码
+        obj.put("ewebidCode", mWebCodeId)// 到车网点编码
+        obj.put("transneed", mTransneed)// 运输类型编码
+        obj.put("transneedStr", mTransneedStr)// 运输类型
+        obj.put("accNow", cash_freight_ed.text.toString())// 现付
+        obj.put("accBack", return_freight_ed.text.toString())// 回付
+        obj.put("accYk", cash_card_ed.text.toString())// 油费
+        obj.put("ykCard", oil_card_number_ed.text.toString())// 油卡
+        obj.put("ewebidCode1", mFirstEwebidCode)// 到付网点1
+        obj.put("ewebidCodeStr1", oil_card_first_tv.text.toString())// 到付网点1
+        obj.put("accArrived1", oil_card_first_ed.text.toString())// 到付金额
+        obj.put("ewebidCode2", mSencondEwebidCode)// 到付网点2
+        obj.put("ewebidCodeStr2", oil_card_second_tv.text.toString())// 到付网点2
+        obj.put("accArrived2", oil_card_second_ed.text.toString())// 到付金额2
+        obj.put("ewebidCode3", mThridEwebidCode)// 到付网点3
+        obj.put("ewebidCodeStr3", oil_card_third_tv.text.toString())// 到付网点3
+        obj.put("accArrived3", oil_card_third_ed.text.toString())// 到付金额3
+        obj.put("accZx", loading_fee_ed.text.toString())// 装卸费
+        obj.put("accJh", 0)// 接货费
+        obj.put("isScan", "2")//   0默认 1有计扫描发车 2无计划扫描
+        obj.put("accTansSum", total_freight_tv.text.toString())// 运费合计
+        obj.put("accArrSum", mToPayTotalPrice)// 到付合计
+        obj.put("accOther", 0)// 其它费用
+        obj.put("vehicleInterval", UserInformationUtil.getWebIdCodeStr(mContext) + "-" + destination_tv.text.toString())// 发车区间  A-B
+        obj.put("remark", "")// 备注
 
-        obj.put("SendDate", TimeUtils.getCurrTime2())// 发车日期
-        obj.put("VehicleNo", number_plate_tv.text.toString())// 车牌号
-        obj.put("Chauffer", driver_name_ed.text.toString())// 司机
-        obj.put("ChaufferMb", contact_number_ed.text.toString())// 司机手机号码
-        obj.put("ChaufferMb", contact_number_ed.text.toString())// 司机手机号码
-        obj.put("EwebidCodeStr", destination_tv.text.toString())// 到车网点
-        obj.put("SendOpeMan", UserInformationUtil.getUserName(mContext))// 发车操作人
-        obj.put("WebidCode", UserInformationUtil.getWebIdCode(mContext))// 发车网点编码
-        obj.put("WebidCodeStr", UserInformationUtil.getWebIdCodeStr(mContext))// 发车网点
-        val json = GsonUtils.toPrettyFormat(obj.toString())
-        ARouter.getInstance().build(ARouterConstants.TrunkDepartureHouseActivity).withString("TrunkDepartureHouse", json).navigation()
-        this.finish()
+        obj.put("sendDate", TimeUtils.getCurrTime2())// 发车日期
+        obj.put("vehicleNo", number_plate_tv.text.toString())// 车牌号
+        obj.put("chauffer", driver_name_ed.text.toString())// 司机
+        obj.put("chaufferMb", contact_number_ed.text.toString())// 司机手机号码
+        obj.put("chaufferMb", contact_number_ed.text.toString())// 司机手机号码
+        obj.put("ewebidCodeStr", destination_tv.text.toString())// 到车网点
+        obj.put("sendOpeMan", UserInformationUtil.getUserName(mContext))// 发车操作人
+        obj.put("webidCode", UserInformationUtil.getWebIdCode(mContext))// 发车网点编码
+        obj.put("webidCodeStr", UserInformationUtil.getWebIdCodeStr(mContext))// 发车网点
+        obj.put("scanWebidType", mScanType)// 到车网点限制
+        obj.put("fromType", Constant.ANDROID)//
+        obj.put("fromtypeStr", Constant.ANDROID_STR)
+        val testJay = JSONArray()
+        val testObj = JSONObject()
+        testObj.put("billno", "0")
+        testJay.put(testObj)
+        obj.put("gxVehicleDetLst", testJay)
+        obj.put("commonStr", "0")
+        mPresenter?.saveInfo(obj)
+//        val json = GsonUtils.toPrettyFormat(obj.toString())
+
     }
 
     override fun onClick() {
@@ -190,10 +207,6 @@ class AddTrunkDepartureActivity : BaseAddTrunkDepartureActivity<AddTrunkDepartur
 
     }
 
-    override fun getDepartureBatchNumberS(result: String) {
-        contract_No_tv.text = result
-    }
-
     override fun getVehicleS(result: String) {
         FilterDialog(getScreenWidth(), result, "vehicleno", "选择车牌号", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             @SuppressLint("SetTextI18n")
@@ -206,6 +219,15 @@ class AddTrunkDepartureActivity : BaseAddTrunkDepartureActivity<AddTrunkDepartur
                 on_board_weight_tv.text = "${mSelectData.supweight}吨"
             }
 
-        }).show(supportFragmentManager, "AddTrunkDepartureActivitygetVehicleSFilterDialog")
+        }).show(supportFragmentManager, "AddDepartureTrunkActivitygetVehicleSFilterDialog")
+    }
+
+    override fun getDepartureBatchNumberS(result: String) {
+        contract_No_tv.text = result
+    }
+
+    override fun saveInfoS(result: String) {
+        ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureUnPlanScanOperatingActivity).withString("DepartureLoadingVehicles", result).navigation()
+        this.finish()
     }
 }

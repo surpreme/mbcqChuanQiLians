@@ -4,10 +4,8 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
-import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
-import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.ShortTrunkDepartureScanOperatingBean
 import org.json.JSONObject
 
 /**
@@ -15,7 +13,7 @@ import org.json.JSONObject
  * @time: 2020-11-13 13:40:46 短驳扫描无计划装车
  */
 
-class RevokeShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<RevokeShortTrunkDepartureUnPlanScanOperatingContract.View>(), RevokeShortTrunkDepartureUnPlanScanOperatingContract.Presenter {
+class ShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<ShortTrunkDepartureUnPlanScanOperatingContract.View>(), ShortTrunkDepartureUnPlanScanOperatingContract.Presenter {
     override fun getCarInfo(inoneVehicleFlag: String) {
         val params = HttpParams()
         params.put("InoneVehicleFlag", inoneVehicleFlag)
@@ -25,7 +23,7 @@ class RevokeShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<
                 obj.optJSONArray("data")?.let {
                     if (!it.isNull(1)) {
                         val dataObj = it.optJSONObject(1)
-                        mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<RevokeShortTrunkDepartureUnPlanScanOperatingBean>>() {}.type))
+                        mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<ShortTrunkDepartureUnPlanScanOperatingBean>>() {}.type))
                     }
                 }
             }
