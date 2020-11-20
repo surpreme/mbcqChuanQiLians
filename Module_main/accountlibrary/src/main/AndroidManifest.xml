@@ -3,7 +3,9 @@
     package="com.mbcq.accountlibrary">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
+
     <application>
+        <activity android:name=".activity.WebPageLogInActivity"></activity>
         <activity android:name=".activity.login.LogInActivity" />
         <activity
             android:name=".activity.house.HouseActivity"

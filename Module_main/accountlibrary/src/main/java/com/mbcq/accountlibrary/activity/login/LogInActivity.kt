@@ -47,7 +47,8 @@ class LogInActivity : BaseLogInActivity<LogInContract.View, LogInPresenter>(), L
         })
         qrcode_ll.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                QrCodeDialogFragment(getScreenWidth()).show(supportFragmentManager, "QrCodeDialogFragment")
+//                QrCodeDialogFragment(getScreenWidth()).show(supportFragmentManager, "QrCodeDialogFragment")
+                ARouter.getInstance().build(ARouterConstants.ScanActivity).navigation()
             }
 
         })
@@ -60,7 +61,7 @@ class LogInActivity : BaseLogInActivity<LogInContract.View, LogInPresenter>(), L
         }
         login_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                if (verificationLogIn()){
+                if (verificationLogIn()) {
                     mPresenter?.logIn(number_get_edit.text.toString(), key_get_edit.text.toString())
 
                 }
@@ -68,7 +69,6 @@ class LogInActivity : BaseLogInActivity<LogInContract.View, LogInPresenter>(), L
 
         })
     }
-
 
 
     override fun loInS(result: LogInSuccessBean) {

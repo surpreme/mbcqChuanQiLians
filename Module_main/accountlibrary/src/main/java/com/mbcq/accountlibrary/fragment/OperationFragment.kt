@@ -388,6 +388,18 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                     ARouter.getInstance().build(ARouterConstants.LoanChangeActivity).navigation()
 
                                 }
+                                1 -> {
+                                    ARouter.getInstance().build(ARouterConstants.LoanRecycleActivity).navigation()
+
+                                }
+                                2 -> {
+                                    ARouter.getInstance().build(ARouterConstants.LoanIssuanceActivity).navigation()
+
+                                }
+                                3 -> {
+                                    ARouter.getInstance().build(ARouterConstants.GeneralLedgerActivity).navigation()
+
+                                }
                             }
                         }
                     }

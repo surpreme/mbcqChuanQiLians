@@ -1,8 +1,11 @@
 package com.mbcq.accountlibrary.fragment
 
 import android.view.View
+import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.accountlibrary.R
 import com.mbcq.baselibrary.ui.BaseFragment
+import com.mbcq.baselibrary.view.SingleClick
+import com.mbcq.commonlibrary.ARouterConstants
 import kotlinx.android.synthetic.main.fragment_house.*
 
 /***
@@ -15,10 +18,15 @@ class HouseFragment :BaseFragment(){
         type_tab_layout.addTab(type_tab_layout.newTab().setText("我收的"))
     }
 
+    override fun onClick() {
+        super.onClick()
+        scan_tv.setOnClickListener(object :SingleClick(){
+            override fun onSingleClick(v: View?) {
+                ARouter.getInstance().build(ARouterConstants.ScanActivity).navigation()
 
-    override fun initDatas() {
-        super.initDatas()
+            }
 
+        })
     }
 
 }

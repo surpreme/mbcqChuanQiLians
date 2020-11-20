@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    tools:context=".fragment.generaledger.GeneralLedgerAdapter">
+
+
+    <TextView
+        android:id="@+id/waybill_number_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/base_blue"
+        android:textColorHighlight="#CCCCCC"
+        android:textIsSelectable="true"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="10056044789" />
+
+    <TextView
+        android:id="@+id/waybill_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="16sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2020-4-21 12:12:00" />
+
+    <TextView
+        android:id="@+id/waybill_state_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="提货签收"
+        android:textColor="@color/base_orange"
+        app:layout_constraintBottom_toBottomOf="@+id/receiver_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/receiver_outlets_tv" />
+
+    <TextView
+        android:id="@+id/shipper_outlets_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:lines="1"
+        android:maxEms="6"
+        android:text="汕头"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/waybill_number_tv" />
+
+    <TextView
+        android:id="@+id/center_address_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="   --  "
+        android:textColor="@color/black"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/shipper_outlets_tv"
+        app:layout_constraintLeft_toRightOf="@+id/shipper_outlets_tv"
+        app:layout_constraintTop_toTopOf="@+id/shipper_outlets_tv" />
+
+    <TextView
+        android:id="@+id/receiver_outlets_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:maxEms="6"
+        android:text="义乌青口"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/center_address_tv"
+        app:layout_constraintLeft_toRightOf="@+id/center_address_tv"
+        app:layout_constraintTop_toTopOf="@+id/center_address_tv" />
+
+    <TextView
+        android:id="@+id/shipper_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="吴轩"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintLeft_toLeftOf="@+id/shipper_outlets_tv"
+        app:layout_constraintRight_toRightOf="@+id/shipper_outlets_tv"
+        app:layout_constraintTop_toBottomOf="@+id/shipper_outlets_tv" />
+
+    <TextView
+        android:id="@+id/receiver_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="林哲"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintLeft_toLeftOf="@+id/receiver_outlets_tv"
+        app:layout_constraintRight_toRightOf="@+id/receiver_outlets_tv"
+        app:layout_constraintTop_toBottomOf="@+id/receiver_outlets_tv" />
+
+    <LinearLayout
+        android:id="@+id/loan_info_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="15sp"
+        android:layout_marginTop="10dp"
+        android:paddingRight="15sp"
+        app:layout_constraintTop_toBottomOf="@+id/receiver_tv">
+
+        <TextView
+            android:id="@+id/loan_info_one_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:lineSpacingExtra="5dp"
+            android:text="代收货款：100 \n扣手续费：11  \n应付货款：3000"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/loan_info_two_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:lineSpacingExtra="5dp"
+            android:text="货款变更：300\n扣  运 费：\n实付货款：2950"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/line_view"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/base_gray"
+        app:layout_constraintTop_toBottomOf="@+id/loan_info_ll" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/line_view">
+
+        <ImageView
+            android:id="@+id/record_checkbox_iv"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_marginLeft="10dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_checked_icon"
+            app:tint="@color/base_blue" />
+
+        <TextView
+            android:id="@+id/information_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:text="开户名：吴轩     开户行：xxxxxxxxxx支行\n银行卡号：622765658735626595226265"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

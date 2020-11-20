@@ -6,6 +6,7 @@ public class ARouterConstants {
     public static final String SettingActivity="/account/SettingActivity";
     public static final String BlueActivity="/account/BlueActivity";
     public static final String SignatureActivity="/account/SignatureActivity";
+    public static final String WebPageLogInActivity="/account/WebPageLogInActivity";
     //////////////////////////////////////////////////////////////////////////////
     public static final String AcceptBillingActivity="/order/AcceptBillingActivity";
     public static final String WaybillRecordActivity="/order/WaybillRecordActivity";
@@ -76,7 +77,13 @@ public class ARouterConstants {
     public static final String DepartureTrunkDepartureUnPlanScanOperatingActivity="/vehicles/DepartureTrunkDepartureUnPlanScanOperatingActivity";
     //////////////////////////////////////////////////////////////////////////////
     public static final String LoanChangeActivity="/amount/LoanChangeActivity";
+    public static final String LoanRecycleActivity="/amount/LoanRecycleActivity";
+    public static final String GeneratePaymentVoucherActivity="/amount/GeneratePaymentVoucherActivity";
+    public static final String GeneralLedgerActivity="/amount/GeneralLedgerActivity";
+    public static final String LoanIssuanceActivity="/amount/LoanIssuanceActivity";
 
     //////////////////////////////////////////////////////////////////////////////
     public static final String TakePhotosActivity="/common/TakePhotosActivity";
+    public static final String ScanActivity="/common/ScanActivity";
+
 }

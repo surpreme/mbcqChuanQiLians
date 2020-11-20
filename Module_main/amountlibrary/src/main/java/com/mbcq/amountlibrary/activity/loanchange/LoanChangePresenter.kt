@@ -131,4 +131,15 @@ class LoanChangePresenter : BasePresenterImpl<LoanChangeContract.View>(), LoanCh
 
         })
     }
+
+    override fun changeOrder(jsonObject: JSONObject) {
+        post<String>(ApiInterface.LOAN_CHANGE_ADD_POST,getRequestBody(jsonObject),object :CallBacks{
+            override fun onResult(result: String) {
+                mView?.changeOrderS("")
+
+
+            }
+
+        })
+    }
 }

@@ -392,7 +392,7 @@ public class ApiInterface {
      */
 
     public static final String RECEIPT_CANCEL_RECEIVE_INFO_GET = BASE_URI + "BackFetchOpe/SelQxBackFetchByCondition";
-  /**
+    /**
      * 回单管理 取消
      */
 
@@ -502,6 +502,15 @@ public class ApiInterface {
      * 改单申请 添加
      */
     public static final String CHANGE_ORDER_APPLICATION_ADD_POST = BASE_URI + "WaybillUpdateApplyOpe/AddWaybillUpdateApplyOpeByCondition";
+
+    /**
+     * 贷款变更 添加
+     */
+    public static final String LOAN_CHANGE_ADD_POST = BASE_URI + "HkUpdate/UpdHkUpdateByCondition";
+  /**
+     * 贷款变更 添加
+     */
+    public static final String LOAN_RECYCLE_INFO_GET = BASE_URI + "HkRecoveryOpe/SelHkRecoveryByCondition";
 
 
 }

@@ -751,6 +751,10 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             mKK.add(mBaseEditTextAdapterBean)
 
         }
+        val mBasicAccTransX = BaseEditTextAdapterBean()
+        mBasicAccTransX.title = "代收货款"
+        mBasicAccTransX.tag = "accDaiShou"
+        mKK.add(mBasicAccTransX)
         if (mEditTextAdapter == null)
             mEditTextAdapter = EditTextAdapter<BaseEditTextAdapterBean>(mContext)
         cost_information_recycler.layoutManager = GridLayoutManager(mContext, 2)

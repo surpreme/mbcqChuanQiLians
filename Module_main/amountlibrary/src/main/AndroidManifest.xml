@@ -3,7 +3,13 @@
     package="com.mbcq.amountlibrary">
 
     <application>
-        <activity android:name=".activity.loanchange.LoanChangeActivity"></activity>
+        <activity android:name=".fragment.generaledger.GeneralLedgerActivity"></activity>
+        <activity android:name=".activity.loanissuance.LoanIssuanceActivity" />
+        <activity android:name=".activity.generatepaymentvoucher.GeneratePaymentVoucherActivity" />
+        <activity
+            android:name=".activity.loanrecycle.LoanRecycleActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".activity.loanchange.LoanChangeActivity" />
     </application>
 
 </manifest>

@@ -1,0 +1,62 @@
+package com.mbcq.amountlibrary.activity.loanissuance
+
+
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.google.android.material.tabs.TabLayout
+import com.mbcq.amountlibrary.R
+import com.mbcq.amountlibrary.fragment.paymentconfirmation.PaymentConfirmationFragment
+import com.mbcq.amountlibrary.fragment.schedulepaymentspending.SchedulePaymentsPendingFragment
+import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
+import com.mbcq.baselibrary.view.FragmentViewPagerAdapter
+import com.mbcq.baselibrary.view.SingleClick
+import com.mbcq.baselibrary.view.TabBuilder
+import com.mbcq.commonlibrary.ARouterConstants
+import kotlinx.android.synthetic.main.activity_loan_issuance.*
+
+/**
+ * @author: lzy
+ * @time: 2020-11-20 15:06:43 贷款发放
+ */
+
+@Route(path = ARouterConstants.LoanIssuanceActivity)
+class LoanIssuanceActivity : BaseMVPActivity<LoanIssuanceContract.View, LoanIssuancePresenter>(), LoanIssuanceContract.View {
+    override fun getLayoutId(): Int = R.layout.activity_loan_issuance
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
+        setStatusBar(R.color.base_blue)
+        initTab()
+    }
+
+    private fun initTab() {
+        loan_issuance_tablayout.addTab(loan_issuance_tablayout.newTab().setText("货款回款确认"))
+        loan_issuance_tablayout.addTab(loan_issuance_tablayout.newTab().setText("待发款明细表"))
+        val fragments = ArrayList<Fragment>()
+        fragments.add(PaymentConfirmationFragment())
+        fragments.add(SchedulePaymentsPendingFragment())
+        val mFragmentViewPagerAdapter = FragmentViewPagerAdapter(supportFragmentManager, fragments)
+        loan_issuance_viewpager.adapter = mFragmentViewPagerAdapter
+        loan_issuance_viewpager.offscreenPageLimit = loan_issuance_tablayout.tabCount
+        //滑动绑定
+        loan_issuance_viewpager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(loan_issuance_tablayout))
+        loan_issuance_tablayout.addOnTabSelectedListener(object : TabBuilder() {
+            override fun onSelected(tab: TabLayout.Tab) {
+                loan_issuance_viewpager.currentItem = tab.position
+                hideKeyboard(loan_issuance_tablayout)
+            }
+        })
+    }
+
+    override fun onClick() {
+        super.onClick()
+        loan_issuance_toolbar.setBackButtonOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                onBackPressed()
+            }
+
+        })
+    }
+
+}

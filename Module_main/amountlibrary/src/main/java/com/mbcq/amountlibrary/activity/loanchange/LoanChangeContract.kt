@@ -14,10 +14,12 @@ class LoanChangeContract {
     interface View : BaseView {
         fun getWaybillDetailS(data: JSONObject)
         fun getWaybillDetailNull()
+        fun changeOrderS(result: String)
     }
 
     interface Presenter : BasePresenter<View> {
         fun getWaybillDetail(billNo: String)
+        fun changeOrder(jsonObject: JSONObject)
 
     }
 }
