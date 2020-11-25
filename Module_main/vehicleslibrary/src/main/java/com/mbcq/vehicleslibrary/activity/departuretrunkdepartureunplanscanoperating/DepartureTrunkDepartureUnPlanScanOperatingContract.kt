@@ -15,7 +15,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingContract {
     interface View : BaseView {
         fun getWillByInfoS(data: JSONObject, resultBillno: String)
         fun getWillByInfoNull()
-        fun scanOrderS(billno: String, soundStr: String)
+        fun scanOrderS(billno: String, soundStr: String,mMoreScanBillno:String)
         fun saveScanPostS(result: String)
         fun getCarInfoS(list: List<DepartureTrunkDepartureUnPlanScanOperatingBean>)
 

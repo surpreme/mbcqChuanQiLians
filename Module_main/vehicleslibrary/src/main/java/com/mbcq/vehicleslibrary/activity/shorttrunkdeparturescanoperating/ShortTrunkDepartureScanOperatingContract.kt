@@ -12,7 +12,7 @@ class ShortTrunkDepartureScanOperatingContract {
 
     interface View : BaseView {
         fun getCarInfoS(list: List<ShortTrunkDepartureScanOperatingBean>)
-        fun scanOrderS(billno: String, soundStr: String)
+        fun scanOrderS(billno: String, soundStr: String, mMoreScanBillno: String)
         fun saveScanPostS(result: String)
     }
 

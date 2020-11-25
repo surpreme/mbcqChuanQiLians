@@ -56,7 +56,7 @@ class ShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ShortTrunkDe
         jsonO.put("scanPercentage", scanPercentage)
         post<String>(ApiInterface.DEPARTURE_SHORT_FEEDER_DEPARTURE_SCAN_INFO_POST, getRequestBody(jsonO), object : CallBacks {
             override fun onResult(result: String) {
-                mView?.scanOrderS(billno, soundStr)
+                mView?.scanOrderS(billno, soundStr,lableNo)
 
             }
 

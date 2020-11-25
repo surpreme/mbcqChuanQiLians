@@ -3,30 +3,22 @@ package com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.media.AudioManager
-import android.media.SoundPool
-import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.iflytek.cloud.ErrorCode
-import com.iflytek.cloud.SpeechConstant
-import com.iflytek.cloud.SpeechSynthesizer
-import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
-import com.mbcq.baselibrary.ui.BaseListMVPActivity
-import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
-import com.tbruyelle.rxpermissions.RxPermissions
+import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
 import kotlinx.android.synthetic.main.activity_departure_trunk_departure_scan_operating.*
 import org.json.JSONObject
+import java.lang.StringBuilder
 
 /**
  * @author: lzy
@@ -94,17 +86,36 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
                                     for (item in adapter.getAllData()) {
                                         if (item.billno == s1.substring(0, s1.length - 4)) {
                                             soundString = item.ewebidCodeStr
+                                            if (item.totalQty > 20) {
+                                                ScanNumDialog(object : OnClickInterface.OnClickInterface {
+                                                    override fun onResult(x1: String, x2: String) {
+                                                        if (isInteger(x1)) {
+                                                            val mScanSun = item.totalQty - item.unLoadQty
+                                                            if (x1.toInt() > mScanSun) {
+                                                                showToast("您输入的数量已经超过货物剩余的数量")
+                                                                return
+                                                            }
+                                                            val scanBuilder = StringBuilder()
+                                                            for (index in ((mScanSun - x1.toInt()) + 1)..mScanSun) {
+                                                                val endBillno = if (index.toString().length == 1) "000$index" else if (index.toString().length == 2) "00$index" else if (index.toString().length == 3) "0$index" else if (index.toString().length == 4) "$index" else ""
+                                                                scanBuilder.append(s1.substring(0, s1.length - 4) + endBillno)
+                                                                if (index != mScanSun)
+                                                                    scanBuilder.append(",")
+                                                            }
+                                                            val mOutPintO = (scanBuilder.toString().split(",").lastIndex + 1)
+                                                            mPresenter?.scanOrder(s1.substring(0, s1.length - 4), scanBuilder.toString(), PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString, (((totalLoadingNum - (mTotalUnLoadingNum - mOutPintO)) * 100) / totalLoadingNum).toString())
+
+                                                        }
+                                                    }
+
+                                                }).show(supportFragmentManager, "ScanDialogFragment")
+                                            } else
+                                                mPresenter?.scanOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString, (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString())
+
                                         }
                                     }
-                                    if (soundString != "未知地址") {
-                                        mPresenter?.scanOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString, (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString())
-                                    } else {
+                                    if (soundString == "未知地址") {
                                         soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
-
-                                        /*  val uri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM) //系统自带警告声
-                                        val rt = RingtoneManager.getRingtone(applicationContext, uri)
-                                        rt.play()*/
-
                                     }
                                 }
                             }
@@ -145,21 +156,23 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
     }
 
 
-    override fun scanOrderS(billno: String, soundStr: String) {
+    override fun scanOrderS(billno: String, soundStr: String, mMoreScanBillno: String) {
         for ((index, item) in adapter.getAllData().withIndex()) {
             if (item.billno == billno) {
                 val ii = item
-                ii.unLoadQty = item.unLoadQty + 1
+                val mScanO: Int = if (mMoreScanBillno.split(",").isNullOrEmpty()) 1 else mMoreScanBillno.split(",").lastIndex + 1
+
+                ii.unLoadQty = item.unLoadQty + mScanO
                 adapter.notifyItemChangeds(index, ii)
                  if (ii.unLoadQty == ii.totalQty) {
                      mTotalUnLoadingOrderNum -= 1//全部未扫描单子
                      mTotalLoadingOrderNum += 1//全部扫描单子
                  }
-                 mTotalUnLoadingNum -= 1//全部未扫描数量
-                 mTotalUnLoadingVolume = (mTotalUnLoadingVolume - ((ii.volumn) / ii.totalQty))//全部未扫描体积
-                 mTotalLoadingVolume = (mTotalLoadingVolume + ((ii.volumn) / ii.totalQty))//全部扫描体积
-                 mTotalUnLoadingWeight = (mTotalUnLoadingWeight - ((ii.weight) / ii.totalQty))//全部未扫描重量
-                 mTotalLoadingWeight = (mTotalLoadingWeight + ((ii.weight) / ii.totalQty))//全部扫描重量
+                 mTotalUnLoadingNum -= mScanO//全部未扫描数量
+                 mTotalUnLoadingVolume = (mTotalUnLoadingVolume - mScanO*((ii.volumn) / ii.totalQty))//全部未扫描体积
+                 mTotalLoadingVolume = (mTotalLoadingVolume +  mScanO*((ii.volumn) / ii.totalQty))//全部扫描体积
+                 mTotalUnLoadingWeight = (mTotalUnLoadingWeight -  mScanO*((ii.weight) / ii.totalQty))//全部未扫描重量
+                 mTotalLoadingWeight = (mTotalLoadingWeight +  mScanO*((ii.weight) / ii.totalQty))//全部扫描重量
                  notifyMathChange()
             }
         }

@@ -20,8 +20,11 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.shorttrunkdepartureunplanscanoperating.ShortTrunkDepartureUnPlanScanOperatingBean
+import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
 import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.*
 import org.json.JSONObject
+import java.lang.StringBuilder
 
 /**
  * @author: lzy
@@ -100,18 +103,58 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
                                                 /**
                                                  * 已经扫描过此货物
                                                  */
+                                                /**
+                                                 *  多件扫描start------------------------------------------------------
+                                                 */
+                                                if (item.qty > 20) {
+                                                    ScanNumDialog(object : OnClickInterface.OnClickInterface {
+                                                        override fun onResult(x1: String, x2: String) {
+                                                            if (isInteger(x1)) {
+                                                                val mScanSun = item.totalQty - item.unLoadQty
+                                                                if (x1.toInt() > mScanSun) {
+                                                                    showToast("您输入的数量已经超过货物剩余的数量")
+                                                                    return
+                                                                }
+                                                                val scanBuilder = StringBuilder()
+                                                                for (index in ((mScanSun - x1.toInt()) + 1)..mScanSun) {
+                                                                    val endBillno = if (index.toString().length == 1) "000$index" else if (index.toString().length == 2) "00$index" else if (index.toString().length == 3) "0$index" else if (index.toString().length == 4) "$index" else ""
 
-                                                mPresenter?.scanOrder(
-                                                        s1.substring(0, s1.length - 4),
-                                                        s1,
-                                                        PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
-                                                        JSONObject(mLastData).optString("inoneVehicleFlag"),
-                                                        item.ewebidCodeStr,
-                                                        item.ewebidCode.toString(),
-                                                        item.ewebidCodeStr,
-                                                        //不可以使用进度条的进度 传给后台的是需要达到的进度
-                                                        (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString()
-                                                )
+                                                                    scanBuilder.append(s1.substring(0, s1.length - 4) + endBillno)
+                                                                    if (index != mScanSun)
+                                                                        scanBuilder.append(",")
+                                                                }
+                                                                mPresenter?.scanOrder(
+                                                                        s1.substring(0, s1.length - 4),
+                                                                        scanBuilder.toString(),
+                                                                        PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
+                                                                        JSONObject(mLastData).optString("inoneVehicleFlag"),
+                                                                        item.ewebidCodeStr,
+                                                                        item.ewebidCode.toString(),
+                                                                        item.ewebidCodeStr,
+                                                                        //不可以使用进度条的进度 传给后台的是需要达到的进度
+                                                                        (((totalLoadingNum - (mTotalUnLoadingNum - (scanBuilder.toString().split(",").lastIndex + 1))) * 100) / totalLoadingNum).toString())
+                                                            }
+                                                        }
+
+                                                    }).show(supportFragmentManager, "ScanNumDialogNext")
+
+                                                    /**
+                                                     * 多件扫描end------------------------------------------------------
+                                                     */
+                                                }else{
+                                                    mPresenter?.scanOrder(
+                                                            s1.substring(0, s1.length - 4),
+                                                            s1,
+                                                            PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
+                                                            JSONObject(mLastData).optString("inoneVehicleFlag"),
+                                                            item.ewebidCodeStr,
+                                                            item.ewebidCode.toString(),
+                                                            item.ewebidCodeStr,
+                                                            //不可以使用进度条的进度 传给后台的是需要达到的进度
+                                                            (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString()
+                                                    )
+                                                }
+
                                             }
                                         }
                                         /**
@@ -121,9 +164,6 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
 
                                         if (!isHasOrder) {
                                             mPresenter?.getWillByInfo(s1.substring(0, s1.length - 4), s1)
-                                        } else {
-
-
                                         }
                                         /**
                                          * 本车为空 什么货物都没有
@@ -162,23 +202,32 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
                     return
                 }
             }
-            val iodjjk = Gson().fromJson(GsonUtils.toPrettyFormat(data), DepartureTrunkDepartureUnPlanScanOperatingBean::class.java)
-            iodjjk.ewebidCodeStrGx = iodjjk.ewebidCodeStr
-            iodjjk.webidCodeStrGx = iodjjk.webidCodeStr
-            adapter.appendData(mutableListOf(iodjjk))
-            val allnum = (totalLoadingNum + data.optInt("totalQty"))
-            val edNum = (allnum - mTotalUnLoadingNum - data.optInt("totalQty")) + 1
-            mPresenter?.scanOrder(
-                    resultBillno.substring(0, resultBillno.length - 4),
-                    resultBillno,
-                    PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
-                    inoneV,
-                    data.optString("ewebidCodeStr"),
-                    data.optString("ewebidCode"),
-                    data.optString("ewebidCodeStr"),
-                    (((edNum * 100) / allnum).toInt()).toString()
-            )
-            mTts?.startSpeaking(data.optString("ewebidCodeStr"), null)
+            val mScanSun = data.optInt("qty", 0)
+
+            if (mScanSun > 20) {
+                ScanNumDialog(object : OnClickInterface.OnClickInterface {
+                    override fun onResult(s1: String, s2: String) {
+                        if (isInteger(s1)) {
+                            if (s1.toInt() > data.optInt("qty")) {
+                                showToast("您输入的数量已经超过货物的数量")
+                                return
+                            }
+                            val scanBuilder = StringBuilder()
+                            for (index in ((mScanSun - s1.toInt()) + 1)..mScanSun) {
+                                val endBillno = if (index.toString().length == 1) "000$index" else if (index.toString().length == 2) "00$index" else if (index.toString().length == 3) "0$index" else if (index.toString().length == 4) "$index" else ""
+
+                                scanBuilder.append(resultBillno.substring(0, resultBillno.length - 4) + endBillno)
+                                if (index != mScanSun)
+                                    scanBuilder.append(",")
+                            }
+                            onFirstScanOrder(data, resultBillno, inoneV, scanBuilder.toString())
+                        }
+                    }
+
+                }).show(supportFragmentManager, "ScanNumDialog")
+                return
+            }
+            onFirstScanOrder(data, resultBillno, inoneV)
 
         } else {
             soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
@@ -190,12 +239,39 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
         soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
 
     }
+    fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String) {
+        onFirstScanOrder(data, resultBillno, inoneV, "")
 
-    override fun scanOrderS(billno: String, soundStr: String) {
+    }
+
+    fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String, moreScanStr: String) {
+        val iodjjk = Gson().fromJson(GsonUtils.toPrettyFormat(data), DepartureTrunkDepartureUnPlanScanOperatingBean::class.java)
+        iodjjk.ewebidCodeStrGx = iodjjk.ewebidCodeStr
+        iodjjk.webidCodeStrGx = iodjjk.webidCodeStr
+        adapter.appendData(mutableListOf(iodjjk))
+        val allnum = (totalLoadingNum + data.optInt("totalQty"))
+        val edNum = if (moreScanStr.split(",").isNullOrEmpty()) (allnum - mTotalUnLoadingNum - data.optInt("totalQty")) + 1 else (allnum - mTotalUnLoadingNum - data.optInt("totalQty")) + moreScanStr.split(",").lastIndex + 1
+        //(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String) {
+        mPresenter?.scanOrder(
+                resultBillno.substring(0, resultBillno.length - 4),
+                moreScanStr,
+                PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
+                inoneV,
+                data.optString("ewebidCodeStr"),
+                data.optString("ewebidCode"),
+                data.optString("ewebidCodeStr"),
+                (((edNum * 100) / allnum).toInt()).toString())
+        mTts?.startSpeaking(data.optString("ewebidCodeStr"), null)
+
+    }
+    override fun scanOrderS(billno: String, soundStr: String, mMoreScanBillno: String) {
         for ((index, item) in adapter.getAllData().withIndex()) {
             if (item.billno == billno) {
                 val ii = item
-                ii.unLoadQty = item.unLoadQty + 1
+                if (mMoreScanBillno.split(",").isNullOrEmpty())
+                    ii.unLoadQty = item.unLoadQty + 1
+                else
+                    ii.unLoadQty = item.unLoadQty + mMoreScanBillno.split(",").lastIndex + 1
                 adapter.notifyItemChangeds(index, ii)
             }
         }

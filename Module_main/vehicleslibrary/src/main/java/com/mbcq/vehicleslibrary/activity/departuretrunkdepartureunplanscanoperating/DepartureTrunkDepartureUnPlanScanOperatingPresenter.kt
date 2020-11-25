@@ -80,7 +80,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<De
         jsonO.put("ScanTypeStr", "PDA")
         post<String>(ApiInterface.DEPARTURE_TRUNK_DEPARTURE_SCAN_INFO_POST, getRequestBody(jsonO), object : CallBacks {
             override fun onResult(result: String) {
-                mView?.scanOrderS(billno, soundStr)
+                mView?.scanOrderS(billno, soundStr,lableNo)
 
             }
 
