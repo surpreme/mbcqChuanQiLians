@@ -16,14 +16,16 @@ class TrunkDepartureHouseContract {
         /**
          * 库存运单
          */
-        fun getInventoryS(list:List<StockWaybillListBean>)
-        fun saveInfoS(s:String)
+        fun getInventoryS(list: List<StockWaybillListBean>)
+        fun saveInfoS(s: String)
+        fun addStowageAlongWayS(inoneVehicleFlag: String, webidCode: String, webidCodeStr: String, result: String,datalist: HashMap<String, String>,isOver:Boolean)
 
     }
 
     interface Presenter : BasePresenter<View> {
         fun getInventory(page: Int)
         fun saveInfo(ob: JSONObject)
+        fun addStowageAlongWay(inoneVehicleFlag: String, webidCode: String, webidCodeStr: String,datalist:HashMap<String, String>,isOver:Boolean)
 
     }
 }

@@ -4,12 +4,20 @@ package com.mbcq.vehicleslibrary.activity.alldeparturerecord.fixtrunkdepartureho
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.View
+import android.widget.CheckBox
+import androidx.core.view.get
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
+import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.WebDbUtil
+import com.mbcq.commonlibrary.WebsDbInterface
+import com.mbcq.commonlibrary.db.WebAreaDbInfo
+import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.inventorylist.ShortFeederHouseInventoryListAdapter
@@ -27,6 +35,10 @@ class FixedTrunkDepartureHouseActivity : BaseFixedTrunkDepartureHouseActivity<Fi
     @Autowired(name = "FixedTrunkDepartureHouse")
     @JvmField
     var mFixDataJson: String = ""
+    var mStartWebCode = ""
+    var mEndWebCode = ""
+    val mOutList = HashMap<String, String>()
+
     override fun getLayoutId(): Int = R.layout.activity_fixed_trunk_departure_house
 
     @SuppressLint("SetTextI18n")
@@ -35,8 +47,10 @@ class FixedTrunkDepartureHouseActivity : BaseFixedTrunkDepartureHouseActivity<Fi
         val mLastData = JSONObject(mFixDataJson)
         mInoneVehicleFlag = mLastData.optString("InoneVehicleFlag")
         departure_lot_tv.text = "发车批次: $mInoneVehicleFlag"
+        mIsCanCloseLoading = false
         mPresenter?.getCarInfo(mLastData.optInt("Id"), mLastData.optString("InoneVehicleFlag"))
         mPresenter?.getInventory(1)
+        mPresenter?.getStowageAlongWay(mLastData.optString("InoneVehicleFlag"), mLastData.optInt("Id"))
 
     }
 
@@ -66,6 +80,30 @@ class FixedTrunkDepartureHouseActivity : BaseFixedTrunkDepartureHouseActivity<Fi
         }.show()
     }
 
+    override fun addStowageAlongWayS(inoneVehicleFlag: String, webidCode: String, webidCodeStr: String, result: String) {
+        val checkBox = CheckBox(mContext)
+        checkBox.text = webidCodeStr
+        mOutList.put(webidCodeStr, webidCode)
+        operating_interval_ll.addView(checkBox)
+        refreshShowOut()
+    }
+
+    override fun getStowageAlongWayS(list: List<FixedStowageAlongWayBean>) {
+        for (item in list) {
+            val checkBox = CheckBox(mContext)
+            checkBox.text = item.webidCodeStr
+            operating_interval_ll.addView(checkBox)
+            mOutList.put(item.webidCodeStr, item.webidCode.toString())
+
+        }
+        mIsCanCloseLoading = true
+        closeLoading()
+    }
+
+    override fun deleteStowageAlongWay(result: String) {
+
+    }
+
 
     override fun initLoadingList() {
         super.initLoadingList()
@@ -91,7 +129,41 @@ class FixedTrunkDepartureHouseActivity : BaseFixedTrunkDepartureHouseActivity<Fi
 
     override fun onClick() {
         super.onClick()
+        remove_operating_interval_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                for (index in 0 until operating_interval_ll.childCount) {
+                    val itemCheckBox = operating_interval_ll[index] as CheckBox
+                    if (itemCheckBox.isChecked) {
+                        mOutList.remove(itemCheckBox.text.toString())
+                    }
+                }
+                operating_interval_ll.removeAllViews()
+                for (item in mOutList) {
+                    val checkBox = CheckBox(mContext)
+                    checkBox.text = item.key
+                    operating_interval_ll.addView(checkBox)
+                }
 
+                refreshShowOut()
+
+            }
+
+        })
+        add_operating_interval_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                WebDbUtil.getDbWebId(application, object : WebsDbInterface {
+                    override fun isNull() {
+
+                    }
+
+                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
+                        geDeliveryPointLocal(list)
+                    }
+
+                })
+            }
+
+        })
         operating_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 val mLastData = JSONObject(mFixDataJson)
@@ -125,6 +197,8 @@ class FixedTrunkDepartureHouseActivity : BaseFixedTrunkDepartureHouseActivity<Fi
                 } else if (complete_btn.text == "完成本车") {
                     if (!invalidateCar())
                         return
+//                    mPresenter?.deleteStowageAlongWay(mInoneVehicleFlag)
+
                     mPresenter?.completeCar(modifyData.optInt("Id"), modifyData.optString("InoneVehicleFlag"))
                 }
             }
@@ -133,6 +207,62 @@ class FixedTrunkDepartureHouseActivity : BaseFixedTrunkDepartureHouseActivity<Fi
 
     }
 
+    private fun geDeliveryPointLocal(list: MutableList<WebAreaDbInfo>) {
+        FilterDialog(getScreenWidth(), Gson().toJson(list), "webid", "选择沿途网点", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            @SuppressLint("SetTextI18n")
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+
+                var mHas = false
+                for (index in 0 until operating_interval_ll.childCount) {
+                    val itemCheckBox = operating_interval_ll[index] as CheckBox
+                    when {
+                        itemCheckBox.text.toString() == list[position].webid -> {
+                            mHas = true
+                        }
+                        itemCheckBox.text.toString() == mStartWebCode -> {
+                            mHas = true
+                        }
+                        itemCheckBox.text.toString() == mEndWebCode -> {
+                            mHas = true
+                        }
+                    }
+
+
+                }
+                when (list[position].webid) {
+                    mStartWebCode -> {
+                        mHas = true
+                    }
+                    mEndWebCode -> {
+                        mHas = true
+                    }
+                }
+                if (!mHas) {
+
+                    mPresenter?.addStowageAlongWay(mInoneVehicleFlag, list[position].webidCode, list[position].webid)
+
+                } else {
+                    showToast("您已经选过${list[position].webid}了")
+                }
+
+            }
+
+        }).show(supportFragmentManager, "FixedTrunkDepartureHouseDialogFilterDialog")
+    }
+
+    fun refreshShowOut() {
+        var showStr = mStartWebCode
+        /*   for (item in mOutList) {
+               showStr = "$showStr-${item.key}"
+           }
+           showStr = "$showStr-$mEndWebCode"*/
+        for (index in 0 until operating_interval_ll.childCount) {
+            val itemCheckBox = operating_interval_ll[index] as CheckBox
+            showStr = "$showStr-${itemCheckBox.text}"
+        }
+        showStr = "$showStr-$mEndWebCode"
+        operating_interval_tv.text = showStr
+    }
 
     override fun addOrderS() {
         addSomeThing()
@@ -163,8 +293,19 @@ class FixedTrunkDepartureHouseActivity : BaseFixedTrunkDepartureHouseActivity<Fi
     override fun getCarInfo(result: FixedTrunkDepartureHouseInfo) {
         mLoadingListAdapter?.appendData(result.item)
         fix_trunk_departure_house_tabLayout.getTabAt(1)?.text = "配载清单(${result.item.size})"
+        mStartWebCode = result.webidCodeStr
+        mEndWebCode = result.ewebidCodeStr
+        operating_interval_tv.text = result.vehicleInterval
         if (result.vehicleState == "1") {
             complete_btn.text = "取消完成本车"
+            /**
+             * 发货中不可以修改沿途网点
+             */
+            add_operating_interval_btn.isClickable = false
+            remove_operating_interval_btn.isClickable = false
+            add_operating_interval_btn.setBackgroundColor(Color.GRAY)
+            remove_operating_interval_btn.setBackgroundColor(Color.GRAY)
+
             operating_btn.setBackgroundColor(Color.GRAY)
             operating_btn.isClickable = false
             all_selected_checked.isEnabled = false

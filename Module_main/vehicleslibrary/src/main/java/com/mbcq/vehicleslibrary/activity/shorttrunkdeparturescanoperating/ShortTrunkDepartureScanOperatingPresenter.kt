@@ -10,7 +10,7 @@ import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2020-11-04 16:05:23 短驳干线发车
+ * @time: 2020-11-04 16:05:23 短驳发车
  */
 
 class ShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ShortTrunkDepartureScanOperatingContract.View>(), ShortTrunkDepartureScanOperatingContract.Presenter {

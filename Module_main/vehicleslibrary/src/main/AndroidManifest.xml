@@ -3,10 +3,12 @@
     package="com.mbcq.vehicleslibrary">
 
     <application>
-        <activity android:name=".activity.adddeparturetrunk.AddDepartureTrunkActivity"></activity>
+        <activity android:name=".activity.adddeparturetrunk.AddDepartureTrunkActivity"/>
         <activity android:name=".activity.departuretrunkdepartureunplanscanoperating.DepartureTrunkDepartureUnPlanScanOperatingActivity" />
         <activity android:name=".activity.departuretrunkdeparturescanoperating.revoke.RevokeDepartureTrunkDepartureScanOperatingActivity" />
-        <activity android:name=".activity.shorttrunkdepartureunplanscanoperating.ShortTrunkDepartureUnPlanScanOperatingActivity" />
+        <activity
+            android:name=".activity.shorttrunkdepartureunplanscanoperating.ShortTrunkDepartureUnPlanScanOperatingActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.addscanshortfeeder.AddScanShortFeederActivity" />
         <activity android:name=".activity.shorttrunkdeparturescanoperating.revoke.RevokeShortTrunkDepartureScanOperatingActivity" />
         <activity
@@ -40,6 +42,9 @@
         <activity android:name=".activity.alldeparturerecord.addshortfeeder.AddShortFeederActivity" />
         <activity android:name=".activity.alldeparturerecord.addtrunkdeparture.AddTrunkDepartureActivity" />
         <activity android:name=".activity.alldeparturerecord.departurerecord.DepartureRecordActivity" />
+        <activity
+            android:name=".activity.stowagealongwayhouse.StowageAlongWayHouseActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
 </manifest>

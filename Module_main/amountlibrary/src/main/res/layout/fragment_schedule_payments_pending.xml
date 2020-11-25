@@ -12,7 +12,7 @@
         android:layout_height="35dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="3dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/hollow_out_gray"
         android:hint="请输入关键字搜索"
@@ -25,7 +25,7 @@
         android:id="@+id/schedule_payment_spending_smart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_ll"
         app:layout_constraintTop_toBottomOf="@id/schedule_payment_spending_search_ed">
 
         <FrameLayout
@@ -44,4 +44,48 @@
         </FrameLayout>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_ll"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:padding="3dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="0.9"
+            android:backgroundTint="@color/white"
+            android:text="取消" />
+
+        <Button
+            android:id="@+id/generate_payment_voucher_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="2"
+            android:backgroundTint="@color/base_blue"
+            android:text="生成付款凭证"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="1.5"
+            android:backgroundTint="@color/white"
+            android:text="确认付款"
+            android:textColor="@color/base_blue" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="1.5"
+            android:backgroundTint="@color/white"
+            android:text="确认收款"
+            android:textColor="@color/base_blue" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

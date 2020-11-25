@@ -293,8 +293,10 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
         serial_number_tv.text = data.optString("goodsNum")
         shipper_outlets_tv.text = data.optString("webidCodeStr")
         receiver_outlets_tv.text = data.optString("ewebidCodeStr")
+//        departure_lot_tv.text = data.optString("ewebidCodeStr")
         receiver_tv.text = "收货人:${data.optString("consignee")}        ${data.optString("consigneeMb")}"
         goods_info_tv.text = "${data.optString("product")} ${data.optString("qty")} ${data.optString("packages")}"
+        mPresenter?.getShortCarNumber(data.optString("billno"))
     }
 
     override fun getExceptionInfoNull() {

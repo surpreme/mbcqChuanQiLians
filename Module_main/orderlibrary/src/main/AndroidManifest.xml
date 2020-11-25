@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application>
+        <activity android:name=".activity.stowagealongway.StowageAlongWayActivity" />
         <activity
             android:name=".activity.receipt.receiptcancel.ReceiptCancelActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />

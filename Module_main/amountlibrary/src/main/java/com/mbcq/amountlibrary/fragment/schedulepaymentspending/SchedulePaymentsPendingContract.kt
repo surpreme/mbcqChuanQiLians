@@ -12,9 +12,11 @@ class SchedulePaymentsPendingContract {
 
     interface View : BaseView {
 
+        fun getPageS(list: List<SchedulePaymentsPendingBean>)
     }
 
     interface Presenter : BasePresenter<View> {
+        fun getPage(page: Int)
 
     }
 }

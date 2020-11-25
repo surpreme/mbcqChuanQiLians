@@ -13,6 +13,7 @@ import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
@@ -20,13 +21,22 @@ import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.*
+import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.add_operating_interval_btn
+import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.all_selected_checked
+import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.complete_btn
+import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.departure_lot_tv
+import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.operating_btn
+import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.operating_interval_ll
+import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.operating_interval_tv
+import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.remove_operating_interval_btn
+import kotlinx.android.synthetic.main.activity_fixed_trunk_departure_house.*
 import org.json.JSONArray
 import org.json.JSONObject
 
 /**
  * @author: lzy
  * @time: 2018.08.25
- * 添加干线发车 运输方式
+ * 干线发车详情操作页
  */
 @Route(path = ARouterConstants.TrunkDepartureHouseActivity)
 class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartureHouseContract.View, TrunkDepartureHousePresenter>(), TrunkDepartureHouseContract.View {
@@ -35,7 +45,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
     var mLastDataJson: String = ""
     var mStartWebCode = ""
     var mEndWebCode = ""
-    val mOutList = mutableListOf<String>()
+    val mOutList = HashMap<String, String>()
 
     override fun getLayoutId(): Int = R.layout.activity_add_trunk_departure_house
 
@@ -70,17 +80,10 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
                     kk.append(",")
                 jarray.put(obj)
             }
-            val VehicleInterval = operating_interval_tv.text.toString()//发车区间
-            mLastData.put("VehicleInterval", VehicleInterval)
-
-            val YtWebidCode = ""//沿途网点编码
-            mLastData.put("YtWebidCode", YtWebidCode)
-
-            val YtWebidCodeStr = ""//沿途网点
-            mLastData.put("YtWebidCodeStr", YtWebidCodeStr)
-
             mLastData.put("GxVehicleDetLst", jarray)
             mLastData.put("CommonStr", kk.toString())
+            mIsCanCloseLoading = false
+
             mPresenter?.saveInfo(mLastData)
         }
 
@@ -99,7 +102,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
                 operating_interval_ll.removeAllViews()
                 for (item in mOutList) {
                     val checkBox = CheckBox(mContext)
-                    checkBox.text = item
+                    checkBox.text = item.key
                     operating_interval_ll.addView(checkBox)
                 }
 
@@ -155,7 +158,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
     fun refreshShowOut() {
         var showStr = mStartWebCode
         for (item in mOutList) {
-            showStr = "$showStr-$item"
+            showStr = "$showStr-${item.key}"
         }
         showStr = "$showStr-$mEndWebCode"
 
@@ -194,9 +197,10 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
                 if (!mHas) {
                     val checkBox = CheckBox(mContext)
                     checkBox.text = list[position].webid
-                    mOutList.add(list[position].webid)
+                    mOutList.put(list[position].webid, list[position].webidCode)
                     operating_interval_ll.addView(checkBox)
                     refreshShowOut()
+
 
                 } else {
                     showToast("您已经选过${list[position].webid}了")
@@ -218,10 +222,29 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
     }
 
     override fun saveInfoS(s: String) {
-        TalkSureDialog(mContext, getScreenWidth(), "干线计划装车${mDepartureLot}完成，点击查看详情！") {
-            onBackPressed()
-            this.finish()
-        }.show()
+        operating_interval_ll.visibility = View.GONE
+        if (operating_interval_ll.getChildAt(0) == null) return
+        val itemCheckBox = operating_interval_ll[0] as CheckBox
+        mOutList.get(itemCheckBox.text.toString())?.let { mPresenter?.addStowageAlongWay(mDepartureLot, it, itemCheckBox.text.toString(), mOutList, false) }
+
+
+    }
+
+    override fun addStowageAlongWayS(inoneVehicleFlag: String, webidCode: String, webidCodeStr: String, result: String, datalist: HashMap<String, String>, isOver: Boolean) {
+        if (operating_interval_ll.getChildAt(0) == null) return
+        operating_interval_ll.removeViewAt(0)
+        if (operating_interval_ll.getChildAt(0) == null) {
+            closeLoading()
+            TalkSureDialog(mContext, getScreenWidth(), "干线计划装车${mDepartureLot}完成，点击查看详情！") {
+                onBackPressed()
+                finish()
+            }.show()
+            return
+        }
+        val itemCheckBox = operating_interval_ll[0] as CheckBox
+        mOutList.get(itemCheckBox.text.toString())?.let { mPresenter?.addStowageAlongWay(mDepartureLot, it, itemCheckBox.text.toString(), mOutList, false) }
+
+
     }
 
 

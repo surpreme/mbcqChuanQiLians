@@ -3,6 +3,7 @@ package com.mbcq.commonlibrary.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +18,16 @@ class TextViewAdapter<T : BaseTextAdapterBean> : RecyclerView.Adapter<TextViewAd
     private val inflater: LayoutInflater
     private var mSonBean = ArrayList<T>()
     private var isShowOutSide = true
+    private var mTextGravity = 0
 
     constructor(context: Context) {
         this.context = context
+        this.inflater = LayoutInflater.from(context)
+    }
+
+    constructor(context: Context, textGravity: Int) {
+        this.context = context
+        this.mTextGravity = textGravity
         this.inflater = LayoutInflater.from(context)
     }
 
@@ -57,6 +65,9 @@ class TextViewAdapter<T : BaseTextAdapterBean> : RecyclerView.Adapter<TextViewAd
         holder.itemView.setBackgroundColor(Color.WHITE)
         holder.item_text.text = mSonBean[position].title
         holder.item_text.textSize = 16f
+        if (mTextGravity != 0) {
+            holder.item_text.gravity = mTextGravity
+        }
         holder.item_text.setBackgroundResource(if (isShowOutSide) R.drawable.hollow_out_gray else R.color.white)
         holder.itemView.setOnClickListener {
             mClick?.onItemClick(it, position, mSonBean[position].tag)

@@ -32,6 +32,7 @@ abstract class BaseBlueToothPrintAcceptBillingActivity<V : BaseView, T : BasePre
             }
         }
     }
+
     override fun setBlueToothConnectInterface(): BlueToothConnectInterface = object : BlueToothConnectInterface {
         override fun isUnUsed(reason: String) {
             label_checkbox.isChecked = false
@@ -44,6 +45,7 @@ abstract class BaseBlueToothPrintAcceptBillingActivity<V : BaseView, T : BasePre
         }
 
     }
+
     /**
      * 获取条码号
      *
@@ -53,6 +55,16 @@ abstract class BaseBlueToothPrintAcceptBillingActivity<V : BaseView, T : BasePre
      */
     fun GetBarcode(billno: String, index: Int): String {
         return String.format(Locale.getDefault(), "%s%04d", billno, index)
+    }
+
+    /**
+     * startNum 开始序号
+     * endNum  结束序号
+     */
+    protected fun printMoreLabel(kz: PrintAcceptBillingBean, startNum: Int, endNum: Int, zpSDK1: zpBluetoothPrinter) {
+        for (index in startNum..endNum) {
+            print_LabelTemplated_XT423(kz, index, zpSDK1)
+        }
     }
 
     /**
@@ -85,9 +97,9 @@ abstract class BaseBlueToothPrintAcceptBillingActivity<V : BaseView, T : BasePre
         zpSDK1.drawText(10, 282, "目 的 地：" + kz.destination, 2, 0, 0, false, false)
         zpSDK1.drawText(302, 282, "运输方式：" + kz.transneedStr, 2, 0, 0, false, false)
         zpSDK1.drawText(30, 310, "发 货 人：" + kz.shipper, 2, 0, 0, false, false)
-        zpSDK1.drawText(302, 310, "电话：" + kz.shipperMb + "--"+ kz.shipperTel, 2, 0, 0, false, false)
+        zpSDK1.drawText(302, 310, "电话：" + kz.shipperMb + "--" + kz.shipperTel, 2, 0, 0, false, false)
         zpSDK1.drawText(10, 342, "收 货 人：" + kz.consignee, 2, 0, 0, false, false)
-        zpSDK1.drawText(302, 342, "电话：" + kz.consigneeMb + "--"+kz.consigneeMb, 2, 0, 0, false, false)
+        zpSDK1.drawText(302, 342, "电话：" + kz.consigneeMb + "--" + kz.consigneeMb, 2, 0, 0, false, false)
         zpSDK1.drawText(10, 375, "货物名称：" + kz.product, 2, 0, 0, false, false)
         zpSDK1.drawText(302, 375, "包 装：" + kz.packages, 2, 0, 0, false, false)
         zpSDK1.drawText(10, 407, "数 量：" + kz.qty, 2, 0, 0, false, false)
@@ -95,16 +107,16 @@ abstract class BaseBlueToothPrintAcceptBillingActivity<V : BaseView, T : BasePre
         zpSDK1.drawText(10, 438, "保 费：" + priceObj.optString("accSafe"), 2, 0, 0, false, false)
 
         //TODO
-        zpSDK1.drawText(302, 470, "外转费：" +priceObj.optString("accWz") , 2, 0, 0, false, false)
+        zpSDK1.drawText(302, 470, "外转费：" + priceObj.optString("accWz"), 2, 0, 0, false, false)
 
 
-        zpSDK1.drawText(10, 470, "工本费：" +priceObj.optString("accGb"), 2, 0, 0, false, false)
+        zpSDK1.drawText(10, 470, "工本费：" + priceObj.optString("accGb"), 2, 0, 0, false, false)
         zpSDK1.drawText(302, 438, "运 费：" + priceObj.optString("accTrans") + "元", 2, 0, 0, false, false)
         zpSDK1.drawText(10, 500, "备    注：" + kz.remark, 2, 0, 0, false, false)
         zpSDK1.drawText(302, 554, "提货方式：" + kz.okProcessStr, 2, 0, 0, false, false)
         zpSDK1.drawText(10, 554, "付款方式：" + kz.accTypeStr, 2, 0, 0, false, false)
         zpSDK1.drawText(10, 586, "运费合计：￥" + kz.accSum.toString() + " " + MoneyChineseUtil.toChinese(kz.accSum), 2, 0, 0, false, false)
-        zpSDK1.drawText(10, 620, "代收货款：￥" + priceObj.optString("accDaiShou") + " " + MoneyChineseUtil.toChinese( priceObj.optString("accDaiShou") ), 2, 0, 0, false, false)
+        zpSDK1.drawText(10, 620, "代收货款：￥" + priceObj.optString("accDaiShou") + " " + MoneyChineseUtil.toChinese(priceObj.optString("accDaiShou")), 2, 0, 0, false, false)
         zpSDK1.drawText(10, 648, "开 票 人：" + kz.createMan, 2, 0, 0, false, false)
         zpSDK1.drawText(10, 678, "开 户 名：" + kz.bankMan, 2, 0, 0, false, false)
         var strbankcode = ""
@@ -203,7 +215,7 @@ abstract class BaseBlueToothPrintAcceptBillingActivity<V : BaseView, T : BasePre
             /* zpSDK1.printerStatus()
              showPrintEx(zpSDK1.GetStatus())
              zpSDK1.disconnect()*/
-            closePrint(zpSDK1)
+//            closePrint(zpSDK1)
 
         } catch (e: Exception) {
             e.printStackTrace()

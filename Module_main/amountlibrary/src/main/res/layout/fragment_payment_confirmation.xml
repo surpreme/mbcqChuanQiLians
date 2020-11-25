@@ -25,7 +25,7 @@
         android:id="@+id/payment_confirmation_smart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/commit_btn"
         app:layout_constraintTop_toBottomOf="@id/payment_confirmation_search_ec">
 
         <FrameLayout
@@ -44,4 +44,17 @@
         </FrameLayout>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <Button
+        android:id="@+id/commit_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/base_blue"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

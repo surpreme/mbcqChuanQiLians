@@ -33,6 +33,7 @@ abstract class BaseTrunkDepartureHouseActivity<V : BaseView, T : BasePresenterIm
 
     var mTypeIndex = 1
     var mDepartureLot = ""
+//    var mOverCar = false//判断车辆是否完成 因为沿途网点只有完成本车才能添加操作
 
 
     override fun initExtra() {
@@ -94,6 +95,8 @@ abstract class BaseTrunkDepartureHouseActivity<V : BaseView, T : BasePresenterIm
                     operating_interval_cl.visibility = View.VISIBLE
                     all_selected_checked.visibility = View.GONE
                     operating_cardView.visibility = View.GONE
+
+
                 }
             }
 
@@ -160,6 +163,7 @@ abstract class BaseTrunkDepartureHouseActivity<V : BaseView, T : BasePresenterIm
         short_feeder_house_tabLayout.addTab(short_feeder_house_tabLayout.newTab().setText("沿途网点"))
         initInventoryList()
         initLoadingList()
+        short_feeder_house_tabLayout.getTabAt(2)?.customView?.isClickable = false
     }
 
     var mInventoryListAdapter: ShortFeederHouseInventoryListAdapter? = null

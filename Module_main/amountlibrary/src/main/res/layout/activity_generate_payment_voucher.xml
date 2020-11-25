@@ -12,7 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
-        app:centerTextViewText="生成收款凭证"
+        app:centerTextViewText="生成付款凭证"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
@@ -48,7 +48,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/basic_info_tv">
 
 
-
                 <LinearLayout
                     android:id="@+id/voucher_date_ll"
                     android:layout_width="match_parent"
@@ -71,9 +70,9 @@
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
                         android:paddingRight="5dp"
-                        tools:text="2020-11-11 "
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        tools:text="2020-11-11 " />
 
                     <ImageView
                         android:layout_width="18dp"
@@ -84,6 +83,7 @@
                         android:src="@drawable/ic_down_icon" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -117,6 +117,7 @@
                         android:src="@drawable/ic_down_icon" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -143,6 +144,7 @@
                         android:textSize="16sp" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -153,29 +155,46 @@
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="收  款 人 "
+                        android:text="第一审核"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-                    <EditText
+                    <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
-                        android:background="@null"
                         android:gravity="center|left"
-                        android:hint="请输入收款人，不必填"
+                        android:text="吴轩"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="第二审核"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="王订单"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
                 </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="收款明细单"
+                    android:layout_marginLeft="15dp"
                     android:paddingTop="3dp"
                     android:paddingBottom="3dp"
-                    android:layout_marginLeft="15dp"/>
+                    android:text="收款明细单" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -221,28 +240,36 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/generate_payment_voucher_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:scrollbars="none" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="合计金额：3000"
-                    android:textSize="17sp"
-                    android:textColor="@color/black"
+                    android:layout_marginLeft="15dp"
                     android:paddingTop="3dp"
                     android:paddingBottom="3dp"
-                    android:layout_marginLeft="15dp"/>
+                    android:text="合计金额：3000"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginTop="15sp"
+                    android:layout_marginRight="15dp"
+                    android:backgroundTint="@color/base_blue"
                     android:text="保存"
                     android:textColor="@color/white"
-                    android:backgroundTint="@color/base_blue"
-                    android:textSize="21sp"
-                    android:layout_marginLeft="15sp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="15sp"/>
+                    android:textSize="21sp" />
             </LinearLayout>
 
 

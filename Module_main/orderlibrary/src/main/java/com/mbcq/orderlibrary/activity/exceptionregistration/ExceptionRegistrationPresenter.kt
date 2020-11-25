@@ -115,16 +115,16 @@ class ExceptionRegistrationPresenter : BasePresenterImpl<ExceptionRegistrationCo
     ]}
      */
     override fun getExceptionInfo(billno: String) {
-        val params=HttpParams()
-        params.put("Billno",billno)
-        get<String>(ApiInterface.RECORD_SELECT_ORDER_INFO_GET,params,object:CallBacks{
+        val params = HttpParams()
+        params.put("Billno", billno)
+        get<String>(ApiInterface.RECORD_SELECT_ORDER_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {
-                    if (!it.isNull(0)){
+                    if (!it.isNull(0)) {
                         mView?.getExceptionInfoS(it.getJSONObject(0))
 
-                    }else{
+                    } else {
                         mView?.getExceptionInfoNull()
                     }
 
@@ -135,7 +135,7 @@ class ExceptionRegistrationPresenter : BasePresenterImpl<ExceptionRegistrationCo
     }
 
     override fun postImg(params: HttpParams) {
-        post<String>(ApiInterface.POST_PICTURE_POST,params,object:CallBacks{
+        post<String>(ApiInterface.POST_PICTURE_POST, params, object : CallBacks {
             override fun onResult(result: String) {
                 mView?.getContext()?.let {
                     val obj = JSONObject(result)
@@ -217,7 +217,7 @@ class ExceptionRegistrationPresenter : BasePresenterImpl<ExceptionRegistrationCo
     ]}
      */
     override fun getWrongType() {
-        get<String>(ApiInterface.EXCEPTION_RECORD_SELECT_WRONG_TYPE_GET+"?=",null,object:CallBacks{
+        get<String>(ApiInterface.EXCEPTION_RECORD_SELECT_WRONG_TYPE_GET + "?=", null, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 val data = obj.opt("data")
@@ -235,7 +235,7 @@ class ExceptionRegistrationPresenter : BasePresenterImpl<ExceptionRegistrationCo
     }
 
     override fun updateAllInfo(jsonObject: JSONObject) {
-        post<String>(ApiInterface.EXCEPTION_RECORD_ADD_WRONG_POST,getRequestBody(jsonObject),object:CallBacks{
+        post<String>(ApiInterface.EXCEPTION_RECORD_ADD_WRONG_POST, getRequestBody(jsonObject), object : CallBacks {
             override fun onResult(result: String) {
 
             }
@@ -243,16 +243,16 @@ class ExceptionRegistrationPresenter : BasePresenterImpl<ExceptionRegistrationCo
         })
     }
 
-    override fun getWrongChildrenType(id:String,companyid:String,typecode:String,partypcod:String,tdescribe:String,opeman:String,recorddate:String) {
-        val params=HttpParams()
-        params.put("id",id)
-        params.put("companyid",companyid)
-        params.put("typecode",typecode)
-        params.put("partypcod",partypcod)
-        params.put("tdescribe",tdescribe)
-        params.put("opeman",opeman)
-        params.put("recorddate",recorddate)
-        get<String>(ApiInterface.EXCEPTION_RECORD_SELECT_WRONG_CHILDREN_TYPE_GET,params,object:CallBacks{
+    override fun getWrongChildrenType(id: String, companyid: String, typecode: String, partypcod: String, tdescribe: String, opeman: String, recorddate: String) {
+        val params = HttpParams()
+        params.put("id", id)
+        params.put("companyid", companyid)
+        params.put("typecode", typecode)
+        params.put("partypcod", partypcod)
+        params.put("tdescribe", tdescribe)
+        params.put("opeman", opeman)
+        params.put("recorddate", recorddate)
+        get<String>(ApiInterface.EXCEPTION_RECORD_SELECT_WRONG_CHILDREN_TYPE_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 val data = obj.opt("data")
@@ -264,6 +264,17 @@ class ExceptionRegistrationPresenter : BasePresenterImpl<ExceptionRegistrationCo
                 } else {
                     mView?.showError("服务器返回异常信息")
                 }
+            }
+
+        })
+    }
+
+    override fun getShortCarNumber(billno: String) {
+        val params = HttpParams()
+        params.put("billno", billno)
+        get<String>(ApiInterface.WAYBILL_RECORD_SELECT_SHORT_VEHICLES_GET,params,object :CallBacks{
+            override fun onResult(result: String) {
+
             }
 
         })

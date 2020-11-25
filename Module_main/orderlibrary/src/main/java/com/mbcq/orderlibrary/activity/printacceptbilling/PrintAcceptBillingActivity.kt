@@ -37,11 +37,34 @@ class PrintAcceptBillingActivity : BaseBlueToothPrintAcceptBillingActivity<Print
                     TalkSureDialog(mContext, getScreenWidth(), "请输入您的运单信息").show()
                     return
                 }
-                if (label_checkbox.isChecked && consignment_checkbox.isChecked) {
-                    val printAdapter = getZpBluetoothPrinter()
-                    print_YH_TYD_NEW1(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), mWayBillInfoJObj, printAdapter)
-                    print_LabelTemplated_XT423(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), 1, printAdapter)
+                if (!isInteger(end_print_num_ed.text.toString())) {
+                    TalkSureDialog(mContext, getScreenWidth(), "计算出错，点击返回") {
+                        onBackPressed()
+                    }.show()
+                    return
                 }
+
+                if (mPrintMaxNum < end_print_num_ed.text.toString().toInt()) {
+                    showToast("请检查您输入的数量和运单信息是否匹配")
+                    return
+                }
+                if (mPrintMaxNum < start_print_num_ed.text.toString().toInt()) {
+                    showToast("请检查您输入的数量和运单信息是否匹配")
+                    return
+                }
+                if (start_print_num_ed.text.toString().toInt() > start_print_num_ed.text.toString().toInt()) {
+                    showToast("请检查您输入开始数量和结束数量")
+                    return
+                }
+                val printAdapter = getZpBluetoothPrinter()
+                if (consignment_checkbox.isChecked) {
+                    print_YH_TYD_NEW1(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), mWayBillInfoJObj, printAdapter)
+                }
+                if (label_checkbox.isChecked) {
+                    printMoreLabel(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), start_print_num_ed.text.toString().toInt(), end_print_num_ed.text.toString().toInt(), printAdapter)
+
+                }
+                closePrint(printAdapter)
             }
 
         })
@@ -69,16 +92,21 @@ class PrintAcceptBillingActivity : BaseBlueToothPrintAcceptBillingActivity<Print
         waybill_info_tv.text = "运  单 号：\n货      号：\n货物名称：\n包      装：\n发货网点：\n到货网点：\n收  货 人：\n件      数："
         mWayBillInfoJson = "{}"
         mWayBillInfoJObj = JSONObject()
+        mPrintMaxNum = 0
+
     }
 
     var mWayBillInfoJson = "{}"
     var mWayBillInfoJObj = JSONObject()
+    var mPrintMaxNum = 0
 
     @SuppressLint("SetTextI18n")
     override fun getWayBillInfoS(data: JSONObject, dataStr: String) {
         waybill_info_tv.text = "运  单 号：${data.optString("billno")}\n货      号：${data.optString("goodsNum")}\n货物名称：${data.optString("product")}\n包      装：${data.optString("packages")}\n发货网点：${data.optString("webidCodeStr")}\n到货网点：${data.optString("ewebidCodeStr")}\n收  货 人：${data.optString("consignee")}\n件      数：${data.optString("qty")}"
         mWayBillInfoJson = dataStr
         mWayBillInfoJObj = data
+        mPrintMaxNum = data.optInt("qty", 0)
+        end_print_num_ed.setText(mPrintMaxNum.toString())
     }
 
     override fun getWayBillInfoNull() {

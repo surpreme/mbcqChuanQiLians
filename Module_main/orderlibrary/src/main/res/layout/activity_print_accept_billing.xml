@@ -144,6 +144,7 @@
             android:textSize="17sp" />
 
         <EditText
+            android:id="@+id/start_print_num_ed"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
@@ -164,6 +165,7 @@
             app:layout_constraintTop_toTopOf="@id/consignment_checkbox" />
 
         <EditText
+            android:id="@+id/end_print_num_ed"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -171,7 +173,7 @@
             android:background="@drawable/hollow_out_gray"
             android:gravity="center"
             android:inputType="number"
-            android:text="2"
+            tools:text="2"
             android:textColor="@color/base_blue" />
     </LinearLayout>
 

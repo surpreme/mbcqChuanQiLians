@@ -298,14 +298,49 @@
                     android:layout_marginRight="15dp"
                     android:src="@drawable/ic_down_icon" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/departure_lot_ll"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/problem_son_type_ll">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:text="发车批次"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/departure_lot_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    tools:text="DB20201122-001" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_down_icon" />
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/problem_info_ll"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
-                app:layout_constraintTop_toBottomOf="@+id/problem_son_type_ll">
+                app:layout_constraintTop_toBottomOf="@+id/departure_lot_ll">
 
                 <TextView
                     android:layout_width="wrap_content"

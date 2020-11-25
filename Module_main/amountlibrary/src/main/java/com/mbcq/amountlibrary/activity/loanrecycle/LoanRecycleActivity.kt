@@ -68,7 +68,7 @@ class LoanRecycleActivity : BaseListMVPActivity<LoanRecycleContract.View, LoanRe
         super.onClick()
         generate_payment_voucher_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.GeneratePaymentVoucherActivity).navigation()
+                ARouter.getInstance().build(ARouterConstants.GenerateReceiptVoucherActivity).navigation()
             }
 
         })

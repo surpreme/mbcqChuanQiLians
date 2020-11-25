@@ -14,7 +14,7 @@ class ShortTrunkDepartureUnPlanScanOperatingContract {
     interface View : BaseView {
         fun getWillByInfoS(data: JSONObject, resultBillno: String)
         fun getWillByInfoNull()
-        fun scanOrderS(billno: String, soundStr: String)
+        fun scanOrderS(billno: String, soundStr: String, mMoreScanBillno: String, mResultMoreData: String)
         fun getCarInfoS(list: List<ShortTrunkDepartureUnPlanScanOperatingBean>)
         fun saveScanPostS(result: String)
 
@@ -22,7 +22,7 @@ class ShortTrunkDepartureUnPlanScanOperatingContract {
 
     interface Presenter : BasePresenter<View> {
         fun getWillByInfo(billno: String, resultBillno: String)
-        fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String)
+        fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String)
         fun getCarInfo(inoneVehicleFlag: String)
         fun saveScanPost(id: Int, inoneVehicleFlag: String)
 

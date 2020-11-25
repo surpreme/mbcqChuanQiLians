@@ -134,4 +134,17 @@ class TrunkDepartureHousePresenter : BasePresenterImpl<TrunkDepartureHouseContra
 
         })
     }
+
+    override fun addStowageAlongWay(inoneVehicleFlag: String, webidCode: String, webidCodeStr: String,datalist:HashMap<String, String>, isOver: Boolean) {
+        val jsonObj = JSONObject()
+        jsonObj.put("inoneVehicleFlag", inoneVehicleFlag)
+        jsonObj.put("webidCode", webidCode)
+        jsonObj.put("webidCodeStr", webidCodeStr)
+        post<String>(ApiInterface.STOWAGE_ALONG_WAY_RECORD_MAIN_LINE_ADD_LOCAL_INFO_POST, getRequestBody(jsonObj), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.addStowageAlongWayS(inoneVehicleFlag, webidCode, webidCodeStr, result, datalist,isOver)
+            }
+
+        })
+    }
 }

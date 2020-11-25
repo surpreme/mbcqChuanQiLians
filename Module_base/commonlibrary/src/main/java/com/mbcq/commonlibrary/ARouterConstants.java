@@ -39,6 +39,7 @@ public class ARouterConstants {
     public static final String ReceiptReturnFactoryActivity="/order/ReceiptReturnFactoryActivity";
     public static final String ReceiptGeneralLedgerActivity="/order/ReceiptGeneralLedgerActivity";
     public static final String ReceiptCancelActivity="/order/ReceiptCancelActivity";
+    public static final String StowageAlongWayActivity="/order/StowageAlongWayActivity";
     //////////////////////////////////////////////////////////////////////////////
     public static final String LocationActivity="/map/LocationActivity";
     //////////////////////////////////////////////////////////////////////////////
@@ -75,12 +76,15 @@ public class ARouterConstants {
     public static final String ShortTrunkDepartureUnPlanScanOperatingActivity="/vehicles/ShortTrunkDepartureUnPlanScanOperatingActivity";
     public static final String RevokeDepartureTrunkDepartureScanOperatingActivity="/vehicles/RevokeDepartureTrunkDepartureScanOperatingActivity";
     public static final String DepartureTrunkDepartureUnPlanScanOperatingActivity="/vehicles/DepartureTrunkDepartureUnPlanScanOperatingActivity";
+    public static final String StowageAlongWayHouseActivity="/vehicles/StowageAlongWayHouseActivity";
+
     //////////////////////////////////////////////////////////////////////////////
     public static final String LoanChangeActivity="/amount/LoanChangeActivity";
     public static final String LoanRecycleActivity="/amount/LoanRecycleActivity";
     public static final String GeneratePaymentVoucherActivity="/amount/GeneratePaymentVoucherActivity";
     public static final String GeneralLedgerActivity="/amount/GeneralLedgerActivity";
     public static final String LoanIssuanceActivity="/amount/LoanIssuanceActivity";
+    public static final String GenerateReceiptVoucherActivity="/amount/GenerateReceiptVoucherActivity";
 
     //////////////////////////////////////////////////////////////////////////////
     public static final String TakePhotosActivity="/common/TakePhotosActivity";

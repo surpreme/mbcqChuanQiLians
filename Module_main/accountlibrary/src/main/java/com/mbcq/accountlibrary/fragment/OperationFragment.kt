@@ -296,6 +296,10 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                     ARouter.getInstance().build(ARouterConstants.ShipmentInventoryActivity).navigation()
 
                                 }
+                                10 -> {
+                                    ARouter.getInstance().build(ARouterConstants.StowageAlongWayActivity).navigation()
+
+                                }
                                 11 -> {
                                     ARouter.getInstance().build(ARouterConstants.DepartureRecordActivity).navigation()
 

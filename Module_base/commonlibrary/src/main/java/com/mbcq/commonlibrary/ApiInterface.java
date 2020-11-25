@@ -78,9 +78,17 @@ public class ApiInterface {
      */
     public static final String WAYBILL_RECORD_SELECT_ALLINFO_GET = BASE_URI + "WaybillOpe/SelWaybillByCondition";
     /**
+     *
+     */
+    public static final String WAYBILL_RECORD_SELECT_SHORT_VEHICLES_GET = BASE_URI + "DbVehicleOpe/SelSmDbVehicleByCondition";
+    /**
      * 改单记录
      */
     public static final String FIXED_WAYBILL_RECORD_GET = BASE_URI + "WaybillUpdateApplyOpe/SelwaybillUpdateApplyByCondition";
+    /**
+     * 沿途配载 查询
+     */
+    public static final String STOWAGE_ALONG_WAY_RECORD_GET = BASE_URI + "GxVehicleOpe/SelSmGxVehicleByCondition";
     /**
      * 运单记录  删除运单
      */
@@ -173,6 +181,18 @@ public class ApiInterface {
      * 干线发车 本车加货
      */
     public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_ADD_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/CurGxVehAddWay";
+    /**
+     * 沿途配载 添加沿途网点
+     */
+    public static final String STOWAGE_ALONG_WAY_RECORD_MAIN_LINE_ADD_LOCAL_INFO_POST = BASE_URI + "GxVehicleYtOpe/AddGxVehicleYt";
+    /**
+     * 沿途配载 查询沿途网点
+     */
+    public static final String STOWAGE_ALONG_WAY_RECORD_MAIN_LINE_SELECT_LOCAL_INFO_POST = BASE_URI + "GxVehicleYtOpe/SelGxVehicleYtByCondition";
+    /**
+     * 沿途配载 删除全部沿途网点
+     */
+    public static final String STOWAGE_ALONG_WAY_RECORD_MAIN_LINE_DELETE_LOCAL_INFO_POST = BASE_URI + "GxVehicleYtOpe/DelGxVehicleYtByCondition";
     /**
      * 干线发车 确认到车
      */
@@ -507,10 +527,24 @@ public class ApiInterface {
      * 贷款变更 添加
      */
     public static final String LOAN_CHANGE_ADD_POST = BASE_URI + "HkUpdate/UpdHkUpdateByCondition";
-  /**
-     * 贷款变更 添加
+    /**
+     * 货款回收
      */
     public static final String LOAN_RECYCLE_INFO_GET = BASE_URI + "HkRecoveryOpe/SelHkRecoveryByCondition";
+    /**
+     * 货款总账
+     */
+    public static final String GENERAL_LEDGER_INFO_GET = BASE_URI + "HkGeneralLedger/SelHkGeneralLedgerByCondition";
+
+    /**
+     * 货款回款确认
+     */
+    public static final String GENERAL_PAYMENT_CONFIRMATION_INFO_GET = BASE_URI + "HkReleasedOpe/SelHkReleasedByCondition";
+    /**
+     * 待发款明细表
+     * 7
+     */
+    public static final String GENERAL_SCHEDULE_PAYMENTS_PENDING_INFO_GET = BASE_URI + "HkReleasedOpe/SelHkReleasedDetByCondition";
 
 
 }

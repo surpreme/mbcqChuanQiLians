@@ -13,7 +13,7 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 
-class ShortFeederHouseInventoryListAdapter(context: Context?) : BaseRecyclerAdapter<StockWaybillListBean>(context = context) {
+ class ShortFeederHouseInventoryListAdapter(context: Context?) : BaseRecyclerAdapter<StockWaybillListBean>(context = context) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_short_feeder_house, parent, false))
     fun checkedAll(isC: Boolean) {
         for ((index, item) in mDatas.withIndex()) {
@@ -47,7 +47,7 @@ class ShortFeederHouseInventoryListAdapter(context: Context?) : BaseRecyclerAdap
         holder.waybill_move_iv.rotation = 180f
         holder.waybill_move_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                mOnRemoveInterface?.onClick(position,mDatas[position])
+                mOnRemoveInterface?.onClick(position, mDatas[position])
 
                 /*val list = mutableListOf<ShortFeederHouseListBean>()
                 mDatas[position].isChecked = false

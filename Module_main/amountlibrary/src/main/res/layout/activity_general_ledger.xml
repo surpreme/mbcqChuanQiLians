@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.generaledger.GeneralLedgerActivity">
+    tools:context=".activity.generaledger.GeneralLedgerActivity">
+
     <com.mbcq.baselibrary.view.CnToolbar
         android:id="@+id/genera_ledger_toolbar"
         android:layout_width="match_parent"
@@ -12,7 +13,9 @@
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
         app:centerTextViewText="货款总账"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:rightButtonIcon="@drawable/ic_search_icon" />
+
     <LinearLayout
         android:id="@+id/search_ll"
         android:layout_width="match_parent"
@@ -31,9 +34,11 @@
             android:background="@null"
             android:hint="请输入运单号"
             android:inputType="number"
+            android:imeOptions="actionSearch"
             android:paddingLeft="15dp" />
 
         <ImageView
+            android:id="@+id/search_billno_iv"
             android:layout_width="25dp"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
@@ -49,11 +54,12 @@
             android:textSize="19sp" />
 
     </LinearLayout>
+
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/genera_ledger_smart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/total_bottom_tv"
         app:layout_constraintTop_toBottomOf="@id/search_ll">
 
         <FrameLayout
@@ -72,4 +78,17 @@
         </FrameLayout>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <TextView
+        android:id="@+id/total_bottom_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="合计：3票，货款800，应收1600"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,10 +11,12 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class PaymentConfirmationContract {
 
     interface View : BaseView {
+        fun getPageS(list: List<PaymentConfirmationBean>)
 
     }
 
     interface Presenter : BasePresenter<View> {
+        fun getPage(page: Int)
 
     }
 }

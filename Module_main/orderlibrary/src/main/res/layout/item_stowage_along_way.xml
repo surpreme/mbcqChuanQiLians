@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mSwipeMenuLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/waybill_departure_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/base_blue"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="GX00004-20200418-001   " />
+
+
+    <TextView
+        android:id="@+id/waybill_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="16sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2020-4-21" />
+
+    <TextView
+        android:id="@+id/outlets_info_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:lines="1"
+        android:text="汕头   ----  义乌青口 ---杭州萧山"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/waybill_departure_tv" />
+
+
+    <TextView
+        android:id="@+id/driver_info_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        tools:text="沪AB123  程洪骑  15995675861"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintLeft_toLeftOf="@+id/outlets_info_tv"
+        app:layout_constraintTop_toBottomOf="@+id/outlets_info_tv" />
+
+    <TextView
+        android:id="@+id/order_info_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintLeft_toLeftOf="@+id/outlets_info_tv"
+        app:layout_constraintTop_toBottomOf="@+id/driver_info_tv"
+        tools:text="45票  100件 13m³  2000kg    运费¥200.00 " />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

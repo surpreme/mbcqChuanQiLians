@@ -1,4 +1,4 @@
-package com.mbcq.amountlibrary.fragment.generaledger
+package com.mbcq.amountlibrary.activity.generaledger
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
@@ -11,10 +11,11 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class GeneralLedgerContract {
 
     interface View : BaseView {
-
+        fun getPageS(list: List<GeneralLedgerBean>)
     }
 
     interface Presenter : BasePresenter<View> {
+        fun getPage(page: Int)
 
     }
 }

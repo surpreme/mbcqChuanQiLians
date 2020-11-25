@@ -7,6 +7,7 @@ import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
 import org.json.JSONObject
+import java.lang.StringBuilder
 
 /**
  * @author: lzy
@@ -66,7 +67,7 @@ class ShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<ShortT
       "ScanPercentage": 12 扫描率
     }
      */
-    override fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String) {
+    override fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String) {
         val jsonO = JSONObject()
         jsonO.put("CompanyId", "2001")
         jsonO.put("Billno", billno)
@@ -81,7 +82,7 @@ class ShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<ShortT
         jsonO.put("ScanTypeStr", "PDA")
         post<String>(ApiInterface.DEPARTURE_SHORT_FEEDER_DEPARTURE_SCAN_INFO_POST, getRequestBody(jsonO), object : CallBacks {
             override fun onResult(result: String) {
-                mView?.scanOrderS(billno, soundStr)
+                mView?.scanOrderS(billno, soundStr, lableNo, "")
 
             }
 

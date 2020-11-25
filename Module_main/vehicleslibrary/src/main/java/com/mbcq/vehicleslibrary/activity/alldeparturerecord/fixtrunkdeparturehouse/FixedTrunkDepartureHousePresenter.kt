@@ -1,5 +1,6 @@
 package com.mbcq.vehicleslibrary.activity.alldeparturerecord.fixtrunkdeparturehouse
 
+import android.telecom.Call
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
@@ -161,5 +162,41 @@ class FixedTrunkDepartureHousePresenter : BasePresenterImpl<FixedTrunkDepartureH
 
         })
     }
+    override fun addStowageAlongWay(inoneVehicleFlag: String, webidCode: String, webidCodeStr: String) {
+        val jsonObj = JSONObject()
+        jsonObj.put("inoneVehicleFlag", inoneVehicleFlag)
+        jsonObj.put("webidCode", webidCode)
+        jsonObj.put("webidCodeStr", webidCodeStr)
+        post<String>(ApiInterface.STOWAGE_ALONG_WAY_RECORD_MAIN_LINE_ADD_LOCAL_INFO_POST, getRequestBody(jsonObj), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.addStowageAlongWayS(inoneVehicleFlag, webidCode, webidCodeStr, result)
+            }
 
+        })
+    }
+
+    override fun getStowageAlongWay(inoneVehicleFlag: String, id: Int) {
+        val params=HttpParams()
+        params.put("inoneVehicleFlag",inoneVehicleFlag)
+        params.put("id",id)
+        get<String>(ApiInterface.STOWAGE_ALONG_WAY_RECORD_MAIN_LINE_SELECT_LOCAL_INFO_POST,params,object :CallBacks{
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                mView?.getStowageAlongWayS(Gson().fromJson<List<FixedStowageAlongWayBean>>(obj.optString("data"), object : TypeToken<List<FixedStowageAlongWayBean>>() {}.type))
+
+            }
+
+        })
+    }
+
+    override fun deleteStowageAlongWay(inoneVehicleFlag: String) {
+        val jsonObj=JSONObject()
+        jsonObj.put("inoneVehicleFlag",inoneVehicleFlag)
+        post<String>(ApiInterface.STOWAGE_ALONG_WAY_RECORD_MAIN_LINE_DELETE_LOCAL_INFO_POST,getRequestBody(jsonObj),object :CallBacks{
+            override fun onResult(result: String) {
+
+            }
+
+        })
+    }
 }

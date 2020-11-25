@@ -30,7 +30,12 @@ class PaymentConfirmationFragment : BaseSmartMVPFragment<PaymentConfirmationCont
     override fun getRecyclerViewId(): Int = R.id.payment_confirmation_recycler
 
     override fun setAdapter(): BaseRecyclerAdapter<PaymentConfirmationBean> = PaymentConfirmationAdapter(mContext).also {
-        it.appendData(mutableListOf(PaymentConfirmationBean()))
+    }
+
+    override fun getPageDatas(mCurrentPage: Int) {
+        super.getPageDatas(mCurrentPage)
+        mPresenter?.getPage(mCurrentPage)
+
     }
 
     override fun addItemDecoration(): RecyclerView.ItemDecoration = object : BaseItemDecoration(mContext) {
@@ -41,5 +46,9 @@ class PaymentConfirmationFragment : BaseSmartMVPFragment<PaymentConfirmationCont
         override fun doRule(position: Int, rect: Rect) {
             rect.bottom = rect.top
         }
+    }
+
+    override fun getPageS(list: List<PaymentConfirmationBean>) {
+        appendDatas(list)
     }
 }
