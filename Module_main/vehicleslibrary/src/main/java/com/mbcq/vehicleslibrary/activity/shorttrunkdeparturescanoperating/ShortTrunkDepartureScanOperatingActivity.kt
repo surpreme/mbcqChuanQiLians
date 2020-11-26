@@ -16,6 +16,8 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.revoke.RevokeDepartureTrunkDepartureScanDataBean
+import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.revoke.RevokeShortTrunkDepartureScanDataBean
 import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
 import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.*
 import org.json.JSONObject
@@ -60,7 +62,11 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
         })
         short_vehicles_scan_operating_toolbar.setRightTitleOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.RevokeShortTrunkDepartureScanOperatingActivity).withString("RevokeShortLoadingVehicles", mLastData).navigation()
+                val mRevokeShortTrunkDepartureScanDataBean = RevokeShortTrunkDepartureScanDataBean()
+                mRevokeShortTrunkDepartureScanDataBean.inoneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
+                mRevokeShortTrunkDepartureScanDataBean.mTotalUnLoadingOrderNum = mTotalUnLoadingNum
+                mRevokeShortTrunkDepartureScanDataBean.mTotalLoadingOrderNum = totalLoadingNum
+                ARouter.getInstance().build(ARouterConstants.RevokeShortTrunkDepartureScanOperatingActivity).withSerializable("RevokeShortLoadingVehicles", mRevokeShortTrunkDepartureScanDataBean).navigation()
             }
 
         })
@@ -176,10 +182,10 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
                     mTotalLoadingOrderNum += 1//全部扫描单子
                 }
                 mTotalUnLoadingNum -= mScanO//全部未扫描数量
-                mTotalUnLoadingVolume = (mTotalUnLoadingVolume - mScanO*((ii.volumn) / ii.totalQty))//全部未扫描体积
-                mTotalLoadingVolume = (mTotalLoadingVolume + mScanO*((ii.volumn) / ii.totalQty))//全部扫描体积
-                mTotalUnLoadingWeight = (mTotalUnLoadingWeight - mScanO*((ii.weight) / ii.totalQty))//全部未扫描重量
-                mTotalLoadingWeight = (mTotalLoadingWeight + mScanO*((ii.weight) / ii.totalQty))//全部扫描重量
+                mTotalUnLoadingVolume = (mTotalUnLoadingVolume - mScanO * ((ii.volumn) / ii.totalQty))//全部未扫描体积
+                mTotalLoadingVolume = (mTotalLoadingVolume + mScanO * ((ii.volumn) / ii.totalQty))//全部扫描体积
+                mTotalUnLoadingWeight = (mTotalUnLoadingWeight - mScanO * ((ii.weight) / ii.totalQty))//全部未扫描重量
+                mTotalLoadingWeight = (mTotalLoadingWeight + mScanO * ((ii.weight) / ii.totalQty))//全部扫描重量
                 notifyMathChange()
             }
         }

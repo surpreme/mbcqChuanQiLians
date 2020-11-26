@@ -14,17 +14,18 @@ import org.json.JSONObject
  */
 
 class RevokeDepartureTrunkDepartureScanOperatingPresenter : BasePresenterImpl<RevokeDepartureTrunkDepartureScanOperatingContract.View>(), RevokeDepartureTrunkDepartureScanOperatingContract.Presenter {
-    override fun revokeOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String) {
+    override fun revokeOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String,scanPercentage:String) {
         val jsonO = JSONObject()
         jsonO.put("Billno", billno)
         jsonO.put("LableNo", lableNo)
         jsonO.put("DeviceNo", deviceNo)
         jsonO.put("InOneVehicleFlag", inOneVehicleFlag)
+        jsonO.put("ScanPercentage", scanPercentage)
 //        jsonO.put("ScanType", 0)
 //        jsonO.put("ScanTypeStr", "PDA")
         post<String>(ApiInterface.DEPARTURE_DEPARTURE_FEEDER_DEPARTURE_SCAN_INFO_REVOKE_POST, getRequestBody(jsonO), object : CallBacks {
             override fun onResult(result: String) {
-                mView?.revokeOrderS(billno)
+                mView?.revokeOrderS(billno,lableNo)
 
             }
 

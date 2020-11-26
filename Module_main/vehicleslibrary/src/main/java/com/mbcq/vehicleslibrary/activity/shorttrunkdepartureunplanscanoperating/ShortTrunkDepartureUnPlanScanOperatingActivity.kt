@@ -20,6 +20,7 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.revoke.RevokeShortTrunkDepartureScanDataBean
 import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
 import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.*
 import org.json.JSONObject
@@ -62,7 +63,11 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
         short_vehicles_un_plan_scan_operating_toolbar.setRightTitleOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 //TODO 撤销共用
-                ARouter.getInstance().build(ARouterConstants.RevokeShortTrunkDepartureScanOperatingActivity).withString("RevokeShortLoadingVehicles", mLastData).navigation()
+                val mRevokeShortTrunkDepartureScanDataBean = RevokeShortTrunkDepartureScanDataBean()
+                mRevokeShortTrunkDepartureScanDataBean.inoneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
+                mRevokeShortTrunkDepartureScanDataBean.mTotalUnLoadingOrderNum = mTotalUnLoadingNum
+                mRevokeShortTrunkDepartureScanDataBean.mTotalLoadingOrderNum = totalLoadingNum
+                ARouter.getInstance().build(ARouterConstants.RevokeShortTrunkDepartureScanOperatingActivity).withSerializable("RevokeShortLoadingVehicles", mRevokeShortTrunkDepartureScanDataBean).navigation()
 
             }
 
