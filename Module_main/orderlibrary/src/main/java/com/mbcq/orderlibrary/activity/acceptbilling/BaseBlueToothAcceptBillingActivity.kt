@@ -42,8 +42,13 @@ abstract class BaseBlueToothAcceptBillingActivity<V : BaseView, T : BasePresente
         }
     }
 
+    override fun initExtra() {
+        super.initExtra()
+        enableBlueTooth()
+    }
     override fun setBlueToothConnectInterface(): BlueToothConnectInterface = object : BlueToothConnectInterface {
         override fun isUnUsed(reason: String) {
+            waybillcheck.isChecked = false
             labelcheck.isChecked = false
 
         }

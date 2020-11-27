@@ -85,7 +85,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
                 }
                 TalkSureCancelDialog(mContext, getScreenWidth(), "您确定要完成本车吗") {
                     val modifyData = JSONObject(mLastData)
-                    mPresenter?.saveScanPost(modifyData.optInt("id"), modifyData.optString("inoneVehicleFlag"))
+                    mPresenter?.saveScanPost(mScanId, modifyData.optString("inoneVehicleFlag"))
                 }.show()
 
             }
@@ -247,7 +247,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
 
     }
     fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String) {
-        onFirstScanOrder(data, resultBillno, inoneV, "")
+        onFirstScanOrder(data, resultBillno, inoneV, resultBillno)
 
     }
 
@@ -316,13 +316,15 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
             onBackPressed()
         }.show()
     }
+    var mScanId = 0
 
-    override fun getCarInfoS(list: List<DepartureTrunkDepartureUnPlanScanOperatingBean>) {
+    override fun getCarInfoS(list: List<DepartureTrunkDepartureUnPlanScanOperatingBean>, id: Int) {
         if (!adapter.getAllData().isNullOrEmpty()) {
             adapter.clearData()
         }
         adapter.appendData(list)
         notifyMathChange()
+        mScanId = id
 
     }
 }

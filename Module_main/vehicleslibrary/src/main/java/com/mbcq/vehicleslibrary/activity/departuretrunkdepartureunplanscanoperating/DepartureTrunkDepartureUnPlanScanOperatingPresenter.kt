@@ -7,6 +7,7 @@ import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
 import com.mbcq.vehicleslibrary.activity.shorttrunkdepartureunplanscanoperating.ShortTrunkDepartureUnPlanScanOperatingBean
+import com.mbcq.vehicleslibrary.activity.shorttrunkdepartureunplanscanoperating.ShortTrunkDepartureUnPlanScanOperatingIdBean
 import org.json.JSONObject
 
 /**
@@ -24,13 +25,15 @@ class DepartureTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<De
                 obj.optJSONArray("data")?.let {
                     if (!it.isNull(1)) {
                         val dataObj = it.optJSONObject(1)
-                        mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<DepartureTrunkDepartureUnPlanScanOperatingBean>>() {}.type))
+                        val mDepartureTrunkDepartureUnPlanScanOperatingIdBean = Gson().fromJson<DepartureTrunkDepartureUnPlanScanOperatingIdBean>(result, DepartureTrunkDepartureUnPlanScanOperatingIdBean::class.java)
+                        mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<DepartureTrunkDepartureUnPlanScanOperatingBean>>() {}.type), mDepartureTrunkDepartureUnPlanScanOperatingIdBean.data[0].data[0].id)
                     }
                 }
             }
 
         })
     }
+
     override fun getWillByInfo(billno: String, resultBillno: String) {
         val params = HttpParams()
         params.put("Billno", billno)
@@ -50,6 +53,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<De
 
         })
     }
+
     /**
      * {
       "CompanyId": 2001,
@@ -80,12 +84,13 @@ class DepartureTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<De
         jsonO.put("ScanTypeStr", "PDA")
         post<String>(ApiInterface.DEPARTURE_TRUNK_DEPARTURE_SCAN_INFO_POST, getRequestBody(jsonO), object : CallBacks {
             override fun onResult(result: String) {
-                mView?.scanOrderS(billno, soundStr,lableNo)
+                mView?.scanOrderS(billno, soundStr, lableNo)
 
             }
 
         })
     }
+
     override fun saveScanPost(id: Int, inoneVehicleFlag: String) {
         val postBody = JsonObject()
         postBody.addProperty("id", id)

@@ -154,14 +154,6 @@ class AddScanShortFeederActivity : BaseAddScanShortFeederActivity<AddScanShortFe
         next_step_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 saveCarInfo()
-
-                /*   if (!PhoneDeviceMsgUtils.isApkInDebug(mContext)) {
-                       ARouter.getInstance().build(ARouterConstants.RevokeShortTrunkDepartureUnPlanScanOperatingActivity).navigation()
-
-                   } else {
-
-                   }
-   */
             }
 
         })
@@ -194,7 +186,7 @@ class AddScanShortFeederActivity : BaseAddScanShortFeederActivity<AddScanShortFe
 
     override fun saveInfoS(result: String) {
         ARouter.getInstance().build(ARouterConstants.ShortTrunkDepartureUnPlanScanOperatingActivity).withString("ShortLoadingVehicles", result).navigation()
-
+        this.finish()
     }
 
     override fun modifyS(result: String) {

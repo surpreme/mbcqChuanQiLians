@@ -46,6 +46,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
         if (mLastData.isBlank())
             return
         val obj = JSONObject(mLastData)
+//        mScanId = obj.optInt("id")
         unScan_info_tv.text = "未扫： xxx件 xxxxkg  xxm³             扫描人:${UserInformationUtil.getUserName(mContext)}"
         unloading_batch_tv.text = "卸车批次:${/*if (obj.optString("inoneVehicleFlag").isBlank()) obj.optString("InoneVehicleFlag") else*/ obj.optString("inoneVehicleFlag")}"
 
@@ -87,7 +88,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                 }
                 TalkSureCancelDialog(mContext, getScreenWidth(), "您确定要完成本车吗") {
                     val modifyData = JSONObject(mLastData)
-                    mPresenter?.saveScanPost(modifyData.optInt("id"), modifyData.optString("inoneVehicleFlag"))
+                    mPresenter?.saveScanPost(mScanId, modifyData.optString("inoneVehicleFlag"))
                 }.show()
 
             }
@@ -241,7 +242,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
     }
 
     fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String) {
-        onFirstScanOrder(data, resultBillno, inoneV, "")
+        onFirstScanOrder(data, resultBillno, inoneV, resultBillno)
 
     }
 
@@ -311,12 +312,15 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
 
     }
 
-    override fun getCarInfoS(list: List<ShortTrunkDepartureUnPlanScanOperatingBean>) {
+    var mScanId = 0
+    override fun getCarInfoS(list: List<ShortTrunkDepartureUnPlanScanOperatingBean>, id: Int) {
         if (!adapter.getAllData().isNullOrEmpty()) {
             adapter.clearData()
         }
         adapter.appendData(list)
         notifyMathChange()
+        mScanId = id
+        showError(mScanId.toString())
 
     }
 

@@ -1,8 +1,11 @@
 package com.mbcq.commonlibrary.dialog
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,13 +35,14 @@ class FilterDialog : BaseDialogFragment {
     lateinit var filter_recycler_view: RecyclerView
     lateinit var top_title_tv: TextView
     lateinit var close_btn: Button
+    lateinit var filter_search_ed: EditText
     override fun setDialogWidth(): Int {
         return mScreenWidth / 4 * 3
     }
 
-   /* override fun setDialogHeight(): Int {
-        return if (activity == null) 200 else ScreenSizeUtils.getScreenHeight(activity!!) / 10 * 3
-    }*/
+    /* override fun setDialogHeight(): Int {
+         return if (activity == null) 200 else ScreenSizeUtils.getScreenHeight(activity!!) / 10 * 3
+     }*/
 
     /**
      * mScreenWidth 为了适配屏幕宽度
@@ -98,6 +102,7 @@ class FilterDialog : BaseDialogFragment {
     }
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
+        filter_search_ed = view.findViewById(R.id.filter_search_ed)
         filter_recycler_view = view.findViewById(R.id.filter_recycler_view)
         close_btn = view.findViewById(R.id.close_btn)
         top_title_tv = view.findViewById(R.id.top_title_tv)
@@ -122,7 +127,36 @@ class FilterDialog : BaseDialogFragment {
         mTextViewAdapter.setIsShowOutSide(isShowOutSide)
         filter_recycler_view.adapter = mTextViewAdapter
         mTextViewAdapter.appendData(mDatas)
+        filter_search_ed.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isBlank()){
+                    mTextViewAdapter.clearDatas()
+                    mTextViewAdapter.appendData(mDatas)
+                    return
+                }
+                val mSearchDatas = mutableListOf<BaseTextAdapterBean>()
+                for (item in mTextViewAdapter.getAllData()) {
+                    if (item.title.startsWith(s.toString()) or item.title.contains(s.toString())) {
+                        mSearchDatas.add(item)
+                    }
+                }
+                if (mSearchDatas.isNotEmpty()) {
+                    mTextViewAdapter.clearDatas()
+                    mTextViewAdapter.appendData(mSearchDatas)
+                }
+
+
+
+            }
+
+        })
     }
 
     override fun setContentView(): Int = R.layout.dialog_filter_recyclerview

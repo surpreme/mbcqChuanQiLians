@@ -26,7 +26,7 @@ class AcceptBillingContract {
         fun getTransportModeS(result: String)
         fun getPaymentModeS(result: String)
         fun getCostInformationS(result: String)
-        fun saveAcceptBillingS(result: String)
+        fun saveAcceptBillingS(result: String, printJson: String,priceJson:String)
 
     }
 
@@ -78,7 +78,7 @@ class AcceptBillingContract {
         /**
          * 保存受理开单
          */
-        fun saveAcceptBilling(job: JSONObject)
+        fun saveAcceptBilling(job: JSONObject, printJson: String,priceJson:String)
 
 
     }

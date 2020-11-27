@@ -56,7 +56,8 @@ abstract class CommonPrintMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : 
     protected fun getZpBluetoothPrinter(): zpBluetoothPrinter {
         val zpSDK = zpBluetoothPrinter(this)
         if (!zpSDK.connect(UserInformationUtil.getWayBillBlueToothPrinter(mContext))) {
-            TalkSureDialog(mContext, getScreenWidth(), "未连接到打印机 请您稍后再试 要不然换一个您再试试").show()
+            showToast("未连接到打印机 请您稍后再试 要不然换一个您再试试")
+//            TalkSureDialog(mContext, getScreenWidth(), "未连接到打印机 请您稍后再试 要不然换一个您再试试").show()
         }
         return zpSDK
     }

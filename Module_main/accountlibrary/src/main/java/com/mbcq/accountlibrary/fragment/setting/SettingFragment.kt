@@ -90,6 +90,23 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
             when (index) {
                 0 -> {
                     mSettingIconBean.tag = 2
+                    val mSettingMoreList = mutableListOf<SettingIconBean.ItemBean>()
+                    for (mIIIDEx in 0..2) {
+                        val mNNNN = SettingIconBean.ItemBean()
+                        when (mIIIDEx) {
+                            0 -> {
+                                mNNNN.showTxt = "门店自寄"
+                            }
+                            1 -> {
+                                mNNNN.showTxt = "偏好设置"
+                            }
+                            2 -> {
+                                mNNNN.showTxt = "门店自寄"
+                            }
+                        }
+                        mSettingMoreList.add(mNNNN)
+                    }
+                    mSettingIconBean.iconItemBean = mSettingMoreList
                 }
                 1 -> {
                     mSettingIconBean.tag = 1
@@ -261,7 +278,7 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
                 mResultBlue = result
                 mResultIndex = position
                 //{"title":"运单打印机","tag:"3"}
-                showToast(result)
+//                showToast(result)
                 when (mSettingIconBean.title) {
                     "运单打印机" -> {
                         enableBlueTooth(position, result)

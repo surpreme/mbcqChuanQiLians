@@ -51,6 +51,8 @@
                 android:gravity="center|left"
                 android:inputType="number"
                 android:paddingLeft="20dp"
+                android:maxEms="15"
+                android:maxLength="15"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@id/waybill_number_title_tv"
                 app:layout_constraintLeft_toRightOf="@id/waybill_number_title_tv"
@@ -249,7 +251,7 @@
                 android:layout_marginLeft="12dp"
                 android:background="@drawable/round_blue"
                 android:gravity="center"
-                android:text="客户自提"
+                android:text="客户自送"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/receiving_method_title_tv"
                 app:layout_constraintLeft_toRightOf="@+id/receiving_method_title_tv"
@@ -358,7 +360,7 @@
             <View
                 android:id="@+id/bank_number_background"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="45dp"
                 android:background="@color/base_gray"
                 android:clickable="false"
                 android:paddingTop="10dp"
@@ -381,17 +383,15 @@
 
             <EditText
                 android:id="@+id/bank_number_ed"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_marginRight="50dp"
+                android:layout_width="204dp"
+                android:layout_height="28dp"
                 android:background="@drawable/hollow_out_gray_center_white"
                 android:inputType="number"
-                android:paddingLeft="8dp"
+                android:paddingLeft="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/card_number_ed"
                 app:layout_constraintLeft_toRightOf="@+id/card_number_ed"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/card_number_ed"
-                tools:text="17530957256" />
+                android:hint="17530957256" />
 
             <TextView
                 android:id="@+id/shipper_circle_tv"
@@ -1697,7 +1697,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="13dp"
-                android:text="中转费另计"
+                android:text="外转费另计"
                 app:layout_constraintLeft_toRightOf="@+id/wait_notice_check"
                 app:layout_constraintTop_toBottomOf="@+id/bank_number_line" />
 
@@ -1744,6 +1744,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="13dp"
+                android:checked="true"
                 android:text="运单"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/remarks_line" />
@@ -1754,6 +1755,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="13dp"
+                android:checked="true"
                 android:text="标签"
                 app:layout_constraintLeft_toRightOf="@+id/waybillcheck"
                 app:layout_constraintTop_toBottomOf="@+id/remarks_line" />
@@ -1766,6 +1768,16 @@
                 android:layout_marginTop="13dp"
                 android:text="连续开票"
                 app:layout_constraintLeft_toRightOf="@+id/labelcheck"
+                app:layout_constraintTop_toBottomOf="@+id/remarks_line" />
+
+         <CheckBox
+                android:id="@+id/urgent_goods_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="13dp"
+                android:text="急货"
+                app:layout_constraintLeft_toRightOf="@+id/continuous_invoicing_check"
                 app:layout_constraintTop_toBottomOf="@+id/remarks_line" />
 
             <View
@@ -1796,6 +1808,7 @@
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/round_green"
                 android:text="补打印"
+                android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 app:layout_constraintBottom_toBottomOf="@+id/cancel_btn"

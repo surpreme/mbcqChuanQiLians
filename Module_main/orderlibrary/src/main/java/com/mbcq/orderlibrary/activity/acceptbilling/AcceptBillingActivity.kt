@@ -13,6 +13,7 @@ import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
@@ -22,6 +23,7 @@ import com.mbcq.commonlibrary.adapter.BaseEditTextAdapterBean
 import com.mbcq.commonlibrary.adapter.EditTextAdapter
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterDialog
+import com.mbcq.commonlibrary.dialog.MoreCheckBoxPackageDialog
 import com.mbcq.orderlibrary.R
 import com.mbcq.orderlibrary.activity.acceptbilling.billingweightcalculator.BillingWeightCalculatorDialog
 import kotlinx.android.synthetic.main.activity_accept_billing.*
@@ -98,8 +100,9 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         super.onClick()
         save_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                if (isCanSaveAcctBilling())
+                if (isCanSaveAcctBilling()) {
                     saveAcctBilling()
+                }
             }
         })
         receipt_requirements_name_tv.setOnClickListener(object : SingleClick() {
@@ -313,7 +316,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
 
         //运单状态编码
-        val BillState = ""
+        val BillState = waybillNumberIndexTag
         jsonObj.put("BillState", BillState)
 
 
@@ -365,10 +368,10 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         val ShipperAddr = mShipperAddr //发货人地址
         jsonObj.put("ShipperAddr", ShipperAddr)
 
-        val IsUrgent = "0" //是否急货编码
+        val IsUrgent = if (urgent_goods_check.isChecked) "1" else "0"//是否急货编码
         jsonObj.put("IsUrgent", IsUrgent)
 
-        val IsUrgentStr = "否" //是否急货
+        val IsUrgentStr = if (urgent_goods_check.isChecked) "急货" else "非急货"  //是否急货
         jsonObj.put("IsUrgentStr", IsUrgentStr)
 
         val Transneed = mTransneed  //运输类型编码
@@ -571,17 +574,9 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
             }
         }
-        if (labelcheck.isChecked or waybillcheck.isChecked) {
-            val printAdapter = getZpBluetoothPrinter()
-            if (waybillcheck.isChecked)
-                print_YH_TYD_NEW1(Gson().fromJson(GsonUtils.toPrettyFormat(jsonObj.toString()), PrintBlueToothBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), priceObj, printAdapter)
-            if (labelcheck.isChecked)
-                printMoreLabel(Gson().fromJson(GsonUtils.toPrettyFormat(jsonObj.toString()), PrintBlueToothBean::class.java), jsonObj.getInt("TotalQty"), printAdapter)
-            closePrint(printAdapter)
 
-        }
 
-        mPresenter?.saveAcceptBilling(jsonObj)
+        mPresenter?.saveAcceptBilling(jsonObj, GsonUtils.toPrettyFormat(jsonObj.toString()), GsonUtils.toPrettyFormat(priceObj.toString()))
 
     }
 
@@ -612,10 +607,10 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
     }
 
     override fun getPackageS(result: String) {
-        FilterDialog(getScreenWidth(), result, "packages", "包装", false, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
-            override fun onItemClick(v: View, position: Int, mResult: String) {
-                val mSelectData = Gson().fromJson<AcceptPackageBean>(mResult, AcceptPackageBean::class.java)
-                package_name_ed.setText(mSelectData.packages)
+        MoreCheckBoxPackageDialog(getScreenWidth(), "请选择或者输入包装", result, "packages", "", object : OnClickInterface.OnClickInterface {
+            override fun onResult(s1: String, s2: String) {
+                package_name_ed.setText(s1)
+
             }
 
         }).show(supportFragmentManager, "getPackagesFilterDialog")
@@ -740,10 +735,10 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
          * 添加数据到recyclerView
          */
         val mKK = mutableListOf<BaseEditTextAdapterBean>()
-        val mBasicAccTrans = BaseEditTextAdapterBean()
-        mBasicAccTrans.title = "基本运费"
-        mBasicAccTrans.tag = "accTrans"
-        mKK.add(mBasicAccTrans)
+        /* val mBasicAccTrans = BaseEditTextAdapterBean()
+         mBasicAccTrans.title = "基本运费"
+         mBasicAccTrans.tag = "accTrans"
+         mKK.add(mBasicAccTrans)*/
         for (mIndex in mShowCostStr.indices) {
             val mBaseEditTextAdapterBean = BaseEditTextAdapterBean()
             mBaseEditTextAdapterBean.title = mShowCostStr[mIndex]
@@ -786,8 +781,30 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
     }
 
-    override fun saveAcceptBillingS(result: String) {
-        TalkSureDialog(mContext, getScreenWidth(), result) {
+    override fun saveAcceptBillingS(result: String, printJson: String, priceJson: String) {
+        var showTipsStr = result
+        if (labelcheck.isChecked or waybillcheck.isChecked) {
+            showLoading()
+            save_btn.isClickable = false
+            try {
+                val printAdapter = getZpBluetoothPrinter()
+                val jsonObj = JSONObject(printJson)
+                if (waybillcheck.isChecked) {
+                    val priceObj = JSONObject(priceJson)
+                    print_YH_TYD_NEW1(Gson().fromJson(printJson, PrintBlueToothBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), priceObj, printAdapter)
+                }
+                if (labelcheck.isChecked)
+                    printMoreLabel(Gson().fromJson(printJson, PrintBlueToothBean::class.java), jsonObj.getInt("TotalQty"), printAdapter)
+                closePrint(printAdapter)
+            } catch (e: Exception) {
+                LogUtils.e(e)
+                showTipsStr += " 您未打开打印机或者其他原因，请到重新连接后进入补打印页面"
+            }
+
+            closeLoading()
+
+        }
+        TalkSureDialog(mContext, getScreenWidth(), showTipsStr) {
             onBackPressed()
         }.show()
 
@@ -806,6 +823,10 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             }
 
         }).show(supportFragmentManager, "showWebIdDialogFilterDialog")
+    }
+
+    override fun refreshWaybillNumber() {
+        mPresenter?.getWaybillNumber()
     }
 
 

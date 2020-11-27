@@ -35,7 +35,9 @@ class TextViewAdapter<T : BaseTextAdapterBean> : RecyclerView.Adapter<TextViewAd
         this.isShowOutSide = isShow
 
     }
-
+    fun getAllData(): ArrayList<T> {
+        return mSonBean
+    }
     fun appendData(list: List<T>) {
         mSonBean.addAll(list)
         notifyDataSetChanged()

@@ -8,6 +8,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.orderlibrary.R
@@ -56,15 +57,21 @@ class PrintAcceptBillingActivity : BaseBlueToothPrintAcceptBillingActivity<Print
                     showToast("请检查您输入开始数量和结束数量")
                     return
                 }
-                val printAdapter = getZpBluetoothPrinter()
-                if (consignment_checkbox.isChecked) {
-                    print_YH_TYD_NEW1(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), mWayBillInfoJObj, printAdapter)
-                }
-                if (label_checkbox.isChecked) {
-                    printMoreLabel(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), start_print_num_ed.text.toString().toInt(), end_print_num_ed.text.toString().toInt(), printAdapter)
+                showLoading()
+                try {
+                    val printAdapter = getZpBluetoothPrinter()
+                    if (consignment_checkbox.isChecked) {
+                        print_YH_TYD_NEW1(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), mWayBillInfoJObj, printAdapter)
+                    }
+                    if (label_checkbox.isChecked) {
+                        printMoreLabel(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), start_print_num_ed.text.toString().toInt(), end_print_num_ed.text.toString().toInt(), printAdapter)
 
+                    }
+                    closePrint(printAdapter)
+                } catch (e: Exception) {
+                    LogUtils.e(e)
                 }
-                closePrint(printAdapter)
+                closeLoading()
             }
 
         })

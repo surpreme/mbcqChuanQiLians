@@ -24,7 +24,9 @@ class ShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<ShortT
                 obj.optJSONArray("data")?.let {
                     if (!it.isNull(1)) {
                         val dataObj = it.optJSONObject(1)
-                        mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<ShortTrunkDepartureUnPlanScanOperatingBean>>() {}.type))
+                        val mShortTrunkDepartureUnPlanScanOperatingIdBean=Gson().fromJson<ShortTrunkDepartureUnPlanScanOperatingIdBean>(result,ShortTrunkDepartureUnPlanScanOperatingIdBean::class.java)
+                        mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<ShortTrunkDepartureUnPlanScanOperatingBean>>() {}.type), mShortTrunkDepartureUnPlanScanOperatingIdBean.data[0].data[0].id)
+
                     }
                 }
             }

@@ -88,14 +88,19 @@ class ScanDialogFragment(mScreenWidth: Int, var soundStr: String? = null, var mO
     override fun onScanQRCodeSuccess(result: String) {
         openVibrator()
         mZXingView?.stopSpot()
-
-        TalkSureDialog(mContext, 1200, result) {
+        TalkSureDialog(mContext, 1200, if (result.isBlank())"未识别出内容 点击重新扫描" else result) {
 //TODO
             if (mOnClickInterface == null) {
                 mZXingView?.startSpot()
             } else {
-                mOnClickInterface?.onResult(result, "")
-                dismiss()
+                if (result.isBlank()) {
+                    mZXingView?.startSpot()
+
+                } else {
+                    mOnClickInterface?.onResult(result, "")
+                    dismiss()
+                }
+
             }
         }.show()
     }

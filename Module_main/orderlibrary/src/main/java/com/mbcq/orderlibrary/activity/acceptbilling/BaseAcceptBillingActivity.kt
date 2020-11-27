@@ -93,8 +93,14 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
     protected val RESULT_DATA_CODE = 5848
     protected val RECEIVER_RESULT_DATA_CODE = 4439
 
-    //运单号生成方式
-    protected lateinit var waybillNumberTag: String
+    /**
+     * 运单号生成方式
+     * 0机打1手写
+     */
+
+    protected var waybillNumberTag: String = "机打"
+
+    protected var waybillNumberIndexTag: Int = 0
 
     //付货方式
     protected lateinit var okProcessStrTag: String
@@ -262,12 +268,15 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         return true
     }
 
+    abstract fun refreshWaybillNumber()
     fun waybillNumber(isHandWriting: Boolean) {
         if (isHandWriting) {
             waybill_number_ed.isFocusableInTouchMode = true
             waybill_number_ed.isFocusable = true
             waybill_number_ed.requestFocus()
             waybillNumberTag = "手写"
+            waybillNumberIndexTag = 1
+            waybill_number_ed.setText("")
             waybill_number_handwriting_tv.setBackgroundResource(R.drawable.round_blue_lefttop_leftbottom)
             waybill_number_machine_printed_tv.setBackgroundResource(R.drawable.round_white_righttop_rightbottom)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -284,7 +293,8 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
             hideKeyboard(waybill_number_ed)
             waybillNumberTag = "机打"
-
+            waybillNumberIndexTag = 0
+            refreshWaybillNumber()
             waybill_number_handwriting_tv.setBackgroundResource(R.drawable.round_white_lefttop_leftbottom)
             waybill_number_machine_printed_tv.setBackgroundResource(R.drawable.round_blue_righttop_rightbottom)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

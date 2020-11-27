@@ -17,7 +17,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingContract {
         fun getWillByInfoNull()
         fun scanOrderS(billno: String, soundStr: String,mMoreScanBillno:String)
         fun saveScanPostS(result: String)
-        fun getCarInfoS(list: List<DepartureTrunkDepartureUnPlanScanOperatingBean>)
+        fun getCarInfoS(list: List<DepartureTrunkDepartureUnPlanScanOperatingBean>, id: Int)
 
     }
 

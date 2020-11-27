@@ -15,7 +15,7 @@ class ShortTrunkDepartureUnPlanScanOperatingContract {
         fun getWillByInfoS(data: JSONObject, resultBillno: String)
         fun getWillByInfoNull()
         fun scanOrderS(billno: String, soundStr: String, mMoreScanBillno: String, mResultMoreData: String)
-        fun getCarInfoS(list: List<ShortTrunkDepartureUnPlanScanOperatingBean>)
+        fun getCarInfoS(list: List<ShortTrunkDepartureUnPlanScanOperatingBean>, id: Int)
         fun saveScanPostS(result: String)
 
     }
