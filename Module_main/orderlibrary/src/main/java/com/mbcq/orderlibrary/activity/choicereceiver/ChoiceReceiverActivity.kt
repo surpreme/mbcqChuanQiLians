@@ -58,6 +58,8 @@ class ChoiceReceiverActivity : BaseListMVPActivity<ChoiceReceiverContract.View, 
                 obj.put("phone", resultObj.optString("shipperMb"))
                 obj.put("address", resultObj.optString("address"))
                 obj.put("shipperTel", resultObj.optString("shipperTel"))
+                obj.put("product", resultObj.optString("product"))
+                obj.put("package", resultObj.optString("package"))
                 val json = GsonUtils.toPrettyFormat(obj.toString())
                 setResult(RECEIVER_RESULT_DATA_CODE, Intent().putExtra("AddReceiveResultData", json))
                 finish()

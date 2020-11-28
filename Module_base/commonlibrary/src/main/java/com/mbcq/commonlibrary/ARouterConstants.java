@@ -89,5 +89,6 @@ public class ARouterConstants {
     //////////////////////////////////////////////////////////////////////////////
     public static final String TakePhotosActivity="/common/TakePhotosActivity";
     public static final String ScanActivity="/common/ScanActivity";
+    public static final String ScanPDAActivity="/common/ScanPDAActivity";
 
 }

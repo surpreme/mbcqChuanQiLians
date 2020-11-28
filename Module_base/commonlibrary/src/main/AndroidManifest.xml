@@ -8,6 +8,7 @@
     <application>
         <activity android:name=".TakePhotosActivity" />
         <activity android:name=".scan.ScanActivity" />
+        <activity android:name=".scan.pda.ScanPDAActivity" />
 
     </application>
 

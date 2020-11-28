@@ -15,7 +15,10 @@ import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.util.screen.StatusBarUtils
 import com.mbcq.baselibrary.util.system.ToastUtils
+import java.math.BigDecimal
 import java.text.DecimalFormat
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -141,6 +144,18 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected fun getScreenHeight(): Int {
         return ScreenSizeUtils.getScreenHeight(mContext)
+    }
+
+    protected open fun checkStrIsNum(str: String): Boolean {
+        try {
+            /** 先将str转成BigDecimal，然后在转成String  */
+            BigDecimal(str).toString()
+        } catch (e: java.lang.Exception) {
+            /** 如果转换数字失败，说明该str并非全部为数字  */
+            return false
+        }
+        val isNum: Matcher = Pattern.compile("-?[0-9]+(\\.[0-9]+)?").matcher(str)
+        return isNum.matches()
     }
 
     /**

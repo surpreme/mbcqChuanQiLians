@@ -77,7 +77,46 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
         })
 
     }
+    fun scanSuccess(s1: String) {
+        if (s1.length > 5) {
+            val obj = JSONObject(mLastData)
+            var soundString = "未知地址"
+            for (item in adapter.getAllData()) {
+                if (item.billno == s1.substring(0, s1.length - 4)) {
+                    soundString = item.ewebidCodeStr
+                    if (item.totalQty > 20) {
+                        ScanNumDialog(object : OnClickInterface.OnClickInterface {
+                            override fun onResult(x1: String, x2: String) {
+                                if (isInteger(x1)) {
+                                    val mScanSun = item.totalQty - item.unLoadQty
+                                    if (x1.toInt() > mScanSun) {
+                                        showToast("您输入的数量已经超过货物剩余的数量")
+                                        return
+                                    }
+                                    val scanBuilder = StringBuilder()
+                                    for (index in ((mScanSun - x1.toInt()) + 1)..mScanSun) {
+                                        val endBillno = if (index.toString().length == 1) "000$index" else if (index.toString().length == 2) "00$index" else if (index.toString().length == 3) "0$index" else if (index.toString().length == 4) "$index" else ""
+                                        scanBuilder.append(s1.substring(0, s1.length - 4) + endBillno)
+                                        if (index != mScanSun)
+                                            scanBuilder.append(",")
+                                    }
+                                    val mOutPintO = (scanBuilder.toString().split(",").lastIndex + 1)
+                                    mPresenter?.scanOrder(s1.substring(0, s1.length - 4), scanBuilder.toString(), PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString, (((totalLoadingNum - (mTotalUnLoadingNum - mOutPintO)) * 100) / totalLoadingNum).toString())
 
+                                }
+                            }
+
+                        }).show(supportFragmentManager, "ScanDialogFragment")
+                    } else
+                        mPresenter?.scanOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString, (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString())
+
+                }
+            }
+            if (soundString == "未知地址") {
+                soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
+            }
+        }
+    }
     fun getCameraPermission() {
         rxPermissions.request(Manifest.permission.CAMERA)
                 .subscribe { granted ->
@@ -85,44 +124,7 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
                         // I can control the camera now
                         ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
                             override fun onResult(s1: String, s2: String) {
-                                if (s1.length > 5) {
-                                    val obj = JSONObject(mLastData)
-                                    var soundString = "未知地址"
-                                    for (item in adapter.getAllData()) {
-                                        if (item.billno == s1.substring(0, s1.length - 4)) {
-                                            soundString = item.ewebidCodeStr
-                                            if (item.totalQty > 20) {
-                                                ScanNumDialog(object : OnClickInterface.OnClickInterface {
-                                                    override fun onResult(x1: String, x2: String) {
-                                                        if (isInteger(x1)) {
-                                                            val mScanSun = item.totalQty - item.unLoadQty
-                                                            if (x1.toInt() > mScanSun) {
-                                                                showToast("您输入的数量已经超过货物剩余的数量")
-                                                                return
-                                                            }
-                                                            val scanBuilder = StringBuilder()
-                                                            for (index in ((mScanSun - x1.toInt()) + 1)..mScanSun) {
-                                                                val endBillno = if (index.toString().length == 1) "000$index" else if (index.toString().length == 2) "00$index" else if (index.toString().length == 3) "0$index" else if (index.toString().length == 4) "$index" else ""
-                                                                scanBuilder.append(s1.substring(0, s1.length - 4) + endBillno)
-                                                                if (index != mScanSun)
-                                                                    scanBuilder.append(",")
-                                                            }
-                                                            val mOutPintO = (scanBuilder.toString().split(",").lastIndex + 1)
-                                                            mPresenter?.scanOrder(s1.substring(0, s1.length - 4), scanBuilder.toString(), PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString, (((totalLoadingNum - (mTotalUnLoadingNum - mOutPintO)) * 100) / totalLoadingNum).toString())
-
-                                                        }
-                                                    }
-
-                                                }).show(supportFragmentManager, "ScanDialogFragment")
-                                            } else
-                                                mPresenter?.scanOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString, (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString())
-
-                                        }
-                                    }
-                                    if (soundString == "未知地址") {
-                                        soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
-                                    }
-                                }
+                                scanSuccess(s1)
                             }
 
                         }).show(supportFragmentManager, "ScanDialogFragment")
@@ -190,6 +192,10 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
         TalkSureDialog(mContext, getScreenWidth(), "车次为${obj.optString("inoneVehicleFlag")}的车辆已经扫描发车，点击此处返回！") {
             onBackPressed()
         }.show()
+    }
+
+    override fun onPDAScanResult(result: String) {
+        scanSuccess(result)
     }
 
 }

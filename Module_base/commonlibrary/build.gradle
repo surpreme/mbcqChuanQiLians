@@ -63,6 +63,7 @@ dependencies {
     //文字banner
     api 'com.superluo:textbannerview:1.0.5'  //最新版本
     api files('libs/zp_cpcl_new.jar')//芝柯打印机
+    api files('libs/ReaderManager.jar')//PDA扫码枪
 
     //高德地图配置结束----
 }

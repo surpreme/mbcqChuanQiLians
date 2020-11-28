@@ -20,6 +20,9 @@ import okhttp3.RequestBody
 import org.jetbrains.annotations.NotNull
 import org.json.JSONObject
 import org.json.JSONTokener
+import java.math.BigDecimal
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver {
@@ -122,7 +125,17 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
         return Gson().fromJson<List<X>>(obj.optString("data"), object : TypeToken<List<X>>() {}.type)
 
     }
-
+    protected fun checkStrIsNum(str: String): Boolean {
+        try {
+            /** 先将str转成BigDecimal，然后在转成String  */
+            BigDecimal(str).toString()
+        } catch (e: java.lang.Exception) {
+            /** 如果转换数字失败，说明该str并非全部为数字  */
+            return false
+        }
+        val isNum: Matcher = Pattern.compile("-?[0-9]+(\\.[0-9]+)?").matcher(str)
+        return isNum.matches()
+    }
     protected fun <T> get(url: String, params: HttpParams?, callback: CallBacks) {
         val mHttpHeaders = HttpHeaders()
         mView?.getContext()?.let {

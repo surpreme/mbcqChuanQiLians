@@ -16,6 +16,7 @@ import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPListActivity
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.revoke.RevokeDepartureTrunkDepartureScanOperatingBean
@@ -31,7 +32,7 @@ import java.lang.StringBuilder
  */
 
 @Route(path = ARouterConstants.RevokeShortTrunkDepartureScanOperatingActivity)
-class RevokeShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<RevokeShortTrunkDepartureScanOperatingContract.View, RevokeShortTrunkDepartureScanOperatingPresenter, RevokeShortTrunkDepartureScanOperatingBean>(), RevokeShortTrunkDepartureScanOperatingContract.View {
+class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActivity<RevokeShortTrunkDepartureScanOperatingContract.View, RevokeShortTrunkDepartureScanOperatingPresenter, RevokeShortTrunkDepartureScanOperatingBean>(), RevokeShortTrunkDepartureScanOperatingContract.View {
     @Autowired(name = "RevokeShortLoadingVehicles")
     @JvmField
     var mLastData: RevokeShortTrunkDepartureScanDataBean? = null
@@ -87,7 +88,56 @@ class RevokeShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<Revok
 
         })
     }
+    fun scanSuccess(s1: String) {
+        if (s1.length > 5) {
+            var isAdpterHase = false
+            var mRevokeShortTrunkDepartureScanOperatingBean: RevokeShortTrunkDepartureScanOperatingBean = RevokeShortTrunkDepartureScanOperatingBean()
+            for (adpterItem in adapter.getAllData()) {
+                if (adpterItem.billno == s1.substring(0, s1.length - 4)) {
+                    isAdpterHase = true
+                    mRevokeShortTrunkDepartureScanOperatingBean = adpterItem
+                }
 
+            }
+            if (!isAdpterHase) {
+                for (mCaritem in mCarList) {
+                    mRevokeShortTrunkDepartureScanOperatingBean = mCaritem
+                }
+            }
+            if (mRevokeShortTrunkDepartureScanOperatingBean.totalQty > 20) {
+                ScanNumDialog(object : OnClickInterface.OnClickInterface {
+                    override fun onResult(x1: String, x2: String) {
+                        if (isInteger(x1)) {
+                            val mScanSun = mRevokeShortTrunkDepartureScanOperatingBean.totalQty - mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty
+                            if (x1.toInt() > mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty) {
+                                showToast("您输入的数量已经超过已扫描货物的数量")
+                                return
+                            }
+                            val scanBuilder = StringBuilder()
+                            for (index in (mScanSun + 1)..(mScanSun + x1.toInt())) {
+                                val endBillno = if (index.toString().length == 1) "000$index" else if (index.toString().length == 2) "00$index" else if (index.toString().length == 3) "0$index" else if (index.toString().length == 4) "$index" else ""
+                                scanBuilder.append(s1.substring(0, s1.length - 4) + endBillno)
+                                if (index != (mScanSun + x1.toInt()))
+                                    scanBuilder.append(",")
+                            }
+                            mLastData?.let {
+                                mPresenter?.revokeOrder(s1.substring(0, s1.length - 4), scanBuilder.toString(), PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), it.inoneVehicleFlag, "", (((((mLoadingOrderNum + x1.toInt()) * 100) / it.mTotalLoadingOrderNum).toDouble()).toString()))
+
+                            }
+                        }
+                    }
+
+                }).show(supportFragmentManager, "ScanDialogFragment")
+            } else {
+//                                        val obj = JSONObject(mLastData)
+                mLastData?.let {
+                    mPresenter?.revokeOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), it.inoneVehicleFlag, "", ((((mLoadingOrderNum - 1) * 100) / it.mTotalLoadingOrderNum).toString()))
+
+                }
+            }
+
+        }
+    }
     fun getCameraPermission() {
         rxPermissions.request(Manifest.permission.CAMERA)
                 .subscribe { granted ->
@@ -95,54 +145,7 @@ class RevokeShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<Revok
                         // I can control the camera now
                         ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
                             override fun onResult(s1: String, s2: String) {
-                                if (s1.length > 5) {
-                                    var isAdpterHase = false
-                                    var mRevokeShortTrunkDepartureScanOperatingBean: RevokeShortTrunkDepartureScanOperatingBean = RevokeShortTrunkDepartureScanOperatingBean()
-                                    for (adpterItem in adapter.getAllData()) {
-                                        if (adpterItem.billno == s1.substring(0, s1.length - 4)) {
-                                            isAdpterHase = true
-                                            mRevokeShortTrunkDepartureScanOperatingBean = adpterItem
-                                        }
-
-                                    }
-                                    if (!isAdpterHase) {
-                                        for (mCaritem in mCarList) {
-                                            mRevokeShortTrunkDepartureScanOperatingBean = mCaritem
-                                        }
-                                    }
-                                    if (mRevokeShortTrunkDepartureScanOperatingBean.totalQty > 20) {
-                                        ScanNumDialog(object : OnClickInterface.OnClickInterface {
-                                            override fun onResult(x1: String, x2: String) {
-                                                if (isInteger(x1)) {
-                                                    val mScanSun = mRevokeShortTrunkDepartureScanOperatingBean.totalQty - mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty
-                                                    if (x1.toInt() > mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty) {
-                                                        showToast("您输入的数量已经超过已扫描货物的数量")
-                                                        return
-                                                    }
-                                                    val scanBuilder = StringBuilder()
-                                                    for (index in (mScanSun + 1)..(mScanSun + x1.toInt())) {
-                                                        val endBillno = if (index.toString().length == 1) "000$index" else if (index.toString().length == 2) "00$index" else if (index.toString().length == 3) "0$index" else if (index.toString().length == 4) "$index" else ""
-                                                        scanBuilder.append(s1.substring(0, s1.length - 4) + endBillno)
-                                                        if (index != (mScanSun + x1.toInt()))
-                                                            scanBuilder.append(",")
-                                                    }
-                                                    mLastData?.let {
-                                                        mPresenter?.revokeOrder(s1.substring(0, s1.length - 4), scanBuilder.toString(), PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), it.inoneVehicleFlag, "", (((((mLoadingOrderNum + x1.toInt()) * 100) / it.mTotalLoadingOrderNum).toDouble()).toString()))
-
-                                                    }
-                                                }
-                                            }
-
-                                        }).show(supportFragmentManager, "ScanDialogFragment")
-                                    } else {
-//                                        val obj = JSONObject(mLastData)
-                                        mLastData?.let {
-                                            mPresenter?.revokeOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), it.inoneVehicleFlag, "", ((((mLoadingOrderNum - 1) * 100) / it.mTotalLoadingOrderNum).toString()))
-
-                                        }
-                                    }
-
-                                }
+                                scanSuccess(s1)
                             }
 
                         }).show(supportFragmentManager, "ScanDialogFragment")
@@ -201,5 +204,9 @@ class RevokeShortTrunkDepartureScanOperatingActivity : BaseListMVPActivity<Revok
             mCarList.clear()
         }
         mCarList.addAll(list)
+    }
+
+    override fun onPDAScanResult(result: String) {
+        scanSuccess(result)
     }
 }

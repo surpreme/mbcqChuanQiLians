@@ -97,6 +97,88 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
 
     }
 
+    fun scanSuccess(s1: String) {
+        if (s1.length > 5) {
+            val mAdapterData = adapter.getAllData()
+            if (!mAdapterData.isNullOrEmpty()) {
+                var isHasOrder = false
+                for (item in mAdapterData) {
+                    if (item.billno == s1.substring(0, s1.length - 4)) {
+                        isHasOrder = true
+                        /**
+                         * 已经扫描过此货物
+                         */
+                        /**
+                         *  多件扫描start------------------------------------------------------
+                         */
+                        if (item.qty > 20) {
+                            ScanNumDialog(object : OnClickInterface.OnClickInterface {
+                                override fun onResult(x1: String, x2: String) {
+                                    if (isInteger(x1)) {
+                                        val mScanSun = item.totalQty - item.unLoadQty
+                                        if (x1.toInt() > mScanSun) {
+                                            showToast("您输入的数量已经超过货物剩余的数量")
+                                            return
+                                        }
+                                        val scanBuilder = StringBuilder()
+                                        for (index in ((mScanSun - x1.toInt()) + 1)..mScanSun) {
+                                            val endBillno = if (index.toString().length == 1) "000$index" else if (index.toString().length == 2) "00$index" else if (index.toString().length == 3) "0$index" else if (index.toString().length == 4) "$index" else ""
+
+                                            scanBuilder.append(s1.substring(0, s1.length - 4) + endBillno)
+                                            if (index != mScanSun)
+                                                scanBuilder.append(",")
+                                        }
+                                        mPresenter?.scanOrder(
+                                                s1.substring(0, s1.length - 4),
+                                                scanBuilder.toString(),
+                                                PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
+                                                JSONObject(mLastData).optString("inoneVehicleFlag"),
+                                                item.ewebidCodeStr,
+                                                item.ewebidCode.toString(),
+                                                item.ewebidCodeStr,
+                                                //不可以使用进度条的进度 传给后台的是需要达到的进度
+                                                (((totalLoadingNum - (mTotalUnLoadingNum - (scanBuilder.toString().split(",").lastIndex + 1))) * 100) / totalLoadingNum).toString(), "")
+                                    }
+                                }
+
+                            }).show(supportFragmentManager, "ScanNumDialogNext")
+
+                            /**
+                             * 多件扫描end------------------------------------------------------
+                             */
+                        } else {
+                            //单件扫描
+                            mPresenter?.scanOrder(
+                                    s1.substring(0, s1.length - 4),
+                                    s1,
+                                    PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
+                                    JSONObject(mLastData).optString("inoneVehicleFlag"),
+                                    item.ewebidCodeStr,
+                                    item.ewebidCode.toString(),
+                                    item.ewebidCodeStr,
+                                    //不可以使用进度条的进度 传给后台的是需要达到的进度
+                                    (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString(), "")
+                        }
+
+
+                    }
+                }
+                /**
+                 * 第一次扫描货物
+                 */
+
+                if (!isHasOrder) {
+                    mPresenter?.getWillByInfo(s1.substring(0, s1.length - 4), s1)
+                }
+                /**
+                 * 本车为空 什么货物都没有
+                 */
+            } else
+                mPresenter?.getWillByInfo(s1.substring(0, s1.length - 4), s1)
+
+        }
+    }
+
     fun getCameraPermission() {
         rxPermissions.request(Manifest.permission.CAMERA)
                 .subscribe { granted ->
@@ -104,85 +186,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                         // I can control the camera now
                         ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
                             override fun onResult(s1: String, s2: String) {
-                                if (s1.length > 5) {
-                                    val mAdapterData = adapter.getAllData()
-                                    if (!mAdapterData.isNullOrEmpty()) {
-                                        var isHasOrder = false
-                                        for (item in mAdapterData) {
-                                            if (item.billno == s1.substring(0, s1.length - 4)) {
-                                                isHasOrder = true
-                                                /**
-                                                 * 已经扫描过此货物
-                                                 */
-                                                /**
-                                                 *  多件扫描start------------------------------------------------------
-                                                 */
-                                                if (item.qty > 20) {
-                                                    ScanNumDialog(object : OnClickInterface.OnClickInterface {
-                                                        override fun onResult(x1: String, x2: String) {
-                                                            if (isInteger(x1)) {
-                                                                val mScanSun = item.totalQty - item.unLoadQty
-                                                                if (x1.toInt() > mScanSun) {
-                                                                    showToast("您输入的数量已经超过货物剩余的数量")
-                                                                    return
-                                                                }
-                                                                val scanBuilder = StringBuilder()
-                                                                for (index in ((mScanSun - x1.toInt()) + 1)..mScanSun) {
-                                                                    val endBillno = if (index.toString().length == 1) "000$index" else if (index.toString().length == 2) "00$index" else if (index.toString().length == 3) "0$index" else if (index.toString().length == 4) "$index" else ""
-
-                                                                    scanBuilder.append(s1.substring(0, s1.length - 4) + endBillno)
-                                                                    if (index != mScanSun)
-                                                                        scanBuilder.append(",")
-                                                                }
-                                                                mPresenter?.scanOrder(
-                                                                        s1.substring(0, s1.length - 4),
-                                                                        scanBuilder.toString(),
-                                                                        PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
-                                                                        JSONObject(mLastData).optString("inoneVehicleFlag"),
-                                                                        item.ewebidCodeStr,
-                                                                        item.ewebidCode.toString(),
-                                                                        item.ewebidCodeStr,
-                                                                        //不可以使用进度条的进度 传给后台的是需要达到的进度
-                                                                        (((totalLoadingNum - (mTotalUnLoadingNum - (scanBuilder.toString().split(",").lastIndex + 1))) * 100) / totalLoadingNum).toString(), "")
-                                                            }
-                                                        }
-
-                                                    }).show(supportFragmentManager, "ScanNumDialogNext")
-
-                                                    /**
-                                                     * 多件扫描end------------------------------------------------------
-                                                     */
-                                                } else {
-                                                    //单件扫描
-                                                    mPresenter?.scanOrder(
-                                                            s1.substring(0, s1.length - 4),
-                                                            s1,
-                                                            PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
-                                                            JSONObject(mLastData).optString("inoneVehicleFlag"),
-                                                            item.ewebidCodeStr,
-                                                            item.ewebidCode.toString(),
-                                                            item.ewebidCodeStr,
-                                                            //不可以使用进度条的进度 传给后台的是需要达到的进度
-                                                            (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString(), "")
-                                                }
-
-
-                                            }
-                                        }
-                                        /**
-                                         * 第一次扫描货物
-                                         */
-
-                                        if (!isHasOrder) {
-                                            mPresenter?.getWillByInfo(s1.substring(0, s1.length - 4), s1)
-                                        }
-                                        /**
-                                         * 本车为空 什么货物都没有
-                                         */
-                                    } else
-                                        mPresenter?.getWillByInfo(s1.substring(0, s1.length - 4), s1)
-
-                                }
+                                scanSuccess(s1)
                             }
 
                         }).show(supportFragmentManager, "ScanDialogFragment")
@@ -330,6 +334,11 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
         TalkSureDialog(mContext, getScreenWidth(), "车次为${obj.optString("inoneVehicleFlag")}的无计划车辆已经扫描发车，点击此处返回！") {
             onBackPressed()
         }.show()
+    }
+
+    override fun onPDAScanResult(result: String) {
+        scanSuccess(result)
+
     }
 
 }

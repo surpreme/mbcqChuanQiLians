@@ -87,6 +87,10 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
                 mConsigneeTel = mDatas.optString("consigneeTel")//收货人固定电话
                 mConsignee = mDatas.optString("name")//收货人
                 mConsigneeAddr = mDatas.optString("address")//收货人地址
+                if (mDatas.optString("product").isNotBlank())
+                    cargo_name_ed.setText(mDatas.optString("product"))
+                if (mDatas.optString("package").isNotBlank())
+                    package_name_ed.setText(mDatas.optString("package"))
                 add_receiver_tv.text = "$mConsignee $mConsigneeMb \n$mConsigneeAddr "
 
 

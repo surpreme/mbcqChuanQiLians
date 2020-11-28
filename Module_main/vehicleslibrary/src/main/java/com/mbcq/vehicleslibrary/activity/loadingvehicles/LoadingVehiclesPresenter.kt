@@ -7,6 +7,9 @@ import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
 import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
 import org.json.JSONObject
+import java.math.BigDecimal
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 /**
  * @author: lzy
@@ -40,9 +43,14 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
         })
     }
 
+
+
     override fun searchShortFeeder(inoneVehicleFlag: String) {
         val params = HttpParams()
-        params.put("InoneVehicleFlag", inoneVehicleFlag)
+        if (checkStrIsNum(inoneVehicleFlag)) {
+            params.put("billno", inoneVehicleFlag)
+        } else
+            params.put("InoneVehicleFlag", inoneVehicleFlag)
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
@@ -89,7 +97,10 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
 
     override fun searchTrunkDeparture(inoneVehicleFlag: String) {
         val mHttpParams = HttpParams()
-        mHttpParams.put("InoneVehicleFlag", inoneVehicleFlag)
+        if (checkStrIsNum(inoneVehicleFlag)) {
+            mHttpParams.put("billno", inoneVehicleFlag)
+        } else
+            mHttpParams.put("InoneVehicleFlag", inoneVehicleFlag)
         get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)

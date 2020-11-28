@@ -16,11 +16,12 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.view.SingleClick
+import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPListActivity
 import com.mbcq.vehicleslibrary.R
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_departure_trunk_departure_scan_operating.*
 
-abstract class BaseDepartureTrunkDepartureScanOperatingActivity <V : BaseView, T : BasePresenterImpl<V>, X> : BaseListMVPActivity<V, T, X>(), BaseView {
+abstract class BaseDepartureTrunkDepartureScanOperatingActivity <V : BaseView, T : BasePresenterImpl<V>, X> : CommonScanPDAMVPListActivity<V, T, X>(), BaseView {
     /***
      * 全部未扫描数量
      */

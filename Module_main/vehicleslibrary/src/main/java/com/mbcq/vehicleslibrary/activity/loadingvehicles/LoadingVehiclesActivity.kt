@@ -20,6 +20,7 @@ import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPListActivity
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
@@ -33,7 +34,7 @@ import org.json.JSONObject
  */
 
 @Route(path = ARouterConstants.LoadingVehiclesActivity)
-class LoadingVehiclesActivity : BaseListMVPActivity<LoadingVehiclesContract.View, LoadingVehiclesPresenter, LoadingVehiclesBean>(), LoadingVehiclesContract.View {
+class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesContract.View, LoadingVehiclesPresenter, LoadingVehiclesBean>(), LoadingVehiclesContract.View {
     lateinit var rxPermissions: RxPermissions
 
     override fun getLayoutId(): Int = R.layout.activity_loading_vehicles
@@ -186,5 +187,9 @@ class LoadingVehiclesActivity : BaseListMVPActivity<LoadingVehiclesContract.View
             adapter.clearData()
         }
         adapter.appendData(list)
+    }
+
+    override fun onPDAScanResult(result: String) {
+        mPresenter?.searchShortFeeder(result)
     }
 }

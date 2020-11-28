@@ -710,7 +710,7 @@
                             android:textSize="16dp" />
 
                         <EditText
-                            android:id="@+id/volume_name_tv"
+                            android:id="@+id/volume_name_ed"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.7"
