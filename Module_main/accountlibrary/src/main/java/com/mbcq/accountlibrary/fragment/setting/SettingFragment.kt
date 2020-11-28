@@ -48,6 +48,11 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    override fun initViews(view: View) {
+        super.initViews(view)
+        user_name_tv.text="${UserInformationUtil.getWebIdCodeStr(mContext)}-${UserInformationUtil.getUserName(mContext)}"
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -96,12 +101,17 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
                         when (mIIIDEx) {
                             0 -> {
                                 mNNNN.showTxt = "门店自寄"
+                                mNNNN.imgId = R.drawable.ic_send_from_store
+                                //偏好
                             }
                             1 -> {
                                 mNNNN.showTxt = "偏好设置"
+                                mNNNN.imgId = R.drawable.ic_preference_icon
+
                             }
                             2 -> {
                                 mNNNN.showTxt = "门店自寄"
+                                mNNNN.imgId = R.drawable.ic_setting_account_icon
                             }
                         }
                         mSettingMoreList.add(mNNNN)
@@ -277,8 +287,6 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
                 val mSettingIconBean = Gson().fromJson<SettingIconBean>(result, SettingIconBean::class.java)
                 mResultBlue = result
                 mResultIndex = position
-                //{"title":"运单打印机","tag:"3"}
-//                showToast(result)
                 when (mSettingIconBean.title) {
                     "运单打印机" -> {
                         enableBlueTooth(position, result)

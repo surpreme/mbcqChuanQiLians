@@ -6,12 +6,15 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.mbcq.accountlibrary.R
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
@@ -67,20 +70,8 @@ class SettingViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Settin
             }
             COMMONT_CONTENT_ITEM_TAG -> {
                 context?.let {
-                    (holder as CommonItemViewHolder).features_chidren_setting_recycler.layoutManager = GridLayoutManager(context, 4)
-                    mDatas[position].iconItemBean?.let { it1 ->
-                        {
-                            holder.features_chidren_setting_recycler.adapter = SettingFeaturesViewRecyclerAdapter(it).also { it3 ->
-                                run {
-                                    it3.appendData(it1)
-                                }
-
-                            }
-                        }
-
-                    }
-
-
+                    (holder as CommonItemViewHolder).features_chidren_setting_recycler.layoutManager = GridLayoutManager(it, 5)
+                    holder.features_chidren_setting_recycler.adapter = SettingFeaturesViewRecyclerAdapter(it, mDatas[position].iconItemBean)
                 }
 
 
@@ -143,21 +134,14 @@ class SettingViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Settin
 
     }
 
-    class SettingFeaturesViewRecyclerAdapter : RecyclerView.Adapter<SettingFeaturesViewRecyclerAdapter.FeaturesItemViewHolder> {
-        private var context: Context
-        private val inflater: LayoutInflater
+    private class SettingFeaturesViewRecyclerAdapter(var context: Context, mSonBean: List<SettingIconBean.ItemBean>) : RecyclerView.Adapter<SettingFeaturesViewRecyclerAdapter.FeaturesItemViewHolder>() {
+        private val inflater: LayoutInflater = LayoutInflater.from(context)
         private var mSonBean = ArrayList<SettingIconBean.ItemBean>()
 
-        constructor(context: Context/*, mSonBean: List<SettingIconBean.ItemBean>*/) {
-//            this.mSonBean = mSonBean
-            this.context = context
-            this.inflater = LayoutInflater.from(context)
+        init {
+            this.mSonBean = mSonBean as ArrayList<SettingIconBean.ItemBean>
         }
 
-        internal fun appendData(list: List<SettingIconBean.ItemBean>) {
-            mSonBean.addAll(list)
-            notifyDataSetChanged()
-        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeaturesItemViewHolder {
             return FeaturesItemViewHolder(inflater.inflate(R.layout.item_features_chirend_setting, parent, false))
@@ -166,13 +150,14 @@ class SettingViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Settin
 
         override fun onBindViewHolder(holder: FeaturesItemViewHolder, position: Int) {
             holder.setting_more_text_tv.text = mSonBean[position].showTxt
-
+            holder.setting_more_icon_iv.setImageDrawable(ContextCompat.getDrawable(context,mSonBean[position].imgId))
         }
 
         override fun getItemCount(): Int = mSonBean.size
 
         class FeaturesItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             var setting_more_text_tv = itemView.findViewById<TextView>(R.id.setting_more_text_tv)
+            var setting_more_icon_iv = itemView.findViewById<ImageView>(R.id.setting_more_icon_iv)
         }
     }
 

@@ -263,7 +263,6 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                 data.optString("ewebidCode"),
                 data.optString("ewebidCodeStr"),
                 (((edNum * 100) / allnum).toInt()).toString(), "")
-        mTts?.startSpeaking(data.optString("ewebidCodeStr"), null)
 
     }
 
@@ -284,6 +283,9 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
             }
         }
         notifyMathChange()
+//        mTts?.startSpeaking(data.optString("ewebidCodeStr"), null)
+        mTts?.startSpeaking(soundStr, null)
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -320,7 +322,6 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
         adapter.appendData(list)
         notifyMathChange()
         mScanId = id
-        showError(mScanId.toString())
 
     }
 

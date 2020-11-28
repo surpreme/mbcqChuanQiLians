@@ -24,6 +24,7 @@ import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.greendao.DaoSession
 import com.mbcq.commonlibrary.greendao.WebAreaDbInfoDao
 import com.mbcq.orderlibrary.R
+import com.mbcq.orderlibrary.activity.acceptbilling.billingvolumecalculator.BillingVolumeCalculatorDialog
 import com.mbcq.orderlibrary.activity.acceptbilling.billingweightcalculator.BillingWeightCalculatorDialog
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_accept_billing.*
@@ -89,6 +90,11 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
      */
     var mBillingWeightCalculatorDialog: BillingWeightCalculatorDialog? = null
 
+    /**
+     * 计算体积
+     */
+    var mBillingVolumeCalculatorDialog: BillingVolumeCalculatorDialog? = null
+
     lateinit var rxPermissions: RxPermissions
     protected val RESULT_DATA_CODE = 5848
     protected val RECEIVER_RESULT_DATA_CODE = 4439
@@ -124,7 +130,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         initDeliveryMethod(1)
         initAddGoodsRecycler()
         weight_name_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
-        volume_name_tv.filters = arrayOf<InputFilter>(MoneyInputFilter())
+        volume_name_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
     }
 
 
@@ -165,7 +171,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                     mAddGoodsAcceptBillingBean.qty = numbers_name_ed.text.toString()
                     mAddGoodsAcceptBillingBean.packages = package_name_ed.text.toString()
                     mAddGoodsAcceptBillingBean.weight = weight_name_ed.text.toString()
-                    mAddGoodsAcceptBillingBean.volumn = volume_name_tv.text.toString()
+                    mAddGoodsAcceptBillingBean.volumn = volume_name_ed.text.toString()
                     mAddGoodsAcceptBillingAdapter.appendData(mutableListOf(mAddGoodsAcceptBillingBean))
                     clearCargoInfoAdd()
                 }
@@ -195,7 +201,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         numbers_name_ed.setText("")
         package_name_ed.setText("")
         weight_name_ed.setText("")
-        volume_name_tv.setText("")
+        volume_name_ed.setText("")
     }
 
     protected fun isCanCargoInfoAdd(): Boolean {
@@ -219,9 +225,9 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
             showEditTextFocus(weight_name_ed)
             return false
         }
-        if (volume_name_tv.text.toString().isEmpty()) {
+        if (volume_name_ed.text.toString().isEmpty()) {
             showToast("请输入体积")
-            showEditTextFocus(volume_name_tv)
+            showEditTextFocus(volume_name_ed)
             return false
         }
         return true
@@ -257,7 +263,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
               showToast("请输入重量")
               return false
           }
-          if (volume_name_tv.text.toString().isEmpty()) {
+          if (volume_name_ed.text.toString().isEmpty()) {
               showToast("请输入体积")
               return false
           }*/

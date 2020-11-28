@@ -2,26 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="5dp">
 
 
+    <ImageView
+        android:id="@+id/setting_more_icon_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center" />
 
     <TextView
         android:id="@+id/setting_more_text_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:background="@color/white"
-        android:drawableTop="@drawable/ic_send_from_store"
-        android:drawablePadding="5dp"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_marginLeft="10dp"
         android:text="门店自寄"
         android:textColor="@color/black"
         android:textSize="16sp"

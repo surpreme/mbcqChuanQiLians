@@ -76,7 +76,7 @@ class LoadingVehiclesActivity : BaseListMVPActivity<LoadingVehiclesContract.View
             }
 
         })
-        loading_vehicles_toolbar.setRightButtonOnClickListener(object : SingleClick() {
+        /*loading_vehicles_toolbar.setRightButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
                     override fun onResult(s1: String, s2: String) {
@@ -86,7 +86,7 @@ class LoadingVehiclesActivity : BaseListMVPActivity<LoadingVehiclesContract.View
                 }).show(supportFragmentManager, "ScanDialogFragment")
             }
 
-        })
+        })*/
         short_vehicles_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 ARouter.getInstance().build(ARouterConstants.AddScanShortFeederActivity).navigation()
@@ -113,15 +113,16 @@ class LoadingVehiclesActivity : BaseListMVPActivity<LoadingVehiclesContract.View
                 .subscribe { granted ->
                     if (granted) { // Always true pre-M
                         // I can control the camera now
-                        ScanDialogFragment(getScreenWidth()).show(supportFragmentManager, "ScanDialogFragment")
-                    } else {
-                        // Oups permission denied
                         ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
                             override fun onResult(s1: String, s2: String) {
                                 mPresenter?.searchShortFeeder(s1)
                             }
 
                         }).show(supportFragmentManager, "ScanDialogFragment")
+                    } else {
+                        // Oups permission denied
+                        TalkSureDialog(mContext, getScreenWidth(), "权限未赋予！照相机无法启动！请联系在线客服或手动进入系统设置授予摄像头权限！").show()
+
                     }
                 }
 
@@ -171,13 +172,19 @@ class LoadingVehiclesActivity : BaseListMVPActivity<LoadingVehiclesContract.View
         }
     }
 
-    override fun getShortFeederS(list: List<LoadingVehiclesBean>, isScan: Boolean) {
+    override fun getShortFeederS(list: List<LoadingVehiclesBean>, isScan: Boolean, isCanRefresh: Boolean) {
+        if (isCanRefresh) {
+            adapter.clearData()
+        }
         adapter.appendData(list)
         if (!isScan)
             mPresenter?.getTrunkDeparture()
     }
 
-    override fun getTrunkDepartureS(list: List<LoadingVehiclesBean>, isScan: Boolean) {
+    override fun getTrunkDepartureS(list: List<LoadingVehiclesBean>, isScan: Boolean, isCanRefresh: Boolean) {
+        if (isCanRefresh) {
+            adapter.clearData()
+        }
         adapter.appendData(list)
     }
 }

@@ -32,7 +32,7 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
                         item.type = 0
                         data.add(item)
                     }
-                    mView?.getShortFeederS(data, false)
+                    mView?.getShortFeederS(data, false, isCanRefresh = false)
                 }
 
             }
@@ -56,7 +56,7 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
                     if (data.isEmpty()) {
                         searchTrunkDeparture(inoneVehicleFlag)
                     } else
-                        mView?.getShortFeederS(data, true)
+                        mView?.getShortFeederS(data, true, isCanRefresh = true)
                 }
 
             }
@@ -81,7 +81,7 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
                     item.type = 1
                     data.add(item)
                 }
-                mView?.getTrunkDepartureS(data, false)
+                mView?.getTrunkDepartureS(data, false, isCanRefresh = false)
             }
 
         })
@@ -99,7 +99,7 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
                     item.type = 1
                     data.add(item)
                 }
-                mView?.getTrunkDepartureS(data, true)
+                mView?.getTrunkDepartureS(data, true, isCanRefresh = true)
             }
 
         })

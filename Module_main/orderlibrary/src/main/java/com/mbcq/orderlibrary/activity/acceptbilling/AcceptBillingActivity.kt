@@ -25,6 +25,7 @@ import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.commonlibrary.dialog.MoreCheckBoxPackageDialog
 import com.mbcq.orderlibrary.R
+import com.mbcq.orderlibrary.activity.acceptbilling.billingvolumecalculator.BillingVolumeCalculatorDialog
 import com.mbcq.orderlibrary.activity.acceptbilling.billingweightcalculator.BillingWeightCalculatorDialog
 import kotlinx.android.synthetic.main.activity_accept_billing.*
 import org.json.JSONArray
@@ -256,6 +257,20 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
                     })
                 }
                 mBillingWeightCalculatorDialog?.show(supportFragmentManager, "BillingWeightCalculatorDialog")
+            }
+
+        })
+        volume_name_calculation_iv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                if (mBillingVolumeCalculatorDialog == null) {
+                    mBillingVolumeCalculatorDialog = BillingVolumeCalculatorDialog(getScreenWidth(), object : BillingVolumeCalculatorDialog.OnResultInterface {
+                        override fun onResult(totalVolume: String) {
+                            volume_name_ed.setText(totalVolume)
+                        }
+
+                    })
+                }
+                mBillingVolumeCalculatorDialog?.show(supportFragmentManager, "BillingVolumeCalculatorDialog")
             }
 
         })
@@ -497,7 +512,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             testObj.put("Weight", weight_name_ed.text.toString())
 
             //体积
-            testObj.put("Volumn", volume_name_tv.text.toString())
+            testObj.put("Volumn", volume_name_ed.text.toString())
 
             WayGoosLst.put(testObj)
             //总件数  TODO
@@ -553,7 +568,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             jsonObj.put("Weight", Weight)
 
             //体积
-            val Volumn = volume_name_tv.text.toString()
+            val Volumn = volume_name_ed.text.toString()
             jsonObj.put("Volumn", Volumn)
         }
         /**

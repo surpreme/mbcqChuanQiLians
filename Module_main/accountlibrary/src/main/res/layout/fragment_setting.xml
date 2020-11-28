@@ -57,7 +57,7 @@
                     android:layout_marginLeft="20dp"
                     android:text="太原吴轩"
                     android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="@+id/user_icon_iv"
                     app:layout_constraintLeft_toRightOf="@+id/user_icon_iv"
                     app:layout_constraintTop_toTopOf="@+id/user_icon_iv" />

@@ -25,7 +25,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/hollow_out_gray"
         android:ellipsize="end"
-        android:hint="请输入关键字搜索"
+        android:hint="请输入批次号搜索"
         android:imeOptions="actionSearch"
         android:inputType="text"
         android:maxLines="1"
@@ -86,29 +86,6 @@
             android:text="干线装车"
             android:textColor="@color/white"
             android:textSize="19sp" />
-
-        <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center|right"
-                android:paddingRight="5dp"
-                android:text="全部"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_down_icon" />
-        </LinearLayout>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

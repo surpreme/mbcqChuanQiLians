@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.dialog.dialogfragment.BaseDialogFragment
@@ -64,6 +65,11 @@ class BillingWeightCalculatorDialog(val mScreenWidth: Int, var mOnResultInterfac
 
     }
 
+    fun calculationWeight() {
+        if (singleWeight_ed.text.toString().isNotBlank() && number_ed.text.toString().isNotBlank())
+            totalWeight_tv.text = ((singleWeight_ed.text.toString()).toDouble() * (number_ed.text.toString()).toInt()).toString()
+    }
+
     fun getIsCanSave(): Boolean {
         if (singleWeight_ed.text.isBlank()) {
             return false
@@ -83,36 +89,16 @@ class BillingWeightCalculatorDialog(val mScreenWidth: Int, var mOnResultInterfac
             }
         })
 
-        singleWeight_ed.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
+        singleWeight_ed.apply {
+            afterTextChanged {
+                calculationWeight()
             }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
+        }
+        number_ed.apply {
+            afterTextChanged {
+                calculationWeight()
             }
-
-            override fun afterTextChanged(s: Editable?) {
-                if (singleWeight_ed.text.toString().isNotBlank() && number_ed.text.toString().isNotBlank())
-                    totalWeight_tv.text = ((singleWeight_ed.text.toString()).toDouble() * (number_ed.text.toString()).toInt()).toString()
-            }
-
-        })
-        number_ed.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                if (singleWeight_ed.text.toString().isNotBlank() && number_ed.text.toString().isNotBlank())
-                    totalWeight_tv.text = ((singleWeight_ed.text.toString()).toDouble() * (number_ed.text.toString()).toInt()).toString()
-            }
-
-        })
+        }
         join_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (getIsCanSave()) {
@@ -136,4 +122,15 @@ class BillingWeightCalculatorDialog(val mScreenWidth: Int, var mOnResultInterfac
 
     override fun setContentView(): Int = R.layout.dialog_billing_weight_calculator
 
+}
+fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+    this.addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(editable: Editable?) {
+            afterTextChanged.invoke(editable.toString())
+        }
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+    })
 }
