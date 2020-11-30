@@ -33,7 +33,7 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
         return mDatas
     }
 
-    fun removeItem(position: Int) {
+   open fun removeItem(position: Int) {
         mDatas.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, mDatas.size - position)

@@ -1,5 +1,6 @@
 package com.mbcq.vehicleslibrary.activity.loadingvehicles
 
+import android.annotation.SuppressLint
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
@@ -8,6 +9,9 @@ import com.mbcq.commonlibrary.ApiInterface
 import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
 import org.json.JSONObject
 import java.math.BigDecimal
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -17,7 +21,7 @@ import java.util.regex.Pattern
  */
 
 class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>(), LoadingVehiclesContract.Presenter {
-    override fun getShortFeeder() {
+    override fun getShortFeeder(startDate: String, endDate: String) {
         val params = HttpParams()
         params.put("page", 1)
         params.put("limit", 1000)
@@ -25,6 +29,8 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
 //        params.put("VehicleStateStr", 0)//发车计划中
 //        params.put("IsScan", 1)//是否扫描
         params.put("CommonStr", "1,2")//是否扫描
+        params.put("startDate", startDate)
+        params.put("endDate", endDate)
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
@@ -44,13 +50,17 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
     }
 
 
-
+    @SuppressLint("SimpleDateFormat")
     override fun searchShortFeeder(inoneVehicleFlag: String) {
         val params = HttpParams()
-        if (checkStrIsNum(inoneVehicleFlag)) {
-            params.put("billno", inoneVehicleFlag)
-        } else
-            params.put("InoneVehicleFlag", inoneVehicleFlag)
+        params.put("InoneVehicleFlag", inoneVehicleFlag)
+        val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val mDate = Date(System.currentTimeMillis())
+        val format = mDateFormat.format(mDate)
+        val mStartDateTag = "$format 00:00:00"
+        val mEndDateTag = "$format 23:59:59"
+        params.put("startDate", mStartDateTag)
+        params.put("endDate", mEndDateTag)
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
@@ -72,7 +82,7 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
         })
     }
 
-    override fun getTrunkDeparture() {
+    override fun getTrunkDeparture(startDate: String, endDate: String) {
         val mHttpParams = HttpParams()
         mHttpParams.put("page", 1)
         mHttpParams.put("limit", 1000)
@@ -80,6 +90,8 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
         mHttpParams.put("CommonStr", 0)//发车计划中
         mHttpParams.put("VehicleStateStr", 0)//发车计划中
         mHttpParams.put("IsScan", 1)//是否扫描
+        mHttpParams.put("startDate", startDate)
+        mHttpParams.put("endDate", endDate)
         get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
@@ -97,10 +109,7 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
 
     override fun searchTrunkDeparture(inoneVehicleFlag: String) {
         val mHttpParams = HttpParams()
-        if (checkStrIsNum(inoneVehicleFlag)) {
-            mHttpParams.put("billno", inoneVehicleFlag)
-        } else
-            mHttpParams.put("InoneVehicleFlag", inoneVehicleFlag)
+        mHttpParams.put("InoneVehicleFlag", inoneVehicleFlag)
         get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
@@ -114,6 +123,72 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
             }
 
         })
+    }
+
+    fun getSearchList(result: String): List<LoadingVehiclesBean> {
+        return Gson().fromJson<List<LoadingVehiclesBean>>(JSONObject(result).optString("data"), object : TypeToken<List<LoadingVehiclesBean>>() {}.type)
+    }
+
+    fun getSearchResultList(result: String): List<LoadingVehiclesBean> {
+        val data = mutableListOf<LoadingVehiclesBean>()
+        for (item in Gson().fromJson<List<LoadingVehiclesBean>>(JSONObject(result).optString("data"), object : TypeToken<List<LoadingVehiclesBean>>() {}.type)) {
+            item.type = 1
+            data.add(item)
+        }
+        return data
+    }
+
+    override fun searchScanInfo(sendInfo: String) {
+        val params = HttpParams()
+        if (checkStrIsNum(sendInfo)) {
+            params.put("billno", sendInfo)
+        } else
+            params.put("InoneVehicleFlag", sendInfo)
+        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+
+                if (getSearchList(result).isEmpty()) {
+                    get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, params, object : CallBacks {
+                        override fun onResult(result: String) {
+                            if (getSearchList(result).isEmpty()) {
+
+                                get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_BILLNO_GET, params, object : CallBacks {
+                                    override fun onResult(result: String) {
+                                        if (getSearchList(result).isEmpty()) {
+
+                                            get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_BILLNO_GET, params, object : CallBacks {
+                                                override fun onResult(result: String) {
+                                                    if (getSearchList(result).isEmpty()) {
+
+
+                                                    } else
+                                                        mView?.searchScanInfoS(getSearchResultList(result))
+
+                                                }
+
+                                            })
+                                        } else
+                                            mView?.searchScanInfoS(getSearchResultList(result))
+
+                                    }
+
+                                })
+                            } else
+                                mView?.searchScanInfoS(getSearchResultList(result))
+
+                        }
+
+                    })
+
+                } else {
+                    mView?.searchScanInfoS(getSearchResultList(result))
+                }
+
+            }
+
+        })
+
+
     }
 
 }

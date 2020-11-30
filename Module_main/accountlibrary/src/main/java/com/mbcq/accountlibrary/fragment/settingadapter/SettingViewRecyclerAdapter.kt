@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.mbcq.accountlibrary.R
+import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
@@ -47,6 +48,7 @@ class SettingViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Settin
     interface OnClickInterface {
         fun onExitLogIn(v: View)
         fun onCommonly(v: View, position: Int, result: String)
+        fun onMore(v: View, position: Int, result: String)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -71,7 +73,12 @@ class SettingViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Settin
             COMMONT_CONTENT_ITEM_TAG -> {
                 context?.let {
                     (holder as CommonItemViewHolder).features_chidren_setting_recycler.layoutManager = GridLayoutManager(it, 5)
-                    holder.features_chidren_setting_recycler.adapter = SettingFeaturesViewRecyclerAdapter(it, mDatas[position].iconItemBean)
+                    holder.features_chidren_setting_recycler.adapter = SettingFeaturesViewRecyclerAdapter(it, mDatas[position].iconItemBean, object : com.mbcq.baselibrary.interfaces.OnClickInterface.OnRecyclerClickInterface {
+                        override fun onItemClick(v: View, position: Int, mResult: String) {
+                            mOnClickInterface?.onMore(v, position, mResult)
+                        }
+
+                    })
                 }
 
 
@@ -134,7 +141,7 @@ class SettingViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Settin
 
     }
 
-    private class SettingFeaturesViewRecyclerAdapter(var context: Context, mSonBean: List<SettingIconBean.ItemBean>) : RecyclerView.Adapter<SettingFeaturesViewRecyclerAdapter.FeaturesItemViewHolder>() {
+    private class SettingFeaturesViewRecyclerAdapter(var context: Context, mSonBean: List<SettingIconBean.ItemBean>, var mClkInterface: com.mbcq.baselibrary.interfaces.OnClickInterface.OnRecyclerClickInterface) : RecyclerView.Adapter<SettingFeaturesViewRecyclerAdapter.FeaturesItemViewHolder>() {
         private val inflater: LayoutInflater = LayoutInflater.from(context)
         private var mSonBean = ArrayList<SettingIconBean.ItemBean>()
 
@@ -150,7 +157,13 @@ class SettingViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<Settin
 
         override fun onBindViewHolder(holder: FeaturesItemViewHolder, position: Int) {
             holder.setting_more_text_tv.text = mSonBean[position].showTxt
-            holder.setting_more_icon_iv.setImageDrawable(ContextCompat.getDrawable(context,mSonBean[position].imgId))
+            holder.setting_more_icon_iv.setImageDrawable(ContextCompat.getDrawable(context, mSonBean[position].imgId))
+            holder.itemView.setOnClickListener(object : SingleClick() {
+                override fun onSingleClick(v: View) {
+                    mClkInterface?.onItemClick(v, position, mSonBean[position].showTxt)
+                }
+
+            })
         }
 
         override fun getItemCount(): Int = mSonBean.size

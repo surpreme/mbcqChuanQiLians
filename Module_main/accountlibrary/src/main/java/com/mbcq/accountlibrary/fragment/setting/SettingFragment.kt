@@ -51,7 +51,7 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
     @SuppressLint("SetTextI18n")
     override fun initViews(view: View) {
         super.initViews(view)
-        user_name_tv.text="${UserInformationUtil.getWebIdCodeStr(mContext)}-${UserInformationUtil.getUserName(mContext)}"
+        user_name_tv.text = "${UserInformationUtil.getWebIdCodeStr(mContext)}-${UserInformationUtil.getUserName(mContext)}"
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -293,6 +293,14 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
                     }
                     "标签打印机" -> {
                         enableBlueTooth(position, result)
+                    }
+                }
+            }
+
+            override fun onMore(v: View, position: Int, result: String) {
+                when (result) {
+                    "偏好设置" -> {
+                        ARouter.getInstance().build(ARouterConstants.CommonlyInformationActivity).navigation()
                     }
                 }
             }

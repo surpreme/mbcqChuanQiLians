@@ -104,11 +104,19 @@ public class ApiInterface {
      * 发车记录  干线发车 获取所有信息
      */
     public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET = BASE_URI + "GxVehicleOpe/SelGxVehicleByCondition";
+    /**
+     * 干线发车 通过运单号查询
+     */
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_BILLNO_GET = BASE_URI + "GxVehicleOpe/SelGxInOneVehicleFlagCondition";
 
     /**
      * 发车记录  短驳发车 获取所有信息
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET = BASE_URI + "DbVehicleOpe/SelDbVehicleByCondition";
+    /**
+     *  短驳发车 通过运单号查询车次
+     */
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_SELECT_BILLNO_GET = BASE_URI + "DbVehicleOpe/SelDbInOneVehicleFlagCondition";
     /**
      * 干线发车 取消完成本车
      */

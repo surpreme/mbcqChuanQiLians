@@ -31,7 +31,7 @@ public class CnToolbar extends Toolbar {
     private LayoutInflater mInflater;
 
     private View mView;
-    private TextView mTextTitle, right_tv;
+    private TextView mTextTitle, right_tv, left_title_tv;
     private ImageView right_iv, back_iv;
     private ConstraintLayout father_cl;
 
@@ -98,6 +98,11 @@ public class CnToolbar extends Toolbar {
             if (rightTextViewText != null) {
                 setRightTitleText(rightTextViewText);
             }
+            @SuppressLint("RestrictedApi")
+            CharSequence leftTextViewText = a.getText(R.styleable.CnToolbar_leftTextViewText);
+            if (leftTextViewText != null) {
+                setLeftTitleText(leftTextViewText);
+            }
 
             a.recycle();
         }
@@ -126,6 +131,7 @@ public class CnToolbar extends Toolbar {
 
             father_cl = findViewById(R.id.father_cl);
             right_tv = (TextView) mView.findViewById(R.id.right_tv);
+            left_title_tv = (TextView) mView.findViewById(R.id.left_title_tv);
             mTextTitle = (TextView) mView.findViewById(R.id.center_tv);
             right_iv = (ImageView) mView.findViewById(R.id.right_iv);
             back_iv = (ImageView) mView.findViewById(R.id.back_iv);
@@ -206,6 +212,10 @@ public class CnToolbar extends Toolbar {
     public void setRightTitleText(CharSequence text) {
         right_tv.setText(text);
         right_tv.setVisibility(VISIBLE);
+    }
+   public void setLeftTitleText(CharSequence text) {
+        left_title_tv.setText(text);
+       left_title_tv.setVisibility(VISIBLE);
     }
 
 

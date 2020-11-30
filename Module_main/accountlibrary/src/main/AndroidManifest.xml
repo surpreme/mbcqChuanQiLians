@@ -4,8 +4,12 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application>
-        <activity android:name=".activity.WebPageLogInActivity"></activity>
+        <activity android:name=".activity.commonlyinformationconfiguration.CommonlyInformationConfigurationActivity"></activity>
+        <activity android:name=".activity.commonlyinformation.CommonlyInformationActivity" />
+        <activity android:name=".activity.WebPageLogInActivity" />
         <activity android:name=".activity.login.LogInActivity" />
         <activity
             android:name=".activity.house.HouseActivity"

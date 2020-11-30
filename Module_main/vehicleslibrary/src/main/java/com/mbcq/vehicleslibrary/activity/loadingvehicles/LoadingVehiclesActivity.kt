@@ -2,6 +2,7 @@ package com.mbcq.vehicleslibrary.activity.loadingvehicles
 
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.KeyEvent
@@ -11,15 +12,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.WebDbUtil
+import com.mbcq.commonlibrary.WebsDbInterface
+import com.mbcq.commonlibrary.db.WebAreaDbInfo
+import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPListActivity
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
@@ -27,6 +34,9 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_loading_vehicles.*
 import org.json.JSONObject
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * @author: lzy
@@ -36,12 +46,22 @@ import org.json.JSONObject
 @Route(path = ARouterConstants.LoadingVehiclesActivity)
 class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesContract.View, LoadingVehiclesPresenter, LoadingVehiclesBean>(), LoadingVehiclesContract.View {
     lateinit var rxPermissions: RxPermissions
+    var mStartDateTag = ""
+    var mEndDateTag = ""
+    var mShippingOutletsTag = ""//发货网点
 
     override fun getLayoutId(): Int = R.layout.activity_loading_vehicles
 
+    @SuppressLint("SimpleDateFormat")
     override fun initExtra() {
         super.initExtra()
         rxPermissions = RxPermissions(this)
+        val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val mDate = Date(System.currentTimeMillis())
+        val format = mDateFormat.format(mDate)
+        mStartDateTag = "$format 00:00:00"
+        mEndDateTag = "$format 23:59:59"
+        mShippingOutletsTag = UserInformationUtil.getWebIdCode(mContext)
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
@@ -67,9 +87,10 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
         search_inventory_ed.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if (v.text.toString().isNotBlank())
-                        mPresenter?.searchShortFeeder(v.text.toString())
-                    else
+                    if (v.text.toString().isNotBlank()) {
+                        mIsCanCloseLoading = false
+                        mPresenter?.searchScanInfo(v.text.toString())
+                    } else
                         initDatas()
                     return true
                 }
@@ -100,7 +121,37 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
             }
 
         })
+        loading_vehicles_toolbar.setRightButtonOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                WebDbUtil.getDbWebId(application, object : WebsDbInterface {
+                    override fun isNull() {
 
+                    }
+
+                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
+                        FilterWithTimeDialog(getScreenWidth(), Gson().toJson(list), "webid", "webidCode", true, "运单筛选", true, mClickInterface = object : OnClickInterface.OnClickInterface {
+                            /**
+                             * s1 网点
+                             * s2  start@end
+                             */
+                            override fun onResult(s1: String, s2: String) {
+                                mShippingOutletsTag = s1
+                                val timeList = s2.split("@")
+                                if (timeList.isNotEmpty() && timeList.size == 2) {
+                                    mStartDateTag = timeList[0]
+                                    mEndDateTag = timeList[1]
+                                }
+                                adapter.clearData()
+                                initDatas()
+                            }
+
+                        }).show(supportFragmentManager, "WaybillRecordActivityFilterWithTimeDialog")
+                    }
+
+                })
+            }
+
+        })
         loading_vehicles_toolbar.setBackButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 onBackPressed()
@@ -131,7 +182,7 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
 
     override fun initDatas() {
         super.initDatas()
-        mPresenter?.getShortFeeder()
+        mPresenter?.getShortFeeder(mStartDateTag, mEndDateTag)
     }
 
     override fun addItemDecoration(): RecyclerView.ItemDecoration = object : BaseItemDecoration(mContext) {
@@ -179,7 +230,7 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
         }
         adapter.appendData(list)
         if (!isScan)
-            mPresenter?.getTrunkDeparture()
+            mPresenter?.getTrunkDeparture(mStartDateTag, mEndDateTag)
     }
 
     override fun getTrunkDepartureS(list: List<LoadingVehiclesBean>, isScan: Boolean, isCanRefresh: Boolean) {
@@ -189,7 +240,14 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
         adapter.appendData(list)
     }
 
+    override fun searchScanInfoS(list: List<LoadingVehiclesBean>) {
+        mIsCanCloseLoading = true
+        adapter.clearData()
+        adapter.appendData(list)
+    }
+
     override fun onPDAScanResult(result: String) {
-        mPresenter?.searchShortFeeder(result)
+
+        mPresenter?.searchScanInfo(if (checkStrIsNum(result)) result.substring(0, result.length - 4) else result)
     }
 }

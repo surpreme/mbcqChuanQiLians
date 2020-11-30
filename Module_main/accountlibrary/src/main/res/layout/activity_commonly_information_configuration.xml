@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.commonlyinformationconfiguration.CommonlyInformationConfigurationActivity">
+
+    <com.mbcq.baselibrary.view.CnToolbar
+        android:id="@+id/commonly_information_configuration_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:backButtonIsShow="true"
+        app:centerTextViewTextColor="@color/black"
+        app:isDark="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:leftTextViewText="常用货物名称" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/selected_cardView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintTop_toBottomOf="@id/commonly_information_configuration_toolbar">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/selected_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:overScrollMode="never"
+            android:scrollbars="none"/>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tips_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:text="所有目的地（长按拖拽改变位置顺序）"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selected_cardView" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@id/commit_btn"
+        app:layout_constraintTop_toBottomOf="@id/tips_title_tv">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/father_configuration_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/commit_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/base_blue"
+        android:text="保存"
+        android:textColor="@color/white"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
