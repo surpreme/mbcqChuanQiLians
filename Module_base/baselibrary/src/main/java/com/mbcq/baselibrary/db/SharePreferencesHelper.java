@@ -25,7 +25,7 @@ public class SharePreferencesHelper {
     /**
      * 保存数据
      */
-    public void put(String key, Object object) {
+    public boolean put(String key, Object object) {
         if (object instanceof String) {
             editor.putString(key, (String) object);
         } else if (object instanceof Integer) {
@@ -39,7 +39,7 @@ public class SharePreferencesHelper {
         } else {
             editor.putString(key, object.toString());
         }
-        editor.commit();
+        return editor.commit();
     }
 
     /**
@@ -87,7 +87,7 @@ public class SharePreferencesHelper {
     /**
      * 返回所有键值
      */
-    public Map<String,?> getAll(){
+    public Map<String, ?> getAll() {
         return sharedPreferences.getAll();
     }
 }

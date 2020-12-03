@@ -66,6 +66,10 @@ public class ApiInterface {
      * 受理开单 查询收货人信息
      */
     public static final String ACCEPT_SELECT_RECEIVER_GET = BASE_URI + "Consignee/SelConsigneeByCondition";
+    /**
+     * 受理开单 查询业务员
+     */
+    public static final String ACCEPT_SELECT_GETSALESMAN_GET = BASE_URI + "Salesman/SelSalesmanByCondition";
 
 
     /**

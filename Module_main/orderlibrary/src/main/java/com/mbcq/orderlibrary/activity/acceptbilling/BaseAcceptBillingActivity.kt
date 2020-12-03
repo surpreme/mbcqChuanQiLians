@@ -3,6 +3,7 @@ package com.mbcq.orderlibrary.activity.acceptbilling
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
@@ -15,6 +16,7 @@ import android.view.View
 import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
+import com.mbcq.baselibrary.db.SharePreferencesHelper
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.view.MoneyInputFilter
@@ -28,6 +30,7 @@ import com.mbcq.orderlibrary.activity.acceptbilling.billingvolumecalculator.Bill
 import com.mbcq.orderlibrary.activity.acceptbilling.billingweightcalculator.BillingWeightCalculatorDialog
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_accept_billing.*
+import org.json.JSONObject
 import zpSDK.zpSDK.zpBluetoothPrinter
 import java.io.InputStream
 import java.text.SimpleDateFormat
@@ -37,6 +40,7 @@ import java.util.*
 /**
  * @author: lzy
  * @time: 2018.08.25
+ * @information 受理开单 工具层 主要分担主城压力
  */
 
 abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>> : CommonPrintMVPActivity<V, T>(), BaseView {
@@ -70,20 +74,29 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
     /**
      * 发货人信息
      */
-    var mShipperId = ""//发货客户编号
-    var mShipperMb = ""//发货人手机号
-    var mShipperTel = ""//发货人固定电话
-    var mShipper = ""//发货人
-    var mShipperCid = ""//发货人身份证号
-    var mShipperAddr = ""//发货人地址
+//    var mShipperId = ""//发货客户编号
+//    var mShipperMb = ""//发货人手机号
+//    var mShipperTel = ""//发货人固定电话
+//    var mShipper = ""//发货人
+//    var mShipperCid = ""//发货人身份证号
+//    var mShipperAddr = ""//发货人地址
 
     /**
      * 收货人信息
      */
-    var mConsigneeMb = ""//收货人手机号
-    var mConsigneeTel = ""//收货人固定电话
-    var mConsignee = ""//收货人
-    var mConsigneeAddr = ""//收货人地址
+//    var mConsigneeMb = ""//收货人手机号
+//    var mConsigneeTel = ""//收货人固定电话
+//    var mConsignee = ""//收货人
+//    var mConsigneeAddr = ""//收货人地址
+    /**
+     * 常用收货方式
+     */
+    val COMMONLY_USED_RECEIVING_METHODS = "COMMONLY_USED_RECEIVING_METHODS"
+
+    /**
+     * 常用付货方式
+     */
+    val COMMON_DELIVERY_METHODS = "COMMON_DELIVERY_METHODS"
 
     /**
      * 计算重量 弹窗 需要保存状态
@@ -94,6 +107,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
      * 计算体积
      */
     var mBillingVolumeCalculatorDialog: BillingVolumeCalculatorDialog? = null
+    protected var mCommonlyInformationSharePreferencesHelper: SharePreferencesHelper? = null
 
     lateinit var rxPermissions: RxPermissions
     protected val RESULT_DATA_CODE = 5848
@@ -117,6 +131,8 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
     override fun initExtra() {
         super.initExtra()
         rxPermissions = RxPermissions(this)
+        if (mCommonlyInformationSharePreferencesHelper == null)
+            mCommonlyInformationSharePreferencesHelper = SharePreferencesHelper(mContext, Constant.COMMON_CONFIGURATION_PREFERENCESMODE)
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
@@ -126,17 +142,79 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 //        initTransportMethodLayout()
 //        initPayWayLayout()
         waybillNumber(false)
-        initReceivingMethod(1)
-        initDeliveryMethod(1)
+//        initReceivingMethod(1)
+//        initDeliveryMethod(1)
         initAddGoodsRecycler()
+        initCommonlyInformationConfiguration()
+
         weight_name_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
         volume_name_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
+        shipper_circle_hide_ll.visibility = View.GONE
+        receiver_circle_hide_ll.visibility = View.GONE
+    }
+
+    private fun initCommonlyInformationConfiguration() {
+        if (mCommonlyInformationSharePreferencesHelper?.contain(COMMONLY_USED_RECEIVING_METHODS)!!) {
+            if (mCommonlyInformationSharePreferencesHelper?.getSharePreference(COMMONLY_USED_RECEIVING_METHODS, "客户自送") as String == "客户自送")
+                initReceivingMethod(1)
+            else
+                initReceivingMethod(2)
+
+
+        }else
+            initReceivingMethod(1)
+        if (mCommonlyInformationSharePreferencesHelper?.contain(COMMON_DELIVERY_METHODS)!!) {
+
+            when (mCommonlyInformationSharePreferencesHelper?.getSharePreference(COMMON_DELIVERY_METHODS, "客户自提") as String) {
+                "客户自提" -> initDeliveryMethod(1)
+                "送货上门" -> initDeliveryMethod(2)
+                "司机直送" -> initDeliveryMethod(3)
+                else -> initReceivingMethod(1)
+            }
+
+
+        }else
+            initDeliveryMethod(1)
     }
 
 
     interface WebDbInterface {
         fun isNull()
         fun isSuccess(list: MutableList<WebAreaDbInfo>)
+
+    }
+    /**
+     * ARouter 度娘
+     * {"name":"xxxx","phone":"15999999999","address":"1111"}
+     */
+    @SuppressLint("SetTextI18n")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RESULT_DATA_CODE) {
+            (data?.getStringExtra("AddShipperResultData"))?.let {
+                val mDatas = JSONObject(it)
+                shipper_phone_ed.setText(mDatas.optString("phone"))
+                shipper_name_ed.setText(mDatas.optString("name"))
+                shipper_address_ed.setText(mDatas.optString("address"))
+                shipper_mShipperTel_ed.setText(mDatas.optString("shipperTel"))
+                add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
+            }
+        } else if (requestCode == RECEIVER_RESULT_DATA_CODE) {
+            (data?.getStringExtra("AddReceiveResultData"))?.let {
+                val mDatas = JSONObject(it)
+                receiver_phone_ed.setText(mDatas.optString("phone"))//收货人手机号
+                receiver_mConsigneeTel_ed.setText(mDatas.optString("consigneeTel"))//收货人固定电话
+                receiver_name_ed.setText(mDatas.optString("name"))//收货人
+                receiver_address_ed.setText(mDatas.optString("address"))//收货人地址
+                if (mDatas.optString("product").isNotBlank())
+                    cargo_name_ed.setText(mDatas.optString("product"))
+                if (mDatas.optString("package").isNotBlank())
+                    package_name_ed.setText(mDatas.optString("package"))
+                add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
+
+            }
+        }
+
 
     }
 
@@ -163,6 +241,54 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
     override fun onClick() {
         super.onClick()
+        waybill_number_handwriting_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                waybillNumber(true)
+            }
+
+        })
+        waybill_number_machine_printed_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                waybillNumber(false)
+            }
+
+        })
+        cancel_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                onBackPressed()
+            }
+
+        })
+        get_delivery_mention_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                initDeliveryMethod(1)
+            }
+
+        })
+        get_delivery_home_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                initDeliveryMethod(2)
+            }
+
+        })
+        get_driver_direct_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                initDeliveryMethod(3)
+            }
+
+        })
+        customer_mention_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                initReceivingMethod(1)
+            }
+
+        })
+        home_delivery_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                initReceivingMethod(2)
+            }
+
+        })
         cargo_info_add_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (isCanCargoInfoAdd()) {
@@ -243,11 +369,13 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
             showToast("请选择目的地")
             return false
         }
-        if (mShipperMb.isEmpty()) {
+//        if (mShipperMb.isEmpty()) {
+        if (shipper_name_ed.text.toString().isBlank()) {
             showToast("请选择发货人")
             return false
         }
-        if (mConsigneeMb.isEmpty()) {
+//        if (mConsigneeMb.isEmpty()) {
+        if (receiver_name_ed.text.toString().isBlank()) {
             showToast("请选择收货人")
             return false
         }
@@ -267,7 +395,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
               showToast("请输入体积")
               return false
           }*/
-        if (receipt_requirements_name_tv.text.toString().isEmpty()) {
+        if (receipt_requirements_name_ed.text.toString().isEmpty()) {
             showToast("请选择回单要求")
             return false
         }

@@ -15,6 +15,10 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import java.lang.reflect.Field;
 
 
 public abstract class BaseDialogFragment extends DialogFragment {
@@ -58,9 +62,34 @@ public abstract class BaseDialogFragment extends DialogFragment {
             getDialog().setCanceledOnTouchOutside(setCanceledOnTouchOutside());
 
         }
-
         initView(view, savedInstanceState);
 
+    }
+
+    /**
+     * 如果显示闪退 用这个方法
+     * 内部类有两个参数不公开 反射方法设置
+     * @param manager
+     * @param tag
+     */
+    public void showAllowingStateLoss(FragmentManager manager, String tag) {
+        try {
+            Field dismissed = DialogFragment.class.getDeclaredField("mDismissed");
+            dismissed.setAccessible(true);
+            dismissed.set(this, false);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        try {
+            Field shown = DialogFragment.class.getDeclaredField("mShownByMe");
+            shown.setAccessible(true);
+            shown.set(this, true);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(this, tag);
+        ft.commitAllowingStateLoss();
     }
 
     /**
@@ -71,6 +100,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     protected boolean setIsShowBackDark() {
         return true;
     }
+
     protected int setShowBackGround() {
         return Color.TRANSPARENT;
     }

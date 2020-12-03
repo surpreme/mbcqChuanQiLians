@@ -53,6 +53,10 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
 
     }
 
+    /**
+     * Stack trace:
+    java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
+     */
     override fun onResume() {
         super.onResume()
         val obj = JSONObject(mLastData)

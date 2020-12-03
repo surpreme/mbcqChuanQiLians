@@ -79,4 +79,13 @@ class StowageAlongWayHousePresenter : BasePresenterImpl<StowageAlongWayHouseCont
 
         })
     }
+
+    override fun saveAlongInfo(jsonStr: String) {
+        post<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_ADD_LOCAL_INFO_POST, getRequestBody(jsonStr), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.saveAlongInfoS(result)
+            }
+
+        })
+    }
 }

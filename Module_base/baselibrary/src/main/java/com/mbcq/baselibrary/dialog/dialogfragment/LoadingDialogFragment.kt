@@ -11,9 +11,12 @@ import com.mbcq.baselibrary.dialog.dialogfragment.BaseDialogFragment
  * @desc:
  */
 class LoadingDialogFragment : BaseDialogFragment() {
+    override fun initView(view: View, savedInstanceState: Bundle?) {
+
+    }
+
     override fun setContentView(): Int=R.layout.dialog_loading;
 
-    override fun initView(view: View, savedInstanceState: Bundle?) {
-    }
+
     override fun setIsShowBackDark(): Boolean =true
 }

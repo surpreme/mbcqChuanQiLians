@@ -71,7 +71,7 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
             }
         }
 
-        OkGo.post<T>(url).tag(BaseApplication.getContext()).headers(if (isAddHeader) HttpHeaders() else mHttpHeaders).upRequestBody(body).params(params
+        OkGo.post<T>(url).tag(mView?.getContext()).headers(if (isAddHeader) HttpHeaders() else mHttpHeaders).upRequestBody(body).params(params
                 ?: HttpParams()).execute(object : ResultDataCallBack<T>() {
             override fun onResult(result: String) {
                 if (result == "null") {

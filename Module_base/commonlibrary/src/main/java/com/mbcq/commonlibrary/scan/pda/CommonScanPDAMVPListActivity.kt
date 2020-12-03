@@ -81,6 +81,12 @@ abstract class CommonScanPDAMVPListActivity<V : BaseView, T : BasePresenterImpl<
 
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        mPDAScanManager?.isEnableScankey = true
+
+    }
+
     override fun initExtra() {
         super.initExtra()
         mPDAScanManager = ReaderManager.getInstance()
@@ -128,26 +134,27 @@ abstract class CommonScanPDAMVPListActivity<V : BaseView, T : BasePresenterImpl<
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         unregisterReceiver(scanDataReceiver)
-        mPDAScanManager?.isEnableScankey = false
         mPDAScanManager?.Release()
+        mPDAScanManager?.isEnableScankey = false
         mPDAScanManager = null
-    }
-
-
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.repeatCount == 0) {
-            //Cancel register boardcast
-//            unregisterReceiver(scanDataReceiver)
-            //
-            mPDAScanManager?.outPutMode = outPutMode
-            mPDAScanManager?.endCharMode = endCharMode//Set up the mode as system configured mode
-            mPDAScanManager?.isEnableScankey = enableScanKey //Whether forbid physical scanning key.
-            mPDAScanManager?.SetActive(isActive)  //Restore to system configured state of scan engine.
-
-        }
-        return super.onKeyDown(keyCode, event)
+        super.onDestroy()
 
     }
+
+
+    /*  override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+          if (keyCode == KeyEvent.KEYCODE_BACK && event.repeatCount == 0) {
+              //Cancel register boardcast
+  //            unregisterReceiver(scanDataReceiver)
+              //
+              mPDAScanManager?.outPutMode = outPutMode
+              mPDAScanManager?.endCharMode = endCharMode//Set up the mode as system configured mode
+              mPDAScanManager?.isEnableScankey = enableScanKey //Whether forbid physical scanning key.
+              mPDAScanManager?.SetActive(isActive)  //Restore to system configured state of scan engine.
+
+          }
+          return super.onKeyDown(keyCode, event)
+
+      }*/
 }

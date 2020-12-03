@@ -10,6 +10,10 @@ public class Constant extends BaseConstant {
      */
     public static final String TAKE_PHOTOS_FILE_PROVIDER="com.mbcq.chuanqilian.fileprovider";
     /**
+     * 常用配置
+     */
+    public static final String COMMON_CONFIGURATION_PREFERENCESMODE="com.mbcq.chuanqilian.fileprovider";
+    /**
      * 知乎图片选择器 activity 返回码
      *
      */

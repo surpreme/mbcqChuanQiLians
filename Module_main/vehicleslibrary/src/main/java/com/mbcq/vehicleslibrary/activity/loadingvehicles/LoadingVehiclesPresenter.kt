@@ -138,55 +138,66 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
         return data
     }
 
+    fun searchInByBillNo(inoneVehicleFlag: String, isShort: Boolean) {
+        if (isShort){
+            searchShortFeeder(inoneVehicleFlag)
+        }else{
+            searchTrunkDeparture(inoneVehicleFlag)
+        }
+
+    }
+
     override fun searchScanInfo(sendInfo: String) {
         val params = HttpParams()
         if (checkStrIsNum(sendInfo)) {
             params.put("billno", sendInfo)
-        } else
-            params.put("InoneVehicleFlag", sendInfo)
-        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET, params, object : CallBacks {
-            override fun onResult(result: String) {
+            get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_BILLNO_GET, params, object : CallBacks {
+                override fun onResult(result: String) {
+                    if (getSearchList(result).isEmpty()) {
 
-                if (getSearchList(result).isEmpty()) {
-                    get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, params, object : CallBacks {
-                        override fun onResult(result: String) {
-                            if (getSearchList(result).isEmpty()) {
-
-                                get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_BILLNO_GET, params, object : CallBacks {
-                                    override fun onResult(result: String) {
-                                        if (getSearchList(result).isEmpty()) {
-
-                                            get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_BILLNO_GET, params, object : CallBacks {
-                                                override fun onResult(result: String) {
-                                                    if (getSearchList(result).isEmpty()) {
+                        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_BILLNO_GET, params, object : CallBacks {
+                            override fun onResult(result: String) {
+                                if (getSearchList(result).isEmpty()) {
 
 
-                                                    } else
-                                                        mView?.searchScanInfoS(getSearchResultList(result))
+                                } else
+                                    searchInByBillNo(getSearchResultList(result)[0].inoneVehicleFlag, false)
 
-                                                }
+                            }
 
-                                            })
-                                        } else
-                                            mView?.searchScanInfoS(getSearchResultList(result))
+                        })
+                    } else
+                        searchInByBillNo(getSearchResultList(result)[0].inoneVehicleFlag, true)
 
-                                    }
-
-                                })
-                            } else
-                                mView?.searchScanInfoS(getSearchResultList(result))
-
-                        }
-
-                    })
-
-                } else {
-                    mView?.searchScanInfoS(getSearchResultList(result))
                 }
 
-            }
+            })
+        } else {
+            params.put("InoneVehicleFlag", sendInfo)
+            get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET, params, object : CallBacks {
+                override fun onResult(result: String) {
 
-        })
+                    if (getSearchList(result).isEmpty()) {
+                        get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, params, object : CallBacks {
+                            override fun onResult(result: String) {
+                                if (getSearchList(result).isEmpty()) {
+
+
+                                } else
+                                    mView?.searchScanInfoS(getSearchResultList(result))
+
+                            }
+
+                        })
+
+                    } else {
+                        mView?.searchScanInfoS(getSearchResultList(result))
+                    }
+
+                }
+
+            })
+        }
 
 
     }

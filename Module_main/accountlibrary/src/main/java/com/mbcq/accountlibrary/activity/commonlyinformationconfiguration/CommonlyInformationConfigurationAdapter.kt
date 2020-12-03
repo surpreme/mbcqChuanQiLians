@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.mbcq.accountlibrary.R
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
@@ -20,9 +21,9 @@ class CommonlyInformationConfigurationAdapter(context: Context) : BaseRecyclerAd
         holder.item_text.setBackgroundResource(R.drawable.hollow_out_gray)
         holder.item_text.textSize = 16f
 
-        holder.itemView.setOnClickListener(object :SingleClick(){
+        holder.itemView.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
-                mClickInterface?.onItemClick(v,position,mDatas[position].tag)
+                mClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
             }
 
         })

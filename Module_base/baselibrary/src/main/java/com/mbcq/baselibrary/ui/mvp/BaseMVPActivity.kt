@@ -80,9 +80,9 @@ abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseAct
 
     private var mLoadingDialogFragment: LoadingDialogFragment? = null
     override fun showLoading() {
-        if (mLoadingDialogFragment == null) {
+        if (mLoadingDialogFragment == null && mIsCanCloseLoading) {
             mLoadingDialogFragment = LoadingDialogFragment()
-            mLoadingDialogFragment?.show(supportFragmentManager, "LoadingDialogFragment")
+            mLoadingDialogFragment?.showAllowingStateLoss(supportFragmentManager, "BaseLoadingDialogFragment")
         }
 
     }

@@ -16,13 +16,13 @@ class StowageAlongWayHouseContract {
     interface View : BaseView {
         fun getCarInfo(result: FixedTrunkDepartureHouseInfo)
         fun getInventoryS(list: List<StockWaybillListBean>)
-
+        fun saveAlongInfoS(result: String)
     }
 
     interface Presenter : BasePresenter<View> {
         fun getCarInfo(id: Int, inoneVehicleFlag: String)
         fun getInventory(page: Int)
         fun addOrder(commonStr: String, id: String, inoneVehicleFlag: String, gxVehicleDetLst: List<StockWaybillListBean>)
-
+        fun saveAlongInfo(jsonStr: String)
     }
 }

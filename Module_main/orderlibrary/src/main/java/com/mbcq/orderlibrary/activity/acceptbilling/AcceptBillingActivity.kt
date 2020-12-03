@@ -9,6 +9,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
@@ -17,6 +18,7 @@ import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.NumberPlateBean
 import com.mbcq.commonlibrary.PrintBlueToothBean
 import com.mbcq.commonlibrary.RadioGroupUtil
 import com.mbcq.commonlibrary.adapter.BaseEditTextAdapterBean
@@ -27,6 +29,8 @@ import com.mbcq.commonlibrary.dialog.MoreCheckBoxPackageDialog
 import com.mbcq.orderlibrary.R
 import com.mbcq.orderlibrary.activity.acceptbilling.billingvolumecalculator.BillingVolumeCalculatorDialog
 import com.mbcq.orderlibrary.activity.acceptbilling.billingweightcalculator.BillingWeightCalculatorDialog
+import com.mbcq.orderlibrary.activity.addreceiver.AddReceiverBean
+import com.mbcq.orderlibrary.activity.addshipper.AddShipperBean
 import kotlinx.android.synthetic.main.activity_accept_billing.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -36,6 +40,7 @@ import org.json.JSONObject
  * @author: lzy
  * @time: 2018.08.25login
  * 受理开单
+ * @information 逻辑以及网络逻辑层 谨慎修改 随着项目叠加 分层压力
  */
 
 @Route(path = ARouterConstants.AcceptBillingActivity)
@@ -49,7 +54,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         mPresenter?.getPaymentMode()
         mPresenter?.getTransportMode()
         mPresenter?.getCostInformation(UserInformationUtil.getWebIdCode(mContext))
-
+        initPeople()
         bank_number_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (bank_number_ed.text.toString().isNotEmpty()) {
@@ -57,50 +62,8 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
                 }
             }
         }
-    }
-
-
-    /**
-     * ARouter 度娘
-     * {"name":"xxxx","phone":"15999999999","address":"1111"}
-     */
-    @SuppressLint("SetTextI18n")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RESULT_DATA_CODE) {
-            (data?.getStringExtra("AddShipperResultData"))?.let {
-                val mDatas = JSONObject(it)
-                mShipperMb = mDatas.optString("phone")
-                mShipper = mDatas.optString("name")
-                mShipperAddr = mDatas.optString("address")
-                mShipperTel = mDatas.optString("shipperTel")
-                mShipperCid = mDatas.optString("shipperCid")
-                mShipperId = mDatas.optString("shipperId")
-                add_shipper_tv.text = "$mShipper $mShipperMb \n$mShipperAddr "
-
-
-            }
-        } else if (requestCode == RECEIVER_RESULT_DATA_CODE) {
-            (data?.getStringExtra("AddReceiveResultData"))?.let {
-                val mDatas = JSONObject(it)
-                mConsigneeMb = mDatas.optString("phone")//收货人手机号
-                mConsigneeTel = mDatas.optString("consigneeTel")//收货人固定电话
-                mConsignee = mDatas.optString("name")//收货人
-                mConsigneeAddr = mDatas.optString("address")//收货人地址
-                if (mDatas.optString("product").isNotBlank())
-                    cargo_name_ed.setText(mDatas.optString("product"))
-                if (mDatas.optString("package").isNotBlank())
-                    package_name_ed.setText(mDatas.optString("package"))
-                add_receiver_tv.text = "$mConsignee $mConsigneeMb \n$mConsigneeAddr "
-
-
-            }
-        }
-
 
     }
-
-
     override fun onClick() {
         super.onClick()
         save_btn.setOnClickListener(object : SingleClick() {
@@ -110,12 +73,12 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
                 }
             }
         })
-        receipt_requirements_name_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                mPresenter?.getReceiptRequirement()
-            }
+        /* receipt_requirements_name_tv.setOnClickListener(object : SingleClick() {
+             override fun onSingleClick(v: View?) {
+                 mPresenter?.getReceiptRequirement()
+             }
 
-        })
+         })*/
         receipt_requirements_name_down_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 mPresenter?.getReceiptRequirement()
@@ -139,40 +102,76 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
         })
         shipper_circle_tv.setOnClickListener(object : SingleClick() {
+            @SuppressLint("SetTextI18n")
             override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.ChoiceShipperActivity).navigation(this@AcceptBillingActivity, RESULT_DATA_CODE)
+                if (receiver_circle_hide_ll.visibility == View.VISIBLE)
+                    receiver_circle_hide_ll.visibility = View.GONE
+                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
+                    if (add_shipper_tv.text.toString().isBlank()) {
+                        add_shipper_tv.text = "添加收货人信息"
+                    }
+                }
+                shipper_circle_hide_ll.visibility = if (shipper_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
             }
 
         })
         add_shipper_tv.setOnClickListener(object : SingleClick() {
+            @SuppressLint("SetTextI18n")
+            override fun onSingleClick(v: View?) {
+                if (receiver_circle_hide_ll.visibility == View.VISIBLE)
+                    receiver_circle_hide_ll.visibility = View.GONE
+                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
+                    if (add_shipper_tv.text.toString().isBlank()) {
+                        add_shipper_tv.text = "添加收货人信息"
+                    }
+                }
+                shipper_circle_hide_ll.visibility = if (shipper_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
+            }
+
+        })
+        receiver_circle_tv.setOnClickListener(object : SingleClick() {
+            @SuppressLint("SetTextI18n")
+            override fun onSingleClick(v: View?) {
+                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    shipper_circle_hide_ll.visibility = View.GONE
+                }
+                if (receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
+                    if (add_receiver_tv.text.toString().isBlank()) {
+                        add_receiver_tv.text = "添加发货人信息"
+                    }
+                }
+                receiver_circle_hide_ll.visibility = if (receiver_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
+            }
+
+        })
+        add_receiver_tv.setOnClickListener(object : SingleClick() {
+            @SuppressLint("SetTextI18n")
+            override fun onSingleClick(v: View?) {
+                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    shipper_circle_hide_ll.visibility = View.GONE
+                }
+                if (receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
+                    if (add_receiver_tv.text.toString().isBlank()) {
+                        add_receiver_tv.text = "添加发货人信息"
+                    }
+                }
+                receiver_circle_hide_ll.visibility = if (receiver_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
+            }
+
+        })
+        choice_shipper_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 ARouter.getInstance().build(ARouterConstants.ChoiceShipperActivity).navigation(this@AcceptBillingActivity, RESULT_DATA_CODE)
             }
 
         })
-        receiver_circle_tv.setOnClickListener(object : SingleClick() {
+        choice_receiver_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 ARouter.getInstance().build(ARouterConstants.ChoiceReceiverActivity).navigation(this@AcceptBillingActivity, RECEIVER_RESULT_DATA_CODE)
-            }
-
-        })
-        add_receiver_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.ChoiceReceiverActivity).navigation(this@AcceptBillingActivity, RECEIVER_RESULT_DATA_CODE)
-            }
-
-        })
-        add_shipper_iv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.AddShipperActivity).navigation(this@AcceptBillingActivity, RESULT_DATA_CODE)
-
-            }
-
-        })
-        add_receiver_iv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.AddReceiverActivity).navigation(this@AcceptBillingActivity, RECEIVER_RESULT_DATA_CODE)
-
             }
 
         })
@@ -201,36 +200,19 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             }
 
         })
-        get_delivery_mention_tv.setOnClickListener(object : SingleClick() {
+        pre_installed_car_number_name_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                initDeliveryMethod(1)
+                mPresenter?.getVehicles()
             }
 
         })
-        get_delivery_home_tv.setOnClickListener(object : SingleClick() {
+        salesman_name_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                initDeliveryMethod(2)
+                mPresenter?.getSalesman()
             }
 
         })
-        get_driver_direct_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                initDeliveryMethod(3)
-            }
 
-        })
-        customer_mention_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                initReceivingMethod(1)
-            }
-
-        })
-        home_delivery_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                initReceivingMethod(2)
-            }
-
-        })
         location_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 getLocation()
@@ -238,18 +220,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
         })
 
-        waybill_number_handwriting_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                waybillNumber(true)
-            }
 
-        })
-        waybill_number_machine_printed_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                waybillNumber(false)
-            }
-
-        })
         weight_name_calculation_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (mBillingWeightCalculatorDialog == null) {
@@ -279,12 +250,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
         })
 
-        cancel_btn.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                onBackPressed()
-            }
 
-        })
     }
 
 
@@ -325,7 +291,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         jsonObj.put("EwebidCode", EwebidCode)
 
         //原单号
-        val OBillno = ""
+        val OBillno = original_order_number_name_ed.text.toString()
         jsonObj.put("OBillno", OBillno)
 
 
@@ -369,23 +335,25 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
          * mShipperId
          * TODO
          */
-        val ShipperId = ""//发货客户编号
+        val ShipperId = shipper_mShipperId_ed.text.toString()//发货客户编号
         jsonObj.put("ShipperId", ShipperId)
 
-        val ShipperMb = mShipperMb //发货人手机号
+        val ShipperMb = shipper_phone_ed.text.toString() //发货人手机号
         jsonObj.put("ShipperMb", ShipperMb)
 
-        val ShipperTel = mShipperTel //发货人固定电话
+        val ShipperTel = shipper_mShipperTel_ed.text.toString() //发货人固定电话
         jsonObj.put("ShipperTel", ShipperTel)
 
-        val Shipper = mShipper //发货人
+        val Shipper = shipper_name_ed.text.toString() //发货人
         jsonObj.put("Shipper", Shipper)
 
-        val ShipperCid = mShipperCid //发货人身份证号
+        val ShipperCid = shipper_mShipperCid_ed.text.toString() //发货人身份证号
         jsonObj.put("ShipperCid", ShipperCid)
 
-        val ShipperAddr = mShipperAddr //发货人地址
+        val ShipperAddr = shipper_address_ed.text.toString() //发货人地址
         jsonObj.put("ShipperAddr", ShipperAddr)
+
+        //**********************************************
 
         val IsUrgent = if (urgent_goods_check.isChecked) "1" else "0"//是否急货编码
         jsonObj.put("IsUrgent", IsUrgent)
@@ -403,16 +371,16 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         /**
          * 收货人信息
          */
-        val ConsigneeMb = mConsigneeMb //收货人手机号
+        val ConsigneeMb = receiver_phone_ed.text.toString() //收货人手机号
         jsonObj.put("ConsigneeMb", ConsigneeMb)
 
-        val ConsigneeTel = mConsigneeTel //收货人固定电话
+        val ConsigneeTel = receiver_mConsigneeTel_ed.text.toString() //收货人固定电话
         jsonObj.put("ConsigneeTel", ConsigneeTel)
 
-        val Consignee = mConsignee //收货人
+        val Consignee = receiver_name_ed.text.toString() //收货人
         jsonObj.put("Consignee", Consignee)
 
-        val ConsigneeAddr = mConsigneeAddr //收货人地址
+        val ConsigneeAddr = receiver_address_ed.text.toString() //收货人地址
         jsonObj.put("ConsigneeAddr", ConsigneeAddr)
 
 
@@ -426,7 +394,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         val AccTypeStr = mAccTypeStr
         jsonObj.put("AccTypeStr", AccTypeStr)
         //回单要求
-        val BackQty = receipt_requirements_name_tv.text.toString()
+        val BackQty = receipt_requirements_name_ed.text.toString()
         jsonObj.put("BackQty", BackQty)
         //是否等通知放货
         val IsWaitNoticeStr = if (wait_notice_check.isChecked) "是" else "否"
@@ -445,6 +413,13 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         //开户名
         val BankMan = account_names_tv.text.toString()
         jsonObj.put("BankMan", BankMan)
+        //业务员
+        val SalesMan = salesman_name_tv.text.toString()
+        jsonObj.put("SalesMan", SalesMan)
+        //预装车号
+        val PreVehicleNo = pre_installed_car_number_name_tv.text.toString()
+        jsonObj.put("PreVehicleNo", PreVehicleNo)
+
 
         //制单人
         val CreateMan = UserInformationUtil.getUserName(mContext)
@@ -605,7 +580,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
     }
 
     override fun getDestinationS(result: String) {
-        FilterDialog(getScreenWidth(), result, "mapDes", "选择目的地", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+        FilterDialog(getScreenWidth(), result, "mapDes", "选择目的地", true, isShowOutSide = true, showTipsTag = "FREQUENTLY_USED_DESTINATIONS", showBarTipsStr = "目的地", mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mSelectData = Gson().fromJson<DestinationtBean>(mResult, DestinationtBean::class.java)
                 destinationt_tv.text = mSelectData.mapDes
@@ -616,7 +591,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
     }
 
     override fun getCargoAppellationS(result: String) {
-        FilterDialog(getScreenWidth(), result, "product", "货物名称", false, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+        FilterDialog(getScreenWidth(), result, "product", "货物名称", false, isShowOutSide = true, showTipsTag = "COMMON_GOODS_NAME", showBarTipsStr = "货物名称", mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mSelectData = Gson().fromJson<CargoAppellationBean>(mResult, CargoAppellationBean::class.java)
                 cargo_name_ed.setText(mSelectData.product)
@@ -665,7 +640,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         FilterDialog(getScreenWidth(), result, "tdescribe", "回单要求", false, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mSelectData = Gson().fromJson<AcceptReceiptRequirementBean>(mResult, AcceptReceiptRequirementBean::class.java)
-                receipt_requirements_name_tv.text = mSelectData.tdescribe
+                receipt_requirements_name_ed.setText(mSelectData.tdescribe)
             }
 
         }).show(supportFragmentManager, "getReceiptRequirementSFilterDialog")
@@ -761,14 +736,33 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         for (mIndex in mShowCostStr.indices) {
             val mBaseEditTextAdapterBean = BaseEditTextAdapterBean()
             mBaseEditTextAdapterBean.title = mShowCostStr[mIndex]
+            when (mShowCostFilNam[mIndex]) {
+                //工本费
+                "accGb" -> {
+                    mBaseEditTextAdapterBean.inputStr = data.optString("accGb")
+
+                }
+                //默认保价费
+                "accSafe" -> {
+                    mBaseEditTextAdapterBean.inputStr = data.optString("accSafe")
+
+                }
+            }
+            //
+
             mBaseEditTextAdapterBean.tag = mShowCostFilNam[mIndex]
             mKK.add(mBaseEditTextAdapterBean)
+
 
         }
         val mBasicAccTransX = BaseEditTextAdapterBean()
         mBasicAccTransX.title = "代收货款"
         mBasicAccTransX.tag = "accDaiShou"
         mKK.add(mBasicAccTransX)
+        val mBasicAccTrans = BaseEditTextAdapterBean()
+        mBasicAccTrans.title = "回单服务费"
+        mBasicAccTrans.tag = "accBackService"
+        mKK.add(mBasicAccTrans)
         if (mEditTextAdapter == null)
             mEditTextAdapter = EditTextAdapter<BaseEditTextAdapterBean>(mContext)
         cost_information_recycler.layoutManager = GridLayoutManager(mContext, 2)
@@ -829,16 +823,64 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
     }
 
-
-    private fun showWebIdDialog(list: MutableList<WebAreaDbInfo>) {
-        FilterDialog(getScreenWidth(), Gson().toJson(list), "webid", "选择到货网点", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+    override fun getShipperInfoS(result: String) {
+        val titleList = mutableListOf<String>("opeMan","contactMb","address")
+        val startList = mutableListOf<String>("姓名:","电话:","地址:")
+        FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择发货人", false, isShowOutSide = false, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
-                arrive_outlet_tv.text = list[position].webid
+                val mAddShipperBean = Gson().fromJson<AddShipperBean>(mResult, AddShipperBean::class.java)
+                mAddShipperBean?.let {
+                    shipper_address_ed.setText(it.address)
+                    shipper_name_ed.setText(it.opeMan)
+                    shipper_mShipperId_ed.setText(it.vipId)
+                    shipper_phone_ed.setText(it.contactMb)
+                    shipper_mShipperTel_ed.setText(it.contactTel)
+                    shipper_mShipperCid_ed.setText(it.idCard)
+                }
+
+            }
+
+        }).show(supportFragmentManager, "AddShipperActivityFilterDialog")
+
+    }
+
+    override fun getReceiverInfoS(result: String) {
+        val titleList = mutableListOf<String>("opeMan","contactMb","address")
+        val startList = mutableListOf<String>("姓名:","电话:","地址:")
+        FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择收货人", false, isShowOutSide = false, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                val mAddReceiverBean = Gson().fromJson<AddReceiverBean>(mResult, AddReceiverBean::class.java)
+                mAddReceiverBean?.let {
+                    receiver_address_ed.setText(it.address)
+                    receiver_name_ed.setText(it.opeMan)
+                    receiver_customer_code_tv.setText(it.vipId)
+                    receiver_phone_ed.setText(it.contactMb)
+                    receiver_mConsigneeTel_ed.setText(it.contactTel)
+                    if (it.product.isNotBlank())
+                        cargo_name_ed.setText(it.product)
+                    if (it.packageX.isNotBlank())
+                        package_name_ed.setText(it.packageX)
+                }
+
+            }
+
+        }).show(supportFragmentManager, "AddReceiverActivityFilterDialog")
+    }
+
+    /**
+     * 注 position 已经无法区别
+     * 因为常用网点和所有网点是两个recyclerview
+     */
+    private fun showWebIdDialog(list: MutableList<WebAreaDbInfo>) {
+        FilterDialog(getScreenWidth(), Gson().toJson(list), "webid", "选择到货网点", true, isShowOutSide = true, showTipsTag = "RECEIVING_OUTLETS", showBarTipsStr = "网点", mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                val mWebAreaDbInfo = Gson().fromJson<WebAreaDbInfo>(mResult, WebAreaDbInfo::class.java)
+                arrive_outlet_tv.text = mWebAreaDbInfo.webid
                 destinationt_tv.text = ""
                 destinationt = ""
-                endWebIdCode = list[position].webidCode
-                endWebIdCodeStr = list[position].webid
-                eCompanyId = list[position].companyId
+                endWebIdCode = mWebAreaDbInfo.webidCode
+                endWebIdCodeStr = mWebAreaDbInfo.webid
+                eCompanyId = mWebAreaDbInfo.companyId
             }
 
         }).show(supportFragmentManager, "showWebIdDialogFilterDialog")
@@ -848,5 +890,86 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         mPresenter?.getWaybillNumber()
     }
 
+    override fun getVehicleS(result: String) {
+        FilterDialog(getScreenWidth(), result, "vehicleno", "选择车牌号", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            @SuppressLint("SetTextI18n")
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                val mSelectData = Gson().fromJson<NumberPlateBean>(mResult, NumberPlateBean::class.java)
+                pre_installed_car_number_name_tv.text = mSelectData.vehicleno
+            }
 
+        }).show(supportFragmentManager, "getVehicleSFilterDialog")
+    }
+
+    override fun getSalesmanS(result: String) {
+        FilterDialog(getScreenWidth(), result, "salesmanName", "选择业务员", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            @SuppressLint("SetTextI18n")
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                val mSelectData = Gson().fromJson<SalesmanAcceptBean>(mResult, SalesmanAcceptBean::class.java)
+                salesman_name_tv.text = mSelectData.salesmanName
+            }
+
+        }).show(supportFragmentManager, "getSalesmanSFilterDialog")
+    }
+    fun initPeople() {
+        shipper_phone_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (shipper_phone_ed.text.toString().isNotEmpty() && shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    mPresenter?.getShipperInfo(HttpParams("contactMb", shipper_phone_ed.text.toString()))
+                }
+            }
+        }
+        shipper_name_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (shipper_name_ed.text.toString().isNotEmpty() && shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    mPresenter?.getShipperInfo(HttpParams("opeMan", shipper_name_ed.text.toString()))
+                }
+            }
+        }
+        shipper_mShipperTel_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (shipper_mShipperTel_ed.text.toString().isNotEmpty() && shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    mPresenter?.getShipperInfo(HttpParams("contactTel", shipper_mShipperTel_ed.text.toString()))
+                }
+            }
+        }
+        shipper_mShipperId_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (shipper_mShipperId_ed.text.toString().isNotEmpty() && shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    mPresenter?.getShipperInfo(HttpParams("vipId", shipper_mShipperId_ed.text.toString()))
+                }
+            }
+        }
+        /**
+         *
+         */
+        receiver_phone_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (receiver_phone_ed.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    mPresenter?.getReceiverInfo(HttpParams("contactMb", receiver_phone_ed.text.toString()))
+                }
+            }
+        }
+        receiver_customer_code_tv.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (receiver_customer_code_tv.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    mPresenter?.getReceiverInfo(HttpParams("vipId", receiver_customer_code_tv.text.toString()))
+                }
+            }
+        }
+        receiver_name_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (receiver_name_ed.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    mPresenter?.getReceiverInfo(HttpParams("opeMan", receiver_name_ed.text.toString()))
+                }
+            }
+        }
+        receiver_mConsigneeTel_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (receiver_mConsigneeTel_ed.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    mPresenter?.getReceiverInfo(HttpParams("contactTel", receiver_mConsigneeTel_ed.text.toString()))
+                }
+            }
+        }
+    }
 }

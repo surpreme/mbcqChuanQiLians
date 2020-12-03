@@ -18,6 +18,9 @@ class CommonlyInformationConfigurationContract {
     }
 
     interface Presenter : BasePresenter<View> {
+        /**
+         * 获取目的地
+         */
         fun getDestination()
         /**
          * 包装

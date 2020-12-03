@@ -4,6 +4,7 @@ package com.mbcq.vehicleslibrary.activity.loadingvehicles
 import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -29,6 +30,7 @@ import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPListActivity
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
+import com.mbcq.vehicleslibrary.BuildConfig
 import com.mbcq.vehicleslibrary.R
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.tbruyelle.rxpermissions.RxPermissions
@@ -54,6 +56,7 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
 
     @SuppressLint("SimpleDateFormat")
     override fun initExtra() {
+        mIsCanCloseLoading = false
         super.initExtra()
         rxPermissions = RxPermissions(this)
         val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
@@ -88,7 +91,6 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
             override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     if (v.text.toString().isNotBlank()) {
-                        mIsCanCloseLoading = false
                         mPresenter?.searchScanInfo(v.text.toString())
                     } else
                         initDatas()
@@ -241,13 +243,11 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
     }
 
     override fun searchScanInfoS(list: List<LoadingVehiclesBean>) {
-        mIsCanCloseLoading = true
         adapter.clearData()
         adapter.appendData(list)
     }
 
     override fun onPDAScanResult(result: String) {
-
         mPresenter?.searchScanInfo(if (checkStrIsNum(result)) result.substring(0, result.length - 4) else result)
     }
 }

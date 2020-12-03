@@ -1,6 +1,7 @@
 package com.mbcq.orderlibrary.activity.acceptbilling
 
 import com.google.gson.JsonObject
+import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
@@ -27,6 +28,10 @@ class AcceptBillingContract {
         fun getPaymentModeS(result: String)
         fun getCostInformationS(result: String)
         fun saveAcceptBillingS(result: String, printJson: String,priceJson:String)
+        fun getShipperInfoS(result: String)
+        fun getReceiverInfoS(result: String)
+        fun getVehicleS(result: String)
+        fun getSalesmanS(result: String)
 
     }
 
@@ -79,7 +84,23 @@ class AcceptBillingContract {
          * 保存受理开单
          */
         fun saveAcceptBilling(job: JSONObject, printJson: String,priceJson:String)
+        /**
+         * 发货人
+         */
+        fun getShipperInfo(params: HttpParams)
+        /**
+         * 收货人
+         */
+        fun getReceiverInfo(params: HttpParams)
 
+        /**
+         * 车辆信息
+         */
+        fun getVehicles()
+        /**
+         * 业务员
+         */
 
+        fun getSalesman()
     }
 }

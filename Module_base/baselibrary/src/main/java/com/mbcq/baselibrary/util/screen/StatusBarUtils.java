@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -96,7 +97,10 @@ public class StatusBarUtils {
                 case Flyme:
                     setFlymeDark(window, isDark);
                     break;
+
                 default:
+                    window.setStatusBarColor(Color.BLACK);
+                    break;
             }
         }
     }
