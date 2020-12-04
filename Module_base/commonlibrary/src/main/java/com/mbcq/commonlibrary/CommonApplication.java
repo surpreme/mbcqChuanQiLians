@@ -2,6 +2,8 @@ package com.mbcq.commonlibrary;
 
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
 import com.mbcq.baselibrary.BaseApplication;
 import com.mbcq.commonlibrary.greendao.DaoMaster;
 import com.mbcq.commonlibrary.greendao.DaoSession;
@@ -17,7 +19,7 @@ public class CommonApplication extends BaseApplication {
     }
 
     private void initGreenDao() {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,  DbConstant.WEB_AREA_DB);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, DbConstant.WEB_AREA_DB);
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
     }
@@ -26,8 +28,8 @@ public class CommonApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         initGreenDao();
-        SpeechUtility.createUtility(this, SpeechConstant.APPID +"=5f4da9b3");
-
+        SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5f4da9b3");
+        OkGo.getInstance().init(this).setCacheMode(CacheMode.NO_CACHE);
     }
 
 

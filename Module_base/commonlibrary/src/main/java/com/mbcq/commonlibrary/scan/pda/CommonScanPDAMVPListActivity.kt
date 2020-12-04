@@ -69,8 +69,8 @@ abstract class CommonScanPDAMVPListActivity<V : BaseView, T : BasePresenterImpl<
                 try {
                     var message: String? = ""
                     message = intent.getStringExtra(SCN_CUST_EX_SCODE)
-                    onPDAScanResult(message)
                     mPDAScanManager?.stopScanAndDecode()
+                    onPDAScanResult(message)
                 } catch (e: Exception) {
                     e.printStackTrace()
 //                    TalkSureDialog(mContext, getScreenWidth(), "pda扫描出错${e.toString()}").show()

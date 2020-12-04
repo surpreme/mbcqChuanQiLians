@@ -64,6 +64,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         }
 
     }
+
     override fun onClick() {
         super.onClick()
         save_btn.setOnClickListener(object : SingleClick() {
@@ -501,17 +502,26 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             val GoodsNum = Billno.substring(Billno.length - 5) + "-" + TotalQty
             jsonObj.put("GoodsNum", GoodsNum)
         }
-//******************************************************************货物展示页面（第一条） 不规范找后台***********************************************************************
+//******************************************************************货物展示汇总页面***********************************************************************
 
         if (mAddGoodsAcceptBillingAdapter.getAllData().isNotEmpty() && numbers_name_ed.text.toString().isBlank()) {
             val ggbb = mAddGoodsAcceptBillingAdapter.getAllData()[0]
+//            var mXProduct=0.00
+            var mXWeight = 0.00
+            var mXVolumn = 0.00
+            var mXQty = 0
+            for (item in mAddGoodsAcceptBillingAdapter.getAllData()) {
+                mXWeight += (item.weight).toDouble()
+                mXVolumn += (item.volumn).toDouble()
+                mXQty += (item.qty).toInt()
+            }
 
             //货物名称
             val Product = ggbb.product
             jsonObj.put("Product", Product)
 
             //件数
-            val Qty = ggbb.qty
+            val Qty =mXQty
             jsonObj.put("Qty", Qty)
 
 
@@ -521,11 +531,11 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
 
             //重量
-            val Weight = ggbb.weight
+            val Weight =mXWeight
             jsonObj.put("Weight", Weight)
 
             //体积
-            val Volumn = ggbb.volumn
+            val Volumn = mXVolumn
             jsonObj.put("Volumn", Volumn)
         } else {
             //货物名称
@@ -824,8 +834,8 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
     }
 
     override fun getShipperInfoS(result: String) {
-        val titleList = mutableListOf<String>("opeMan","contactMb","address")
-        val startList = mutableListOf<String>("姓名:","电话:","地址:")
+        val titleList = mutableListOf<String>("opeMan", "contactMb", "address")
+        val startList = mutableListOf<String>("姓名:", "电话:", "地址:")
         FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择发货人", false, isShowOutSide = false, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mAddShipperBean = Gson().fromJson<AddShipperBean>(mResult, AddShipperBean::class.java)
@@ -845,8 +855,8 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
     }
 
     override fun getReceiverInfoS(result: String) {
-        val titleList = mutableListOf<String>("opeMan","contactMb","address")
-        val startList = mutableListOf<String>("姓名:","电话:","地址:")
+        val titleList = mutableListOf<String>("opeMan", "contactMb", "address")
+        val startList = mutableListOf<String>("姓名:", "电话:", "地址:")
         FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择收货人", false, isShowOutSide = false, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mAddReceiverBean = Gson().fromJson<AddReceiverBean>(mResult, AddReceiverBean::class.java)
@@ -911,6 +921,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
         }).show(supportFragmentManager, "getSalesmanSFilterDialog")
     }
+
     fun initPeople() {
         shipper_phone_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {

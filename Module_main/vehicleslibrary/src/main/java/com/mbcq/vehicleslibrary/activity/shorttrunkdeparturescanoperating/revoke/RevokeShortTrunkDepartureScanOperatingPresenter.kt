@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.commonlibrary.ApiInterface
 import org.json.JSONObject
 
@@ -13,7 +14,7 @@ import org.json.JSONObject
  */
 
 class RevokeShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<RevokeShortTrunkDepartureScanOperatingContract.View>(), RevokeShortTrunkDepartureScanOperatingContract.Presenter {
-    override fun revokeOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String,scanPercentage:String) {
+    override fun revokeOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, scanPercentage: String) {
         val jsonO = JSONObject()
         jsonO.put("Billno", billno)
         jsonO.put("LableNo", lableNo)
@@ -24,12 +25,15 @@ class RevokeShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<Revoke
 //        jsonO.put("ScanTypeStr", "PDA")
         post<String>(ApiInterface.DEPARTURE_SHORT_FEEDER_DEPARTURE_SCAN_INFO_REVOKE_POST, getRequestBody(jsonO), object : CallBacks {
             override fun onResult(result: String) {
-                mView?.revokeOrderS(billno,lableNo)
+                LogUtils.e(result.toString())
+                if (!result.contains("不存在"))
+                    mView?.revokeOrderS(billno, lableNo)
 
             }
 
         })
     }
+
     override fun getCarInfo(inoneVehicleFlag: String) {
         val params = HttpParams()
         params.put("InoneVehicleFlag", inoneVehicleFlag)

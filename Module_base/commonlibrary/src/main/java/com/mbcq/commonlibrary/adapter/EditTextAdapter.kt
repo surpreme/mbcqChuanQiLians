@@ -37,7 +37,7 @@ class EditTextAdapter<T : BaseEditTextAdapterBean> : RecyclerView.Adapter<EditTe
         notifyDataSetChanged()
     }
 
-    fun getData(): ArrayList<T> = mSonBean
+     fun getData(): ArrayList<T> = mSonBean
     fun clearDatas() {
         mSonBean.clear()
         notifyDataSetChanged()
@@ -74,7 +74,7 @@ class EditTextAdapter<T : BaseEditTextAdapterBean> : RecyclerView.Adapter<EditTe
 
             override fun afterTextChanged(s: Editable?) {
                 mSonBean[position].inputStr = s.toString()
-                mOnToTalInterface?.onItemFoused( holder.inputStr_ed,position, holder.inputStr_ed.text.toString(),mSonBean[position].tag)
+                mOnToTalInterface?.onItemFoused(holder.inputStr_ed, position, holder.inputStr_ed.text.toString(), mSonBean[position].tag)
 
             }
 

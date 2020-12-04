@@ -2,6 +2,7 @@ package com.mbcq.vehicleslibrary.activity.loadingvehicles
 
 import android.annotation.SuppressLint
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
@@ -26,9 +27,8 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
         params.put("page", 1)
         params.put("limit", 1000)
         params.put("vehicleState", 0)//发车计划中
-//        params.put("VehicleStateStr", 0)//发车计划中
-//        params.put("IsScan", 1)//是否扫描
-        params.put("CommonStr", "1,2")//是否扫描
+        params.put("CommonStr", "1,2")//筛选状态的种类
+//        params.put("CommonStr", "1")//筛选状态的种类
         params.put("startDate", startDate)
         params.put("endDate", endDate)
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, params, object : CallBacks {
@@ -139,9 +139,9 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
     }
 
     fun searchInByBillNo(inoneVehicleFlag: String, isShort: Boolean) {
-        if (isShort){
+        if (isShort) {
             searchShortFeeder(inoneVehicleFlag)
-        }else{
+        } else {
             searchTrunkDeparture(inoneVehicleFlag)
         }
 
@@ -200,6 +200,37 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
         }
 
 
+    }
+
+    /**
+     * @1短驳
+     * @2干线
+     */
+
+    override fun invalidOrder(inoneVehicleFlag: String, id: Int, mType: Int, position: Int) {
+        val obj = JsonObject()
+        obj.addProperty("inoneVehicleFlag", inoneVehicleFlag)
+        obj.addProperty("id", id)
+        post<String>(if (mType == 1) ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_INVALID_INFO_POST else ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_INVALID_INFO_POST, getRequestBody(obj), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.invalidOrderS(position)
+
+            }
+
+        })
+    }
+
+    override fun saveScanPost(id: Int, inoneVehicleFlag: String, mType: Int, position: Int) {
+        val postBody = JsonObject()
+        postBody.addProperty("id", id)
+        postBody.addProperty("InoneVehicleFlag", inoneVehicleFlag)
+        post<String>(if (mType == 1) ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_COMPLETE_LOCAL_INFO_POST else ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_COMPLETE_LOCAL_INFO_POST, getRequestBody(postBody), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.saveScanPostS(position)
+
+            }
+
+        })
     }
 
 }

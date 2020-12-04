@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
@@ -18,6 +19,12 @@ import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederAdapter
 class LoadingVehiclesAdapter(context: Context) : BaseRecyclerAdapter<LoadingVehiclesBean>(context) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_loading_vehiclesshort_feeder, parent, false))
 
+    var mDeleteClickInterface: OnClickInterface.OnRecyclerDeleteClickInterface? = null
+
+    /**
+     * 发车
+     */
+    var mDepartureClickInterface: OnClickInterface.OnRecyclerClickInterface? = null
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -31,7 +38,23 @@ class LoadingVehiclesAdapter(context: Context) : BaseRecyclerAdapter<LoadingVehi
         holder.operating_progressbar.progress = if (!mDatas[position].scanPercentage.isNullOrBlank() && mDatas[position].scanPercentage != "null") mDatas[position].scanPercentage.toInt() else 0
         holder.pre_installed_tv.visibility = if (mDatas[position].isScan == 2) View.VISIBLE else View.GONE
         holder.operating_ll.visibility = if (mDatas[position].isScan == 2) View.VISIBLE else View.GONE
+        //***
+//        holder.pre_installed_tv.visibility = if (mDatas[position].vehicleStateStr != "发货") View.VISIBLE else View.GONE
+//        holder.operating_ll.visibility = if (mDatas[position].vehicleStateStr != "发货") View.VISIBLE else View.GONE
+        //***
         holder.vehicler_info_tv.text = "${mDatas[position].vehicleNo} ${mDatas[position].chauffer} ${mDatas[position].chaufferMb}"
+        holder.delete_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View) {
+                mDeleteClickInterface?.onDelete(v, position, Gson().toJson(mDatas[position]))
+            }
+
+        })
+        holder.post_vehicles_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View) {
+                mDepartureClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
+            }
+
+        })
         holder.itemView.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
                 mClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
@@ -53,5 +76,7 @@ class LoadingVehiclesAdapter(context: Context) : BaseRecyclerAdapter<LoadingVehi
         var loading_type_tv: TextView = itemView.findViewById(R.id.loading_type_tv)
         var pre_installed_tv: TextView = itemView.findViewById(R.id.pre_installed_tv)
         var scan_rate_tv: TextView = itemView.findViewById(R.id.scan_rate_tv)
+        var delete_tv: TextView = itemView.findViewById(R.id.delete_tv)
+        var post_vehicles_tv: TextView = itemView.findViewById(R.id.post_vehicles_tv)
     }
 }

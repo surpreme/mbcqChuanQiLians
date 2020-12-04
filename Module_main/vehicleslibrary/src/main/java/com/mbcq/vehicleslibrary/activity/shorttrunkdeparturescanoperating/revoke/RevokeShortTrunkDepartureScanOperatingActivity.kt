@@ -45,7 +45,7 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
     var mSoundPool: SoundPool? = null
     private var soundPoolMap: HashMap<Int, Int>? = null
     val SCAN_SOUND_ERROR_TAG = 1
-
+    override fun isShowErrorDialog(): Boolean = true
 
     override fun getLayoutId(): Int = R.layout.activity_revoke_short_trunk_departure_scan_operating
 
@@ -88,8 +88,13 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
 
         })
     }
+
     fun scanSuccess(s1: String) {
+        if (!mIsCanScan)
+            return
         if (s1.length > 5) {
+//            TalkSureDialog(mContext, getScreenWidth(), s1 + " xxxx  " + mIsCanScan).show()
+            mIsCanScan = false
             var isAdpterHase = false
             var mRevokeShortTrunkDepartureScanOperatingBean: RevokeShortTrunkDepartureScanOperatingBean = RevokeShortTrunkDepartureScanOperatingBean()
             for (adpterItem in adapter.getAllData()) {
@@ -138,6 +143,7 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
 
         }
     }
+
     fun getCameraPermission() {
         rxPermissions.request(Manifest.permission.CAMERA)
                 .subscribe { granted ->
@@ -145,7 +151,10 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
                         // I can control the camera now
                         ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
                             override fun onResult(s1: String, s2: String) {
+//                                for (index in 0..20) {
                                 scanSuccess(s1)
+//                                }
+
                             }
 
                         }).show(supportFragmentManager, "ScanDialogFragment")
@@ -192,6 +201,15 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
                 }
             }
         }
+        mIsCanScan = true
+
+    }
+
+    var mIsCanScan = true
+    override fun showError(msg: String) {
+        super.showError(msg)
+        mIsCanScan = true
+
     }
 
     override fun getRecyclerViewId(): Int = R.id.short_trunk_departure_scan_operating_recycler
@@ -207,6 +225,7 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
     }
 
     override fun onPDAScanResult(result: String) {
-        scanSuccess(result)
+        if (mIsCanScan)
+            scanSuccess(result)
     }
 }

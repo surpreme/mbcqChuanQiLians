@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
+import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
@@ -203,6 +204,10 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
         it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val obj = JSONObject(mResult)
+                if (obj.optString("vehicleStateStr").contains("发货")) {
+                    TalkSureDialog(mContext, getScreenWidth(), "已经发货，请到发车记录去查看").show()
+                    return
+                }
                 /**
                  * @type 0短驳 1干线
                  * @isScan 1有计划 2无计划
@@ -221,6 +226,32 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
 
 
                 }
+            }
+        }
+        /**
+         * type @0短驳 @1 干线
+         * mType  @1短驳 @2干线
+         */
+        it.mDeleteClickInterface = object : OnClickInterface.OnRecyclerDeleteClickInterface {
+            override fun onDelete(v: View, position: Int, mResult: String) {
+                val mObj = JSONObject(mResult)
+                TalkSureCancelDialog(mContext, getScreenWidth(), "您确定要删除发车批次为${mObj.optString("inoneVehicleFlag")}的装车记录吗？") {
+                    mPresenter?.invalidOrder(mObj.optString("inoneVehicleFlag"), mObj.optInt("id"), if (mObj.optInt("type") == 0) 1 else 2, position)
+                }.show()
+
+            }
+
+        }
+        /**
+         * type @0短驳 @1 干线
+         * mType  @1短驳 @2干线
+         */
+        it.mDepartureClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                val mObj = JSONObject(mResult)
+                TalkSureCancelDialog(mContext, getScreenWidth(), "您确定要完成发车批次为${mObj.optString("inoneVehicleFlag")}的装车吗？") {
+                    mPresenter?.saveScanPost(mObj.optInt("id"), mObj.optString("inoneVehicleFlag"), if (mObj.optInt("type") == 0) 1 else 2, position)
+                }.show()
             }
 
         }
@@ -245,6 +276,16 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
     override fun searchScanInfoS(list: List<LoadingVehiclesBean>) {
         adapter.clearData()
         adapter.appendData(list)
+    }
+
+    override fun invalidOrderS(position: Int) {
+        adapter.removeItem(position)
+
+    }
+
+    override fun saveScanPostS(position: Int) {
+        showToast("完成本车成功！")
+
     }
 
     override fun onPDAScanResult(result: String) {

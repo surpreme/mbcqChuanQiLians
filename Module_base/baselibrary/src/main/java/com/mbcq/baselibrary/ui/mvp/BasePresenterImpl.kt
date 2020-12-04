@@ -125,6 +125,7 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
         return Gson().fromJson<List<X>>(obj.optString("data"), object : TypeToken<List<X>>() {}.type)
 
     }
+
     protected fun checkStrIsNum(str: String): Boolean {
         try {
             /** 先将str转成BigDecimal，然后在转成String  */
@@ -136,6 +137,7 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
         val isNum: Matcher = Pattern.compile("-?[0-9]+(\\.[0-9]+)?").matcher(str)
         return isNum.matches()
     }
+
     protected fun <T> get(url: String, params: HttpParams?, callback: CallBacks) {
         val mHttpHeaders = HttpHeaders()
         mView?.getContext()?.let {

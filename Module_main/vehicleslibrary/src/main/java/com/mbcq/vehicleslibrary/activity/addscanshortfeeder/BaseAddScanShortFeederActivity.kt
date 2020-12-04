@@ -265,11 +265,11 @@ abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImp
         if (cash_freight_hide_ll.visibility == View.VISIBLE) {
             cash_freight_hide_ll.visibility = View.GONE
             cash_freight_down_iv.rotation = 0f
-            cash_freight_tv.text = "请选择现付运费"
+//            cash_freight_tv.text = "请选择现付运费"
         } else if (cash_freight_hide_ll.visibility == View.GONE) {
             cash_freight_hide_ll.visibility = View.VISIBLE
             cash_freight_down_iv.rotation = 180f
-            cash_freight_tv.text = ""
+//            cash_freight_tv.text = ""
 
 
         }
