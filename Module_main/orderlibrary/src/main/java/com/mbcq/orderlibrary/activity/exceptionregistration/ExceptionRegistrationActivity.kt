@@ -18,6 +18,7 @@ import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.system.FileUtils
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.SingleClick
@@ -116,6 +117,7 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
                     TalkSureDialog(mContext, getScreenWidth(), "请输入运单号进行查询").show()
                     return
                 }
+                mShowInOnevehicleflagList.clear()
                 mPresenter?.getExceptionInfo(billno_ed.text.toString())
             }
 
@@ -126,6 +128,11 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
             }
 
         })
+        departure_lot_ll.apply {
+            onSingleClicks {
+                showInOnevehicleflagDialog()
+            }
+        }
     }
 
     fun updateOvering() {
@@ -297,6 +304,7 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
         receiver_tv.text = "收货人:${data.optString("consignee")}        ${data.optString("consigneeMb")}"
         goods_info_tv.text = "${data.optString("product")} ${data.optString("qty")} ${data.optString("packages")}"
         mPresenter?.getShortCarNumber(data.optString("billno"))
+        mPresenter?.getDepartureLot(data.optString("billno"))
     }
 
     override fun getExceptionInfoNull() {
@@ -339,5 +347,39 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
             }
 
         }).show(supportFragmentManager, "getWrongChildrenTypeSFilterDialog")
+    }
+
+    fun showInOnevehicleflagDialog() {
+        val result = Gson().toJson(mShowInOnevehicleflagList)
+        /*  val mShowInOnevehicleflagBean = ShowInOnevehicleflagBean()
+          for (item in mShowInOnevehicleflagList) {
+              val itemBean=
+
+          }*/
+        FilterDialog(getScreenWidth(), result, "inoneVehicleFlag", "选择发车批次", false, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                departure_lot_tv.text = JSONObject(mResult).optString("inoneVehicleFlag")
+            }
+
+        }).show(supportFragmentManager, "showInOnevehicleflagDialog")
+    }
+
+    val mShowInOnevehicleflagList = mutableListOf<ShowInOnevehicleflagBean>()
+    override fun getShortCarNumberS(result: ExceptionRegistrationShortCarNumberBean) {
+        if (result.data[1] == null)
+            return
+        for (item in result.data[1].data) {
+            if (item.billno == billno_ed.text.toString())
+                mShowInOnevehicleflagList.add(ShowInOnevehicleflagBean(item.inoneVehicleFlag))
+        }
+    }
+
+    override fun getDepartureLotS(result: ExceptionRegistrationDepartureCarNumberBean) {
+        if (result.data[1] == null)
+            return
+        for (item in result.data[1].data) {
+            if (item.billno == billno_ed.text.toString())
+                mShowInOnevehicleflagList.add(ShowInOnevehicleflagBean(item.inoneVehicleFlag))
+        }
     }
 }

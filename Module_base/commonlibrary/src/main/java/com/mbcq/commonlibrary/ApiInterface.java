@@ -82,9 +82,13 @@ public class ApiInterface {
      */
     public static final String WAYBILL_RECORD_SELECT_ALLINFO_GET = BASE_URI + "WaybillOpe/SelWaybillByCondition";
     /**
-     *
+     * 短驳通过运单号获取发车批次
      */
     public static final String WAYBILL_RECORD_SELECT_SHORT_VEHICLES_GET = BASE_URI + "DbVehicleOpe/SelSmDbVehicleByCondition";
+    /**
+     * 干线通过运单号获取发车批次
+     */
+    public static final String WAYBILL_RECORD_SELECT_DEPARTURE_VEHICLES_GET = BASE_URI + "GxVehicleOpe/SelSmGxVehicleByCondition";
     /**
      * 改单记录
      */
@@ -118,7 +122,7 @@ public class ApiInterface {
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET = BASE_URI + "DbVehicleOpe/SelDbVehicleByCondition";
     /**
-     *  短驳发车 通过运单号查询车次
+     * 短驳发车 通过运单号查询车次
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_SELECT_BILLNO_GET = BASE_URI + "DbVehicleOpe/SelDbInOneVehicleFlagCondition";
     /**
@@ -557,6 +561,15 @@ public class ApiInterface {
      * 7
      */
     public static final String GENERAL_SCHEDULE_PAYMENTS_PENDING_INFO_GET = BASE_URI + "HkReleasedOpe/SelHkReleasedDetByCondition";
+    /**
+     * 短驳 发车更新数据操作
+     */
+    public static final String SCAN_SHORT_FEEDER_CONFIGURATION_FIXED_GET = BASE_URI + "DbVehicleOpe/UpdDbVehicleByCondition";
+    /**
+     * 干线 发车更新数据操作
+     */
+
+    public static final String SCAN_DEPARTURE_TRUNK_CONFIGURATION_FIXED_GET = BASE_URI + "GxVehicleOpe/UpdGxVehicleByCondition";
 
 
 }

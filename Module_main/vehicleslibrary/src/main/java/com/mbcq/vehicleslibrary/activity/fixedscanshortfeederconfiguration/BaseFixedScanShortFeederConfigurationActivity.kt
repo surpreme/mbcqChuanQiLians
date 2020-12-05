@@ -1,33 +1,26 @@
-package com.mbcq.vehicleslibrary.activity.addscanshortfeeder
-
+package com.mbcq.vehicleslibrary.activity.fixedscanshortfeederconfiguration
 
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.view.SingleClick
-import com.mbcq.commonlibrary.CommonApplication
 import com.mbcq.commonlibrary.RadioGroupUtil
+import com.mbcq.commonlibrary.WebDbUtil
+import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterDialog
-import com.mbcq.commonlibrary.greendao.DaoSession
-import com.mbcq.commonlibrary.greendao.WebAreaDbInfoDao
 import com.mbcq.vehicleslibrary.R
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.*
+import kotlinx.android.synthetic.main.activity_fixed_scan_short_feeder_configuration.*
 
-
-/**
- * @author: lzy
- * @time: 2020-09-14 13:42:27
- * 添加无计划短驳发车 运输方式 update
- */
-abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
+abstract class BaseFixedScanShortFeederConfigurationActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
     var mScanType = ""//扫描库存种类
     var mFirstEwebidCode = ""
     var mSencondEwebidCode = ""
@@ -37,9 +30,12 @@ abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImp
     var mWebCodeIdStr = ""
     var mTransneed = 1//运输类型编码
     var mTransneedStr = ""//运输类型
+    var mFixedId = 0
+
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
+        ARouter.getInstance().inject(this)
         initModeOfTransport()
         initScanLoadingType()
         cash_freight_hide_ll.visibility = View.GONE
@@ -88,7 +84,7 @@ abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImp
         super.onClick()
         oil_card_first_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
+                WebDbUtil.getDbWebId(application, object : WebsDbInterface {
                     override fun isNull() {
                     }
 
@@ -103,7 +99,7 @@ abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImp
         })
         oil_card_second_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
+                WebDbUtil.getDbWebId(application, object : WebsDbInterface {
                     override fun isNull() {
                     }
 
@@ -117,7 +113,7 @@ abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImp
         })
         oil_card_third_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
+                WebDbUtil.getDbWebId(application, object : WebsDbInterface {
                     override fun isNull() {
                     }
 
@@ -131,7 +127,7 @@ abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImp
         })
         destination_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
+                WebDbUtil.getDbWebId(application, object : WebsDbInterface {
                     override fun isNull() {
                     }
 
@@ -143,7 +139,7 @@ abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImp
             }
 
         })
-        add_scan_short_feeder_toolbar.setBackButtonOnClickListener(object : SingleClick() {
+        fixed_configuration_scan_short_feeder_toolbar.setBackButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 onBackPressed()
             }
@@ -238,28 +234,6 @@ abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImp
         }
     }
 
-
-    interface WebDbInterface {
-        fun isNull()
-        fun isSuccess(list: MutableList<WebAreaDbInfo>)
-
-    }
-
-    /**
-     * 得到greenDao数据库中的网点
-     * 可视化 stetho 度娘
-     */
-    protected fun getDbWebId(mWebDbInterface: WebDbInterface) {
-        val daoSession: DaoSession = (application as CommonApplication).daoSession
-        val userInfoDao: WebAreaDbInfoDao = daoSession.webAreaDbInfoDao
-        val dbDatas = userInfoDao.queryBuilder().list()
-        if (dbDatas.isNullOrEmpty()) {
-            mWebDbInterface.isNull()
-        } else {
-            mWebDbInterface.isSuccess(dbDatas)
-        }
-    }
-
     fun geDeliveryPointLocal(list: MutableList<WebAreaDbInfo>, type: Int) {
         FilterDialog(getScreenWidth(), Gson().toJson(list), "webid", "选择到货网点", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
@@ -308,8 +282,6 @@ abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImp
 
         }).show(supportFragmentManager, "geDeliveryPointLocalDialogFilterDialog$type")
     }
-
-
 }
 
 fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {

@@ -1,5 +1,6 @@
 package com.mbcq.orderlibrary.activity.exceptionregistration
 
+import com.google.gson.Gson
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
@@ -272,8 +273,20 @@ class ExceptionRegistrationPresenter : BasePresenterImpl<ExceptionRegistrationCo
     override fun getShortCarNumber(billno: String) {
         val params = HttpParams()
         params.put("billno", billno)
-        get<String>(ApiInterface.WAYBILL_RECORD_SELECT_SHORT_VEHICLES_GET,params,object :CallBacks{
+        get<String>(ApiInterface.WAYBILL_RECORD_SELECT_SHORT_VEHICLES_GET, params, object : CallBacks {
             override fun onResult(result: String) {
+                mView?.getShortCarNumberS(Gson().fromJson(result, ExceptionRegistrationShortCarNumberBean::class.java))
+            }
+
+        })
+    }
+
+    override fun getDepartureLot(billno: String) {
+        val params = HttpParams()
+        params.put("billno", billno)
+        get<String>(ApiInterface.WAYBILL_RECORD_SELECT_DEPARTURE_VEHICLES_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.getDepartureLotS(Gson().fromJson(result, ExceptionRegistrationDepartureCarNumberBean::class.java))
 
             }
 

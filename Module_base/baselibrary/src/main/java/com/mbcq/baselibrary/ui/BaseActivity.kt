@@ -15,6 +15,7 @@ import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.util.screen.StatusBarUtils
 import com.mbcq.baselibrary.util.system.ToastUtils
+import com.mbcq.baselibrary.view.SingleClick
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.util.regex.Matcher
@@ -171,4 +172,12 @@ abstract class BaseActivity : AppCompatActivity() {
             ""
         }
     }
+}
+ fun View.onSingleClicks(onSingleClick: (View) -> Unit) {
+    this.setOnClickListener(object : SingleClick() {
+        override fun onSingleClick(v: View) {
+            onSingleClick.invoke(v)
+        }
+
+    })
 }

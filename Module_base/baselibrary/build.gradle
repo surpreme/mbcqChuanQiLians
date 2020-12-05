@@ -57,6 +57,7 @@ dependencies {
     api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     //Gson
     api "com.google.code.gson:gson:2.8.6"
+    api files('libs/pinyin4j.jar')//拼音
 
     //kotlin Android Coroutines
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1"

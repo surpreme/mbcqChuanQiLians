@@ -26,6 +26,11 @@ class LoadingVehiclesAdapter(context: Context) : BaseRecyclerAdapter<LoadingVehi
      */
     var mDepartureClickInterface: OnClickInterface.OnRecyclerClickInterface? = null
 
+    /**
+     * 修改
+     */
+    var mChangeClickInterface: OnClickInterface.OnRecyclerClickInterface? = null
+
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ItemViewHolder).departure_number_tv.text = mDatas[position].inoneVehicleFlag
@@ -43,7 +48,13 @@ class LoadingVehiclesAdapter(context: Context) : BaseRecyclerAdapter<LoadingVehi
 //        holder.operating_ll.visibility = if (mDatas[position].vehicleStateStr != "发货") View.VISIBLE else View.GONE
         //***
         holder.vehicler_info_tv.text = "${mDatas[position].vehicleNo} ${mDatas[position].chauffer} ${mDatas[position].chaufferMb}"
-        holder.delete_tv.setOnClickListener(object : SingleClick() {
+        holder.modify_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View) {
+                mChangeClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
+            }
+
+        })
+       holder.delete_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
                 mDeleteClickInterface?.onDelete(v, position, Gson().toJson(mDatas[position]))
             }
@@ -77,6 +88,7 @@ class LoadingVehiclesAdapter(context: Context) : BaseRecyclerAdapter<LoadingVehi
         var pre_installed_tv: TextView = itemView.findViewById(R.id.pre_installed_tv)
         var scan_rate_tv: TextView = itemView.findViewById(R.id.scan_rate_tv)
         var delete_tv: TextView = itemView.findViewById(R.id.delete_tv)
+        var modify_tv: TextView = itemView.findViewById(R.id.modify_tv)
         var post_vehicles_tv: TextView = itemView.findViewById(R.id.post_vehicles_tv)
     }
 }

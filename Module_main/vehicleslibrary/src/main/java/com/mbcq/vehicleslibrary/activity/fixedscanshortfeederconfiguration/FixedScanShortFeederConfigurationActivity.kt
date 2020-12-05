@@ -1,49 +1,45 @@
-package com.mbcq.vehicleslibrary.activity.adddeparturetrunk
+package com.mbcq.vehicleslibrary.activity.fixedscanshortfeederconfiguration
 
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.View
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
-import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.system.TimeUtils
-import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.Constant
 import com.mbcq.commonlibrary.NumberPlateBean
-import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.vehicleslibrary.R
-import kotlinx.android.synthetic.main.activity_add_departure_trunk.*
+import kotlinx.android.synthetic.main.activity_fixed_scan_short_feeder_configuration.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-
 /**
  * @author: lzy
- * @time: 2020-11-19 10:14:45 添加无计划干线扫描
+ * @time: 2020-12-04 10:38:43 修改扫描短驳配置
  */
 
-@Route(path = ARouterConstants.AddDepartureTrunkActivity)
-class AddDepartureTrunkActivity : BaseAddDepartureTrunkActivity<AddDepartureTrunkContract.View, AddDepartureTrunkPresenter>(), AddDepartureTrunkContract.View {
-    override fun getLayoutId(): Int = R.layout.activity_add_departure_trunk
+@Route(path = ARouterConstants.FixedScanShortFeederConfigurationActivity)
+class FixedScanShortFeederConfigurationActivity : BaseFixedScanShortFeederConfigurationActivity<FixedScanShortFeederConfigurationContract.View, FixedScanShortFeederConfigurationPresenter>(), FixedScanShortFeederConfigurationContract.View {
+    /**
+     * 发车批次号
+     */
+    @Autowired(name = "FixedScanShortFeederConfiguration")
+    @JvmField
+    var mLastDataNo: String = ""
 
-    override fun initViews(savedInstanceState: Bundle?) {
-        super.initViews(savedInstanceState)
-        initModeOfTransport()
-        initScanLoadingType()
-
-    }
-
+    override fun getLayoutId(): Int = R.layout.activity_fixed_scan_short_feeder_configuration
     override fun initDatas() {
         super.initDatas()
-        mPresenter?.getDepartureBatchNumber()
-
+        mPresenter?.getCarInfo(mLastDataNo)
     }
 
     fun saveCarInfoTrunk() {
@@ -64,6 +60,7 @@ class AddDepartureTrunkActivity : BaseAddDepartureTrunkActivity<AddDepartureTrun
             return
         }
         val obj = JSONObject()
+        obj.put("id", mFixedId)// 修改的id
         obj.put("inoneVehicleFlag", contract_No_tv.text.toString())
         obj.put("contractNo", contract_No_tv.text.toString())
         obj.put("ecompanyId", mECompanyId)// 到车公司编码
@@ -85,16 +82,16 @@ class AddDepartureTrunkActivity : BaseAddDepartureTrunkActivity<AddDepartureTrun
         obj.put("accArrived3", oil_card_third_ed.text.toString())// 到付金额3
         obj.put("accZx", loading_fee_ed.text.toString())// 装卸费
         obj.put("accJh", 0)// 接货费
-        obj.put("isScan", "2")//   0默认 1有计扫描发车 2无计划扫描
         obj.put("accTansSum", total_freight_tv.text.toString())// 运费合计
         obj.put("accArrSum", mToPayTotalPrice)// 到付合计
         obj.put("accOther", 0)// 其它费用
         obj.put("vehicleInterval", UserInformationUtil.getWebIdCodeStr(mContext) + "-" + destination_tv.text.toString())// 发车区间  A-B
         obj.put("remark", "")// 备注
-
+        obj.put("isScan", "2")//  0默认 1有计扫描发车 2无计划扫描
         obj.put("sendDate", TimeUtils.getCurrTime2())// 发车日期
         obj.put("vehicleNo", number_plate_tv.text.toString())// 车牌号
         obj.put("chauffer", driver_name_ed.text.toString())// 司机
+        obj.put("chaufferMb", contact_number_ed.text.toString())// 司机手机号码
         obj.put("chaufferMb", contact_number_ed.text.toString())// 司机手机号码
         obj.put("ewebidCodeStr", destination_tv.text.toString())// 到车网点
         obj.put("sendOpeMan", UserInformationUtil.getUserName(mContext))// 发车操作人
@@ -103,106 +100,39 @@ class AddDepartureTrunkActivity : BaseAddDepartureTrunkActivity<AddDepartureTrun
         obj.put("scanWebidType", mScanType)// 到车网点限制
         obj.put("fromType", Constant.ANDROID)//
         obj.put("fromtypeStr", Constant.ANDROID_STR)
-        val testJay = JSONArray()
-        val testObj = JSONObject()
-        testObj.put("billno", "0")
-        testJay.put(testObj)
-        obj.put("gxVehicleDetLst", testJay)
         obj.put("commonStr", "0")
-        mPresenter?.saveInfo(obj)
-//        val json = GsonUtils.toPrettyFormat(obj.toString())
+        mPresenter?.saveInfo(GsonUtils.toPrettyFormat(obj))
 
     }
 
     override fun onClick() {
         super.onClick()
-        oil_card_first_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
-                    override fun isNull() {
-                    }
-
-                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                        geDeliveryPointLocal(list, 1)
-                    }
-
-                })
-
-            }
-
-        })
-        oil_card_second_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
-                    override fun isNull() {
-                    }
-
-                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                        geDeliveryPointLocal(list, 2)
-                    }
-
-                })
-            }
-
-        })
-        oil_card_third_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
-                    override fun isNull() {
-                    }
-
-                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                        geDeliveryPointLocal(list, 3)
-                    }
-
-                })
-            }
-
-        })
-        destination_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
-                    override fun isNull() {
-                    }
-
-                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                        geDeliveryPointLocal(list, 0)
-                    }
-
-                })
-            }
-
-        })
-        route_fee_breakdown_ll.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                showHideRouteFeeBreakdown()
-            }
-
-        })
-        number_plate_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
+        number_plate_tv.apply {
+            onSingleClicks {
                 mPresenter?.getVehicles()
             }
-
-        })
-        cash_freight_ll.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                showHideCashFreight()
-            }
-
-        })
-        freight_onarrival_ll.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                showHideFreightOnArrival()
-            }
-
-        })
-        next_step_btn.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
+        }
+        commit_change_tv.apply {
+            onSingleClicks {
                 saveCarInfoTrunk()
             }
+        }
+        cash_freight_ll.apply {
+            onSingleClicks {
+                showHideCashFreight()
+            }
+        }
+        freight_onarrival_ll.apply {
+            onSingleClicks {
+                showHideFreightOnArrival()
+            }
+        }
+    }
 
-        })
+    override fun saveInfoS(result: String) {
+        TalkSureDialog(mContext, getScreenWidth(), "发车批次为$mLastDataNo 已经重新配置成功，点击返回！") {
+            onBackPressed()
+        }.show()
 
     }
 
@@ -218,15 +148,57 @@ class AddDepartureTrunkActivity : BaseAddDepartureTrunkActivity<AddDepartureTrun
                 on_board_weight_tv.text = "${mSelectData.supweight}吨"
             }
 
-        }).show(supportFragmentManager, "AddDepartureTrunkActivitygetVehicleSFilterDialog")
+        }).show(supportFragmentManager, "getVehicleSFilterDialog")
     }
 
-    override fun getDepartureBatchNumberS(result: String) {
-        contract_No_tv.text = result
+    @SuppressLint("SetTextI18n")
+    override fun geSelectVehicleS(result: String, vehicleNo: String, chaufferMb: String) {
+        val mAllData = Gson().fromJson<List<NumberPlateBean>>(result, object : TypeToken<List<NumberPlateBean>>() {}.type)
+        for (item in mAllData) {
+            if (item.vehicleno == vehicleNo && item.chauffermb == chaufferMb) {
+                vehicle_type_tv.text = if (item.vehicletype == 1) "大车" else if (item.vehicletype == 2) "小车" else "未知车型"
+                on_board_weight_tv.text = "${item.supweight}吨"
+            }
+
+        }
     }
 
-    override fun saveInfoS(result: String) {
-        ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureUnPlanScanOperatingActivity).withString("DepartureLoadingVehicles", result).navigation()
-        this.finish()
+    override fun getCarInfoS(data: FixedScanShortFeederConfigurationBean) {
+        mFixedId = data.id
+        contract_No_tv.text = data.inoneVehicleFlag
+        number_plate_tv.text = data.vehicleNo
+        destination_tv.text = data.ewebidCodeStr
+        oil_card_first_tv.text = data.ewebidCodeStr1
+        oil_card_second_tv.text = data.ewebidCodeStr2
+        oil_card_third_tv.text = data.ewebidCodeStr3
+        total_freight_tv.text = data.accTansSum.toString()// 运费合计
+        mWebCodeId = data.ewebidCode.toString()
+        mFirstEwebidCode = data.ewebidCode1.toString()
+        mSencondEwebidCode = data.ewebidCode2.toString()
+        mThridEwebidCode = data.ewebidCode3.toString()
+        mToPayTotalPrice = data.accArrSum// 到付合计
+        driver_name_ed.setText(data.chauffer)
+        contact_number_ed.setText(data.chaufferMb)
+        oil_card_first_ed.setText(data.accArrived1.toString())
+        oil_card_second_ed.setText(data.accArrived2.toString())
+        oil_card_third_ed.setText(data.accArrived3.toString())
+        cash_freight_ed.setText(data.accNow.toString())// 现付
+        return_freight_ed.setText(data.accBack.toString())// 回付
+        cash_card_ed.setText(data.accYk.toString())// 油费
+        oil_card_number_ed.setText(data.ykCard.toString())// 油卡
+        loading_fee_ed.setText(data.accZx.toString())// 装卸费
+        /**
+         * 扫描类型 只限当前网点 不限网点
+         */
+        scan_type_rg.check(if (data.scanWebidType == 1) 0 else 1)
+        mScanType = data.scanWebidType.toString()
+        /**
+         * 普运  马帮快线 补发数据
+         */
+        mode_transport_rg.check(if (data.transneedStr == "普运") 0 else if (data.transneedStr == "马帮快线") 1 else 2)
+        mTransneedStr = data.transneedStr
+        mPresenter?.geSelectVehicles(data.vehicleNo, data.chaufferMb)
     }
+
 }
+

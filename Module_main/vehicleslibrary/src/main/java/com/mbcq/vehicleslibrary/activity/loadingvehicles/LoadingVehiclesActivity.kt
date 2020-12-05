@@ -255,6 +255,19 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
             }
 
         }
+        /**
+         * type @0短驳 @1 干线
+         */
+        it.mChangeClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                val mObj = JSONObject(mResult)
+                if (mObj.optInt("type") == 0)
+                    ARouter.getInstance().build(ARouterConstants.FixedScanShortFeederConfigurationActivity).withString("FixedScanShortFeederConfiguration", mObj.optString("inoneVehicleFlag")).navigation()
+                else
+                    ARouter.getInstance().build(ARouterConstants.FixedScanDepartureTrunkConfigurationActivity).withString("FixedScanDepartureTrunkConfiguration", mObj.optString("inoneVehicleFlag")).navigation()
+            }
+
+        }
     }
 
     override fun getShortFeederS(list: List<LoadingVehiclesBean>, isScan: Boolean, isCanRefresh: Boolean) {

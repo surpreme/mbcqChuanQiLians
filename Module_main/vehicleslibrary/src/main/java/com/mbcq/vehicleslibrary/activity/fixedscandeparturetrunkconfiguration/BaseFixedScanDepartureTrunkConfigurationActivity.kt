@@ -1,11 +1,8 @@
-package com.mbcq.vehicleslibrary.activity.addscanshortfeeder
-
+package com.mbcq.vehicleslibrary.activity.fixedscandeparturetrunkconfiguration
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
+import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
@@ -19,29 +16,30 @@ import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.commonlibrary.greendao.DaoSession
 import com.mbcq.commonlibrary.greendao.WebAreaDbInfoDao
 import com.mbcq.vehicleslibrary.R
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.*
+import kotlinx.android.synthetic.main.activity_fixed_scan_departure_trunk_configuration.*
 
-
-/**
- * @author: lzy
- * @time: 2020-09-14 13:42:27
- * 添加无计划短驳发车 运输方式 update
- */
-abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
-    var mScanType = ""//扫描库存种类
+abstract class BaseFixedScanDepartureTrunkConfigurationActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
     var mFirstEwebidCode = ""
     var mSencondEwebidCode = ""
     var mThridEwebidCode = ""
     var mECompanyId = ""
     var mWebCodeId = ""
+    var mToPayTotalPrice = ""
     var mWebCodeIdStr = ""
     var mTransneed = 1//运输类型编码
     var mTransneedStr = ""//运输类型
+    var mScanType = ""//扫描库存种类
+    var mFixedId = 0
+
+    override fun initExtra() {
+        super.initExtra()
+        ARouter.getInstance().inject(this)
+    }
+
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
-        initModeOfTransport()
-        initScanLoadingType()
+        route_fee_breakdown_hide_ll.visibility = View.GONE
         cash_freight_hide_ll.visibility = View.GONE
         freight_onarrival_hide_ll.visibility = View.GONE
         oil_card_first_ed.isFocusable = false
@@ -50,108 +48,10 @@ abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImp
         oil_card_second_ed.isFocusableInTouchMode = false
         oil_card_third_ed.isFocusable = false
         oil_card_third_ed.isFocusableInTouchMode = false
-        initTotalPrice()
 
     }
 
-    private fun initTotalPrice() {
-        cash_freight_ed.apply {
-            afterTextChanged {
-                changeTotalPrice()
-            }
-        }
-        oil_card_first_ed.apply {
-            afterTextChanged {
-                changeTotalPrice()
-            }
-        }
-        oil_card_second_ed.apply {
-            afterTextChanged {
-                changeTotalPrice()
-            }
-        }
-        oil_card_third_ed.apply {
-            afterTextChanged {
-                changeTotalPrice()
-            }
-        }
-        return_freight_ed.apply {
-            afterTextChanged {
-                changeTotalPrice()
-            }
-        }
-
-
-    }
-
-    override fun onClick() {
-        super.onClick()
-        oil_card_first_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
-                    override fun isNull() {
-                    }
-
-                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                        geDeliveryPointLocal(list, 1)
-                    }
-
-                })
-
-            }
-
-        })
-        oil_card_second_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
-                    override fun isNull() {
-                    }
-
-                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                        geDeliveryPointLocal(list, 2)
-                    }
-
-                })
-            }
-
-        })
-        oil_card_third_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
-                    override fun isNull() {
-                    }
-
-                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                        geDeliveryPointLocal(list, 3)
-                    }
-
-                })
-            }
-
-        })
-        destination_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
-                    override fun isNull() {
-                    }
-
-                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                        geDeliveryPointLocal(list, 0)
-                    }
-
-                })
-            }
-
-        })
-        add_scan_short_feeder_toolbar.setBackButtonOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                onBackPressed()
-            }
-
-        })
-    }
-
-    private fun initModeOfTransport() {
+    protected fun initModeOfTransport() {
         mTransneedStr = "普运"
         mode_transport_rg.addView(RadioGroupUtil.addSelectItem(mContext, "普运", 0))
         mode_transport_rg.addView(RadioGroupUtil.addSelectItem(mContext, "马帮快线", 1))
@@ -168,57 +68,17 @@ abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImp
 
     }
 
-    private fun initScanLoadingType() {
-        mScanType = "1"
-        scan_type_rg.addView(RadioGroupUtil.addSelectItem(mContext, "只装所选到站网点", 0))
-        scan_type_rg.addView(RadioGroupUtil.addSelectItem(mContext, "不限到站网点", 1))
-        scan_type_rg.check(0)
-        scan_type_rg.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                //ScanWebidType 扫描网点类型  默认0 1代表只装所选到货网点 2不限到货网点
-                0 -> mScanType = "1"
-                1 -> mScanType = "2"
-            }
-        }
 
-    }
-
-    var mToPayTotalPrice = 0.00
-    protected fun changeTotalPrice() {
-        var totalPrice = 0.00//油卡费用不计算
-        var otherTotalPrice = 0.00//
-        var ToPayTotalPrice = 0.00//到付 3个金额 不包括回付
-        if (cash_freight_ed.text.toString().isNotBlank()) {
-            totalPrice += (cash_freight_ed.text.toString()).toDouble()
-        }
-        if (return_freight_ed.text.toString().isNotBlank()) {
-            totalPrice += (return_freight_ed.text.toString()).toDouble()
-        }
-        if (oil_card_first_tv.text.toString().isNotBlank() && oil_card_first_ed.text.toString().isNotBlank()) {
-            totalPrice += (oil_card_first_ed.text.toString()).toDouble()
-            ToPayTotalPrice += (oil_card_first_ed.text.toString()).toDouble()
-        }
-        if (oil_card_second_tv.text.toString().isNotBlank() && oil_card_second_ed.text.toString().isNotBlank()) {
-            totalPrice += (oil_card_second_ed.text.toString()).toDouble()
-            ToPayTotalPrice += (oil_card_second_ed.text.toString()).toDouble()
-        }
-        if (oil_card_third_tv.text.toString().isNotBlank() && oil_card_third_ed.text.toString().isNotBlank()) {
-            totalPrice += (oil_card_third_ed.text.toString()).toDouble()
-            ToPayTotalPrice += (oil_card_third_ed.text.toString()).toDouble()
-        }
-        total_freight_tv.text = haveTwoDouble(totalPrice)
-        mToPayTotalPrice = ToPayTotalPrice
-    }
 
     fun showHideCashFreight() {
         if (cash_freight_hide_ll.visibility == View.VISIBLE) {
             cash_freight_hide_ll.visibility = View.GONE
             cash_freight_down_iv.rotation = 0f
-//            cash_freight_tv.text = "请选择现付运费"
+            cash_freight_tv.text = "请选择现付运费"
         } else if (cash_freight_hide_ll.visibility == View.GONE) {
             cash_freight_hide_ll.visibility = View.VISIBLE
             cash_freight_down_iv.rotation = 180f
-//            cash_freight_tv.text = ""
+            cash_freight_tv.text = ""
 
 
         }
@@ -237,7 +97,6 @@ abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImp
 
         }
     }
-
 
     interface WebDbInterface {
         fun isNull()
@@ -306,20 +165,30 @@ abstract class BaseAddScanShortFeederActivity<V : BaseView, T : BasePresenterImp
                 }
             }
 
-        }).show(supportFragmentManager, "geDeliveryPointLocalDialogFilterDialog$type")
+        }).show(supportFragmentManager, "AddTrunkDepartureActivitygeDeliveryPointLocalDialogFilterDialog$type")
     }
 
+    fun showHideRouteFeeBreakdown() {
+        if (route_fee_breakdown_hide_ll.visibility == View.VISIBLE) {
+            route_fee_breakdown_hide_ll.visibility = View.GONE
+            route_fee_breakdown_down_iv.rotation = 0f
+            route_fee_breakdown_tv.text = "请选择干线明细运费"
+        } else if (route_fee_breakdown_hide_ll.visibility == View.GONE) {
+            route_fee_breakdown_hide_ll.visibility = View.VISIBLE
+            route_fee_breakdown_down_iv.rotation = 180f
+            freight_onarrival_tv.text = ""
 
-}
 
-fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
-    this.addTextChangedListener(object : TextWatcher {
-        override fun afterTextChanged(editable: Editable?) {
-            afterTextChanged.invoke(editable.toString())
         }
+    }
 
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+    override fun onClick() {
+        super.onClick()
+        fixed_configuration_trunk_departure_toolbar.setBackButtonOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                onBackPressed()
+            }
+        })
+    }
 
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-    })
 }

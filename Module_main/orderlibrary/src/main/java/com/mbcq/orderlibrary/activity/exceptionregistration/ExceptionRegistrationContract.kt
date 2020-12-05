@@ -19,6 +19,8 @@ class ExceptionRegistrationContract {
         fun postImgS(url: String)
         fun getWrongTypeS(result: String)
         fun getWrongChildrenTypeS(result: String)
+        fun getShortCarNumberS(result: ExceptionRegistrationShortCarNumberBean)
+        fun getDepartureLotS(result: ExceptionRegistrationDepartureCarNumberBean)
     }
 
     interface Presenter : BasePresenter<View> {
@@ -37,6 +39,11 @@ class ExceptionRegistrationContract {
          * recorddate : 2018-12-29T13:52:03
          */
         fun getWrongChildrenType(id: String, companyid: String, typecode: String, partypcod: String, tdescribe: String, opeman: String, recorddate: String)
+
+        /**
+         * 短驳和干线都需要查询发车批次
+         */
+        fun getDepartureLot(billno: String)
         fun getShortCarNumber(billno: String)
 
     }

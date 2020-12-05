@@ -3,6 +3,8 @@
     package="com.mbcq.vehicleslibrary">
 
     <application>
+        <activity android:name=".activity.fixedscandeparturetrunkconfiguration.FixedScanDepartureTrunkConfigurationActivity"></activity>
+        <activity android:name=".activity.fixedscanshortfeederconfiguration.FixedScanShortFeederConfigurationActivity" />
         <activity android:name=".activity.adddeparturetrunk.AddDepartureTrunkActivity" />
         <activity android:name=".activity.departuretrunkdepartureunplanscanoperating.DepartureTrunkDepartureUnPlanScanOperatingActivity" />
         <activity android:name=".activity.departuretrunkdeparturescanoperating.revoke.RevokeDepartureTrunkDepartureScanOperatingActivity" />

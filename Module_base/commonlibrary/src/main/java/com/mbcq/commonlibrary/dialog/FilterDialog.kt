@@ -15,7 +15,7 @@ import com.mbcq.baselibrary.db.SharePreferencesHelper
 import com.mbcq.baselibrary.dialog.dialogfragment.BaseDialogFragment
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
-import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
+import com.mbcq.baselibrary.util.system.pinyin.PinYinUtil
 import com.mbcq.commonlibrary.Constant
 import com.mbcq.commonlibrary.R
 import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean
@@ -23,6 +23,7 @@ import com.mbcq.commonlibrary.adapter.TextViewAdapter
 import kotlinx.android.synthetic.main.dialog_filter_recyclerview.*
 import org.json.JSONArray
 import org.json.JSONObject
+
 
 /**
  * 仅需要把list的string 传过来 减少那边代码
@@ -240,6 +241,10 @@ class FilterDialog : BaseDialogFragment {
                 for (item in mTextViewAdapter.getAllData()) {
                     if (item.title.startsWith(s.toString()) or item.title.contains(s.toString())) {
                         mSearchDatas.add(item)
+                    } else {
+                        if (PinYinUtil.getFirstSpell(item.title).contains(s.toString().toLowerCase()) or PinYinUtil.getFullSpell(item.title).contains(s.toString().toLowerCase()))
+                            mSearchDatas.add(item)
+
                     }
                 }
                 if (mSearchDatas.isNotEmpty()) {

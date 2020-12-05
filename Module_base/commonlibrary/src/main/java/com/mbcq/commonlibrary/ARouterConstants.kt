@@ -1,6 +1,9 @@
 package com.mbcq.commonlibrary
 
 object ARouterConstants {
+    /**
+     * 账号模块
+     */
     const val LogInActivity = "/account/LogInActivity"
     const val HouseActivity = "/account/HouseActivity"
     const val SettingActivity = "/account/SettingActivity"
@@ -10,7 +13,9 @@ object ARouterConstants {
     const val CommonlyInformationActivity = "/account/CommonlyInformationActivity"
     const val CommonlyInformationConfigurationActivity = "/account/CommonlyInformationConfigurationActivity"
 
-    //////////////////////////////////////////////////////////////////////////////
+    /**
+     * 订单模块
+     */
     const val AcceptBillingActivity = "/order/AcceptBillingActivity"
     const val WaybillRecordActivity = "/order/WaybillRecordActivity"
     const val AddShipperActivity = "/order/AddShipperActivity"
@@ -44,10 +49,14 @@ object ARouterConstants {
     const val ReceiptCancelActivity = "/order/ReceiptCancelActivity"
     const val StowageAlongWayActivity = "/order/StowageAlongWayActivity"
 
-    //////////////////////////////////////////////////////////////////////////////
+    /**
+     * 地图模块
+     */
     const val LocationActivity = "/map/LocationActivity"
 
-    //////////////////////////////////////////////////////////////////////////////
+    /**
+     * 车辆模块
+     */
     const val DepartureRecordActivity = "/vehicles/DepartureRecordActivity"
     const val AddTrunkDepartureActivity = "/vehicles/AddTrunkDepartureActivity"
     const val AddShortFeederActivity = "/vehicles/AddShortFeederActivity"
@@ -82,8 +91,12 @@ object ARouterConstants {
     const val RevokeDepartureTrunkDepartureScanOperatingActivity = "/vehicles/RevokeDepartureTrunkDepartureScanOperatingActivity"
     const val DepartureTrunkDepartureUnPlanScanOperatingActivity = "/vehicles/DepartureTrunkDepartureUnPlanScanOperatingActivity"
     const val StowageAlongWayHouseActivity = "/vehicles/StowageAlongWayHouseActivity"
+    const val FixedScanShortFeederConfigurationActivity = "/vehicles/FixedScanShortFeederConfigurationActivity"
+    const val FixedScanDepartureTrunkConfigurationActivity = "/vehicles/FixedScanDepartureTrunkConfigurationActivity"
 
-    //////////////////////////////////////////////////////////////////////////////
+    /**
+     * 财务模块
+     */
     const val LoanChangeActivity = "/amount/LoanChangeActivity"
     const val LoanRecycleActivity = "/amount/LoanRecycleActivity"
     const val GeneratePaymentVoucherActivity = "/amount/GeneratePaymentVoucherActivity"
@@ -91,7 +104,9 @@ object ARouterConstants {
     const val LoanIssuanceActivity = "/amount/LoanIssuanceActivity"
     const val GenerateReceiptVoucherActivity = "/amount/GenerateReceiptVoucherActivity"
 
-    //////////////////////////////////////////////////////////////////////////////
+    /**
+     * 公用模块
+     */
     const val TakePhotosActivity = "/common/TakePhotosActivity"
     const val ScanActivity = "/common/ScanActivity"
     const val ScanPDAActivity = "/common/ScanPDAActivity"
