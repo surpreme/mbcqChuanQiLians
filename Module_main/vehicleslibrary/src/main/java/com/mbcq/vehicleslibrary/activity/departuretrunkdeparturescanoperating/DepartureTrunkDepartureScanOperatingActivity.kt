@@ -47,18 +47,18 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
 
     override fun onClick() {
         super.onClick()
-        departure_vehicles_scan_operating_toolbar.setRightTitleOnClickListener(object :SingleClick(){
+        departure_vehicles_scan_operating_toolbar.setRightTitleOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                val mRevokeDepartureTrunkDepartureScanDataBean= RevokeDepartureTrunkDepartureScanDataBean()
-                mRevokeDepartureTrunkDepartureScanDataBean.inoneVehicleFlag=JSONObject(mLastData).optString("inoneVehicleFlag")
-                mRevokeDepartureTrunkDepartureScanDataBean.mTotalUnLoadingOrderNum=mTotalUnLoadingNum
-                mRevokeDepartureTrunkDepartureScanDataBean.mTotalLoadingOrderNum=totalLoadingNum
+                val mRevokeDepartureTrunkDepartureScanDataBean = RevokeDepartureTrunkDepartureScanDataBean()
+                mRevokeDepartureTrunkDepartureScanDataBean.inoneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
+                mRevokeDepartureTrunkDepartureScanDataBean.mTotalUnLoadingOrderNum = mTotalUnLoadingNum
+                mRevokeDepartureTrunkDepartureScanDataBean.mTotalLoadingOrderNum = totalLoadingNum
                 ARouter.getInstance().build(ARouterConstants.RevokeDepartureTrunkDepartureScanOperatingActivity).withSerializable("RevokeDepartureLoadingVehicles", mRevokeDepartureTrunkDepartureScanDataBean).navigation()
 
             }
 
         })
-        commit_btn.setOnClickListener(object :SingleClick(){
+        commit_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (mTotalUnLoadingNum != 0) {
                     showToast("请扫描完毕再发车")
@@ -77,6 +77,7 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
         })
 
     }
+
     fun scanSuccess(s1: String) {
         if (s1.length > 5) {
             val obj = JSONObject(mLastData)
@@ -85,7 +86,7 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
                 if (item.billno == s1.substring(0, s1.length - 4)) {
                     soundString = item.ewebidCodeStr
                     if (item.totalQty > 20) {
-                        ScanNumDialog(object : OnClickInterface.OnClickInterface {
+                        ScanNumDialog(item.totalQty - item.unLoadQty,1,object : OnClickInterface.OnClickInterface {
                             override fun onResult(x1: String, x2: String) {
                                 if (isInteger(x1)) {
                                     val mScanSun = item.totalQty - item.unLoadQty
@@ -108,7 +109,8 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
 
                         }).show(supportFragmentManager, "ScanDialogFragment")
                     } else
-                        mPresenter?.scanOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString, (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString())
+                        if (item.unLoadQty <= item.totalQty && item.unLoadQty > 0)
+                            mPresenter?.scanOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString, (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString())
 
                 }
             }
@@ -117,6 +119,7 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
             }
         }
     }
+
     fun getCameraPermission() {
         rxPermissions.request(Manifest.permission.CAMERA)
                 .subscribe { granted ->
@@ -171,16 +174,16 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
 
                 ii.unLoadQty = item.unLoadQty + mScanO
                 adapter.notifyItemChangeds(index, ii)
-                 if (ii.unLoadQty == ii.totalQty) {
-                     mTotalUnLoadingOrderNum -= 1//全部未扫描单子
-                     mTotalLoadingOrderNum += 1//全部扫描单子
-                 }
-                 mTotalUnLoadingNum -= mScanO//全部未扫描数量
-                 mTotalUnLoadingVolume = (mTotalUnLoadingVolume - mScanO*((ii.volumn) / ii.totalQty))//全部未扫描体积
-                 mTotalLoadingVolume = (mTotalLoadingVolume +  mScanO*((ii.volumn) / ii.totalQty))//全部扫描体积
-                 mTotalUnLoadingWeight = (mTotalUnLoadingWeight -  mScanO*((ii.weight) / ii.totalQty))//全部未扫描重量
-                 mTotalLoadingWeight = (mTotalLoadingWeight +  mScanO*((ii.weight) / ii.totalQty))//全部扫描重量
-                 notifyMathChange()
+                if (ii.unLoadQty == ii.totalQty) {
+                    mTotalUnLoadingOrderNum -= 1//全部未扫描单子
+                    mTotalLoadingOrderNum += 1//全部扫描单子
+                }
+                mTotalUnLoadingNum -= mScanO//全部未扫描数量
+                mTotalUnLoadingVolume = (mTotalUnLoadingVolume - mScanO * ((ii.volumn) / ii.totalQty))//全部未扫描体积
+                mTotalLoadingVolume = (mTotalLoadingVolume + mScanO * ((ii.volumn) / ii.totalQty))//全部扫描体积
+                mTotalUnLoadingWeight = (mTotalUnLoadingWeight - mScanO * ((ii.weight) / ii.totalQty))//全部未扫描重量
+                mTotalLoadingWeight = (mTotalLoadingWeight + mScanO * ((ii.weight) / ii.totalQty))//全部扫描重量
+                notifyMathChange()
             }
         }
         mTts?.startSpeaking(soundStr, null)

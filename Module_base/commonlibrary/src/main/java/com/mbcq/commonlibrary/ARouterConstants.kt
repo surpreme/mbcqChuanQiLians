@@ -109,5 +109,4 @@ object ARouterConstants {
      */
     const val TakePhotosActivity = "/common/TakePhotosActivity"
     const val ScanActivity = "/common/ScanActivity"
-    const val ScanPDAActivity = "/common/ScanPDAActivity"
 }

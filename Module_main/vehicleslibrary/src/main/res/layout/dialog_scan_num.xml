@@ -43,7 +43,7 @@
             android:layout_marginBottom="15dp"
             android:layout_weight="1"
             android:gravity="center|left"
-            android:hint="还有9件未装车"
+            tools:hint="还有9件未装车"
             android:inputType="number"
             android:paddingLeft="10dp"
             android:textColor="#000"

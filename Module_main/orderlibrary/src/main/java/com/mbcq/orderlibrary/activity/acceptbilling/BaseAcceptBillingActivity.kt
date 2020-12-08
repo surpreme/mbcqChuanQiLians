@@ -3,20 +3,25 @@ package com.mbcq.orderlibrary.activity.acceptbilling
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.InputFilter
 import android.text.TextPaint
 import android.text.TextUtils
 import android.view.View
 import android.widget.EditText
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.db.SharePreferencesHelper
+import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.view.MoneyInputFilter
@@ -31,10 +36,6 @@ import com.mbcq.orderlibrary.activity.acceptbilling.billingweightcalculator.Bill
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_accept_billing.*
 import org.json.JSONObject
-import zpSDK.zpSDK.zpBluetoothPrinter
-import java.io.InputStream
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 /**
@@ -151,6 +152,64 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         volume_name_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
         shipper_circle_hide_ll.visibility = View.GONE
         receiver_circle_hide_ll.visibility = View.GONE
+        accept_billing_nested.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (scrollY > shipper_circle_hide_ll.top) {
+                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    shipper_circle_hide_ll.visibility = View.GONE
+//                    accept_billing_nested.smoothScrollTo(0, shipper_circle_tv.bottom)
+                }
+            }
+            if (scrollY > receiver_circle_hide_ll.top) {
+                if (receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    receiver_circle_hide_ll.visibility = View.GONE
+//                    accept_billing_nested.smoothScrollTo(0, receiver_circle_tv.bottom)
+
+                }
+            }
+        })
+    }
+
+    /**
+     * 检测GPS是否打开
+     *
+     * @return
+     */
+    private fun checkGPSIsOpen(): Boolean {
+        val isOpen: Boolean
+        val locationManager: LocationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        isOpen = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        return isOpen
+    }
+
+
+    fun takeGPS() {
+        if (checkGPSIsOpen()) {
+            ARouter.getInstance().build(ARouterConstants.LocationActivity).navigation()
+        } else {
+            TalkSureCancelDialog(mContext, getScreenWidth(), "需要打开系统定位开关 用于提供精确的定位及导航服务") {
+                //跳转GPS设置界面
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivityForResult(intent, Constant.GPS_REQUEST_CODE)
+            }.show()
+
+        }
+    }
+
+    fun getGPS() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION)
+                    .subscribe { granted ->
+                        if (granted) { // Always true pre-M
+                            // I can control the camera now
+                            takeGPS()
+                        } else {
+                            // Oups permission denied
+                            showToast("您不给我权限就别想打开了 我也无能为力")
+                        }
+                    }
+        } else {
+            takeGPS()
+        }
     }
 
     private fun initCommonlyInformationConfiguration() {
@@ -161,7 +220,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                 initReceivingMethod(2)
 
 
-        }else
+        } else
             initReceivingMethod(1)
         if (mCommonlyInformationSharePreferencesHelper?.contain(COMMON_DELIVERY_METHODS)!!) {
 
@@ -173,7 +232,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
             }
 
 
-        }else
+        } else
             initDeliveryMethod(1)
     }
 
@@ -183,6 +242,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         fun isSuccess(list: MutableList<WebAreaDbInfo>)
 
     }
+
     /**
      * ARouter 度娘
      * {"name":"xxxx","phone":"15999999999","address":"1111"}
@@ -190,28 +250,35 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
     @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RESULT_DATA_CODE) {
-            (data?.getStringExtra("AddShipperResultData"))?.let {
-                val mDatas = JSONObject(it)
-                shipper_phone_ed.setText(mDatas.optString("phone"))
-                shipper_name_ed.setText(mDatas.optString("name"))
-                shipper_address_ed.setText(mDatas.optString("address"))
-                shipper_mShipperTel_ed.setText(mDatas.optString("shipperTel"))
-                add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
+        when (requestCode) {
+            RESULT_DATA_CODE -> {
+                (data?.getStringExtra("AddShipperResultData"))?.let {
+                    val mDatas = JSONObject(it)
+                    shipper_phone_ed.setText(mDatas.optString("phone"))
+                    shipper_name_ed.setText(mDatas.optString("name"))
+                    shipper_address_ed.setText(mDatas.optString("address"))
+                    shipper_mShipperTel_ed.setText(mDatas.optString("shipperTel"))
+                    add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
+                }
             }
-        } else if (requestCode == RECEIVER_RESULT_DATA_CODE) {
-            (data?.getStringExtra("AddReceiveResultData"))?.let {
-                val mDatas = JSONObject(it)
-                receiver_phone_ed.setText(mDatas.optString("phone"))//收货人手机号
-                receiver_mConsigneeTel_ed.setText(mDatas.optString("consigneeTel"))//收货人固定电话
-                receiver_name_ed.setText(mDatas.optString("name"))//收货人
-                receiver_address_ed.setText(mDatas.optString("address"))//收货人地址
-                if (mDatas.optString("product").isNotBlank())
-                    cargo_name_ed.setText(mDatas.optString("product"))
-                if (mDatas.optString("package").isNotBlank())
-                    package_name_ed.setText(mDatas.optString("package"))
-                add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
+            RECEIVER_RESULT_DATA_CODE -> {
+                (data?.getStringExtra("AddReceiveResultData"))?.let {
+                    val mDatas = JSONObject(it)
+                    receiver_phone_ed.setText(mDatas.optString("phone"))//收货人手机号
+                    receiver_mConsigneeTel_ed.setText(mDatas.optString("consigneeTel"))//收货人固定电话
+                    receiver_name_ed.setText(mDatas.optString("name"))//收货人
+                    receiver_address_ed.setText(mDatas.optString("address"))//收货人地址
+                    if (mDatas.optString("product").isNotBlank())
+                        cargo_name_ed.setText(mDatas.optString("product"))
+                    if (mDatas.optString("package").isNotBlank())
+                        package_name_ed.setText(mDatas.optString("package"))
+                    add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
 
+                }
+            }
+            Constant.GPS_REQUEST_CODE -> {
+                //做需要做的事情，比如再次检测是否打开GPS了 或者定位
+                getLocation()
             }
         }
 
@@ -241,6 +308,68 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
     override fun onClick() {
         super.onClick()
+        shipper_circle_tv.setOnClickListener(object : SingleClick(100L) {
+            @SuppressLint("SetTextI18n")
+            override fun onSingleClick(v: View?) {
+                if (receiver_circle_hide_ll.visibility == View.VISIBLE)
+                    receiver_circle_hide_ll.visibility = View.GONE
+                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
+                    if (add_shipper_tv.text.toString().isBlank()) {
+                        add_shipper_tv.text = "添加发货人信息"
+                    }
+                }
+                shipper_circle_hide_ll.visibility = if (shipper_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
+            }
+
+        })
+        add_shipper_tv.setOnClickListener(object : SingleClick(100L) {
+            @SuppressLint("SetTextI18n")
+            override fun onSingleClick(v: View?) {
+                if (receiver_circle_hide_ll.visibility == View.VISIBLE)
+                    receiver_circle_hide_ll.visibility = View.GONE
+                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
+                    if (add_shipper_tv.text.toString().isBlank()) {
+                        add_shipper_tv.text = "添加发货人信息"
+                    }
+                }
+                shipper_circle_hide_ll.visibility = if (shipper_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
+            }
+
+        })
+        receiver_circle_tv.setOnClickListener(object : SingleClick() {
+            @SuppressLint("SetTextI18n")
+            override fun onSingleClick(v: View?) {
+                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    shipper_circle_hide_ll.visibility = View.GONE
+                }
+                if (receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
+                    if (add_receiver_tv.text.toString().isBlank()) {
+                        add_receiver_tv.text = "添加收货人信息"
+                    }
+                }
+                receiver_circle_hide_ll.visibility = if (receiver_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
+            }
+
+        })
+        add_receiver_tv.setOnClickListener(object : SingleClick() {
+            @SuppressLint("SetTextI18n")
+            override fun onSingleClick(v: View?) {
+                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    shipper_circle_hide_ll.visibility = View.GONE
+                }
+                if (receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
+                    if (add_receiver_tv.text.toString().isBlank()) {
+                        add_receiver_tv.text = "添加收货人信息"
+                    }
+                }
+                receiver_circle_hide_ll.visibility = if (receiver_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
+            }
+
+        })
         waybill_number_handwriting_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 waybillNumber(true)
@@ -597,13 +726,16 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                     .subscribe { granted ->
                         if (granted) { // Always true pre-M
                             // I can control the camera now
-                            ARouter.getInstance().build(ARouterConstants.LocationActivity).navigation()
+                            getGPS()
+//                            ARouter.getInstance().build(ARouterConstants.LocationActivity).navigation()
                         } else {
                             // Oups permission denied
                         }
                     }
         } else {
-            ARouter.getInstance().build(ARouterConstants.LocationActivity).navigation()
+            getGPS()
+
+//            ARouter.getInstance().build(ARouterConstants.LocationActivity).navigation()
 
         }
     }

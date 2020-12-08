@@ -87,16 +87,20 @@ abstract class CommonScanPDAMVPListActivity<V : BaseView, T : BasePresenterImpl<
 
     }
 
+    fun initReceiver() {
+        val intentFilter = IntentFilter(SCN_CUST_ACTION_SCODE)
+        registerReceiver(scanDataReceiver, intentFilter)
+    }
+
     override fun initExtra() {
         super.initExtra()
         mPDAScanManager = ReaderManager.getInstance()
-        val intentFilter = IntentFilter(SCN_CUST_ACTION_SCODE)
-        registerReceiver(scanDataReceiver, intentFilter)
     }
 
     override fun onResume() {
         super.onResume()
         initializationScan()
+        initReceiver()
     }
 
     protected fun initializationScan() {
@@ -133,8 +137,13 @@ abstract class CommonScanPDAMVPListActivity<V : BaseView, T : BasePresenterImpl<
         }
     }
 
-    override fun onDestroy() {
+    override fun onStop() {
+        super.onStop()
         unregisterReceiver(scanDataReceiver)
+
+    }
+
+    override fun onDestroy() {
         mPDAScanManager?.Release()
         mPDAScanManager?.isEnableScankey = false
         mPDAScanManager = null

@@ -21,7 +21,6 @@ import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.revoke.RevokeDepartureTrunkDepartureScanDataBean
-import com.mbcq.vehicleslibrary.activity.shorttrunkdepartureunplanscanoperating.ShortTrunkDepartureUnPlanScanOperatingBean
 import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
 import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.*
 import org.json.JSONObject
@@ -107,7 +106,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
                          *  多件扫描start------------------------------------------------------
                          */
                         if (item.qty > 20) {
-                            ScanNumDialog(object : OnClickInterface.OnClickInterface {
+                            ScanNumDialog(item.totalQty - item.unLoadQty,1,object : OnClickInterface.OnClickInterface {
                                 override fun onResult(x1: String, x2: String) {
                                     if (isInteger(x1)) {
                                         val mScanSun = item.totalQty - item.unLoadQty
@@ -215,7 +214,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
             val mScanSun = data.optInt("qty", 0)
 
             if (mScanSun > 20) {
-                ScanNumDialog(object : OnClickInterface.OnClickInterface {
+                ScanNumDialog(mScanSun,1,object : OnClickInterface.OnClickInterface {
                     override fun onResult(s1: String, s2: String) {
                         if (isInteger(s1)) {
                             if (s1.toInt() > data.optInt("qty")) {

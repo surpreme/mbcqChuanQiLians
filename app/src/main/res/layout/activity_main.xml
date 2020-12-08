@@ -4,29 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#383838"
+    android:background="@drawable/splash_back"
+    android:backgroundTint="@color/light_purple"
     tools:context=".MainActivity">
 
 
     <ImageView
         android:id="@+id/logo_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="97dp"
+        android:layout_height="97dp"
         android:layout_marginTop="150dp"
+        android:alpha="0.8"
         android:src="@drawable/app_logo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/app_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15sp"
+        android:text="传麒链"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo_iv" />
+
+    <TextView
+        android:id="@+id/app_english_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15sp"
+        android:layout_marginBottom="50dp"
+        android:text="Chuan Qi Lian"
+        android:textColor="@color/white"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="传麒链"
-        android:layout_marginTop="15sp"
+        android:text="传麒链©2020 CHUANQILIAN.COM IPV6"
         android:textColor="@color/white"
-        android:textSize="15sp"
+        android:layout_marginTop="3dp"
+        android:textSize="11sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo_iv" />
+        app:layout_constraintTop_toBottomOf="@+id/app_english_tv" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

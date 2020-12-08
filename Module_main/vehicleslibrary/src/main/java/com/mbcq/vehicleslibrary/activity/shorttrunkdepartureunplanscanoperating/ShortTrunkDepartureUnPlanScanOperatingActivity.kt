@@ -103,7 +103,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
 
     fun scanSuccess(s1: String) {
         if (s1.length > 5) {
-            
+
             val mAdapterData = adapter.getAllData()
             if (!mAdapterData.isNullOrEmpty()) {
                 var isHasOrder = false
@@ -117,36 +117,36 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                          *  多件扫描start------------------------------------------------------
                          */
                         if (item.qty > 20) {
-                              ScanNumDialog(object : OnClickInterface.OnClickInterface {
-                                    override fun onResult(x1: String, x2: String) {
-                                        if (isInteger(x1)) {
-                                            val mScanSun = item.totalQty - item.unLoadQty
-                                            if (x1.toInt() > mScanSun) {
-                                                showToast("您输入的数量已经超过货物剩余的数量")
-                                                return
-                                            }
-                                            val scanBuilder = StringBuilder()
-                                            for (index in ((mScanSun - x1.toInt()) + 1)..mScanSun) {
-                                                val endBillno = if (index.toString().length == 1) "000$index" else if (index.toString().length == 2) "00$index" else if (index.toString().length == 3) "0$index" else if (index.toString().length == 4) "$index" else ""
-
-                                                scanBuilder.append(s1.substring(0, s1.length - 4) + endBillno)
-                                                if (index != mScanSun)
-                                                    scanBuilder.append(",")
-                                            }
-                                            mPresenter?.scanOrder(
-                                                    s1.substring(0, s1.length - 4),
-                                                    scanBuilder.toString(),
-                                                    PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
-                                                    JSONObject(mLastData).optString("inoneVehicleFlag"),
-                                                    item.ewebidCodeStr,
-                                                    item.ewebidCode.toString(),
-                                                    item.ewebidCodeStr,
-                                                    //不可以使用进度条的进度 传给后台的是需要达到的进度
-                                                    (((totalLoadingNum - (mTotalUnLoadingNum - (scanBuilder.toString().split(",").lastIndex + 1))) * 100) / totalLoadingNum).toString(), "")
+                            ScanNumDialog(item.totalQty - item.unLoadQty,1,object : OnClickInterface.OnClickInterface {
+                                override fun onResult(x1: String, x2: String) {
+                                    if (isInteger(x1)) {
+                                        val mScanSun = item.totalQty - item.unLoadQty
+                                        if (x1.toInt() > mScanSun) {
+                                            showToast("您输入的数量已经超过货物剩余的数量")
+                                            return
                                         }
-                                    }
+                                        val scanBuilder = StringBuilder()
+                                        for (index in ((mScanSun - x1.toInt()) + 1)..mScanSun) {
+                                            val endBillno = if (index.toString().length == 1) "000$index" else if (index.toString().length == 2) "00$index" else if (index.toString().length == 3) "0$index" else if (index.toString().length == 4) "$index" else ""
 
-                                }).show(supportFragmentManager, "ScanNumDialogNext")
+                                            scanBuilder.append(s1.substring(0, s1.length - 4) + endBillno)
+                                            if (index != mScanSun)
+                                                scanBuilder.append(",")
+                                        }
+                                        mPresenter?.scanOrder(
+                                                s1.substring(0, s1.length - 4),
+                                                scanBuilder.toString(),
+                                                PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
+                                                JSONObject(mLastData).optString("inoneVehicleFlag"),
+                                                item.ewebidCodeStr,
+                                                item.ewebidCode.toString(),
+                                                item.ewebidCodeStr,
+                                                //不可以使用进度条的进度 传给后台的是需要达到的进度
+                                                (((totalLoadingNum - (mTotalUnLoadingNum - (scanBuilder.toString().split(",").lastIndex + 1))) * 100) / totalLoadingNum).toString(), "")
+                                    }
+                                }
+
+                            }).show(supportFragmentManager, "ScanNumDialogNext")
 
                             /**
                              * 多件扫描end------------------------------------------------------
@@ -220,7 +220,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
             }
             val mScanSun = data.optInt("qty", 0)
             if (mScanSun > 20) {
-                ScanNumDialog(object : OnClickInterface.OnClickInterface {
+                ScanNumDialog(mScanSun, 1,object : OnClickInterface.OnClickInterface {
                     override fun onResult(s1: String, s2: String) {
                         if (isInteger(s1)) {
                             if (s1.toInt() > data.optInt("qty")) {
@@ -239,12 +239,6 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                         }
                     }
 
-                }, object : OnClickInterface.OnClickInterface {
-                    override fun onResult(s1: String, s2: String) {
-                        
-
-                    }
-
                 }).show(supportFragmentManager, "ScanNumDialog")
                 return
             }
@@ -261,10 +255,6 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
 
     }
 
-    override fun showError(msg: String) {
-        super.showError(msg)
-        
-    }
 
     fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String, moreScanStr: String) {
         val iodjjk = Gson().fromJson(GsonUtils.toPrettyFormat(data), ShortTrunkDepartureUnPlanScanOperatingBean::class.java)
@@ -305,7 +295,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
         notifyMathChange()
 //        mTts?.startSpeaking(data.optString("ewebidCodeStr"), null)
         mTts?.startSpeaking(soundStr, null)
-        
+
 
     }
 

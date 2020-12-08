@@ -1,6 +1,7 @@
 package com.mbcq.orderlibrary.activity.exceptionregistration
 
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
@@ -238,7 +239,7 @@ class ExceptionRegistrationPresenter : BasePresenterImpl<ExceptionRegistrationCo
     override fun updateAllInfo(jsonObject: JSONObject) {
         post<String>(ApiInterface.EXCEPTION_RECORD_ADD_WRONG_POST, getRequestBody(jsonObject), object : CallBacks {
             override fun onResult(result: String) {
-
+                mView?.updateAllInfoS(result)
             }
 
         })
@@ -276,6 +277,35 @@ class ExceptionRegistrationPresenter : BasePresenterImpl<ExceptionRegistrationCo
         get<String>(ApiInterface.WAYBILL_RECORD_SELECT_SHORT_VEHICLES_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 mView?.getShortCarNumberS(Gson().fromJson(result, ExceptionRegistrationShortCarNumberBean::class.java))
+            }
+
+        })
+    }
+
+    fun getSearchList(result: String): List<ExceptionVehiclesBean> {
+        return Gson().fromJson<List<ExceptionVehiclesBean>>(JSONObject(result).optString("data"), object : TypeToken<List<ExceptionVehiclesBean>>() {}.type)
+    }
+
+    override fun searchInoneVehicleFlag(billno: String) {
+        val params = HttpParams()
+        params.put("billno", billno)
+        get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_BILLNO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+//                if (getSearchList(result).isEmpty()) {
+
+                mView?.searchInoneVehicleFlagS(getSearchList(result))
+
+                get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_BILLNO_GET, params, object : CallBacks {
+                    override fun onResult(xResult: String) {
+                        /*  if (getSearchList(result).isEmpty()) {
+
+                          } else*/
+                        mView?.searchInoneVehicleFlagS(getSearchList(xResult))
+                    }
+
+                })
+//                } else
+
             }
 
         })

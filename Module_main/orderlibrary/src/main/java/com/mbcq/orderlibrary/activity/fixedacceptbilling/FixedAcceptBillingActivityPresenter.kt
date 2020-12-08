@@ -787,4 +787,79 @@ class FixedAcceptBillingActivityPresenter : BasePresenterImpl<FixedAcceptBilling
         })
 
     }
+    override fun getSalesman() {
+        get<String>(ApiInterface.ACCEPT_SELECT_GETSALESMAN_GET+"?=",null,object :CallBacks{
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                val json = JSONTokener(obj.optString("data")).nextValue()
+                if (json is JSONArray) {
+                    obj.optJSONArray("data")?.let {
+                        if (!it.isNull(0)) {
+                            mView?.getSalesmanS(obj.optString("data"))
+                        }
+                    }
+
+                }
+
+            }
+
+        })
+
+    }
+    override fun getVehicles() {
+        get<String>(ApiInterface.VEHICLE_SELECT_INFO_GET + "?=", null, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                val json = JSONTokener(obj.optString("data")).nextValue()
+                if (json is JSONArray) {
+                    obj.optJSONArray("data")?.let {
+                        if (!it.isNull(0)) {
+                            mView?.getVehicleS(obj.optString("data"))
+                        }
+                    }
+
+                }
+
+
+            }
+
+        })
+    }
+    override fun getShipperInfo(params: HttpParams) {
+        get<String>(ApiInterface.ACCEPT_SELECT_SHIPPER_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                val datas = obj.opt("data")
+                datas?.let {
+                    val json = JSONTokener(it.toString()).nextValue()
+                    if (json is JSONArray) {
+                        if (!(json as JSONArray).isNull(0))
+                            mView?.getShipperInfoS(it.toString())
+
+                    }
+
+                }
+            }
+
+        })
+    }
+
+    override fun getReceiverInfo(params: HttpParams) {
+        get<String>(ApiInterface.ACCEPT_SELECT_RECEIVER_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                val datas = obj.opt("data")
+                datas?.let {
+                    val json = JSONTokener(it.toString()).nextValue()
+                    if (json is JSONArray) {
+                        if (!(json as JSONArray).isNull(0))
+                            mView?.getReceiverInfoS(it.toString())
+
+                    }
+
+                }
+            }
+
+        })
+    }
 }

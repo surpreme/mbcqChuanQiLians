@@ -20,6 +20,7 @@ import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.system.FileUtils
+import com.mbcq.baselibrary.util.system.StringUtils
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
@@ -137,7 +138,7 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
 
     fun updateOvering() {
         val obj = JSONObject()
-        val Id = ""
+        val Id = mSelectId
         obj.put("Id", Id)
         val Billno = waybill_number_tv.text
         obj.put("Billno", Billno)
@@ -185,8 +186,23 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
         val InOnevehicleflag = "DB1003-20201117-004"//TODO
         obj.put("InOnevehicleflag", InOnevehicleflag)
         /////////////////////////////////////////
-        val AllImagesLst = ""
+        val AllImagesLst = JSONArray()
+        for (index in 0..mShowImagesURL.lastIndex) {
+            val imgObj = JSONObject()
+            imgObj.put("ImgPath", index.toString() + "," + mShowImagesURL[index].substring(mShowImagesURL[index].lastIndexOf("/") + 1) + "," + StringUtils.removeLetter(FileUtils.toFileSize(FileUtils.getFileSize(mShowImagesFile[index]))) + "," + mShowImagesURL[index].replace(ApiInterface.BASE_URIS, ""))
+            imgObj.put("ImgSize", StringUtils.removeLetter(FileUtils.toFileSize(FileUtils.getFileSize(mShowImagesFile[index]))))
+            imgObj.put("ImgName", mShowImagesURL[index].substring(mShowImagesURL[index].lastIndexOf("/") + 1))
+            imgObj.put("UploadDate", TimeUtils.getCurrTime2())
+            imgObj.put("ImgType", 16)
+            imgObj.put("ImgTypeStr", "异常登记")
+            imgObj.put("Fromtype", Constant.ANDROID)
+            imgObj.put("FromtypeStr", Constant.ANDROID_STR)
+            imgObj.put("ImageId", index)
+            AllImagesLst.put(imgObj)
+        }
+
         obj.put("AllImagesLst", AllImagesLst)
+////////////////////////////////////////
         val itemJay = JSONArray()
         val itemObj = obj
         itemObj.put("ImgSize", FileUtils.toFileSize(FileUtils.getFileSize(mShowImagesFile[0])))
@@ -295,6 +311,7 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
     @SuppressLint("SetTextI18n")
     override fun getExceptionInfoS(data: JSONObject) {
         order_info_cl.visibility = View.VISIBLE
+        mSelectId = data.optInt("id")
         mSafeMoney = data.optString("safeMoney")// 保价金额
         waybill_number_tv.text = data.optString("billno")
         serial_number_tv.text = data.optString("goodsNum")
@@ -303,8 +320,9 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
 //        departure_lot_tv.text = data.optString("ewebidCodeStr")
         receiver_tv.text = "收货人:${data.optString("consignee")}        ${data.optString("consigneeMb")}"
         goods_info_tv.text = "${data.optString("product")} ${data.optString("qty")} ${data.optString("packages")}"
-        mPresenter?.getShortCarNumber(data.optString("billno"))
-        mPresenter?.getDepartureLot(data.optString("billno"))
+//        mPresenter?.getShortCarNumber(data.optString("billno"))
+//        mPresenter?.getDepartureLot(data.optString("billno"))
+        mPresenter?.searchInoneVehicleFlag(data.optString("billno"))
     }
 
     override fun getExceptionInfoNull() {
@@ -334,6 +352,12 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
             }
 
         }).show(supportFragmentManager, "getWrongTypeFilterDialog")
+    }
+
+    override fun updateAllInfoS(result: String) {
+        TalkSureDialog(mContext, getScreenWidth(), "提交运单${waybill_number_tv.text}异常成功") {
+            onBackPressed()
+        }.show()
     }
 
 
@@ -380,6 +404,12 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
         for (item in result.data[1].data) {
             if (item.billno == billno_ed.text.toString())
                 mShowInOnevehicleflagList.add(ShowInOnevehicleflagBean(item.inoneVehicleFlag))
+        }
+    }
+
+    override fun searchInoneVehicleFlagS(list: List<ExceptionVehiclesBean>) {
+        for (item in list) {
+            mShowInOnevehicleflagList.add(ShowInOnevehicleflagBean(item.inoneVehicleFlag))
         }
     }
 }

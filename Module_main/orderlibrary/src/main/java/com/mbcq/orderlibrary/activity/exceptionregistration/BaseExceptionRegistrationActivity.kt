@@ -58,6 +58,7 @@ abstract class BaseExceptionRegistrationActivity<V : BaseView, T : BasePresenter
     var mProblemTypeIndex = 0
     var mProblemChildTypeIndex = 0
     var mSafeMoney = ""
+    var mSelectId = 0
 
 
     override fun initExtra() {
@@ -82,6 +83,7 @@ abstract class BaseExceptionRegistrationActivity<V : BaseView, T : BasePresenter
         receiver_tv.text = ""
         goods_info_tv.text = ""
         order_info_cl.visibility = View.GONE
+        mSelectId = 0
     }
 
 

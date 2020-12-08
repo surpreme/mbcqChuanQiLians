@@ -10,9 +10,11 @@ import kotlinx.android.synthetic.main.dialog_scan_num.*
 
 /**
  * 扫描输入扫描件数
+ * mScanType @1未装车 @2已扫描
  */
-class ScanNumDialog(var mClackInterface: OnClickInterface.OnClickInterface? = null,var mCancelClackInterface: OnClickInterface.OnClickInterface? = null) : BaseDialogFragment() {
+class ScanNumDialog(var mUnScanNum: Int = 0, var mScanType: Int = 0, var mClackInterface: OnClickInterface.OnClickInterface? = null) : BaseDialogFragment() {
     override fun initView(view: View, savedInstanceState: Bundle?) {
+        scan_num_ed.hint = "还有$mUnScanNum 件${if (mScanType == 1) "未装车" else if (mScanType == 2) "已装车" else ""}"
         sure_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (scan_num_ed.text.toString().isBlank())
@@ -24,7 +26,7 @@ class ScanNumDialog(var mClackInterface: OnClickInterface.OnClickInterface? = nu
         })
         cancel_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                mCancelClackInterface?.onResult("","")
+//                mCancelClackInterface?.onResult("", "")
                 dismiss()
             }
 

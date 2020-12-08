@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:alpha="0.9"
+    android:background="#BDC7F2"
+    android:paddingLeft="10dp"
+    tools:context="com.mbcq.orderlibrary.fragment.waybillinformation.WaybillInformationTableAdapter">
+
+    <TextView
+        android:id="@+id/product_tv"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:gravity="center|left"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        tools:text="配件" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/qty_tv"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:gravity="center|left"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        tools:text="100件" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/packages_tv"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:gravity="center|left"
+        android:text=""
+        android:textColor="@color/white"
+
+        android:textSize="16sp"
+        tools:text="纸箱" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/weight_tv"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center|left"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/white"
+
+        android:textSize="16sp"
+        tools:text="100kg" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/volumn_tv"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center|left"
+
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        tools:text="2m³" />
+
+</LinearLayout>
+

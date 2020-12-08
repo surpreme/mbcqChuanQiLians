@@ -87,7 +87,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
                 if (item.billno == s1.substring(0, s1.length - 4)) {
                     soundString = item.ewebidCodeStr
                     if (item.totalQty > 20) {
-                        ScanNumDialog(object : OnClickInterface.OnClickInterface {
+                        ScanNumDialog(item.totalQty - item.unLoadQty,1,object : OnClickInterface.OnClickInterface {
                             override fun onResult(x1: String, x2: String) {
                                 if (isInteger(x1)) {
                                     val mScanSun = item.totalQty - item.unLoadQty

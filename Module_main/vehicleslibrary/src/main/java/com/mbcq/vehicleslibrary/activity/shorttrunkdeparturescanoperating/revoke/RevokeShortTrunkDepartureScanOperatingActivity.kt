@@ -90,11 +90,11 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
     }
 
     fun scanSuccess(s1: String) {
-        if (!mIsCanScan)
-            return
+        /*if (!mIsCanScan)
+            return*/
         if (s1.length > 5) {
 //            TalkSureDialog(mContext, getScreenWidth(), s1 + " xxxx  " + mIsCanScan).show()
-            mIsCanScan = false
+//            mIsCanScan = false
             var isAdpterHase = false
             var mRevokeShortTrunkDepartureScanOperatingBean: RevokeShortTrunkDepartureScanOperatingBean = RevokeShortTrunkDepartureScanOperatingBean()
             for (adpterItem in adapter.getAllData()) {
@@ -106,11 +106,12 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
             }
             if (!isAdpterHase) {
                 for (mCaritem in mCarList) {
-                    mRevokeShortTrunkDepartureScanOperatingBean = mCaritem
+                    if (mCaritem.billno == s1.substring(0, s1.length - 4))
+                        mRevokeShortTrunkDepartureScanOperatingBean = mCaritem
                 }
             }
             if (mRevokeShortTrunkDepartureScanOperatingBean.totalQty > 20) {
-                ScanNumDialog(object : OnClickInterface.OnClickInterface {
+                ScanNumDialog(mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty, 2, object : OnClickInterface.OnClickInterface {
                     override fun onResult(x1: String, x2: String) {
                         if (isInteger(x1)) {
                             val mScanSun = mRevokeShortTrunkDepartureScanOperatingBean.totalQty - mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty
@@ -135,10 +136,11 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
                 }).show(supportFragmentManager, "ScanDialogFragment")
             } else {
 //                                        val obj = JSONObject(mLastData)
-                mLastData?.let {
-                    mPresenter?.revokeOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), it.inoneVehicleFlag, "", ((((mLoadingOrderNum - 1) * 100) / it.mTotalLoadingOrderNum).toString()))
+                if (mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty <= mRevokeShortTrunkDepartureScanOperatingBean.totalQty && mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty > 0)
+                    mLastData?.let {
+                        mPresenter?.revokeOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), it.inoneVehicleFlag, "", ((((mLoadingOrderNum - 1) * 100) / it.mTotalLoadingOrderNum).toString()))
 
-                }
+                    }
             }
 
         }
@@ -201,16 +203,20 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
                 }
             }
         }
-        mIsCanScan = true
+//        mIsCanScan = true
 
     }
 
-    var mIsCanScan = true
-    override fun showError(msg: String) {
+    /**
+     * mIsCanScan 是lock 可能会出现死锁的情况
+     * 可以删掉 这里只判断异常和返回成功 干线撤销没有添加
+     */
+//    var mIsCanScan = true
+/*    override fun showError(msg: String) {
         super.showError(msg)
         mIsCanScan = true
 
-    }
+    }*/
 
     override fun getRecyclerViewId(): Int = R.id.short_trunk_departure_scan_operating_recycler
 
@@ -225,7 +231,7 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
     }
 
     override fun onPDAScanResult(result: String) {
-        if (mIsCanScan)
-            scanSuccess(result)
+//        if (mIsCanScan)
+        scanSuccess(result)
     }
 }

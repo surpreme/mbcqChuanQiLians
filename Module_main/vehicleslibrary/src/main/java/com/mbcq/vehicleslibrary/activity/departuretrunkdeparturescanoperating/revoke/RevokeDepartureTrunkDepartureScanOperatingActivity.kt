@@ -104,11 +104,12 @@ class RevokeDepartureTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListA
             }
             if (!isAdpterHase) {
                 for (mCaritem in mCarList) {
-                    mRevokeDepartureTrunkDepartureScanOperatingBean = mCaritem
+                    if (mCaritem.billno == s1.substring(0, s1.length - 4))
+                        mRevokeDepartureTrunkDepartureScanOperatingBean = mCaritem
                 }
             }
             if (mRevokeDepartureTrunkDepartureScanOperatingBean.totalQty > 20) {
-                ScanNumDialog(object : OnClickInterface.OnClickInterface {
+                ScanNumDialog(mRevokeDepartureTrunkDepartureScanOperatingBean.unLoadQty, 2, object : OnClickInterface.OnClickInterface {
                     override fun onResult(x1: String, x2: String) {
                         if (isInteger(x1)) {
                             val mScanSun = mRevokeDepartureTrunkDepartureScanOperatingBean.totalQty - mRevokeDepartureTrunkDepartureScanOperatingBean.unLoadQty

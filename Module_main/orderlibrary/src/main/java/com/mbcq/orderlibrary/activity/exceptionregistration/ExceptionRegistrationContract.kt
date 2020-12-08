@@ -18,9 +18,12 @@ class ExceptionRegistrationContract {
         fun getExceptionInfoNull()
         fun postImgS(url: String)
         fun getWrongTypeS(result: String)
+        fun updateAllInfoS(result: String)
         fun getWrongChildrenTypeS(result: String)
         fun getShortCarNumberS(result: ExceptionRegistrationShortCarNumberBean)
         fun getDepartureLotS(result: ExceptionRegistrationDepartureCarNumberBean)
+        fun searchInoneVehicleFlagS(list: List<ExceptionVehiclesBean>)
+
     }
 
     interface Presenter : BasePresenter<View> {
@@ -45,6 +48,7 @@ class ExceptionRegistrationContract {
          */
         fun getDepartureLot(billno: String)
         fun getShortCarNumber(billno: String)
+        fun searchInoneVehicleFlag(billno: String)
 
     }
 }

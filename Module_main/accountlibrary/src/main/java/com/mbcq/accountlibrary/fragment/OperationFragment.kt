@@ -276,7 +276,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                 }
                                 2 -> {
                                     //TODO
-                                    ARouter.getInstance().build(ARouterConstants.ScanPDAActivity).navigation()
+//                                    ARouter.getInstance().build(ARouterConstants.ScanPDAActivity).navigation()
 
                                 }
                                 3 -> {

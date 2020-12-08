@@ -17,6 +17,7 @@
         app:rightButtonIcon="@drawable/ic_search_icon" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/accept_billing_nested"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

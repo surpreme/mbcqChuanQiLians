@@ -1,6 +1,7 @@
 package com.mbcq.orderlibrary.activity.fixedacceptbilling
 
 import com.google.gson.JsonObject
+import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import org.json.JSONObject
@@ -23,7 +24,10 @@ class FixedAcceptBillingActivityContract {
         fun getPackageS(result: String)
         fun getReceiptRequirementS(result: String)
         fun  updateDataS()
-
+        fun getVehicleS(result: String)
+        fun getSalesmanS(result: String)
+        fun getShipperInfoS(result: String)
+        fun getReceiverInfoS(result: String)
     }
 
     interface Presenter : BasePresenter<View> {
@@ -66,5 +70,22 @@ class FixedAcceptBillingActivityContract {
          * 修改订单
          */
         fun updateData(jsonObject: JSONObject)
+        /**
+         * 车辆信息
+         */
+        fun getVehicles()
+        /**
+         * 业务员
+         */
+
+        fun getSalesman()
+        /**
+         * 发货人
+         */
+        fun getShipperInfo(params: HttpParams)
+        /**
+         * 收货人
+         */
+        fun getReceiverInfo(params: HttpParams)
     }
 }

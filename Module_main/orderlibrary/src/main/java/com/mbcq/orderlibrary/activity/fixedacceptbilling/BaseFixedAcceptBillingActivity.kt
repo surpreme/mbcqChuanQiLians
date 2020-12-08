@@ -10,7 +10,9 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.text.InputFilter
 import android.view.View
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -26,6 +28,7 @@ import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.system.TimeUtils
+import com.mbcq.baselibrary.view.MoneyInputFilter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.*
 import com.mbcq.commonlibrary.adapter.BaseEditTextAdapterBean
@@ -36,12 +39,14 @@ import com.mbcq.orderlibrary.R
 import com.mbcq.orderlibrary.activity.acceptbilling.*
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_fixed_accept_billing_activity.*
+import org.json.JSONObject
+
 /**
  * @author: lzy
  * @time: 2020-10-17 13:32:00 改单申请
  */
 
-abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V,T>(), BaseView {
+abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
     var mTransneed = ""//运输类型编码
     var mTransneedStr = ""//运输类型
 
@@ -78,20 +83,22 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
     /**
      * 发货人信息
      */
-    var mShipperId = ""//发货客户编号
-    var mShipperMb = ""//发货人手机号
-    var mShipperTel = ""//发货人固定电话
-    var mShipper = ""//发货人
-    var mShipperCid = ""//发货人身份证号
-    var mShipperAddr = ""//发货人地址
+    /*  var mShipperId = ""//发货客户编号
+      var mShipperMb = ""//发货人手机号
+      var mShipperTel = ""//发货人固定电话
+      var mShipper = ""//发货人
+      var mShipperCid = ""//发货人身份证号
+      var mShipperAddr = ""//发货人地址
 
+      */
     /**
      * 收货人信息
-     */
+     *//*
     var mConsigneeMb = ""//收货人手机号
     var mConsigneeTel = ""//收货人固定电话
     var mConsignee = ""//收货人
-    var mConsigneeAddr = ""//收货人地址
+    var mConsigneeAddr = ""//收货人地址*/
+
     var mSearchaId = ""
 
     lateinit var rxPermissions: RxPermissions
@@ -108,11 +115,26 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
         initAddGoodsRecycler()
+        shipper_circle_hide_ll.visibility = View.GONE
+        receiver_circle_hide_ll.visibility = View.GONE
+        weight_name_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
+        volume_name_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
+        fixed_accept_billing_nested.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (scrollY > shipper_circle_hide_ll.top) {
+                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    shipper_circle_hide_ll.visibility = View.GONE
+//                    fixed_accept_billing_nested.smoothScrollTo(0, shipper_circle_tv.bottom)
+                }
+            }
+            if (scrollY > receiver_circle_hide_ll.top) {
+                if (receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    receiver_circle_hide_ll.visibility = View.GONE
+//                    fixed_accept_billing_nested.smoothScrollTo(0, receiver_circle_tv.bottom)
 
+                }
+            }
+        })
     }
-
-
-
 
 
     protected fun isCanCargoInfoAdd(): Boolean {
@@ -132,7 +154,7 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
             showToast("请输入重量")
             return false
         }
-        if (volume_name_tv.text.toString().isEmpty()) {
+        if (volume_name_ed.text.toString().isEmpty()) {
             showToast("请输入体积")
             return false
         }
@@ -149,14 +171,17 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
             showToast("请选择目的地")
             return false
         }
-        if (mShipperMb.isEmpty()) {
+        //        if (mShipperMb.isEmpty()) {
+        if (shipper_name_ed.text.toString().isBlank()) {
             showToast("请选择发货人")
             return false
         }
-        if (mConsigneeMb.isEmpty()) {
+//        if (mConsigneeMb.isEmpty()) {
+        if (receiver_name_ed.text.toString().isBlank()) {
             showToast("请选择收货人")
             return false
         }
+
         /*  if (cargo_name_ed.text.toString().isEmpty()) {
               showToast("请选择货物名称")
               return false
@@ -179,6 +204,7 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
         }
         return true
     }
+
     lateinit var mAddGoodsAcceptBillingAdapter: AddGoodsAcceptBillingAdapter
     protected fun initAddGoodsRecycler() {
         fixed_cargo_info_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
@@ -193,15 +219,79 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
 
         }
     }
+
     protected fun clearCargoInfoAdd() {
         cargo_name_ed.setText("")
         numbers_name_ed.setText("")
         package_name_ed.setText("")
         weight_name_ed.setText("")
-        volume_name_tv.setText("")
+        volume_name_ed.setText("")
     }
+
     override fun onClick() {
         super.onClick()
+        shipper_circle_tv.setOnClickListener(object : SingleClick(100L) {
+            @SuppressLint("SetTextI18n")
+            override fun onSingleClick(v: View?) {
+                if (receiver_circle_hide_ll.visibility == View.VISIBLE)
+                    receiver_circle_hide_ll.visibility = View.GONE
+                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
+                    if (add_shipper_tv.text.toString().isBlank()) {
+                        add_shipper_tv.text = "添加发货人信息"
+                    }
+                }
+                shipper_circle_hide_ll.visibility = if (shipper_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
+            }
+
+        })
+        add_shipper_tv.setOnClickListener(object : SingleClick(100L) {
+            @SuppressLint("SetTextI18n")
+            override fun onSingleClick(v: View?) {
+                if (receiver_circle_hide_ll.visibility == View.VISIBLE)
+                    receiver_circle_hide_ll.visibility = View.GONE
+                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
+                    if (add_shipper_tv.text.toString().isBlank()) {
+                        add_shipper_tv.text = "添加发货人信息"
+                    }
+                }
+                shipper_circle_hide_ll.visibility = if (shipper_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
+            }
+
+        })
+        receiver_circle_tv.setOnClickListener(object : SingleClick() {
+            @SuppressLint("SetTextI18n")
+            override fun onSingleClick(v: View?) {
+                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    shipper_circle_hide_ll.visibility = View.GONE
+                }
+                if (receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
+                    if (add_receiver_tv.text.toString().isBlank()) {
+                        add_receiver_tv.text = "添加收货人信息"
+                    }
+                }
+                receiver_circle_hide_ll.visibility = if (receiver_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
+            }
+
+        })
+        add_receiver_tv.setOnClickListener(object : SingleClick() {
+            @SuppressLint("SetTextI18n")
+            override fun onSingleClick(v: View?) {
+                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    shipper_circle_hide_ll.visibility = View.GONE
+                }
+                if (receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
+                    if (add_receiver_tv.text.toString().isBlank()) {
+                        add_receiver_tv.text = "添加收货人信息"
+                    }
+                }
+                receiver_circle_hide_ll.visibility = if (receiver_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
+            }
+
+        })
         fixed_cargo_info_add_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (isCanCargoInfoAdd()) {
@@ -210,7 +300,7 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
                     mAddGoodsAcceptBillingBean.qty = numbers_name_ed.text.toString()
                     mAddGoodsAcceptBillingBean.packages = package_name_ed.text.toString()
                     mAddGoodsAcceptBillingBean.weight = weight_name_ed.text.toString()
-                    mAddGoodsAcceptBillingBean.volumn = volume_name_tv.text.toString()
+                    mAddGoodsAcceptBillingBean.volumn = volume_name_ed.text.toString()
                     mAddGoodsAcceptBillingAdapter.appendData(mutableListOf(mAddGoodsAcceptBillingBean))
                     clearCargoInfoAdd()
                 }
@@ -268,9 +358,48 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
         isOpen = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         return isOpen
     }
+    /**
+     * ARouter 度娘
+     * {"name":"xxxx","phone":"15999999999","address":"1111"}
+     */
+    @SuppressLint("SetTextI18n")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            Constant.GPS_REQUEST_CODE -> {
+                //做需要做的事情，比如再次检测是否打开GPS了 或者定位
+                getLocation()
+            }
+            RESULT_DATA_CODE->{
+                (data?.getStringExtra("AddShipperResultData"))?.let {
+                    val mDatas = JSONObject(it)
+                    shipper_phone_ed.setText(mDatas.optString("phone"))
+                    shipper_name_ed.setText(mDatas.optString("name"))
+                    shipper_address_ed.setText(mDatas.optString("address"))
+                    shipper_mShipperTel_ed.setText(mDatas.optString("shipperTel"))
+                    add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
+                }
+            }
+            RECEIVER_RESULT_DATA_CODE->{
+                (data?.getStringExtra("AddReceiveResultData"))?.let {
+                    val mDatas = JSONObject(it)
+                    receiver_phone_ed.setText(mDatas.optString("phone"))//收货人手机号
+                    receiver_mConsigneeTel_ed.setText(mDatas.optString("consigneeTel"))//收货人固定电话
+                    receiver_name_ed.setText(mDatas.optString("name"))//收货人
+                    receiver_address_ed.setText(mDatas.optString("address"))//收货人地址
+                    if (mDatas.optString("product").isNotBlank())
+                        cargo_name_ed.setText(mDatas.optString("product"))
+                    if (mDatas.optString("package").isNotBlank())
+                        package_name_ed.setText(mDatas.optString("package"))
+                    add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
+
+                }
+            }
+        }
 
 
 
+    }
 
     /**
      * 收货方式
@@ -347,9 +476,7 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
     }
 
 
-
     var mEditTextAdapter: EditTextAdapter<BaseEditTextAdapterBean>? = null
-
 
 
 }

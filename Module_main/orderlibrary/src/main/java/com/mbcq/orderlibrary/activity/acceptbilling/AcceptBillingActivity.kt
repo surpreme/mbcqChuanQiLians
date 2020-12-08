@@ -38,7 +38,7 @@ import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2018.08.25login
+ * @time: 2020-12-08 08:59:12
  * 受理开单
  * @information 逻辑以及网络逻辑层 谨慎修改 随着项目叠加 分层压力
  */
@@ -102,68 +102,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             }
 
         })
-        shipper_circle_tv.setOnClickListener(object : SingleClick() {
-            @SuppressLint("SetTextI18n")
-            override fun onSingleClick(v: View?) {
-                if (receiver_circle_hide_ll.visibility == View.VISIBLE)
-                    receiver_circle_hide_ll.visibility = View.GONE
-                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
-                    add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
-                    if (add_shipper_tv.text.toString().isBlank()) {
-                        add_shipper_tv.text = "添加收货人信息"
-                    }
-                }
-                shipper_circle_hide_ll.visibility = if (shipper_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
-            }
 
-        })
-        add_shipper_tv.setOnClickListener(object : SingleClick() {
-            @SuppressLint("SetTextI18n")
-            override fun onSingleClick(v: View?) {
-                if (receiver_circle_hide_ll.visibility == View.VISIBLE)
-                    receiver_circle_hide_ll.visibility = View.GONE
-                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
-                    add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
-                    if (add_shipper_tv.text.toString().isBlank()) {
-                        add_shipper_tv.text = "添加收货人信息"
-                    }
-                }
-                shipper_circle_hide_ll.visibility = if (shipper_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
-            }
-
-        })
-        receiver_circle_tv.setOnClickListener(object : SingleClick() {
-            @SuppressLint("SetTextI18n")
-            override fun onSingleClick(v: View?) {
-                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
-                    shipper_circle_hide_ll.visibility = View.GONE
-                }
-                if (receiver_circle_hide_ll.visibility == View.VISIBLE) {
-                    add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
-                    if (add_receiver_tv.text.toString().isBlank()) {
-                        add_receiver_tv.text = "添加发货人信息"
-                    }
-                }
-                receiver_circle_hide_ll.visibility = if (receiver_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
-            }
-
-        })
-        add_receiver_tv.setOnClickListener(object : SingleClick() {
-            @SuppressLint("SetTextI18n")
-            override fun onSingleClick(v: View?) {
-                if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
-                    shipper_circle_hide_ll.visibility = View.GONE
-                }
-                if (receiver_circle_hide_ll.visibility == View.VISIBLE) {
-                    add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
-                    if (add_receiver_tv.text.toString().isBlank()) {
-                        add_receiver_tv.text = "添加发货人信息"
-                    }
-                }
-                receiver_circle_hide_ll.visibility = if (receiver_circle_hide_ll.visibility == View.GONE) View.VISIBLE else View.GONE
-            }
-
-        })
         choice_shipper_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 ARouter.getInstance().build(ARouterConstants.ChoiceShipperActivity).navigation(this@AcceptBillingActivity, RESULT_DATA_CODE)
@@ -828,7 +767,10 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
         }
         TalkSureDialog(mContext, getScreenWidth(), showTipsStr) {
-            onBackPressed()
+            /**
+             * 重启activity
+             */
+            recreate()
         }.show()
 
     }

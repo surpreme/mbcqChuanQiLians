@@ -63,22 +63,36 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_cl">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <com.youth.banner.Banner
+                android:visibility="gone"
                 android:id="@+id/house_banner"
                 android:layout_width="match_parent"
-                android:layout_height="163dp" />
+                android:layout_height="163dp"
+                android:background="@color/white" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieAnimationView"
+                android:layout_width="match_parent"
+                android:layout_height="163dp"
+                android:background="@color/white"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="loadingdata.json"
+                app:lottie_loop="true" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -161,7 +175,8 @@
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/type_tab_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="@color/white" />
 
         </LinearLayout>
 
