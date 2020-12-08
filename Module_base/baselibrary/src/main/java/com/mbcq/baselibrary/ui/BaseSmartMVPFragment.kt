@@ -1,14 +1,14 @@
 package com.mbcq.baselibrary.ui
 
 
-import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.mbcq.baselibrary.R
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
-import com.scwang.smartrefresh.header.WaterDropHeader
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 
@@ -55,19 +55,19 @@ abstract class BaseSmartMVPFragment<V : BaseView, T : BasePresenterImpl<V>, X> :
 
     }
 
-    var mNoDataIv: ImageView? = null
+    var mNoDataView: View? = null
+
     fun showNoData() {
-        if (mNoDataIv == null)
-            mNoDataIv = ImageView(mContext)
-        mNoDataIv?.scaleType = ImageView.ScaleType.CENTER_INSIDE
-        mNoDataIv?.setImageDrawable(mContext?.getDrawable(R.drawable.base_smart_empty))
-        val linearParams = ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.MATCH_PARENT)
-        mSmartFrameLayout.addView(mNoDataIv, linearParams)
+        val inflater = LayoutInflater.from(mContext)
+        if (mNoDataView == null)
+            mNoDataView = inflater.inflate(R.layout.nodata_ll, null)
+        val lp: LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
+        mSmartFrameLayout.addView(mNoDataView, lp)
     }
 
     fun stopNoData() {
-        if (mNoDataIv != null)
-            mSmartFrameLayout.removeView(mNoDataIv)
+        if (mNoDataView != null)
+            mSmartFrameLayout.removeView(mNoDataView)
     }
 
     open fun refresh() {

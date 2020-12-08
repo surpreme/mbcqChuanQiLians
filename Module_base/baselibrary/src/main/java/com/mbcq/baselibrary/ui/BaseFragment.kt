@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.util.screen.StatusBarUtils
+import com.mbcq.baselibrary.view.SingleClick
 import java.text.DecimalFormat
 
 /**Lqayou
@@ -141,3 +142,5 @@ abstract class BaseFragment : Fragment() {
     }
 
 }
+
+

@@ -54,7 +54,6 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
         setStatusBar(R.color.base_blue)
         current_time_tv.text = TimeUtils.getCurrTime2()
         clearInfo()
-
         initImageShowGridRecycler()
     }
 
@@ -193,6 +192,7 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
             imgObj.put("ImgSize", StringUtils.removeLetter(FileUtils.toFileSize(FileUtils.getFileSize(mShowImagesFile[index]))))
             imgObj.put("ImgName", mShowImagesURL[index].substring(mShowImagesURL[index].lastIndexOf("/") + 1))
             imgObj.put("UploadDate", TimeUtils.getCurrTime2())
+            imgObj.put("uploadman",problem_man_ed.text.toString() )
             imgObj.put("ImgType", 16)
             imgObj.put("ImgTypeStr", "异常登记")
             imgObj.put("Fromtype", Constant.ANDROID)

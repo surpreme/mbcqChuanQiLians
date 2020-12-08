@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_house.*
 /***
  * 首页
  */
-class HouseFragment :BaseFragment(){
+class HouseFragment : BaseFragment() {
     override fun getLayoutResId(): Int = R.layout.fragment_house
     override fun initViews(view: View) {
         type_tab_layout.addTab(type_tab_layout.newTab().setText("我寄的"))
@@ -20,7 +20,13 @@ class HouseFragment :BaseFragment(){
 
     override fun onClick() {
         super.onClick()
-        scan_tv.setOnClickListener(object :SingleClick(){
+        house_search_fragment_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                ARouter.getInstance().build(ARouterConstants.HouseSearchActivity).navigation()
+            }
+
+        })
+        scan_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 ARouter.getInstance().build(ARouterConstants.ScanActivity).navigation()
 

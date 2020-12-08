@@ -27,18 +27,20 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <TextView
+            android:id="@+id/house_search_fragment_tv"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="13dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="13dp"
             android:background="@drawable/common_round_corner_gray_bg"
             android:drawableLeft="@drawable/ic_search_icon"
             android:drawableTint="@color/base_grayDark"
-            android:hint="  请输入要查询的运单号"
-            android:paddingLeft="10dp"
+            android:gravity="center|left"
+            android:hint="   请输入要查询的运单号"
+            android:paddingLeft="13dp"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/message_tv"
@@ -49,12 +51,13 @@
             android:id="@+id/scan_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="16dp"
             android:drawableTop="@drawable/ic_scan_iccon"
             android:gravity="center"
             android:text="扫一扫"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,11 +77,11 @@
             android:orientation="vertical">
 
             <com.youth.banner.Banner
-                android:visibility="gone"
                 android:id="@+id/house_banner"
                 android:layout_width="match_parent"
                 android:layout_height="163dp"
-                android:background="@color/white" />
+                android:background="@color/white"
+                android:visibility="gone" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottieAnimationView"

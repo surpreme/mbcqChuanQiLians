@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/setting_more_icon_iv"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_gravity="center" />
 
     <TextView
@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
+        android:layout_marginTop="3dp"
         android:text="门店自寄"
         android:textColor="@color/black"
         android:textSize="16sp"

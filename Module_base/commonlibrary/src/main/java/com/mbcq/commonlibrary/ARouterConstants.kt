@@ -11,6 +11,7 @@ object ARouterConstants {
     const val SignatureActivity = "/account/SignatureActivity"
     const val WebPageLogInActivity = "/account/WebPageLogInActivity"
     const val CommonlyInformationActivity = "/account/CommonlyInformationActivity"
+    const val HouseSearchActivity = "/account/HouseSearchActivity"
     const val CommonlyInformationConfigurationActivity = "/account/CommonlyInformationConfigurationActivity"
 
     /**
