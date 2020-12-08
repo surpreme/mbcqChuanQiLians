@@ -4,7 +4,7 @@ include ':app' ,
         'Module_base:commonlibrary' ,
         'Module_main:orderlibrary',
         'Module_main:maplibrary',
-        'Module_main:Vehicleslibrary',
+        'Module_main:vehicleslibrary',
         'Module_main:amountlibrary',
         'Module_main:accountlibrary'
 
