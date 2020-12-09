@@ -160,7 +160,7 @@
 
 
         <Button
-            android:id="@+id/save_btn"
+            android:id="@+id/commit_btn"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_marginLeft="3dp"

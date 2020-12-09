@@ -50,6 +50,11 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
 
     override fun onClick() {
         super.onClick()
+        inventory_btn.apply {
+            onSingleClicks {
+                ARouter.getInstance().build(ARouterConstants.ShortHouseChecklistActivity).navigation()
+            }
+        }
         search_btn.apply {
             onSingleClicks {
                 if (billno_ed.text.toString().isBlank()) {

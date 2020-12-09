@@ -3,7 +3,13 @@
     package="com.mbcq.vehicleslibrary">
 
     <application>
-        <activity android:name=".activity.fixedscandeparturetrunkconfiguration.FixedScanDepartureTrunkConfigurationActivity"></activity>
+        <activity
+            android:name=".activity.departurehousechecklist.DepartureHouseChecklistActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.shorthousechecklist.ShortHouseChecklistActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".activity.fixedscandeparturetrunkconfiguration.FixedScanDepartureTrunkConfigurationActivity" />
         <activity android:name=".activity.fixedscanshortfeederconfiguration.FixedScanShortFeederConfigurationActivity" />
         <activity android:name=".activity.adddeparturetrunk.AddDepartureTrunkActivity" />
         <activity android:name=".activity.departuretrunkdepartureunplanscanoperating.DepartureTrunkDepartureUnPlanScanOperatingActivity" />

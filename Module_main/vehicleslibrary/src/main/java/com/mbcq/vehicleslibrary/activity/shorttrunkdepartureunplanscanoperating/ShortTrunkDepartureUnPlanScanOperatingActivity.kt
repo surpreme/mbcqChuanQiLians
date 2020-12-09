@@ -53,7 +53,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
         val obj = JSONObject(mLastData)
 //        mScanId = obj.optInt("id")
         unScan_info_tv.text = "未扫： xxx件 xxxxkg  xxm³             扫描人:${UserInformationUtil.getUserName(mContext)}"
-        unloading_batch_tv.text = "卸车批次:${/*if (obj.optString("inoneVehicleFlag").isBlank()) obj.optString("InoneVehicleFlag") else*/ obj.optString("inoneVehicleFlag")}"
+        unloading_batch_tv.text = "卸车批次:${ obj.optString("inoneVehicleFlag")}"
 
 
     }
@@ -77,6 +77,11 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                     return@onSingleClicks
                 }
                 scanSuccess(billno_ed.text.toString())
+            }
+        }
+        inventory_btn.apply {
+            onSingleClicks {
+                ARouter.getInstance().build(ARouterConstants.ShortHouseChecklistActivity).navigation()
             }
         }
         short_vehicles_un_plan_scan_operating_toolbar.setRightTitleOnClickListener(object : SingleClick() {

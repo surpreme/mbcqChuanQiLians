@@ -25,7 +25,7 @@ import java.lang.StringBuilder
 
 /**
  * @author: lzy
- * @time: 2020-11-04 14:30 :21 干线扫描发车
+ * @time: 2020-11-04 14:30 :21 干线扫描发车 在库 清单
  */
 
 @Route(path = ARouterConstants.DepartureTrunkDepartureScanOperatingActivity)
@@ -49,6 +49,11 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
 
     override fun onClick() {
         super.onClick()
+        inventory_btn.apply {
+            onSingleClicks {
+                ARouter.getInstance().build(ARouterConstants.DepartureHouseChecklistActivity).navigation()
+            }
+        }
         search_btn.apply {
             onSingleClicks {
                 if (billno_ed.text.toString().isBlank()) {
