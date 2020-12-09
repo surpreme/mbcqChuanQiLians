@@ -3,7 +3,9 @@ package com.mbcq.vehicleslibrary.activity.shorttrunkdepartureunplanscanoperating
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -14,8 +16,11 @@ import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.baselibrary.view.CustomizeToastUtil
+import com.mbcq.baselibrary.view.DialogFragmentUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
@@ -65,6 +70,15 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
 
     override fun onClick() {
         super.onClick()
+        search_btn.apply {
+            onSingleClicks {
+                if (billno_ed.text.toString().isBlank()) {
+                    showToast("请检查扫描编码后重试")
+                    return@onSingleClicks
+                }
+                scanSuccess(billno_ed.text.toString())
+            }
+        }
         short_vehicles_un_plan_scan_operating_toolbar.setRightTitleOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 //TODO 撤销共用
@@ -102,8 +116,9 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
     }
 
     fun scanSuccess(s1: String) {
+        if (DialogFragmentUtils.getIsShowDialogFragment(this))
+            return
         if (s1.length > 5) {
-
             val mAdapterData = adapter.getAllData()
             if (!mAdapterData.isNullOrEmpty()) {
                 var isHasOrder = false
@@ -117,7 +132,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                          *  多件扫描start------------------------------------------------------
                          */
                         if (item.qty > 20) {
-                            ScanNumDialog(item.totalQty - item.unLoadQty,1,object : OnClickInterface.OnClickInterface {
+                            ScanNumDialog(item.totalQty - item.unLoadQty, 1, object : OnClickInterface.OnClickInterface {
                                 override fun onResult(x1: String, x2: String) {
                                     if (isInteger(x1)) {
                                         val mScanSun = item.totalQty - item.unLoadQty
@@ -205,7 +220,14 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
     }
 
     override fun getRecyclerViewId(): Int = R.id.short_vehicles_unplan_scan_operating_recycler
-    override fun setAdapter(): BaseRecyclerAdapter<ShortTrunkDepartureUnPlanScanOperatingBean> = ShortTrunkDepartureUnPlanScanOperatingAdapter(mContext)
+    override fun setAdapter(): BaseRecyclerAdapter<ShortTrunkDepartureUnPlanScanOperatingBean> = ShortTrunkDepartureUnPlanScanOperatingAdapter(mContext).also {
+        it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                billno_ed.setText(mResult)
+            }
+        }
+    }
+
     override fun getWillByInfoS(data: JSONObject, resultBillno: String) {
         //3在途
         if (data.optInt("billState") != 3) {
@@ -220,7 +242,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
             }
             val mScanSun = data.optInt("qty", 0)
             if (mScanSun > 20) {
-                ScanNumDialog(mScanSun, 1,object : OnClickInterface.OnClickInterface {
+                ScanNumDialog(mScanSun, 1, object : OnClickInterface.OnClickInterface {
                     override fun onResult(s1: String, s2: String) {
                         if (isInteger(s1)) {
                             if (s1.toInt() > data.optInt("qty")) {
@@ -246,7 +268,8 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
 
         } else {
             soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
-            TalkSureDialog(mContext, getScreenWidth(), "该运单已经在途，请核实后重试").show()
+            CustomizeToastUtil().Short(mContext, "该运单已经在途，请核实后重试").setGravity(Gravity.CENTER).setToastBackground(Color.WHITE, R.drawable.toast_radius).show()
+//            TalkSureDialog(mContext, getScreenWidth(), "该运单已经在途，请核实后重试").show()
         }
     }
 

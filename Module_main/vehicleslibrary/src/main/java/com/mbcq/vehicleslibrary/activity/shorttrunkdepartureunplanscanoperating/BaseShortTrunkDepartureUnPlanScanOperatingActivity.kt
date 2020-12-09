@@ -1,8 +1,10 @@
 package com.mbcq.vehicleslibrary.activity.shorttrunkdepartureunplanscanoperating
 
+import android.graphics.Color
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.iflytek.cloud.ErrorCode
@@ -13,6 +15,7 @@ import com.mbcq.baselibrary.ui.BaseListMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.util.log.LogUtils
+import com.mbcq.baselibrary.view.CustomizeToastUtil
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPListActivity
 import com.mbcq.vehicleslibrary.R
@@ -74,6 +77,7 @@ abstract class BaseShortTrunkDepartureUnPlanScanOperatingActivity<V : BaseView, 
         initTts()
         initSoundPool()
     }
+
     override fun onBeforeCreate() {
         super.onBeforeCreate()
         window.setFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
@@ -97,8 +101,9 @@ abstract class BaseShortTrunkDepartureUnPlanScanOperatingActivity<V : BaseView, 
         })
     }
 
-    override fun isShowErrorDialog(): Boolean {
-        return true
+    override fun showError(msg: String) {
+        LogUtils.e(msg)
+        CustomizeToastUtil().Short(mContext, msg).setGravity(Gravity.CENTER).setToastBackground(Color.WHITE, R.drawable.toast_radius).show()
     }
 
     fun initSoundPool() {
@@ -173,7 +178,6 @@ abstract class BaseShortTrunkDepartureUnPlanScanOperatingActivity<V : BaseView, 
          */
         mTotalLoadingOrderNum = 0
     }
-
 
 
     override fun onDestroy() {

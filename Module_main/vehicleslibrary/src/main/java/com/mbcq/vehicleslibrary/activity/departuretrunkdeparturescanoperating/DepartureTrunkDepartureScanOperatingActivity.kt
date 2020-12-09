@@ -9,8 +9,10 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.baselibrary.view.DialogFragmentUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
@@ -47,6 +49,15 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
 
     override fun onClick() {
         super.onClick()
+        search_btn.apply {
+            onSingleClicks {
+                if (billno_ed.text.toString().isBlank()) {
+                    showToast("请检查扫描编码后重试")
+                    return@onSingleClicks
+                }
+                scanSuccess(billno_ed.text.toString())
+            }
+        }
         departure_vehicles_scan_operating_toolbar.setRightTitleOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 val mRevokeDepartureTrunkDepartureScanDataBean = RevokeDepartureTrunkDepartureScanDataBean()
@@ -79,6 +90,8 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
     }
 
     fun scanSuccess(s1: String) {
+        if (DialogFragmentUtils.getIsShowDialogFragment(this))
+            return
         if (s1.length > 5) {
             val obj = JSONObject(mLastData)
             var soundString = "未知地址"
@@ -141,7 +154,14 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
     }
 
     override fun getRecyclerViewId(): Int = R.id.departure_vehicles_scan_operating_recycler
-    override fun setAdapter(): BaseRecyclerAdapter<DepartureTrunkDepartureScanOperatingBean> = DepartureTrunkDepartureScanOperatingAdapter(mContext)
+    override fun setAdapter(): BaseRecyclerAdapter<DepartureTrunkDepartureScanOperatingBean> = DepartureTrunkDepartureScanOperatingAdapter(mContext).also {
+       it.mClickInterface=object :OnClickInterface.OnRecyclerClickInterface{
+           override fun onItemClick(v: View, position: Int, mResult: String) {
+               billno_ed.setText(mResult)
+           }
+
+       }
+    }
     override fun getCarInfoS(list: List<DepartureTrunkDepartureScanOperatingBean>) {
         if (!adapter.getAllData().isNullOrEmpty()) {
             adapter.clearData()

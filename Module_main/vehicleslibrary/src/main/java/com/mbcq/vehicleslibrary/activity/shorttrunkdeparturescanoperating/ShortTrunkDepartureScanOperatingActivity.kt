@@ -10,13 +10,14 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.baselibrary.view.DialogFragmentUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
-import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.revoke.RevokeDepartureTrunkDepartureScanDataBean
 import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.revoke.RevokeShortTrunkDepartureScanDataBean
 import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
 import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.*
@@ -49,6 +50,15 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
 
     override fun onClick() {
         super.onClick()
+        search_btn.apply {
+            onSingleClicks {
+                if (billno_ed.text.toString().isBlank()) {
+                    showToast("请检查扫描编码后重试")
+                    return@onSingleClicks
+                }
+                scanSuccess(billno_ed.text.toString())
+            }
+        }
         save_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (mTotalUnLoadingNum != 0) {
@@ -80,6 +90,8 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
     }
 
     fun scanSuccess(s1: String) {
+        if (DialogFragmentUtils.getIsShowDialogFragment(this))
+            return
         if (s1.length > 5) {
             val obj = JSONObject(mLastData)
             var soundString = "未知地址"
@@ -144,7 +156,14 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
 
     override fun getRecyclerViewId(): Int = R.id.short_vehicles_scan_operating_recycler
 
-    override fun setAdapter(): BaseRecyclerAdapter<ShortTrunkDepartureScanOperatingBean> = ShortTrunkDepartureScanOperatingAdapter(mContext)
+    override fun setAdapter(): BaseRecyclerAdapter<ShortTrunkDepartureScanOperatingBean> = ShortTrunkDepartureScanOperatingAdapter(mContext).also {
+        it.mClickInterface=object :OnClickInterface.OnRecyclerClickInterface{
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                billno_ed.setText(mResult)
+            }
+
+        }
+    }
 
 
     /**

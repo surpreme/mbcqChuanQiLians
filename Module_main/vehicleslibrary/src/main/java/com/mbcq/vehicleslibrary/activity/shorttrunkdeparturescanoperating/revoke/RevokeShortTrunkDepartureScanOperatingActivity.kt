@@ -2,18 +2,24 @@ package com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.revok
 
 
 import android.Manifest
+import android.graphics.Color
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import androidx.fragment.app.DialogFragment
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.baselibrary.view.CustomizeToastUtil
+import com.mbcq.baselibrary.view.DialogFragmentUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPListActivity
@@ -45,7 +51,7 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
     var mSoundPool: SoundPool? = null
     private var soundPoolMap: HashMap<Int, Int>? = null
     val SCAN_SOUND_ERROR_TAG = 1
-    override fun isShowErrorDialog(): Boolean = true
+//    override fun isShowErrorDialog(): Boolean = true
 
     override fun getLayoutId(): Int = R.layout.activity_revoke_short_trunk_departure_scan_operating
 
@@ -64,6 +70,12 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
             mLoadingOrderNum = it.mTotalLoadingOrderNum - it.mTotalUnLoadingOrderNum
 
         }
+    }
+
+    override fun showError(msg: String) {
+        LogUtils.e(msg)
+        CustomizeToastUtil().Short(mContext, msg).setGravity(Gravity.CENTER).setToastBackground(Color.WHITE, R.drawable.toast_radius).show()
+
     }
 
     override fun initDatas() {
@@ -90,11 +102,9 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
     }
 
     fun scanSuccess(s1: String) {
-        /*if (!mIsCanScan)
-            return*/
+        if (DialogFragmentUtils.getIsShowDialogFragment(this))
+            return
         if (s1.length > 5) {
-//            TalkSureDialog(mContext, getScreenWidth(), s1 + " xxxx  " + mIsCanScan).show()
-//            mIsCanScan = false
             var isAdpterHase = false
             var mRevokeShortTrunkDepartureScanOperatingBean: RevokeShortTrunkDepartureScanOperatingBean = RevokeShortTrunkDepartureScanOperatingBean()
             for (adpterItem in adapter.getAllData()) {
@@ -141,6 +151,8 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
                         mPresenter?.revokeOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), it.inoneVehicleFlag, "", ((((mLoadingOrderNum - 1) * 100) / it.mTotalLoadingOrderNum).toString()))
 
                     }
+                else
+                    showError("货物已经全部撤销，请核实后重试")
             }
 
         }
@@ -203,20 +215,9 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
                 }
             }
         }
-//        mIsCanScan = true
 
     }
 
-    /**
-     * mIsCanScan 是lock 可能会出现死锁的情况
-     * 可以删掉 这里只判断异常和返回成功 干线撤销没有添加
-     */
-//    var mIsCanScan = true
-/*    override fun showError(msg: String) {
-        super.showError(msg)
-        mIsCanScan = true
-
-    }*/
 
     override fun getRecyclerViewId(): Int = R.id.short_trunk_departure_scan_operating_recycler
 
@@ -230,8 +231,8 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
         mCarList.addAll(list)
     }
 
+
     override fun onPDAScanResult(result: String) {
-//        if (mIsCanScan)
         scanSuccess(result)
     }
 }

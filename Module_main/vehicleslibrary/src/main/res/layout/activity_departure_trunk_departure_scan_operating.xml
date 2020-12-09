@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.departuretrunkdeparturescanoperating.DepartureTrunkDepartureScanOperatingActivity">
+
     <com.mbcq.baselibrary.view.CnToolbar
         android:id="@+id/departure_vehicles_scan_operating_toolbar"
         android:layout_width="match_parent"
@@ -47,22 +48,22 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:foregroundTint="@color/base_orange"
-        tools:progress="20"
         android:progressTint="@color/base_orange"
         app:layout_constraintBottom_toBottomOf="@+id/scan_progress_title_tv"
         app:layout_constraintLeft_toRightOf="@+id/scan_progress_title_tv"
         app:layout_constraintRight_toLeftOf="@+id/scan_number_total_tv"
-        app:layout_constraintTop_toTopOf="@+id/scan_progress_title_tv" />
+        app:layout_constraintTop_toTopOf="@+id/scan_progress_title_tv"
+        tools:progress="20" />
 
     <TextView
         android:id="@+id/scan_number_total_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
         android:text="20/93"
         android:textColor="@color/base_orange"
         app:layout_constraintBottom_toBottomOf="@+id/scan_progressBar"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="15dp"
         app:layout_constraintTop_toTopOf="@+id/scan_progressBar" />
 
     <TextView
@@ -145,11 +146,25 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
-            android:id="@+id/commit_btn"
+            android:id="@+id/inventory_btn"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:alpha="0.8"
+            android:backgroundTint="@color/base_blue"
+            android:text="库存"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+
+        <Button
+            android:id="@+id/save_btn"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:alpha="0.8"
             android:backgroundTint="@color/base_blue"
@@ -162,9 +177,9 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="只显示未扫"
+            android:text="按扫描率"
             android:textColor="@color/black"
-            android:textSize="19sp" />
+            android:textSize="17sp" />
 
         <ImageView
             android:id="@+id/down_iv"

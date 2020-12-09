@@ -14,8 +14,10 @@ import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.baselibrary.view.DialogFragmentUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
@@ -57,6 +59,15 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
 
     override fun onClick() {
         super.onClick()
+        search_btn.apply {
+            onSingleClicks {
+                if (billno_ed.text.toString().isBlank()) {
+                    showToast("请检查扫描编码后重试")
+                    return@onSingleClicks
+                }
+                scanSuccess(billno_ed.text.toString())
+            }
+        }
         scan_number_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 getCameraPermission()
@@ -92,6 +103,8 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
         })
     }
     fun scanSuccess(s1: String) {
+        if (DialogFragmentUtils.getIsShowDialogFragment(this))
+            return
         if (s1.length > 5) {
             val mAdapterData = adapter.getAllData()
             if (!mAdapterData.isNullOrEmpty()) {
@@ -196,7 +209,14 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
 
     override fun getRecyclerViewId(): Int = R.id.departure_vehicles_unplan_scan_operating_recycler
 
-    override fun setAdapter(): BaseRecyclerAdapter<DepartureTrunkDepartureUnPlanScanOperatingBean> = DepartureTrunkDepartureUnPlanScanOperatingAdapter(mContext)
+    override fun setAdapter(): BaseRecyclerAdapter<DepartureTrunkDepartureUnPlanScanOperatingBean> = DepartureTrunkDepartureUnPlanScanOperatingAdapter(mContext).also {
+        it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                billno_ed.setText(mResult)
+            }
+
+        }
+    }
 
     override fun getWillByInfoS(data: JSONObject, resultBillno: String) {
         //3在途

@@ -1,9 +1,11 @@
 package com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.iflytek.cloud.ErrorCode
@@ -15,13 +17,14 @@ import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.log.LogUtils
+import com.mbcq.baselibrary.view.CustomizeToastUtil
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPListActivity
 import com.mbcq.vehicleslibrary.R
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_departure_trunk_departure_scan_operating.*
 
-abstract class BaseDepartureTrunkDepartureScanOperatingActivity <V : BaseView, T : BasePresenterImpl<V>, X> : CommonScanPDAMVPListActivity<V, T, X>(), BaseView {
+abstract class BaseDepartureTrunkDepartureScanOperatingActivity<V : BaseView, T : BasePresenterImpl<V>, X> : CommonScanPDAMVPListActivity<V, T, X>(), BaseView {
     /***
      * 全部未扫描数量
      */
@@ -83,6 +86,7 @@ abstract class BaseDepartureTrunkDepartureScanOperatingActivity <V : BaseView, T
                 android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     }
+
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
@@ -98,8 +102,12 @@ abstract class BaseDepartureTrunkDepartureScanOperatingActivity <V : BaseView, T
         })
     }
 
-    override fun isShowErrorDialog(): Boolean {
-        return true
+    /*  override fun isShowErrorDialog(): Boolean {
+          return true
+      }*/
+    override fun showError(msg: String) {
+        LogUtils.e(msg)
+        CustomizeToastUtil().Short(mContext, msg).setGravity(Gravity.CENTER).setToastBackground(Color.WHITE, R.drawable.toast_radius).show()
     }
 
     fun initSoundPool() {

@@ -9,9 +9,10 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
 
-class RevokeDepartureTrunkDepartureScanOperatingAdapter (context: Context) : BaseRecyclerAdapter<RevokeDepartureTrunkDepartureScanOperatingBean>(context) {
+class RevokeDepartureTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecyclerAdapter<RevokeDepartureTrunkDepartureScanOperatingBean>(context) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_arrival_trunk_short_scan_operating, parent, false))
 
     @SuppressLint("SetTextI18n")

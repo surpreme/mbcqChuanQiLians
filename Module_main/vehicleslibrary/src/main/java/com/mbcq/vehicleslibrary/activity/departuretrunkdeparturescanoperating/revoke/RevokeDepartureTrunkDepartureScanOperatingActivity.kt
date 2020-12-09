@@ -2,9 +2,11 @@ package com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.r
 
 
 import android.Manifest
+import android.graphics.Color
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -12,8 +14,11 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.baselibrary.view.CustomizeToastUtil
+import com.mbcq.baselibrary.view.DialogFragmentUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPListActivity
@@ -75,6 +80,12 @@ class RevokeDepartureTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListA
         }
     }
 
+    override fun showError(msg: String) {
+        LogUtils.e(msg)
+        CustomizeToastUtil().Short(mContext, msg).setGravity(Gravity.CENTER).setToastBackground(Color.WHITE, R.drawable.toast_radius).show()
+
+    }
+
     override fun onClick() {
         super.onClick()
         scan_number_iv.setOnClickListener(object : SingleClick() {
@@ -92,6 +103,8 @@ class RevokeDepartureTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListA
     }
 
     fun scanSuccess(s1: String) {
+        if (DialogFragmentUtils.getIsShowDialogFragment(this))
+            return
         if (s1.length > 5) {
             var isAdpterHase = false
             var mRevokeDepartureTrunkDepartureScanOperatingBean: RevokeDepartureTrunkDepartureScanOperatingBean = RevokeDepartureTrunkDepartureScanOperatingBean()
@@ -134,10 +147,12 @@ class RevokeDepartureTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListA
 
                 }).show(supportFragmentManager, "ScanDialogFragment")
             } else {
-                mLastData?.let {
-                    mPresenter?.revokeOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), it.inoneVehicleFlag, "", ((((mLoadingOrderNum - 1) * 100) / it.mTotalLoadingOrderNum).toString()))
-
-                }
+                if (mRevokeDepartureTrunkDepartureScanOperatingBean.unLoadQty <= mRevokeDepartureTrunkDepartureScanOperatingBean.totalQty && mRevokeDepartureTrunkDepartureScanOperatingBean.unLoadQty > 0)
+                    mLastData?.let {
+                        mPresenter?.revokeOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), it.inoneVehicleFlag, "", ((((mLoadingOrderNum - 1) * 100) / it.mTotalLoadingOrderNum).toString()))
+                    }
+                else
+                    showError("货物已经全部撤销，请核实后重试")
             }
 
         }
@@ -212,6 +227,7 @@ class RevokeDepartureTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListA
 
 
     override fun setAdapter(): BaseRecyclerAdapter<RevokeDepartureTrunkDepartureScanOperatingBean> = RevokeDepartureTrunkDepartureScanOperatingAdapter(mContext)
+
     override fun onPDAScanResult(result: String) {
         scanSuccess(result)
     }

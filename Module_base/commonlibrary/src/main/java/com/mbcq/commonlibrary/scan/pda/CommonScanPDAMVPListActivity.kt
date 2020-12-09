@@ -146,6 +146,7 @@ abstract class CommonScanPDAMVPListActivity<V : BaseView, T : BasePresenterImpl<
     override fun onDestroy() {
         mPDAScanManager?.Release()
         mPDAScanManager?.isEnableScankey = false
+        mPDAScanManager?.outPutMode = 0
         mPDAScanManager = null
         super.onDestroy()
 

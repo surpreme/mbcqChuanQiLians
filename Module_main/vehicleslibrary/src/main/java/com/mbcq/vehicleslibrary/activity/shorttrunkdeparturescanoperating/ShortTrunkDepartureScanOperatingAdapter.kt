@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
 
 class ShortTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecyclerAdapter<ShortTrunkDepartureScanOperatingBean>(context) {
@@ -20,6 +21,18 @@ class ShortTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecyclerAd
         context?.let {
             holder.operating_progressbar.progressDrawable = ContextCompat.getDrawable(context, if (mDatas[position].unLoadQty == mDatas[position].totalQty) R.drawable.progress_indeterminate_green_horizontal else R.drawable.progress_indeterminate_horizontal)
         }
+        holder.itemView.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View) {
+                val mScanSun =mDatas[position].unLoadQty
+                if (mScanSun == mDatas[position].totalQty) {
+                    mClickInterface?.onItemClick(v, position, "")
+                    return
+                }
+                val mEndScanSun = mScanSun + 1
+                val endBillno = if (mEndScanSun.toString().length == 1) "000$mEndScanSun" else if (mEndScanSun.toString().length == 2) "00$mEndScanSun" else if (mEndScanSun.toString().length == 3) "0$mEndScanSun" else if (mEndScanSun.toString().length == 4) "$mEndScanSun" else ""
+                mClickInterface?.onItemClick(v, position, mDatas[position].billno + endBillno)
+            }
+        })
         holder.receiver_tv.text = mDatas[position].consignee
         holder.address_tv.text = "${mDatas[position].webidCodeStrDb}---${mDatas[position].ewebidCodeStrDb}"
         holder.goods_name_tv.text = mDatas[position].product
