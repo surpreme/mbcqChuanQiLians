@@ -4,6 +4,7 @@ package com.mbcq.vehicleslibrary.activity.departuretrunkdepartureunplanscanopera
 import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -51,6 +52,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
         unloading_batch_tv.text = "卸车批次:${obj.optString("inoneVehicleFlag")}"
 
     }
+
     override fun onResume() {
         super.onResume()
         val obj = JSONObject(mLastData)
@@ -70,7 +72,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
                     showToast("请检查扫描编码后重试")
                     return@onSingleClicks
                 }
-                scanSuccess(billno_ed.text.toString())
+                scanSuccess(billno_ed.text.toString(), true)
             }
         }
         scan_number_iv.setOnClickListener(object : SingleClick() {
@@ -79,13 +81,13 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
             }
 
         })
-        departure_vehicles_un_plan_scan_operating_toolbar.setRightTitleOnClickListener(object :SingleClick(){
+        departure_vehicles_un_plan_scan_operating_toolbar.setRightTitleOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 //TODO 撤销共用
-                val mRevokeDepartureTrunkDepartureScanDataBean= RevokeDepartureTrunkDepartureScanDataBean()
-                mRevokeDepartureTrunkDepartureScanDataBean.inoneVehicleFlag=JSONObject(mLastData).optString("inoneVehicleFlag")
-                mRevokeDepartureTrunkDepartureScanDataBean.mTotalUnLoadingOrderNum=mTotalUnLoadingNum
-                mRevokeDepartureTrunkDepartureScanDataBean.mTotalLoadingOrderNum=totalLoadingNum
+                val mRevokeDepartureTrunkDepartureScanDataBean = RevokeDepartureTrunkDepartureScanDataBean()
+                mRevokeDepartureTrunkDepartureScanDataBean.inoneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
+                mRevokeDepartureTrunkDepartureScanDataBean.mTotalUnLoadingOrderNum = mTotalUnLoadingNum
+                mRevokeDepartureTrunkDepartureScanDataBean.mTotalLoadingOrderNum = totalLoadingNum
                 ARouter.getInstance().build(ARouterConstants.RevokeDepartureTrunkDepartureScanOperatingActivity).withSerializable("RevokeDepartureLoadingVehicles", mRevokeDepartureTrunkDepartureScanDataBean).navigation()
 
 //                ARouter.getInstance().build(ARouterConstants.RevokeDepartureTrunkDepartureScanOperatingActivity).withString("RevokeDepartureLoadingVehicles", mLastData).navigation()
@@ -107,7 +109,8 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
 
         })
     }
-    fun scanSuccess(s1: String) {
+
+    fun scanSuccess(s1: String, isHeaderPint: Boolean) {
         if (DialogFragmentUtils.getIsShowDialogFragment(this))
             return
         if (s1.length > 5) {
@@ -124,7 +127,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
                          *  多件扫描start------------------------------------------------------
                          */
                         if (item.qty > 20) {
-                            ScanNumDialog(item.totalQty - item.unLoadQty,1,object : OnClickInterface.OnClickInterface {
+                            ScanNumDialog(item.totalQty - item.unLoadQty, 1, object : OnClickInterface.OnClickInterface {
                                 override fun onResult(x1: String, x2: String) {
                                     if (isInteger(x1)) {
                                         val mScanSun = item.totalQty - item.unLoadQty
@@ -149,7 +152,10 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
                                                 item.ewebidCode.toString(),
                                                 item.ewebidCodeStr,
                                                 //不可以使用进度条的进度 传给后台的是需要达到的进度
-                                                (((totalLoadingNum - (mTotalUnLoadingNum - (scanBuilder.toString().split(",").lastIndex + 1))) * 100) / totalLoadingNum).toString())
+                                                (((totalLoadingNum - (mTotalUnLoadingNum - (scanBuilder.toString().split(",").lastIndex + 1))) * 100) / totalLoadingNum).toString(),
+                                                if (isHeaderPint) 1 else 0
+
+                                        )
                                     }
                                 }
 
@@ -158,7 +164,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
                             /**
                              * 多件扫描end------------------------------------------------------
                              */
-                        }else{
+                        } else {
                             mPresenter?.scanOrder(
                                     s1.substring(0, s1.length - 4),
                                     s1,
@@ -168,7 +174,9 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
                                     item.ewebidCode.toString(),
                                     item.ewebidCodeStr,
                                     //不可以使用进度条的进度 传给后台的是需要达到的进度
-                                    (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString()
+                                    (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString(),
+                                    if (isHeaderPint) 1 else 0
+
                             )
                         }
 
@@ -180,26 +188,36 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
 
 
                 if (!isHasOrder) {
-                    mPresenter?.getWillByInfo(s1.substring(0, s1.length - 4), s1)
+                    mPresenter?.getWillByInfo(s1.substring(0, s1.length - 4), s1, if (isHeaderPint) 1 else 0)
                 }
                 /**
                  * 本车为空 什么货物都没有
                  */
 
             } else
-                mPresenter?.getWillByInfo(s1.substring(0, s1.length - 4), s1)
+                mPresenter?.getWillByInfo(s1.substring(0, s1.length - 4), s1, if (isHeaderPint) 1 else 0)
 
         }
     }
 
-        fun getCameraPermission() {
+    fun getCameraPermission() {
         rxPermissions.request(Manifest.permission.CAMERA)
                 .subscribe { granted ->
                     if (granted) { // Always true pre-M
                         // I can control the camera now
                         ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
                             override fun onResult(s1: String, s2: String) {
-                                scanSuccess(s1)
+                                object : CountDownTimer(1000, 1000) {
+                                    override fun onTick(millisUntilFinished: Long) {
+
+                                    }
+
+                                    override fun onFinish() {
+                                        scanSuccess(s1, false)
+                                    }
+
+                                }.start()
+
                             }
 
                         }).show(supportFragmentManager, "ScanDialogFragment")
@@ -223,7 +241,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
         }
     }
 
-    override fun getWillByInfoS(data: JSONObject, resultBillno: String) {
+    override fun getWillByInfoS(data: JSONObject, resultBillno: String, mScanType: Int) {
         //3在途
         if (data.optInt("billState") != 3) {
             //(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String) {
@@ -239,7 +257,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
             val mScanSun = data.optInt("qty", 0)
 
             if (mScanSun > 20) {
-                ScanNumDialog(mScanSun,1,object : OnClickInterface.OnClickInterface {
+                ScanNumDialog(mScanSun, 1, object : OnClickInterface.OnClickInterface {
                     override fun onResult(s1: String, s2: String) {
                         if (isInteger(s1)) {
                             if (s1.toInt() > data.optInt("qty")) {
@@ -254,14 +272,14 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
                                 if (index != mScanSun)
                                     scanBuilder.append(",")
                             }
-                            onFirstScanOrder(data, resultBillno, inoneV, scanBuilder.toString())
+                            onFirstScanOrder(data, resultBillno, inoneV, scanBuilder.toString(), mScanType)
                         }
                     }
 
                 }).show(supportFragmentManager, "ScanNumDialog")
                 return
             }
-            onFirstScanOrder(data, resultBillno, inoneV)
+            onFirstScanOrder(data, resultBillno, inoneV, mScanType)
 
         } else {
             soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
@@ -273,12 +291,13 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
         soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
 
     }
-    fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String) {
-        onFirstScanOrder(data, resultBillno, inoneV, resultBillno)
+
+    fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String, mXScanType: Int) {
+        onFirstScanOrder(data, resultBillno, inoneV, resultBillno, mXScanType)
 
     }
 
-    fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String, moreScanStr: String) {
+    fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String, moreScanStr: String, mXScanType: Int) {
         val iodjjk = Gson().fromJson(GsonUtils.toPrettyFormat(data), DepartureTrunkDepartureUnPlanScanOperatingBean::class.java)
         iodjjk.ewebidCodeStrGx = iodjjk.ewebidCodeStr
         iodjjk.webidCodeStrGx = iodjjk.webidCodeStr
@@ -294,10 +313,13 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
                 data.optString("ewebidCodeStr"),
                 data.optString("ewebidCode"),
                 data.optString("ewebidCodeStr"),
-                (((edNum * 100) / allnum).toInt()).toString())
+                (((edNum * 100) / allnum).toInt()).toString(),
+                mXScanType
+        )
         mTts?.startSpeaking(data.optString("ewebidCodeStr"), null)
 
     }
+
     override fun scanOrderS(billno: String, soundStr: String, mMoreScanBillno: String) {
         for ((index, item) in adapter.getAllData().withIndex()) {
             if (item.billno == billno) {
@@ -337,12 +359,14 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
 
 
     }
+
     override fun saveScanPostS(result: String) {
         val obj = JSONObject(mLastData)
         TalkSureDialog(mContext, getScreenWidth(), "车次为${obj.optString("inoneVehicleFlag")}的无计划车辆已经扫描发车，点击此处返回！") {
             onBackPressed()
         }.show()
     }
+
     var mScanId = 0
 
     override fun getCarInfoS(list: List<DepartureTrunkDepartureUnPlanScanOperatingBean>, id: Int) {
@@ -356,6 +380,6 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
     }
 
     override fun onPDAScanResult(result: String) {
-        scanSuccess(result)
+        scanSuccess(result, false)
     }
 }

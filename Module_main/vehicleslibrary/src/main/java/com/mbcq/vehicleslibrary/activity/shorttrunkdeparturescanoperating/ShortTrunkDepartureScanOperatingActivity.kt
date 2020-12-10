@@ -3,6 +3,7 @@ package com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.os.CountDownTimer
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -61,7 +62,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
                     showToast("请检查扫描编码后重试")
                     return@onSingleClicks
                 }
-                scanSuccess(billno_ed.text.toString())
+                scanSuccess(billno_ed.text.toString(), true)
             }
         }
         save_btn.setOnClickListener(object : SingleClick() {
@@ -94,7 +95,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
 
     }
 
-    fun scanSuccess(s1: String) {
+    fun scanSuccess(s1: String, isHeaderPint: Boolean) {
         if (DialogFragmentUtils.getIsShowDialogFragment(this))
             return
         if (s1.length > 5) {
@@ -104,7 +105,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
                 if (item.billno == s1.substring(0, s1.length - 4)) {
                     soundString = item.ewebidCodeStr
                     if (item.totalQty > 20) {
-                        ScanNumDialog(item.totalQty - item.unLoadQty,1,object : OnClickInterface.OnClickInterface {
+                        ScanNumDialog(item.totalQty - item.unLoadQty, 1, object : OnClickInterface.OnClickInterface {
                             override fun onResult(x1: String, x2: String) {
                                 if (isInteger(x1)) {
                                     val mScanSun = item.totalQty - item.unLoadQty
@@ -120,14 +121,32 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
                                             scanBuilder.append(",")
                                     }
                                     val mOutPintO = (scanBuilder.toString().split(",").lastIndex + 1)
-                                    mPresenter?.scanOrder(s1.substring(0, s1.length - 4), scanBuilder.toString(), PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString, (((totalLoadingNum - (mTotalUnLoadingNum - mOutPintO)) * 100) / totalLoadingNum).toString())
+                                    mPresenter?.scanOrder(
+                                            s1.substring(0, s1.length - 4),
+                                            scanBuilder.toString(),
+                                            PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
+                                            obj.optString("inoneVehicleFlag"),
+                                            soundString,
+                                            (((totalLoadingNum - (mTotalUnLoadingNum - mOutPintO)) * 100) / totalLoadingNum).toString(),
+                                            if (isHeaderPint) 1 else 0
+
+                                    )
 
                                 }
                             }
 
                         }).show(supportFragmentManager, "ScanDialogFragment")
                     } else
-                        mPresenter?.scanOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), obj.optString("inoneVehicleFlag"), soundString, (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString())
+                        mPresenter?.scanOrder(
+                                s1.substring(0, s1.length - 4),
+                                s1,
+                                PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
+                                obj.optString("inoneVehicleFlag"),
+                                soundString,
+                                (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString(),
+                                if (isHeaderPint) 1 else 0
+
+                        )
 
                 }
             }
@@ -145,7 +164,16 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
                         // I can control the camera now
                         ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
                             override fun onResult(s1: String, s2: String) {
-                                scanSuccess(s1)
+                                object :CountDownTimer(1000,1000){
+                                    override fun onTick(millisUntilFinished: Long) {
+
+                                    }
+
+                                    override fun onFinish() {
+                                        scanSuccess(s1, false)
+                                    }
+
+                                }.start()
                             }
 
                         }).show(supportFragmentManager, "ScanDialogFragment")
@@ -162,7 +190,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
     override fun getRecyclerViewId(): Int = R.id.short_vehicles_scan_operating_recycler
 
     override fun setAdapter(): BaseRecyclerAdapter<ShortTrunkDepartureScanOperatingBean> = ShortTrunkDepartureScanOperatingAdapter(mContext).also {
-        it.mClickInterface=object :OnClickInterface.OnRecyclerClickInterface{
+        it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 billno_ed.setText(mResult)
             }
@@ -229,7 +257,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
     }
 
     override fun onPDAScanResult(result: String) {
-        scanSuccess(result)
+        scanSuccess(result, false)
     }
 
 

@@ -5,6 +5,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.Gravity
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
@@ -51,17 +52,13 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
         if (mLastData.isBlank())
             return
         val obj = JSONObject(mLastData)
-//        mScanId = obj.optInt("id")
         unScan_info_tv.text = "未扫： xxx件 xxxxkg  xxm³             扫描人:${UserInformationUtil.getUserName(mContext)}"
-        unloading_batch_tv.text = "卸车批次:${ obj.optString("inoneVehicleFlag")}"
+        unloading_batch_tv.text = "卸车批次:${obj.optString("inoneVehicleFlag")}"
 
 
     }
 
-    /**
-     * Stack trace:
-    java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
-     */
+
     override fun onResume() {
         super.onResume()
         val obj = JSONObject(mLastData)
@@ -76,7 +73,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                     showToast("请检查扫描编码后重试")
                     return@onSingleClicks
                 }
-                scanSuccess(billno_ed.text.toString())
+                scanSuccess(billno_ed.text.toString(), true)
             }
         }
         inventory_btn.apply {
@@ -120,7 +117,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
 
     }
 
-    fun scanSuccess(s1: String) {
+    fun scanSuccess(s1: String, isHeaderPint: Boolean) {
         if (DialogFragmentUtils.getIsShowDialogFragment(this))
             return
         if (s1.length > 5) {
@@ -162,7 +159,10 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                                                 item.ewebidCode.toString(),
                                                 item.ewebidCodeStr,
                                                 //不可以使用进度条的进度 传给后台的是需要达到的进度
-                                                (((totalLoadingNum - (mTotalUnLoadingNum - (scanBuilder.toString().split(",").lastIndex + 1))) * 100) / totalLoadingNum).toString(), "")
+                                                (((totalLoadingNum - (mTotalUnLoadingNum - (scanBuilder.toString().split(",").lastIndex + 1))) * 100) / totalLoadingNum).toString(),
+                                                "",
+                                                if (isHeaderPint) 1 else 0
+                                        )
                                     }
                                 }
 
@@ -182,7 +182,10 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                                     item.ewebidCode.toString(),
                                     item.ewebidCodeStr,
                                     //不可以使用进度条的进度 传给后台的是需要达到的进度
-                                    (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString(), "")
+                                    (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString(),
+                                    "",
+                                    if (isHeaderPint) 1 else 0
+                            )
                         }
 
 
@@ -193,13 +196,13 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                  */
 
                 if (!isHasOrder) {
-                    mPresenter?.getWillByInfo(s1.substring(0, s1.length - 4), s1)
+                    mPresenter?.getWillByInfo(s1.substring(0, s1.length - 4), s1, if (isHeaderPint) 1 else 0)
                 }
                 /**
                  * 本车为空 什么货物都没有
                  */
             } else
-                mPresenter?.getWillByInfo(s1.substring(0, s1.length - 4), s1)
+                mPresenter?.getWillByInfo(s1.substring(0, s1.length - 4), s1, if (isHeaderPint) 1 else 0)
 
         }
     }
@@ -211,7 +214,16 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                         // I can control the camera now
                         ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
                             override fun onResult(s1: String, s2: String) {
-                                scanSuccess(s1)
+                                object : CountDownTimer(1000, 1000) {
+                                    override fun onTick(millisUntilFinished: Long) {
+
+                                    }
+
+                                    override fun onFinish() {
+                                        scanSuccess(s1, false)
+                                    }
+
+                                }.start()
                             }
 
                         }).show(supportFragmentManager, "ScanDialogFragment")
@@ -233,7 +245,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
         }
     }
 
-    override fun getWillByInfoS(data: JSONObject, resultBillno: String) {
+    override fun getWillByInfoS(data: JSONObject, resultBillno: String, mScanType: Int) {
         //3在途
         if (data.optInt("billState") != 3) {
             val obj = JSONObject(mLastData)
@@ -262,14 +274,14 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                                 if (index != mScanSun)
                                     scanBuilder.append(",")
                             }
-                            onFirstScanOrder(data, resultBillno, inoneV, scanBuilder.toString())
+                            onFirstScanOrder(data, resultBillno, inoneV, scanBuilder.toString(),mScanType)
                         }
                     }
 
                 }).show(supportFragmentManager, "ScanNumDialog")
                 return
             }
-            onFirstScanOrder(data, resultBillno, inoneV)
+            onFirstScanOrder(data, resultBillno, inoneV,mScanType)
 
         } else {
             soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
@@ -278,13 +290,13 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
         }
     }
 
-    fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String) {
-        onFirstScanOrder(data, resultBillno, inoneV, resultBillno)
+    fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String, mXScanType: Int) {
+        onFirstScanOrder(data, resultBillno, inoneV, resultBillno, mXScanType)
 
     }
 
 
-    fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String, moreScanStr: String) {
+    fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String, moreScanStr: String, mXScanType: Int) {
         val iodjjk = Gson().fromJson(GsonUtils.toPrettyFormat(data), ShortTrunkDepartureUnPlanScanOperatingBean::class.java)
         iodjjk.ewebidCodeStrDb = iodjjk.ewebidCodeStr
         iodjjk.webidCodeStrDb = iodjjk.webidCodeStr
@@ -300,7 +312,10 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                 data.optString("ewebidCodeStr"),
                 data.optString("ewebidCode"),
                 data.optString("ewebidCodeStr"),
-                (((edNum * 100) / allnum).toInt()).toString(), "")
+                (((edNum * 100) / allnum).toInt()).toString(),
+                "",
+                mXScanType
+        )
 
     }
 
@@ -372,7 +387,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
     }
 
     override fun onPDAScanResult(result: String) {
-        scanSuccess(result)
+        scanSuccess(result, false)
 
     }
 

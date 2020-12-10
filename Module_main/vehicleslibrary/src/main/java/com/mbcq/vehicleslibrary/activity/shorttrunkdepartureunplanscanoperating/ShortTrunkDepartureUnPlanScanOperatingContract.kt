@@ -12,7 +12,7 @@ import org.json.JSONObject
 class ShortTrunkDepartureUnPlanScanOperatingContract {
 
     interface View : BaseView {
-        fun getWillByInfoS(data: JSONObject, resultBillno: String)
+        fun getWillByInfoS(data: JSONObject, resultBillno: String, mScanType: Int)
         fun getWillByInfoNull()
         fun scanOrderS(billno: String, soundStr: String, mMoreScanBillno: String, mResultMoreData: String)
         fun getCarInfoS(list: List<ShortTrunkDepartureUnPlanScanOperatingBean>, id: Int)
@@ -21,8 +21,13 @@ class ShortTrunkDepartureUnPlanScanOperatingContract {
     }
 
     interface Presenter : BasePresenter<View> {
-        fun getWillByInfo(billno: String, resultBillno: String)
-        fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String)
+        fun getWillByInfo(billno: String, resultBillno: String, mScanType: Int)
+        fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String, mScanType: Int)
+
+        /**
+         * 异常扫描
+         */
+        fun scanAbnormalOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String,mAbnormalReason:String)
         fun getCarInfo(inoneVehicleFlag: String)
         fun saveScanPost(id: Int, inoneVehicleFlag: String)
 
