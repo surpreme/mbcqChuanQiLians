@@ -12,6 +12,7 @@ import com.mbcq.accountlibrary.R
 import com.mbcq.accountlibrary.fragment.*
 import com.mbcq.accountlibrary.fragment.OperationFragment
 import com.mbcq.accountlibrary.fragment.setting.SettingFragment
+import com.mbcq.baselibrary.util.screen.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_house.*
 import kotlin.system.exitProcess
 
@@ -62,9 +63,9 @@ abstract class BaseFragmentHouseActivity : BaseHouseFingerActivity() {
     }
 
     private fun initRestartFragment(savedInstanceState: Bundle?) {
-        if (savedInstanceState ==null){
+        if (savedInstanceState == null) {
             setTabSelection(0)
-        }else{
+        } else {
             if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) === 0 && mHouseFragment == null)
                 mHouseFragment = fragmentManager!!.findFragmentByTag(FRAGMENT_TAG[0]) as HouseFragment?
             else if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) === 1 && mSettingFragment == null)
@@ -151,7 +152,8 @@ abstract class BaseFragmentHouseActivity : BaseHouseFingerActivity() {
                     } else {
                         transaction.show(mHouseFragment!!)
                     }
-                    setStatusBar(0)
+                    setStatusBar(1)
+                    StatusBarUtils.setTextDark(mContext, true)
 
                 }
                 1 -> {
@@ -246,7 +248,8 @@ abstract class BaseFragmentHouseActivity : BaseHouseFingerActivity() {
             true
         }
     }
-    var exitTime: Long=0L
+
+    var exitTime: Long = 0L
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK

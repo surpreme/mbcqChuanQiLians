@@ -12,10 +12,8 @@ import com.iflytek.cloud.ErrorCode
 import com.iflytek.cloud.SpeechConstant
 import com.iflytek.cloud.SpeechSynthesizer
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
-import com.mbcq.baselibrary.ui.BaseListMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
-import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.view.CustomizeToastUtil
 import com.mbcq.baselibrary.view.SingleClick
@@ -79,7 +77,11 @@ abstract class BaseShortTrunkDepartureScanOperatingActivity<V : BaseView, T : Ba
         initTts()
         initSoundPool()
     }
+    fun errorStep(errorReason: String) {
+        soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
+        CustomizeToastUtil().Short(mContext, errorReason).setGravity(Gravity.CENTER).setToastBackground(Color.WHITE, R.drawable.toast_radius).show()
 
+    }
     override fun onBeforeCreate() {
         super.onBeforeCreate()
         window.setFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
@@ -182,13 +184,7 @@ abstract class BaseShortTrunkDepartureScanOperatingActivity<V : BaseView, T : Ba
         mTotalLoadingOrderNum = 0
     }
 
-    @SuppressLint("SetTextI18n")
-    fun notifyMathChange() {
-        unScan_info_tv.text = "未扫：${mTotalUnLoadingOrderNum}票 ${mTotalUnLoadingNum}件 ${haveTwoDouble(mTotalUnLoadingWeight)}kg  ${haveTwoDouble(mTotalUnLoadingVolume)}m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
-        scaned_info__tv.text = "已扫：${mTotalLoadingOrderNum}票 ${totalLoadingNum - mTotalUnLoadingNum}件 ${haveTwoDouble(mTotalLoadingWeight)}kg  ${haveTwoDouble(mTotalLoadingVolume)}m³             金额:xxxx"
-        scan_progressBar.progress = (((totalLoadingNum - mTotalUnLoadingNum) * 100) / totalLoadingNum)
-        scan_number_total_tv.text = "${totalLoadingNum - mTotalUnLoadingNum} / $totalLoadingNum"
-    }
+
 
     override fun onDestroy() {
         super.onDestroy()

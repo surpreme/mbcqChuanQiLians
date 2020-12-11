@@ -52,7 +52,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
         if (mLastData.isBlank())
             return
         val obj = JSONObject(mLastData)
-        unScan_info_tv.text = "未扫： xxx件 xxxxkg  xxm³             扫描人:${UserInformationUtil.getUserName(mContext)}"
+        unScan_info_tv.text = "未扫： 0件 0kg  0m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
         unloading_batch_tv.text = "卸车批次:${obj.optString("inoneVehicleFlag")}"
 
 
@@ -220,7 +220,9 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                                     }
 
                                     override fun onFinish() {
-                                        scanSuccess(s1, false)
+                                        //防止内存泄漏 1秒内如果页面销毁 执行在不存在的ui对象上则会闪退
+                                        if (!isDestroyed)
+                                            scanSuccess(s1, false)
                                     }
 
                                 }.start()
@@ -246,6 +248,24 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
     }
 
     override fun getWillByInfoS(data: JSONObject, resultBillno: String, mScanType: Int) {
+        if (data.optString("webidCode") != UserInformationUtil.getWebIdCode(mContext)) {
+            errorStep("该运单开单网点和扫描网点不匹配，请核实后重试")
+            //(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String, mAbnormalReason: String) {
+            mPresenter?.scanAbnormalOrder(
+                    data.optString("billno"),
+                    resultBillno,
+                    PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
+                    JSONObject(mLastData).optString("inoneVehicleFlag"),
+                    data.optString("ewebidCodeStr"),
+                    data.optString("ewebidCode"),
+                    data.optString("ewebidCodeStr"),
+                    scan_progressBar.progress.toString(),
+                    resultBillno,
+                    "该运单开单网点和扫描网点不匹配"
+
+            )
+            return
+        }
         //3在途
         if (data.optInt("billState") != 3) {
             val obj = JSONObject(mLastData)
@@ -253,7 +273,21 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
             //ScanWebidType 扫描网点类型  默认0 1代表只装所选到货网点 2不限到货网点
             if (obj.optString("ScanWebidType") == "1" || obj.optString("scanWebidType") == "1") {
                 if (data.optString("ewebidCodeStr") != obj.optString("ewebidCodeStr")) {
-                    soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
+                    errorStep("该运单到货网点配置只送到货网点，请核实后重试")
+                    //(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String, mAbnormalReason: String) {
+                    mPresenter?.scanAbnormalOrder(
+                            data.optString("billno"),
+                            resultBillno,
+                            PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
+                            JSONObject(mLastData).optString("inoneVehicleFlag"),
+                            data.optString("ewebidCodeStr"),
+                            data.optString("ewebidCode"),
+                            data.optString("ewebidCodeStr"),
+                            scan_progressBar.progress.toString(),
+                            resultBillno,
+                            "该运单到货网点配置只送到货网点"
+
+                    )
                     return
                 }
             }
@@ -274,21 +308,35 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                                 if (index != mScanSun)
                                     scanBuilder.append(",")
                             }
-                            onFirstScanOrder(data, resultBillno, inoneV, scanBuilder.toString(),mScanType)
+                            onFirstScanOrder(data, resultBillno, inoneV, scanBuilder.toString(), mScanType)
                         }
                     }
 
                 }).show(supportFragmentManager, "ScanNumDialog")
                 return
             }
-            onFirstScanOrder(data, resultBillno, inoneV,mScanType)
+            onFirstScanOrder(data, resultBillno, inoneV, mScanType)
 
         } else {
-            soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
-            CustomizeToastUtil().Short(mContext, "该运单已经在途，请核实后重试").setGravity(Gravity.CENTER).setToastBackground(Color.WHITE, R.drawable.toast_radius).show()
-//            TalkSureDialog(mContext, getScreenWidth(), "该运单已经在途，请核实后重试").show()
+            errorStep("该运单已经在途，请核实后重试")
+            //(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String, mAbnormalReason: String) {
+            mPresenter?.scanAbnormalOrder(
+                    data.optString("billno"),
+                    resultBillno,
+                    PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
+                    JSONObject(mLastData).optString("inoneVehicleFlag"),
+                    data.optString("ewebidCodeStr"),
+                    data.optString("ewebidCode"),
+                    data.optString("ewebidCodeStr"),
+                    scan_progressBar.progress.toString(),
+                    resultBillno,
+                    "该运单已经在途"
+
+            )
         }
     }
+
+
 
     fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String, mXScanType: Int) {
         onFirstScanOrder(data, resultBillno, inoneV, resultBillno, mXScanType)

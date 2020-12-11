@@ -138,7 +138,11 @@ abstract class BaseDepartureTrunkDepartureUnPlanScanOperatingActivity<V : BaseVi
             mTts?.setParameter(SpeechConstant.PITCH, "tts_pitch")
         }
     }
+    fun errorStep(errorReason: String) {
+        soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
+        CustomizeToastUtil().Short(mContext, errorReason).setGravity(Gravity.CENTER).setToastBackground(Color.WHITE, R.drawable.toast_radius).show()
 
+    }
     fun clearInfo() {
         /***
          * 全部未扫描数量

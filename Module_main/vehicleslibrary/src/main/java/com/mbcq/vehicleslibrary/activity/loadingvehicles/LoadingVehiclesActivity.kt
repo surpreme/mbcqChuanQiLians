@@ -30,6 +30,7 @@ import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPListActivity
+import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPSmartActivity
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.BuildConfig
 import com.mbcq.vehicleslibrary.R
@@ -47,7 +48,7 @@ import java.util.*
  */
 
 @Route(path = ARouterConstants.LoadingVehiclesActivity)
-class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesContract.View, LoadingVehiclesPresenter, LoadingVehiclesBean>(), LoadingVehiclesContract.View {
+class LoadingVehiclesActivity : CommonScanPDAMVPSmartActivity<LoadingVehiclesContract.View, LoadingVehiclesPresenter, LoadingVehiclesBean>(), LoadingVehiclesContract.View {
     lateinit var rxPermissions: RxPermissions
     var mStartDateTag = ""
     var mEndDateTag = ""
@@ -68,16 +69,11 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
         mShippingOutletsTag = UserInformationUtil.getWebIdCode(mContext)
     }
 
+    override fun getEnableLoadMore(): Boolean = false
+
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
-        loading_vehicles_smart.setEnableLoadMore(false)
-        loading_vehicles_smart.setRefreshHeader(ClassicsHeader(mContext))
-        loading_vehicles_smart.setOnRefreshListener {
-            adapter.clearData()
-            initDatas()
-            it.finishRefresh()
-        }
     }
 
     override fun onClick() {
@@ -101,17 +97,7 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
             }
 
         })
-        /*loading_vehicles_toolbar.setRightButtonOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
-                    override fun onResult(s1: String, s2: String) {
-                        mPresenter?.searchShortFeeder(s1)
-                    }
 
-                }).show(supportFragmentManager, "ScanDialogFragment")
-            }
-
-        })*/
         short_vehicles_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 ARouter.getInstance().build(ARouterConstants.AddScanShortFeederActivity).navigation()
@@ -144,8 +130,9 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
                                     mStartDateTag = timeList[0]
                                     mEndDateTag = timeList[1]
                                 }
-                                adapter.clearData()
-                                initDatas()
+                                refresh()
+                                /* adapter.clearData()
+                                 initDatas()*/
                             }
 
                         }).show(supportFragmentManager, "WaybillRecordActivityFilterWithTimeDialog")
@@ -183,8 +170,8 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
 
     }
 
-    override fun initDatas() {
-        super.initDatas()
+    override fun getPageDatas(mCurrentPage: Int) {
+        super.getPageDatas(mCurrentPage)
         mPresenter?.getShortFeeder(mStartDateTag, mEndDateTag)
     }
 
@@ -274,7 +261,7 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
         if (isCanRefresh) {
             adapter.clearData()
         }
-        adapter.appendData(list)
+        appendDatas(list)
         if (!isScan)
             mPresenter?.getTrunkDeparture(mStartDateTag, mEndDateTag)
     }
@@ -283,12 +270,12 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
         if (isCanRefresh) {
             adapter.clearData()
         }
-        adapter.appendData(list)
+        appendDatas(list)
     }
 
     override fun searchScanInfoS(list: List<LoadingVehiclesBean>) {
         adapter.clearData()
-        adapter.appendData(list)
+        appendDatas(list)
     }
 
     override fun invalidOrderS(position: Int) {
@@ -304,4 +291,8 @@ class LoadingVehiclesActivity : CommonScanPDAMVPListActivity<LoadingVehiclesCont
     override fun onPDAScanResult(result: String) {
         mPresenter?.searchScanInfo(if (checkStrIsNum(result)) result.substring(0, result.length - 4) else result)
     }
+
+    override fun getSmartLayoutId(): Int = R.id.loading_vehicles_smart
+
+    override fun getSmartEmptyId(): Int = R.id.loading_vehicles_smart_frame
 }

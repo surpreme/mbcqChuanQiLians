@@ -51,14 +51,18 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_ll"
         app:layout_constraintTop_toBottomOf="@+id/search_inventory_ed">
-
+        <FrameLayout
+            android:id="@+id/loading_vehicles_smart_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/loading_vehicles_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
             android:scrollbars="none" />
-
+            </FrameLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 

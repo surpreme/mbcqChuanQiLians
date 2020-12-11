@@ -138,7 +138,7 @@ class WaybillRecordPresenter : BasePresenterImpl<WaybillRecordContract.View>(), 
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 val listD = Gson().fromJson<List<WaybillRecordBean>>(obj.optString("data"), object : TypeToken<List<WaybillRecordBean>>() {}.type)
-                mView?.getPageDataS(listD,obj.optString("count"))
+                mView?.getPageDataS(listD,obj.optString("count"), Gson().fromJson(obj.optString("totalRow"),WaybillRecordTotalBean::class.java))
             }
 
         })

@@ -11,7 +11,7 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class WaybillRecordContract {
 
     interface View : BaseView {
-        fun getPageDataS(list: List<WaybillRecordBean>, totalS: String)
+        fun getPageDataS(list: List<WaybillRecordBean>, totalS: String,mWaybillRecordTotalBean:WaybillRecordTotalBean)
         fun deleteWayBillS(mIndex:Int)
 
     }

@@ -223,9 +223,16 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
 
     override fun saveInfoS(s: String) {
         operating_interval_ll.visibility = View.GONE
-        if (operating_interval_ll.getChildAt(0) == null) return
+        if (operating_interval_ll.childCount == 0) {
+            TalkSureDialog(mContext, getScreenWidth(), "干线计划装车${mDepartureLot}完成，点击查看详情！") {
+                onBackPressed()
+                finish()
+            }.show()
+            return
+        }
+
         val itemCheckBox = operating_interval_ll[0] as CheckBox
-        mOutList.get(itemCheckBox.text.toString())?.let { mPresenter?.addStowageAlongWay(mDepartureLot, it, itemCheckBox.text.toString(), mOutList, false) }
+        mOutList[itemCheckBox.text.toString()]?.let { mPresenter?.addStowageAlongWay(mDepartureLot, it, itemCheckBox.text.toString(), mOutList, false) }
 
 
     }

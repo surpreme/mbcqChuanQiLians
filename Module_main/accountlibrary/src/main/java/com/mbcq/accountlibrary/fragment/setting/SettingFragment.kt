@@ -71,10 +71,11 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
         override fun configExtraSpace(position: Int, count: Int, rect: Rect) {
             if (position == 0 || position == 7 || position == 14 || position == 18)
                 rect.bottom = ScreenSizeUtils.dp2px(mContext, 10f)
-            else if (position == 17) {
+            else if (position == 17)
                 rect.bottom = ScreenSizeUtils.dp2px(mContext, 1f)
+            else
+                rect.bottom = ScreenSizeUtils.dp2px(mContext, 1.5f)
 
-            }
         }
 
         override fun doRule(position: Int, rect: Rect) {

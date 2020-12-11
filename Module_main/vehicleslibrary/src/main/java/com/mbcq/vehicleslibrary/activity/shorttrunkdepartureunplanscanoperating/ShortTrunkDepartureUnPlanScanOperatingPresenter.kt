@@ -88,6 +88,7 @@ class ShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<ShortT
          * 2无计划
          */
         jsonO.put("IsScan", 2)
+        jsonO.put("isScanDet", 1)
         mView?.getContext()?.let {
             jsonO.put("opeMan", UserInformationUtil.getUserName(it))//操作人
         }
@@ -131,13 +132,14 @@ class ShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<ShortT
         jsonO.put("InOneVehicleFlag", inOneVehicleFlag)
         jsonO.put("ScanPercentage", scanPercentage)//-扫描率
         jsonO.put("RecordDate", TimeUtils.getCurrTime2())//记录日期
-        jsonO.put("Content", mAbnormalReason)//异常原因
+        jsonO.put("Content", mAbnormalReason)//异常原因-这里这个参数不允许app端写 后台写 这里给异常详情留出来
         /**
          * @IsScan
          * 1有计划
          * 2无计划
          */
         jsonO.put("IsScan", 2)
+        jsonO.put("isScanDet", 1)
         mView?.getContext()?.let {
             jsonO.put("opeMan", UserInformationUtil.getUserName(it))//操作人
         }
@@ -163,7 +165,7 @@ class ShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<ShortT
 
         post<String>(ApiInterface.DEPARTURE_SHORT_FEEDER_DEPARTURE_SCAN_INFO_POST, getRequestBody(jsonO), object : CallBacks {
             override fun onResult(result: String) {
-                mView?.scanOrderS(billno, soundStr, lableNo, "")
+
 
             }
 

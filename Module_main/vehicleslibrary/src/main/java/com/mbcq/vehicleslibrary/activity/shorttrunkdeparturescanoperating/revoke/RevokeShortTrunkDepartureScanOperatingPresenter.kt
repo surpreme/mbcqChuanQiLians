@@ -4,7 +4,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.log.LogUtils
+import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.commonlibrary.ApiInterface
 import org.json.JSONObject
 
@@ -21,6 +23,12 @@ class RevokeShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<Revoke
         jsonO.put("DeviceNo", deviceNo)
         jsonO.put("InOneVehicleFlag", inOneVehicleFlag)
         jsonO.put("scanPercentage", scanPercentage)
+        jsonO.put("RecordDate", TimeUtils.getCurrTime2())//记录日期
+        jsonO.put("isScanDet", 1)
+        jsonO.put("IsScan", 1)
+        mView?.getContext()?.let {
+            jsonO.put("opeMan", UserInformationUtil.getUserName(it))//操作人
+        }
 //        jsonO.put("ScanType", 0)
 //        jsonO.put("ScanTypeStr", "PDA")
         post<String>(ApiInterface.DEPARTURE_SHORT_FEEDER_DEPARTURE_SCAN_INFO_REVOKE_POST, getRequestBody(jsonO), object : CallBacks {

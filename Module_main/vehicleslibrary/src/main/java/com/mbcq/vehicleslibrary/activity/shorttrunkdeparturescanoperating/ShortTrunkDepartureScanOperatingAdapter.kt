@@ -23,7 +23,7 @@ class ShortTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecyclerAd
         }
         holder.itemView.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
-                val mScanSun =mDatas[position].unLoadQty
+                val mScanSun = mDatas[position].unLoadQty
                 if (mScanSun == mDatas[position].totalQty) {
                     mClickInterface?.onItemClick(v, position, "")
                     return
@@ -34,7 +34,8 @@ class ShortTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecyclerAd
             }
         })
         holder.receiver_tv.text = mDatas[position].consignee
-        holder.address_tv.text = "${mDatas[position].webidCodeStrDb}---${mDatas[position].ewebidCodeStrDb}"
+        //if (mDatas[position].ewebidCodeStrDb.isBlank()) else mDatas[position].ewebidCodeStrDb
+        holder.address_tv.text = "${mDatas[position].webidCodeStrDb}---${ mDatas[position].ewebidCodeStr }"
         holder.goods_name_tv.text = mDatas[position].product
         holder.goods_number_ifo_tv.text = "已扫:${mDatas[position].unLoadQty}     本车:${mDatas[position].totalQty}    剩余:${mDatas[position].totalQty - mDatas[position].unLoadQty}     总件数:${mDatas[position].totalQty}*${mDatas[position].weight}kg*${mDatas[position].volumn}m*"
         holder.operating_progressbar.progress = if (mDatas[position].unLoadQty == 0) 0 else if (mDatas[position].unLoadQty == mDatas[position].totalQty) 100 else ((mDatas[position].unLoadQty * 100) / mDatas[position].totalQty)

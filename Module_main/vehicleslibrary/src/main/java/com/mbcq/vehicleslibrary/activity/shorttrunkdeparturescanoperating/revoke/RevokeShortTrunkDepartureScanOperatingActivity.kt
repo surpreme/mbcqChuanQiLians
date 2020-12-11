@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.Gravity
 import android.view.View
 import androidx.fragment.app.DialogFragment
@@ -165,9 +166,18 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
                         // I can control the camera now
                         ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
                             override fun onResult(s1: String, s2: String) {
-//                                for (index in 0..20) {
-                                scanSuccess(s1)
-//                                }
+                                object : CountDownTimer(1000, 1000) {
+                                    override fun onTick(millisUntilFinished: Long) {
+
+                                    }
+
+                                    override fun onFinish() {
+                                        if (!isDestroyed)
+                                            scanSuccess(s1)
+                                    }
+
+                                }.start()
+
 
                             }
 

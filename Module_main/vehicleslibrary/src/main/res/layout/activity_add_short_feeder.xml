@@ -160,46 +160,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/contact_number_title_tv" />
 
-            <TextView
-                android:id="@+id/arrival_company_title_tv"
-                android:layout_width="80dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:text="到站公司"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/contact_number_title_tv" />
 
-            <TextView
-                android:id="@+id/arrival_company_tv"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/hollow_out_gray"
-                android:gravity="center|left"
-                android:inputType="phone"
-                android:paddingLeft="10dp"
-                tools:text="苏州快运"
-                android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="@id/arrival_company_title_tv"
-                app:layout_constraintLeft_toRightOf="@id/arrival_company_title_tv"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/arrival_company_title_tv" />
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/ic_down_icon"
-                app:layout_constraintBottom_toBottomOf="@+id/arrival_company_tv"
-                app:layout_constraintRight_toRightOf="@+id/arrival_company_tv"
-                app:layout_constraintTop_toTopOf="@+id/arrival_company_tv" />
 
             <TextView
                 android:id="@+id/destination_title_tv"
@@ -211,7 +172,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/arrival_company_title_tv" />
+                app:layout_constraintTop_toBottomOf="@id/contact_number_title_tv" />
 
             <TextView
                 android:id="@+id/destination_tv"
@@ -261,20 +222,21 @@
                     android:textColor="@color/base_blue"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/cash_freight_tv"
+                <EditText
+                    android:id="@+id/cash_freight_ed"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:background="@null"
+                    android:background="@drawable/hollow_out_gray"
                     android:gravity="center|left"
+                    android:inputType="numberDecimal"
                     android:paddingLeft="10dp"
-                    android:text="请输入现付运费"
-                    android:textSize="17sp" />
+                    android:textColor="@color/base_red"
+                    android:textSize="17sp"
+                    tools:text="200" />
 
                 <ImageView
                     android:id="@+id/cash_freight_down_iv"
@@ -294,37 +256,6 @@
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@+id/cash_freight_ll">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:text="现付运费"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/cash_freight_ed"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/hollow_out_gray"
-                        android:gravity="center|left"
-                        android:inputType="numberDecimal"
-                        android:paddingLeft="10dp"
-                        android:textColor="@color/base_red"
-                        android:textSize="17sp"
-                        tools:text="200" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -9,6 +9,7 @@ import com.android.scanner.impl.ReaderManager
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.ui.BaseActivity
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
+import com.mbcq.baselibrary.ui.BaseSmartMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
@@ -18,7 +19,7 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
  * @author liziyang 2020-11-28
  * @information 扫描封装类
  */
-abstract class CommonScanPDAMVPListActivity<V : BaseView, T : BasePresenterImpl<V>, X> : BaseListMVPActivity<V, T, X>(), BaseView {
+abstract class CommonScanPDAMVPSmartActivity<V : BaseView, T : BasePresenterImpl<V>, X> : BaseSmartMVPActivity<V, T, X>(), BaseView {
 
     //扫描条码服务广播
     //Scanning barcode service broadcast.

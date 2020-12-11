@@ -152,9 +152,9 @@ class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, W
             }
 
         }
-        it.mClickInterface = object :  OnClickInterface.OnRecyclerClickInterface {
+        it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
-                ARouter.getInstance().build(ARouterConstants.WaybillDetailsActivity).withString("WaybillDetails",mResult).navigation()
+                ARouter.getInstance().build(ARouterConstants.WaybillDetailsActivity).withString("WaybillDetails", mResult).navigation()
             }
 
 
@@ -163,9 +163,11 @@ class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, W
 
     var mTotalS = 0
 
-    override fun getPageDataS(list: List<WaybillRecordBean>, totalS: String) {
+    @SuppressLint("SetTextI18n")
+    override fun getPageDataS(list: List<WaybillRecordBean>, totalS: String, mWaybillRecordTotalBean: WaybillRecordTotalBean) {
         if (isCanRefreshTotalTitle) {
             waybill_record_toolbar.setCenterTitleText("运单记录($totalS)")
+            all_info_bottom_tv.text = "合计：$totalS 票，${mWaybillRecordTotalBean.qty}件，运费¥${mWaybillRecordTotalBean.accSum}"
             if (isInteger(totalS))
                 mTotalS = totalS.toInt()
             isCanRefreshTotalTitle = false

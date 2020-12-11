@@ -26,6 +26,10 @@ class DepartureTrunkDepartureUnPlanScanOperatingContract {
         fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mScanType: Int)
         fun saveScanPost(id: Int, inoneVehicleFlag: String)
         fun getCarInfo(inoneVehicleFlag: String)
+        /**
+         * 异常扫描
+         */
+        fun scanAbnormalOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String,mAbnormalReason:String)
 
     }
 }

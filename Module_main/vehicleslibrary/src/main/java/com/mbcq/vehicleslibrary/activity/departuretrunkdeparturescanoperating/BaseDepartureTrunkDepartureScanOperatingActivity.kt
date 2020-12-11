@@ -16,9 +16,11 @@ import com.mbcq.baselibrary.ui.BaseListMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.view.CustomizeToastUtil
 import com.mbcq.baselibrary.view.SingleClick
+import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPListActivity
 import com.mbcq.vehicleslibrary.R
 import com.tbruyelle.rxpermissions.RxPermissions
@@ -94,6 +96,11 @@ abstract class BaseDepartureTrunkDepartureScanOperatingActivity<V : BaseView, T 
 
     override fun onClick() {
         super.onClick()
+        inventory_btn.apply {
+            onSingleClicks {
+                ARouter.getInstance().build(ARouterConstants.DepartureHouseChecklistActivity).navigation()
+            }
+        }
         departure_vehicles_scan_operating_toolbar.setBackButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 onBackPressed()
@@ -119,7 +126,11 @@ abstract class BaseDepartureTrunkDepartureScanOperatingActivity<V : BaseView, T 
 
         }
     }
+    fun errorStep(errorReason: String) {
+        soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
+        CustomizeToastUtil().Short(mContext, errorReason).setGravity(Gravity.CENTER).setToastBackground(Color.WHITE, R.drawable.toast_radius).show()
 
+    }
     private fun initTts() {
         if (mTts == null) {
             mTts = SpeechSynthesizer.createSynthesizer(mContext) { p0 ->
@@ -183,13 +194,7 @@ abstract class BaseDepartureTrunkDepartureScanOperatingActivity<V : BaseView, T 
         mTotalLoadingOrderNum = 0
     }
 
-    @SuppressLint("SetTextI18n")
-    fun notifyMathChange() {
-        unScan_info__tv.text = "未扫：${mTotalUnLoadingOrderNum}票 ${mTotalUnLoadingNum}件 ${haveTwoDouble(mTotalUnLoadingWeight)}kg  ${haveTwoDouble(mTotalUnLoadingVolume)}m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
-        scaned_info__tv.text = "已扫：${mTotalLoadingOrderNum}票 ${totalLoadingNum - mTotalUnLoadingNum}件 ${haveTwoDouble(mTotalLoadingWeight)}kg  ${haveTwoDouble(mTotalLoadingVolume)}m³             金额:xxxx"
-        scan_progressBar.progress = (((totalLoadingNum - mTotalUnLoadingNum) * 100) / totalLoadingNum)
-        scan_number_total_tv.text = "${totalLoadingNum - mTotalUnLoadingNum} / $totalLoadingNum"
-    }
+
 
     override fun onDestroy() {
         super.onDestroy()

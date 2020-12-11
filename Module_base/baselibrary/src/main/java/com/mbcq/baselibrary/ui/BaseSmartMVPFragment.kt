@@ -21,6 +21,7 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader
 abstract class BaseSmartMVPFragment<V : BaseView, T : BasePresenterImpl<V>, X> : BaseListMVPFragment<V, T, X>(), BaseView {
     abstract fun getSmartLayoutId(): Int
     abstract fun getSmartEmptyId(): Int
+    fun getEnableLoadMore(): Boolean = true//是否分页 加载更多
     open fun getPageDatas(mCurrentPage: Int) {}
     private var isHaveMore: Boolean = true
     var isMore: Boolean = true
@@ -71,6 +72,8 @@ abstract class BaseSmartMVPFragment<V : BaseView, T : BasePresenterImpl<V>, X> :
     }
 
     open fun refresh() {
+        if (mSmartFrameLayout.childCount <= 1)
+            showNoData()
         adapter.clearData()
         mCurrentPage = 1
         isHaveMore = true

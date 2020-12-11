@@ -100,7 +100,11 @@ abstract class BaseShortTrunkDepartureUnPlanScanOperatingActivity<V : BaseView, 
 
         })
     }
+    fun errorStep(errorReason: String) {
+        soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
+        CustomizeToastUtil().Short(mContext, errorReason).setGravity(Gravity.CENTER).setToastBackground(Color.WHITE, R.drawable.toast_radius).show()
 
+    }
     override fun showError(msg: String) {
         LogUtils.e(msg)
         CustomizeToastUtil().Short(mContext, msg).setGravity(Gravity.CENTER).setToastBackground(Color.WHITE, R.drawable.toast_radius).show()
