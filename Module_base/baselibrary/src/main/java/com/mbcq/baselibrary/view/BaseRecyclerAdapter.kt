@@ -33,7 +33,21 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
         return mDatas
     }
 
-   open fun removeItem(position: Int) {
+    /**
+     * 排序 1后 -1前
+     * @sample
+    adapter.sortWith(Comparator { o1, o2 ->
+    val mO1Progress = o1.time
+    val mO2Progress = o2.time
+    if (mO1Progress >= mO2Progress) 1 else -1
+    })
+     */
+    fun sortWith(comparator: Comparator<in T>) {
+        mDatas.sortWith(comparator)
+        notifyDataSetChanged()
+    }
+
+    open fun removeItem(position: Int) {
         mDatas.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, mDatas.size - position)

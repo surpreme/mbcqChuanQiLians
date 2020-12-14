@@ -11,7 +11,7 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class ShortFeederContract {
 
     interface View : BaseView {
-        fun getShortFeederS(list: List<ShortFeederBean>)
+        fun getShortFeederS(list: List<ShortFeederBean>, toltalData: ShortFeederTotalBean)
         fun invalidOrderS()
 
     }

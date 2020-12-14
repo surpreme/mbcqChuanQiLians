@@ -4,6 +4,7 @@ package com.mbcq.orderlibrary.activity.fixedacceptbilling
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -46,7 +47,6 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
         initPeople()
 
     }
-
 
 
     private fun saveAcctBilling() {
@@ -526,6 +526,7 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
 
     override fun updateDataS() {
         TalkSureDialog(mContext, getScreenWidth(), "修改运单已修改完毕 您可以去运单记录查看详情！") {
+            setResult(RESULT_DATA_CODE)
             onBackPressed()
         }.show()
     }
@@ -813,6 +814,7 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
 
         }).show(supportFragmentManager, "getSalesmanSFilterDialog")
     }
+
     fun initPeople() {
         shipper_phone_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -874,10 +876,11 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
             }
         }
     }
+
     override fun getShipperInfoS(result: String) {
         val titleList = mutableListOf<String>("opeMan", "contactMb", "address")
         val startList = mutableListOf<String>("姓名:", "电话:", "地址:")
-        FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择发货人", false, isShowOutSide = false, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+        FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择发货人", false, isShowOutSide = false, gravity = Gravity.CENTER_VERTICAL, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mAddShipperBean = Gson().fromJson<AddShipperBean>(mResult, AddShipperBean::class.java)
                 mAddShipperBean?.let {
@@ -898,7 +901,7 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
     override fun getReceiverInfoS(result: String) {
         val titleList = mutableListOf<String>("opeMan", "contactMb", "address")
         val startList = mutableListOf<String>("姓名:", "电话:", "地址:")
-        FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择收货人", false, isShowOutSide = false, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+        FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择收货人", false, isShowOutSide = false, gravity = Gravity.CENTER_VERTICAL, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mAddReceiverBean = Gson().fromJson<AddReceiverBean>(mResult, AddReceiverBean::class.java)
                 mAddReceiverBean?.let {

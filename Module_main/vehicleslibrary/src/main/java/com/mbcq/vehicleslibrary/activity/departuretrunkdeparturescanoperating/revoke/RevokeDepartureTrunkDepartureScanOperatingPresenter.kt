@@ -26,6 +26,8 @@ class RevokeDepartureTrunkDepartureScanOperatingPresenter : BasePresenterImpl<Re
         jsonO.put("RecordDate", TimeUtils.getCurrTime2())//记录日期
         jsonO.put("isScanDet", 1)
         jsonO.put("IsScan", 1)
+        jsonO.put("ScanType", 0)
+        jsonO.put("ScanTypeStr", "PDA")
         mView?.getContext()?.let {
             jsonO.put("opeMan", UserInformationUtil.getUserName(it))//操作人
         }

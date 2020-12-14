@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="100dp"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:orientation="vertical">
 
- <androidx.recyclerview.widget.RecyclerView
-     android:id="@+id/bottom_options_recycler"
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     app:layout_constraintTop_toTopOf="parent"/>
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="9dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        app:cardBackgroundColor="@color/base_gray">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bottom_options_recycler"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+    </androidx.cardview.widget.CardView>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_down_icon"
+        app:tint="@color/base_gray"
+        android:layout_gravity="center"
+        />
+
+
+</LinearLayout>

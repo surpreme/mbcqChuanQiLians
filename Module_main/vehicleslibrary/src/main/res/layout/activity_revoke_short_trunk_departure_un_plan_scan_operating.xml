@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.shorttrunkdepartureunplanscanoperating.ShortTrunkDepartureUnPlanScanOperatingActivity">
+
     <com.mbcq.baselibrary.view.CnToolbar
         android:id="@+id/short_vehicles_un_plan_scan_operating_toolbar"
         android:layout_width="match_parent"
@@ -21,11 +22,24 @@
         android:layout_height="35dp"
         android:layout_marginLeft="15dp"
         android:gravity="center"
-        android:text="卸车批次：GX2002-202020422-002                "
+        android:text="卸车批次：GX2002-202020422-002   "
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/short_vehicles_un_plan_scan_operating_toolbar" />
+
+    <TextView
+        android:id="@+id/look_local_car_info_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/base_blue"
+        android:text="查看扫描详情"
+        android:padding="3dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/unloading_batch_tv"
+        app:layout_constraintLeft_toRightOf="@+id/unloading_batch_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/unloading_batch_tv" />
 
     <TextView
         android:id="@+id/scan_progress_title_tv"
@@ -71,31 +85,31 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginLeft="12dp"
+        android:ellipsize="end"
         android:gravity="center|left"
         android:lines="1"
         android:maxLines="1"
-        android:ellipsize="end"
-        app:layout_constraintRight_toRightOf="parent"
         android:text="已扫：xxx票 xx件 xxxxkg  xxm³ 金额xxxx"
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scan_progress_title_tv" />
 
     <TextView
         android:id="@+id/unScan_info_tv"
         android:layout_width="match_parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_height="35dp"
         android:layout_marginLeft="15dp"
+        android:ellipsize="end"
         android:gravity="center|left"
         android:lines="1"
         android:maxLines="1"
-        android:ellipsize="end"
         android:text="未扫： xxx件 xxxxkg  xxm³             扫描人：xxx"
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scaned_info__tv" />
 
     <LinearLayout
@@ -175,7 +189,7 @@
             android:layout_weight="1"
             android:alpha="0.8"
             android:backgroundTint="@color/base_blue"
-            android:text="保存"
+            android:text="发车"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -184,7 +198,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="按扫描率"
+            android:text="默认"
             android:textColor="@color/black"
             android:textSize="17sp" />
 

@@ -11,7 +11,7 @@ import android.view.View;
  */
 public abstract class SingleClick implements View.OnClickListener {
     private long mLastClickTime;
-    private long timeInterval = 1000L;
+    private long timeInterval = 500L;
 
     public SingleClick() {
 

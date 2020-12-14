@@ -21,7 +21,7 @@ class StowageAlongWayAdapter(context: Context) : BaseRecyclerAdapter<StowageAlon
         holder.waybill_time_tv.text = mDatas[position].arrivedDate
         holder.outlets_info_tv.text = mDatas[position].vehicleInterval
         holder.driver_info_tv.text = "${mDatas[position].vehicleNo}   ${mDatas[position].chauffer}   ${mDatas[position].chaufferMb}"
-        holder.order_info_tv.text = "${mDatas[position].vehicleNo}   ${mDatas[position].chauffer}   ${mDatas[position].chaufferMb}"
+        holder.order_info_tv.text = "${mDatas[position].ps}票   ${mDatas[position].ps}件   ${mDatas[position].volumn}m³   ${mDatas[position].weight}kg 运费 ¥${mDatas[position].yf}"
         holder.itemView.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
                 mClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))

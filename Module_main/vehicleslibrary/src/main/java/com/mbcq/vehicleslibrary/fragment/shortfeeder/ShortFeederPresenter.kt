@@ -74,7 +74,7 @@ class ShortFeederPresenter : BasePresenterImpl<ShortFeederContract.View>(), Shor
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
-                mView?.getShortFeederS(Gson().fromJson<List<ShortFeederBean>>(obj.optString("data"), object : TypeToken<List<ShortFeederBean>>() {}.type))
+                mView?.getShortFeederS(Gson().fromJson<List<ShortFeederBean>>(obj.optString("data"), object : TypeToken<List<ShortFeederBean>>() {}.type),Gson().fromJson(obj.optString("totalRow"),ShortFeederTotalBean::class.java))
             }
 
         })

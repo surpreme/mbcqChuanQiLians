@@ -12,6 +12,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
+import com.mbcq.baselibrary.dialog.popup.XDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
@@ -21,22 +22,14 @@ import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.DialogFragmentUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean
+import com.mbcq.commonlibrary.dialog.BottomOptionsDialog
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.revoke.RevokeDepartureTrunkDepartureScanDataBean
+import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperatingmoreinfo.DepartureTrunkDepartureScanOperatingScanMoreInfoBean
 import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
 import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.*
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.billno_ed
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.inventory_btn
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.save_btn
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.scan_number_iv
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.scan_number_total_tv
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.scan_progressBar
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.scaned_info__tv
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.search_btn
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.unScan_info_tv
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.unloading_batch_tv
-import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.*
 import org.json.JSONObject
 import java.lang.StringBuilder
 
@@ -64,13 +57,78 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
 
     }
 
+    fun onFilterRecyclerData() {
+        val list = mutableListOf<BaseTextAdapterBean>()
+        /**
+        按扫描先后
+        按扫描率
+        按计划外
+        按计划
+         */
+        for (index in 0..1) {
+            val mBaseTextAdapterBean = BaseTextAdapterBean()
+            mBaseTextAdapterBean.title = if (index == 0) "默认" else if (index == 1) "按扫描率" else if (index == 2) "按计划外" else "按计划"
+            mBaseTextAdapterBean.tag = index.toString()
+            list.add(mBaseTextAdapterBean)
+        }
+        XDialog.Builder(mContext)
+                .setContentView(R.layout.dialog_bottom_options)
+//                        .setWidth(type_tv.width)
+                .setIsDarkWindow(false)
+                .asCustom(BottomOptionsDialog(mContext, list).also {
+                    it.mOnRecyclerClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+                        override fun onItemClick(v: View, position: Int, mResult: String) {
+                            type_tv.text = if (mResult == "0") "默认" else if (mResult == "1") "按扫描率" else if (mResult == "2") "按计划外" else "按计划"
+                            when (mResult) {
+                                "0" -> {
+                                    refreshScanInfo()
+                                }
+                                "1" -> {
+                                    showLoading()
+                                    //-1 前 1后
+                                    adapter.sortWith(Comparator { o1, o2 ->
+                                        val mO1Progress = if (o1.unLoadQty == 0) 0 else if (o1.unLoadQty == o1.totalQty) 100 else ((o1.unLoadQty * 100) / o1.totalQty)
+                                        val mO2Progress = if (o2.unLoadQty == 0) 0 else if (o2.unLoadQty == o2.totalQty) 100 else ((o2.unLoadQty * 100) / o2.totalQty)
+                                        if (mO1Progress >= mO2Progress) 1 else -1
+                                    })
+                                    closeLoading()
+                                }
+                            }
+                        }
+
+                    }
+                })
+                .showUp(type_tv)
+    }
+
+    private fun refreshScanInfo() {
+        mPresenter?.getCarInfo(JSONObject(mLastData).optString("inoneVehicleFlag"))
+
+    }
+
     override fun onResume() {
         super.onResume()
-        mPresenter?.getCarInfo(JSONObject(mLastData).optString("inoneVehicleFlag"))
+        refreshScanInfo()
     }
 
     override fun onClick() {
         super.onClick()
+        look_local_car_info_tv.apply {
+            onSingleClicks {
+                val mBean =  DepartureTrunkDepartureScanOperatingScanMoreInfoBean()
+                mBean.inOneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
+                mBean.setmType(1)
+                ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingScanInfoActivity).withSerializable("departureScanInfo", mBean).navigation()
+
+            }
+        }
+        type_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                onFilterRecyclerData()
+
+            }
+
+        })
         inventory_btn.apply {
             onSingleClicks {
                 ARouter.getInstance().build(ARouterConstants.DepartureHouseChecklistActivity).navigation()
@@ -246,6 +304,16 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
         it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 billno_ed.setText(mResult)
+            }
+
+        }
+        it.mOnLookInformationInterface = object : DepartureTrunkDepartureUnPlanScanOperatingAdapter.OnLookInformationInterface {
+            override fun lookInfo(v: View, position: Int, data: DepartureTrunkDepartureUnPlanScanOperatingBean) {
+                val testDataStr = Gson().toJson(data)
+                val mBean = Gson().fromJson<DepartureTrunkDepartureScanOperatingScanMoreInfoBean>(testDataStr, DepartureTrunkDepartureScanOperatingScanMoreInfoBean::class.java)
+                mBean.inOneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
+                mBean.goodsTotalNum =data.totalQty
+                ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingScanInfoActivity).withSerializable("departureScanInfo", mBean).navigation()
             }
 
         }

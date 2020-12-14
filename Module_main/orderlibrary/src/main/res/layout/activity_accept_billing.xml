@@ -134,8 +134,9 @@
 
             <ImageView
                 android:id="@+id/arrive_outlet_down_iv"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="7dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="1dp"
                 android:src="@drawable/ic_down_icon"
@@ -205,8 +206,9 @@
 
             <ImageView
                 android:id="@+id/destination_down_iv"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="7dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="1dp"
                 android:src="@drawable/ic_down_icon"
@@ -929,7 +931,7 @@
                             android:id="@+id/cargo_name_title_tv"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.7"
+                            android:layout_weight="0.6"
                             android:gravity="left|center"
                             android:text="货物名称"
                             android:textColor="@color/black"
@@ -947,17 +949,17 @@
 
                         <ImageView
                             android:id="@+id/cargo_name_down_iv"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:padding="7dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="5dp"
-                            android:padding="5dp"
                             android:src="@drawable/ic_down_icon" />
 
                     </LinearLayout>
 
                     <View
-                        android:layout_width="30dp"
+                        android:layout_width="15dp"
                         android:layout_height="match_parent" />
 
                     <LinearLayout
@@ -970,7 +972,7 @@
                             android:id="@+id/numbers_title_tv"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.7"
+                            android:layout_weight="0.6"
                             android:gravity="left|center"
                             android:text="件数"
                             android:textColor="@color/black"
@@ -981,14 +983,17 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginTop="5dp"
-                            android:layout_marginRight="25dp"
+                            android:layout_marginRight="30dp"
                             android:layout_marginBottom="5dp"
                             android:layout_weight="0.7"
                             android:background="@drawable/hollow_out_gray"
                             android:gravity="left|center"
                             android:inputType="number"
+                            android:maxEms="4"
+                            android:maxLength="4"
+                            android:maxLines="1"
                             android:minWidth="20dp"
-                            android:paddingLeft="3dp"
+                            android:paddingLeft="7dp"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
 
@@ -1013,7 +1018,7 @@
                             android:id="@+id/package_title_tv"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.7"
+                            android:layout_weight="0.6"
                             android:gravity="left|center"
                             android:text="包装"
                             android:textColor="@color/black"
@@ -1032,17 +1037,17 @@
 
                         <ImageView
                             android:id="@+id/package_name_down_iv"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:padding="7dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="5dp"
-                            android:padding="5dp"
                             android:src="@drawable/ic_down_icon" />
 
                     </LinearLayout>
 
                     <View
-                        android:layout_width="30dp"
+                        android:layout_width="15dp"
                         android:layout_height="match_parent" />
 
                     <LinearLayout
@@ -1055,7 +1060,7 @@
                             android:id="@+id/weight_title_tv"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.7"
+                            android:layout_weight="0.6"
                             android:gravity="left|center"
                             android:text="重量"
                             android:textColor="@color/black"
@@ -1074,8 +1079,8 @@
 
                         <ImageView
                             android:id="@+id/weight_name_calculation_iv"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_calculator_icon" />
 
@@ -1098,11 +1103,11 @@
                             android:id="@+id/volume_title_tv"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.7"
+                            android:layout_weight="0.6"
                             android:gravity="left|center"
                             android:text="体积"
                             android:textColor="@color/black"
-                            android:textSize="16dp" />
+                            android:textSize="16dp"  />
 
                         <EditText
                             android:id="@+id/volume_name_ed"
@@ -1110,22 +1115,23 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.7"
                             android:gravity="left|center"
-                            android:inputType="numberDecimal"
+                            android:maxLines="1"
                             android:minWidth="20dp"
                             android:textColor="@color/black"
-                            android:textSize="16dp" />
+                            android:textSize="16dp"
+                            android:inputType="numberDecimal" />
 
                         <ImageView
                             android:id="@+id/volume_name_calculation_iv"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_calculator_icon" />
 
                     </LinearLayout>
 
                     <View
-                        android:layout_width="30dp"
+                        android:layout_width="15dp"
                         android:layout_height="match_parent" />
 
                     <LinearLayout
@@ -1950,8 +1956,9 @@
 
             <ImageView
                 android:id="@+id/receipt_requirements_name_down_iv"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="6dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="3dp"
                 android:src="@drawable/ic_down_icon"
@@ -2107,9 +2114,10 @@
 
             <ImageView
                 android:id="@+id/pre_installed_car_number_name_down_iv"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginTop="3dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="6dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/ic_down_icon"
                 app:layout_constraintBottom_toBottomOf="@+id/pre_installed_car_number_title_tv"
@@ -2194,9 +2202,10 @@
 
             <ImageView
                 android:id="@+id/salesman_name_down_iv"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginTop="3dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="6dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/ic_down_icon"
                 app:layout_constraintBottom_toBottomOf="@+id/salesman_name_tv"

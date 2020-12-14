@@ -4,6 +4,7 @@ package com.mbcq.vehicleslibrary.fragment.shortfeeder
 import android.annotation.SuppressLint
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
+import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.RxBus
@@ -36,7 +37,20 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
     override fun getSmartLayoutId(): Int = R.id.short_feeder_smart
     override fun getSmartEmptyId(): Int = R.id.short_feeder_smart_frame
     override fun getRecyclerViewId(): Int = R.id.short_feeder_recycler
-    override fun setAdapter(): BaseRecyclerAdapter<ShortFeederBean> = ShortFeederAdapter(mContext)
+    override fun setAdapter(): BaseRecyclerAdapter<ShortFeederBean> = ShortFeederAdapter(mContext).also {
+        it.mOnShortFeederClickInterface=object :ShortFeederAdapter.OnShortFeederClickInterface{
+            override fun onModify(v: View, position: Int, itemData: ShortFeederBean) {
+                val job = JSONObject()
+                job.put("InoneVehicleFlag", itemData.inoneVehicleFlag)
+                job.put("Id", itemData.id)
+                ARouter.getInstance().build(ARouterConstants.FixShortFeederHouseActivity).withString("FixedShortFeederHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
+            }
+
+            override fun onPint(v: View, position: Int, itemData: ShortFeederBean) {
+            }
+
+        }
+    }
     override fun getPageDatas(mCurrentPage: Int) {
         super.getPageDatas(mCurrentPage)
         mPresenter?.getShortFeeder(mCurrentPage, mShippingOutletsTag, mStartDateTag, mEndDateTag)
@@ -77,7 +91,7 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
                         }
                     }
                     if (data != null) {
-                        TalkSureDialog(it, getScreenWidth(), "您确定要作废车次${data.inoneVehicleFlag}吗?作废后不可恢复！") {
+                        TalkSureCancelDialog (it, getScreenWidth(), "您确定要作废车次${data.inoneVehicleFlag}吗?作废后不可恢复！") {
                             mPresenter?.invalidOrder(data.inoneVehicleFlag, data.id)
 
                         }.show()
@@ -136,12 +150,14 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
 //        RxBus.build().removeStickyEvent(DepartureRecordRefreshEvent::class.java)
     }
 
-    override fun getShortFeederS(list: List<ShortFeederBean>) {
+    @SuppressLint("SetTextI18n")
+    override fun getShortFeederS(list: List<ShortFeederBean>, toltalData: ShortFeederTotalBean) {
         appendDatas(list)
+        if (getCurrentPage() == 1)
+            all_info_bottom_tv.text = "合计：${list.size}票，${toltalData.weight}kg，${toltalData.volumn}m³，运费${toltalData.accSum}"
     }
 
     override fun invalidOrderS() {
-
         refresh()
 
     }

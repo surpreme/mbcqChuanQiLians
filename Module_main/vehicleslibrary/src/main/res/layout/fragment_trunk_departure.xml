@@ -39,7 +39,7 @@
         android:layout_marginBottom="15dp"
         android:gravity="left"
         android:paddingLeft="15dp"
-        android:text="合计：x票，xxxxkg，xxm³，运费xxx"
+        android:text="合计：0票，0kg，0m³，运费0"
         android:textColor="@color/black"
         android:textSize="17sp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_ll"

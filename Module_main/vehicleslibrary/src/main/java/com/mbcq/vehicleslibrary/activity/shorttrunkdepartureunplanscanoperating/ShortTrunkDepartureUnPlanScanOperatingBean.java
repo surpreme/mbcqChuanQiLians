@@ -1,6 +1,8 @@
 package com.mbcq.vehicleslibrary.activity.shorttrunkdepartureunplanscanoperating;
 
-public class ShortTrunkDepartureUnPlanScanOperatingBean {
+import java.io.Serializable;
+
+public class ShortTrunkDepartureUnPlanScanOperatingBean implements Serializable {
 
 
     /**

@@ -1,6 +1,8 @@
 package com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating;
 
-public class DepartureTrunkDepartureScanOperatingBean {
+import java.io.Serializable;
+
+public class DepartureTrunkDepartureScanOperatingBean implements Serializable {
 
     /**
      * sendOpeMan : lzy
@@ -217,6 +219,16 @@ public class DepartureTrunkDepartureScanOperatingBean {
     private String salesMan;
     private String opeMan;
     private String remark;
+    private String isScanDet;
+
+    public String getIsScanDet() {
+        return isScanDet;
+    }
+
+    public void setIsScanDet(String isScanDet) {
+        this.isScanDet = isScanDet;
+    }
+
 
     public String getSendOpeMan() {
         return sendOpeMan;

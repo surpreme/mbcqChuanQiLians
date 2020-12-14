@@ -3,6 +3,8 @@ package com.mbcq.orderlibrary.activity.acceptbilling
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.CountDownTimer
+import android.view.Gravity
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -117,15 +119,32 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         })
         destinationt_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                if (endWebIdCode.isEmpty()) {
-                    showToast("请先选择到达网点")
-                    return
-                }
-                mPresenter?.getDestination(UserInformationUtil.getWebIdCode(mContext), endWebIdCode)
+                showDestination()
+            }
+
+        })
+        destination_down_iv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                showDestination()
             }
 
         })
         arrive_outlet_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                getDbWebId(object : WebDbInterface {
+                    override fun isNull() {
+                        mPresenter?.getWebAreaId()
+                    }
+
+                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
+                        showWebIdDialog(list)
+                    }
+
+                })
+            }
+
+        })
+        arrive_outlet_down_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 getDbWebId(object : WebDbInterface {
                     override fun isNull() {
@@ -191,6 +210,14 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         })
 
 
+    }
+
+    fun showDestination() {
+        if (endWebIdCode.isEmpty()) {
+            showToast("请先选择到达网点")
+            return
+        }
+        mPresenter?.getDestination(UserInformationUtil.getWebIdCode(mContext), endWebIdCode)
     }
 
 
@@ -460,7 +487,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             jsonObj.put("Product", Product)
 
             //件数
-            val Qty =mXQty
+            val Qty = mXQty
             jsonObj.put("Qty", Qty)
 
 
@@ -470,7 +497,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
 
             //重量
-            val Weight =mXWeight
+            val Weight = mXWeight
             jsonObj.put("Weight", Weight)
 
             //体积
@@ -769,8 +796,11 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         TalkSureDialog(mContext, getScreenWidth(), showTipsStr) {
             /**
              * 重启activity
+             * recreate()由于这个方法会走缓存 弃用
              */
-            recreate()
+            finish()
+            ARouter.getInstance().build(ARouterConstants.AcceptBillingActivity).navigation()
+
         }.show()
 
     }
@@ -778,7 +808,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
     override fun getShipperInfoS(result: String) {
         val titleList = mutableListOf<String>("opeMan", "contactMb", "address")
         val startList = mutableListOf<String>("姓名:", "电话:", "地址:")
-        FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择发货人", false, isShowOutSide = false, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+        FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择发货人", false, isShowOutSide = false, gravity = Gravity.CENTER_VERTICAL, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mAddShipperBean = Gson().fromJson<AddShipperBean>(mResult, AddShipperBean::class.java)
                 mAddShipperBean?.let {
@@ -799,7 +829,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
     override fun getReceiverInfoS(result: String) {
         val titleList = mutableListOf<String>("opeMan", "contactMb", "address")
         val startList = mutableListOf<String>("姓名:", "电话:", "地址:")
-        FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择收货人", false, isShowOutSide = false, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+        FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择收货人", false, isShowOutSide = false, gravity = Gravity.CENTER_VERTICAL, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mAddReceiverBean = Gson().fromJson<AddReceiverBean>(mResult, AddReceiverBean::class.java)
                 mAddReceiverBean?.let {
@@ -833,6 +863,18 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
                 endWebIdCode = mWebAreaDbInfo.webidCode
                 endWebIdCodeStr = mWebAreaDbInfo.webid
                 eCompanyId = mWebAreaDbInfo.companyId
+                object : CountDownTimer(500, 500) {
+                    override fun onTick(millisUntilFinished: Long) {
+
+                    }
+
+                    override fun onFinish() {
+                        if (!isDestroyed)
+                            showDestination()
+                    }
+
+                }.start()
+
             }
 
         }).show(supportFragmentManager, "showWebIdDialogFilterDialog")
@@ -872,20 +914,6 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
                 }
             }
         }
-        shipper_name_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                if (shipper_name_ed.text.toString().isNotEmpty() && shipper_circle_hide_ll.visibility == View.VISIBLE) {
-                    mPresenter?.getShipperInfo(HttpParams("opeMan", shipper_name_ed.text.toString()))
-                }
-            }
-        }
-        shipper_mShipperTel_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                if (shipper_mShipperTel_ed.text.toString().isNotEmpty() && shipper_circle_hide_ll.visibility == View.VISIBLE) {
-                    mPresenter?.getShipperInfo(HttpParams("contactTel", shipper_mShipperTel_ed.text.toString()))
-                }
-            }
-        }
         shipper_mShipperId_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (shipper_mShipperId_ed.text.toString().isNotEmpty() && shipper_circle_hide_ll.visibility == View.VISIBLE) {
@@ -900,20 +928,6 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             if (!hasFocus) {
                 if (receiver_phone_ed.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {
                     mPresenter?.getReceiverInfo(HttpParams("contactMb", receiver_phone_ed.text.toString()))
-                }
-            }
-        }
-        receiver_customer_code_tv.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                if (receiver_customer_code_tv.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {
-                    mPresenter?.getReceiverInfo(HttpParams("vipId", receiver_customer_code_tv.text.toString()))
-                }
-            }
-        }
-        receiver_name_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                if (receiver_name_ed.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {
-                    mPresenter?.getReceiverInfo(HttpParams("opeMan", receiver_name_ed.text.toString()))
                 }
             }
         }

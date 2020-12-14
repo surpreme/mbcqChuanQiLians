@@ -48,6 +48,7 @@ class LoadingVehiclesAdapter(context: Context) : BaseRecyclerAdapter<LoadingVehi
 //        holder.operating_ll.visibility = if (mDatas[position].vehicleStateStr != "发货") View.VISIBLE else View.GONE
         //***
         holder.vehicler_info_tv.text = "${mDatas[position].vehicleNo} ${mDatas[position].chauffer} ${mDatas[position].chaufferMb}"
+        holder.information_tv.text="${mDatas[position].ps}票  x件 ${mDatas[position].volumn}m³  ${mDatas[position].weight}kg    运费¥${mDatas[position].yf}"
         holder.modify_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
                 mChangeClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))

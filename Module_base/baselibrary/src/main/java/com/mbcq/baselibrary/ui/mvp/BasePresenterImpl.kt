@@ -106,7 +106,11 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
                 }
 
             }
+            override fun onAgainLogIn(result: String) {
+                super.onAgainLogIn(result)
+                mView?.UnToken(result)
 
+            }
             override fun onStart(request: Request<T?, out Request<*, *>?>?) {
                 super.onStart(request)
                 mView?.showLoading()
@@ -191,6 +195,11 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
 
             }
 
+            override fun onAgainLogIn(result: String) {
+                super.onAgainLogIn(result)
+                mView?.UnToken(result)
+
+            }
             override fun onStart(request: Request<T?, out Request<*, *>?>?) {
                 super.onStart(request)
                 mView?.showLoading()

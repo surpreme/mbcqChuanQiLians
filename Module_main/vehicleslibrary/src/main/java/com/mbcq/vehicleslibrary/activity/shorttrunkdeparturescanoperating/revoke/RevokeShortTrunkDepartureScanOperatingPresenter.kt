@@ -26,11 +26,11 @@ class RevokeShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<Revoke
         jsonO.put("RecordDate", TimeUtils.getCurrTime2())//记录日期
         jsonO.put("isScanDet", 1)
         jsonO.put("IsScan", 1)
+        jsonO.put("ScanType", 0)
+        jsonO.put("ScanTypeStr", "PDA")
         mView?.getContext()?.let {
             jsonO.put("opeMan", UserInformationUtil.getUserName(it))//操作人
         }
-//        jsonO.put("ScanType", 0)
-//        jsonO.put("ScanTypeStr", "PDA")
         post<String>(ApiInterface.DEPARTURE_SHORT_FEEDER_DEPARTURE_SCAN_INFO_REVOKE_POST, getRequestBody(jsonO), object : CallBacks {
             override fun onResult(result: String) {
                 LogUtils.e(result.toString())

@@ -96,6 +96,42 @@ public class LoadingVehiclesBean {
     private int isScan;
     private String scanPercentage;
     private String ScanWebidType;
+    private String weight;
+    private String volumn;
+    private String yf;
+    private String ps;
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getVolumn() {
+        return volumn;
+    }
+
+    public void setVolumn(String volumn) {
+        this.volumn = volumn;
+    }
+
+    public String getYf() {
+        return yf;
+    }
+
+    public void setYf(String yf) {
+        this.yf = yf;
+    }
+
+    public String getPs() {
+        return ps;
+    }
+
+    public void setPs(String ps) {
+        this.ps = ps;
+    }
 
     public int getId() {
         return id;

@@ -12,7 +12,7 @@ import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederBean
 class TrunkDepartureContract {
 
     interface View : BaseView {
-        fun getTrunkDepartureS(list: List<TrunkDepartureBean>)
+        fun getTrunkDepartureS(list: List<TrunkDepartureBean>, totalData: TrunkDepartureTotalBean)
 
         fun invalidOrderS()
     }

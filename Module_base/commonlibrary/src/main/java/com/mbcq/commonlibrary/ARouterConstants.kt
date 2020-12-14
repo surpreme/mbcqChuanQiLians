@@ -96,6 +96,8 @@ object ARouterConstants {
     const val FixedScanDepartureTrunkConfigurationActivity = "/vehicles/FixedScanDepartureTrunkConfigurationActivity"
     const val ShortHouseChecklistActivity = "/vehicles/ShortHouseChecklistActivity"
     const val DepartureHouseChecklistActivity = "/vehicles/DepartureHouseChecklistActivity"
+    const val ShortTrunkDepartureScanOperatingMoreInfoActivity = "/vehicles/ShortTrunkDepartureScanOperatingMoreInfoActivity"
+    const val DepartureTrunkDepartureScanOperatingScanInfoActivity = "/vehicles/DepartureTrunkDepartureScanOperatingScanInfoActivity"
 
     /**
      * 财务模块

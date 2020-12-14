@@ -3,6 +3,7 @@ package com.mbcq.orderlibrary.activity.addshipper
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
@@ -81,7 +82,7 @@ class AddShipperActivity : BaseMVPActivity<AddShipperContract.View, AddShipperPr
         startList.add("姓名:")
         startList.add("电话:")
         startList.add("地址:")
-        FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择发货人", false, isShowOutSide = false, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+        FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择发货人", false, isShowOutSide = false,gravity= Gravity.CENTER_VERTICAL, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mAddShipperBean = Gson().fromJson<AddShipperBean>(mResult, AddShipperBean::class.java)
                 mAddShipperBean?.let {

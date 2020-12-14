@@ -10,6 +10,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
+import com.mbcq.baselibrary.dialog.popup.XDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
@@ -19,9 +20,12 @@ import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.DialogFragmentUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean
+import com.mbcq.commonlibrary.dialog.BottomOptionsDialog
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.revoke.RevokeDepartureTrunkDepartureScanDataBean
+import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperatingmoreinfo.DepartureTrunkDepartureScanOperatingScanMoreInfoBean
 import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
 import kotlinx.android.synthetic.main.activity_departure_trunk_departure_scan_operating.*
 import org.json.JSONObject
@@ -41,18 +45,37 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
 
     override fun getLayoutId(): Int = R.layout.activity_departure_trunk_departure_scan_operating
 
-
     @SuppressLint("SetTextI18n")
-    override fun onResume() {
-        super.onResume()
+    fun refreshScanInfo() {
         clearInfo()
         val obj = JSONObject(mLastData)
         mPresenter?.getCarInfo(obj.optString("inoneVehicleFlag"))
         unloading_batch_tv.text = "卸车批次:${obj.optString("inoneVehicleFlag")}"
     }
 
+    @SuppressLint("SetTextI18n")
+    override fun onResume() {
+        super.onResume()
+        refreshScanInfo()
+    }
+
     override fun onClick() {
         super.onClick()
+        look_local_car_info_tv.apply {
+            onSingleClicks {
+                val mBean =  DepartureTrunkDepartureScanOperatingScanMoreInfoBean()
+                mBean.inOneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
+                mBean.setmType(1)
+                ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingScanInfoActivity).withSerializable("departureScanInfo", mBean).navigation()
+            }
+        }
+        type_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                onFilterRecyclerData()
+
+            }
+
+        })
         search_btn.apply {
             onSingleClicks {
                 if (billno_ed.text.toString().isBlank()) {
@@ -91,6 +114,66 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
 
         })
 
+    }
+
+    fun onFilterRecyclerData() {
+        val list = mutableListOf<BaseTextAdapterBean>()
+        /**
+        按扫描先后
+        按扫描率
+        按计划外
+        按计划
+         */
+        for (index in 0..3) {
+            val mBaseTextAdapterBean = BaseTextAdapterBean()
+            mBaseTextAdapterBean.title = if (index == 0) "默认" else if (index == 1) "按扫描率" else if (index == 2) "按计划外" else "按计划"
+            mBaseTextAdapterBean.tag = index.toString()
+            list.add(mBaseTextAdapterBean)
+        }
+        XDialog.Builder(mContext)
+                .setContentView(R.layout.dialog_bottom_options)
+//                        .setWidth(type_tv.width)
+                .setIsDarkWindow(false)
+                .asCustom(BottomOptionsDialog(mContext, list).also {
+                    it.mOnRecyclerClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+                        override fun onItemClick(v: View, position: Int, mResult: String) {
+                            type_tv.text = if (mResult == "0") "默认" else if (mResult == "1") "按扫描率" else if (mResult == "2") "按计划外" else "按计划"
+                            when (mResult) {
+                                "0"->{
+                                    refreshScanInfo()
+                                }
+                                "1" -> {
+                                    showLoading()
+                                    //-1 前 1后
+                                    adapter.sortWith(Comparator { o1, o2 ->
+                                        val mO1Progress = if (o1.unLoadQty == 0) 0 else if (o1.unLoadQty == o1.totalQty) 100 else ((o1.unLoadQty * 100) / o1.totalQty)
+                                        val mO2Progress = if (o2.unLoadQty == 0) 0 else if (o2.unLoadQty == o2.totalQty) 100 else ((o2.unLoadQty * 100) / o2.totalQty)
+                                        if (mO1Progress >= mO2Progress) 1 else -1
+                                    })
+                                    closeLoading()
+                                }
+                                "2" -> {
+                                    showLoading()
+                                    //-1 前 1后
+                                    adapter.sortWith(Comparator { o1, o2 ->
+                                        if (o1.isScanDet == "2" && o2.isScanDet != "2") -1 else 1
+                                    })
+                                    closeLoading()
+                                }
+                                "3" -> {
+                                    showLoading()
+                                    //-1 前 1后
+                                    adapter.sortWith(Comparator { o1, o2 ->
+                                        if (o1.isScanDet == "2" && o2.isScanDet != "2") 1 else -1
+                                    })
+                                    closeLoading()
+                                }
+                            }
+                        }
+
+                    }
+                })
+                .showUp(type_tv)
     }
 
     fun scanSuccess(s1: String, isHeaderPint: Boolean) {
@@ -188,6 +271,16 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
         it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 billno_ed.setText(mResult)
+            }
+
+        }
+        it.mOnLookInformationInterface = object : DepartureTrunkDepartureScanOperatingAdapter.OnLookInformationInterface {
+            override fun lookInfo(v: View, position: Int, data: DepartureTrunkDepartureScanOperatingBean) {
+                val testDataStr = Gson().toJson(data)
+                val mBean = Gson().fromJson<DepartureTrunkDepartureScanOperatingScanMoreInfoBean>(testDataStr, DepartureTrunkDepartureScanOperatingScanMoreInfoBean::class.java)
+                mBean.inOneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
+                mBean.goodsTotalNum =data.totalQty
+                ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingScanInfoActivity).withSerializable("departureScanInfo", mBean).navigation()
             }
 
         }

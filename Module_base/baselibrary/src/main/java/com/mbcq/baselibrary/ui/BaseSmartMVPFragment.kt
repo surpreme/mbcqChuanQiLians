@@ -26,6 +26,7 @@ abstract class BaseSmartMVPFragment<V : BaseView, T : BasePresenterImpl<V>, X> :
     private var isHaveMore: Boolean = true
     var isMore: Boolean = true
     private var mCurrentPage: Int = 1
+    fun getCurrentPage():Int=mCurrentPage
     lateinit var mSmartRefreshLayout: SmartRefreshLayout
     lateinit var mSmartFrameLayout: ViewGroup
     override fun initViews(view: View) {

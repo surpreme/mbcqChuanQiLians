@@ -14,6 +14,12 @@ import com.mbcq.vehicleslibrary.R
 
 class ShortFeederAdapter(context: Context?) : BaseRecyclerAdapter<ShortFeederBean>(context) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_short_feeder, parent, false))
+    interface OnShortFeederClickInterface {
+        fun onModify(v: View, position: Int, itemData: ShortFeederBean)
+        fun onPint(v: View, position: Int, itemData: ShortFeederBean)
+    }
+
+    var mOnShortFeederClickInterface: OnShortFeederClickInterface? = null
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -27,11 +33,17 @@ class ShortFeederAdapter(context: Context?) : BaseRecyclerAdapter<ShortFeederBea
         context?.let {
             holder.feeder_checkbox_iv.setImageDrawable(ContextCompat.getDrawable(it, if (mDatas[position].isChecked) R.drawable.ic_checked_icon else R.drawable.ic_unchecked_icon))
         }
+        holder.modify_tv.setOnClickListener(object :SingleClick(){
+            override fun onSingleClick(v: View) {
+                mOnShortFeederClickInterface?.onModify(v,position,mDatas[position])
+            }
+
+        })
         holder.feeder_checkbox_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                for (index in 0 until mDatas.size){
-                    if (index!=position)
-                        mDatas[index].isChecked=false
+                for (index in 0 until mDatas.size) {
+                    if (index != position)
+                        mDatas[index].isChecked = false
                     else
                         mDatas[index].isChecked = !mDatas[index].isChecked
                 }

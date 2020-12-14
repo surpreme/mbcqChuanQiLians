@@ -105,7 +105,6 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
     override fun saveInfoS(result: String) {
         TalkSureDialog(mContext, getScreenWidth(), "短驳计划装车${mDepartureLot}完成，点击查看详情！") {
             onBackPressed()
-            this.finish()
         }.show()
 
 

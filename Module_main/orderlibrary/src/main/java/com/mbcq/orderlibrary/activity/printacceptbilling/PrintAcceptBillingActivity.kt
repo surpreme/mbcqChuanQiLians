@@ -3,6 +3,7 @@ package com.mbcq.orderlibrary.activity.printacceptbilling
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
@@ -58,20 +59,35 @@ class PrintAcceptBillingActivity : BaseBlueToothPrintAcceptBillingActivity<Print
                     return
                 }
                 showLoading()
-                try {
-                    val printAdapter = getZpBluetoothPrinter()
-                    if (consignment_checkbox.isChecked) {
-                        print_YH_TYD_NEW1(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), mWayBillInfoJObj, printAdapter)
-                    }
-                    if (label_checkbox.isChecked) {
-                        printMoreLabel(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), start_print_num_ed.text.toString().toInt(), end_print_num_ed.text.toString().toInt(), printAdapter)
+                object : CountDownTimer(1000, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
 
                     }
-                    closePrint(printAdapter)
-                } catch (e: Exception) {
-                    LogUtils.e(e)
-                }
-                closeLoading()
+
+                    override fun onFinish() {
+                        if (isDestroyed)
+                            return
+                        try {
+                            val printAdapter = getZpBluetoothPrinter()
+                            if (consignment_checkbox.isChecked) {
+                                print_YH_TYD_NEW1(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), mWayBillInfoJObj, printAdapter)
+                            }
+                            if (label_checkbox.isChecked) {
+                                printMoreLabel(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), start_print_num_ed.text.toString().toInt(), end_print_num_ed.text.toString().toInt(), printAdapter)
+
+                            }
+                            closePrint(printAdapter)
+                            closeLoading()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            LogUtils.e(e)
+                            closeLoading()
+                        }
+                    }
+
+                }.start()
+
+
             }
 
         })

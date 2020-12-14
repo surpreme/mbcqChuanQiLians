@@ -4,30 +4,30 @@ public class StowageAlongWayBean {
 
 
     /**
-     * id : 2
-     * vehicleState : 0
-     * vehicleStateStr : 发车计划中
+     * id : 8
+     * vehicleState : 3
+     * vehicleStateStr : 到货处理结束
      * companyId : 2001
      * ecompanyId : 2001
-     * inoneVehicleFlag : GX1003-20200628-001
-     * contractNo : GX1003-20200628-001
-     * sendOpeMan : 汕头
-     * arriOpeMan : 义乌后湖
-     * webidCode : 1003
-     * webidCodeStr : 汕头
-     * ewebidCode : 1001
-     * ewebidCodeStr : 义乌后湖
-     * vehicleNo : 鲁AB456
-     * chauffer : 王森
-     * chaufferMb : 156971897387
+     * inoneVehicleFlag : GX1001-20200628-006
+     * contractNo : GX1001-20200628-006
+     * sendOpeMan : 义乌后湖
+     * arriOpeMan : 汕头
+     * webidCode : 1001
+     * webidCodeStr : 义乌后湖
+     * ewebidCode : 1003
+     * ewebidCodeStr : 汕头
+     * vehicleNo : 1
+     * chauffer : 3
+     * chaufferMb : 2
      * transneed : 1
      * transneedStr : 零担
-     * sendDate : 2020-06-28T13:04:40
-     * arrivedDate : 2020-06-28T13:51:21
+     * sendDate : 2020-06-28T16:40:46
+     * arrivedDate : 2020-06-28T16:40:59
      * accNow : 0.0
      * accBack : 0.0
      * accYk : 0.0
-     * ykCard : 
+     * ykCard :
      * ewebidCode1 : 0
      * ewebidCodeStr1 : 义乌后湖
      * accArrived1 : 0.0
@@ -42,12 +42,20 @@ public class StowageAlongWayBean {
      * accArrSum : 0.0
      * accTansSum : 0.0
      * accOther : 0.0
-     * vehicleInterval : 汕头-义乌后湖
-     * remark : 
+     * vehicleInterval : 义乌后湖-汕头
+     * remark :
      * fromType : 0
-     * fromTypeStr : 
+     * fromTypeStr :
      * isScan : null
      * scanPercentage : null
+     * ps : 3
+     * weight : 369.0
+     * volumn : 0.0
+     * yf : 0.0
+     * accdache : 0.0
+     * accSum : 841.0
+     * sfWeight : 369.0
+     * accwz : 0.0
      */
 
     private int id;
@@ -92,8 +100,16 @@ public class StowageAlongWayBean {
     private String remark;
     private int fromType;
     private String fromTypeStr;
-    private String isScan;
-    private String scanPercentage;
+    private Object isScan;
+    private Object scanPercentage;
+    private int ps;
+    private double weight;
+    private double volumn;
+    private double yf;
+    private double accdache;
+    private double accSum;
+    private double sfWeight;
+    private double accwz;
 
     public int getId() {
         return id;
@@ -431,19 +447,83 @@ public class StowageAlongWayBean {
         this.fromTypeStr = fromTypeStr;
     }
 
-    public String getIsScan() {
+    public Object getIsScan() {
         return isScan;
     }
 
-    public void setIsScan(String isScan) {
+    public void setIsScan(Object isScan) {
         this.isScan = isScan;
     }
 
-    public String getScanPercentage() {
+    public Object getScanPercentage() {
         return scanPercentage;
     }
 
-    public void setScanPercentage(String scanPercentage) {
+    public void setScanPercentage(Object scanPercentage) {
         this.scanPercentage = scanPercentage;
+    }
+
+    public int getPs() {
+        return ps;
+    }
+
+    public void setPs(int ps) {
+        this.ps = ps;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getVolumn() {
+        return volumn;
+    }
+
+    public void setVolumn(double volumn) {
+        this.volumn = volumn;
+    }
+
+    public double getYf() {
+        return yf;
+    }
+
+    public void setYf(double yf) {
+        this.yf = yf;
+    }
+
+    public double getAccdache() {
+        return accdache;
+    }
+
+    public void setAccdache(double accdache) {
+        this.accdache = accdache;
+    }
+
+    public double getAccSum() {
+        return accSum;
+    }
+
+    public void setAccSum(double accSum) {
+        this.accSum = accSum;
+    }
+
+    public double getSfWeight() {
+        return sfWeight;
+    }
+
+    public void setSfWeight(double sfWeight) {
+        this.sfWeight = sfWeight;
+    }
+
+    public double getAccwz() {
+        return accwz;
+    }
+
+    public void setAccwz(double accwz) {
+        this.accwz = accwz;
     }
 }

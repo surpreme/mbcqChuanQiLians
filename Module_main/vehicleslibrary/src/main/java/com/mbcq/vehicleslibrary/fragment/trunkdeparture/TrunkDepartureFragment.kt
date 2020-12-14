@@ -4,6 +4,7 @@ package com.mbcq.vehicleslibrary.fragment.trunkdeparture
 import android.annotation.SuppressLint
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
+import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.RxBus
@@ -37,11 +38,31 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
 
     override fun getRecyclerViewId(): Int = R.id.trunk_departure_recycler
 
-    override fun setAdapter(): BaseRecyclerAdapter<TrunkDepartureBean> = TrunkDepartureAdapter(mContext)
+    override fun setAdapter(): BaseRecyclerAdapter<TrunkDepartureBean> = TrunkDepartureAdapter(mContext).also {
+        it.mOnTrunkDepartureClickInterface=object :TrunkDepartureAdapter.OnTrunkDepartureClickInterface{
+            override fun onModify(v: View, position: Int, itemData: TrunkDepartureBean) {
+                val job = JSONObject()
+                job.put("InoneVehicleFlag", itemData.inoneVehicleFlag)
+                job.put("Id", itemData.id)
+                ARouter.getInstance().build(ARouterConstants.FixedTrunkDepartureHouseActivity).withString("FixedTrunkDepartureHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
+
+            }
+
+            override fun onPint(v: View, position: Int, itemData: TrunkDepartureBean) {
+
+            }
+
+        }
+    }
 
     override fun getLayoutResId(): Int = R.layout.fragment_trunk_departure
-    override fun getTrunkDepartureS(list: List<TrunkDepartureBean>) {
+
+    @SuppressLint("SetTextI18n")
+    override fun getTrunkDepartureS(list: List<TrunkDepartureBean>, totalData: TrunkDepartureTotalBean) {
         appendDatas(list)
+        if (getCurrentPage() == 1)
+            all_info_bottom_tv.text = "合计：${list.size}票，${totalData.weight}kg，${totalData.volumn}m³，运费${totalData.accSum}"
+
     }
 
     override fun invalidOrderS() {
@@ -97,7 +118,7 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
                         }
                     }
                     if (data != null) {
-                        TalkSureDialog(it, getScreenWidth(), "您确定要作废车次${data.inoneVehicleFlag}吗?作废后不可恢复！") {
+                        TalkSureCancelDialog(it, getScreenWidth(), "您确定要作废车次${data.inoneVehicleFlag}吗?作废后不可恢复！") {
                             mPresenter?.invalidOrder(data.inoneVehicleFlag, data.id)
 
                         }.show()

@@ -114,7 +114,7 @@ class ShipmentInventoryPresenter : BasePresenterImpl<ShipmentInventoryContract.V
         params.put("Limit", 15)
         params.put("StartDate", startDate)
         params.put("EndDate", endDate)
-        params.put("SelType", 12)
+//        params.put("SelType", 12)
         mView?.getContext()?.let {
             params.put("SelWebidCode", selWebidCode)
         }

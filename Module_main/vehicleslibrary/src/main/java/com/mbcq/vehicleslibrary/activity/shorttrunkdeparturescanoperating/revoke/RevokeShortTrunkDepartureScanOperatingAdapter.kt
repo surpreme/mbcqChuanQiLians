@@ -12,7 +12,7 @@ import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.vehicleslibrary.R
 
 class RevokeShortTrunkDepartureScanOperatingAdapter (context: Context) : BaseRecyclerAdapter<RevokeShortTrunkDepartureScanOperatingBean>(context) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_arrival_trunk_short_scan_operating, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_roke_arrival_trunk_short_scan_operating, parent, false))
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

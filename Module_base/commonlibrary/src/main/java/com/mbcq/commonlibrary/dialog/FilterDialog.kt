@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -15,7 +16,9 @@ import com.mbcq.baselibrary.db.SharePreferencesHelper
 import com.mbcq.baselibrary.dialog.dialogfragment.BaseDialogFragment
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.util.system.pinyin.PinYinUtil
+import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.Constant
 import com.mbcq.commonlibrary.R
 import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean
@@ -39,18 +42,19 @@ class FilterDialog : BaseDialogFragment {
     var showBarTipsStr: String = ""
     var isGridLayoutManager: Boolean = false
     var isShowOutSide: Boolean = false
+    var mXTextGravity = 0
     var mClickInterface: OnClickInterface.OnRecyclerClickInterface
     lateinit var filter_recycler_view: RecyclerView
     lateinit var top_title_tv: TextView
-    lateinit var close_btn: Button
+//    lateinit var close_btn: Button
     lateinit var filter_search_ed: EditText
     override fun setDialogWidth(): Int {
         return mScreenWidth / 4 * 3
     }
 
-    /* override fun setDialogHeight(): Int {
-         return if (activity == null) 200 else ScreenSizeUtils.getScreenHeight(activity!!) / 10 * 3
-     }*/
+    override fun setDialogHeight(): Int {
+        return (mContext.resources?.displayMetrics?.heightPixels!! / 10) * 7
+    }
 
     /**
      * mScreenWidth 为了适配屏幕宽度
@@ -110,7 +114,7 @@ class FilterDialog : BaseDialogFragment {
         this.mClickInterface = mClickInterface
     }
 
-    constructor(mScreenWidth: Int, mDatas: String, showTag: MutableList<String>, startString: MutableList<String>, endString: String, tips: String, isGridLayoutManager: Boolean, isShowOutSide: Boolean, mClickInterface: OnClickInterface.OnRecyclerClickInterface) {
+    constructor(mScreenWidth: Int, mDatas: String, showTag: MutableList<String>, startString: MutableList<String>, endString: String, tips: String, isGridLayoutManager: Boolean, isShowOutSide: Boolean, gravity: Int, mClickInterface: OnClickInterface.OnRecyclerClickInterface) {
         val dataslist = JSONArray(mDatas)
         val showDatas = mutableListOf<BaseTextAdapterBean>()
         for (index in 0 until dataslist.length()) {
@@ -137,6 +141,7 @@ class FilterDialog : BaseDialogFragment {
         this.tips = tips
         this.isGridLayoutManager = isGridLayoutManager
         this.isShowOutSide = isShowOutSide
+        this.mXTextGravity = gravity
         this.mClickInterface = mClickInterface
     }
 
@@ -146,8 +151,13 @@ class FilterDialog : BaseDialogFragment {
     override fun initView(view: View, savedInstanceState: Bundle?) {
         filter_search_ed = view.findViewById(R.id.filter_search_ed)
         filter_recycler_view = view.findViewById(R.id.filter_recycler_view)
-        close_btn = view.findViewById(R.id.close_btn)
+//        close_btn = view.findViewById(R.id.close_btn)
         top_title_tv = view.findViewById(R.id.top_title_tv)
+        close_top_img.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                dismiss()
+            }
+        })
         top_title_tv.text = tips
         if (showBarTipsStr.isNotBlank()) {
             commonly_bar_title_tv.text = "常用$showBarTipsStr"
@@ -203,15 +213,15 @@ class FilterDialog : BaseDialogFragment {
         } else {
             commonly_configuration_ll.visibility = View.GONE
         }
-        close_btn.setOnClickListener {
+      /*  close_btn.setOnClickListener {
             dismiss()
-        }
+        }*/
         if (isGridLayoutManager)
             filter_recycler_view.layoutManager = GridLayoutManager(mContext, 3)
         else
             filter_recycler_view.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
 
-        val mTextViewAdapter = TextViewAdapter<BaseTextAdapterBean>(mContext)
+        val mTextViewAdapter = TextViewAdapter<BaseTextAdapterBean>(mContext, if (mXTextGravity == 0) Gravity.CENTER else mXTextGravity)
         mTextViewAdapter.mClick = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
 

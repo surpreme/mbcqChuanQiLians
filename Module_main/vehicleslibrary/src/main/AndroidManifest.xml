@@ -3,6 +3,10 @@
     package="com.mbcq.vehicleslibrary">
 
     <application>
+        <activity android:name=".activity.departuretrunkdeparturescanoperatingmoreinfo.DepartureTrunkDepartureScanOperatingScanInfoActivity"></activity>
+        <activity
+            android:name=".activity.shorttrunkdeparturescanoperatingmoreinfo.ShortTrunkDepartureScanOperatingMoreInfoActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".activity.departurehousechecklist.DepartureHouseChecklistActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -32,7 +36,9 @@
         <activity android:name=".activity.arrivalvehiclesscan.ArrivalVehiclesScanActivity" />
         <activity android:name=".activity.fixedvehiclesarchives.FixedVehicleArchivesActivity" />
         <activity android:name=".activity.addvehiclesarchives.AddVehicleArchivesActivity" />
-        <activity android:name=".activity.vehiclesarchives.VehicleArchivesActivity" />
+        <activity
+            android:name=".activity.vehiclesarchives.VehicleArchivesActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.alldeparturerecord.shipmentinventory.ShipmentInventoryActivity" />
         <activity android:name=".activity.allarrivalrecord.arrivalinventory.ArrivalInventoryActivity" />
         <activity android:name=".activity.allterminalagent.terminalagentbycarhouse.TerminalAgentByCarHouseActivity" />

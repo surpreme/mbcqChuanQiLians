@@ -11,9 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederAdapter
+import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederBean
 
 class TrunkDepartureAdapter(context: Context?) : BaseRecyclerAdapter<TrunkDepartureBean>(context) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_trunk_departure, parent, false))
+    interface OnTrunkDepartureClickInterface {
+        fun onModify(v: View, position: Int, itemData: TrunkDepartureBean)
+        fun onPint(v: View, position: Int, itemData: TrunkDepartureBean)
+    }
+    var mOnTrunkDepartureClickInterface:OnTrunkDepartureClickInterface? = null
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -27,6 +34,12 @@ class TrunkDepartureAdapter(context: Context?) : BaseRecyclerAdapter<TrunkDepart
         context?.let {
             holder.trunk_checkbox_iv.setImageDrawable(ContextCompat.getDrawable(it, if (mDatas[position].isChecked) R.drawable.ic_checked_icon else R.drawable.ic_unchecked_icon))
         }
+        holder.modify_tv.setOnClickListener(object :SingleClick(){
+            override fun onSingleClick(v: View) {
+                mOnTrunkDepartureClickInterface?.onModify(v,position,mDatas[position])
+            }
+
+        })
         holder.trunk_checkbox_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 /*mDatas[position].isChecked = !mDatas[position].isChecked

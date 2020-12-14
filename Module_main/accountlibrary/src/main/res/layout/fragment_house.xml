@@ -12,17 +12,28 @@
         android:background="@color/white"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/message_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <!--   <TextView
+               android:id="@+id/message_tv"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="10dp"
+               android:layout_marginTop="10dp"
+               android:layout_marginBottom="10dp"
+               android:drawableTop="@drawable/ic_message_icon"
+               android:gravity="center"
+               tools:text="消息"
+               android:textColor="@color/black"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintLeft_toLeftOf="parent"
+               app:layout_constraintTop_toTopOf="parent" />-->
+        <ImageView
+            android:id="@+id/message_iv"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:drawableTop="@drawable/ic_message_icon"
-            android:gravity="center"
-            android:text="消息"
-            android:textColor="@color/black"
+            android:src="@drawable/ic_message_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +41,7 @@
         <TextView
             android:id="@+id/house_search_fragment_tv"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="29dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="13dp"
             android:layout_marginRight="15dp"
@@ -43,32 +54,61 @@
             android:paddingLeft="13dp"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/message_tv"
-            app:layout_constraintRight_toLeftOf="@+id/scan_tv"
+            app:layout_constraintLeft_toRightOf="@+id/message_iv"
+            app:layout_constraintRight_toLeftOf="@+id/scan_iv"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/scan_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/scan_iv"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
             android:layout_marginEnd="16dp"
-            android:drawableTop="@drawable/ic_scan_iccon"
             android:gravity="center"
-            android:text="扫一扫"
+            android:src="@drawable/ic_scan_iccon"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="扫一扫" />
+        <!--
+          <TextView
+                    android:id="@+id/scan_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:drawableTop="@drawable/ic_scan_iccon"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="扫一扫" />
+        -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/house_smartRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_cl">
+
+        <com.scwang.smartrefresh.header.FlyRefreshHeader
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="houseloadingdata.json"
+                app:lottie_loop="true" />
+        </com.scwang.smartrefresh.header.FlyRefreshHeader>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,7 +129,7 @@
                 android:layout_height="163dp"
                 android:background="@color/white"
                 app:lottie_autoPlay="true"
-                app:lottie_fileName="loadingdata.json"
+                app:lottie_fileName="runningman.json"
                 app:lottie_loop="true" />
 
             <LinearLayout
@@ -105,12 +145,21 @@
                     android:orientation="vertical"
                     android:paddingBottom="15dp">
 
-                    <ImageView
-                        android:layout_width="47dp"
-                        android:layout_height="42dp"
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="15dp"
-                        android:background="@color/base_grayDark" />
+                        app:cardCornerRadius="6dp">
+
+                        <ImageView
+                            android:layout_width="47dp"
+                            android:layout_height="47dp"
+                            android:alpha="0.8"
+                            android:scaleType="fitCenter"
+                            android:src="@color/base_gray" />
+                    </androidx.cardview.widget.CardView>
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -129,12 +178,21 @@
                     android:orientation="vertical"
                     android:paddingBottom="15dp">
 
-                    <ImageView
-                        android:layout_width="47dp"
-                        android:layout_height="42dp"
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="15dp"
-                        android:background="@color/base_grayDark" />
+                        app:cardCornerRadius="6dp">
+
+                        <ImageView
+                            android:layout_width="47dp"
+                            android:layout_height="47dp"
+                            android:alpha="0.8"
+                            android:scaleType="fitCenter"
+                            android:src="@color/base_gray" />
+                    </androidx.cardview.widget.CardView>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -153,12 +211,20 @@
                     android:orientation="vertical"
                     android:paddingBottom="15dp">
 
-                    <ImageView
-                        android:layout_width="47dp"
-                        android:layout_height="42dp"
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="15dp"
-                        android:background="@color/base_grayDark" />
+                        app:cardCornerRadius="6dp">
+
+                        <ImageView
+                            android:layout_width="47dp"
+                            android:layout_height="47dp"
+                            android:alpha="0.8"
+                            android:scaleType="fitCenter"
+                            android:src="@color/base_gray" />
+                    </androidx.cardview.widget.CardView>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -172,15 +238,68 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="15dp"
+                android:layout_height="8dp"
+                android:alpha="0.8"
                 android:background="@color/base_gray" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/type_tab_layout"
+
+            <LinearLayout
+                android:id="@+id/top_index_title_ll"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:id="@+id/sender_title_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="我寄的"
+                    android:textColor="@color/base_blue"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/received_title_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="我收的"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/top_index_line_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white" />
+                android:background="@color/white">
 
+                <View
+                    android:id="@+id/sender_title_line"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginRight="35dp"
+                    android:layout_weight="1"
+                    android:alpha="0.7"
+                    android:background="@color/base_blue" />
+
+                <View
+                    android:id="@+id/received_title_line"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginRight="35dp"
+                    android:layout_weight="1"
+                    android:alpha="0.7" />
+
+
+            </LinearLayout>
         </LinearLayout>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>

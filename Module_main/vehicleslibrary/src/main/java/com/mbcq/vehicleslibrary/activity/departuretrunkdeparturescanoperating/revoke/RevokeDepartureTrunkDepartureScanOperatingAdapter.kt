@@ -13,7 +13,7 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
 
 class RevokeDepartureTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecyclerAdapter<RevokeDepartureTrunkDepartureScanOperatingBean>(context) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_arrival_trunk_short_scan_operating, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_roke_arrival_trunk_short_scan_operating, parent, false))
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -35,6 +35,7 @@ class RevokeDepartureTrunkDepartureScanOperatingAdapter(context: Context) : Base
         var address_tv = itemView.findViewById<TextView>(R.id.address_tv)
         var goods_name_tv = itemView.findViewById<TextView>(R.id.goods_name_tv)
         var goods_number_ifo_tv = itemView.findViewById<TextView>(R.id.goods_number_ifo_tv)
+
     }
 
 

@@ -1,6 +1,8 @@
 package com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating;
 
-public class ShortTrunkDepartureScanOperatingBean {
+import java.io.Serializable;
+
+public class ShortTrunkDepartureScanOperatingBean implements Serializable {
 
     /**
      * sendOpeMan : lzy
@@ -133,7 +135,7 @@ public class ShortTrunkDepartureScanOperatingBean {
     private int finishState;
     private double accForktruck;
     private String orderId;
-    private String billno;
+    private String billno="";
     private String oBillno;
     private String billDate;
     private int billState;
@@ -217,6 +219,16 @@ public class ShortTrunkDepartureScanOperatingBean {
     private String salesMan;
     private String opeMan;
     private String remark;
+    private String isScanDet;
+
+    public String getIsScanDet() {
+        return isScanDet;
+    }
+
+    public void setIsScanDet(String isScanDet) {
+        this.isScanDet = isScanDet;
+    }
+
 
     public String getSendOpeMan() {
         return sendOpeMan;

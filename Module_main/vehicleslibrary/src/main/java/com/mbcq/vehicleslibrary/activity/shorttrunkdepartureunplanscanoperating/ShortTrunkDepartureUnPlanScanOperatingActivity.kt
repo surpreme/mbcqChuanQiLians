@@ -14,23 +14,31 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
+import com.mbcq.baselibrary.dialog.popup.XDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.ui.onSingleClicks
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.CustomizeToastUtil
 import com.mbcq.baselibrary.view.DialogFragmentUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean
+import com.mbcq.commonlibrary.dialog.BottomOptionsDialog
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.ShortTrunkDepartureScanOperatingAdapter
+import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.ShortTrunkDepartureScanOperatingBean
 import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.revoke.RevokeShortTrunkDepartureScanDataBean
+import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperatingmoreinfo.ShortTrunkDepartureScanOperatingMoreInfoIntentBean
 import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
 import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.*
 import org.json.JSONObject
 import java.lang.StringBuilder
+import java.util.*
 
 /**
  * @author: lzy
@@ -61,12 +69,75 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
 
     override fun onResume() {
         super.onResume()
-        val obj = JSONObject(mLastData)
-        mPresenter?.getCarInfo(obj.optString("inoneVehicleFlag"))
+        refreshScanInfo()
+    }
+
+    fun onFilterRecyclerData() {
+        val list = mutableListOf<BaseTextAdapterBean>()
+        /**
+        按扫描先后
+        按扫描率
+        按计划外
+        按计划
+         */
+        for (index in 0..1) {
+            val mBaseTextAdapterBean = BaseTextAdapterBean()
+            mBaseTextAdapterBean.title = if (index == 0) "默认" else if (index == 1) "按扫描率" else if (index == 2) "按计划外" else "按计划"
+            mBaseTextAdapterBean.tag = index.toString()
+            list.add(mBaseTextAdapterBean)
+        }
+        XDialog.Builder(mContext)
+                .setContentView(R.layout.dialog_bottom_options)
+//                        .setWidth(type_tv.width)
+                .setIsDarkWindow(false)
+                .asCustom(BottomOptionsDialog(mContext, list).also {
+                    it.mOnRecyclerClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+                        override fun onItemClick(v: View, position: Int, mResult: String) {
+                            type_tv.text = if (mResult == "0") "默认" else if (mResult == "1") "按扫描率" else if (mResult == "2") "按计划外" else "按计划"
+                            when (mResult) {
+                                "0" -> {
+                                    refreshScanInfo()
+                                }
+                                "1" -> {
+                                    showLoading()
+                                    //-1 前 1后
+                                    adapter.sortWith(Comparator { o1, o2 ->
+                                        val mO1Progress = if (o1.unLoadQty == 0) 0 else if (o1.unLoadQty == o1.totalQty) 100 else ((o1.unLoadQty * 100) / o1.totalQty)
+                                        val mO2Progress = if (o2.unLoadQty == 0) 0 else if (o2.unLoadQty == o2.totalQty) 100 else ((o2.unLoadQty * 100) / o2.totalQty)
+                                        if (mO1Progress >= mO2Progress) 1 else -1
+                                    })
+                                    closeLoading()
+                                }
+                            }
+                        }
+
+                    }
+                })
+                .showUp(type_tv)
+    }
+
+    private fun refreshScanInfo() {
+        mPresenter?.getCarInfo(JSONObject(mLastData).optString("inoneVehicleFlag"))
+
     }
 
     override fun onClick() {
         super.onClick()
+        look_local_car_info_tv.apply {
+            onSingleClicks {
+                val mBean = ShortTrunkDepartureScanOperatingMoreInfoIntentBean()
+                mBean.inOneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
+                mBean.setmType(1)
+                ARouter.getInstance().build(ARouterConstants.ShortTrunkDepartureScanOperatingMoreInfoActivity).withSerializable("ShortScanInfo", mBean).navigation()
+            }
+        }
+        type_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                onFilterRecyclerData()
+
+            }
+
+        })
         search_btn.apply {
             onSingleClicks {
                 if (billno_ed.text.toString().isBlank()) {
@@ -245,6 +316,16 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                 billno_ed.setText(mResult)
             }
         }
+        it.mOnLookInformationInterface = object : ShortTrunkDepartureUnPlanScanOperatingAdapter.OnLookInformationInterface {
+            override fun lookInfo(v: View, position: Int, data: ShortTrunkDepartureUnPlanScanOperatingBean) {
+                val testDataStr = Gson().toJson(data)
+                val mBean = Gson().fromJson<ShortTrunkDepartureScanOperatingMoreInfoIntentBean>(testDataStr, ShortTrunkDepartureScanOperatingMoreInfoIntentBean::class.java)
+                mBean.inOneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
+                mBean.goodsTotalNum = data.totalQty
+                ARouter.getInstance().build(ARouterConstants.ShortTrunkDepartureScanOperatingMoreInfoActivity).withSerializable("ShortScanInfo", mBean).navigation()
+            }
+
+        }
     }
 
     override fun getWillByInfoS(data: JSONObject, resultBillno: String, mScanType: Int) {
@@ -335,7 +416,6 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
             )
         }
     }
-
 
 
     fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String, mXScanType: Int) {

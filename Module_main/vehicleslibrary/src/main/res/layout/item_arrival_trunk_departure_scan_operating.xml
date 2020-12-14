@@ -81,7 +81,18 @@
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/billno_tv"
             tools:text="已扫:x     本车:xxx    剩余:xx     总件数:60" />
-
+        <TextView
+            android:id="@+id/isunplantag_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="计划外"
+            android:visibility="gone"
+            android:textColor="@color/base_red"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/goods_number_ifo_tv"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="10dp"
+            app:layout_constraintTop_toTopOf="@+id/goods_number_ifo_tv" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

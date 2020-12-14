@@ -19,6 +19,7 @@ class TextViewAdapter<T : BaseTextAdapterBean> : RecyclerView.Adapter<TextViewAd
     private var mSonBean = ArrayList<T>()
     private var isShowOutSide = true
     private var mTextGravity = 0
+    private var mTextPadding = 0
 
     constructor(context: Context) {
         this.context = context
@@ -31,13 +32,21 @@ class TextViewAdapter<T : BaseTextAdapterBean> : RecyclerView.Adapter<TextViewAd
         this.inflater = LayoutInflater.from(context)
     }
 
+
+    fun setTextPadding(mTextPadding: Int) {
+        this.mTextPadding = mTextPadding
+
+    }
+
     fun setIsShowOutSide(isShow: Boolean) {
         this.isShowOutSide = isShow
 
     }
+
     fun getAllData(): ArrayList<T> {
         return mSonBean
     }
+
     fun appendData(list: List<T>) {
         mSonBean.addAll(list)
         notifyDataSetChanged()
@@ -100,7 +109,7 @@ class TextViewAdapter<T : BaseTextAdapterBean> : RecyclerView.Adapter<TextViewAd
             }
             marginParams.setMargins(ScreenSizeUtils.dp2px(it, 1f), ScreenSizeUtils.dp2px(it, 1f), ScreenSizeUtils.dp2px(it, 1f), ScreenSizeUtils.dp2px(it, 1f))
             holder.itemView.layoutParams = marginParams
-            holder.itemView.setPadding(0, ScreenSizeUtils.dp2px(it, 5f), 0, ScreenSizeUtils.dp2px(it, 5f))
+            holder.itemView.setPadding(0, ScreenSizeUtils.dp2px(it, if (mTextPadding == 0) 5f else mTextPadding.toFloat()), 0, ScreenSizeUtils.dp2px(it, if (mTextPadding == 0) 5f else mTextPadding.toFloat()))
 
         }
 

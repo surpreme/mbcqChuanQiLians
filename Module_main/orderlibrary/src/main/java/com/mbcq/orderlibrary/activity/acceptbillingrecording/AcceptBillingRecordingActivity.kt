@@ -2,6 +2,7 @@ package com.mbcq.orderlibrary.activity.acceptbillingrecording
 
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
@@ -42,6 +43,10 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
     var mStartDateTag = ""
     var mEndDateTag = ""
     var mShippingOutletsTag = ""
+    /**
+     * 刷新
+     */
+    private val REFRESH_DATA_CODE = 1730
     override fun getLayoutId(): Int = R.layout.activity_accept_billing_recording
     override fun getSmartLayoutId(): Int = R.id.accept_billing_recording_smart
     override fun getSmartEmptyId(): Int = R.id.accept_billing_recording_smart_frame
@@ -68,6 +73,12 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
         mPresenter?.getPage(mCurrentPage, mShippingOutletsTag, mStartDateTag, mEndDateTag)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode==REFRESH_DATA_CODE){
+            refresh()
+        }
+    }
     override fun onClick() {
         super.onClick()
         type_tv.setOnClickListener(object : SingleClick() {
@@ -81,12 +92,12 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
                 }
                 XDialog.Builder(mContext)
                         .setContentView(R.layout.dialog_bottom_options)
-                        .setWidth(ScreenSizeUtils.dip2px(mContext, (type_tv.width).toFloat()))
+//                        .setWidth(type_tv.width)
                         .setIsDarkWindow(false)
                         .asCustom(BottomOptionsDialog(mContext, list).also {
-                            it.mOnRecyclerClickInterface=object :OnClickInterface.OnRecyclerClickInterface{
+                            it.mOnRecyclerClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
                                 override fun onItemClick(v: View, position: Int, mResult: String) {
-                                    type_tv.text= if (mResult == "0") "全部" else if (mResult == "1") "待运营审核" else "待财务审核"
+                                    type_tv.text = if (mResult == "0") "全部" else if (mResult == "1") "待运营审核" else "待财务审核"
                                 }
 
                             }
@@ -98,7 +109,7 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
         })
         change_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.FixedAcceptBillingActivity).navigation()
+                ARouter.getInstance().build(ARouterConstants.FixedAcceptBillingActivity).navigation(this@AcceptBillingRecordingActivity,REFRESH_DATA_CODE)
             }
 
         })

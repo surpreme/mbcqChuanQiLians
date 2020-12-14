@@ -30,8 +30,8 @@ class LocalAgentActivity : BaseMVPActivity<LocalAgentContract.View, LocalAgentPr
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
-        local_agent_tabLayout.addTab(local_agent_tabLayout.newTab().setText("按车(2)"))
-        local_agent_tabLayout.addTab(local_agent_tabLayout.newTab().setText("按票(2)"))
+        local_agent_tabLayout.addTab(local_agent_tabLayout.newTab().setText("按车"))
+        local_agent_tabLayout.addTab(local_agent_tabLayout.newTab().setText("按票"))
     }
 
     interface WebDbInterface {

@@ -116,6 +116,7 @@ class ArrivalInventoryPresenter : BasePresenterImpl<ArrivalInventoryContract.Vie
         params.put("StartDate", startDate)
         params.put("EndDate", endDate)
         params.put("SelType", 12)
+        params.put("selloc", 12)
         mView?.getContext()?.let {
             params.put("SelWebidCode", selWebidCode)
 

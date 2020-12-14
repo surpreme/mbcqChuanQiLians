@@ -25,7 +25,7 @@ class TrunkDeparturePresenter : BasePresenterImpl<TrunkDepartureContract.View>()
         get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
-                mView?.getTrunkDepartureS(Gson().fromJson<List<TrunkDepartureBean>>(obj.optString("data"), object : TypeToken<List<TrunkDepartureBean>>() {}.type))
+                mView?.getTrunkDepartureS(Gson().fromJson<List<TrunkDepartureBean>>(obj.optString("data"), object : TypeToken<List<TrunkDepartureBean>>() {}.type),Gson().fromJson(obj.optString("totalRow"),TrunkDepartureTotalBean::class.java))
             }
 
         })

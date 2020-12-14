@@ -105,6 +105,11 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
     protected val RESULT_DATA_CODE = 4937
     protected val RECEIVER_RESULT_DATA_CODE = 2369
 
+    /**
+     * 刷新
+     */
+    protected val REFRESH_DATA_CODE = 1730
+
     override fun initExtra() {
         super.initExtra()
         rxPermissions = RxPermissions(this)

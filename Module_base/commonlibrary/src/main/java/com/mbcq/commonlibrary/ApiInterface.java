@@ -341,15 +341,16 @@ public class ApiInterface {
 
     /**
      * 到货库存
+     * //waybillFcd.SelType = 12; selloc=12 按开单时间查询
+     * //waybillFcd.SelType=17; selloc=17 按到货时间查询
      */
 
     public static final String ARRIVAL_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelDhWaybillFcdByCon";
     /**
      * 发货库存
-     * //waybillFcd.SelType = 12;按开单时间查询
-     * //waybillFcd.SelType=17;按到货时间查询
+     *
      */
-    public static final String SHIPMENT_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelDhWaybillFcdByCon";
+    public static final String SHIPMENT_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelFhWaybillFcdByCon";
     /**
      * 签收查询库存
      */
@@ -570,6 +571,10 @@ public class ApiInterface {
      */
 
     public static final String SCAN_DEPARTURE_TRUNK_CONFIGURATION_FIXED_GET = BASE_URI + "GxVehicleOpe/UpdGxVehicleByCondition";
+    /**
+     * 查詢扫描数据
+     */
+    public static final String SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET = BASE_URI + "Scan/SelWaybillScanByCondition";
 
 
 }
