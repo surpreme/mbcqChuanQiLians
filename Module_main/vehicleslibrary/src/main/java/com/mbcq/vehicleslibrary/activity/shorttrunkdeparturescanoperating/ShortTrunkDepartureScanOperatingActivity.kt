@@ -34,7 +34,7 @@ import java.lang.StringBuilder
 
 /**
  * @author: lzy
- * @time: 2020-11-04 16:05:23 短驳发车
+ * @time: 2020-11-04 16:05:23 短驳有计划发车
  */
 
 @Route(path = ARouterConstants.ShortTrunkDepartureScanOperatingActivity)
@@ -147,7 +147,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
         }
         search_btn.apply {
             onSingleClicks {
-                if (billno_ed.text.toString().isBlank()) {
+                if (billno_ed.text.toString().isBlank() || billno_ed.text.toString().length < 5) {
                     showToast("请检查扫描编码后重试")
                     return@onSingleClicks
                 }
@@ -156,12 +156,17 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
         }
         save_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                if (mTotalUnLoadingNum != 0) {
-                    showToast("请扫描完毕再发车")
-                    return
+                val unScanOverBillno = StringBuilder()
+                for (item in adapter.getAllData()) {
+                    if (item.unLoadQty != item.totalQty) {
+                        unScanOverBillno.append(item.billno).append("  ")
+                    }
                 }
-                val modifyData = JSONObject(mLastData)
-                mPresenter?.saveScanPost(modifyData.optInt("id"), modifyData.optString("inoneVehicleFlag"))
+                TalkSureDialog(mContext, getScreenWidth(), if (unScanOverBillno.toString().isBlank()) "您确认要完成发车批次为${JSONObject(mLastData).optString("inoneVehicleFlag")}的发车吗？" else "运单号为${unScanOverBillno.toString()}为拆票运单，请确认无误后发车！") {
+                    val modifyData = JSONObject(mLastData)
+                    mPresenter?.saveScanPost(modifyData.optInt("id"), modifyData.optString("inoneVehicleFlag"))
+                }.show()
+
             }
 
         })
@@ -295,7 +300,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
                 val testDataStr = Gson().toJson(data)
                 val mBean = Gson().fromJson<ShortTrunkDepartureScanOperatingMoreInfoIntentBean>(testDataStr, ShortTrunkDepartureScanOperatingMoreInfoIntentBean::class.java)
                 mBean.inOneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
-                mBean.goodsTotalNum =data.totalQty
+                mBean.goodsTotalNum = data.totalQty
                 ARouter.getInstance().build(ARouterConstants.ShortTrunkDepartureScanOperatingMoreInfoActivity).withSerializable("ShortScanInfo", mBean).navigation()
             }
 
@@ -352,8 +357,8 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
             )
             return
         }
-        //3在途
-        if (data.optInt("billState") != 3) {
+        //3在途data.optInt("billState") != 3
+        if (true) {
             val obj = JSONObject(mLastData)
             val inoneV = obj.optString("inoneVehicleFlag")
             //ScanWebidType 扫描网点类型  默认0 1代表只装所选到货网点 2不限到货网点
@@ -403,7 +408,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
             }
             onFirstScanOrder(data, resultBillno, inoneV, mScanType)
 
-        } else {
+        }/* else {
             errorStep("该运单已经在途，请核实后重试")
             //(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String, mAbnormalReason: String) {
             mPresenter?.scanAbnormalOrder(
@@ -419,7 +424,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
                     "该运单已经在途"
 
             )
-        }
+        }*/
     }
 
     fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String, mXScanType: Int) {
@@ -472,8 +477,12 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
     }
 
     override fun getWillByInfoNull() {
-        soundPoolMap?.get(SCAN_SOUND_ERROR_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
+        errorStep("该运单信息不存在，请核实后重试")
 
+    }
+
+    override fun isNotAtStock(billno: String) {
+        errorStep("该运单不在库存，请核实后重试")
     }
 
     override fun saveScanPostS(result: String) {

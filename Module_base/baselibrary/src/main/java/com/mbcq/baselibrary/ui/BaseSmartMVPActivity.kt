@@ -72,7 +72,7 @@ abstract class BaseSmartMVPActivity<V : BaseView, T : BasePresenterImpl<V>, X> :
         val inflater = LayoutInflater.from(mContext)
         if (mNoDataView == null)
             mNoDataView = inflater.inflate(R.layout.nodata_ll, null)
-        val linearParams = ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.MATCH_PARENT)
+//        val linearParams = ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.MATCH_PARENT)
         val lp: LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
         mSmartFrameLayout.addView(mNoDataView, lp)
 //        mSmartFrameLayout.addView(mNoDataIv, linearParams)

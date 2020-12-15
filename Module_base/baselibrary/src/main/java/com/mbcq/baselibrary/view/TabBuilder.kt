@@ -16,8 +16,8 @@ abstract class TabBuilder : TabLayout.OnTabSelectedListener {
     override fun onTabUnselected(tab: TabLayout.Tab?) {
     }
 
-    override fun onTabSelected(tab: TabLayout.Tab?) {
-        onSelected(tab!!)
+    override fun onTabSelected(tab: TabLayout.Tab) {
+        onSelected(tab)
     }
 
 }

@@ -1,8 +1,10 @@
 package com.mbcq.baselibrary;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Bundle;
 import android.provider.SyncStateContract;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -22,10 +24,17 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
+import org.jetbrains.annotations.NotNull;
+
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 import cat.ereza.customactivityoncrash.config.CaocConfig;
 import okhttp3.OkHttpClient;
 
+/**
+ * @email 1740747328@qq.com
+ * @author 项目负责人：李紫洋
+ * @information 传麒链
+ */
 public class BaseApplication extends Application {
     private static Application context;
     //    private DaoSession daoSession;
@@ -44,8 +53,12 @@ public class BaseApplication extends Application {
         initCrasher();
         initFingerShare();
         initStetho();
+        initActvityManager();
     }
 
+    /**
+     * 谷歌浏览器可以看到greendao数据库
+     */
     private void initStetho() {
         Stetho.initializeWithDefaults(this);
         new OkHttpClient.Builder()
@@ -111,6 +124,49 @@ public class BaseApplication extends Application {
             public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
                 //指定为经典Footer，默认是 BallPulseFooter
                 return new ClassicsFooter(context).setDrawableSize(20);
+            }
+        });
+    }
+
+    /**
+     * 管理所有activity的生命周期以及对象
+     * 以后需要会有核心作用 请修改它作为你的工具
+     */
+    private void initActvityManager() {
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(@NotNull Activity activity, Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(@NotNull Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(@NotNull Activity activity) {
+//                ActivityManager.getInstance().setCurrentActivity(activity);
+            }
+
+            @Override
+            public void onActivityPaused(@NotNull Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(@NotNull Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(@NotNull Activity activity, @NotNull Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(@NotNull Activity activity) {
+
             }
         });
     }

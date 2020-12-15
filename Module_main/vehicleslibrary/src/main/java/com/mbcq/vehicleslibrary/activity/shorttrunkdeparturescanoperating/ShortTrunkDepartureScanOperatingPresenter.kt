@@ -34,25 +34,59 @@ class ShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ShortTrunkDe
 
         })
     }
-    override fun getWillByInfo(billno: String, resultBillno: String, mScanType: Int) {
-        val params = HttpParams()
-        params.put("Billno", billno)
-        get<String>(ApiInterface.RECORD_SELECT_ORDER_INFO_GET, params, object : CallBacks {
-            override fun onResult(result: String) {
-                val obj = JSONObject(result)
-                obj.optJSONArray("data")?.let {
-                    if (!it.isNull(0)) {
-                        mView?.getWillByInfoS(it.getJSONObject(0), resultBillno,mScanType)
 
-                    } else {
-                        mView?.getWillByInfoNull()
-                    }
+    /**
+     * ?.let { willbyJay ->   xxx}正确
+     * ?.let { willbyJay ->   {xxx} }错误 我也无奈 这里注释一下
+     * 去库存获取是否可以发货 然后获取件数给扫描显示的运单
+     */
+    override fun getWillByInfo(billno: String, resultBillno: String, mScanType: Int) {
+        val xParams = HttpParams()
+        xParams.put("billno", billno)
+        mView?.getContext()?.let {
+            xParams.put("SelWebidCode", UserInformationUtil.getWebIdCode(it))
+        }
+        get<String>(ApiInterface.SHIPMENT_INVENTORY_SELECTED_INFO_GET, xParams, object : CallBacks {
+            override fun onResult(result: String) {
+                val xObj = JSONObject(result)
+                xObj.optJSONArray("data")?.let { xJay ->
+//                    {
+                        if (!xJay.isNull(0)) {
+                            val stockObj = xJay.getJSONObject(0)
+                            val stockQty = stockObj.optInt("qty")
+                            val params = HttpParams()
+                            params.put("Billno", billno)
+                            get<String>(ApiInterface.RECORD_SELECT_ORDER_INFO_GET, params, object : CallBacks {
+                                override fun onResult(mVResult: String) {
+                                    val obj = JSONObject(mVResult)
+                                    obj.optJSONArray("data")?.let { willbyJay ->
+//                                        {
+                                            if (!willbyJay.isNull(0)) {
+                                                val sendObj = willbyJay.optJSONObject(0)
+                                                sendObj.remove("totalQty")
+                                                sendObj.put("totalQty", stockQty)
+                                                mView?.getWillByInfoS(sendObj, resultBillno, mScanType)
+
+                                            } else {
+                                                mView?.getWillByInfoNull()
+                                            }
+//                                        }
+
+
+                                    }
+                                }
+
+                            })
+                        } else
+                            mView?.isNotAtStock(billno)
+//                    }
 
                 }
             }
-
         })
+
     }
+
     /**
      * {
       "Billno": "10030002659",
@@ -106,12 +140,13 @@ class ShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ShortTrunkDe
 
         post<String>(ApiInterface.DEPARTURE_SHORT_FEEDER_DEPARTURE_SCAN_INFO_POST, getRequestBody(jsonO), object : CallBacks {
             override fun onResult(result: String) {
-                mView?.scanOrderS(billno, soundStr,lableNo)
+                mView?.scanOrderS(billno, soundStr, lableNo)
 
             }
 
         })
     }
+
     override fun scanAbnormalOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String, mAbnormalReason: String) {
         val jsonO = JSONObject()
         jsonO.put("CompanyId", "2001")
@@ -204,7 +239,7 @@ class ShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ShortTrunkDe
 
         post<String>(ApiInterface.DEPARTURE_SHORT_FEEDER_DEPARTURE_SCAN_INFO_POST, getRequestBody(jsonO), object : CallBacks {
             override fun onResult(result: String) {
-                mView?.scanOrderS(billno, soundStr,lableNo)
+                mView?.scanOrderS(billno, soundStr, lableNo)
 
             }
 

@@ -157,7 +157,7 @@ class LoadingVehiclesActivity : CommonScanPDAMVPSmartActivity<LoadingVehiclesCon
                         // I can control the camera now
                         ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
                             override fun onResult(s1: String, s2: String) {
-                                mPresenter?.searchShortFeeder(s1)
+                                mPresenter?.searchScanInfo(if (checkStrIsNum(s1)) s1.substring(0, s1.length - 4) else s1)
                             }
 
                         }).show(supportFragmentManager, "ScanDialogFragment")

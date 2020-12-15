@@ -17,6 +17,11 @@ class ShortTrunkDepartureScanOperatingContract {
         fun saveScanPostS(result: String)
         fun getWillByInfoS(data: JSONObject, resultBillno: String, mScanType: Int)
         fun getWillByInfoNull()
+
+        /**
+         * 不在库存中
+         */
+        fun isNotAtStock(billno: String)
     }
 
     interface Presenter : BasePresenter<View> {
