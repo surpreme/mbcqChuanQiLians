@@ -2,40 +2,41 @@ package com.mbcq.vehicleslibrary.activity.loadingvehicles;
 
 public class LoadingVehiclesBean {
 
+
     /**
-     * id : 6
+     * id : 92
      * vehicleState : 0
      * vehicleStateStr : 发车计划中
      * companyId : 2001
      * ecompanyId : 2001
-     * inoneVehicleFlag : DB1003-20200628-004
-     * contractNo : DB1003-20200628-004
-     * sendOpeMan : 汕头
-     * arriOpeMan : 义乌后湖
+     * inoneVehicleFlag : GX1003-20201210-001
+     * contractNo : GX1003-20201210-001
+     * sendOpeMan : lzy
+     * arriOpeMan :
      * webidCode : 1003
      * webidCodeStr : 汕头
      * ewebidCode : 1001
      * ewebidCodeStr : 义乌后湖
-     * vehicleNo : 1
-     * chauffer : 2
-     * chaufferMb : 3
+     * vehicleNo : 沪C38293
+     * chauffer : 张三
+     * chaufferMb : 16677373336
      * transneed : 1
-     * transneedStr : 零担
-     * sendDate : 2020-06-28T10:21:06
-     * arrivedDate : 2020-06-28T10:21:13
+     * transneedStr : 普运
+     * sendDate : 2020-12-10T16:18:04
+     * arrivedDate : 1900-01-01T00:00:00
      * accNow : 0.0
      * accBack : 0.0
      * accYk : 0.0
      * ykCard :
-     * ewebidCode1 : 0
-     * ewebidCodeStr1 : 义乌后湖
-     * accArrived1 : 0.0
-     * ewebidCode2 : 0
-     * ewebidCodeStr2 : 请选择
-     * accArrived2 : 0.0
-     * ewebidCode3 : 0
-     * ewebidCodeStr3 : 请选择
-     * accArrived3 : 0.0
+     * ewebidCode1 : 1010
+     * ewebidCodeStr1 : 永康中田
+     * accArrived1 : 6.0
+     * ewebidCode2 : 1004
+     * ewebidCodeStr2 : 潮州彩塘
+     * accArrived2 : 6.0
+     * ewebidCode3 : 1006
+     * ewebidCodeStr3 : 汕头峡山
+     * accArrived3 : 6.0
      * accZx : 0.0
      * accJh : 0.0
      * accArrSum : 0.0
@@ -44,14 +45,24 @@ public class LoadingVehiclesBean {
      * vehicleInterval : 汕头-义乌后湖
      * remark :
      * fromType : 0
-     * fromTypeStr :
-     * isScan :1
-     * scanPercentage:65
-     * scanWebidType 1   默认0 1代表只装所选到货网点 2不限到货网点
+     * fromTypeStr : PC浏览器
+     * isScan : 1
+     * scanPercentage : 15.0
+     * ps : 2
+     * totalQty : 2
+     * weight : 60.0
+     * volumn : 60.0
+     * yf : 0.0
+     * accdache : 0.0
+     * accSum : 1120.0
+     * sfWeight : 60.0
+     * accwz : 0.0
      */
 
     private int id;
-    private int type = 0;//0短驳 1干线
+
+
+    private int type=0;
     private int vehicleState;
     private String vehicleStateStr;
     private int companyId;
@@ -95,42 +106,21 @@ public class LoadingVehiclesBean {
     private String fromTypeStr;
     private int isScan;
     private String scanPercentage;
-    private String ScanWebidType;
-    private String weight;
-    private String volumn;
-    private String yf;
-    private String ps;
-
-    public String getWeight() {
-        return weight;
+    private int ps;
+    private int totalQty;
+    private double weight;
+    private double volumn;
+    private double yf;
+    private double accdache;
+    private double accSum;
+    private double sfWeight;
+    private double accwz;
+    public int getType() {
+        return type;
     }
 
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
-
-    public String getVolumn() {
-        return volumn;
-    }
-
-    public void setVolumn(String volumn) {
-        this.volumn = volumn;
-    }
-
-    public String getYf() {
-        return yf;
-    }
-
-    public void setYf(String yf) {
-        this.yf = yf;
-    }
-
-    public String getPs() {
-        return ps;
-    }
-
-    public void setPs(String ps) {
-        this.ps = ps;
+    public void setType(int type) {
+        this.type = type;
     }
 
     public int getId() {
@@ -469,14 +459,6 @@ public class LoadingVehiclesBean {
         this.fromTypeStr = fromTypeStr;
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
     public int getIsScan() {
         return isScan;
     }
@@ -493,12 +475,75 @@ public class LoadingVehiclesBean {
         this.scanPercentage = scanPercentage;
     }
 
-
-    public String getScanWebidType() {
-        return ScanWebidType;
+    public int getPs() {
+        return ps;
     }
 
-    public void setScanWebidType(String scanWebidType) {
-        ScanWebidType = scanWebidType;
+    public void setPs(int ps) {
+        this.ps = ps;
+    }
+
+    public int getTotalQty() {
+        return totalQty;
+    }
+
+    public void setTotalQty(int totalQty) {
+        this.totalQty = totalQty;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getVolumn() {
+        return volumn;
+    }
+
+    public void setVolumn(double volumn) {
+        this.volumn = volumn;
+    }
+
+    public double getYf() {
+        return yf;
+    }
+
+    public void setYf(double yf) {
+        this.yf = yf;
+    }
+
+    public double getAccdache() {
+        return accdache;
+    }
+
+    public void setAccdache(double accdache) {
+        this.accdache = accdache;
+    }
+
+    public double getAccSum() {
+        return accSum;
+    }
+
+    public void setAccSum(double accSum) {
+        this.accSum = accSum;
+    }
+
+    public double getSfWeight() {
+        return sfWeight;
+    }
+
+    public void setSfWeight(double sfWeight) {
+        this.sfWeight = sfWeight;
+    }
+
+    public double getAccwz() {
+        return accwz;
+    }
+
+    public void setAccwz(double accwz) {
+        this.accwz = accwz;
     }
 }

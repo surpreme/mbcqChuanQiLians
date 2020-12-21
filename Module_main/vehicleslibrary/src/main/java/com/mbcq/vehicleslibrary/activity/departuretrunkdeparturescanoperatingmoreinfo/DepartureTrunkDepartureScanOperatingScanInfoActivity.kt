@@ -59,7 +59,7 @@ class DepartureTrunkDepartureScanOperatingScanInfoActivity : BaseListMVPActivity
         super.initDatas()
         mDepartureScanInfoBean?.let {
             if (it.getmType() == 0)
-                mPresenter?.getPageData(it.billno, it.inOneVehicleFlag, 1)
+                mPresenter?.getPageData(it.billno, it.inOneVehicleFlag, -1)
             else
                 mPresenter?.getCarScanData(it.inOneVehicleFlag,1)
 
@@ -99,11 +99,14 @@ class DepartureTrunkDepartureScanOperatingScanInfoActivity : BaseListMVPActivity
                         if (mDepartureTrunkDepartureScanOperatingScanInfoBean.lableNo == xxx.lableNo) {
                             isHas = true
                             mDepartureTrunkDepartureScanOperatingScanInfoBean.mResultTag = Gson().toJson(xxx)
+                            mDepartureTrunkDepartureScanOperatingScanInfoBean.mDismantleInfo = xxx.mDismantleInfo
                             mDepartureTrunkDepartureScanOperatingScanInfoBean.isScaned = true
+                            continue
                         }
                         if (!isHas) {
                             mDepartureTrunkDepartureScanOperatingScanInfoBean.mResultTag = "{}"
                             mDepartureTrunkDepartureScanOperatingScanInfoBean.isScaned = false
+                            mDepartureTrunkDepartureScanOperatingScanInfoBean.mDismantleInfo = ""
 
                         }
 

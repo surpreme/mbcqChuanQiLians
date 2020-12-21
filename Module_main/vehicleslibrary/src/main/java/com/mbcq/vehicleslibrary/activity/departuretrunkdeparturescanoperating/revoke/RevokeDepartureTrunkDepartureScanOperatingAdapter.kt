@@ -24,11 +24,11 @@ class RevokeDepartureTrunkDepartureScanOperatingAdapter(context: Context) : Base
         holder.receiver_tv.text = mDatas[position].consignee
         holder.address_tv.text = "${mDatas[position].webidCodeStrGx}---${mDatas[position].ewebidCodeStrGx}"
         holder.goods_name_tv.text = mDatas[position].product
-        holder.goods_number_ifo_tv.text = "已扫:${mDatas[position].unLoadQty}     本车:${mDatas[position].totalQty}    剩余:${mDatas[position].totalQty - mDatas[position].unLoadQty}     总件数:${mDatas[position].totalQty}*${mDatas[position].weight}kg*${mDatas[position].volumn}m*"
-        holder.operating_progressbar.progress = if (mDatas[position].unLoadQty == 0) 0 else if (mDatas[position].unLoadQty == mDatas[position].totalQty) 100 else ((mDatas[position].unLoadQty * 100) / mDatas[position].totalQty)
+        holder.goods_number_ifo_tv.text = "已扫:${mDatas[position].unLoadQty}     本车:${mDatas[position].unLoadQty}    剩余:${mDatas[position].waybillFcdQty}     总件数:${mDatas[position].totalQty}*${mDatas[position].weight}kg*${mDatas[position].volumn}m*"
+        holder.operating_progressbar.progress = if (mDatas[position].unLoadQty == 0) 0 else if (mDatas[position].unLoadQty == (mDatas[position].unLoadQty + mDatas[position].waybillFcdQty)) 100 else ((mDatas[position].unLoadQty * 100) / (mDatas[position].unLoadQty + mDatas[position].waybillFcdQty))
     }
 
-    class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var operating_progressbar = itemView.findViewById<ProgressBar>(R.id.operating_progressbar)
         var billno_tv = itemView.findViewById<TextView>(R.id.billno_tv)
         var receiver_tv = itemView.findViewById<TextView>(R.id.receiver_tv)

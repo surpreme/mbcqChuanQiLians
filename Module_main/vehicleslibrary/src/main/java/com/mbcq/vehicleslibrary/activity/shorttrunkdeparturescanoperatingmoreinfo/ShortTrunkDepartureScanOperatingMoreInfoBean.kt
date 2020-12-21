@@ -1,3 +1,4 @@
 package com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperatingmoreinfo
 
-data class ShortTrunkDepartureScanOperatingMoreInfoBean(var lableNo: String = "", var mResultTag: String = "", var isScaned: Boolean = false)
+//拆
+data class ShortTrunkDepartureScanOperatingMoreInfoBean(var lableNo: String = "", var mResultTag: String = "", var mDismantleInfo: String = "", var isScaned: Boolean = false)

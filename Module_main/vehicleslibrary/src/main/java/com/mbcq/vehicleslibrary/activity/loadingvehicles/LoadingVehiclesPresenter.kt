@@ -7,14 +7,10 @@ import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
-import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
 import org.json.JSONObject
-import java.math.BigDecimal
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 /**
  * @author: lzy
@@ -22,7 +18,10 @@ import java.util.regex.Pattern
  */
 
 class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>(), LoadingVehiclesContract.Presenter {
-    override fun getShortFeeder(startDate: String, endDate: String) {
+    /**
+     * 发车记录短驳和干线
+     */
+    override fun getScanVehicleList(startDate: String, endDate: String) {
         val params = HttpParams()
         params.put("page", 1)
         params.put("limit", 1000)
@@ -41,7 +40,21 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
                         item.type = 0
                         data.add(item)
                     }
-                    mView?.getShortFeederS(data, false, isCanRefresh = false)
+                    get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET, params, object : CallBacks {
+                        override fun onResult(result1: String) {
+                            val mXobj = JSONObject(result1)
+                            mXobj.optJSONArray("data")?.let {
+                                val mXlist = Gson().fromJson<List<LoadingVehiclesBean>>(mXobj.optString("data"), object : TypeToken<List<LoadingVehiclesBean>>() {}.type)
+                                for (item in mXlist) {
+                                    item.type = 0
+                                    data.add(item)
+                                }
+                                mView?.getScanVehicleListS(data)
+                            }
+
+                        }
+
+                    })
                 }
 
             }
@@ -54,13 +67,6 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
     override fun searchShortFeeder(inoneVehicleFlag: String) {
         val params = HttpParams()
         params.put("InoneVehicleFlag", inoneVehicleFlag)
-        val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val mDate = Date(System.currentTimeMillis())
-        val format = mDateFormat.format(mDate)
-        val mStartDateTag = "$format 00:00:00"
-        val mEndDateTag = "$format 23:59:59"
-        params.put("startDate", mStartDateTag)
-        params.put("endDate", mEndDateTag)
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
@@ -74,7 +80,7 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
                     if (data.isEmpty()) {
                         searchTrunkDeparture(inoneVehicleFlag)
                     } else
-                        mView?.getShortFeederS(data, true, isCanRefresh = true)
+                        mView?.getScanVehicleListS(data)
                 }
 
             }
@@ -82,30 +88,6 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
         })
     }
 
-    override fun getTrunkDeparture(startDate: String, endDate: String) {
-        val mHttpParams = HttpParams()
-        mHttpParams.put("page", 1)
-        mHttpParams.put("limit", 1000)
-        mHttpParams.put("vehicleState", 0)//发车计划中
-        mHttpParams.put("CommonStr", 0)//发车计划中
-        mHttpParams.put("VehicleStateStr", 0)//发车计划中
-        mHttpParams.put("IsScan", 1)//是否扫描
-        mHttpParams.put("startDate", startDate)
-        mHttpParams.put("endDate", endDate)
-        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET, mHttpParams, object : CallBacks {
-            override fun onResult(result: String) {
-                val obj = JSONObject(result)
-                val list = Gson().fromJson<List<LoadingVehiclesBean>>(obj.optString("data"), object : TypeToken<List<LoadingVehiclesBean>>() {}.type)
-                val data = mutableListOf<LoadingVehiclesBean>()
-                for (item in list) {
-                    item.type = 1
-                    data.add(item)
-                }
-                mView?.getTrunkDepartureS(data, false, isCanRefresh = false)
-            }
-
-        })
-    }
 
     override fun searchTrunkDeparture(inoneVehicleFlag: String) {
         val mHttpParams = HttpParams()
@@ -119,7 +101,7 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
                     item.type = 1
                     data.add(item)
                 }
-                mView?.getTrunkDepartureS(data, true, isCanRefresh = true)
+                mView?.getScanVehicleListS(data)
             }
 
         })

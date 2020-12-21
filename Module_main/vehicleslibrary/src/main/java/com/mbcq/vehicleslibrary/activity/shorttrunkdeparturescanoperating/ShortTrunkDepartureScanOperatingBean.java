@@ -168,6 +168,8 @@ public class ShortTrunkDepartureScanOperatingBean implements Serializable {
     private String consignee;
     private String consigneeAddr;
     private String product;
+
+    private int waybillFcdQty=0;
     private int totalQty;
     private int qty;
     private String packages;
@@ -220,6 +222,14 @@ public class ShortTrunkDepartureScanOperatingBean implements Serializable {
     private String opeMan;
     private String remark;
     private String isScanDet;
+
+    public int getWaybillFcdQty() {
+        return waybillFcdQty;
+    }
+
+    public void setWaybillFcdQty(int waybillFcdQty) {
+        this.waybillFcdQty = waybillFcdQty;
+    }
 
     public String getIsScanDet() {
         return isScanDet;

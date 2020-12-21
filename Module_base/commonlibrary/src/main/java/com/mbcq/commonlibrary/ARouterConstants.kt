@@ -13,6 +13,7 @@ object ARouterConstants {
     const val CommonlyInformationActivity = "/account/CommonlyInformationActivity"
     const val HouseSearchActivity = "/account/HouseSearchActivity"
     const val CommonlyInformationConfigurationActivity = "/account/CommonlyInformationConfigurationActivity"
+    const val AboutUsActivity = "/account/AboutUsActivity"
 
     /**
      * 订单模块

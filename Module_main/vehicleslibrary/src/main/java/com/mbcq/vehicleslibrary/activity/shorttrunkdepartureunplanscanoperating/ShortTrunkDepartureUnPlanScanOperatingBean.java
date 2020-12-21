@@ -121,6 +121,7 @@ public class ShortTrunkDepartureUnPlanScanOperatingBean implements Serializable 
     private String inoneVehicleFlag;
     private int qtyDb;
     private int unLoadQty;
+    private int waybillFcdQty = 0;
     private int loadQty;
     private int webidCodeDb;
     private String webidCodeStrDb;
@@ -220,7 +221,13 @@ public class ShortTrunkDepartureUnPlanScanOperatingBean implements Serializable 
     private String salesMan;
     private String opeMan;
     private String remark;
+    public int getWaybillFcdQty() {
+        return waybillFcdQty;
+    }
 
+    public void setWaybillFcdQty(int waybillFcdQty) {
+        this.waybillFcdQty = waybillFcdQty;
+    }
     public String getSendOpeMan() {
         return sendOpeMan;
     }

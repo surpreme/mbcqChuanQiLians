@@ -36,6 +36,19 @@ import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.revoke
 import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperatingmoreinfo.ShortTrunkDepartureScanOperatingMoreInfoIntentBean
 import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
 import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.*
+import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.billno_ed
+import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.inventory_btn
+import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.look_local_car_info_tv
+import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.save_btn
+import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.scan_number_iv
+import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.scan_number_total_tv
+import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.scan_progressBar
+import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.scaned_info__tv
+import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.search_btn
+import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.type_tv
+import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.unScan_info_tv
+import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.unloading_batch_tv
+import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.*
 import org.json.JSONObject
 import java.lang.StringBuilder
 import java.util.*
@@ -47,6 +60,10 @@ import java.util.*
 
 @Route(path = ARouterConstants.ShortTrunkDepartureUnPlanScanOperatingActivity)
 class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUnPlanScanOperatingActivity<ShortTrunkDepartureUnPlanScanOperatingContract.View, ShortTrunkDepartureUnPlanScanOperatingPresenter, ShortTrunkDepartureUnPlanScanOperatingBean>(), ShortTrunkDepartureUnPlanScanOperatingContract.View {
+    /**
+     * @添加 上个新增页面会有车次
+     * @点击记录  列表数据有车次
+     */
     @Autowired(name = "ShortLoadingVehicles")
     @JvmField
     var mLastData: String = ""
@@ -102,8 +119,8 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                                     showLoading()
                                     //-1 前 1后
                                     adapter.sortWith(Comparator { o1, o2 ->
-                                        val mO1Progress = if (o1.unLoadQty == 0) 0 else if (o1.unLoadQty == o1.totalQty) 100 else ((o1.unLoadQty * 100) / o1.totalQty)
-                                        val mO2Progress = if (o2.unLoadQty == 0) 0 else if (o2.unLoadQty == o2.totalQty) 100 else ((o2.unLoadQty * 100) / o2.totalQty)
+                                        val mO1Progress = if (o1.unLoadQty == 0) 0 else if (o1.unLoadQty == (o1.unLoadQty + o1.waybillFcdQty)) 100 else ((o1.unLoadQty * 100) / (o1.unLoadQty + o1.waybillFcdQty))
+                                        val mO2Progress = if (o2.unLoadQty == 0) 0 else if (o2.unLoadQty == (o2.unLoadQty + o2.waybillFcdQty)) 100 else ((o2.unLoadQty * 100) / (o2.unLoadQty + o2.waybillFcdQty))
                                         if (mO1Progress >= mO2Progress) 1 else -1
                                     })
                                     closeLoading()
@@ -173,13 +190,14 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
         })
         save_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                if (mTotalUnLoadingNum != 0) {
-                    showToast("请扫描完毕再发车")
-                    return
+                val unScanOverBillno = StringBuilder()
+                for (item in adapter.getAllData()) {
+                    if (item.unLoadQty != item.totalQty) {
+                        unScanOverBillno.append(item.billno).append("  ")
+                    }
                 }
-                TalkSureCancelDialog(mContext, getScreenWidth(), "您确定要完成本车吗") {
-                    val modifyData = JSONObject(mLastData)
-                    mPresenter?.saveScanPost(mScanId, modifyData.optString("inoneVehicleFlag"))
+                TalkSureCancelDialog(mContext, getScreenWidth(), if (unScanOverBillno.toString().isBlank()) "您确认要完成发车批次为${JSONObject(mLastData).optString("inoneVehicleFlag")}的发车吗？" else "运单号为${unScanOverBillno.toString()}为拆票运单，请确认无误后发车！") {
+                    mPresenter?.saveScanPost(mScanId, JSONObject(mLastData).optString("inoneVehicleFlag"))
                 }.show()
 
             }
@@ -204,11 +222,11 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                         /**
                          *  多件扫描start------------------------------------------------------
                          */
-                        if (item.qty > 20) {
-                            ScanNumDialog(item.totalQty - item.unLoadQty, 1, object : OnClickInterface.OnClickInterface {
+                        if (item.totalQty > 20) {
+                            ScanNumDialog(item.waybillFcdQty, 1, object : OnClickInterface.OnClickInterface {
                                 override fun onResult(x1: String, x2: String) {
                                     if (isInteger(x1)) {
-                                        val mScanSun = item.totalQty - item.unLoadQty
+                                        val mScanSun = item.waybillFcdQty
                                         if (x1.toInt() > mScanSun) {
                                             showToast("您输入的数量已经超过货物剩余的数量")
                                             return
@@ -231,6 +249,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                                                 item.ewebidCodeStr,
                                                 //不可以使用进度条的进度 传给后台的是需要达到的进度
                                                 (((totalLoadingNum - (mTotalUnLoadingNum - (scanBuilder.toString().split(",").lastIndex + 1))) * 100) / totalLoadingNum).toString(),
+                                                item.totalQty,
                                                 "",
                                                 if (isHeaderPint) 1 else 0
                                         )
@@ -254,6 +273,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                                     item.ewebidCodeStr,
                                     //不可以使用进度条的进度 传给后台的是需要达到的进度
                                     (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString(),
+                                    item.totalQty,
                                     "",
                                     if (isHeaderPint) 1 else 0
                             )
@@ -347,8 +367,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
             )
             return
         }
-        //3在途
-        if (data.optInt("billState") != 3) {
+        if (true) {
             val obj = JSONObject(mLastData)
             val inoneV = obj.optString("inoneVehicleFlag")
             //ScanWebidType 扫描网点类型  默认0 1代表只装所选到货网点 2不限到货网点
@@ -372,13 +391,13 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                     return
                 }
             }
-            val mScanSun = data.optInt("qty", 0)
-            if (mScanSun > 20) {
+            val mScanSun = data.optInt("waybillFcdQty", 0)
+            if (data.optInt("totalQty", 0) > 20) {
                 ScanNumDialog(mScanSun, 1, object : OnClickInterface.OnClickInterface {
                     override fun onResult(s1: String, s2: String) {
                         if (isInteger(s1)) {
-                            if (s1.toInt() > data.optInt("qty")) {
-                                showToast("您输入的数量已经超过货物的数量")
+                            if (s1.toInt() > data.optInt("waybillFcdQty")) {
+                                showToast("您输入的数量已经超过货物库存的数量")
                                 return
                             }
                             val scanBuilder = StringBuilder()
@@ -398,22 +417,6 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
             }
             onFirstScanOrder(data, resultBillno, inoneV, mScanType)
 
-        } else {
-            errorStep("该运单已经在途，请核实后重试")
-            //(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String, mAbnormalReason: String) {
-            mPresenter?.scanAbnormalOrder(
-                    data.optString("billno"),
-                    resultBillno,
-                    PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
-                    JSONObject(mLastData).optString("inoneVehicleFlag"),
-                    data.optString("ewebidCodeStr"),
-                    data.optString("ewebidCode"),
-                    data.optString("ewebidCodeStr"),
-                    scan_progressBar.progress.toString(),
-                    resultBillno,
-                    "该运单已经在途"
-
-            )
         }
     }
 
@@ -423,14 +426,14 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
 
     }
 
-
+    //ArithmeticException
     fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String, moreScanStr: String, mXScanType: Int) {
         val iodjjk = Gson().fromJson(GsonUtils.toPrettyFormat(data), ShortTrunkDepartureUnPlanScanOperatingBean::class.java)
         iodjjk.ewebidCodeStrDb = iodjjk.ewebidCodeStr
         iodjjk.webidCodeStrDb = iodjjk.webidCodeStr
         adapter.appendData(mutableListOf(iodjjk))
-        val allnum = (totalLoadingNum + data.optInt("totalQty"))
-        val edNum = if (moreScanStr.split(",").isNullOrEmpty()) (allnum - mTotalUnLoadingNum - data.optInt("totalQty")) + 1 else (allnum - mTotalUnLoadingNum - data.optInt("totalQty")) + moreScanStr.split(",").lastIndex + 1
+        val allnum = (totalLoadingNum + data.optInt("waybillFcdQty"))
+        val edNum = if (moreScanStr.split(",").isNullOrEmpty()) (allnum - mTotalUnLoadingNum - data.optInt("waybillFcdQty")) + 1 else (allnum - mTotalUnLoadingNum - data.optInt("waybillFcdQty")) + moreScanStr.split(",").lastIndex + 1
         //(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String) {
         mPresenter?.scanOrder(
                 resultBillno.substring(0, resultBillno.length - 4),
@@ -440,7 +443,8 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                 data.optString("ewebidCodeStr"),
                 data.optString("ewebidCode"),
                 data.optString("ewebidCodeStr"),
-                (((edNum * 100) / allnum).toInt()).toString(),
+                (((edNum * 100) / allnum)).toString(),
+                data.optInt("totalQty"),
                 "",
                 mXScanType
         )
@@ -455,16 +459,13 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
         for ((index, item) in adapter.getAllData().withIndex()) {
             if (item.billno == billno) {
                 val ii = item
-                if (mMoreScanBillno.split(",").isNullOrEmpty())
-                    ii.unLoadQty = item.unLoadQty + 1
-                else
-                    ii.unLoadQty = item.unLoadQty + mMoreScanBillno.split(",").lastIndex + 1
-
+                val mScanO: Int = if (mMoreScanBillno.split(",").isNullOrEmpty()) 1 else mMoreScanBillno.split(",").lastIndex + 1
+                ii.unLoadQty = item.unLoadQty + mScanO
+                ii.waybillFcdQty = item.waybillFcdQty - mScanO
                 adapter.notifyItemChangeds(index, ii)
             }
         }
         notifyMathChange()
-//        mTts?.startSpeaking(data.optString("ewebidCodeStr"), null)
         mTts?.startSpeaking(soundStr, null)
 
 
@@ -475,13 +476,13 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
         clearInfo()
         if (adapter.getAllData().isEmpty()) return
         for (item in adapter.getAllData()) {
-            totalLoadingNum = (totalLoadingNum + item.totalQty)//本车全部货物数量+
-            mTotalUnLoadingNum = (mTotalUnLoadingNum + (item.totalQty - item.unLoadQty))//全部未扫描数量
-            mTotalUnLoadingVolume = (mTotalUnLoadingVolume + (item.volumn / item.totalQty) * (item.totalQty - item.unLoadQty))//全部未扫描体积
+            totalLoadingNum = (totalLoadingNum + (item.unLoadQty + item.waybillFcdQty))//本车全部货物数量+
+            mTotalUnLoadingNum = (mTotalUnLoadingNum + item.waybillFcdQty)//全部未扫描数量
+            mTotalUnLoadingVolume = (mTotalUnLoadingVolume + (item.volumn / item.totalQty) * item.waybillFcdQty)//全部未扫描体积
             mTotalLoadingVolume = (mTotalLoadingVolume + (item.volumn / item.totalQty) * item.unLoadQty)//全部扫描体积
-            mTotalUnLoadingWeight = (mTotalUnLoadingWeight + (item.weight / item.totalQty) * (item.totalQty - item.unLoadQty))//全部未扫描重量
+            mTotalUnLoadingWeight = (mTotalUnLoadingWeight + (item.weight / item.totalQty) * item.waybillFcdQty)//全部未扫描重量
             mTotalLoadingWeight = (mTotalLoadingWeight + (item.weight / item.totalQty) * item.unLoadQty)//全部扫描重量
-            if (item.unLoadQty != item.totalQty) {
+            if (item.waybillFcdQty != 0) {
                 mTotalUnLoadingOrderNum = (mTotalUnLoadingOrderNum + 1)//全部未扫描单子
             } else {
                 mTotalLoadingOrderNum = (mTotalLoadingOrderNum + 1)//全部扫描单子
@@ -505,6 +506,37 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
         notifyMathChange()
         mScanId = id
 
+    }
+
+    override fun isNotAtStock(billno: String) {
+        errorStep("该运单$billno 不在库存，请核实后重试")
+    }
+
+    override fun againScanException(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mScanType: Int, errorStr: String) {
+        errorStep(errorStr)
+        refreshScanInfo()
+        object : CountDownTimer(500, 500) {
+            override fun onTick(millisUntilFinished: Long) {
+
+            }
+
+            override fun onFinish() {
+                if (!isDestroyed) {
+                    mPresenter?.scanAbnormalOrder(
+                            billno,
+                            lableNo,
+                            deviceNo,
+                            inOneVehicleFlag,
+                            ewebidCodeStr,
+                            ewebidCode,
+                            ewebidCodeStr,
+                            scan_progressBar.progress.toString(),
+                            lableNo,
+                            errorStr)
+                }
+            }
+
+        }.start()
     }
 
     override fun saveScanPostS(result: String) {

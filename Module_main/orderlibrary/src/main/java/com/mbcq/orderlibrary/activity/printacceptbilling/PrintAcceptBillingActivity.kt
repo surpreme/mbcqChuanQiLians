@@ -78,6 +78,7 @@ class PrintAcceptBillingActivity : BaseBlueToothPrintAcceptBillingActivity<Print
                             }
                             closePrint(printAdapter)
                             closeLoading()
+                            TalkSureDialog(mContext, getScreenWidth(), "打印完成").show()
                         } catch (e: Exception) {
                             e.printStackTrace()
                             LogUtils.e(e)

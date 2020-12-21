@@ -37,13 +37,15 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
     override fun getPageData(billno: String, inOneVehicleFlag: String, scanOpeType: Int) {
         val params = HttpParams()
         params.put("billno", billno)
-        params.put("inOneVehicleFlag", inOneVehicleFlag)
+//        params.put("inOneVehicleFlag", inOneVehicleFlag)
+        params.put("limit", 9999)
         /**
          * @scanOpeType 操作类型
          * 0 短驳装车
          * 1 干线装车
          * 2 短驳到车
          * 3 干线到车
+         * -1 查询所有扫描信息
          */
         params.put("scanOpeType", scanOpeType)
         get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, params, object : CallBacks {
@@ -53,10 +55,15 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
                 listAry?.let {
                     val mShowList = mutableListOf<DepartureTrunkDepartureScanOperatingScanInfoBean>()
                     for (itemIndex in 0 until it.length()) {
-                        val mDepartureTrunkDepartureScanOperatingScanInfoBean= DepartureTrunkDepartureScanOperatingScanInfoBean()
-                        mDepartureTrunkDepartureScanOperatingScanInfoBean.lableNo = listAry.getJSONObject(itemIndex).optString("lableNo")
-                        mDepartureTrunkDepartureScanOperatingScanInfoBean.mResultTag = GsonUtils.toPrettyFormat(listAry.getJSONObject(itemIndex))
-                        mShowList.add(mDepartureTrunkDepartureScanOperatingScanInfoBean)
+                        if (listAry.getJSONObject(itemIndex).optInt("scanType") != 2) {
+                            val mDepartureTrunkDepartureScanOperatingScanInfoBean = DepartureTrunkDepartureScanOperatingScanInfoBean()
+                            mDepartureTrunkDepartureScanOperatingScanInfoBean.lableNo = listAry.getJSONObject(itemIndex).optString("lableNo")
+                            mDepartureTrunkDepartureScanOperatingScanInfoBean.mResultTag = GsonUtils.toPrettyFormat(listAry.getJSONObject(itemIndex))
+                            if (!inOneVehicleFlag.contains(listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag")))
+                                mDepartureTrunkDepartureScanOperatingScanInfoBean.mDismantleInfo = "车次为${listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag")}已发走"
+                            mShowList.add(mDepartureTrunkDepartureScanOperatingScanInfoBean)
+                        }
+
                     }
                     if (mShowList.isNotEmpty())
                         mView?.getPageDataS(mShowList)
@@ -66,6 +73,7 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
 
         })
     }
+
     override fun getCarScanData(inOneVehicleFlag: String, scanOpeType: Int) {
         val params = HttpParams()
         params.put("inOneVehicleFlag", inOneVehicleFlag)
@@ -77,6 +85,8 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
          * 3 干线到车
          */
         params.put("scanOpeType", scanOpeType)
+        params.put("limit", 9999)
+
         get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
@@ -84,7 +94,7 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
                 listAry?.let {
                     val mShowList = mutableListOf<DepartureTrunkDepartureScanOperatingScanInfoBean>()
                     for (itemIndex in 0 until it.length()) {
-                        val mDepartureTrunkDepartureScanOperatingScanInfoBean= DepartureTrunkDepartureScanOperatingScanInfoBean()
+                        val mDepartureTrunkDepartureScanOperatingScanInfoBean = DepartureTrunkDepartureScanOperatingScanInfoBean()
                         mDepartureTrunkDepartureScanOperatingScanInfoBean.lableNo = listAry.getJSONObject(itemIndex).optString("lableNo")
                         mDepartureTrunkDepartureScanOperatingScanInfoBean.mResultTag = GsonUtils.toPrettyFormat(listAry.getJSONObject(itemIndex))
                         mShowList.add(mDepartureTrunkDepartureScanOperatingScanInfoBean)
@@ -97,7 +107,8 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
 
         })
     }
-    override fun getCarInfo(inoneVehicleFlag: String,list: List<DepartureTrunkDepartureScanOperatingScanInfoBean>) {
+
+    override fun getCarInfo(inoneVehicleFlag: String, list: List<DepartureTrunkDepartureScanOperatingScanInfoBean>) {
         val params = HttpParams()
         params.put("InoneVehicleFlag", inoneVehicleFlag)
         get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_LOCAL_INFO_POST, params, object : CallBacks {
@@ -106,7 +117,7 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
                 obj.optJSONArray("data")?.let {
                     if (!it.isNull(1)) {
                         val dataObj = it.optJSONObject(1)
-                        mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<DepartureTrunkDepartureScanOperatingMoreCarInfoBean>>() {}.type),list)
+                        mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<DepartureTrunkDepartureScanOperatingMoreCarInfoBean>>() {}.type), list)
 
                     }
                 }

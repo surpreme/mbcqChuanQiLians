@@ -131,6 +131,7 @@ public class DepartureTrunkDepartureUnPlanScanOperatingBean {
     private int inPdaState;
     private int outPdaState;
     private int finishState;
+    private int waybillFcdQty=0;
     private double accForktruck;
     private String orderId;
     private String billno;
@@ -1064,5 +1065,13 @@ public class DepartureTrunkDepartureUnPlanScanOperatingBean {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public int getWaybillFcdQty() {
+        return waybillFcdQty;
+    }
+
+    public void setWaybillFcdQty(int waybillFcdQty) {
+        this.waybillFcdQty = waybillFcdQty;
     }
 }

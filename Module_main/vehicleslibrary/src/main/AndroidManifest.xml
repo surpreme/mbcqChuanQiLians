@@ -16,7 +16,9 @@
         <activity android:name=".activity.fixedscandeparturetrunkconfiguration.FixedScanDepartureTrunkConfigurationActivity" />
         <activity android:name=".activity.fixedscanshortfeederconfiguration.FixedScanShortFeederConfigurationActivity" />
         <activity android:name=".activity.adddeparturetrunk.AddDepartureTrunkActivity" />
-        <activity android:name=".activity.departuretrunkdepartureunplanscanoperating.DepartureTrunkDepartureUnPlanScanOperatingActivity" />
+        <activity
+            android:name=".activity.departuretrunkdepartureunplanscanoperating.DepartureTrunkDepartureUnPlanScanOperatingActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.departuretrunkdeparturescanoperating.revoke.RevokeDepartureTrunkDepartureScanOperatingActivity" />
         <activity
             android:name=".activity.shorttrunkdepartureunplanscanoperating.ShortTrunkDepartureUnPlanScanOperatingActivity"

@@ -100,7 +100,8 @@ abstract class BaseSmartMVPActivity<V : BaseView, T : BasePresenterImpl<V>, X> :
 
         if (isHaveMore)
             adapter.appendData(list)
-        isHaveMore = list.isNotEmpty() && isMore
+        if (getEnableLoadMore())
+            isHaveMore = list.isNotEmpty() && isMore
 
     }
 

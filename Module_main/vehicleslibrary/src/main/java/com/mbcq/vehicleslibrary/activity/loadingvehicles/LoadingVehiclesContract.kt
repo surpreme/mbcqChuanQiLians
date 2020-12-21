@@ -11,18 +11,18 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class LoadingVehiclesContract {
 
     interface View : BaseView {
-        fun getShortFeederS(list: List<LoadingVehiclesBean>, isScan: Boolean, isCanRefresh: Boolean)
-        fun getTrunkDepartureS(list: List<LoadingVehiclesBean>, isScan: Boolean, isCanRefresh: Boolean)
+//        fun getShortFeederS(list: List<LoadingVehiclesBean>, isScan: Boolean, isCanRefresh: Boolean)
+//        fun getTrunkDepartureS(list: List<LoadingVehiclesBean>, isScan: Boolean, isCanRefresh: Boolean)
         fun searchScanInfoS(list: List<LoadingVehiclesBean>)
         fun invalidOrderS(position: Int)
         fun saveScanPostS(position: Int)
-
+        fun getScanVehicleListS(list: List<LoadingVehiclesBean>)
     }
 
     interface Presenter : BasePresenter<View> {
-        fun getShortFeeder(startDate: String, endDate: String)
+        fun getScanVehicleList(startDate: String, endDate: String)
         fun searchShortFeeder(inoneVehicleFlag: String)
-        fun getTrunkDeparture(startDate: String, endDate: String)
+//        fun getTrunkDeparture(startDate: String, endDate: String)
         fun searchTrunkDeparture(inoneVehicleFlag: String)
         fun searchScanInfo(sendInfo: String)
 

@@ -40,7 +40,8 @@ class ShortTrunkDepartureScanOperatingMoreInfoPresenter : BasePresenterImpl<Shor
         val params = HttpParams()
         if (billno.isNotBlank())
             params.put("billno", billno)
-        params.put("inOneVehicleFlag", inOneVehicleFlag)
+//        params.put("inOneVehicleFlag", inOneVehicleFlag)
+        params.put("limit", 9999)
         /**
          * @scanOpeType 操作类型
          * 0 短驳装车
@@ -56,10 +57,15 @@ class ShortTrunkDepartureScanOperatingMoreInfoPresenter : BasePresenterImpl<Shor
                 listAry?.let {
                     val mShowList = mutableListOf<ShortTrunkDepartureScanOperatingMoreInfoBean>()
                     for (itemIndex in 0 until it.length()) {
-                        val mShortTrunkDepartureScanOperatingMoreInfoBean = ShortTrunkDepartureScanOperatingMoreInfoBean()
-                        mShortTrunkDepartureScanOperatingMoreInfoBean.lableNo = listAry.getJSONObject(itemIndex).optString("lableNo")
-                        mShortTrunkDepartureScanOperatingMoreInfoBean.mResultTag = GsonUtils.toPrettyFormat(listAry.getJSONObject(itemIndex))
-                        mShowList.add(mShortTrunkDepartureScanOperatingMoreInfoBean)
+                        if (listAry.getJSONObject(itemIndex).optInt("scanType") != 2) {
+                            val mShortTrunkDepartureScanOperatingMoreInfoBean = ShortTrunkDepartureScanOperatingMoreInfoBean()
+                            mShortTrunkDepartureScanOperatingMoreInfoBean.lableNo = listAry.getJSONObject(itemIndex).optString("lableNo")
+                            mShortTrunkDepartureScanOperatingMoreInfoBean.mResultTag = GsonUtils.toPrettyFormat(listAry.getJSONObject(itemIndex))
+                            if (!inOneVehicleFlag.contains(listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag")))
+                                mShortTrunkDepartureScanOperatingMoreInfoBean.mDismantleInfo = "车次为${listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag")}已发走"
+                            mShowList.add(mShortTrunkDepartureScanOperatingMoreInfoBean)
+                        }
+
                     }
                     if (mShowList.isNotEmpty())
                         mView?.getPageDataS(mShowList)
@@ -81,6 +87,8 @@ class ShortTrunkDepartureScanOperatingMoreInfoPresenter : BasePresenterImpl<Shor
          * 3 干线到车
          */
         params.put("scanOpeType", scanOpeType)
+        params.put("limit", 9999)
+
         get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
@@ -102,7 +110,7 @@ class ShortTrunkDepartureScanOperatingMoreInfoPresenter : BasePresenterImpl<Shor
         })
     }
 
-    override fun getCarInfo(inoneVehicleFlag: String,list: List<ShortTrunkDepartureScanOperatingMoreInfoBean>) {
+    override fun getCarInfo(inoneVehicleFlag: String, list: List<ShortTrunkDepartureScanOperatingMoreInfoBean>) {
         val params = HttpParams()
         params.put("InoneVehicleFlag", inoneVehicleFlag)
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_LOCAL_INFO_GET, params, object : CallBacks {
@@ -111,7 +119,7 @@ class ShortTrunkDepartureScanOperatingMoreInfoPresenter : BasePresenterImpl<Shor
                 obj.optJSONArray("data")?.let {
                     if (!it.isNull(1)) {
                         val dataObj = it.optJSONObject(1)
-                        mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<ShortTrunkDepartureScanOperatingMoreCarInfoBean>>() {}.type),list)
+                        mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<ShortTrunkDepartureScanOperatingMoreCarInfoBean>>() {}.type), list)
 
                     }
                 }

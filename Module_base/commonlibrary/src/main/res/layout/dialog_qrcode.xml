@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:text="扫描二维码即可登录"
+            android:text="扫码下载传麒链APP"
             android:textColor="@color/black"
             android:textSize="14dp"
             app:layout_constraintLeft_toLeftOf="parent"

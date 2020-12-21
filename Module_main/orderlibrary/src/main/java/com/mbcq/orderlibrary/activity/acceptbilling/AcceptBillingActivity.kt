@@ -325,7 +325,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         val IsUrgent = if (urgent_goods_check.isChecked) "1" else "0"//是否急货编码
         jsonObj.put("IsUrgent", IsUrgent)
 
-        val IsUrgentStr = if (urgent_goods_check.isChecked) "急货" else "非急货"  //是否急货
+        val IsUrgentStr = if (urgent_goods_check.isChecked) "急货" else ""  //是否急货 非急货
         jsonObj.put("IsUrgentStr", IsUrgentStr)
 
         val Transneed = mTransneed  //运输类型编码

@@ -9,13 +9,11 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.Gravity
 import android.view.View
-import androidx.fragment.app.DialogFragment
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
-import com.mbcq.baselibrary.ui.BaseListMVPActivity
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
@@ -26,11 +24,9 @@ import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPListActivity
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
-import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.revoke.RevokeDepartureTrunkDepartureScanOperatingBean
 import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_scan_operating.*
-import org.json.JSONObject
 import java.lang.StringBuilder
 
 /**
@@ -107,7 +103,7 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
             return
         if (s1.length > 5) {
             var isAdpterHase = false
-            var mRevokeShortTrunkDepartureScanOperatingBean: RevokeShortTrunkDepartureScanOperatingBean = RevokeShortTrunkDepartureScanOperatingBean()
+            var mRevokeShortTrunkDepartureScanOperatingBean: RevokeShortTrunkDepartureScanOperatingBean? = null
             for (adpterItem in adapter.getAllData()) {
                 if (adpterItem.billno == s1.substring(0, s1.length - 4)) {
                     isAdpterHase = true
@@ -121,40 +117,14 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
                         mRevokeShortTrunkDepartureScanOperatingBean = mCaritem
                 }
             }
-            if (mRevokeShortTrunkDepartureScanOperatingBean.totalQty > 20) {
-                ScanNumDialog(mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty, 2, object : OnClickInterface.OnClickInterface {
-                    override fun onResult(x1: String, x2: String) {
-                        if (isInteger(x1)) {
-                            val mScanSun = mRevokeShortTrunkDepartureScanOperatingBean.totalQty - mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty
-                            if (x1.toInt() > mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty) {
-                                showToast("您输入的数量已经超过已扫描货物的数量")
-                                return
-                            }
-                            val scanBuilder = StringBuilder()
-                            for (index in (mScanSun + 1)..(mScanSun + x1.toInt())) {
-                                val endBillno = if (index.toString().length == 1) "000$index" else if (index.toString().length == 2) "00$index" else if (index.toString().length == 3) "0$index" else if (index.toString().length == 4) "$index" else ""
-                                scanBuilder.append(s1.substring(0, s1.length - 4) + endBillno)
-                                if (index != (mScanSun + x1.toInt()))
-                                    scanBuilder.append(",")
-                            }
-                            mLastData?.let {
-                                mPresenter?.revokeOrder(s1.substring(0, s1.length - 4), scanBuilder.toString(), PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), it.inoneVehicleFlag, "", (((((mLoadingOrderNum + x1.toInt()) * 100) / it.mTotalLoadingOrderNum).toDouble()).toString()))
+            mLastData?.let { lastBean ->
+                mRevokeShortTrunkDepartureScanOperatingBean?.let { mRmRevokeShortTrunkDepartureScanOperatingBean ->
+                    mPresenter?.getScanData(s1.substring(0, s1.length - 4), s1, lastBean.inoneVehicleFlag, 0, mXRevokeShortTrunkDepartureScanOperatingBean = mRmRevokeShortTrunkDepartureScanOperatingBean)
 
-                            }
-                        }
-                    }
+                }
 
-                }).show(supportFragmentManager, "ScanDialogFragment")
-            } else {
-//                                        val obj = JSONObject(mLastData)
-                if (mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty <= mRevokeShortTrunkDepartureScanOperatingBean.totalQty && mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty > 0)
-                    mLastData?.let {
-                        mPresenter?.revokeOrder(s1.substring(0, s1.length - 4), s1, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), it.inoneVehicleFlag, "", ((((mLoadingOrderNum - 1) * 100) / it.mTotalLoadingOrderNum).toString()))
-
-                    }
-                else
-                    showError("货物已经全部撤销，请核实后重试")
             }
+
 
         }
     }
@@ -213,6 +183,7 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
                 if (item.billno == result) {
                     isHas = true
                     item.unLoadQty -= mScanO
+                    item.waybillFcdQty += mScanO
                     adapter.notifyItemChangeds(index, item)
                 }
             }
@@ -221,6 +192,7 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
             for (mItem in mCarList) {
                 if (mItem.billno == result) {
                     mItem.unLoadQty -= mScanO
+                    mItem.waybillFcdQty += mScanO
                     adapter.appendData(mutableListOf(mItem))
                 }
             }
@@ -239,6 +211,55 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
             mCarList.clear()
         }
         mCarList.addAll(list)
+    }
+
+    override fun getScanDataS(list: ArrayList<Long>, lableNo: String, mRevokeShortTrunkDepartureScanOperatingBean: RevokeShortTrunkDepartureScanOperatingBean) {
+        /////////////////////////////////////////////////////////////////////////////////
+        val mXScanedLabelNoList = list //倒序已扫描的标签号
+        val mXScanedNum = mXScanedLabelNoList.size //已扫描的数量
+        //-1 前 1后 倒序
+        mXScanedLabelNoList.sortWith(Comparator { o1, o2 ->
+            if (o1 > o2) -1 else 1
+        })
+        /////////////////////////////////////////////////////////////////////////////////
+        if (mRevokeShortTrunkDepartureScanOperatingBean.totalQty > 20) {
+            ScanNumDialog(mXScanedNum, 2, object : OnClickInterface.OnClickInterface {
+                override fun onResult(x1: String, x2: String) {
+                    if (isInteger(x1)) {
+                        if (x1.toInt() > mXScanedNum) {
+                            showToast("您输入的数量已经超过已扫描货物的数量")
+                            return
+                        }
+                        val mXPostScaningDataStr = StringBuilder()
+                        /**
+                         * "100300049060040,100300049060041"
+                         */
+                        for (index in (mXScanedNum - x1.toInt()) until mXScanedNum) {
+                            mXPostScaningDataStr.append(mXScanedLabelNoList[index])
+                            if (index != (mXScanedNum - 1))
+                                mXPostScaningDataStr.append(",")
+                        }
+                        mLastData?.let {
+                            mPresenter?.revokeOrder(lableNo.substring(0, lableNo.length - 4), mXPostScaningDataStr.toString(), PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), it.inoneVehicleFlag, "", (((((mLoadingOrderNum - x1.toInt()) * 100) / it.mTotalLoadingOrderNum).toDouble()).toString()))
+
+                        }
+                    }
+                }
+
+            }).show(supportFragmentManager, "ScanDialogFragment")
+        } else {
+            /**
+             * 防止数据错误
+             * @1 已扫件数不能大于总件数
+             * @2 已扫件数必须大于0
+             */
+            if (mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty <= mRevokeShortTrunkDepartureScanOperatingBean.totalQty && mRevokeShortTrunkDepartureScanOperatingBean.unLoadQty > 0)
+                mLastData?.let {
+                    mPresenter?.revokeOrder(lableNo.substring(0, lableNo.length - 4), lableNo, PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext), it.inoneVehicleFlag, "", ((((mLoadingOrderNum - 1) * 100) / it.mTotalLoadingOrderNum).toString()))
+                }
+            else
+                showError("货物已经全部撤销，请核实后重试")
+        }
     }
 
 

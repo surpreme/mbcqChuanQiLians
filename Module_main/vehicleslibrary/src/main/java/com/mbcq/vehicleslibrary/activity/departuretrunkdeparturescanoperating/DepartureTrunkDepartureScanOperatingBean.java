@@ -170,6 +170,7 @@ public class DepartureTrunkDepartureScanOperatingBean implements Serializable {
     private String product;
     private int totalQty;
     private int qty;
+    private int waybillFcdQty = 0;
     private String packages;
     private double weight;
     private double volumn;
@@ -220,6 +221,14 @@ public class DepartureTrunkDepartureScanOperatingBean implements Serializable {
     private String opeMan;
     private String remark;
     private String isScanDet;
+
+    public int getWaybillFcdQty() {
+        return waybillFcdQty;
+    }
+
+    public void setWaybillFcdQty(int waybillFcdQty) {
+        this.waybillFcdQty = waybillFcdQty;
+    }
 
     public String getIsScanDet() {
         return isScanDet;

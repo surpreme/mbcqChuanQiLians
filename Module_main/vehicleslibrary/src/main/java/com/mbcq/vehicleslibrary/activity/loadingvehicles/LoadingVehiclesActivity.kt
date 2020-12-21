@@ -4,8 +4,8 @@ package com.mbcq.vehicleslibrary.activity.loadingvehicles
 import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.Rect
-import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -17,8 +17,6 @@ import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
-import com.mbcq.baselibrary.ui.BaseListMVPActivity
-import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseItemDecoration
@@ -29,12 +27,9 @@ import com.mbcq.commonlibrary.WebDbUtil
 import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
-import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPListActivity
 import com.mbcq.commonlibrary.scan.pda.CommonScanPDAMVPSmartActivity
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
-import com.mbcq.vehicleslibrary.BuildConfig
 import com.mbcq.vehicleslibrary.R
-import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_loading_vehicles.*
 import org.json.JSONObject
@@ -172,7 +167,7 @@ class LoadingVehiclesActivity : CommonScanPDAMVPSmartActivity<LoadingVehiclesCon
 
     override fun getPageDatas(mCurrentPage: Int) {
         super.getPageDatas(mCurrentPage)
-        mPresenter?.getShortFeeder(mStartDateTag, mEndDateTag)
+        mPresenter?.getScanVehicleList(mStartDateTag, mEndDateTag)
     }
 
     override fun addItemDecoration(): RecyclerView.ItemDecoration = object : BaseItemDecoration(mContext) {
@@ -257,21 +252,6 @@ class LoadingVehiclesActivity : CommonScanPDAMVPSmartActivity<LoadingVehiclesCon
         }
     }
 
-    override fun getShortFeederS(list: List<LoadingVehiclesBean>, isScan: Boolean, isCanRefresh: Boolean) {
-        if (isCanRefresh) {
-            adapter.clearData()
-        }
-        appendDatas(list)
-        if (!isScan)
-            mPresenter?.getTrunkDeparture(mStartDateTag, mEndDateTag)
-    }
-
-    override fun getTrunkDepartureS(list: List<LoadingVehiclesBean>, isScan: Boolean, isCanRefresh: Boolean) {
-        if (isCanRefresh) {
-            adapter.clearData()
-        }
-        appendDatas(list)
-    }
 
     override fun searchScanInfoS(list: List<LoadingVehiclesBean>) {
         adapter.clearData()
@@ -286,6 +266,21 @@ class LoadingVehiclesActivity : CommonScanPDAMVPSmartActivity<LoadingVehiclesCon
     override fun saveScanPostS(position: Int) {
         showToast("完成本车成功！")
 
+    }
+
+    override fun getScanVehicleListS(list: List<LoadingVehiclesBean>) {
+        adapter.clearData()
+        object : CountDownTimer(500, 500) {
+            override fun onTick(millisUntilFinished: Long) {
+
+            }
+
+            override fun onFinish() {
+                if (!isDestroyed)
+                    appendDatas(list)
+            }
+
+        }.start()
     }
 
     override fun onPDAScanResult(result: String) {

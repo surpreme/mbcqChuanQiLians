@@ -26,7 +26,7 @@ class DepartureTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecycl
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ItemViewHolder).billno_tv.text = mDatas[position].billno
         context?.let {
-            holder.operating_progressbar.progressDrawable = ContextCompat.getDrawable(context, if (mDatas[position].unLoadQty == mDatas[position].totalQty) R.drawable.progress_indeterminate_green_horizontal else R.drawable.progress_indeterminate_horizontal)
+            holder.operating_progressbar.progressDrawable = ContextCompat.getDrawable(context, if (mDatas[position].waybillFcdQty == 0) R.drawable.progress_indeterminate_green_horizontal else R.drawable.progress_indeterminate_horizontal)
         }
         holder.look_information_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
@@ -38,7 +38,7 @@ class DepartureTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecycl
         holder.father_cl.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
                 val mScanSun = mDatas[position].unLoadQty
-                if (mScanSun == mDatas[position].totalQty) {
+                if (mDatas[position].waybillFcdQty == 0) {
                     mClickInterface?.onItemClick(v, position, "")
                     return
                 }
@@ -51,8 +51,16 @@ class DepartureTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecycl
         holder.receiver_tv.text = mDatas[position].consignee
         holder.address_tv.text = "${mDatas[position].webidCodeStrGx}---${mDatas[position].ewebidCodeStrGx}"
         holder.goods_name_tv.text = mDatas[position].product
-        holder.goods_number_ifo_tv.text = "已扫:${mDatas[position].unLoadQty}     本车:${mDatas[position].totalQty}    剩余:${mDatas[position].totalQty - mDatas[position].unLoadQty}     总件数:${mDatas[position].totalQty}*${mDatas[position].weight}kg*${mDatas[position].volumn}m*"
-        holder.operating_progressbar.progress = if (mDatas[position].unLoadQty == 0) 0 else if (mDatas[position].unLoadQty == mDatas[position].totalQty) 100 else ((mDatas[position].unLoadQty * 100) / mDatas[position].totalQty)
+        /**
+        库存件数是扫一件少一件
+        1。总件数=运单件数
+        2、本车件数=   扫描件数+PC手动添加的件数
+        3、@旧 剩余件数=库存件数-本车件数 @新 剩余件数=库存件数
+        4、已扫件数=所有扫描的件数（大票货扫描件数+小票货扫描件数+PDA手动录入的件数）
+        5、@旧 进度条=已扫件数件数/库存件数*100 @新 进度条=已扫描件数/（已扫件数件数+库存件数）*100
+         */
+        holder.goods_number_ifo_tv.text = "已扫:${mDatas[position].unLoadQty}     本车:${mDatas[position].unLoadQty}    剩余:${mDatas[position].waybillFcdQty}     总件数:${mDatas[position].totalQty}*${mDatas[position].weight}kg*${mDatas[position].volumn}m*"
+        holder.operating_progressbar.progress = if (mDatas[position].unLoadQty == 0) 0 else if (mDatas[position].unLoadQty == (mDatas[position].unLoadQty + mDatas[position].waybillFcdQty)) 100 else ((mDatas[position].unLoadQty * 100) / (mDatas[position].unLoadQty + mDatas[position].waybillFcdQty))
 
     }
 

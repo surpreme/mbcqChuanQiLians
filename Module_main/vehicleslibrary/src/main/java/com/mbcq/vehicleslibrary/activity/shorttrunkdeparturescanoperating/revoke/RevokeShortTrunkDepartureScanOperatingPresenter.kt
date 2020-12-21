@@ -8,6 +8,7 @@ import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.commonlibrary.ApiInterface
+import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.revoke.RevokeDepartureTrunkDepartureScanOperatingBean
 import org.json.JSONObject
 
 /**
@@ -54,6 +55,64 @@ class RevokeShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<Revoke
                         mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<RevokeShortTrunkDepartureScanOperatingBean>>() {}.type))
                     }
                 }
+            }
+
+        })
+    }
+    /**
+    {"code":0,"msg":"","count":1,"data":[
+    {
+    "id": 10708,
+    "billno": "10030004857",
+    "lableNo": "100300048570001",
+    "webidCode": 1003,
+    "webidCodeStr": "汕头",
+    "scanOpeType": 0,
+    "scanOpeTypeStr": "短驳装车",
+    "deviceNo": "92:FD:7D:F0:1A:6D",
+    "content": "PDA货物从汕头出发，下一站是，操作员是lzy",
+    "inOneVehicleFlag": "DB1003-20201211-003",
+    "scanType": 0,
+    "scanTypeStr": "PDA",
+    "opeMan": "lzy",
+    "recordDate": "2020-12-11T11:12:03"
+    }
+    ]}
+     */
+    override fun getScanData(billno: String,lableNo: String, inOneVehicleFlag: String, scanOpeType: Int, mXRevokeShortTrunkDepartureScanOperatingBean: RevokeShortTrunkDepartureScanOperatingBean) {
+        val params = HttpParams()
+        params.put("billno", billno)
+        params.put("inOneVehicleFlag", inOneVehicleFlag)
+        params.put("limit", 9999)
+        /**
+         * @scanOpeType 操作类型
+         * 0 短驳装车
+         * 1 干线装车
+         * 2 短驳到车
+         * 3 干线到车
+         * -1 查询所有扫描信息
+         */
+        params.put("scanOpeType", scanOpeType)
+        get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                val listAry = obj.optJSONArray("data")
+                listAry?.let {
+                    val mShowList = arrayListOf<Long>()
+                    for (itemIndex in 0 until it.length()) {
+                        /**
+                         * 如果不是异常数据 而且是本车的条码
+                         */
+                        if (listAry.getJSONObject(itemIndex).optInt("scanType") != 2) {
+                            if (inOneVehicleFlag.contains(listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag")))
+                                mShowList.add(listAry.getJSONObject(itemIndex).optLong("lableNo"))
+                        }
+
+                    }
+                    if (mShowList.isNotEmpty())
+                        mView?.getScanDataS(mShowList,lableNo,mXRevokeShortTrunkDepartureScanOperatingBean)
+                }
+
             }
 
         })

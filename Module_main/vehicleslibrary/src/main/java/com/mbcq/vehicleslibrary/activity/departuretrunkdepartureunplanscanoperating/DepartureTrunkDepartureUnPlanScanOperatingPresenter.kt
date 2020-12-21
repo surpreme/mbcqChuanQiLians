@@ -4,13 +4,16 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.commonlibrary.ApiInterface
+import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperatingmoreinfo.DepartureTrunkDepartureScanOperatingScanInfoBean
 import com.mbcq.vehicleslibrary.activity.shorttrunkdepartureunplanscanoperating.ShortTrunkDepartureUnPlanScanOperatingBean
 import com.mbcq.vehicleslibrary.activity.shorttrunkdepartureunplanscanoperating.ShortTrunkDepartureUnPlanScanOperatingIdBean
 import org.json.JSONObject
+import java.lang.StringBuilder
 
 /**
  * @author: lzy
@@ -28,7 +31,16 @@ class DepartureTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<De
                     if (!it.isNull(1)) {
                         val dataObj = it.optJSONObject(1)
                         val mDepartureTrunkDepartureUnPlanScanOperatingIdBean = Gson().fromJson<DepartureTrunkDepartureUnPlanScanOperatingIdBean>(result, DepartureTrunkDepartureUnPlanScanOperatingIdBean::class.java)
-                        mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<DepartureTrunkDepartureUnPlanScanOperatingBean>>() {}.type), mDepartureTrunkDepartureUnPlanScanOperatingIdBean.data[0].data[0].id)
+                        var mXid = -1
+                        if (mDepartureTrunkDepartureUnPlanScanOperatingIdBean.data.isNotEmpty()) {
+                            if (mDepartureTrunkDepartureUnPlanScanOperatingIdBean.data[0].data.isNotEmpty())
+                                mXid = mDepartureTrunkDepartureUnPlanScanOperatingIdBean.data[0].data[0].id
+
+                        }
+                        if (mXid == -1) {
+                            mView?.showError("请联系服务器工作人员！")
+                        }
+                        mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<DepartureTrunkDepartureUnPlanScanOperatingBean>>() {}.type), mXid)
                     }
                 }
             }
@@ -37,89 +49,167 @@ class DepartureTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<De
     }
 
     override fun getWillByInfo(billno: String, resultBillno: String, mScanType: Int) {
-        val params = HttpParams()
-        params.put("Billno", billno)
-        get<String>(ApiInterface.RECORD_SELECT_ORDER_INFO_GET, params, object : CallBacks {
+        val xParams = HttpParams()
+        xParams.put("billno", billno)
+        mView?.getContext()?.let {
+            xParams.put("SelWebidCode", UserInformationUtil.getWebIdCode(it))
+        }
+        get<String>(ApiInterface.SHIPMENT_INVENTORY_SELECTED_INFO_GET, xParams, object : CallBacks {
             override fun onResult(result: String) {
-                val obj = JSONObject(result)
-                obj.optJSONArray("data")?.let {
-                    if (!it.isNull(0)) {
-                        mView?.getWillByInfoS(it.getJSONObject(0), resultBillno,mScanType)
+                val xObj = JSONObject(result)
+                xObj.optJSONArray("data")?.let { xJay ->
+                    if (!xJay.isNull(0)) {
+                        val stockObj = xJay.getJSONObject(0)
+                        val stockQty = stockObj.optString("waybillFcdQty").replace(".0", "")
 
-                    } else {
-                        mView?.getWillByInfoNull()
-                    }
 
+                        val params = HttpParams()
+                        params.put("Billno", billno)
+                        get<String>(ApiInterface.RECORD_SELECT_ORDER_INFO_GET, params, object : CallBacks {
+                            override fun onResult(mVResult: String) {
+                                val obj = JSONObject(mVResult)
+                                obj.optJSONArray("data")?.let { willbyJay ->
+                                    if (!willbyJay.isNull(0)) {
+                                        val sendObj = willbyJay.optJSONObject(0)
+                                        sendObj.remove("waybillFcdQty")
+                                        sendObj.put("waybillFcdQty", stockQty.toInt())
+                                        mView?.getWillByInfoS(sendObj, resultBillno, mScanType)
+
+                                    } else {
+                                        mView?.getWillByInfoNull(billno)
+                                    }
+                                }
+                            }
+
+                        })
+                    } else
+                        mView?.isNotAtStock(billno)
                 }
             }
-
         })
+
     }
 
     /**
-     * {
-      "CompanyId": 2001,
-      "Billno": "10030002768",
-      "LableNo": "100300027680006",
-      "EwebidCode": 1004,
-      "EwebidCodeStr": "潮州彩塘",
-      "DeviceNo": "123",
-      "InOneVehicleFlag": "DB1003-20201113-004",  
-      "ScanType": 0,
-      "ScanTypeStr": "PDA",
-      "IsScan": 2,
-      "ScanPercentage": 12 扫描率
+    {
+    "CompanyId": "2001",
+    "Billno": "10030004897",
+    "LableNo": "100300048970001",
+    "DeviceNo": "92:FD:7D:F0:1A:6D",
+    "InOneVehicleFlag": "GX1003-20201217-004",
+    "ScanPercentage": "80",
+    "RecordDate": "2020-12-18 08:51:20",
+    "IsScan": 2,
+    "isScanDet": 2,
+    "opeMan": "lzy",
+    "ScanType": 0,
+    "ScanTypeStr": "PDA",
+    "ScanOpeType": 1,
+    "ScanOpeTypeStr": "干线装车"
     }
+    扫描前查询扫描信息 防止扫描第二辆车重复 防止漏货
+    这里本辆车再次扫描不为异常 让后台去判断
      */
-    override fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mScanType: Int) {
-        val jsonO = JSONObject()
-        jsonO.put("CompanyId", "2001")
-        jsonO.put("Billno", billno)
-        jsonO.put("LableNo", lableNo)
-        jsonO.put("DeviceNo", deviceNo)
-        jsonO.put("ewebidCode", ewebidCode)
-        jsonO.put("ewebidCodeStr", ewebidCodeStr)
-        jsonO.put("InOneVehicleFlag", inOneVehicleFlag)
-        jsonO.put("ScanPercentage", scanPercentage)//-扫描率
-        jsonO.put("RecordDate", TimeUtils.getCurrTime2())//记录日期
-        /**
-         * @IsScan
-         * 1有计划
-         * 2无计划
-         */
-        jsonO.put("IsScan", 2)
-        jsonO.put("isScanDet", 1)
-        mView?.getContext()?.let {
-            jsonO.put("opeMan", UserInformationUtil.getUserName(it))//操作人
-        }
-        /**
-         * @mScanType 扫描类型
-         * 0 PDA
-         * 1 手动输入
-         * 2 异常扫描
-         */
-//        val mScanType = 0
-        jsonO.put("ScanType", mScanType)
-        jsonO.put("ScanTypeStr", if (mScanType == 0) "PDA" else if (mScanType == 1) "手动输入" else if (mScanType == 2) "异常扫描" else "")
+    override fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, totalQty: Int, mScanType: Int) {
+        var mTopLableNo = lableNo
+        val params = HttpParams()
+        params.put("billno", billno)
         /**
          * @scanOpeType 操作类型
          * 0 短驳装车
          * 1 干线装车
          * 2 短驳到车
          * 3 干线到车
+         * -1 查询扫描信息
          */
-        val mScanOpeType = 1
-        jsonO.put("ScanOpeType", mScanOpeType)
-        jsonO.put("ScanOpeTypeStr", if (mScanOpeType == 0) "短驳装车" else if (mScanOpeType == 1) "干线装车" else if (mScanOpeType == 2) "短驳到车" else if (mScanOpeType == 3) "干线到车" else "")
-
-        post<String>(ApiInterface.DEPARTURE_TRUNK_DEPARTURE_SCAN_INFO_POST, getRequestBody(jsonO), object : CallBacks {
+        params.put("scanOpeType", "-1")
+        get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
-                mView?.scanOrderS(billno, soundStr, lableNo)
+                val obj = JSONObject(result)
+                val listAry = obj.optJSONArray("data")
+                listAry?.let {
+                    val mXlableNo = arrayListOf<Long>()//全部未扫描大票运单号
+                    if (lableNo.split(",").isNotEmpty()) {
+                        for (mCCCIndex in 1..totalQty) {
+                            val endBillno = billno + if (mCCCIndex.toString().length == 1) "000$mCCCIndex" else if (mCCCIndex.toString().length == 2) "00$mCCCIndex" else if (mCCCIndex.toString().length == 3) "0$mCCCIndex" else if (mCCCIndex.toString().length == 4) "$mCCCIndex" else ""
+                            var isHasIt = false
+                            for (itemIndex in 0 until it.length()) {
+                                if (listAry.getJSONObject(itemIndex).optString("lableNo") == endBillno && listAry.getJSONObject(itemIndex).optInt("scanType") != 2) {
+                                    isHasIt = true
+                                    continue
+                                }
+                            }
+                            if (!isHasIt)
+                                mXlableNo.add(endBillno.toLong())
+                        }
+                        //-1 前 1后 正序
+                        mXlableNo.sortWith(Comparator { o1, o2 ->
+                            if (o1 > o2) 1 else -1
+                        })
+                        val mXPostScaningDataStr = StringBuilder()
+                        for (index in (mXlableNo.size - lableNo.split(",").size) until mXlableNo.size) {
+                            mXPostScaningDataStr.append(mXlableNo[index])
+                            if (index != (mXlableNo.size - 1))
+                                mXPostScaningDataStr.append(",")
+                        }
+                        mTopLableNo = mXPostScaningDataStr.toString()
+                    }
+
+                    val jsonO = JSONObject()
+                    jsonO.put("CompanyId", "2001")
+                    jsonO.put("Billno", billno)
+                    jsonO.put("LableNo", mTopLableNo)
+                    jsonO.put("DeviceNo", deviceNo)
+                    jsonO.put("ewebidCode", ewebidCode)
+                    jsonO.put("ewebidCodeStr", ewebidCodeStr)
+                    jsonO.put("InOneVehicleFlag", inOneVehicleFlag)
+                    jsonO.put("ScanPercentage", scanPercentage)//-扫描率
+                    jsonO.put("RecordDate", TimeUtils.getCurrTime2())//记录日期
+                    /**
+                     * @IsScan
+                     * 1有计划
+                     * 2无计划
+                     */
+                    jsonO.put("IsScan", 2)
+                    jsonO.put("isScanDet", 1)
+                    mView?.getContext()?.let {
+                        jsonO.put("opeMan", UserInformationUtil.getUserName(it))//操作人
+                    }
+                    /**
+                     * @mScanType 扫描类型
+                     * 0 PDA
+                     * 1 手动输入
+                     * 2 异常扫描
+                     */
+//        val mScanType = 0
+                    jsonO.put("ScanType", mScanType)
+                    jsonO.put("ScanTypeStr", if (mScanType == 0) "PDA" else if (mScanType == 1) "手动输入" else if (mScanType == 2) "异常扫描" else "")
+                    /**
+                     * @scanOpeType 操作类型
+                     * 0 短驳装车
+                     * 1 干线装车
+                     * 2 短驳到车
+                     * 3 干线到车
+                     */
+                    val mScanOpeType = 1
+                    jsonO.put("ScanOpeType", mScanOpeType)
+                    jsonO.put("ScanOpeTypeStr", if (mScanOpeType == 0) "短驳装车" else if (mScanOpeType == 1) "干线装车" else if (mScanOpeType == 2) "短驳到车" else if (mScanOpeType == 3) "干线到车" else "")
+
+                    post<String>(ApiInterface.DEPARTURE_TRUNK_DEPARTURE_SCAN_INFO_POST, getRequestBody(jsonO), object : CallBacks {
+                        override fun onResult(result: String) {
+                            mView?.scanOrderS(billno, soundStr, lableNo)
+
+                        }
+
+                    })
+                }
 
             }
 
         })
+
     }
+
     override fun scanAbnormalOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String, mAbnormalReason: String) {
         val jsonO = JSONObject()
         jsonO.put("CompanyId", "2001")
@@ -170,6 +260,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<De
 
         })
     }
+
     override fun saveScanPost(id: Int, inoneVehicleFlag: String) {
         val postBody = JsonObject()
         postBody.addProperty("id", id)

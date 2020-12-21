@@ -14,12 +14,14 @@ class RevokeDepartureTrunkDepartureScanOperatingContract {
     interface View : BaseView {
         fun revokeOrderS(result: String, mMoreScanBillno: String)
         fun getCarInfoS(list: List<RevokeDepartureTrunkDepartureScanOperatingBean>)
+        fun getScanDataS(list: ArrayList<Long>,lableNo: String, mRevokeDepartureTrunkDepartureScanOperatingBean: RevokeDepartureTrunkDepartureScanOperatingBean)
 
     }
 
     interface Presenter : BasePresenter<View> {
-        fun revokeOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String,scanPercentage:String)
+        fun revokeOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, scanPercentage: String)
         fun getCarInfo(inoneVehicleFlag: String)
+        fun getScanData(billno: String,lableNo: String, inOneVehicleFlag: String, scanOpeType: Int,mXRevokeDepartureTrunkDepartureScanOperatingBean:RevokeDepartureTrunkDepartureScanOperatingBean)
 
     }
 }

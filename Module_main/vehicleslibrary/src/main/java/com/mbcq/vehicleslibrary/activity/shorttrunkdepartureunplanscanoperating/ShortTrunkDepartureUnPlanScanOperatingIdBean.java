@@ -98,7 +98,7 @@ public class ShortTrunkDepartureUnPlanScanOperatingIdBean {
              * ScanWebidType : 1
              */
 
-            private int id;
+            private int id=-1;
             private int vehicleState;
             private String vehicleStateStr;
             private int companyId;

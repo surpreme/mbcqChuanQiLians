@@ -7,6 +7,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
+import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
 import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
@@ -37,12 +38,12 @@ class ShortTrunkDepartureScanOperatingMoreInfoActivity : BaseListMVPActivity<Sho
         scan_state_checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (!isChecked) {
                 adapter.clearData()
-                adapter.appendData(if (mCacheList.isNotEmpty())mCacheList else mCacheCarList)
+                adapter.appendData(if (mCacheList.isNotEmpty()) mCacheList else mCacheCarList)
 
             } else if (isChecked) {
                 adapter.clearData()
                 val mFilterList = mutableListOf<ShortTrunkDepartureScanOperatingMoreInfoBean>()
-                for (item in if (mCacheList.isNotEmpty())mCacheList else mCacheCarList) {
+                for (item in if (mCacheList.isNotEmpty()) mCacheList else mCacheCarList) {
                     if (!item.isScaned)
                         mFilterList.add(item)
                 }
@@ -56,7 +57,7 @@ class ShortTrunkDepartureScanOperatingMoreInfoActivity : BaseListMVPActivity<Sho
         super.initDatas()
         mShortScanInfoBean?.let {
             if (it.getmType() == 0)
-                mPresenter?.getPageData(it.billno, it.inOneVehicleFlag, 0)
+                mPresenter?.getPageData(it.billno, it.inOneVehicleFlag, -1)
             else
                 mPresenter?.getCarScanData(it.inOneVehicleFlag, 0)
 
@@ -100,13 +101,16 @@ class ShortTrunkDepartureScanOperatingMoreInfoActivity : BaseListMVPActivity<Sho
                             if (mShortTrunkDepartureScanOperatingMoreInfoBean.lableNo == xxx.lableNo) {
                                 isHas = true
                                 mShortTrunkDepartureScanOperatingMoreInfoBean.mResultTag = Gson().toJson(xxx)
+                                mShortTrunkDepartureScanOperatingMoreInfoBean.mDismantleInfo = xxx.mDismantleInfo
                                 mShortTrunkDepartureScanOperatingMoreInfoBean.isScaned = true
+                                continue
                             }
-                            if (!isHas) {
-                                mShortTrunkDepartureScanOperatingMoreInfoBean.mResultTag = "{}"
-                                mShortTrunkDepartureScanOperatingMoreInfoBean.isScaned = false
+                        }
+                        if (!isHas) {
+                            mShortTrunkDepartureScanOperatingMoreInfoBean.mResultTag = "{}"
+                            mShortTrunkDepartureScanOperatingMoreInfoBean.isScaned = false
+                            mShortTrunkDepartureScanOperatingMoreInfoBean.mDismantleInfo = ""
 
-                            }
 
                         }
                         mShowLi.add(mShortTrunkDepartureScanOperatingMoreInfoBean)
@@ -115,6 +119,7 @@ class ShortTrunkDepartureScanOperatingMoreInfoActivity : BaseListMVPActivity<Sho
                         mCacheList.clear()
                     mCacheList.addAll(mShowLi)
                     adapter.appendData(mShowLi)
+//                    TalkSureDialog(mContext, getScreenWidth(), Gson().toJson(mShowLi)).show()
                 }
 
             }

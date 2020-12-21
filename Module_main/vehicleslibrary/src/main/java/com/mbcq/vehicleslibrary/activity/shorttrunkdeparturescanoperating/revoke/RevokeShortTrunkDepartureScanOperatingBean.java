@@ -216,6 +216,16 @@ public class RevokeShortTrunkDepartureScanOperatingBean {
     private String salesMan;
     private String opeMan;
     private String remark;
+    private int waybillFcdQty = 0;
+
+    public int getWaybillFcdQty() {
+        return waybillFcdQty;
+    }
+
+    public void setWaybillFcdQty(int waybillFcdQty) {
+        this.waybillFcdQty = waybillFcdQty;
+    }
+
 
     public String getSendOpeMan() {
         return sendOpeMan;
