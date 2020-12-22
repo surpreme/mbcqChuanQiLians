@@ -19,6 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="15dp" />
 
+
+
         <TextView
             android:id="@+id/title_tv"
             android:layout_width="match_parent"
@@ -43,12 +45,21 @@
             android:layout_marginBottom="15dp"
             android:layout_weight="1"
             android:gravity="center|left"
-            tools:hint="还有9件未装车"
             android:inputType="number"
+            android:maxEms="4"
+            android:maxLength="4"
+            android:maxLines="1"
             android:paddingLeft="10dp"
             android:textColor="#000"
-            android:textSize="18sp" />
-
+            android:textSize="18sp"
+            tools:hint="还有9件未装车" />
+        <TextView
+            android:id="@+id/scan_num_tips_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="还剩50件未装车"
+            android:layout_marginLeft="15dp"
+            android:layout_gravity="left"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"

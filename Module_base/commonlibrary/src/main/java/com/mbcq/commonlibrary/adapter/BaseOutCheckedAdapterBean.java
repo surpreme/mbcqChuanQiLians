@@ -5,6 +5,7 @@ package com.mbcq.commonlibrary.adapter;
  */
 public class BaseOutCheckedAdapterBean extends BaseCheckedAdapterBean {
     private String outNum="";
+    private String baseOutNum="";
 
     public String getOutNum() {
         return outNum;
@@ -12,5 +13,13 @@ public class BaseOutCheckedAdapterBean extends BaseCheckedAdapterBean {
 
     public void setOutNum(String outNum) {
         this.outNum = outNum;
+    }
+
+    public String getBaseOutNum() {
+        return baseOutNum;
+    }
+
+    public void setBaseOutNum(String baseOutNum) {
+        this.baseOutNum = baseOutNum;
     }
 }

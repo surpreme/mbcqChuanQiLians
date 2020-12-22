@@ -49,6 +49,13 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
             override fun onPint(v: View, position: Int, itemData: ShortFeederBean) {
             }
 
+            override fun onClickItem(v: View, position: Int, itemData: ShortFeederBean) {
+                val job = JSONObject()
+                job.put("InoneVehicleFlag", itemData.inoneVehicleFlag)
+                job.put("Id", itemData.id)
+                ARouter.getInstance().build(ARouterConstants.FixShortFeederHouseActivity).withString("FixedShortFeederHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
+            }
+
         }
     }
     override fun getPageDatas(mCurrentPage: Int) {
@@ -68,11 +75,15 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
                             mItemdata = item
                         }
                     }
+                    if (mItemdata?.vehicleState==3){
+                        showToast("发车状态的车的不可以修改")
+                        return@let
+                    }
                     if (mItemdata != null) {
                         val job = JSONObject()
                         job.put("InoneVehicleFlag", mItemdata.inoneVehicleFlag)
                         job.put("Id", mItemdata.id)
-                        ARouter.getInstance().build(ARouterConstants.FixShortFeederHouseActivity).withString("FixedShortFeederHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
+                        ARouter.getInstance().build(ARouterConstants.FixedShortFeederConfigurationActivity).withString("FixedShortFeederConfiguration", GsonUtils.toPrettyFormat(job.toString())).navigation()
                     } else {
                         showToast("请至少选择一辆车次进行操作修改")
                     }

@@ -20,11 +20,18 @@ import com.mbcq.commonlibrary.R
 class CheckBoxOutViewAdapter<T : BaseOutCheckedAdapterBean> : RecyclerView.Adapter<CheckBoxOutViewAdapter.ItemViewHolder> {
     private var context: Context?
     private val inflater: LayoutInflater
+    private var mIsPintCheck = false
     private var mSonBean = ArrayList<T>()
 
     constructor(context: Context) {
         this.context = context
         this.inflater = LayoutInflater.from(context)
+    }
+
+    constructor(context: Context, isPintCheck: Boolean) {
+        this.context = context
+        this.inflater = LayoutInflater.from(context)
+        this.mIsPintCheck = isPintCheck
     }
 
 
@@ -75,6 +82,7 @@ class CheckBoxOutViewAdapter<T : BaseOutCheckedAdapterBean> : RecyclerView.Adapt
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.itemView.setBackgroundColor(Color.WHITE)
         holder.base_out_title_tv.text = mSonBean[position].title
+//        holder.base_out_content_ed.setText(mSonBean[position].baseOutNum)
         holder.base_out_title_tv.textSize = 16f
         holder.base_out_check_box.isChecked = mSonBean[position].checked
         holder.base_out_content_ed.addTextChangedListener(object : TextWatcher {
@@ -82,11 +90,20 @@ class CheckBoxOutViewAdapter<T : BaseOutCheckedAdapterBean> : RecyclerView.Adapt
 
             }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                mSonBean[position].baseOutNum = s.toString()
+             /*   if (s.toString().isNotBlank() && mIsPintCheck) {
+                    if (!holder.base_out_check_box.isChecked) {
+                        mSonBean[position].checked = true
+                        notifyItemChanged(position)
+                    }
+
+                }*/
             }
 
             override fun afterTextChanged(s: Editable?) {
                 mSonBean[position].outNum = "${mSonBean[position].title} ${s.toString()} "
+
             }
 
         })

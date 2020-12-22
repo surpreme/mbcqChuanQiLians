@@ -136,6 +136,13 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
             mCommonlyInformationSharePreferencesHelper = SharePreferencesHelper(mContext, Constant.COMMON_CONFIGURATION_PREFERENCESMODE)
     }
 
+    override fun onBackPressed() {
+        TalkSureCancelDialog(mContext, getScreenWidth(), "您确定要退出受理开单页面吗？") {
+            super.onBackPressed()
+        }.show()
+    }
+
+    @SuppressLint("SetTextI18n")
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
@@ -156,13 +163,15 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
             if (scrollY > shipper_circle_hide_ll.top) {
                 if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
                     shipper_circle_hide_ll.visibility = View.GONE
-//                    accept_billing_nested.smoothScrollTo(0, shipper_circle_tv.bottom)
+                    if (shipper_name_ed.text.toString().isNotBlank() && shipper_phone_ed.text.toString().isNotBlank())
+                        add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
                 }
             }
             if (scrollY > receiver_circle_hide_ll.top) {
                 if (receiver_circle_hide_ll.visibility == View.VISIBLE) {
                     receiver_circle_hide_ll.visibility = View.GONE
-//                    accept_billing_nested.smoothScrollTo(0, receiver_circle_tv.bottom)
+                    if (add_receiver_tv.text.toString().isNotBlank() && receiver_phone_ed.text.toString().isNotBlank())
+                        add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
 
                 }
             }

@@ -17,6 +17,7 @@ class ShortFeederAdapter(context: Context?) : BaseRecyclerAdapter<ShortFeederBea
     interface OnShortFeederClickInterface {
         fun onModify(v: View, position: Int, itemData: ShortFeederBean)
         fun onPint(v: View, position: Int, itemData: ShortFeederBean)
+        fun onClickItem(v: View, position: Int, itemData: ShortFeederBean)
     }
 
     var mOnShortFeederClickInterface: OnShortFeederClickInterface? = null
@@ -30,12 +31,19 @@ class ShortFeederAdapter(context: Context?) : BaseRecyclerAdapter<ShortFeederBea
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.feeder_state_tv.text = mDatas[position].vehicleStateStr
         holder.vehicler_info_tv.text = "${mDatas[position].vehicleNo} ${mDatas[position].chauffer} ${mDatas[position].chaufferMb}"
+        holder.information_tv.text = "${mDatas[position].ps}票 x件 ${mDatas[position].volumn}m³ ${mDatas[position].weight}kg 运费¥${mDatas[position].yf}"
         context?.let {
             holder.feeder_checkbox_iv.setImageDrawable(ContextCompat.getDrawable(it, if (mDatas[position].isChecked) R.drawable.ic_checked_icon else R.drawable.ic_unchecked_icon))
         }
-        holder.modify_tv.setOnClickListener(object :SingleClick(){
+        holder.itemView.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
-                mOnShortFeederClickInterface?.onModify(v,position,mDatas[position])
+                mOnShortFeederClickInterface?.onClickItem(v, position, mDatas[position])
+            }
+
+        })
+        holder.modify_tv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View) {
+                mOnShortFeederClickInterface?.onModify(v, position, mDatas[position])
             }
 
         })

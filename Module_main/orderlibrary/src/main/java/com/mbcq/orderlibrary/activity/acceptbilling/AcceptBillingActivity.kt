@@ -13,6 +13,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
+import com.mbcq.baselibrary.dialog.dialogfragment.LoadingTipsDialogFragment
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
@@ -544,7 +545,9 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
             }
         }
-
+        if (labelcheck.isChecked or waybillcheck.isChecked) {
+            loadingTips = "正在打印中....."
+        }
 
         mPresenter?.saveAcceptBilling(jsonObj, GsonUtils.toPrettyFormat(jsonObj.toString()), GsonUtils.toPrettyFormat(priceObj.toString()))
 
@@ -576,14 +579,18 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         }).show(supportFragmentManager, "getCargoAppellationSFilterDialog")
     }
 
+    var mMoreCheckBoxPackageDialog: MoreCheckBoxPackageDialog? = null
     override fun getPackageS(result: String) {
-        MoreCheckBoxPackageDialog(getScreenWidth(), "请选择或者输入包装", result, "packages", "", object : OnClickInterface.OnClickInterface {
-            override fun onResult(s1: String, s2: String) {
-                package_name_ed.setText(s1)
+        if (mMoreCheckBoxPackageDialog == null) {
+            mMoreCheckBoxPackageDialog = MoreCheckBoxPackageDialog(getScreenWidth(), "请选择或者输入包装", result, "packages", "", object : OnClickInterface.OnClickInterface {
+                override fun onResult(s1: String, s2: String) {
+                    package_name_ed.setText(s1)
 
-            }
+                }
 
-        }).show(supportFragmentManager, "getPackagesFilterDialog")
+            })
+        }
+        mMoreCheckBoxPackageDialog?.show(supportFragmentManager, "getPackagesFilterDialog")
 
     }
 
@@ -789,7 +796,6 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
                 LogUtils.e(e)
                 showTipsStr += " 您未打开打印机或者其他原因，请到重新连接后进入补打印页面"
             }
-
             closeLoading()
 
         }

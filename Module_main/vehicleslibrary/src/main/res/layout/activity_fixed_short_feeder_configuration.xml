@@ -4,22 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.alldeparturerecord.addtrunkdeparture.AddTrunkDepartureActivity">
+    tools:context=".activity.fixedshortfeederconfiguration.FixedShortFeederConfigurationActivity">
 
     <com.mbcq.baselibrary.view.CnToolbar
-        android:id="@+id/add_trunk_departure_toolbar"
+        android:id="@+id/fixed_short_feeder_config_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
-        app:centerTextViewText="干线计划装车"
+        app:centerTextViewText="修改短驳计划装车"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_trunk_departure_toolbar">
+        app:layout_constraintTop_toBottomOf="@id/fixed_short_feeder_config_toolbar">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -161,7 +161,6 @@
                 app:layout_constraintTop_toTopOf="@id/contact_number_title_tv" />
 
 
-
             <TextView
                 android:id="@+id/destination_title_tv"
                 android:layout_width="80dp"
@@ -194,15 +193,7 @@
                 app:layout_constraintTop_toTopOf="@id/destination_title_tv"
                 tools:text="杭州萧山" />
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/ic_down_icon"
-                app:layout_constraintBottom_toBottomOf="@+id/destination_tv"
-                app:layout_constraintRight_toRightOf="@+id/destination_tv"
-                app:layout_constraintTop_toTopOf="@+id/destination_tv" />
+
 
             <LinearLayout
                 android:id="@+id/cash_freight_ll"
@@ -255,7 +246,6 @@
                 android:background="@color/white"
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@+id/cash_freight_ll">
-
 
 
                 <LinearLayout
@@ -882,404 +872,20 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/mode_transport_title_tv" />
 
-            <CheckBox
-                android:id="@+id/direct_shipping_outlets_cb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:buttonTint="@color/base_blue"
-                android:text="直发到达网点"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mode_transport_rg" />
-
-            <TextView
-                android:id="@+id/direct_shipping_outlets_tips_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:text="注：勾选后，所选运单的卸货网点默认为运单到货网点，自动添加途径地"
-                android:textColor="#F2AD4A"
-                app:layout_constraintTop_toBottomOf="@+id/direct_shipping_outlets_cb" />
-
-            <LinearLayout
-                android:id="@+id/route_fee_breakdown_ll"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/white"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/direct_shipping_outlets_tips_tv">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="45dp"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:text="干线费明细"
-                    android:textColor="@color/base_blue"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/route_fee_breakdown_tv"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="center|left"
-                    android:paddingLeft="10dp"
-                    android:text="请输入干线明细运费"
-                    android:textSize="17sp" />
-
-                <ImageView
-                    android:id="@+id/route_fee_breakdown_down_iv"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_down_icon" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/route_fee_breakdown_hide_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/route_fee_breakdown_ll">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:text="基本运费"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/basic_freight_ed"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/hollow_out_gray"
-                        android:gravity="center|left"
-                        android:inputType="numberDecimal"
-                        android:paddingLeft="10dp"
-                        android:textColor="@color/base_red"
-                        android:textSize="17sp"
-                        tools:text="200" />
-                </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:text="提货费"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/delivery_fee_ed"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/hollow_out_gray"
-                        android:gravity="center|left"
-                        android:inputType="numberDecimal"
-                        android:paddingLeft="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="17sp"
-                        tools:text="200" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:text="多点装"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/more_post_area_ed"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/hollow_out_gray"
-                        android:gravity="center|left"
-                        android:inputType="numberDecimal"
-                        android:paddingLeft="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="17sp"
-                        tools:text="200" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:text="多点卸"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/more_less_area_ed"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/hollow_out_gray"
-                        android:gravity="center|left"
-                        android:inputType="numberDecimal"
-                        android:paddingLeft="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="17sp"
-                        tools:text="200" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:text="送货费"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/delivery_charges_ed"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/hollow_out_gray"
-                        android:gravity="center|left"
-                        android:inputType="numberDecimal"
-                        android:paddingLeft="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="17sp"
-                        tools:text="200" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:text="放空费"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/shortfall_fee_ed"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/hollow_out_gray"
-                        android:gravity="center|left"
-                        android:inputType="numberDecimal"
-                        android:paddingLeft="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="17sp"
-                        tools:text="200" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:text="其他费用"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/others_fee_ed"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/hollow_out_gray"
-                        android:gravity="center|left"
-                        android:inputType="numberDecimal"
-                        android:paddingLeft="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="17sp"
-                        tools:text="200" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:text="备      注"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/remark_ed"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/hollow_out_gray"
-                        android:gravity="center|left"
-                        android:inputType="text"
-                        android:paddingLeft="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="17sp"
-                        tools:text="200" />
-                </LinearLayout>
-
-      <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:text="合      计"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/total_trunk_departure_tv"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/hollow_out_gray"
-                        android:gravity="center|left"
-                        android:inputType="text"
-                        android:paddingLeft="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="17sp"
-                        tools:text="200" />
-                </LinearLayout>
-
-
-            </LinearLayout>
-            <CheckBox
-                android:id="@+id/choice_scan_checkBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:backgroundTint="@color/base_blue"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:layout_marginTop="5dp"
-                android:text="是否扫描发车"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/route_fee_breakdown_hide_ll" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="注：勾选后是新增扫描装车计划"
-                android:layout_marginLeft="15dp"
-                app:layout_constraintTop_toTopOf="@+id/choice_scan_checkBox"
-                app:layout_constraintBottom_toBottomOf="@+id/choice_scan_checkBox"
-                app:layout_constraintLeft_toRightOf="@+id/choice_scan_checkBox"
-                android:textColor="@color/base_red" />
             <Button
-                android:id="@+id/next_step_btn"
+                android:id="@+id/commit_btn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/round_blue"
-                android:text="下一步"
+                android:text="保存修改"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/choice_scan_checkBox" />
+                app:layout_constraintTop_toBottomOf="@+id/mode_transport_rg" />
 
             <View
                 android:layout_width="match_parent"
@@ -1287,6 +893,5 @@
                 app:layout_constraintTop_toBottomOf="@+id/next_step_btn" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

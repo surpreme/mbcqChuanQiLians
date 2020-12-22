@@ -52,6 +52,13 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
 
             }
 
+            override fun onItemClick(v: View, position: Int, itemData: TrunkDepartureBean) {
+                val job = JSONObject()
+                job.put("InoneVehicleFlag", itemData.inoneVehicleFlag)
+                job.put("Id", itemData.id)
+                ARouter.getInstance().build(ARouterConstants.FixedTrunkDepartureHouseActivity).withString("FixedTrunkDepartureHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
+            }
+
         }
     }
 
@@ -99,7 +106,7 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
                         val job = JSONObject()
                         job.put("InoneVehicleFlag", mItemdata.inoneVehicleFlag)
                         job.put("Id", mItemdata.id)
-                        ARouter.getInstance().build(ARouterConstants.FixedTrunkDepartureHouseActivity).withString("FixedTrunkDepartureHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
+                        ARouter.getInstance().build(ARouterConstants.FixedDepartureTrunkConfigurationActivity).withString("FixedDepartureTrunkConfiguration", GsonUtils.toPrettyFormat(job.toString())).navigation()
                     } else {
                         showToast("请至少选择一辆车次进行操作修改")
                     }

@@ -43,7 +43,7 @@ class MoreCheckBoxPackageDialog : BaseDialogFragment {
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         filter_recycler_view.layoutManager = LinearLayoutManager(mContext)
-        val mCheckBoxOutViewAdapter = CheckBoxOutViewAdapter<BaseOutCheckedAdapterBean>(mContext)
+        val mCheckBoxOutViewAdapter = CheckBoxOutViewAdapter<BaseOutCheckedAdapterBean>(mContext, true)
         filter_recycler_view.adapter = mCheckBoxOutViewAdapter
         mCheckBoxOutViewAdapter.appendData(mDatas)
         top_title_tv.text = tips

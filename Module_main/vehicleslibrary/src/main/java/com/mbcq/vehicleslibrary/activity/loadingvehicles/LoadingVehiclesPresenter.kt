@@ -27,7 +27,7 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
         params.put("limit", 1000)
         params.put("vehicleState", 0)//发车计划中 发货 到车等
         params.put("VehicleStateStr", 0)//发车计划中
-        params.put("CommonStr", "1,2")//筛选状态的种类 有计划无计划
+        params.put("IsScanStr", "1,2")//筛选状态的种类 有计划无计划
         params.put("startDate", startDate)
         params.put("endDate", endDate)
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, params, object : CallBacks {
@@ -46,7 +46,7 @@ class LoadingVehiclesPresenter : BasePresenterImpl<LoadingVehiclesContract.View>
                             mXobj.optJSONArray("data")?.let {
                                 val mXlist = Gson().fromJson<List<LoadingVehiclesBean>>(mXobj.optString("data"), object : TypeToken<List<LoadingVehiclesBean>>() {}.type)
                                 for (item in mXlist) {
-                                    item.type = 0
+                                    item.type = 1
                                     data.add(item)
                                 }
                                 mView?.getScanVehicleListS(data)

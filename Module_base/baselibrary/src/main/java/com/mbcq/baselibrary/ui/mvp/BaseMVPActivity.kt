@@ -7,6 +7,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.R
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.dialog.dialogfragment.LoadingDialogFragment
+import com.mbcq.baselibrary.dialog.dialogfragment.LoadingTipsDialogFragment
 import com.mbcq.baselibrary.ui.BaseActivity
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.ToastUtils
@@ -78,10 +79,11 @@ abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseAct
         return null
     }
 
-    private var mLoadingDialogFragment: LoadingDialogFragment? = null
+    protected var loadingTips = ""
+    private var mLoadingDialogFragment: LoadingTipsDialogFragment? = null
     override fun showLoading() {
         if (mLoadingDialogFragment == null && mIsCanCloseLoading) {
-            mLoadingDialogFragment = LoadingDialogFragment()
+            mLoadingDialogFragment = LoadingTipsDialogFragment(loadingTips)
             mLoadingDialogFragment?.showAllowingStateLoss(supportFragmentManager, "BaseLoadingDialogFragment")
         }
 
@@ -95,6 +97,7 @@ abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseAct
 
 
     override fun closeLoading() {
+        loadingTips = ""
         if (mLoadingDialogFragment != null && mIsCanCloseLoading) {
             mLoadingDialogFragment?.dismissAllowingStateLoss()
             mLoadingDialogFragment = null

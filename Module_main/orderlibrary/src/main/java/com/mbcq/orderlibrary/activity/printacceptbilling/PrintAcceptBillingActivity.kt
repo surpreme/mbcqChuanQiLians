@@ -58,6 +58,7 @@ class PrintAcceptBillingActivity : BaseBlueToothPrintAcceptBillingActivity<Print
                     showToast("请检查您输入开始数量和结束数量")
                     return
                 }
+                loadingTips="正在打印中...."
                 showLoading()
                 object : CountDownTimer(1000, 1000) {
                     override fun onTick(millisUntilFinished: Long) {

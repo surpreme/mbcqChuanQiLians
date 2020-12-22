@@ -4,22 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.alldeparturerecord.addtrunkdeparture.AddTrunkDepartureActivity">
-
+    tools:context=".activity.fixeddeparturetrunkconfiguration.FixedDepartureTrunkConfigurationActivity">
     <com.mbcq.baselibrary.view.CnToolbar
-        android:id="@+id/add_trunk_departure_toolbar"
+        android:id="@+id/fixed_trunk_departure_configuration_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
-        app:centerTextViewText="干线计划装车"
+        app:centerTextViewText="修改干线计划装车配置"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_trunk_departure_toolbar">
+        app:layout_constraintTop_toBottomOf="@id/fixed_trunk_departure_configuration_toolbar">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -194,15 +193,7 @@
                 app:layout_constraintTop_toTopOf="@id/destination_title_tv"
                 tools:text="杭州萧山" />
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/ic_down_icon"
-                app:layout_constraintBottom_toBottomOf="@+id/destination_tv"
-                app:layout_constraintRight_toRightOf="@+id/destination_tv"
-                app:layout_constraintTop_toTopOf="@+id/destination_tv" />
+
 
             <LinearLayout
                 android:id="@+id/cash_freight_ll"
@@ -1213,7 +1204,7 @@
                         tools:text="200" />
                 </LinearLayout>
 
-      <LinearLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -1247,29 +1238,9 @@
 
 
             </LinearLayout>
-            <CheckBox
-                android:id="@+id/choice_scan_checkBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:backgroundTint="@color/base_blue"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:layout_marginTop="5dp"
-                android:text="是否扫描发车"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/route_fee_breakdown_hide_ll" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="注：勾选后是新增扫描装车计划"
-                android:layout_marginLeft="15dp"
-                app:layout_constraintTop_toTopOf="@+id/choice_scan_checkBox"
-                app:layout_constraintBottom_toBottomOf="@+id/choice_scan_checkBox"
-                app:layout_constraintLeft_toRightOf="@+id/choice_scan_checkBox"
-                android:textColor="@color/base_red" />
+
             <Button
-                android:id="@+id/next_step_btn"
+                android:id="@+id/commit_btn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="15dp"
@@ -1279,14 +1250,12 @@
                 android:text="下一步"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/choice_scan_checkBox" />
+                app:layout_constraintTop_toBottomOf="@+id/route_fee_breakdown_hide_ll" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/next_step_btn" />
+                app:layout_constraintTop_toBottomOf="@+id/commit_btn" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

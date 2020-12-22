@@ -161,7 +161,6 @@
                 app:layout_constraintTop_toTopOf="@id/contact_number_title_tv" />
 
 
-
             <TextView
                 android:id="@+id/destination_title_tv"
                 android:layout_width="80dp"
@@ -886,13 +885,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
                 android:backgroundTint="@color/base_blue"
+                android:text="是否扫描发车"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:layout_marginTop="5dp"
-                android:text="是否扫描发车"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mode_transport_title_tv" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="注：勾选后是新增扫描装车计划"
+                android:layout_marginLeft="15dp"
+                app:layout_constraintTop_toTopOf="@+id/choice_scan_checkBox"
+                app:layout_constraintBottom_toBottomOf="@+id/choice_scan_checkBox"
+                app:layout_constraintLeft_toRightOf="@+id/choice_scan_checkBox"
+                android:textColor="@color/base_red" />
 
             <Button
                 android:id="@+id/next_step_btn"

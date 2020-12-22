@@ -2,49 +2,60 @@ package com.mbcq.vehicleslibrary.fragment.trunkdeparture;
 
 public class TrunkDepartureBean {
 
+
     /**
-     * id : 1
+     * id : 289
      * vehicleState : 1
      * vehicleStateStr : 发货
      * companyId : 2001
      * ecompanyId : 2001
-     * inoneVehicleFlag : GX1003-20200619-001
-     * contractNo : GX1003-20200619-001
-     * sendOpeMan : 汕头
-     * arriOpeMan : 义乌后湖
+     * inoneVehicleFlag : DB1003-20201221-003
+     * contractNo : DB1003-20201221-003
+     * sendOpeMan : lzy
+     * arriOpeMan : 
      * webidCode : 1003
      * webidCodeStr : 汕头
      * ewebidCode : 1004
      * ewebidCodeStr : 潮州彩塘
-     * vehicleNo : 浙A90833
-     * chauffer : 2
-     * chaufferMb : 3
+     * vehicleNo : 浙G12370
+     * chauffer : 张凯
+     * chaufferMb : 16276665366
      * transneed : 1
-     * transneedStr : 零担
-     * sendDate : 2020-06-19T13:06:53
+     * transneedStr : 普运
+     * sendDate : 2020-12-21T09:19:55
      * arrivedDate : 1900-01-01T00:00:00
      * accNow : 0.0
      * accBack : 0.0
      * accYk : 0.0
-     * ykCard :
+     * ykCard : 
      * ewebidCode1 : 0
-     * ewebidCodeStr1 : 义乌后湖
+     * ewebidCodeStr1 : 
      * accArrived1 : 0.0
      * ewebidCode2 : 0
-     * ewebidCodeStr2 : 请选择
+     * ewebidCodeStr2 : 
      * accArrived2 : 0.0
      * ewebidCode3 : 0
-     * ewebidCodeStr3 : 请选择
+     * ewebidCodeStr3 : 
      * accArrived3 : 0.0
      * accZx : 0.0
      * accJh : 0.0
      * accArrSum : 0.0
      * accTansSum : 0.0
      * accOther : 0.0
-     * vehicleInterval : 汕头-义乌后湖
-     * remark :
-     * fromType : 0
-     * fromTypeStr :
+     * vehicleInterval : 汕头-潮州彩塘
+     * remark : 
+     * fromType : 3
+     * fromTypeStr : 安卓APP
+     * isScan : 2
+     * scanPercentage : 0.0
+     * ps : 1
+     * weight : null
+     * volumn : null
+     * yf : 0.0
+     * accdache : 0.0
+     * accSum : null
+     * sfWeight : null
+     * accwz : null
      */
 
     private int id;
@@ -89,7 +100,26 @@ public class TrunkDepartureBean {
     private String remark;
     private int fromType;
     private String fromTypeStr;
-    private boolean isChecked=false;
+    private int isScan;
+    private double scanPercentage;
+    private int ps;
+    private String weight;
+    private String volumn;
+    private double yf;
+    private double accdache;
+    private String accSum;
+    private String sfWeight;
+    private String accwz;
+    private boolean isChecked;
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
 
     public int getId() {
         return id;
@@ -427,11 +457,83 @@ public class TrunkDepartureBean {
         this.fromTypeStr = fromTypeStr;
     }
 
-    public boolean isChecked() {
-        return isChecked;
+    public int getIsScan() {
+        return isScan;
     }
 
-    public void setChecked(boolean checked) {
-        isChecked = checked;
+    public void setIsScan(int isScan) {
+        this.isScan = isScan;
+    }
+
+    public double getScanPercentage() {
+        return scanPercentage;
+    }
+
+    public void setScanPercentage(double scanPercentage) {
+        this.scanPercentage = scanPercentage;
+    }
+
+    public int getPs() {
+        return ps;
+    }
+
+    public void setPs(int ps) {
+        this.ps = ps;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getVolumn() {
+        return volumn;
+    }
+
+    public void setVolumn(String volumn) {
+        this.volumn = volumn;
+    }
+
+    public double getYf() {
+        return yf;
+    }
+
+    public void setYf(double yf) {
+        this.yf = yf;
+    }
+
+    public double getAccdache() {
+        return accdache;
+    }
+
+    public void setAccdache(double accdache) {
+        this.accdache = accdache;
+    }
+
+    public String getAccSum() {
+        return accSum;
+    }
+
+    public void setAccSum(String accSum) {
+        this.accSum = accSum;
+    }
+
+    public String getSfWeight() {
+        return sfWeight;
+    }
+
+    public void setSfWeight(String sfWeight) {
+        this.sfWeight = sfWeight;
+    }
+
+    public String getAccwz() {
+        return accwz;
+    }
+
+    public void setAccwz(String accwz) {
+        this.accwz = accwz;
     }
 }

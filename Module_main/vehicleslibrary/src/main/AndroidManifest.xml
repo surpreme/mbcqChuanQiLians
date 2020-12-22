@@ -3,7 +3,9 @@
     package="com.mbcq.vehicleslibrary">
 
     <application>
-        <activity android:name=".activity.departuretrunkdeparturescanoperatingmoreinfo.DepartureTrunkDepartureScanOperatingScanInfoActivity"></activity>
+        <activity android:name=".activity.fixeddeparturetrunkconfiguration.FixedDepartureTrunkConfigurationActivity"></activity>
+        <activity android:name=".activity.fixedshortfeederconfiguration.FixedShortFeederConfigurationActivity" />
+        <activity android:name=".activity.departuretrunkdeparturescanoperatingmoreinfo.DepartureTrunkDepartureScanOperatingScanInfoActivity" />
         <activity
             android:name=".activity.shorttrunkdeparturescanoperatingmoreinfo.ShortTrunkDepartureScanOperatingMoreInfoActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />

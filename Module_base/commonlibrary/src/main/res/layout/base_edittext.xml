@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_gravity="center"
-        android:layout_weight="0.7"
+        android:layout_weight="1"
         android:gravity="left|center"
         android:text="基本运费"
         android:textColor="@color/black"
@@ -22,6 +22,6 @@
         android:id="@+id/inputStr_ed"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_weight="1"
+        android:layout_weight="0.8"
         android:inputType="numberDecimal" />
 </LinearLayout>

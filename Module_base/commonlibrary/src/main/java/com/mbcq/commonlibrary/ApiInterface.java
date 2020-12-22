@@ -1,9 +1,9 @@
 package com.mbcq.commonlibrary;
 
 public class ApiInterface {
-    //    private static final String BASE_URI="http://47.96.133.133:7091/";
-    private static final String BASE_URI = "http://192.168.2.43:8080/";
-    public static final String BASE_URIS = "http://192.168.2.43:8080/";
+//    private static final String BASE_URI = "http://192.168.2.43:8080/"; 本地
+    private static final String BASE_URI = "http://47.99.130.236:8081/";//服务器
+    public static final String BASE_URIS = "http://47.99.130.236:8081/";
     /**
      * 登录
      */
