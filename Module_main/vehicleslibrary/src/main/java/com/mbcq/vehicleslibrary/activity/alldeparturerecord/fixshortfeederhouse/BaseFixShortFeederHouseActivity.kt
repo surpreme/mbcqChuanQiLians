@@ -4,6 +4,7 @@ package com.mbcq.vehicleslibrary.activity.alldeparturerecord.fixshortfeederhouse
 import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
@@ -71,6 +72,42 @@ abstract class BaseFixShortFeederHouseActivity<V : BaseView, T : BasePresenterIm
         })
     }
 
+    var mXVolume = 0.0
+    fun refreshTopInfo() {
+        object : CountDownTimer(500, 500) {
+            override fun onTick(millisUntilFinished: Long) {
+
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onFinish() {
+                if (!isDestroyed) {
+                    mLoadingListAdapter?.let {
+                        var mWeight = 0.0
+                        var mVolume = 0.0
+                        var mQty = 0
+                        var mPrice = 0.00
+                        for (item in it.getAllData()) {
+                            if (item.weight.toDoubleOrNull() != null)
+                                mWeight += item.weight.toDouble()
+                            if (item.volumn.toDoubleOrNull() != null)
+                                mVolume += item.volumn.toDouble()
+                            if (item.accSum.toDoubleOrNull() != null)
+                                mPrice += item.accSum.toDouble()
+                            if (item.totalQty.toIntOrNull() != null)
+                                mQty += item.totalQty.toInt()
+
+                        }
+                        mXVolume=mVolume
+                        over_total_info_tv.text = "已 装  车：${it.getAllData().size} 票 $mQty 件 ${haveTwoDouble(mWeight)} Kg ${haveTwoDouble(mVolume)} 方      ${haveTwoDouble(mPrice)}元"
+
+                    }
+                }
+            }
+
+        }.start()
+    }
+
     fun getSelectInventoryList(): List<StockWaybillListBean>? {
         val mSelectedDatas = mutableListOf<StockWaybillListBean>()
         mInventoryListAdapter?.getAllData()?.let {
@@ -89,7 +126,9 @@ abstract class BaseFixShortFeederHouseActivity<V : BaseView, T : BasePresenterIm
     fun refreshTopNumber() {
         short_feeder_house_tabLayout.getTabAt(0)?.text = "库存清单(${mInventoryListAdapter?.getAllData()?.size})"
         short_feeder_house_tabLayout.getTabAt(1)?.text = "配载清单(${mLoadingListAdapter?.getAllData()?.size})"
+        refreshTopInfo()
     }
+
     fun getSelectLoadingOrder(): String {
         val mSelectWaybillNumber = StringBuilder()
         mLoadingListAdapter?.getAllData()?.let {
@@ -118,7 +157,7 @@ abstract class BaseFixShortFeederHouseActivity<V : BaseView, T : BasePresenterIm
         return mSelectWaybillNumber.toString()
     }
 
-    fun addSomeThing() {
+    protected open fun addSomeThing() {
         val mSelectedDatas = mutableListOf<StockWaybillListBean>()
         val mUnSelectedDatas = mutableListOf<StockWaybillListBean>()
         mInventoryListAdapter?.getAllData()?.let {
@@ -140,6 +179,7 @@ abstract class BaseFixShortFeederHouseActivity<V : BaseView, T : BasePresenterIm
         }
 
     }
+
     fun removeSomeThing() {
         val mSelectedDatas = mutableListOf<StockWaybillListBean>()
         val mUnSelectedDatas = mutableListOf<StockWaybillListBean>()
@@ -160,6 +200,7 @@ abstract class BaseFixShortFeederHouseActivity<V : BaseView, T : BasePresenterIm
             }
         }
     }
+
     @SuppressLint("SetTextI18n")
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)

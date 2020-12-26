@@ -17,6 +17,8 @@ class DepartureTrunkDepartureScanOperatingContract {
         fun saveScanPostS(result: String)
         fun getWillByInfoS(data: JSONObject, resultBillno: String, mScanType: Int)
         fun getWillByInfoNull(billno: String)
+        fun getVehicleS(result: String)
+        fun deleteUnScanOrderS(billno: String, inOneVehicleFlag: String, scanOpeType: String, withoutScanBillno: MutableList<String>, isOver: Boolean)
 
         /**
          * 不在库存中
@@ -36,6 +38,10 @@ class DepartureTrunkDepartureScanOperatingContract {
         fun scanOrderUNPlan(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String,scanPercentage: String, totalQty: Int,  mScanType: Int)
         fun getWillByInfo(billno: String, resultBillno: String, mScanType: Int)
         fun saveScanPost(id: Int, inoneVehicleFlag: String)
-
+        /**
+         * 车辆信息
+         */
+        fun getVehicles(vehicleNo:String)
+        fun deleteUnScanOrder(billno: String, inOneVehicleFlag: String, scanOpeType: String, withoutScanBillno: MutableList<String>)
     }
 }

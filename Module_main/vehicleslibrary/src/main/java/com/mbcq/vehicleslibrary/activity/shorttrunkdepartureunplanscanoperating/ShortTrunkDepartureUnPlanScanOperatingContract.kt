@@ -25,6 +25,7 @@ class ShortTrunkDepartureUnPlanScanOperatingContract {
          * 再次扫描异常
          */
         fun againScanException(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mScanType: Int, errorStr: String)
+        fun getVehicleS(result: String)
 
     }
 
@@ -38,6 +39,9 @@ class ShortTrunkDepartureUnPlanScanOperatingContract {
         fun scanAbnormalOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String,mAbnormalReason:String)
         fun getCarInfo(inoneVehicleFlag: String)
         fun saveScanPost(id: Int, inoneVehicleFlag: String)
-
+        /**
+         * 车辆信息
+         */
+        fun getVehicles(vehicleNo:String)
     }
 }

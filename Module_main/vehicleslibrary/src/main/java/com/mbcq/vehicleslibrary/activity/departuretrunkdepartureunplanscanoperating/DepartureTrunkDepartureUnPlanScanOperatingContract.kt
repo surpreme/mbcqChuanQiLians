@@ -18,6 +18,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingContract {
         fun scanOrderS(billno: String, soundStr: String, mMoreScanBillno: String)
         fun saveScanPostS(result: String)
         fun getCarInfoS(list: List<DepartureTrunkDepartureUnPlanScanOperatingBean>, id: Int)
+        fun getVehicleS(result: String)
 
         /**
          * 不在库存中
@@ -35,7 +36,10 @@ class DepartureTrunkDepartureUnPlanScanOperatingContract {
         fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, totalQty: Int, mScanType: Int)
         fun saveScanPost(id: Int, inoneVehicleFlag: String)
         fun getCarInfo(inoneVehicleFlag: String)
-
+        /**
+         * 车辆信息
+         */
+        fun getVehicles(vehicleNo:String)
         /**
          * 异常扫描
          */

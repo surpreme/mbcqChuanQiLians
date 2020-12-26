@@ -30,6 +30,7 @@ abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseAct
 
     var mPresenter: T? = null
 
+
     override fun getContext(): Context {
 
         return this

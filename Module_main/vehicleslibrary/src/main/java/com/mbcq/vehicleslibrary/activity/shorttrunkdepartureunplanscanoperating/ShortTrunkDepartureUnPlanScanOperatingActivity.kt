@@ -49,6 +49,7 @@ import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_p
 import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.unScan_info_tv
 import kotlinx.android.synthetic.main.activity_revoke_short_trunk_departure_un_plan_scan_operating.unloading_batch_tv
 import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.*
+import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.StringBuilder
 import java.util.*
@@ -196,7 +197,7 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                         unScanOverBillno.append(item.billno).append("  ")
                     }
                 }
-                TalkSureCancelDialog(mContext, getScreenWidth(), if (unScanOverBillno.toString().isBlank()) "您确认要完成发车批次为${JSONObject(mLastData).optString("inoneVehicleFlag")}的发车吗？" else "运单号为${unScanOverBillno.toString()}为拆票运单，请确认无误后发车！") {
+                TalkSureCancelDialog(mContext, getScreenWidth(), if (unScanOverBillno.toString().isBlank()) "${if (mTotalLoadingWeight > (mMaximumVehicleWeight * 1000)) "本车已超载，" else ""}您确认要完成发车批次为${JSONObject(mLastData).optString("inoneVehicleFlag")}的发车吗？" else "运单号为${unScanOverBillno.toString()}为拆票运单，请确认无误后发车！") {
                     mPresenter?.saveScanPost(mScanId, JSONObject(mLastData).optString("inoneVehicleFlag"))
                 }.show()
 
@@ -537,6 +538,18 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
             }
 
         }.start()
+    }
+
+    /**
+     * 车载重 x/吨
+     */
+    var mMaximumVehicleWeight = 0.0
+    override fun getVehicleS(result: String) {
+        val jay = JSONArray(result)
+        if (!jay.isNull(0)) {
+            val obj = jay.getJSONObject(0)
+            mMaximumVehicleWeight = obj.optDouble("supweight", 0.0)
+        }
     }
 
     override fun saveScanPostS(result: String) {

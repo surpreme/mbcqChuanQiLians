@@ -4,8 +4,10 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
+import com.mbcq.vehicleslibrary.activity.loadingvehicles.LoadingVehiclesBean
 import org.json.JSONObject
 
 /**
@@ -74,20 +76,60 @@ class ShortFeederPresenter : BasePresenterImpl<ShortFeederContract.View>(), Shor
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
-                mView?.getShortFeederS(Gson().fromJson<List<ShortFeederBean>>(obj.optString("data"), object : TypeToken<List<ShortFeederBean>>() {}.type),Gson().fromJson(obj.optString("totalRow"),ShortFeederTotalBean::class.java))
+                mView?.getShortFeederS(Gson().fromJson<List<ShortFeederBean>>(obj.optString("data"), object : TypeToken<List<ShortFeederBean>>() {}.type), Gson().fromJson(obj.optString("totalRow"), ShortFeederTotalBean::class.java))
             }
 
         })
     }
 
     override fun invalidOrder(inoneVehicleFlag: String, id: Int) {
-        val obj= JsonObject()
-        obj.addProperty("inoneVehicleFlag",inoneVehicleFlag)
-        obj.addProperty("id",id)
-        post<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_INVALID_INFO_POST,getRequestBody(obj),object :CallBacks{
+        val obj = JsonObject()
+        obj.addProperty("inoneVehicleFlag", inoneVehicleFlag)
+        obj.addProperty("id", id)
+        post<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_INVALID_INFO_POST, getRequestBody(obj), object : CallBacks {
             override fun onResult(result: String) {
                 mView?.invalidOrderS()
 
+            }
+
+        })
+    }
+
+    fun searchBillnoShortFeeder(inoneVehicleFlag: String) {
+        val params = HttpParams()
+        params.put("InoneVehicleFlag", inoneVehicleFlag)
+        get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    val list = Gson().fromJson<List<ShortFeederBean>>(obj.optString("data"), object : TypeToken<List<ShortFeederBean>>() {}.type)
+                    if (list.isNotEmpty()) {
+                        mView?.getShortFeederS(list, Gson().fromJson(obj.optString("totalRow"), ShortFeederTotalBean::class.java))
+
+                    }
+                }
+            }
+
+
+        })
+    }
+
+    override fun searchScanInfo(billno: String) {
+        val params = HttpParams()
+        params.put("billno", billno)
+        get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_BILLNO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+
+                obj.optJSONArray("data")?.let {
+                    for (index in 0..it.length()){
+                        if (!it.isNull(index)) {
+                            val itemObj = it.getJSONObject(index)
+                            searchBillnoShortFeeder(itemObj.optString("inoneVehicleFlag"))
+                        }
+                    }
+
+                }
             }
 
         })

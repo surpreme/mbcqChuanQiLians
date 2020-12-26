@@ -61,7 +61,9 @@
         <activity android:name=".activity.alldeparturerecord.shortfeederhouse.ShortFeederHouseActivity" />
         <activity android:name=".activity.alldeparturerecord.addshortfeeder.AddShortFeederActivity" />
         <activity android:name=".activity.alldeparturerecord.addtrunkdeparture.AddTrunkDepartureActivity" />
-        <activity android:name=".activity.alldeparturerecord.departurerecord.DepartureRecordActivity" />
+        <activity
+            android:name=".activity.alldeparturerecord.departurerecord.DepartureRecordActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".activity.stowagealongwayhouse.StowageAlongWayHouseActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />

@@ -30,6 +30,7 @@ import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.re
 import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperatingmoreinfo.DepartureTrunkDepartureScanOperatingScanMoreInfoBean
 import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
 import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.*
+import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.StringBuilder
 
@@ -55,6 +56,11 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
         unScan_info_tv.text = "未扫： 0件 0kg  0m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
         unloading_batch_tv.text = "卸车批次:${obj.optString("inoneVehicleFlag")}"
 
+    }
+
+    override fun initDatas() {
+        super.initDatas()
+        mPresenter?.getVehicles(JSONObject(mLastData).optString("vehicleNo"))
     }
 
     fun onFilterRecyclerData() {
@@ -172,7 +178,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
                         unScanOverBillno.append(item.billno).append("\n")
                     }
                 }
-                TalkSureCancelDialog(mContext, getScreenWidth(), if (unScanOverBillno.toString().isBlank()) "您确认要完成发车批次为${JSONObject(mLastData).optString("inoneVehicleFlag")}的发车吗？" else "运单号为\n ${unScanOverBillno.toString()}为拆票运单，请确认无误后发车！") {
+                TalkSureCancelDialog(mContext, getScreenWidth(), if (unScanOverBillno.toString().isBlank()) "${if (mTotalLoadingWeight > (mMaximumVehicleWeight * 1000)) "本车已超载，" else ""}您确认要完成发车批次为${JSONObject(mLastData).optString("inoneVehicleFlag")}的发车吗？" else "运单号为\n ${unScanOverBillno.toString()}为拆票运单，请确认无误后发车！") {
                     mPresenter?.saveScanPost(mScanId, JSONObject(mLastData).optString("inoneVehicleFlag"))
                 }.show()
 
@@ -522,6 +528,18 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
 
         }.start()
 
+    }
+
+    /**
+     * 车载重 x/吨
+     */
+    var mMaximumVehicleWeight = 0.0
+    override fun getVehicleS(result: String) {
+        val jay = JSONArray(result)
+        if (!jay.isNull(0)) {
+            val obj = jay.getJSONObject(0)
+            mMaximumVehicleWeight = obj.optDouble("supweight", 0.0)
+        }
     }
 
     override fun onPDAScanResult(result: String) {

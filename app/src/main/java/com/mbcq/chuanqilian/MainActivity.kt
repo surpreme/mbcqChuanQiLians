@@ -31,6 +31,8 @@ class MainActivity : BaseActivity() {
             }
 
             override fun onFinish() {
+                if (isDestroyed)
+                    return
                 ARouter.getInstance().build(ARouterConstants.LogInActivity).navigation()
                 finish()
             }

@@ -46,6 +46,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
     var mStartWebCode = ""
     var mEndWebCode = ""
     val mOutList = HashMap<String, String>()
+    var mMaximumVehicleWeight = 0.0
 
     override fun getLayoutId(): Int = R.layout.activity_add_trunk_departure_house
 
@@ -59,6 +60,8 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
         mStartWebCode = mLastData.optString("WebidCodeStr")
         mEndWebCode = mLastData.optString("EwebidCodeStr")
         operating_interval_tv.text = "$mStartWebCode-$mEndWebCode"
+        mMaximumVehicleWeight = mLastData.optDouble("MaximumVehicleWeight", 0.0)
+
     }
 
     /**
@@ -113,7 +116,9 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
         })
         complete_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                completeCar()
+                TalkSureDialog(mContext, getScreenWidth(), "${if (mMaximumVehicleWeight < mXWeight) "本车已超载，" else ""}您确定要完成本车吗？") {
+                    completeCar()
+                }.show()
             }
 
         })
@@ -153,6 +158,16 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
                 mLoadingListAdapter?.checkedAll(isChecked)
 
         }
+    }
+
+    override fun addSomeThing() {
+        super.addSomeThing()
+        refreshTopInfo()
+    }
+
+    override fun removeSomeThing() {
+        super.removeSomeThing()
+        refreshTopInfo()
     }
 
     fun refreshShowOut() {

@@ -45,6 +45,7 @@ import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operat
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.StringBuilder
 
@@ -174,16 +175,18 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
         }
         save_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                val unScanOverBillno = StringBuilder()
+                val mWithoutScanBillno = mutableListOf<String>()
                 for (item in adapter.getAllData()) {
-                    if (item.unLoadQty != item.totalQty) {
-                        unScanOverBillno.append(item.billno).append("  ")
+                    if (item.unLoadQty == 0) {
+                        mWithoutScanBillno.add(item.billno)
                     }
                 }
-                TalkSureCancelDialog(mContext, getScreenWidth(), if (unScanOverBillno.toString().isBlank()) "您确认要完成发车批次为${JSONObject(mLastData).optString("inoneVehicleFlag")}的发车吗？" else "运单号为${unScanOverBillno.toString()}为拆票运单，请确认无误后发车！") {
-                    val modifyData = JSONObject(mLastData)
-                    mPresenter?.saveScanPost(modifyData.optInt("id"), modifyData.optString("inoneVehicleFlag"))
-                }.show()
+                if (mWithoutScanBillno.isEmpty()) {
+                    commitScanInfo()
+
+                } else {
+                    mPresenter?.deleteUnScanOrder(mWithoutScanBillno[0], JSONObject(mLastData).optString("inoneVehicleFlag"), "0", mWithoutScanBillno)
+                }
 
             }
 
@@ -205,6 +208,21 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
 
         })
 
+    }
+
+    fun commitScanInfo() {
+        val unScanOverBillno = StringBuilder()
+        for (item in adapter.getAllData()) {
+            if (item.unLoadQty != item.totalQty&& item.unLoadQty != 0) {
+                unScanOverBillno.append(item.billno).append("  ")
+            }
+        }
+        val mXXXWeightTips = if (mTotalLoadingWeight > (mMaximumVehicleWeight * 1000)) "本车已超载，" else ""
+        val mXXXMoreCarTips = if (unScanOverBillno.isBlank()) "您确认要完成发车批次为${JSONObject(mLastData).optString("inoneVehicleFlag")}的发车吗？" else "运单号为${unScanOverBillno.toString()}为拆票运单，请确认无误后发车！"
+        TalkSureCancelDialog(mContext, getScreenWidth(), mXXXWeightTips + mXXXMoreCarTips) {
+            val modifyData = JSONObject(mLastData)
+            mPresenter?.saveScanPost(modifyData.optInt("id"), modifyData.optString("inoneVehicleFlag"))
+        }.show()
     }
 
     fun scanSuccess(s1: String, isHeaderPint: Boolean) {
@@ -533,6 +551,15 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
         }.start()
     }
 
+    override fun deleteUnScanOrderS(billno: String, inOneVehicleFlag: String, scanOpeType: String, withoutScanBillno: MutableList<String>, isOver: Boolean) {
+        if (!isOver) {
+            mPresenter?.deleteUnScanOrder(billno, inOneVehicleFlag, scanOpeType, withoutScanBillno)
+        } else {
+            commitScanInfo()
+
+        }
+    }
+
     override fun saveScanPostS(result: String) {
         val obj = JSONObject(mLastData)
         TalkSureDialog(mContext, getScreenWidth(), "车次为${obj.optString("inoneVehicleFlag")}的车辆已经扫描发车，点击此处返回！") {
@@ -544,5 +571,16 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
         scanSuccess(result, false)
     }
 
+    /**
+     * 车载重 x/吨
+     */
+    var mMaximumVehicleWeight = 0.0
+    override fun getVehicleS(result: String) {
+        val jay = JSONArray(result)
+        if (!jay.isNull(0)) {
+            val obj = jay.getJSONObject(0)
+            mMaximumVehicleWeight = obj.optDouble("supweight", 0.0)
+        }
+    }
 
 }

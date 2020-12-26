@@ -3,6 +3,7 @@ package com.mbcq.vehicleslibrary.activity.alldeparturerecord.shortfeederhouse
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -26,6 +27,7 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
     @JvmField
     var mLastDataJson: String = ""
     var mDepartureLot = ""
+    var mMaximumVehicleWeight = 0.0
 
 
     override fun getLayoutId(): Int = R.layout.activity_short_feeder_house
@@ -41,7 +43,7 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
         val mLastData = JSONObject(mLastDataJson)
         mDepartureLot = mLastData.optString("InoneVehicleFlag")
         departure_lot_tv.text = "发车批次: $mDepartureLot"
-
+        mMaximumVehicleWeight = mLastData.optDouble("MaximumVehicleWeight", 0.0)
     }
 
     /**
@@ -70,11 +72,23 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
 
     }
 
+    override fun removeSomeThing() {
+        super.removeSomeThing()
+        refreshTopInfo()
+    }
+
+    override fun addSomeThing() {
+        super.addSomeThing()
+        refreshTopInfo()
+    }
+
     override fun onClick() {
         super.onClick()
         complete_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                completeCar()
+                TalkSureDialog(mContext, getScreenWidth(), "${if (mMaximumVehicleWeight < mXWeight) "本车已超载，" else ""}您确定要完成本车吗？") {
+                    completeCar()
+                }.show()
             }
 
         })

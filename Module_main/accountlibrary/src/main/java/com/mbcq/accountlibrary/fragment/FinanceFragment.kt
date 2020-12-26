@@ -6,6 +6,7 @@ import com.mbcq.accountlibrary.fragment.iconadapter.IconViewBean
 import com.mbcq.accountlibrary.fragment.iconadapter.IconViewRecyclerAdapter
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListFragment
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import kotlinx.android.synthetic.main.fragment_finance.*
@@ -18,7 +19,7 @@ class FinanceFragment : BaseListFragment<IconViewBean>() {
     override fun initViews(view: View) {
         super.initViews(view)
         finance_toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
-
+        finance_toolbar.setCenterTitleText(UserInformationUtil.getWebIdCodeStr(mContext))
     }
 
     override fun initDatas() {

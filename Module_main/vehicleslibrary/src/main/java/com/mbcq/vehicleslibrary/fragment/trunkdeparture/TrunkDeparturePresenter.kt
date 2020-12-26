@@ -6,7 +6,6 @@ import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
-import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederBean
 import org.json.JSONObject
 
 /**
@@ -43,6 +42,45 @@ class TrunkDeparturePresenter : BasePresenterImpl<TrunkDepartureContract.View>()
 
         })
 
+    }
+    fun searchBillnoTrunkDeparture(inoneVehicleFlag: String) {
+        val params = HttpParams()
+        params.put("InoneVehicleFlag", inoneVehicleFlag)
+        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    val list = Gson().fromJson<List<TrunkDepartureBean>>(obj.optString("data"), object : TypeToken<List<TrunkDepartureBean>>() {}.type)
+                    if (list.isNotEmpty()) {
+                        mView?.getTrunkDepartureS(list, Gson().fromJson(obj.optString("totalRow"), TrunkDepartureTotalBean::class.java))
+
+                    }
+                }
+            }
+
+
+        })
+    }
+
+    override fun searchScanInfo(billno: String) {
+        val params = HttpParams()
+        params.put("billno", billno)
+        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_BILLNO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+
+                obj.optJSONArray("data")?.let {
+                    for (index in 0..it.length()){
+                        if (!it.isNull(index)) {
+                            val itemObj = it.getJSONObject(index)
+                            searchBillnoTrunkDeparture(itemObj.optString("inoneVehicleFlag"))
+                        }
+                    }
+
+                }
+            }
+
+        })
     }
 
 }

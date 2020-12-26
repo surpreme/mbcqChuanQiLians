@@ -6,7 +6,10 @@ import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
+import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.DepartureTrunkDepartureScanOperatingBean
+import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperatingmoreinfo.ShortTrunkDepartureScanOperatingMoreCarInfoBean
 import org.json.JSONObject
+import java.lang.StringBuilder
 
 /**
  * @author: lzy
@@ -36,7 +39,8 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
      */
     override fun getPageData(billno: String, inOneVehicleFlag: String, scanOpeType: Int) {
         val params = HttpParams()
-        params.put("billno", billno)
+        if (billno.isNotBlank())
+            params.put("billno", billno)
 //        params.put("inOneVehicleFlag", inOneVehicleFlag)
         params.put("limit", 9999)
         /**
@@ -45,7 +49,6 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
          * 1 干线装车
          * 2 短驳到车
          * 3 干线到车
-         * -1 查询所有扫描信息
          */
         params.put("scanOpeType", scanOpeType)
         get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, params, object : CallBacks {
@@ -56,12 +59,15 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
                     val mShowList = mutableListOf<DepartureTrunkDepartureScanOperatingScanInfoBean>()
                     for (itemIndex in 0 until it.length()) {
                         if (listAry.getJSONObject(itemIndex).optInt("scanType") != 2) {
-                            val mDepartureTrunkDepartureScanOperatingScanInfoBean = DepartureTrunkDepartureScanOperatingScanInfoBean()
-                            mDepartureTrunkDepartureScanOperatingScanInfoBean.lableNo = listAry.getJSONObject(itemIndex).optString("lableNo")
-                            mDepartureTrunkDepartureScanOperatingScanInfoBean.mResultTag = GsonUtils.toPrettyFormat(listAry.getJSONObject(itemIndex))
-                            if (!inOneVehicleFlag.contains(listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag")))
-                                mDepartureTrunkDepartureScanOperatingScanInfoBean.mDismantleInfo = "车次为${listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag")}已发走"
-                            mShowList.add(mDepartureTrunkDepartureScanOperatingScanInfoBean)
+                            val mShortTrunkDepartureScanOperatingMoreInfoBean = DepartureTrunkDepartureScanOperatingScanInfoBean()
+                            mShortTrunkDepartureScanOperatingMoreInfoBean.time = listAry.getJSONObject(itemIndex).optString("recordDate")
+                            mShortTrunkDepartureScanOperatingMoreInfoBean.scanName = listAry.getJSONObject(itemIndex).optString("opeMan")
+                            mShortTrunkDepartureScanOperatingMoreInfoBean.scanTypeStr = listAry.getJSONObject(itemIndex).optString("scanTypeStr")
+                            mShortTrunkDepartureScanOperatingMoreInfoBean.mScanInOneVehicleFlag = if (!inOneVehicleFlag.contains(listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag"))) listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag") else ""
+                            mShortTrunkDepartureScanOperatingMoreInfoBean.isScaned = true
+                            mShortTrunkDepartureScanOperatingMoreInfoBean.lableNo = listAry.getJSONObject(itemIndex).optString("lableNo")
+                            mShortTrunkDepartureScanOperatingMoreInfoBean.mDismantleInfo = if (!inOneVehicleFlag.contains(listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag"))) "拆" else ""
+                            mShowList.add(mShortTrunkDepartureScanOperatingMoreInfoBean)
                         }
 
                     }
@@ -74,9 +80,11 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
         })
     }
 
-    override fun getCarScanData(inOneVehicleFlag: String, scanOpeType: Int) {
+    fun getCarScanData(billno: String, totalQtyMore: String, inoneVehicleFlag: String) {
         val params = HttpParams()
-        params.put("inOneVehicleFlag", inOneVehicleFlag)
+        if (billno.isNotBlank())
+            params.put("billno", billno)
+        params.put("limit", 99999)
         /**
          * @scanOpeType 操作类型
          * 0 短驳装车
@@ -84,31 +92,50 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
          * 2 短驳到车
          * 3 干线到车
          */
-        params.put("scanOpeType", scanOpeType)
-        params.put("limit", 9999)
-
+        params.put("scanOpeType", "-1")
         get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 val listAry = obj.optJSONArray("data")
-                listAry?.let {
-                    val mShowList = mutableListOf<DepartureTrunkDepartureScanOperatingScanInfoBean>()
-                    for (itemIndex in 0 until it.length()) {
-                        val mDepartureTrunkDepartureScanOperatingScanInfoBean = DepartureTrunkDepartureScanOperatingScanInfoBean()
-                        mDepartureTrunkDepartureScanOperatingScanInfoBean.lableNo = listAry.getJSONObject(itemIndex).optString("lableNo")
-                        mDepartureTrunkDepartureScanOperatingScanInfoBean.mResultTag = GsonUtils.toPrettyFormat(listAry.getJSONObject(itemIndex))
-                        mShowList.add(mDepartureTrunkDepartureScanOperatingScanInfoBean)
-                    }
-                    if (mShowList.isNotEmpty())
-                        mView?.getCarScanDataS(mShowList)
-                }
+                //********--------------------------------------------
+                val mShowList = mutableListOf<DepartureTrunkDepartureScanOperatingScanInfoBean>()
+                val mCarBiilno = StringBuilder()
+                for ((mXBillnoItemIndexx, mXBillnoItem) in billno.split(",").withIndex()) {
+                    for (mXTotalQtyItem in 1..totalQtyMore.split(",")[mXBillnoItemIndexx].toInt()) {
+                        val mShortTrunkDepartureScanOperatingMoreInfoBean = DepartureTrunkDepartureScanOperatingScanInfoBean()
+                        val endBillno = if (mXTotalQtyItem.toString().length == 1) "000$mXTotalQtyItem" else if (mXTotalQtyItem.toString().length == 2) "00$mXTotalQtyItem" else if (mXTotalQtyItem.toString().length == 3) "0$mXTotalQtyItem" else if (mXTotalQtyItem.toString().length == 4) "$mXTotalQtyItem" else ""
+                        mShortTrunkDepartureScanOperatingMoreInfoBean.lableNo = mXBillnoItem + endBillno
+                        listAry?.let {
+                            for (itemIndex in 0 until it.length()) {
+                                if (listAry.getJSONObject(itemIndex).optInt("scanType") != 2) {
+                                    if (listAry.getJSONObject(itemIndex).optString("lableNo") == (mXBillnoItem + endBillno)) {
+                                        mShortTrunkDepartureScanOperatingMoreInfoBean.time = listAry.getJSONObject(itemIndex).optString("recordDate")
+                                        mShortTrunkDepartureScanOperatingMoreInfoBean.scanName = listAry.getJSONObject(itemIndex).optString("opeMan")
+                                        mShortTrunkDepartureScanOperatingMoreInfoBean.scanTypeStr = listAry.getJSONObject(itemIndex).optString("scanTypeStr")
+                                        mShortTrunkDepartureScanOperatingMoreInfoBean.mScanInOneVehicleFlag = if (!inoneVehicleFlag.contains(listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag"))) listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag") else ""
+                                        mShortTrunkDepartureScanOperatingMoreInfoBean.isScaned = true
+                                        mShortTrunkDepartureScanOperatingMoreInfoBean.mDismantleInfo = if (!inoneVehicleFlag.contains(listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag"))) "拆" else ""
+                                        continue
+                                    }
+                                }
 
+                            }
+                        }
+                        mShowList.add(mShortTrunkDepartureScanOperatingMoreInfoBean)
+                        mCarBiilno.append(mXBillnoItem + endBillno).append(",")
+                    }
+                }
+//                TalkSureDialog(mView?.getContext()!!, 1200, mCarBiilno.toString()).show()
+                if (mShowList.isNotEmpty())
+                    mView?.getPageDataS(mShowList)
             }
 
         })
     }
 
-    override fun getCarInfo(inoneVehicleFlag: String, list: List<DepartureTrunkDepartureScanOperatingScanInfoBean>) {
+
+
+    override fun getCarInfo(inoneVehicleFlag: String) {
         val params = HttpParams()
         params.put("InoneVehicleFlag", inoneVehicleFlag)
         get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_LOCAL_INFO_POST, params, object : CallBacks {
@@ -117,7 +144,18 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
                 obj.optJSONArray("data")?.let {
                     if (!it.isNull(1)) {
                         val dataObj = it.optJSONObject(1)
-                        mView?.getCarInfoS(Gson().fromJson(dataObj.optString("data"), object : TypeToken<List<DepartureTrunkDepartureScanOperatingMoreCarInfoBean>>() {}.type), list)
+                        val mCarBiilno = StringBuilder()
+                        val mCarQty = StringBuilder()
+                        val mXDataList = Gson().fromJson<List<DepartureTrunkDepartureScanOperatingBean>>(dataObj.optString("data"), object : TypeToken<List<DepartureTrunkDepartureScanOperatingBean>>() {}.type)
+                        for ((index, item) in mXDataList.withIndex()) {
+                            mCarBiilno.append(item.billno)
+                            mCarQty.append(item.totalQty)
+                            if (index != mXDataList.lastIndex) {
+                                mCarBiilno.append(",")
+                                mCarQty.append(",")
+                            }
+                        }
+                        getCarScanData(mCarBiilno.toString(), mCarQty.toString(), inoneVehicleFlag)
 
                     }
                 }

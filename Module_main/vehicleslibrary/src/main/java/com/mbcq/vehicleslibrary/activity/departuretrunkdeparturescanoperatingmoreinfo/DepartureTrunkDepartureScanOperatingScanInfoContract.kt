@@ -14,15 +14,13 @@ class DepartureTrunkDepartureScanOperatingScanInfoContract {
 
     interface View : BaseView {
         fun getPageDataS(list: List<DepartureTrunkDepartureScanOperatingScanInfoBean>)
-        fun getCarScanDataS(list: List<DepartureTrunkDepartureScanOperatingScanInfoBean>)
-        fun getCarInfoS(list: List<DepartureTrunkDepartureScanOperatingMoreCarInfoBean>, mScanList: List<DepartureTrunkDepartureScanOperatingScanInfoBean>)
-
     }
 
     interface Presenter : BasePresenter<View> {
         fun getPageData(billno: String, inOneVehicleFlag: String, scanOpeType: Int)
-        fun getCarScanData(inOneVehicleFlag: String, scanOpeType: Int)
-        fun getCarInfo(inoneVehicleFlag: String,list: List<DepartureTrunkDepartureScanOperatingScanInfoBean>)
+
+        //        fun getCarScanData(inOneVehicleFlag: String, scanOpeType: Int)
+        fun getCarInfo(inoneVehicleFlag: String)
 
     }
 }

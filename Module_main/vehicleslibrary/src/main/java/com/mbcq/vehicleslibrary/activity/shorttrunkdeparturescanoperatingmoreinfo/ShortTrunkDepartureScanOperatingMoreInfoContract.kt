@@ -13,14 +13,14 @@ class ShortTrunkDepartureScanOperatingMoreInfoContract {
 
     interface View : BaseView {
         fun getPageDataS(list: List<ShortTrunkDepartureScanOperatingMoreInfoBean>)
-        fun getCarScanDataS(list: List<ShortTrunkDepartureScanOperatingMoreInfoBean>)
-        fun getCarInfoS(list: List<ShortTrunkDepartureScanOperatingMoreCarInfoBean>,mScanList: List<ShortTrunkDepartureScanOperatingMoreInfoBean>)
+     /*   fun getCarScanDataS(list: List<ShortTrunkDepartureScanOperatingMoreInfoBean>)
+        fun getCarInfoS(list: List<ShortTrunkDepartureScanOperatingMoreCarInfoBean>,mScanList: List<ShortTrunkDepartureScanOperatingMoreInfoBean>)*/
 
     }
 
     interface Presenter : BasePresenter<View> {
         fun getPageData(billno: String, inOneVehicleFlag: String, scanOpeType: Int)
-        fun getCarInfo(inoneVehicleFlag: String,list: List<ShortTrunkDepartureScanOperatingMoreInfoBean>)
-        fun getCarScanData(inOneVehicleFlag: String, scanOpeType: Int)
+        fun getCarInfo(inoneVehicleFlag: String)
+//        fun getCarScanData(inOneVehicleFlag: String, scanOpeType: Int)
     }
 }

@@ -27,6 +27,8 @@ class FixedTrunkDepartureHouseContract {
         fun addStowageAlongWayS(inoneVehicleFlag: String, webidCode: String, webidCodeStr: String, result: String)
         fun getStowageAlongWayS(list: List<FixedStowageAlongWayBean>)
         fun deleteStowageAlongWay(result: String)
+        fun getVehicleS(result: String)
+
     }
 
     interface Presenter : BasePresenter<View> {
@@ -52,5 +54,9 @@ class FixedTrunkDepartureHouseContract {
          * 后台无法修改 这里删除所有 然后前台根据顺序添加即可
          */
         fun deleteStowageAlongWay(inoneVehicleFlag: String)
+        /**
+         * 车辆信息
+         */
+        fun getVehicles(vehicleNo:String)
     }
 }

@@ -87,6 +87,8 @@ class AddShortFeederActivity : BaseAddShortFeederActivity<AddShortFeederContract
         obj.put("ChaufferMb", contact_number_ed.text.toString())// 司机手机号码
         obj.put("ChaufferMb", contact_number_ed.text.toString())// 司机手机号码
         obj.put("EwebidCodeStr", destination_tv.text.toString())// 到车网点
+        if (on_board_weight_tv.text.toString().replace("吨", ""). toDoubleOrNull () != null)
+            obj.put("MaximumVehicleWeight", on_board_weight_tv.text.toString().replace("吨", "").toDouble() * 1000)// 车载最大重量
         obj.put("SendOpeMan", UserInformationUtil.getUserName(mContext))// 发车操作人
         obj.put("WebidCode", UserInformationUtil.getWebIdCode(mContext))// 发车网点编码
         obj.put("WebidCodeStr", UserInformationUtil.getWebIdCodeStr(mContext))// 发车网点

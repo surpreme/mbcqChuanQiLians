@@ -23,6 +23,7 @@ import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.inventorylist.ShortFeederHouseInventoryListAdapter
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.loadinglist.ShortFeederHouseLoadingListAdapter
 import kotlinx.android.synthetic.main.activity_fixed_trunk_departure_house.*
+import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -51,6 +52,7 @@ class FixedTrunkDepartureHouseActivity : BaseFixedTrunkDepartureHouseActivity<Fi
         mPresenter?.getCarInfo(mLastData.optInt("Id"), mLastData.optString("InoneVehicleFlag"))
         mPresenter?.getInventory(1)
         mPresenter?.getStowageAlongWay(mLastData.optString("InoneVehicleFlag"), mLastData.optInt("Id"))
+        mPresenter?.getVehicles(mLastData.optString("VehicleNo"))
 
     }
 
@@ -197,9 +199,9 @@ class FixedTrunkDepartureHouseActivity : BaseFixedTrunkDepartureHouseActivity<Fi
                 } else if (complete_btn.text == "完成本车") {
                     if (!invalidateCar())
                         return
-//                    mPresenter?.deleteStowageAlongWay(mInoneVehicleFlag)
-
-                    mPresenter?.completeCar(modifyData.optInt("Id"), modifyData.optString("InoneVehicleFlag"))
+                    TalkSureCancelDialog(mContext, getScreenWidth(), "${if (mXVolume > (mMaximumVehicleWeight * 1000)) "本车已超载，" else ""}您确定要完成本车${departure_lot_tv.text}吗？") {
+                        mPresenter?.completeCar(modifyData.optInt("Id"), modifyData.optString("InoneVehicleFlag"))
+                    }.show()
                 }
             }
 
@@ -252,10 +254,6 @@ class FixedTrunkDepartureHouseActivity : BaseFixedTrunkDepartureHouseActivity<Fi
 
     fun refreshShowOut() {
         var showStr = mStartWebCode
-        /*   for (item in mOutList) {
-               showStr = "$showStr-${item.key}"
-           }
-           showStr = "$showStr-$mEndWebCode"*/
         for (index in 0 until operating_interval_ll.childCount) {
             val itemCheckBox = operating_interval_ll[index] as CheckBox
             showStr = "$showStr-${itemCheckBox.text}"
@@ -312,6 +310,8 @@ class FixedTrunkDepartureHouseActivity : BaseFixedTrunkDepartureHouseActivity<Fi
             mInventoryListAdapter?.mOnRemoveInterface = null
             mLoadingListAdapter?.mOnRemoveInterface = null
         }
+        refreshTopNumber()
+
     }
 
     override fun modifyS() {
@@ -325,5 +325,14 @@ class FixedTrunkDepartureHouseActivity : BaseFixedTrunkDepartureHouseActivity<Fi
         mInventoryListAdapter?.appendData(list)
         fix_trunk_departure_house_tabLayout.getTabAt(0)?.text = "库存清单(${list.size})"
 
+    }
+
+    var mMaximumVehicleWeight = 0.0
+    override fun getVehicleS(result: String) {
+        val jay = JSONArray(result)
+        if (!jay.isNull(0)) {
+            val obj = jay.getJSONObject(0)
+            mMaximumVehicleWeight = obj.optDouble("supweight", 0.0)
+        }
     }
 }

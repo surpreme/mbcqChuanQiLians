@@ -1,8 +1,10 @@
 package com.mbcq.vehicleslibrary.activity.alldeparturerecord.fixtrunkdeparturehouse
 
 
+import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
@@ -25,7 +27,7 @@ import java.lang.StringBuilder
  * @time: 2020-09-18 11:33
  * 修改 干线发车
  */
-abstract class BaseFixedTrunkDepartureHouseActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V,T>(), BaseView {
+abstract class BaseFixedTrunkDepartureHouseActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
 
     var mInoneVehicleFlag = ""
     override fun initExtra() {
@@ -33,8 +35,41 @@ abstract class BaseFixedTrunkDepartureHouseActivity<V : BaseView, T : BasePresen
         ARouter.getInstance().inject(this)
     }
 
+    var mXVolume = 0.0
+    fun refreshTopInfo() {
+        object : CountDownTimer(500, 500) {
+            override fun onTick(millisUntilFinished: Long) {
 
+            }
 
+            @SuppressLint("SetTextI18n")
+            override fun onFinish() {
+                if (!isDestroyed) {
+                    mLoadingListAdapter?.let {
+                        var mWeight = 0.0
+                        var mVolume = 0.0
+                        var mQty = 0
+                        var mPrice = 0.00
+                        for (item in it.getAllData()) {
+                            if (item.weight.toDoubleOrNull() != null)
+                                mWeight += item.weight.toDouble()
+                            if (item.volumn.toDoubleOrNull() != null)
+                                mVolume += item.volumn.toDouble()
+                            if (item.accSum.toDoubleOrNull() != null)
+                                mPrice += item.accSum.toDouble()
+                            if (item.totalQty.toIntOrNull() != null)
+                                mQty += item.totalQty.toInt()
+
+                        }
+                        mXVolume=mVolume
+                        over_total_info_tv.text = "已 装  车：${it.getAllData().size} 票 $mQty 件 ${haveTwoDouble(mWeight)} Kg ${haveTwoDouble(mVolume)} 方      ${haveTwoDouble(mPrice)}元"
+
+                    }
+                }
+            }
+
+        }.start()
+    }
 
 
     override fun initViews(savedInstanceState: Bundle?) {
@@ -115,7 +150,7 @@ abstract class BaseFixedTrunkDepartureHouseActivity<V : BaseView, T : BasePresen
     }
 
     fun getSelectLoadingOrderItem(): Int {
-        var mResultIndex=0
+        var mResultIndex = 0
         mLoadingListAdapter?.getAllData()?.let {
             for ((_, item) in (it.withIndex())) {
                 if (item.isChecked) {
@@ -227,6 +262,7 @@ abstract class BaseFixedTrunkDepartureHouseActivity<V : BaseView, T : BasePresen
     fun refreshTopNumber() {
         fix_trunk_departure_house_tabLayout.getTabAt(0)?.text = "库存清单(${mInventoryListAdapter?.getAllData()?.size})"
         fix_trunk_departure_house_tabLayout.getTabAt(1)?.text = "配载清单(${mLoadingListAdapter?.getAllData()?.size})"
+        refreshTopInfo()
     }
 
     fun removeSomeThing() {

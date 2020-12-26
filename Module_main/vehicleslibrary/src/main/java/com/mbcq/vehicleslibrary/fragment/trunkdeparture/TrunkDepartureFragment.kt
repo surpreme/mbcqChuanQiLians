@@ -44,6 +44,7 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
                 val job = JSONObject()
                 job.put("InoneVehicleFlag", itemData.inoneVehicleFlag)
                 job.put("Id", itemData.id)
+                job.put("VehicleNo", itemData.vehicleNo)
                 ARouter.getInstance().build(ARouterConstants.FixedTrunkDepartureHouseActivity).withString("FixedTrunkDepartureHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
 
             }
@@ -56,12 +57,15 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
                 val job = JSONObject()
                 job.put("InoneVehicleFlag", itemData.inoneVehicleFlag)
                 job.put("Id", itemData.id)
+                job.put("VehicleNo", itemData.vehicleNo)
                 ARouter.getInstance().build(ARouterConstants.FixedTrunkDepartureHouseActivity).withString("FixedTrunkDepartureHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
             }
 
         }
     }
-
+    override fun setIsShowNetLoading(): Boolean {
+        return false
+    }
     override fun getLayoutResId(): Int = R.layout.fragment_trunk_departure
 
     @SuppressLint("SetTextI18n")
@@ -76,6 +80,19 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
         refresh()
     }
 
+    override fun initViews(view: View) {
+        super.initViews(view)
+        search_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                if (billno_ed.text.toString().isNotBlank()) {
+                    adapter.clearData()
+                    mPresenter?.searchScanInfo(billno_ed.text.toString())
+                } else
+                    refresh()
+            }
+
+        })
+    }
     @SuppressLint("SimpleDateFormat")
     override fun initExtra() {
         super.initExtra()

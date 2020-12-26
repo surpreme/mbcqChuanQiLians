@@ -7,6 +7,7 @@ import com.mbcq.accountlibrary.fragment.iconadapter.IconViewBean
 import com.mbcq.accountlibrary.fragment.iconadapter.IconViewRecyclerAdapter
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListFragment
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.commonlibrary.ARouterConstants
@@ -21,6 +22,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
     override fun initViews(view: View) {
         super.initViews(view)
         operation_toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
+        operation_toolbar.setCenterTitleText(UserInformationUtil.getWebIdCodeStr(mContext))
 
     }
 

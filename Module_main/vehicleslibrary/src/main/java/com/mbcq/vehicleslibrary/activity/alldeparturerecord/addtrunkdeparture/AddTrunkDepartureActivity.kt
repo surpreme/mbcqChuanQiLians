@@ -83,7 +83,8 @@ class AddTrunkDepartureActivity : BaseAddTrunkDepartureActivity<AddTrunkDepartur
         obj.put("AccOther", 0)// 其它费用
         obj.put("VehicleInterval", UserInformationUtil.getWebIdCodeStr(mContext) + "-" + destination_tv.text.toString())// 发车区间  A-B
         obj.put("Remark", "")// 备注
-
+        if (on_board_weight_tv.text.toString().replace("吨", "").toDoubleOrNull() != null)
+            obj.put("MaximumVehicleWeight", on_board_weight_tv.text.toString().replace("吨", "").toDouble()*1000)// 车载最大重量
         obj.put("SendDate", TimeUtils.getCurrTime2())// 发车日期
         obj.put("VehicleNo", number_plate_tv.text.toString())// 车牌号
         obj.put("Chauffer", driver_name_ed.text.toString())// 司机

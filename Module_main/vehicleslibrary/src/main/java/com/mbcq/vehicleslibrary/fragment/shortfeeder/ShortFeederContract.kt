@@ -13,12 +13,14 @@ class ShortFeederContract {
     interface View : BaseView {
         fun getShortFeederS(list: List<ShortFeederBean>, toltalData: ShortFeederTotalBean)
         fun invalidOrderS()
+//        fun searchScanInfoS(dataJSON: String)
 
     }
 
     interface Presenter : BasePresenter<View> {
         fun getShortFeeder(page:Int, selWebidCode: String, startDate: String, endDate: String)
         fun invalidOrder(inoneVehicleFlag: String, id: Int)
+        fun searchScanInfo(billno: String)
 
     }
 }

@@ -22,6 +22,7 @@ class FixShortFeederHouseContract {
         fun removeOrderItemS(position: Int, item: StockWaybillListBean)
         fun getCarInfo(result: FixShortFeederHouseCarInfo)
         fun getInventoryS(list: List<StockWaybillListBean>)
+        fun getVehicleS(result: String)
 
     }
 
@@ -37,7 +38,10 @@ class FixShortFeederHouseContract {
         fun completeCar(id: Int, inoneVehicleFlag: String)
         //作废本车
         fun invalidOrder(inoneVehicleFlag: String, id: Int)
-
+        /**
+         * 车辆信息
+         */
+        fun getVehicles(vehicleNo:String)
 
     }
 }

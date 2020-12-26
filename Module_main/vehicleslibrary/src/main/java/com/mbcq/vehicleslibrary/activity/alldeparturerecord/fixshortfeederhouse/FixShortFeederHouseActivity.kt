@@ -17,6 +17,7 @@ import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.inventorylist.ShortFeederHouseInventoryListAdapter
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.loadinglist.ShortFeederHouseLoadingListAdapter
 import kotlinx.android.synthetic.main.activity_fix_short_feeder_house.*
+import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -29,6 +30,7 @@ class FixShortFeederHouseActivity : BaseFixShortFeederHouseActivity<FixShortFeed
     @JvmField
     var mFixDataJson: String = ""
     var mInoneVehicleFlag = ""
+    var mMaximumVehicleWeight = 0.0
 
     override fun getLayoutId(): Int = R.layout.activity_fix_short_feeder_house
 
@@ -40,6 +42,7 @@ class FixShortFeederHouseActivity : BaseFixShortFeederHouseActivity<FixShortFeed
         departure_lot_tv.text = "发车批次: $mInoneVehicleFlag"
         mPresenter?.getInventory(1)
         mPresenter?.getCarInfo(mLastData.optInt("Id"), mLastData.optString("InoneVehicleFlag"))
+        mPresenter?.getVehicles(mLastData.optString("VehicleNo"))
     }
 
     override fun initLoadingList() {
@@ -112,7 +115,10 @@ class FixShortFeederHouseActivity : BaseFixShortFeederHouseActivity<FixShortFeed
                 } else if (complete_btn.text == "完成本车") {
                     if (!invalidateCar())
                         return
-                    mPresenter?.completeCar(modifyData.optInt("Id"), modifyData.optString("InoneVehicleFlag"))
+
+                    TalkSureCancelDialog(mContext, getScreenWidth(), "${if (mXVolume > (mMaximumVehicleWeight * 1000)) "本车已超载，" else ""}您确定要完成${departure_lot_tv.text}吗？") {
+                        mPresenter?.completeCar(modifyData.optInt("Id"), modifyData.optString("InoneVehicleFlag"))
+                    }.show()
                 }
             }
 
@@ -200,11 +206,20 @@ class FixShortFeederHouseActivity : BaseFixShortFeederHouseActivity<FixShortFeed
             mInventoryListAdapter?.mOnRemoveInterface = null
             mLoadingListAdapter?.mOnRemoveInterface = null
         }
+        refreshTopNumber()
 
     }
 
     override fun getInventoryS(list: List<StockWaybillListBean>) {
         short_feeder_house_tabLayout.getTabAt(0)?.text = "库存清单(${list.size})"
         mInventoryListAdapter?.appendData(list)
+    }
+
+    override fun getVehicleS(result: String) {
+        val jay = JSONArray(result)
+        if (!jay.isNull(0)) {
+            val obj = jay.getJSONObject(0)
+            mMaximumVehicleWeight = obj.optDouble("supweight", 0.0)
+        }
     }
 }
