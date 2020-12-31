@@ -12,11 +12,9 @@ import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.HttpHeaders
 import com.lzy.okgo.model.HttpParams
 import com.lzy.okgo.request.base.Request
-import com.mbcq.baselibrary.BaseApplication
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
-import com.mbcq.baselibrary.util.system.SystemUtil
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import org.jetbrains.annotations.NotNull
