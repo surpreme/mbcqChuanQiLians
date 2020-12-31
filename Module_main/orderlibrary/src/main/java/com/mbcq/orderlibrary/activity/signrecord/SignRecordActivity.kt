@@ -30,7 +30,7 @@ import java.util.*
 
 /**
  * @author: lzy
- * @time: 2020-10-10 09:33:12 签收记录  异常登记
+ * @time: 2020-10-10 09:33:12 签收记录
  */
 @Route(path = ARouterConstants.SignRecordActivity)
 class SignRecordActivity : BaseSmartMVPActivity<SignRecordContract.View, SignRecordPresenter, SignRecordBean>(), SignRecordContract.View {
@@ -127,8 +127,11 @@ class SignRecordActivity : BaseSmartMVPActivity<SignRecordContract.View, SignRec
         }
     }
 
-    override fun getPageS(list: List<SignRecordBean>) {
+    @SuppressLint("SetTextI18n")
+    override fun getPageS(list: List<SignRecordBean>, totalData: SignRecordToTalBean) {
         appendDatas(list)
+        all_info_bottom_tv.text = "合计：${totalData.rowCou}票，${totalData.qty}件，运费¥${totalData.accSum}"
+        sign_record_toolbar.setCenterTitleText("签收记录(${totalData.rowCou})")
     }
 
     override fun cancelS(position: Int) {

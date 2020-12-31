@@ -46,10 +46,42 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"
             android:lineSpacingExtra="10dp"
-            android:text="运  单 号：10056044123\n开单时间：2020-11-11 18:12\n货      号：44123-100\n发货网点：汕头                        到货网点：义乌青口\n目  的 地：义乌市                     运输方式：零担\n付货方式：送货"
+            android:text="运  单 号：10056044123\n开单时间：2020-11-11 18:12\n货      号：44123-100"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/waybill_state_tv" />
+
+        <LinearLayout
+            android:id="@+id/webinfo_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/basic_info_tv">
+            <TextView
+                android:id="@+id/webinfo_left_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:lineSpacingExtra="10dp"
+                tools:text="发货网点：汕头\n目  的 地：义乌市\n付货方式：送货"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/webinfo_right_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:lineSpacingExtra="10dp"
+                tools:text="到货网点：汕头\n运输方式：义乌市"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+
+
+        </LinearLayout>
 
         <View
             android:id="@+id/basic_info_line"
@@ -58,7 +90,7 @@
             android:layout_marginTop="5dp"
             android:alpha="0.6"
             android:background="@color/base_gray"
-            app:layout_constraintTop_toBottomOf="@+id/basic_info_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/webinfo_ll" />
 
         <TextView
             android:id="@+id/shipper_info_tv"
@@ -109,8 +141,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
             app:layout_constraintTop_toBottomOf="@+id/receiver_info_line" />
 
         <LinearLayout

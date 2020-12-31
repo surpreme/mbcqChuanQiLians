@@ -13,8 +13,8 @@ class ArrivalShortFeederContract {
 
     interface View : BaseView {
         fun getPageS(list: List<ShortFeederBean>)
-//        fun confirmCarS( data: ShortFeederBean, position: Int)
-        fun confirmCarS( position: Int)
+        fun confirmCarS( data: ShortFeederBean, position: Int)
+//        fun confirmCarS( position: Int)
         fun canCelCarS( data: ShortFeederBean, position: Int)
     }
 

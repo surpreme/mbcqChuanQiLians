@@ -45,7 +45,7 @@ class SignRecordPresenter : BasePresenterImpl<SignRecordContract.View>(), SignRe
     }
     ]}
      */
-    override fun getPage(page: Int,selWebidCode: String, startDate: String, endDate: String) {
+    override fun getPage(page: Int, selWebidCode: String, startDate: String, endDate: String) {
         val params = HttpParams()
         params.put("Page", page)
         params.put("Limit", 15)
@@ -59,7 +59,8 @@ class SignRecordPresenter : BasePresenterImpl<SignRecordContract.View>(), SignRe
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {
-                    mView?.getPageS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<SignRecordBean>>() {}.type))
+                    val totalD = Gson().fromJson<SignRecordToTalBean>(obj.optString("totalRow"), SignRecordToTalBean::class.java)
+                    mView?.getPageS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<SignRecordBean>>() {}.type), totalD)
 
                 }
 

@@ -11,9 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
-import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseInventoryAdapter
-import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseLoadingAdapter
-import com.mbcq.vehicleslibrary.fragment.localagentshortfeeder.LocalGentByCarAdapter
 
 class TerminalAgentByCarAdapter(context: Context?) : BaseRecyclerAdapter<TerminalAgentByCarBean>(context) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_terminal_agent_bycar, parent, false))

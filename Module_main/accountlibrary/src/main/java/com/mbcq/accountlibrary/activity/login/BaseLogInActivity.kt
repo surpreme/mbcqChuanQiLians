@@ -5,28 +5,19 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
-import android.view.View
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.arcsoft.face.ErrorInfo
+import com.arcsoft.face.FaceEngine
 import com.mbcq.accountlibrary.R
-import com.mbcq.baselibrary.db.SPUtil
+import com.mbcq.accountlibrary.activity.facerecognition.RegisterAndRecognizeActivity
+import com.mbcq.baselibrary.db.SharePreferencesHelper
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
-import com.mbcq.baselibrary.finger.FingerConstant
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
-import com.mbcq.baselibrary.view.SingleClick
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.commonlibrary.ARouterConstants
-import com.mbcq.commonlibrary.CommonApplication
-import com.mbcq.commonlibrary.db.WebAreaDbInfo
-import com.mbcq.commonlibrary.greendao.DaoMaster
-import com.mbcq.commonlibrary.greendao.DaoMaster.DevOpenHelper
-import com.mbcq.commonlibrary.greendao.DaoSession
-import com.mbcq.commonlibrary.greendao.WebAreaDbInfoDao
-import com.mbcq.commonlibrary.scan.scanlogin.QrCodeDialogFragment
+import com.mbcq.commonlibrary.Constant
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_log_in.*
 
@@ -38,13 +29,29 @@ abstract class BaseLogInActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseD
     lateinit var rxPermissions: RxPermissions
     var isSavePsw: Boolean = true
     override fun isShowErrorDialog(): Boolean = true
-
+    var isFaceActive = false
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_gray)
         rxPermissions = RxPermissions(this)
         number_get_edit.setText(UserInformationUtil.getUserName(mContext))
-        getCallPhone()
+        getFaceEngine()
+
+    }
+
+    private fun getFaceEngine() {
+        val hongruanFaceShareP = SharePreferencesHelper(mContext, Constant.HONGRUAN_SHAREPREFERENCES)
+        isFaceActive = hongruanFaceShareP.getSharePreference(Constant.HONGRUAN_IS_ACTIVATE, false) as Boolean
+        if (!isFaceActive) {
+            val activeCode = FaceEngine.activeOnline(mContext, Constant.HONGRUAN_APP_ID, Constant.HONGRUAN_SDK_KEY)
+            if (activeCode == ErrorInfo.MOK) {
+                LogUtils.d("人脸引擎激活成功")
+                hongruanFaceShareP.put(Constant.HONGRUAN_IS_ACTIVATE, true)
+            } else {
+                TalkSureDialog(mContext, getScreenWidth(), "人脸引擎激活失败 $activeCode").show()
+            }
+
+        }
     }
 
 
@@ -90,21 +97,22 @@ abstract class BaseLogInActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseD
         }.start()
     }
 
-    private fun getCallPhone() {
+    protected fun getCamera() {
         //
-        rxPermissions.request(Manifest.permission.CALL_PHONE)
+        rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE)
                 .subscribe { granted ->
                     if (granted) { // Always true pre-M
                         // I can control the camera now
 //                        ScanDialogFragment(getScreenWidth()).show(supportFragmentManager, "ScanDialogFragment")
+                        if (isFaceActive) {
+                            startActivity(RegisterAndRecognizeActivity::class.java)
+                            /* ARouter.getInstance().build(ARouterConstants.FaceRecognitionActivity).navigation()*/
+                        }
                     } else {
                         // Oups permission denied
                     }
                 }
     }
-
-
-
 
 
 }

@@ -15,6 +15,8 @@ import com.lzy.okgo.request.base.Request
 import com.mbcq.baselibrary.BaseApplication
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.util.log.LogUtils
+import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
+import com.mbcq.baselibrary.util.system.SystemUtil
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import org.jetbrains.annotations.NotNull
@@ -37,17 +39,26 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
 
     protected fun getRequestBody(jsonObject: JsonObject): RequestBody {
         val JSON = MediaType.parse("application/json; charset=utf-8")
+        jsonObject.addProperty("FromType","3")
+        jsonObject.addProperty("FromTypeStr","Android")
+        jsonObject.addProperty("DeviceNo", PhoneDeviceMsgUtils.getDeviceOnlyTag(mView?.getContext()))
         return RequestBody.create(JSON, Gson().toJson(jsonObject))
     }
 
     protected fun getRequestBody(jsonObject: JSONObject): RequestBody {
         val JSON = MediaType.parse("application/json; charset=utf-8")
+        jsonObject.put("FromType","3")
+        jsonObject.put("FromTypeStr","Android")
+        jsonObject.put("DeviceNo", PhoneDeviceMsgUtils.getDeviceOnlyTag(mView?.getContext()))
         return RequestBody.create(JSON, GsonUtils.toPrettyFormat(jsonObject.toString()))
     }
 
     protected fun getRequestBody(json: String): RequestBody {
-        val JSON = MediaType.parse("application/json; charset=utf-8")
-        return RequestBody.create(JSON, json)
+        val jsonObject=JSONObject(json)
+        jsonObject.put("FromType","3")
+        jsonObject.put("FromTypeStr","Android")
+        jsonObject.put("DeviceNo", PhoneDeviceMsgUtils.getDeviceOnlyTag(mView?.getContext()))
+        return getRequestBody(jsonObject)
     }
 
     protected fun <T> post(url: String, body: RequestBody, callback: CallBacks) {

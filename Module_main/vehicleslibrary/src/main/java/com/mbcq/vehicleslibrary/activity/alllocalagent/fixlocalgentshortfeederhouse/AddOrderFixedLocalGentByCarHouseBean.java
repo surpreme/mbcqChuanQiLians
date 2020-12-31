@@ -1,7 +1,7 @@
 package com.mbcq.vehicleslibrary.activity.alllocalagent.fixlocalgentshortfeederhouse;
 
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseBean;
-import com.mbcq.vehicleslibrary.fragment.localagentshortfeeder.LocalGentByCarBean;
+import com.mbcq.vehicleslibrary.fragment.localagentshortfeeder.bycar.LocalGentByCarBean;
 
 import java.util.List;
 

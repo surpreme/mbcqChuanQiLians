@@ -3,11 +3,15 @@ package com.mbcq.vehicleslibrary.fragment.arrivalshortfeeder
 
 import android.annotation.SuppressLint
 import android.view.View
+import com.alibaba.android.arouter.launcher.ARouter
+import com.google.gson.Gson
+import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseListMVPFragment
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
+import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordEvent
 import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederBean
@@ -32,10 +36,11 @@ class ArrivalShortFeederFragment : BaseListMVPFragment<ArrivalShortFeederContrac
 
 
     override fun getRecyclerViewId(): Int = R.id.arrival_short_list_recycler
+
     @SuppressLint("SimpleDateFormat")
     override fun initExtra() {
         super.initExtra()
-        mContext?.let {
+        mContext.let {
             val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
             val mDate = Date(System.currentTimeMillis())
             val format = mDateFormat.format(mDate)
@@ -46,6 +51,7 @@ class ArrivalShortFeederFragment : BaseListMVPFragment<ArrivalShortFeederContrac
         }
 
     }
+
     @SuppressLint("CheckResult")
     override fun initDatas() {
         super.initDatas()
@@ -112,7 +118,20 @@ class ArrivalShortFeederFragment : BaseListMVPFragment<ArrivalShortFeederContrac
     override fun setAdapter(): BaseRecyclerAdapter<ShortFeederBean> = ArrivalShortFeederAdapter(mContext).also {
         it.mOnArrivalConfirmInterface = object : ArrivalShortFeederAdapter.OnArrivalConfirmInterface {
             override fun onResult(position: Int, data: ShortFeederBean) {
-                mPresenter?.confirmCar(data, position)
+                TalkSureCancelDialog(mContext, getScreenWidth(), "您确认要到车${data.inoneVehicleFlag}吗？") {
+                    mPresenter?.confirmCar(data, position)
+                }.show()
+            }
+
+            override fun onCancel(position: Int, data: ShortFeederBean) {
+                TalkSureCancelDialog(mContext, getScreenWidth(), "您确认要取消到车${data.inoneVehicleFlag}吗？") {
+                    mPresenter?.canCelCar(data, position)
+                }.show()
+
+            }
+
+            override fun onUnloadingWarehousing(position: Int, data: ShortFeederBean) {
+                ARouter.getInstance().build(ARouterConstants.ShortFeederUnloadingWarehousingActivity).withString("ShortFeederUnloadingWarehousing", Gson().toJson(data)).navigation()
             }
 
         }
@@ -123,13 +142,19 @@ class ArrivalShortFeederFragment : BaseListMVPFragment<ArrivalShortFeederContrac
 
     }
 
-    override fun confirmCarS(position: Int) {
-        adapter.removeItem(position)
+    override fun confirmCarS(data: ShortFeederBean, position: Int) {
+        adapter.notifyItemChangeds(position, data)
 
     }
 
+    /* override fun confirmCarS(position: Int) {
+         adapter.removeItem(position)
+
+     }*/
+
 
     override fun canCelCarS(data: ShortFeederBean, position: Int) {
+        adapter.notifyItemChangeds(position, data)
 
     }
 

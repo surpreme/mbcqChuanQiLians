@@ -11,14 +11,14 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class SignRecordContract {
 
     interface View : BaseView {
-        fun getPageS(list: List<SignRecordBean>)
-        fun cancelS( position: Int)
+        fun getPageS(list: List<SignRecordBean>, totalData: SignRecordToTalBean)
+        fun cancelS(position: Int)
 
     }
 
     interface Presenter : BasePresenter<View> {
 
-        fun getPage(page: Int,selWebidCode: String, startDate: String, endDate: String)
+        fun getPage(page: Int, selWebidCode: String, startDate: String, endDate: String)
         fun cancel(data: String, position: Int)
     }
 }

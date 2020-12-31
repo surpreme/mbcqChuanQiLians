@@ -20,7 +20,7 @@ class ShortFeederHouseContract {
 
     interface Presenter : BasePresenter<View> {
         fun saveInfo(ob: JSONObject)
-        fun getInventory(page: Int)
+        fun getInventory(page: Int, ewebidCodeStr: String)
 
     }
 }

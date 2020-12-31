@@ -4,6 +4,7 @@ package com.mbcq.vehicleslibrary.activity.arrivaltrunkdeparturescanoperating
 import android.Manifest
 import android.os.Bundle
 import android.view.View
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
@@ -24,6 +25,9 @@ import kotlinx.android.synthetic.main.activity_arrival_trunk_departure_scan_oper
 
 @Route(path = ARouterConstants.ArrivalTrunkDepartureScanOperatingActivity)
 class ArrivalTrunkDepartureScanOperatingActivity : BaseListMVPActivity<ArrivalTrunkDepartureScanOperatingContract.View, ArrivalTrunkDepartureScanOperatingPresenter, ArrivalTrunkDepartureScanOperatingBean>(), ArrivalTrunkDepartureScanOperatingContract.View {
+    @Autowired(name = "ArrivalVehicles")
+    @JvmField
+    var mLastData: String = ""
     lateinit var rxPermissions: RxPermissions
 
 

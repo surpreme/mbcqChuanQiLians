@@ -293,6 +293,9 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                     ARouter.getInstance().build(ARouterConstants.PrintAcceptBillingActivity).navigation()
 
                                 }
+                                8->{
+                                    //TODO 当日运单删除
+                                }
 
                                 9 -> {
                                     ARouter.getInstance().build(ARouterConstants.ShipmentInventoryActivity).navigation()

@@ -62,7 +62,6 @@
         android:layout_height="50dp"
         android:background="@color/white"
         android:paddingTop="10dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
 
 

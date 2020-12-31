@@ -11,12 +11,14 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class AcceptBillingRecordingContract {
 
     interface View : BaseView {
-        fun getPageS(list:List<AcceptBillingRecordingBean>)
+        fun getPageS(list: List<AcceptBillingRecordingBean>)
+        fun rejectOrderS(result: String, position: Int)
 
     }
 
     interface Presenter : BasePresenter<View> {
         fun getPage(page: Int, selWebidCode: String, startDate: String, endDate: String)
 
+        fun rejectOrder(billno: String, id: String, position: Int)
     }
 }

@@ -1,5 +1,6 @@
 package com.mbcq.orderlibrary.activity.signrecord
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +22,14 @@ class SignRecordRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<SignRec
         fun result(v: View, position: Int, item: SignRecordBean)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ItemViewHolder).waybill_number_tv.text = mDatas[position].billno
+        holder.shipper_outlets_tv.text = mDatas[position].webidCodeStr
+        holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
+        holder.destination_tv.text = mDatas[position].destination
+        holder.receiver_tv.text = "收货人:${mDatas[position].consignee} xxxxxxxx"
+        holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].qty}件 包装xxxxxxxx"
         holder.waybill_number_tv.text = mDatas[position].billno
         holder.waybill_time_tv.text = mDatas[position].fetchDate
         context?.let {

@@ -63,9 +63,10 @@ class ArrivalShortFeederPresenter : BasePresenterImpl<ArrivalShortFeederContract
         jsonObj.put("DbVehicleDetLst", jsonArray)
         post<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_ARRIVAL_CONFIRM_LOCAL_INFO_POST, getRequestBody(jsonObj), object : CallBacks {
             override fun onResult(result: String) {
-              /*  data.vehicleState = 2
-                data.vehicleStateStr = "到货"*/
-                mView?.confirmCarS( position)
+                data.vehicleState = 2
+                data.vehicleStateStr = "到货"
+                mView?.confirmCarS(data, position)
+//                mView?.confirmCarS( position)
             }
 
         })
@@ -91,9 +92,9 @@ class ArrivalShortFeederPresenter : BasePresenterImpl<ArrivalShortFeederContract
 
         post<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_ARRIVAL_CANCEL_LOCAL_INFO_GET, getRequestBody(Gson().toJson(data)), object : CallBacks {
             override fun onResult(result: String) {
-                /* data.vehicleState = 2
-                 data.vehicleStateStr = "到货处理结束"
-                 mView?.confirmCarS(data, position)*/
+                data.vehicleState = 1
+                data.vehicleStateStr = "发货"
+                mView?.canCelCarS(data, position)
             }
 
         })

@@ -136,9 +136,9 @@
                 android:id="@+id/arrive_outlet_down_iv"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:padding="7dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="1dp"
+                android:padding="7dp"
                 android:src="@drawable/ic_down_icon"
                 app:layout_constraintBottom_toBottomOf="@id/arrive_outlet_title_tv"
                 app:layout_constraintLeft_toRightOf="@+id/arrive_outlet_tv"
@@ -208,9 +208,9 @@
                 android:id="@+id/destination_down_iv"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:padding="7dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="1dp"
+                android:padding="7dp"
                 android:src="@drawable/ic_down_icon"
                 app:layout_constraintBottom_toBottomOf="@id/destination_title_tv"
                 app:layout_constraintLeft_toRightOf="@+id/destinationt_tv"
@@ -481,11 +481,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
                         android:gravity="left|center"
                         android:minWidth="80dp"
                         android:text="手机号"
-
                         android:textColor="@color/black"
                         android:textSize="17sp" />
 
@@ -508,11 +506,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
                         android:gravity="left|center"
                         android:minWidth="80dp"
                         android:text="姓名"
-
                         android:textColor="@color/black"
                         android:textSize="17sp" />
 
@@ -534,11 +530,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
                         android:gravity="left|center"
                         android:minWidth="80dp"
                         android:text="公司名称"
-
                         android:textColor="@color/black"
                         android:textSize="17sp" />
 
@@ -611,7 +605,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
                         android:gravity="left|center"
                         android:minWidth="80dp"
                         android:text="地址"
@@ -951,9 +944,9 @@
                             android:id="@+id/cargo_name_down_iv"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:padding="7dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="5dp"
+                            android:padding="7dp"
                             android:src="@drawable/ic_down_icon" />
 
                     </LinearLayout>
@@ -1039,9 +1032,9 @@
                             android:id="@+id/package_name_down_iv"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:padding="7dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="5dp"
+                            android:padding="7dp"
                             android:src="@drawable/ic_down_icon" />
 
                     </LinearLayout>
@@ -1107,7 +1100,7 @@
                             android:gravity="left|center"
                             android:text="体积"
                             android:textColor="@color/black"
-                            android:textSize="16dp"  />
+                            android:textSize="16dp" />
 
                         <EditText
                             android:id="@+id/volume_name_ed"
@@ -1115,11 +1108,11 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.7"
                             android:gravity="left|center"
+                            android:inputType="numberDecimal"
                             android:maxLines="1"
                             android:minWidth="20dp"
                             android:textColor="@color/black"
-                            android:textSize="16dp"
-                            android:inputType="numberDecimal" />
+                            android:textSize="16dp" />
 
                         <ImageView
                             android:id="@+id/volume_name_calculation_iv"
@@ -1958,9 +1951,9 @@
                 android:id="@+id/receipt_requirements_name_down_iv"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:padding="6dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="3dp"
+                android:padding="6dp"
                 android:src="@drawable/ic_down_icon"
                 app:layout_constraintBottom_toBottomOf="@+id/receipt_requirements_title_tv"
                 app:layout_constraintLeft_toRightOf="@+id/receipt_requirements_name_ed"
@@ -2116,9 +2109,9 @@
                 android:id="@+id/pre_installed_car_number_name_down_iv"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:padding="6dp"
-                android:layout_marginBottom="3dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginBottom="3dp"
+                android:padding="6dp"
                 android:src="@drawable/ic_down_icon"
                 app:layout_constraintBottom_toBottomOf="@+id/pre_installed_car_number_title_tv"
                 app:layout_constraintRight_toRightOf="@+id/pre_installed_car_number_name_tv"
@@ -2204,9 +2197,9 @@
                 android:id="@+id/salesman_name_down_iv"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:padding="6dp"
-                android:layout_marginBottom="3dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginBottom="3dp"
+                android:padding="6dp"
                 android:src="@drawable/ic_down_icon"
                 app:layout_constraintBottom_toBottomOf="@+id/salesman_name_tv"
                 app:layout_constraintRight_toRightOf="@+id/salesman_name_tv"

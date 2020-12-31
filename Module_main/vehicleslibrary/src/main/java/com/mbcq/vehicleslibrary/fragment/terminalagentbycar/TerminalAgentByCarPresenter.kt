@@ -5,7 +5,6 @@ import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
-import com.mbcq.vehicleslibrary.fragment.localagentshortfeeder.LocalGentByCarBean
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener

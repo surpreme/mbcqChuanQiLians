@@ -120,10 +120,11 @@ class ShortFeederHousePresenter : BasePresenterImpl<ShortFeederHouseContract.Vie
     ]}
      */
 
-    override fun getInventory(page: Int) {
+    override fun getInventory(page: Int, ewebidCodeStr: String) {
         val params = HttpParams()
         params.put("page", 1)
         params.put("limit", 1000)
+        params.put("ewebidCodeStr", ewebidCodeStr)
         get<String>(ApiInterface.WAYBILL_INVENTORY_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
 

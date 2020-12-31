@@ -86,12 +86,13 @@ class AddShortFeederActivity : BaseAddShortFeederActivity<AddShortFeederContract
         obj.put("Chauffer", driver_name_ed.text.toString())// 司机
         obj.put("ChaufferMb", contact_number_ed.text.toString())// 司机手机号码
         obj.put("ChaufferMb", contact_number_ed.text.toString())// 司机手机号码
-        obj.put("EwebidCodeStr", destination_tv.text.toString())// 到车网点
-        if (on_board_weight_tv.text.toString().replace("吨", ""). toDoubleOrNull () != null)
+        obj.put("ewebidCodeStr", destination_tv.text.toString())// 到车网点
+        if (on_board_weight_tv.text.toString().replace("吨", "").toDoubleOrNull() != null)
             obj.put("MaximumVehicleWeight", on_board_weight_tv.text.toString().replace("吨", "").toDouble() * 1000)// 车载最大重量
         obj.put("SendOpeMan", UserInformationUtil.getUserName(mContext))// 发车操作人
         obj.put("WebidCode", UserInformationUtil.getWebIdCode(mContext))// 发车网点编码
         obj.put("WebidCodeStr", UserInformationUtil.getWebIdCodeStr(mContext))// 发车网点
+        obj.put("vehicleShape", mVehicleShape)//车辆用途种类
         val json = GsonUtils.toPrettyFormat(obj.toString())
         ARouter.getInstance().build(ARouterConstants.ShortFeederHouseActivity).withString("ShortFeederHouse", json).navigation()
         this.finish()
@@ -139,6 +140,7 @@ class AddShortFeederActivity : BaseAddShortFeederActivity<AddShortFeederContract
         contract_No_tv.text = inOneVehicleFlag
     }
 
+    var mVehicleShape = ""
     override fun getVehicleS(result: String) {
         FilterDialog(getScreenWidth(), result, "vehicleno", "选择车牌号", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             @SuppressLint("SetTextI18n")
@@ -149,6 +151,7 @@ class AddShortFeederActivity : BaseAddShortFeederActivity<AddShortFeederContract
                 contact_number_ed.setText(mSelectData.chauffermb)
                 vehicle_type_tv.text = if (mSelectData.vehicletype == 1) "大车" else if (mSelectData.vehicletype == 2) "小车" else "未知车型"
                 on_board_weight_tv.text = "${mSelectData.supweight}吨"
+                mVehicleShape=mSelectData.vehicleshape
             }
 
         }).show(supportFragmentManager, "getVehicleSFilterDialog")

@@ -62,7 +62,7 @@ class ArrivalTrunkDeparturePresenter : BasePresenterImpl<ArrivalTrunkDepartureCo
         mHttpParams.put("selEwebidCode", selEwebidCode)
         mHttpParams.put("startDate", startDate)
         mHttpParams.put("endDate", endDate)
-        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_LOADING_LOCAL_INFO_GET , mHttpParams, object : CallBacks {
+        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_LOADING_LOCAL_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 mView?.getPageS(Gson().fromJson<List<TrunkDepartureBean>>(obj.optString("data"), object : TypeToken<List<TrunkDepartureBean>>() {}.type))
@@ -76,7 +76,7 @@ class ArrivalTrunkDeparturePresenter : BasePresenterImpl<ArrivalTrunkDepartureCo
         mHttpParams.put("selEwebidCode", selEwebidCode)
         mHttpParams.put("startDate", startDate)
         mHttpParams.put("endDate", endDate)
-        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_OVERRING_LOCAL_INFO_GET , mHttpParams, object : CallBacks {
+        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_OVERRING_LOCAL_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 mView?.getPageS(Gson().fromJson<List<TrunkDepartureBean>>(obj.optString("data"), object : TypeToken<List<TrunkDepartureBean>>() {}.type))
@@ -97,10 +97,10 @@ class ArrivalTrunkDeparturePresenter : BasePresenterImpl<ArrivalTrunkDepartureCo
         jsonObj.put("GxVehicleDetLst", jsonArray)
         post<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_ARRIVAL_CONFIRM_LOCAL_INFO_POST, getRequestBody(jsonObj), object : CallBacks {
             override fun onResult(result: String) {
-                /* data.vehicleState = 2
-                 data.vehicleStateStr = "到货处理结束"*/
-//                mView?.confirmCarS(data, position)
-                mView?.confirmCarS(position)
+                data.vehicleState = 2
+                data.vehicleStateStr = "到货"
+                mView?.confirmCarS(data, position)
+//                mView?.confirmCarS(position)
             }
 
         })
@@ -109,9 +109,9 @@ class ArrivalTrunkDeparturePresenter : BasePresenterImpl<ArrivalTrunkDepartureCo
     override fun canCelCar(data: TrunkDepartureBean, position: Int) {
         post<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_ARRIVAL_CANCEL_LOCAL_INFO_POST, getRequestBody(Gson().toJson(data)), object : CallBacks {
             override fun onResult(result: String) {
-                /* data.vehicleState = 2
-                 data.vehicleStateStr = "到货处理结束"
-                 mView?.confirmCarS(data, position)*/
+                data.vehicleState = 1
+                data.vehicleStateStr = "发货"
+                mView?.canCelCarS(data, position)
             }
 
         })

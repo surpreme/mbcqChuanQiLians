@@ -1934,11 +1934,12 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/pay_way_title_sl" />
 
-            <TextView
-                android:id="@+id/receipt_requirements_name_tv"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/receipt_requirements_name_ed"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:background="@null"
                 android:gravity="left"
                 android:minWidth="50dp"
                 android:textColor="@color/black"
@@ -2345,18 +2346,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/overring_line" />
 
-            <Button
-                android:id="@+id/make_up_printing_btn"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/round_green"
-                android:text="补打印"
-                android:textColor="@color/white"
-                android:textSize="26sp"
-                app:layout_constraintBottom_toBottomOf="@+id/cancel_btn"
-                app:layout_constraintLeft_toRightOf="@+id/cancel_btn"
-                app:layout_constraintTop_toTopOf="@+id/cancel_btn" />
+
 
             <Button
                 android:id="@+id/save_btn"

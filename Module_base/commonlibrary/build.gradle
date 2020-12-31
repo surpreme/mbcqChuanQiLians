@@ -29,6 +29,10 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+        ndk {
+            abiFilters "arm64-v8a", "armeabi-v7a","x86"
+        }
+
     }
 
     buildTypes {
@@ -65,11 +69,13 @@ dependencies {
     api 'com.superluo:textbannerview:1.0.5'  //最新版本
     api files('libs/zp_cpcl_new.jar')//芝柯打印机
     api files('libs/ReaderManager.jar')//PDA扫码枪
+    api files('libs/arcsoft_face.jar')//虹软人脸
+    api files('libs/arcsoft_image_util.jar')//虹软人脸
 
     //高德地图配置结束----
 }
 //设置greenGao配置
-greendao{
+greendao {
     //版本号
     schemaVersion 2
     //设置新建的三个文件包的位置

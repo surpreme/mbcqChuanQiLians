@@ -147,7 +147,7 @@ public class GoodsReceiptBean {
     private double safeMoney;
     private double accDaiShou;
     private double accHKChange;
-    private String hkChangeReason;
+    private String hkChangeReason="";
     private double sxf;
     private double wPrice;
     private double vPrice;

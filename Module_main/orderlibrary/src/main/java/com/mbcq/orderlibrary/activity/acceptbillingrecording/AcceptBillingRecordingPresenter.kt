@@ -41,23 +41,35 @@ class AcceptBillingRecordingPresenter : BasePresenterImpl<AcceptBillingRecording
     "fromType": 0,
     "fromTypeStr": null
     }
-     ]}
+    ]}
      */
     override fun getPage(page: Int, selWebidCode: String, startDate: String, endDate: String) {
-        val param=HttpParams()
-        param.put("Page",page)
-        param.put("Limit",15)
+        val param = HttpParams()
+        param.put("Page", page)
+        param.put("Limit", 15)
         param.put("SelWebidCode", selWebidCode)
         param.put("startDate", startDate)
         param.put("endDate", endDate)
-        get<String>(ApiInterface.FIXED_WAYBILL_RECORD_GET,param,object:CallBacks{
+        get<String>(ApiInterface.FIXED_WAYBILL_RECORD_GET, param, object : CallBacks {
             override fun onResult(result: String) {
-                val obj=JSONObject(result)
+                val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {
-                    mView?.getPageS(Gson().fromJson(obj.optString("data"),object : TypeToken<List<AcceptBillingRecordingBean>>() {}.type))
+                    mView?.getPageS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<AcceptBillingRecordingBean>>() {}.type))
 
                 }
 
+            }
+
+        })
+    }
+
+    override fun rejectOrder(billno: String, id: String, position: Int) {
+        val jsonObj = JSONObject()
+        jsonObj.put("billno", billno)
+        jsonObj.put("id", id)
+        post<String>(ApiInterface.ACCEPT_BILLING_RECORDING_REJECT_ORDER_POST, getRequestBody(jsonObj), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.rejectOrderS(result, position)
             }
 
         })

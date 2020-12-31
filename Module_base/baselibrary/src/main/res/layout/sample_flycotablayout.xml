@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--解决原生tab无法设置底部指示器宽度的缺陷-->
+
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/local_agent_tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/local_agent_toolbar"
+        app:tl_iconVisible="false"
+        app:tl_indicator_bounce_enable="false"
+        app:tl_indicator_color="@color/base_blue"
+        app:tl_indicator_gravity="BOTTOM"
+        app:tl_indicator_height="3dp"
+        app:tl_indicator_width="115dp"
+        app:tl_textSelectColor="@color/base_blue"
+        app:tl_textUnselectColor="@color/black"
+        app:tl_textsize="15sp"
+        app:tl_underline_color="@color/white"
+        app:tl_underline_gravity="BOTTOM"
+        app:tl_underline_height="3dp" />
+
+</LinearLayout>

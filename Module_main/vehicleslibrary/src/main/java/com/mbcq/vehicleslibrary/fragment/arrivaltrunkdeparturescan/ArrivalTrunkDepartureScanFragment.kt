@@ -1,9 +1,7 @@
 package com.mbcq.vehicleslibrary.fragment.arrivaltrunkdeparturescan
 
 
-import android.os.Bundle
 import android.view.View
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListMVPActivity

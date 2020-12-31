@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scan_info_father_cl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="@drawable/hollow_out_gray"
+    android:padding="7dp">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|left"
+        android:paddingLeft="10dp"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="100560441230003" />
+
+    <TextView
+        android:id="@+id/scan_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2020-12-11  11:12:03" />
+
+    <TextView
+        android:id="@+id/scan_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="10dp"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text"
+        tools:text="王大脚 PDA 短驳发车" />
+
+
+    <TextView
+        android:id="@+id/scan_inOneVehicleFlag_info_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="3dp"
+        android:textColor="@color/base_red"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/scan_name_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text='扫描网点：汕头 DB1003-20201211-003' />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

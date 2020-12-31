@@ -8,6 +8,11 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.billy.android.swipe.SmartSwipe
+import com.billy.android.swipe.SmartSwipeWrapper
+import com.billy.android.swipe.SwipeConsumer
+import com.billy.android.swipe.consumer.TranslucentSlidingConsumer
+import com.billy.android.swipe.listener.SimpleSwipeListener
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
@@ -74,6 +79,21 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
 
     override fun onClick() {
         super.onClick()
+        //侧滑动画
+        SmartSwipe.wrap(this)
+                .addConsumer(TranslucentSlidingConsumer())
+                .enableLeft() //启用左右两侧侧滑
+                .addListener(object : SimpleSwipeListener() {
+                    override fun onSwipeOpened(wrapper: SmartSwipeWrapper?, consumer: SwipeConsumer, direction: Int) {
+                        super.onSwipeOpened(wrapper, consumer, direction)
+                        if (direction == SwipeConsumer.DIRECTION_LEFT) {
+                            val mBean = DepartureTrunkDepartureScanOperatingScanMoreInfoBean()
+                            mBean.inOneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
+                            mBean.setmType(1)
+                            ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingScanInfoActivity).withSerializable("departureScanInfo", mBean).navigation()
+                        }
+                    }
+                })
         look_local_car_info_tv.apply {
             onSingleClicks {
                 val mBean = DepartureTrunkDepartureScanOperatingScanMoreInfoBean()
@@ -322,6 +342,13 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
                 val mBean = Gson().fromJson<DepartureTrunkDepartureScanOperatingScanMoreInfoBean>(testDataStr, DepartureTrunkDepartureScanOperatingScanMoreInfoBean::class.java)
                 mBean.inOneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
                 mBean.goodsTotalNum = data.totalQty
+                ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingScanInfoActivity).withSerializable("departureScanInfo", mBean).navigation()
+            }
+
+            override fun lookAllInfo(v: View, position: Int, data: DepartureTrunkDepartureScanOperatingBean) {
+                val mBean = DepartureTrunkDepartureScanOperatingScanMoreInfoBean()
+                mBean.inOneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
+                mBean.setmType(1)
                 ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingScanInfoActivity).withSerializable("departureScanInfo", mBean).navigation()
             }
 

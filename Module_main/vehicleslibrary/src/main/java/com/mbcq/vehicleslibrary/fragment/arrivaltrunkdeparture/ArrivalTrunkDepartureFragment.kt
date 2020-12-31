@@ -3,6 +3,7 @@ package com.mbcq.vehicleslibrary.fragment.arrivaltrunkdeparture
 
 import android.annotation.SuppressLint
 import android.view.View
+import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseListMVPFragment
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
@@ -33,7 +34,7 @@ class ArrivalTrunkDepartureFragment : BaseListMVPFragment<ArrivalTrunkDepartureC
     @SuppressLint("SimpleDateFormat")
     override fun initExtra() {
         super.initExtra()
-        mContext?.let {
+        mContext.let {
             val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
             val mDate = Date(System.currentTimeMillis())
             val format = mDateFormat.format(mDate)
@@ -48,7 +49,18 @@ class ArrivalTrunkDepartureFragment : BaseListMVPFragment<ArrivalTrunkDepartureC
     override fun setAdapter() = ArrivalTrunkDepartureAdapter(mContext).also {
         it.mOnArrivalConfirmInterface = object : ArrivalTrunkDepartureAdapter.OnArrivalConfirmInterface {
             override fun onResult(position: Int, data: TrunkDepartureBean) {
-                mPresenter?.confirmCar(data, position)
+                TalkSureCancelDialog(mContext, getScreenWidth(), "您确认要到车${data.inoneVehicleFlag}吗？") {
+                    mPresenter?.confirmCar(data, position)
+                }.show()
+            }
+
+            override fun onCancel(position: Int, data: TrunkDepartureBean) {
+                TalkSureCancelDialog(mContext, getScreenWidth(), "您确认要取消到车${data.inoneVehicleFlag}吗？") {
+                    data.vehicleState = 1
+                    data.vehicleStateStr = "发货"
+                    mPresenter?.canCelCar(data, position)
+
+                }.show()
             }
         }
     }
@@ -128,15 +140,22 @@ class ArrivalTrunkDepartureFragment : BaseListMVPFragment<ArrivalTrunkDepartureC
 
     }
 
-    override fun confirmCarS(position: Int) {
-        adapter.removeItem(position)
+    override fun confirmCarS(data: TrunkDepartureBean, position: Int) {
+        adapter.notifyItemChangeds(position, data)
+
     }
+
+    /* override fun confirmCarS(position: Int) {
+ //        adapter.removeItem(position)
+         refreshDataType(1)
+     }*/
 
     /* override fun confirmCarS(data: TrunkDepartureBean, position: Int) {
          adapter.notifyItemChangeds(position, data)
      }*/
 
     override fun canCelCarS(data: TrunkDepartureBean, position: Int) {
+        adapter.notifyItemChangeds(position, data)
 
     }
 

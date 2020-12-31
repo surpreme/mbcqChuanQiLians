@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="base_orange">#ff6c00</color>
+    <color name="black">#000000</color>
+    <!--    浅灰色-->
+    <color name="base_gray">#EEEEEE</color>
+    <color name="line_gray">#F0EEEE</color>
+    <!--    深灰色-->
+    <color name="base_grayDark">#A0A1A4</color>
+    <color name="base_red">#FF0000</color>
+    <color name="base_blue">#44536DFF</color>
+    <color name="base_gold">#CAA93F</color>
+    <color name="base_un_green">#9CF3FDF0</color>
+    <color name="base_green">#443EEE0A</color>
+    <color name="base_scan_background_green">#ACFDB2</color>
+    <color name="base_coffee">#F2AD4A</color>
+    <color name="dark_keyboard">#9d472c</color>
+    <color name="light_keyboard">#c35b3a</color>
+    <!--    紫色-->
+    <color name="light_purple">#2B2B2B</color>
+
+</resources>

@@ -45,6 +45,14 @@ class LogInActivity : BaseLogInActivity<LogInContract.View, LogInPresenter>(), L
             }
 
         })
+        face_recognition_ll.setOnClickListener(object:SingleClick(){
+            override fun onSingleClick(v: View?) {
+                getCamera()
+
+            }
+
+        })
+
         qrcode_ll.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
 //                QrCodeDialogFragment(getScreenWidth()).show(supportFragmentManager, "QrCodeDialogFragment")

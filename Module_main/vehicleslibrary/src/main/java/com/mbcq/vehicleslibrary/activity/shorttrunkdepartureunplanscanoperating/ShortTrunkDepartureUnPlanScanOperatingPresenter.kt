@@ -112,6 +112,7 @@ class ShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<ShortT
         var mTopLableNo = lableNo
         val params = HttpParams()
         params.put("billno", billno)
+        params.put("limit", "9999")
         /**
          * @scanOpeType 操作类型
          * 0 短驳装车

@@ -228,6 +228,8 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
             val mBlueToothDeviceListBean = BlueToothDeviceListBean()
             mBlueToothDeviceListBean.deviceName = deviceName
             mBlueToothDeviceListBean.deviceHardwareAddress = deviceHardwareAddress
+            if (deviceHardwareAddress == UserInformationUtil.getWayBillBlueToothPrinter(mContext))
+                mBlueToothDeviceListBean.select = true
             mDatas.add(mBlueToothDeviceListBean)
         }
         BlueToothDeviceListDialog(getScreenWidth(), object : OnClickInterface.OnRecyclerClickInterface {

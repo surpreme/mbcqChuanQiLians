@@ -53,6 +53,8 @@ public class AcceptBillingRecordingBean {
     private String cancelRemark;
     private int fromType;
     private String fromTypeStr;
+    private int id;
+    private int fixType =0;
 
     public int getCompanyId() {
         return companyId;
@@ -244,5 +246,21 @@ public class AcceptBillingRecordingBean {
 
     public void setFromTypeStr(String fromTypeStr) {
         this.fromTypeStr = fromTypeStr;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getFixType() {
+        return fixType;
+    }
+
+    public void setFixType(int fixType) {
+        this.fixType = fixType;
     }
 }

@@ -134,7 +134,6 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
     }
 
 
-
     override fun getCarInfo(inoneVehicleFlag: String) {
         val params = HttpParams()
         params.put("InoneVehicleFlag", inoneVehicleFlag)
@@ -155,7 +154,8 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
                                 mCarQty.append(",")
                             }
                         }
-                        getCarScanData(mCarBiilno.toString(), mCarQty.toString(), inoneVehicleFlag)
+                        if (mCarBiilno.toString().isNotBlank())
+                            getCarScanData(mCarBiilno.toString(), mCarQty.toString(), inoneVehicleFlag)
 
                     }
                 }

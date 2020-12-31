@@ -9,6 +9,11 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.billy.android.swipe.SmartSwipe
+import com.billy.android.swipe.SmartSwipeWrapper
+import com.billy.android.swipe.SwipeConsumer
+import com.billy.android.swipe.consumer.TranslucentSlidingConsumer
+import com.billy.android.swipe.listener.SimpleSwipeListener
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
@@ -28,6 +33,7 @@ import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.revoke.RevokeDepartureTrunkDepartureScanDataBean
 import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperatingmoreinfo.DepartureTrunkDepartureScanOperatingScanMoreInfoBean
+import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperatingmoreinfo.ShortTrunkDepartureScanOperatingMoreInfoIntentBean
 import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
 import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.*
 import org.json.JSONArray
@@ -122,6 +128,21 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
 
     override fun onClick() {
         super.onClick()
+        //侧滑动画
+        SmartSwipe.wrap(this)
+                .addConsumer(TranslucentSlidingConsumer())
+                .enableLeft() //启用左右两侧侧滑
+                .addListener(object : SimpleSwipeListener() {
+                    override fun onSwipeOpened(wrapper: SmartSwipeWrapper?, consumer: SwipeConsumer, direction: Int) {
+                        super.onSwipeOpened(wrapper, consumer, direction)
+                        if (direction == SwipeConsumer.DIRECTION_LEFT) {
+                            val mBean = DepartureTrunkDepartureScanOperatingScanMoreInfoBean()
+                            mBean.inOneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
+                            mBean.setmType(1)
+                            ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingScanInfoActivity).withSerializable("departureScanInfo", mBean).navigation()
+                        }
+                    }
+                })
         look_local_car_info_tv.apply {
             onSingleClicks {
                 val mBean = DepartureTrunkDepartureScanOperatingScanMoreInfoBean()
@@ -325,6 +346,13 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
                 val mBean = Gson().fromJson<DepartureTrunkDepartureScanOperatingScanMoreInfoBean>(testDataStr, DepartureTrunkDepartureScanOperatingScanMoreInfoBean::class.java)
                 mBean.inOneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
                 mBean.goodsTotalNum = data.totalQty
+                ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingScanInfoActivity).withSerializable("departureScanInfo", mBean).navigation()
+            }
+
+            override fun lookAllInfo(v: View, position: Int, data: DepartureTrunkDepartureUnPlanScanOperatingBean) {
+                val mBean = DepartureTrunkDepartureScanOperatingScanMoreInfoBean()
+                mBean.inOneVehicleFlag = JSONObject(mLastData).optString("inoneVehicleFlag")
+                mBean.setmType(1)
                 ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingScanInfoActivity).withSerializable("departureScanInfo", mBean).navigation()
             }
 

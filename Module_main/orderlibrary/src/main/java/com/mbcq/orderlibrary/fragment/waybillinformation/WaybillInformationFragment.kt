@@ -56,7 +56,11 @@ class WaybillInformationFragment : BaseMVPFragment<WaybillInformationContract.Vi
 
             }
         }
-        basic_info_tv.text = "运  单 号：${obj.optString("billno")}\n开单时间：${obj.optString("billDate")}\n货      号：${obj.optString("goodsNum")}\n发货网点：${obj.optString("webidCodeStr")}                        到货网点：${obj.optString("ewebidCodeStr")}\n目  的 地：${obj.optString("destination")}                     运输方式：${obj.optString("transneedStr")}\n付货方式：${obj.optString("okProcessStr")}"
+        basic_info_tv.text = "运  单 号：${obj.optString("billno")}\n开单时间：${obj.optString("billDate")}\n货      号：${obj.optString("goodsNum")}"
+        //发货网点：汕头\n目  的 地：义乌市\n付货方式：送货
+        webinfo_left_tv.text = "发货网点：${obj.optString("webidCodeStr")}\n目  的 地：${obj.optString("destination")}\n付货方式：${obj.optString("okProcessStr")}"
+        //到货网点：汕头\n运输方式：义乌市
+        webinfo_right_tv.text = "到货网点：${obj.optString("ewebidCodeStr")}\n运输方式：${obj.optString("transneedStr")}"
         shipper_info_tv.text = "发  货 人：${obj.optString("shipper")}\n手  机 号：${obj.optString("shipperMb")}\n地      址：${obj.optString("shipperAddr")}\n发货人证件：${obj.optString("shipperCid")}"
         receiver_info_tv.text = "收  货 人：${obj.optString("consignee")}\n手  机 号：${obj.optString("consigneeMb")}\n地      址：${obj.optString("consigneeAddr")}"
         goods_info_tv.text = "货物名称：${obj.optString("product")}\n包装方式：${obj.optString("packages")}\n体      积：${obj.optString("volumn")}m³\n保  价 费：${obj.optString("accSafe")}\n送  货 费：${obj.optString("accSend")}\n返      款：${obj.optString("accHuiKou")}\n付款方式：${obj.optString("accTypeStr")}\n实发货款：您看不到我\n备      注：${obj.optString("remark")}"

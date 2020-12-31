@@ -1,163 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
 
-
-    <TextView
-        android:id="@+id/waybill_number_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/base_blue"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="10056044789" />
-
-    <TextView
-        android:id="@+id/waybill_time_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:textSize="16sp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="2020-4-21 12:12:00" />
-
-    <TextView
-        android:id="@+id/applicant_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:textColor="@color/black"
-        android:textSize="17sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/waybill_number_tv"
-        tools:text="申请人：吴轩" />
-
-    <TextView
-        android:id="@+id/apply_outlets_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:textColor="@color/black"
-        android:textSize="17sp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/waybill_number_tv"
-        tools:text="申请网点：义乌青口" />
-
-    <TextView
-        android:id="@+id/modify_content_title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textColor="@color/base_red"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apply_outlets_tv"
-        android:text="修改内容:" />
-
-    <TextView
-        android:id="@+id/modify_content_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textColor="@color/base_red"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toRightOf="@+id/modify_content_title_tv"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apply_outlets_tv"
-        tools:text="运费110元改为200元" />
-
-    <TextView
-        android:id="@+id/modify_reason_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modify_content_tv"
-        tools:text="修改原因：修改运费" />
-
-    <View
-        android:id="@+id/line_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/father_cl"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="15dp"
-        android:background="@color/base_gray"
-        app:layout_constraintTop_toBottomOf="@+id/modify_reason_tv" />
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/waybill_number_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/base_blue"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="10056044789" />
+
+        <TextView
+            android:id="@+id/waybill_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="16sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2020-4-21 12:12:00" />
+
+        <TextView
+            android:id="@+id/applicant_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/waybill_number_tv"
+            tools:text="申请人：吴轩" />
+
+        <TextView
+            android:id="@+id/apply_outlets_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/waybill_number_tv"
+            tools:text="申请网点：义乌青口" />
+
+        <TextView
+            android:id="@+id/modify_content_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="修改内容:"
+            android:textColor="@color/base_red"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/apply_outlets_tv" />
+
+        <TextView
+            android:id="@+id/modify_content_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/base_red"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toRightOf="@+id/modify_content_title_tv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/apply_outlets_tv"
+            tools:text="运费110元改为200元" />
+
+        <TextView
+            android:id="@+id/modify_reason_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/modify_content_tv"
+            tools:text="修改原因：修改运费" />
+
+        <View
+            android:id="@+id/line_view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/base_gray"
+            app:layout_constraintTop_toBottomOf="@+id/modify_reason_tv" />
+
+        <LinearLayout
+            android:id="@+id/review_father_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_view">
+
+            <ImageView
+                android:id="@+id/operation_review_iv"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_review_accept_state_icon" />
+
+            <TextView
+                android:id="@+id/operation_review_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="运营审核"
+                android:textColor="#8a8a8a" />
+
+            <ImageView
+                android:id="@+id/financial_audit_iv"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/ic_review_accept_state_icon" />
+
+            <TextView
+                android:id="@+id/financial_audit_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="财务审核"
+                android:textColor="#8a8a8a" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/review_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/hollow_out_blue"
+            android:text="审核"
+            android:textColor="@color/base_blue"
+            app:layout_constraintBottom_toBottomOf="@+id/review_father_ll"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/review_father_ll" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/review_father_ll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line_view">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_review_accept_state_icon" />
+        android:id="@+id/reject_application_ll"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:background="#F9C382"
+        android:gravity="center">
 
         <TextView
+            android:id="@+id/tv_reject_application"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:ems="1"
             android:gravity="center"
-            android:text="运营审核"
-            android:textColor="#8a8a8a" />
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/ic_review_accept_state_icon" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="财务审核"
-            android:textColor="#8a8a8a" />
+            android:text="驳回申请"
+            android:textColor="#E1008C"
+            android:textSize="22sp" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/review_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/hollow_out_blue"
-        android:text="审核"
-        android:textColor="@color/base_blue"
-        app:layout_constraintBottom_toBottomOf="@+id/review_father_ll"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/review_father_ll" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</com.mcxtzhang.swipemenulib.SwipeMenuLayout>
 

@@ -40,7 +40,7 @@ class TerminalAgentByCarFragment : BaseSmartMVPFragment<TerminalAgentByCarContra
     @SuppressLint("SimpleDateFormat")
     override fun initExtra() {
         super.initExtra()
-        mContext?.let {
+        mContext.let {
             val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
             val mDate = Date(System.currentTimeMillis())
             val format = mDateFormat.format(mDate)

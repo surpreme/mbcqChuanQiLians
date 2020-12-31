@@ -14,12 +14,25 @@
         app:rightButtonIcon="@drawable/ic_search_icon"
         app:centerTextViewText="终端代理-中转记录"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.tabs.TabLayout
+    <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/terminal_agent_tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/terminal_agent_toolbar" />
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/terminal_agent_toolbar"
+        app:tl_iconVisible="false"
+        app:tl_indicator_bounce_enable="false"
+        app:tl_indicator_color="@color/base_blue"
+        app:tl_indicator_gravity="BOTTOM"
+        app:tl_indicator_height="3dp"
+        app:tl_indicator_width="115dp"
+        app:tl_textSelectColor="@color/base_blue"
+        app:tl_textUnselectColor="@color/black"
+        app:tl_textsize="15sp"
+        app:tl_underline_color="@color/white"
+        app:tl_underline_gravity="BOTTOM"
+        app:tl_underline_height="3dp" />
+
     <fragment
         android:layout_width="match_parent"
         android:layout_height="0dp"

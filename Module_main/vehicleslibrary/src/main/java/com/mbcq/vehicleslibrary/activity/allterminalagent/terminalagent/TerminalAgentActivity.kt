@@ -4,17 +4,18 @@ package com.mbcq.vehicleslibrary.activity.allterminalagent.terminalagent
 import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.flyco.tablayout.listener.CustomTabEntity
 import com.google.gson.Gson
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
+import com.mbcq.baselibrary.view.LocalEntity
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
-import com.mbcq.commonlibrary.CommonApplication
+import com.mbcq.commonlibrary.WebDbUtil
+import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
-import com.mbcq.commonlibrary.greendao.DaoSession
-import com.mbcq.commonlibrary.greendao.WebAreaDbInfoDao
 import com.mbcq.vehicleslibrary.R
 import kotlinx.android.synthetic.main.activity_terminal_agent.*
 
@@ -25,41 +26,25 @@ import kotlinx.android.synthetic.main.activity_terminal_agent.*
  */
 @Route(path = ARouterConstants.TerminalAgentActivity)
 class TerminalAgentActivity : BaseMVPActivity<TerminalAgentContract.View, TerminalAgentPresenter>(), TerminalAgentContract.View {
+    private val mTabEntities: ArrayList<CustomTabEntity> = ArrayList()
     var mFragmentTag_index=0
+
     override fun getLayoutId(): Int = R.layout.activity_terminal_agent
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
-        terminal_agent_tabLayout.addTab(terminal_agent_tabLayout.newTab().setText("按车(X)"))
-        terminal_agent_tabLayout.addTab(terminal_agent_tabLayout.newTab().setText("按票(X)"))
-
-    }
-    interface WebDbInterface {
-        fun isNull()
-        fun isSuccess(list: MutableList<WebAreaDbInfo>)
+        mTabEntities.add(LocalEntity("按车"))
+        mTabEntities.add(LocalEntity("按票"))
+        terminal_agent_tabLayout.setTabData(mTabEntities)
 
     }
 
-    /**
-     * 得到greenDao数据库中的网点
-     * 可视化 stetho 度娘
-     */
-    protected fun getDbWebId(mWebDbInterface: WebDbInterface) {
-        val daoSession: DaoSession = (application as CommonApplication).daoSession
-        val userInfoDao: WebAreaDbInfoDao = daoSession.webAreaDbInfoDao
-        val dbDatas = userInfoDao.queryBuilder().list()
-        if (dbDatas.isNullOrEmpty()) {
-            mWebDbInterface.isNull()
-        } else {
-            mWebDbInterface.isSuccess(dbDatas)
-        }
-    }
 
     override fun onClick() {
         super.onClick()
         terminal_agent_toolbar.setRightButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
+                WebDbUtil.getDbWebId(application,object : WebsDbInterface {
                     override fun isNull() {
 
                     }

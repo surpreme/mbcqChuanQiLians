@@ -15,6 +15,7 @@ class ArrivalTrunkDepartureScanOperatingContract {
     }
 
     interface Presenter : BasePresenter<View> {
+        fun getCarInfo(inoneVehicleFlag: String)
 
     }
 }

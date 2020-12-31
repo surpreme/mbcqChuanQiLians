@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.mbcq.accountlibrary.R
@@ -18,6 +19,10 @@ class BlueToothDeviceListAdapter(context: Context?, mPosition: Int) : BaseRecycl
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ItemViewHolder).bluetooth_name_tv.text = mDatas[position].deviceName
         holder.bluetooth_content_tv.text = mDatas[position].deviceHardwareAddress
+        context?.let {
+            holder.father_cl.setBackgroundColor(it.resources.getColor(if (mDatas[position].select) R.color.base_coffee else R.color.white))
+
+        }
         holder.itemView.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
                 val mSelectBlueToothDeviceListBean = SelectBlueToothDeviceListBean()
@@ -25,7 +30,7 @@ class BlueToothDeviceListAdapter(context: Context?, mPosition: Int) : BaseRecycl
                 mSelectBlueToothDeviceListBean.deviceName = mDatas[position].deviceName
                 mSelectBlueToothDeviceListBean.deviceHardwareAddress = mDatas[position].deviceHardwareAddress
 //                RxBus.build().post(mSelectBlueToothDeviceListBean)
-                mClickInterface?.onItemClick(v,position,Gson().toJson(mDatas[position]))
+                mClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
             }
         })
     }
@@ -33,5 +38,6 @@ class BlueToothDeviceListAdapter(context: Context?, mPosition: Int) : BaseRecycl
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var bluetooth_name_tv = itemView.findViewById<TextView>(R.id.bluetooth_name_tv)
         var bluetooth_content_tv = itemView.findViewById<TextView>(R.id.bluetooth_content_tv)
+        var father_cl = itemView.findViewById<ConstraintLayout>(R.id.father_cl)
     }
 }

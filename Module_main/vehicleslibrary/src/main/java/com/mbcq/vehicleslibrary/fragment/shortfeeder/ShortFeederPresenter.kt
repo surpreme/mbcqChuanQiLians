@@ -73,6 +73,7 @@ class ShortFeederPresenter : BasePresenterImpl<ShortFeederContract.View>(), Shor
         mHttpParams.put("selWebidCode", selWebidCode)
         mHttpParams.put("startDate", startDate)
         mHttpParams.put("endDate", endDate)
+        mHttpParams.put("kong", "按车")
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
@@ -122,7 +123,7 @@ class ShortFeederPresenter : BasePresenterImpl<ShortFeederContract.View>(), Shor
                 val obj = JSONObject(result)
 
                 obj.optJSONArray("data")?.let {
-                    for (index in 0..it.length()){
+                    for (index in 0..it.length()) {
                         if (!it.isNull(index)) {
                             val itemObj = it.getJSONObject(index)
                             searchBillnoShortFeeder(itemObj.optString("inoneVehicleFlag"))

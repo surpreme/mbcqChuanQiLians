@@ -142,13 +142,9 @@ class IconViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<IconViewB
             holder.tool_text_tv.text = mSonBean[position].itemText
             holder.tool_text_tv.textSize = 16f
 
-            holder.itemView.setOnClickListener(object :SingleClick(){
-                override fun onSingleClick(v: View) {
-                    mClick?.onItemClick(v, position, mIndexTag.toString())
-
-                }
-
-            })
+            holder.itemView.setOnClickListener {
+                mClick?.onItemClick(it, position, mIndexTag.toString())
+            }
 
             context?.let {
                 //设置宽高

@@ -7,6 +7,7 @@ import android.os.CountDownTimer
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
@@ -34,7 +35,7 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
 
     override fun initDatas() {
         super.initDatas()
-        mPresenter?.getInventory(1)
+        mPresenter?.getInventory(1, JSONObject(mLastDataJson).optString("ewebidCodeStr"))
     }
 
     @SuppressLint("SetTextI18n")
@@ -58,8 +59,9 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
             val kk = StringBuilder()
 
             for ((index, item) in it.withIndex()) {
-                val obj = JSONObject()
-                obj.put("billno", item.billno)
+                val obj = JSONObject(Gson().toJson(item))
+             /*   obj.put("id", item.id)
+                obj.put("billno", item.billno)*/
                 kk.append(item.billno)
                 if (index != it.size - 1)
                     kk.append(",")
@@ -67,6 +69,7 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
             }
             mLastData.put("DbVehicleDetLst", jarray)
             mLastData.put("CommonStr", kk.toString())
+            mLastData.put("supWeight", mMaximumVehicleWeight/1000)//承重
             mPresenter?.saveInfo(mLastData)
         }
 

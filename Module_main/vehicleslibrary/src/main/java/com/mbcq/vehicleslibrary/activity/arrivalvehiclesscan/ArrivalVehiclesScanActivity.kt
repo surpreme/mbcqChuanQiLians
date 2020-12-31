@@ -46,7 +46,7 @@ class ArrivalVehiclesScanActivity : BaseMVPActivity<ArrivalVehiclesScanContract.
 
     override fun onClick() {
         super.onClick()
-        arrival_vehicles_scan_toolbar.setOnClickListener(object : SingleClick() {
+        arrival_vehicles_scan_toolbar.setBackButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 onBackPressed()
             }

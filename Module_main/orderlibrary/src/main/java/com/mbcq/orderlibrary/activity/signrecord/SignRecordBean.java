@@ -2,69 +2,134 @@ package com.mbcq.orderlibrary.activity.signrecord;
 
 public class SignRecordBean {
 
+
     /**
-     * id : 23
-     * billno : 10030000130
-     * fetComId : 2001
-     * fetchWebidCode : 1001
-     * fetchWebidCodeStr : 义乌后湖
-     * fetchDate : 2020-06-22T17:00:06
-     * fetchMan : 义乌后湖
-     * fetManIdCarType : 1
-     * fetManIdCarTypeStr : 身份证
-     * fetchIdCard : 222222222222
-     * fetchAgent : 3333333333
-     * fetAgeIdCarType : 1
-     * fetAgeIdCarTypeStr : 身份证
-     * fetAgeIdCard : 4444444444
-     * fetchType : 3
-     * fetchTypeStr : 送货签收
-     * payType : 0
-     * payTypeStr : 现金
-     * fetchCon : 0
-     * fetchConStr : 正常
-     * fetchRemark : 5555555555
-     * opeMan : 义乌后湖
-     * recordDate : 2020-06-22T17:00:06
-     * fromType : 0
-     * fromTypeStr :
+     * billno : 10030002698
+     * fetchType : 1
+     * fetchTypeStr : 本地签收
+     * billDate : 2020-11-07T16:52:01
+     * product : 玻璃
+     * webidCode : 1003
+     * webidCodeStr : 汕头
+     * ewebidCode : 1003
+     * ewebidCodeStr : 汕头
+     * destination : 彩塘
+     * qty : 2
+     * shipper : 王哓我
+     * accNow : 0.0
+     * consignee : t111111111
+     * accBack : 0.0
+     * accMonth : 0.0
+     * accHuoKuanKou : 0.0
+     * accSend : 0.0
+     * okProcess : 1
+     * okProcessStr : 客户自提
+     * sendVehicleNo : null
+     * accSum : 118.0
+     * sendDate : null
+     * accHuiKou : 0.0
+     * opeMan : null
+     * sendMan : null
+     * fetchMan : 汕头
+     * fetchDate : 2020-12-26T16:04:44
+     * fetchidcard :
+     * fetchagent :
+     * fetageidcard :
+     * opeMan1 : 汕头
+     * recordDate : 2020-12-26T16:04:44
+     * outCygs :
+     * outAcc : 0.0
+     * outBillno :
+     * shipperCompany : null
+     * consigneeId : null
+     * consigneeCompany : null
+     * weight : 5.0
+     * volumn : 66.0
+     * weightJs : 0.0
+     * accSafe : 0.0
+     * accGb : 0.0
+     * accBackService : null
+     * accSms : 0.0
+     * accWz : 0.0
+     * accType : 2
+     * accTypeStr : 提付
+     * fetchRemark :
      */
 
-    private int id;
     private String billno;
-    private int fetComId;
-    private int fetchWebidCode;
-    private String fetchWebidCodeStr;
-    private String fetchDate;
-    private String fetchMan;
-    private int fetManIdCarType;
-    private String fetManIdCarTypeStr;
-    private String fetchIdCard;
-    private String fetchAgent;
-    private int fetAgeIdCarType;
-    private String fetAgeIdCarTypeStr;
-    private String fetAgeIdCard;
     private int fetchType;
     private String fetchTypeStr;
-    private int payType;
-    private String payTypeStr;
-    private int fetchCon;
-    private String fetchConStr;
-    private String fetchRemark;
-    private String opeMan;
+    private String billDate;
+    private String product;
+    private int webidCode;
+    private String webidCodeStr;
+    private int ewebidCode;
+    private String ewebidCodeStr;
+    private String destination;
+    private int qty;
+    private String shipper;
+    private double accNow;
+    private String consignee;
+    private double accBack;
+    private double accMonth;
+    private double accHuoKuanKou;
+    private double accSend;
+    private int okProcess;
+    private String okProcessStr;
+    private Object sendVehicleNo;
+    private double accSum;
+    private Object sendDate;
+    private double accHuiKou;
+    private Object opeMan;
+    private Object sendMan;
+    private String fetchMan;
+    private String fetchDate;
+    private String fetchidcard;
+    private String fetchagent;
+    private String fetageidcard;
+    private String opeMan1;
     private String recordDate;
-    private int fromType;
-    private String fromTypeStr;
+    private String outCygs;
+    private double outAcc;
+    private String outBillno;
+    private Object shipperCompany;
+    private Object consigneeId;
+    private Object consigneeCompany;
+    private double weight;
+    private double volumn;
+    private double weightJs;
+    private double accSafe;
+    private double accGb;
+    private Object accBackService;
+    private double accSms;
+    private double accWz;
+    private int accType;
+    private String accTypeStr;
+    private String fetchRemark;
     private String commonStr="";
     private Boolean isSelected=false;
 
-    public int getId() {
-        return id;
+    public Boolean getSelected() {
+        return isSelected;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSelected(Boolean selected) {
+        isSelected = selected;
     }
+
+
+
+    public String getCommonStr() {
+        return commonStr;
+    }
+
+    public void setCommonStr(String commonStr) {
+        this.commonStr = commonStr;
+    }
+
+
+
+
 
     public String getBillno() {
         return billno;
@@ -72,102 +137,6 @@ public class SignRecordBean {
 
     public void setBillno(String billno) {
         this.billno = billno;
-    }
-
-    public int getFetComId() {
-        return fetComId;
-    }
-
-    public void setFetComId(int fetComId) {
-        this.fetComId = fetComId;
-    }
-
-    public int getFetchWebidCode() {
-        return fetchWebidCode;
-    }
-
-    public void setFetchWebidCode(int fetchWebidCode) {
-        this.fetchWebidCode = fetchWebidCode;
-    }
-
-    public String getFetchWebidCodeStr() {
-        return fetchWebidCodeStr;
-    }
-
-    public void setFetchWebidCodeStr(String fetchWebidCodeStr) {
-        this.fetchWebidCodeStr = fetchWebidCodeStr;
-    }
-
-    public String getFetchDate() {
-        return fetchDate;
-    }
-
-    public void setFetchDate(String fetchDate) {
-        this.fetchDate = fetchDate;
-    }
-
-    public String getFetchMan() {
-        return fetchMan;
-    }
-
-    public void setFetchMan(String fetchMan) {
-        this.fetchMan = fetchMan;
-    }
-
-    public int getFetManIdCarType() {
-        return fetManIdCarType;
-    }
-
-    public void setFetManIdCarType(int fetManIdCarType) {
-        this.fetManIdCarType = fetManIdCarType;
-    }
-
-    public String getFetManIdCarTypeStr() {
-        return fetManIdCarTypeStr;
-    }
-
-    public void setFetManIdCarTypeStr(String fetManIdCarTypeStr) {
-        this.fetManIdCarTypeStr = fetManIdCarTypeStr;
-    }
-
-    public String getFetchIdCard() {
-        return fetchIdCard;
-    }
-
-    public void setFetchIdCard(String fetchIdCard) {
-        this.fetchIdCard = fetchIdCard;
-    }
-
-    public String getFetchAgent() {
-        return fetchAgent;
-    }
-
-    public void setFetchAgent(String fetchAgent) {
-        this.fetchAgent = fetchAgent;
-    }
-
-    public int getFetAgeIdCarType() {
-        return fetAgeIdCarType;
-    }
-
-    public void setFetAgeIdCarType(int fetAgeIdCarType) {
-        this.fetAgeIdCarType = fetAgeIdCarType;
-    }
-
-    public String getFetAgeIdCarTypeStr() {
-        return fetAgeIdCarTypeStr;
-    }
-
-    public void setFetAgeIdCarTypeStr(String fetAgeIdCarTypeStr) {
-        this.fetAgeIdCarTypeStr = fetAgeIdCarTypeStr;
-    }
-
-    public String getFetAgeIdCard() {
-        return fetAgeIdCard;
-    }
-
-    public void setFetAgeIdCard(String fetAgeIdCard) {
-        this.fetAgeIdCard = fetAgeIdCard;
     }
 
     public int getFetchType() {
@@ -186,52 +155,236 @@ public class SignRecordBean {
         this.fetchTypeStr = fetchTypeStr;
     }
 
-    public int getPayType() {
-        return payType;
+    public String getBillDate() {
+        return billDate;
     }
 
-    public void setPayType(int payType) {
-        this.payType = payType;
+    public void setBillDate(String billDate) {
+        this.billDate = billDate;
     }
 
-    public String getPayTypeStr() {
-        return payTypeStr;
+    public String getProduct() {
+        return product;
     }
 
-    public void setPayTypeStr(String payTypeStr) {
-        this.payTypeStr = payTypeStr;
+    public void setProduct(String product) {
+        this.product = product;
     }
 
-    public int getFetchCon() {
-        return fetchCon;
+    public int getWebidCode() {
+        return webidCode;
     }
 
-    public void setFetchCon(int fetchCon) {
-        this.fetchCon = fetchCon;
+    public void setWebidCode(int webidCode) {
+        this.webidCode = webidCode;
     }
 
-    public String getFetchConStr() {
-        return fetchConStr;
+    public String getWebidCodeStr() {
+        return webidCodeStr;
     }
 
-    public void setFetchConStr(String fetchConStr) {
-        this.fetchConStr = fetchConStr;
+    public void setWebidCodeStr(String webidCodeStr) {
+        this.webidCodeStr = webidCodeStr;
     }
 
-    public String getFetchRemark() {
-        return fetchRemark;
+    public int getEwebidCode() {
+        return ewebidCode;
     }
 
-    public void setFetchRemark(String fetchRemark) {
-        this.fetchRemark = fetchRemark;
+    public void setEwebidCode(int ewebidCode) {
+        this.ewebidCode = ewebidCode;
     }
 
-    public String getOpeMan() {
+    public String getEwebidCodeStr() {
+        return ewebidCodeStr;
+    }
+
+    public void setEwebidCodeStr(String ewebidCodeStr) {
+        this.ewebidCodeStr = ewebidCodeStr;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public String getShipper() {
+        return shipper;
+    }
+
+    public void setShipper(String shipper) {
+        this.shipper = shipper;
+    }
+
+    public double getAccNow() {
+        return accNow;
+    }
+
+    public void setAccNow(double accNow) {
+        this.accNow = accNow;
+    }
+
+    public String getConsignee() {
+        return consignee;
+    }
+
+    public void setConsignee(String consignee) {
+        this.consignee = consignee;
+    }
+
+    public double getAccBack() {
+        return accBack;
+    }
+
+    public void setAccBack(double accBack) {
+        this.accBack = accBack;
+    }
+
+    public double getAccMonth() {
+        return accMonth;
+    }
+
+    public void setAccMonth(double accMonth) {
+        this.accMonth = accMonth;
+    }
+
+    public double getAccHuoKuanKou() {
+        return accHuoKuanKou;
+    }
+
+    public void setAccHuoKuanKou(double accHuoKuanKou) {
+        this.accHuoKuanKou = accHuoKuanKou;
+    }
+
+    public double getAccSend() {
+        return accSend;
+    }
+
+    public void setAccSend(double accSend) {
+        this.accSend = accSend;
+    }
+
+    public int getOkProcess() {
+        return okProcess;
+    }
+
+    public void setOkProcess(int okProcess) {
+        this.okProcess = okProcess;
+    }
+
+    public String getOkProcessStr() {
+        return okProcessStr;
+    }
+
+    public void setOkProcessStr(String okProcessStr) {
+        this.okProcessStr = okProcessStr;
+    }
+
+    public Object getSendVehicleNo() {
+        return sendVehicleNo;
+    }
+
+    public void setSendVehicleNo(Object sendVehicleNo) {
+        this.sendVehicleNo = sendVehicleNo;
+    }
+
+    public double getAccSum() {
+        return accSum;
+    }
+
+    public void setAccSum(double accSum) {
+        this.accSum = accSum;
+    }
+
+    public Object getSendDate() {
+        return sendDate;
+    }
+
+    public void setSendDate(Object sendDate) {
+        this.sendDate = sendDate;
+    }
+
+    public double getAccHuiKou() {
+        return accHuiKou;
+    }
+
+    public void setAccHuiKou(double accHuiKou) {
+        this.accHuiKou = accHuiKou;
+    }
+
+    public Object getOpeMan() {
         return opeMan;
     }
 
-    public void setOpeMan(String opeMan) {
+    public void setOpeMan(Object opeMan) {
         this.opeMan = opeMan;
+    }
+
+    public Object getSendMan() {
+        return sendMan;
+    }
+
+    public void setSendMan(Object sendMan) {
+        this.sendMan = sendMan;
+    }
+
+    public String getFetchMan() {
+        return fetchMan;
+    }
+
+    public void setFetchMan(String fetchMan) {
+        this.fetchMan = fetchMan;
+    }
+
+    public String getFetchDate() {
+        return fetchDate;
+    }
+
+    public void setFetchDate(String fetchDate) {
+        this.fetchDate = fetchDate;
+    }
+
+    public String getFetchidcard() {
+        return fetchidcard;
+    }
+
+    public void setFetchidcard(String fetchidcard) {
+        this.fetchidcard = fetchidcard;
+    }
+
+    public String getFetchagent() {
+        return fetchagent;
+    }
+
+    public void setFetchagent(String fetchagent) {
+        this.fetchagent = fetchagent;
+    }
+
+    public String getFetageidcard() {
+        return fetageidcard;
+    }
+
+    public void setFetageidcard(String fetageidcard) {
+        this.fetageidcard = fetageidcard;
+    }
+
+    public String getOpeMan1() {
+        return opeMan1;
+    }
+
+    public void setOpeMan1(String opeMan1) {
+        this.opeMan1 = opeMan1;
     }
 
     public String getRecordDate() {
@@ -242,35 +395,139 @@ public class SignRecordBean {
         this.recordDate = recordDate;
     }
 
-    public int getFromType() {
-        return fromType;
+    public String getOutCygs() {
+        return outCygs;
     }
 
-    public void setFromType(int fromType) {
-        this.fromType = fromType;
+    public void setOutCygs(String outCygs) {
+        this.outCygs = outCygs;
     }
 
-    public String getFromTypeStr() {
-        return fromTypeStr;
+    public double getOutAcc() {
+        return outAcc;
     }
 
-    public void setFromTypeStr(String fromTypeStr) {
-        this.fromTypeStr = fromTypeStr;
+    public void setOutAcc(double outAcc) {
+        this.outAcc = outAcc;
     }
 
-    public String getCommonStr() {
-        return commonStr;
+    public String getOutBillno() {
+        return outBillno;
     }
 
-    public void setCommonStr(String commonStr) {
-        this.commonStr = commonStr;
+    public void setOutBillno(String outBillno) {
+        this.outBillno = outBillno;
     }
 
-    public Boolean getSelected() {
-        return isSelected;
+    public Object getShipperCompany() {
+        return shipperCompany;
     }
 
-    public void setSelected(Boolean selected) {
-        isSelected = selected;
+    public void setShipperCompany(Object shipperCompany) {
+        this.shipperCompany = shipperCompany;
+    }
+
+    public Object getConsigneeId() {
+        return consigneeId;
+    }
+
+    public void setConsigneeId(Object consigneeId) {
+        this.consigneeId = consigneeId;
+    }
+
+    public Object getConsigneeCompany() {
+        return consigneeCompany;
+    }
+
+    public void setConsigneeCompany(Object consigneeCompany) {
+        this.consigneeCompany = consigneeCompany;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getVolumn() {
+        return volumn;
+    }
+
+    public void setVolumn(double volumn) {
+        this.volumn = volumn;
+    }
+
+    public double getWeightJs() {
+        return weightJs;
+    }
+
+    public void setWeightJs(double weightJs) {
+        this.weightJs = weightJs;
+    }
+
+    public double getAccSafe() {
+        return accSafe;
+    }
+
+    public void setAccSafe(double accSafe) {
+        this.accSafe = accSafe;
+    }
+
+    public double getAccGb() {
+        return accGb;
+    }
+
+    public void setAccGb(double accGb) {
+        this.accGb = accGb;
+    }
+
+    public Object getAccBackService() {
+        return accBackService;
+    }
+
+    public void setAccBackService(Object accBackService) {
+        this.accBackService = accBackService;
+    }
+
+    public double getAccSms() {
+        return accSms;
+    }
+
+    public void setAccSms(double accSms) {
+        this.accSms = accSms;
+    }
+
+    public double getAccWz() {
+        return accWz;
+    }
+
+    public void setAccWz(double accWz) {
+        this.accWz = accWz;
+    }
+
+    public int getAccType() {
+        return accType;
+    }
+
+    public void setAccType(int accType) {
+        this.accType = accType;
+    }
+
+    public String getAccTypeStr() {
+        return accTypeStr;
+    }
+
+    public void setAccTypeStr(String accTypeStr) {
+        this.accTypeStr = accTypeStr;
+    }
+
+    public String getFetchRemark() {
+        return fetchRemark;
+    }
+
+    public void setFetchRemark(String fetchRemark) {
+        this.fetchRemark = fetchRemark;
     }
 }

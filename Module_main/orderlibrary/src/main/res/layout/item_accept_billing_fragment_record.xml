@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    tools:context="com.mbcq.orderlibrary.fragment.fixedwaybill.FixedWaybillFragmentAdapter">
+
+    <TextView
+        android:id="@+id/fixed_waybill_info_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:lineSpacingExtra="10dp"
+        tools:text="修改时间：2020-11-11  12:12\n修  改 人：吴轩\n修改原因：实话实说，你填写错了"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fixed_waybill_content_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
+        android:lineSpacingExtra="10dp"
+        android:text="修改内容"
+        android:textColor="@color/base_blue"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/fixed_waybill_info_tv" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/fixed_waybill_content_title_tv">
+
+        <TextView
+            android:id="@+id/fixed_waybill_content_left_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:lineSpacingExtra="10dp"
+            tools:text="原运费合计：1000\n原   件   数：111\n操   作   端：PC"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fixed_waybill_content_right_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:lineSpacingExtra="10dp"
+            tools:text="修  改 后：1200\n修  改 后：123"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

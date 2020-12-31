@@ -129,6 +129,9 @@ class CommonlyInformationActivity : BaseListMVPActivity<CommonlyInformationContr
 
                         }).show(supportFragmentManager, "getVehicleSFilterDialog")
                     }
+                    "常用开单备注" -> {
+                        ARouter.getInstance().build(ARouterConstants.CommonlyInformationConfigurationRemarkActivity).navigation()
+                    }
                     else -> {
                         ARouter.getInstance().build(ARouterConstants.CommonlyInformationConfigurationActivity).withString("CommonlyInformationConfiguration", mResult).navigation()
                     }

@@ -14,8 +14,8 @@ class ArrivalTrunkDepartureContract {
 
     interface View : BaseView {
         fun getPageS(list: List<TrunkDepartureBean>)
-//        fun confirmCarS(data: TrunkDepartureBean, position: Int)
-        fun confirmCarS( position: Int)
+        fun confirmCarS(data: TrunkDepartureBean, position: Int)
+//        fun confirmCarS( position: Int)
         fun canCelCarS( data: TrunkDepartureBean, position: Int)
 
     }

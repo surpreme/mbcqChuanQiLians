@@ -2,7 +2,6 @@ package com.mbcq.vehicleslibrary.fragment.terminalagentbycar
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
-import com.mbcq.vehicleslibrary.fragment.localagentshortfeeder.LocalGentByCarBean
 
 /**
  * @author: lzy

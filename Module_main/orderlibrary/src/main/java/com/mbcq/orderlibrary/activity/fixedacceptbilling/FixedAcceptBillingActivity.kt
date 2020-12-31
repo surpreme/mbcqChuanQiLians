@@ -191,7 +191,7 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
         val AccTypeStr = mAccTypeStr
         jsonObj.put("AccTypeStr", AccTypeStr)
         //回单要求
-        val BackQty = receipt_requirements_name_tv.text.toString()
+        val BackQty = receipt_requirements_name_ed.text.toString()
         jsonObj.put("BackQty", BackQty)
         //是否等通知放货
         val IsWaitNoticeStr = if (wait_notice_check.isChecked) "是" else "否"
@@ -406,13 +406,6 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
             }
 
         })
-
-        receipt_requirements_name_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                mPresenter?.getReceiptRequirement()
-            }
-
-        })
         receipt_requirements_name_down_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 mPresenter?.getReceiptRequirement()
@@ -518,7 +511,7 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
         FilterDialog(getScreenWidth(), result, "tdescribe", "回单要求", false, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mSelectData = Gson().fromJson<AcceptReceiptRequirementBean>(mResult, AcceptReceiptRequirementBean::class.java)
-                receipt_requirements_name_tv.text = mSelectData.tdescribe
+                receipt_requirements_name_ed.setText(mSelectData.tdescribe)
             }
 
         }).show(supportFragmentManager, "getReceiptRequirementSFilterDialog")
@@ -677,7 +670,7 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
         pre_installed_car_number_name_tv.text = data.optString("preVehicleNo")
         salesman_name_tv.text = data.optString("salesMan")
         original_order_number_name_ed.setText(data.optString("oBillno"))//原单号
-        receipt_requirements_name_tv.text = data.optString("backQty")
+        receipt_requirements_name_ed.setText(data.optString("backQty"))
         account_names_tv.text = data.optString("bankMan")
         account_bank_tv.text = data.optString("bankName")
         bank_number_tv.text = data.optString("bankCode")

@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
+import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.popup.XDialog
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseSmartMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
@@ -36,13 +38,14 @@ import java.util.*
 /**
  * @author: lzy
  * @time: 2020-10-17 09:58:12  改单申请 记录
- */
+ * */
 
 @Route(path = ARouterConstants.AcceptBillingRecordingActivity)
 class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordingContract.View, AcceptBillingRecordingPresenter, AcceptBillingRecordingBean>(), AcceptBillingRecordingContract.View {
     var mStartDateTag = ""
     var mEndDateTag = ""
     var mShippingOutletsTag = ""
+
     /**
      * 刷新
      */
@@ -75,10 +78,11 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode==REFRESH_DATA_CODE){
+        if (requestCode == REFRESH_DATA_CODE) {
             refresh()
         }
     }
+
     override fun onClick() {
         super.onClick()
         type_tv.setOnClickListener(object : SingleClick() {
@@ -109,7 +113,7 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
         })
         change_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.FixedAcceptBillingActivity).navigation(this@AcceptBillingRecordingActivity,REFRESH_DATA_CODE)
+                ARouter.getInstance().build(ARouterConstants.FixedAcceptBillingActivity).navigation(this@AcceptBillingRecordingActivity, REFRESH_DATA_CODE)
             }
 
         })
@@ -163,8 +167,48 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
 
     }
 
-    override fun setAdapter(): BaseRecyclerAdapter<AcceptBillingRecordingBean> = AcceptBillingRecordingAdapter(mContext)
+    override fun setAdapter(): BaseRecyclerAdapter<AcceptBillingRecordingBean> = AcceptBillingRecordingAdapter(mContext).also {
+        it.mOnFixedAcceptBillingRecordingInterface = object : AcceptBillingRecordingAdapter.OnFixedAcceptBillingRecordingInterface {
+            override fun onReject(v: View, position: Int, data: AcceptBillingRecordingBean) {
+                TalkSureCancelDialog(mContext, getScreenWidth(), "您确定要驳回申请网点为${data.opeWebidCodeStr}，申请人为${data.opeMan}，运单号为${data.billno}的记录吗？") {
+                    mPresenter?.rejectOrder(data.billno, data.id.toString(), position)
+                }.show()
+
+            }
+
+            override fun onReview(v: View, position: Int, data: AcceptBillingRecordingBean) {
+                if (data.yyCheckMan.isBlank()) {
+                    data.fixType = 1
+                    ARouter.getInstance().build(ARouterConstants.AcceptBillingFixedReviewActivity).withString("AcceptBillingFixedReview", Gson().toJson(data)).navigation()
+                } else if (data.cwCheckMan.isBlank() && data.isUpdMon == 1) {
+                    data.fixType = 2
+                    ARouter.getInstance().build(ARouterConstants.AcceptBillingFixedReviewActivity).withString("AcceptBillingFixedReview", Gson().toJson(data)).navigation()
+                }
+            }
+
+            override fun onOperationReview(v: View, position: Int, data: AcceptBillingRecordingBean) {
+                data.fixType = 1
+                ARouter.getInstance().build(ARouterConstants.AcceptBillingFixedReviewActivity).withString("AcceptBillingFixedReview", Gson().toJson(data)).navigation()
+            }
+
+            override fun onFinancialAudit(v: View, position: Int, data: AcceptBillingRecordingBean) {
+                data.fixType = 2
+                ARouter.getInstance().build(ARouterConstants.AcceptBillingFixedReviewActivity).withString("AcceptBillingFixedReview", Gson().toJson(data)).navigation()
+            }
+
+            override fun onLookMoreInfo(v: View, position: Int, data: AcceptBillingRecordingBean) {
+                data.fixType = 3
+                ARouter.getInstance().build(ARouterConstants.AcceptBillingFixedReviewActivity).withString("AcceptBillingFixedReview", Gson().toJson(data)).navigation()
+            }
+
+        }
+    }
+
     override fun getPageS(list: List<AcceptBillingRecordingBean>) {
         appendDatas(list)
+    }
+
+    override fun rejectOrderS(result: String, position: Int) {
+
     }
 }

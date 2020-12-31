@@ -6,7 +6,11 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application>
-        <activity android:name=".activity.aboutus.AboutUsActivity"></activity>
+        <activity android:name=".activity.facerecognition.RegisterAndRecognizeActivity"></activity>
+        <activity
+            android:name=".activity.commonlyinformationconfigurationremark.CommonlyInformationConfigurationRemarkActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".activity.aboutus.AboutUsActivity" />
         <activity android:name=".activity.housesearch.HouseSearchActivity" />
         <activity android:name=".activity.commonlyinformationconfiguration.CommonlyInformationConfigurationActivity" />
         <activity android:name=".activity.commonlyinformation.CommonlyInformationActivity" />

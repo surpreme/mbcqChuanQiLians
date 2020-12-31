@@ -1,7 +1,7 @@
 package com.mbcq.commonlibrary;
 
 public class ApiInterface {
-//    private static final String BASE_URI = "http://192.168.2.43:8080/"; 本地
+    //    private static final String BASE_URI = "http://192.168.2.43:8080/"; 本地
     private static final String BASE_URI = "http://47.99.130.236:8081/";//服务器
     public static final String BASE_URIS = "http://47.99.130.236:8081/";
     /**
@@ -140,7 +140,7 @@ public class ApiInterface {
     /**
      * 干线发车 取消到车
      */
-    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_ARRIVAL_CANCEL_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/UpdDbVehicleByCondition";
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_ARRIVAL_CANCEL_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/UpdCancelConfirmGxVehicle";
     /**
      * 短驳发车 查询在途车辆记录
      */
@@ -184,11 +184,11 @@ public class ApiInterface {
     /**
      * 短驳发车 确认到车
      */
-    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_ARRIVAL_CONFIRM_LOCAL_INFO_POST = BASE_URI + "DbVehicleOpe/UpdCofArrDbVehicle";
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_ARRIVAL_CONFIRM_LOCAL_INFO_POST = BASE_URI + "DbVehicleOpe/UpdConfirmDbVehicle";
     /**
      * 短驳发车 取消到车
      */
-    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_ARRIVAL_CANCEL_LOCAL_INFO_GET = BASE_URI + "DbVehicleOpe/UpdDbVehicleByCondition";
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_ARRIVAL_CANCEL_LOCAL_INFO_GET = BASE_URI + "DbVehicleOpe/UpdCancelConfirmDbVehicle";
     /**
      * 短驳发车 剔除运单
      */
@@ -216,7 +216,7 @@ public class ApiInterface {
     /**
      * 干线发车 确认到车
      */
-    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_ARRIVAL_CONFIRM_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/UpdCofArrGxVehicle";
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_ARRIVAL_CONFIRM_LOCAL_INFO_POST = BASE_URI + "GxVehicleOpe/UpdConfirmGxVehicle";
     /**
      * 干线发车 查询在途车辆记录
      */
@@ -352,7 +352,6 @@ public class ApiInterface {
     public static final String ARRIVAL_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelDhWaybillFcdByCon";
     /**
      * 发货库存
-     *
      */
     public static final String SHIPMENT_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelFhWaybillFcdByCon";
     /**
@@ -579,6 +578,22 @@ public class ApiInterface {
      * 查詢扫描数据
      */
     public static final String SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET = BASE_URI + "Scan/SelWaybillScanByCondition";
+    /**
+     * 改单记录 驳回申请
+     */
+    public static final String ACCEPT_BILLING_RECORDING_REJECT_ORDER_POST = BASE_URI + "WaybillUpdateApplyOpe/UpdWaybillCheckManByCondition";
+    /**
+     * 改单申请 获取详情
+     */
+    public static final String ACCEPT_BILLING_RECORDING_INFO_ORDER_GET = BASE_URI + "WaybillUpdateApplyOpe/SelwaybillUpdateApplyByCondition";
+    /**
+     * 改单申请 运营审核
+     */
+    public static final String ACCEPT_BILLING_RECORDING_INFO_OPERATION_REVIEW_POST = BASE_URI + "WaybillUpdateApplyOpe/UpdYywaybillUpdateApplyByCondition";
+    /**
+     * 改单申请 财务审核
+     */
+    public static final String ACCEPT_BILLING_RECORDING_INFO_FINANCE_REVIEW_POST = BASE_URI + "WaybillUpdateApplyOpe/UpdCwwaybillUpdateApplyByCondition";
 
 
 }

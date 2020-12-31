@@ -35,6 +35,7 @@ import org.json.JSONArray
 /**
  * @author: lzy
  * @time: 2020-11-30 11:11:46 常用配置详情页面
+ * @CommonlyInformationConfigurationRemarkActivity 常见备注偏好设置配置
  */
 
 @Route(path = ARouterConstants.CommonlyInformationConfigurationActivity)

@@ -186,6 +186,10 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
             showToast("请选择收货人")
             return false
         }
+        if (modify_reason_ed.text.toString().isBlank()) {
+            showToast("请输入修改原因")
+            return false
+        }
 
         /*  if (cargo_name_ed.text.toString().isEmpty()) {
               showToast("请选择货物名称")
@@ -203,7 +207,7 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
               showToast("请输入体积")
               return false
           }*/
-        if (receipt_requirements_name_tv.text.toString().isEmpty()) {
+        if (receipt_requirements_name_ed.text.toString().isEmpty()) {
             showToast("请选择回单要求")
             return false
         }
@@ -363,6 +367,7 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
         isOpen = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         return isOpen
     }
+
     /**
      * ARouter 度娘
      * {"name":"xxxx","phone":"15999999999","address":"1111"}
@@ -375,7 +380,7 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
                 //做需要做的事情，比如再次检测是否打开GPS了 或者定位
                 getLocation()
             }
-            RESULT_DATA_CODE->{
+            RESULT_DATA_CODE -> {
                 (data?.getStringExtra("AddShipperResultData"))?.let {
                     val mDatas = JSONObject(it)
                     shipper_phone_ed.setText(mDatas.optString("phone"))
@@ -385,7 +390,7 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
                     add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
                 }
             }
-            RECEIVER_RESULT_DATA_CODE->{
+            RECEIVER_RESULT_DATA_CODE -> {
                 (data?.getStringExtra("AddReceiveResultData"))?.let {
                     val mDatas = JSONObject(it)
                     receiver_phone_ed.setText(mDatas.optString("phone"))//收货人手机号
@@ -401,7 +406,6 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
                 }
             }
         }
-
 
 
     }

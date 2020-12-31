@@ -13,7 +13,9 @@ object ARouterConstants {
     const val CommonlyInformationActivity = "/account/CommonlyInformationActivity"
     const val HouseSearchActivity = "/account/HouseSearchActivity"
     const val CommonlyInformationConfigurationActivity = "/account/CommonlyInformationConfigurationActivity"
+    const val CommonlyInformationConfigurationRemarkActivity = "/account/CommonlyInformationConfigurationRemarkActivity"
     const val AboutUsActivity = "/account/AboutUsActivity"
+    const val FaceRecognitionActivity = "/account/FaceRecognitionActivity"
 
     /**
      * 订单模块
@@ -50,6 +52,7 @@ object ARouterConstants {
     const val ReceiptGeneralLedgerActivity = "/order/ReceiptGeneralLedgerActivity"
     const val ReceiptCancelActivity = "/order/ReceiptCancelActivity"
     const val StowageAlongWayActivity = "/order/StowageAlongWayActivity"
+    const val AcceptBillingFixedReviewActivity = "/order/AcceptBillingFixedReviewActivity"
 
     /**
      * 地图模块
@@ -101,6 +104,8 @@ object ARouterConstants {
     const val DepartureTrunkDepartureScanOperatingScanInfoActivity = "/vehicles/DepartureTrunkDepartureScanOperatingScanInfoActivity"
     const val FixedShortFeederConfigurationActivity = "/vehicles/FixedShortFeederConfigurationActivity"
     const val FixedDepartureTrunkConfigurationActivity = "/vehicles/FixedDepartureTrunkConfigurationActivity"
+    const val ShortFeederUnloadingWarehousingActivity = "/vehicles/ShortFeederUnloadingWarehousingActivity"
+    const val TrunkDepartureUnloadingWarehousingActivity = "/vehicles/TrunkDepartureUnloadingWarehousingActivity"
 
     /**
      * 财务模块

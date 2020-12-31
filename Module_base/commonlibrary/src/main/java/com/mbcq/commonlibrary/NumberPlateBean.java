@@ -44,6 +44,7 @@ public class NumberPlateBean {
      * vusetype : 0
      * oilwear : 12.0
      * Israliable : 0
+     * vehicleshape:
      */
 
     private int id;
