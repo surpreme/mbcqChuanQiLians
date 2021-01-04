@@ -109,26 +109,14 @@ class ShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<ShortT
     }
      */
     override fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, totalQty: Int, mMoreScanBillno: String, mScanType: Int) {
-        var mTopLableNo = lableNo
-        val params = HttpParams()
-        params.put("billno", billno)
-        params.put("limit", "9999")
-        /**
-         * @scanOpeType 操作类型
-         * 0 短驳装车
-         * 1 干线装车
-         * 2 短驳到车
-         * 3 干线到车
-         * -1 查询扫描信息
-         */
-        params.put("scanOpeType", "-1")
-        get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, params, object : CallBacks {
+        getScanBillNoInfo(billno, 2, 0, object : OnScanBillNoInfoResultInterface {
             override fun onResult(result: String) {
+                var mTopLableNo = lableNo
                 val obj = JSONObject(result)
                 val listAry = obj.optJSONArray("data")
                 listAry?.let {
                     val mXlableNo = arrayListOf<Long>()//全部未扫描大票运单号
-                    if (lableNo.split(",").isNotEmpty()) {
+                    if (lableNo.contains(",")) {
                         for (mCCCIndex in 1..totalQty) {
                             val endBillno = billno + if (mCCCIndex.toString().length == 1) "000$mCCCIndex" else if (mCCCIndex.toString().length == 2) "00$mCCCIndex" else if (mCCCIndex.toString().length == 3) "0$mCCCIndex" else if (mCCCIndex.toString().length == 4) "$mCCCIndex" else ""
                             var isHasIt = false
@@ -151,7 +139,7 @@ class ShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<ShortT
                             if (index != (mXlableNo.size - 1))
                                 mXPostScaningDataStr.append(",")
                         }
-                        mTopLableNo=mXPostScaningDataStr.toString()
+                        mTopLableNo = mXPostScaningDataStr.toString()
                     }
 
                     val jsonO = JSONObject()
@@ -204,11 +192,9 @@ class ShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<ShortT
 
 
                 }
-
             }
 
         })
-
     }
 
     override fun scanAbnormalOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String, mAbnormalReason: String) {
@@ -261,6 +247,7 @@ class ShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<ShortT
 
         })
     }
+
     /**
      * {"code":0,"msg":"","count":10,"data":[
     {
@@ -329,6 +316,42 @@ class ShortTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<ShortT
 
         })
     }
+
+    interface OnScanBillNoInfoResultInterface {
+        fun onResult(result: String)
+    }
+
+    /**
+     * @type 1 走正常回调 2 走interface返回
+     */
+    fun getScanBillNoInfo(billno: String, type: Int, totalQty: Int, mOnScanBillNoInfoResultInterface: OnScanBillNoInfoResultInterface?) {
+        val params = HttpParams()
+        params.put("billno", billno)
+        params.put("limit", "9999")
+        /**
+         * @scanOpeType 操作类型
+         * 0 短驳装车
+         * 1 干线装车
+         * 2 短驳到车
+         * 3 干线到车
+         * -1 查询扫描信息
+         */
+        params.put("scanOpeType", "-1")
+        get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                if (type == 2)
+                    mOnScanBillNoInfoResultInterface?.onResult(result)
+                else if (type == 1)
+                    mView?.getScanBillNoInfoS(billno, result, totalQty)
+            }
+
+        })
+    }
+
+    override fun getScanBillNoInfo(billno: String, totalQty: Int) {
+        getScanBillNoInfo(billno, 1, totalQty, null)
+    }
+
     override fun saveScanPost(id: Int, inoneVehicleFlag: String) {
         val postBody = JsonObject()
         postBody.addProperty("id", id)

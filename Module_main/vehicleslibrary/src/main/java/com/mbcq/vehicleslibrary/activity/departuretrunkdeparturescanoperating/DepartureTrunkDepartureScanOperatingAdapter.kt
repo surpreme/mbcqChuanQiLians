@@ -15,6 +15,7 @@ import com.billy.android.swipe.SmartSwipeWrapper
 import com.billy.android.swipe.SwipeConsumer
 import com.billy.android.swipe.consumer.TranslucentSlidingConsumer
 import com.billy.android.swipe.listener.SimpleSwipeListener
+import com.google.gson.Gson
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
@@ -44,14 +45,10 @@ class DepartureTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecycl
 
         holder.father_cl.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
-                val mScanSun = mDatas[position].unLoadQty
                 if (mDatas[position].waybillFcdQty == 0) {
-                    mClickInterface?.onItemClick(v, position, "")
                     return
                 }
-                val mEndScanSun = mScanSun + 1
-                val endBillno = if (mEndScanSun.toString().length == 1) "000$mEndScanSun" else if (mEndScanSun.toString().length == 2) "00$mEndScanSun" else if (mEndScanSun.toString().length == 3) "0$mEndScanSun" else if (mEndScanSun.toString().length == 4) "$mEndScanSun" else ""
-                mClickInterface?.onItemClick(v, position, mDatas[position].billno + endBillno)
+                mClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
             }
         })
         holder.isunplantag_tv.visibility = if (mDatas[position].isScanDet == "2") View.VISIBLE else View.GONE

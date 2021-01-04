@@ -15,6 +15,7 @@ import com.billy.android.swipe.SmartSwipeWrapper
 import com.billy.android.swipe.SwipeConsumer
 import com.billy.android.swipe.consumer.TranslucentSlidingConsumer
 import com.billy.android.swipe.listener.SimpleSwipeListener
+import com.google.gson.Gson
 import com.mbcq.baselibrary.util.system.ToastUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
@@ -43,14 +44,10 @@ class ShortTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecyclerAd
         })
         holder.father_cl.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
-                val mScanSun = mDatas[position].unLoadQty
                 if (mDatas[position].waybillFcdQty == 0) {
-                    mClickInterface?.onItemClick(v, position, "")
                     return
                 }
-                val mEndScanSun = mScanSun + 1
-                val endBillno = if (mEndScanSun.toString().length == 1) "000$mEndScanSun" else if (mEndScanSun.toString().length == 2) "00$mEndScanSun" else if (mEndScanSun.toString().length == 3) "0$mEndScanSun" else if (mEndScanSun.toString().length == 4) "$mEndScanSun" else ""
-                mClickInterface?.onItemClick(v, position, mDatas[position].billno + endBillno)
+                mClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
             }
         })
         holder.receiver_tv.text = mDatas[position].consignee
@@ -67,7 +64,7 @@ class ShortTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecyclerAd
         5、@旧 进度条=已扫件数件数/库存件数*100 @新 进度条=已扫描件数/（已扫件数件数+库存件数）*100
          */
         holder.goods_number_ifo_tv.text = "已扫:${mDatas[position].unLoadQty}     本车:${mDatas[position].unLoadQty}    剩余:${mDatas[position].waybillFcdQty}     总件数:${mDatas[position].totalQty}*${mDatas[position].weight}kg*${mDatas[position].volumn}m*"
-        holder.operating_progressbar.progress = if (mDatas[position].unLoadQty == 0) 0 else if (mDatas[position].unLoadQty == (mDatas[position].unLoadQty + mDatas[position].waybillFcdQty)) 100 else ((mDatas[position].unLoadQty * 100) /(mDatas[position].unLoadQty + mDatas[position].waybillFcdQty))
+        holder.operating_progressbar.progress = if (mDatas[position].unLoadQty == 0) 0 else if (mDatas[position].unLoadQty == (mDatas[position].unLoadQty + mDatas[position].waybillFcdQty)) 100 else ((mDatas[position].unLoadQty * 100) / (mDatas[position].unLoadQty + mDatas[position].waybillFcdQty))
         //侧滑删除
         SmartSwipe.wrap(holder.father_fl)
                 .addConsumer(TranslucentSlidingConsumer())

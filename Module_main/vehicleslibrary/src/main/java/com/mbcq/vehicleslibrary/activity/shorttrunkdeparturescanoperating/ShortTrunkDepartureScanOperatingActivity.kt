@@ -34,23 +34,7 @@ import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperating.revoke.RevokeShortTrunkDepartureScanDataBean
 import com.mbcq.vehicleslibrary.activity.shorttrunkdeparturescanoperatingmoreinfo.ShortTrunkDepartureScanOperatingMoreInfoIntentBean
 import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.*
 import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.*
-import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.billno_ed
-import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.inventory_btn
-import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.look_local_car_info_tv
-import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.save_btn
-import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.scan_number_iv
-import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.scan_number_total_tv
-import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.scan_progressBar
-import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.scaned_info__tv
-import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.search_btn
-import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.type_tv
-import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.unScan_info_tv
-import kotlinx.android.synthetic.main.activity_short_trunk_departure_scan_operating.unloading_batch_tv
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.StringBuilder
@@ -59,6 +43,7 @@ import java.lang.StringBuilder
 /**
  * @author: lzy
  * @time: 2020-11-04 16:05:23 短驳有计划发车
+ * 扫描有两个方法 一个无计划和有计划
  */
 
 @Route(path = ARouterConstants.ShortTrunkDepartureScanOperatingActivity)
@@ -234,7 +219,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
     fun commitScanInfo() {
         val unScanOverBillno = StringBuilder()
         for (item in adapter.getAllData()) {
-            if (item.unLoadQty != item.totalQty&& item.unLoadQty != 0) {
+            if (item.unLoadQty != item.totalQty && item.unLoadQty != 0) {
                 unScanOverBillno.append(item.billno).append("  ")
             }
         }
@@ -351,8 +336,15 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
 
     override fun setAdapter(): BaseRecyclerAdapter<ShortTrunkDepartureScanOperatingBean> = ShortTrunkDepartureScanOperatingAdapter(mContext).also {
         it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            @SuppressLint("SetTextI18n")
             override fun onItemClick(v: View, position: Int, mResult: String) {
-                billno_ed.setText(mResult)
+                val mSelectBean = Gson().fromJson<ShortTrunkDepartureScanOperatingBean>(mResult, ShortTrunkDepartureScanOperatingBean::class.java)
+                if (mSelectBean.totalQty in 1..20) {
+                    mPresenter?.getScanBillNoInfo(mSelectBean.billno, mSelectBean.totalQty)
+
+                } else if (mSelectBean.totalQty in 21..9999) {
+                    billno_ed.setText("${mSelectBean.billno}0001")
+                }
             }
 
         }
@@ -586,6 +578,30 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
             commitScanInfo()
 
         }
+    }
+
+    override fun getScanBillNoInfoS(billno: String, result: String, totalQty: Int) {
+        var mShowBillnoLable = ""
+        val obj = JSONObject(result)
+        val listAry = obj.optJSONArray("data")
+        for (mCCCIndex in totalQty downTo  1) {
+            val endBillno = billno + if (mCCCIndex.toString().length == 1) "000$mCCCIndex" else if (mCCCIndex.toString().length == 2) "00$mCCCIndex" else if (mCCCIndex.toString().length == 3) "0$mCCCIndex" else if (mCCCIndex.toString().length == 4) "$mCCCIndex" else ""
+            listAry?.let {
+                var isHas = false
+                for (index in 0..it.length()) {
+                    if (!it.isNull(index)) {
+                        if (endBillno == it.getJSONObject(index).optString("lableNo")) {
+                            isHas = true
+                            continue
+                        }
+                    }
+                }
+                if (!isHas) {
+                    mShowBillnoLable = endBillno
+                }
+            }
+        }
+        billno_ed.setText(mShowBillnoLable)
     }
 
     override fun saveScanPostS(result: String) {

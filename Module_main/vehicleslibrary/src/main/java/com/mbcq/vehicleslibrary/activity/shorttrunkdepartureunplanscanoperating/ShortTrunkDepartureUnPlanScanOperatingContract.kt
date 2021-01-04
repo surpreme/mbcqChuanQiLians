@@ -17,15 +17,18 @@ class ShortTrunkDepartureUnPlanScanOperatingContract {
         fun scanOrderS(billno: String, soundStr: String, mMoreScanBillno: String, mResultMoreData: String)
         fun getCarInfoS(list: List<ShortTrunkDepartureUnPlanScanOperatingBean>, id: Int)
         fun saveScanPostS(result: String)
+
         /**
          * 不在库存中
          */
         fun isNotAtStock(billno: String)
+
         /**
          * 再次扫描异常
          */
         fun againScanException(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mScanType: Int, errorStr: String)
         fun getVehicleS(result: String)
+        fun getScanBillNoInfoS(billno: String,result: String, totalQty: Int)
 
     }
 
@@ -36,12 +39,18 @@ class ShortTrunkDepartureUnPlanScanOperatingContract {
         /**
          * 异常扫描
          */
-        fun scanAbnormalOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String,mAbnormalReason:String)
+        fun scanAbnormalOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String, mAbnormalReason: String)
         fun getCarInfo(inoneVehicleFlag: String)
         fun saveScanPost(id: Int, inoneVehicleFlag: String)
+
         /**
          * 车辆信息
          */
-        fun getVehicles(vehicleNo:String)
+        fun getVehicles(vehicleNo: String)
+
+        /**
+         * 获取扫描信息
+         */
+        fun getScanBillNoInfo(billno: String, totalQty: Int)
     }
 }

@@ -8,6 +8,7 @@ import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.commonlibrary.ApiInterface
+import com.mbcq.vehicleslibrary.activity.departuretrunkdepartureunplanscanoperating.DepartureTrunkDepartureUnPlanScanOperatingPresenter
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
@@ -94,25 +95,14 @@ class DepartureTrunkDepartureScanOperatingPresenter : BasePresenterImpl<Departur
     soundStr 也是 ewebidCodeStr
      */
     override fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, scanPercentage: String, totalQty: Int, mScanType: Int) {
-        var mTopLableNo = lableNo
-        val params = HttpParams()
-        params.put("billno", billno)
-        /**
-         * @scanOpeType 操作类型
-         * 0 短驳装车
-         * 1 干线装车
-         * 2 短驳到车
-         * 3 干线到车
-         * -1 查询扫描信息
-         */
-        params.put("scanOpeType", "-1")
-        get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, params, object : CallBacks {
+        getScanBillNoInfo(billno, 2, totalQty, object : OnScanBillNoInfoResultInterface {
             override fun onResult(result: String) {
+                var mTopLableNo = lableNo
                 val obj = JSONObject(result)
                 val listAry = obj.optJSONArray("data")
                 listAry?.let {
                     val mXlableNo = arrayListOf<Long>()//全部未扫描大票运单号
-                    if (lableNo.split(",").isNotEmpty()) {
+                    if (lableNo.contains(",")) {
                         for (mCCCIndex in 1..totalQty) {
                             val endBillno = billno + if (mCCCIndex.toString().length == 1) "000$mCCCIndex" else if (mCCCIndex.toString().length == 2) "00$mCCCIndex" else if (mCCCIndex.toString().length == 3) "0$mCCCIndex" else if (mCCCIndex.toString().length == 4) "$mCCCIndex" else ""
                             var isHasIt = false
@@ -161,7 +151,6 @@ class DepartureTrunkDepartureScanOperatingPresenter : BasePresenterImpl<Departur
                      * 1 手动输入
                      * 2 异常扫描
                      */
-//        val mScanType = 0
                     jsonO.put("ScanType", mScanType)
                     jsonO.put("ScanTypeStr", if (mScanType == 0) "PDA" else if (mScanType == 1) "手动输入" else if (mScanType == 2) "异常扫描" else "")
                     /**
@@ -186,8 +175,8 @@ class DepartureTrunkDepartureScanOperatingPresenter : BasePresenterImpl<Departur
                 }
 
             }
-
         })
+
 
     }
 
@@ -243,26 +232,14 @@ class DepartureTrunkDepartureScanOperatingPresenter : BasePresenterImpl<Departur
     }
 
     override fun scanOrderUNPlan(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, scanPercentage: String, totalQty: Int, mScanType: Int) {
-        var mTopLableNo = lableNo
-
-        val params = HttpParams()
-        params.put("billno", billno)
-        /**
-         * @scanOpeType 操作类型
-         * 0 短驳装车
-         * 1 干线装车
-         * 2 短驳到车
-         * 3 干线到车
-         * -1 查询扫描信息
-         */
-        params.put("scanOpeType", "-1")
-        get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, params, object : CallBacks {
+        getScanBillNoInfo(billno, 2, totalQty, object : OnScanBillNoInfoResultInterface {
             override fun onResult(result: String) {
+                var mTopLableNo = lableNo
                 val obj = JSONObject(result)
                 val listAry = obj.optJSONArray("data")
                 listAry?.let {
                     val mXlableNo = arrayListOf<Long>()//全部未扫描大票运单号
-                    if (lableNo.split(",").isNotEmpty()) {
+                    if (lableNo.contains(",")) {
                         for (mCCCIndex in 1..totalQty) {
                             val endBillno = billno + if (mCCCIndex.toString().length == 1) "000$mCCCIndex" else if (mCCCIndex.toString().length == 2) "00$mCCCIndex" else if (mCCCIndex.toString().length == 3) "0$mCCCIndex" else if (mCCCIndex.toString().length == 4) "$mCCCIndex" else ""
                             var isHasIt = false
@@ -335,12 +312,13 @@ class DepartureTrunkDepartureScanOperatingPresenter : BasePresenterImpl<Departur
 
 
                 }
-
             }
 
         })
 
+
     }
+
     /**
      * {"code":0,"msg":"","count":10,"data":[
     {
@@ -425,6 +403,37 @@ class DepartureTrunkDepartureScanOperatingPresenter : BasePresenterImpl<Departur
             }
 
         })
+    }
+
+    interface OnScanBillNoInfoResultInterface {
+        fun onResult(result: String)
+    }
+
+    fun getScanBillNoInfo(billno: String, type: Int, totalQty: Int, mOnScanBillNoInfoResultInterface: OnScanBillNoInfoResultInterface?) {
+        val params = HttpParams()
+        params.put("billno", billno)
+        /**
+         * @scanOpeType 操作类型
+         * 0 短驳装车
+         * 1 干线装车
+         * 2 短驳到车
+         * 3 干线到车
+         * -1 查询扫描信息
+         */
+        params.put("scanOpeType", "-1")
+        get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                if (type == 2)
+                    mOnScanBillNoInfoResultInterface?.onResult(result)
+                else if (type == 1)
+                    mView?.getScanBillNoInfoS(billno, result, totalQty)
+            }
+        })
+    }
+
+    override fun getScanBillNoInfo(billno: String, totalQty: Int) {
+        getScanBillNoInfo(billno, 1, totalQty, null)
+
     }
 
     override fun saveScanPost(id: Int, inoneVehicleFlag: String) {

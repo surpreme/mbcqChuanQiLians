@@ -29,6 +29,8 @@ class DepartureTrunkDepartureUnPlanScanOperatingContract {
          * 再次扫描异常
          */
         fun againScanException(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mScanType: Int, errorStr: String)
+        fun getScanBillNoInfoS(billno: String, result: String, totalQty: Int)
+
     }
 
     interface Presenter : BasePresenter<View> {
@@ -36,14 +38,20 @@ class DepartureTrunkDepartureUnPlanScanOperatingContract {
         fun scanOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, totalQty: Int, mScanType: Int)
         fun saveScanPost(id: Int, inoneVehicleFlag: String)
         fun getCarInfo(inoneVehicleFlag: String)
+
         /**
          * 车辆信息
          */
-        fun getVehicles(vehicleNo:String)
+        fun getVehicles(vehicleNo: String)
+
         /**
          * 异常扫描
          */
         fun scanAbnormalOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String, mAbnormalReason: String)
 
+        /**
+         * 获取扫描信息
+         */
+        fun getScanBillNoInfo(billno: String, totalQty: Int)
     }
 }

@@ -34,16 +34,6 @@ import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperating.re
 import com.mbcq.vehicleslibrary.activity.departuretrunkdeparturescanoperatingmoreinfo.DepartureTrunkDepartureScanOperatingScanMoreInfoBean
 import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
 import kotlinx.android.synthetic.main.activity_departure_trunk_departure_scan_operating.*
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_scan_operating.billno_ed
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_scan_operating.look_local_car_info_tv
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_scan_operating.scan_number_iv
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_scan_operating.scan_number_total_tv
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_scan_operating.scan_progressBar
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_scan_operating.scaned_info__tv
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_scan_operating.search_btn
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_scan_operating.type_tv
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_scan_operating.unloading_batch_tv
-import kotlinx.android.synthetic.main.activity_departure_trunk_departure_un_plan_scan_operating.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.StringBuilder
@@ -51,6 +41,7 @@ import java.lang.StringBuilder
 /**
  * @author: lzy
  * @time: 2020-11-04 14:30 :21 干线扫描发车
+ * 扫描有两个方法 一个无计划和有计划
  */
 
 @Route(path = ARouterConstants.DepartureTrunkDepartureScanOperatingActivity)
@@ -331,8 +322,15 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
     override fun getRecyclerViewId(): Int = R.id.departure_vehicles_scan_operating_recycler
     override fun setAdapter(): BaseRecyclerAdapter<DepartureTrunkDepartureScanOperatingBean> = DepartureTrunkDepartureScanOperatingAdapter(mContext).also {
         it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            @SuppressLint("SetTextI18n")
             override fun onItemClick(v: View, position: Int, mResult: String) {
-                billno_ed.setText(mResult)
+                val mSelectBean = Gson().fromJson<DepartureTrunkDepartureScanOperatingBean>(mResult, DepartureTrunkDepartureScanOperatingBean::class.java)
+                if (mSelectBean.totalQty in 1..20) {
+                    mPresenter?.getScanBillNoInfo(mSelectBean.billno, mSelectBean.totalQty)
+
+                } else if (mSelectBean.totalQty in 21..9999) {
+                    billno_ed.setText("${mSelectBean.billno}0001")
+                }
             }
 
         }
@@ -512,6 +510,30 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
 
         }.start()
 
+    }
+
+    override fun getScanBillNoInfoS(billno: String, result: String, totalQty: Int) {
+        var mShowBillnoLable = ""
+        val obj = JSONObject(result)
+        val listAry = obj.optJSONArray("data")
+        for (mCCCIndex in totalQty downTo  1) {
+            val endBillno = billno + if (mCCCIndex.toString().length == 1) "000$mCCCIndex" else if (mCCCIndex.toString().length == 2) "00$mCCCIndex" else if (mCCCIndex.toString().length == 3) "0$mCCCIndex" else if (mCCCIndex.toString().length == 4) "$mCCCIndex" else ""
+            listAry?.let {
+                var isHas = false
+                for (index in 0..it.length()) {
+                    if (!it.isNull(index)) {
+                        if (endBillno == it.getJSONObject(index).optString("lableNo")) {
+                            isHas = true
+                            continue
+                        }
+                    }
+                }
+                if (!isHas) {
+                    mShowBillnoLable = endBillno
+                }
+            }
+        }
+        billno_ed.setText(mShowBillnoLable)
     }
 
     fun onFirstScanOrder(data: JSONObject, resultBillno: String, inoneV: String, mXScanType: Int) {

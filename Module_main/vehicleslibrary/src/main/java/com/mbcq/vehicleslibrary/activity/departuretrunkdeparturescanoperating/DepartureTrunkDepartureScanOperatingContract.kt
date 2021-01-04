@@ -25,6 +25,8 @@ class DepartureTrunkDepartureScanOperatingContract {
          */
         fun isNotAtStock(billno: String)
         fun againScanException(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, scanPercentage: String, mScanType: Int, errorInfoStr: String)
+        fun getScanBillNoInfoS(billno: String, result: String, totalQty: Int)
+
     }
 
     interface Presenter : BasePresenter<View> {
@@ -35,13 +37,19 @@ class DepartureTrunkDepartureScanOperatingContract {
          * 异常扫描
          */
         fun scanAbnormalOrder(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mMoreScanBillno: String, mAbnormalReason: String)
-        fun scanOrderUNPlan(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String,scanPercentage: String, totalQty: Int,  mScanType: Int)
+        fun scanOrderUNPlan(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, scanPercentage: String, totalQty: Int, mScanType: Int)
         fun getWillByInfo(billno: String, resultBillno: String, mScanType: Int)
         fun saveScanPost(id: Int, inoneVehicleFlag: String)
+
         /**
          * 车辆信息
          */
-        fun getVehicles(vehicleNo:String)
+        fun getVehicles(vehicleNo: String)
         fun deleteUnScanOrder(billno: String, inOneVehicleFlag: String, scanOpeType: String, withoutScanBillno: MutableList<String>)
+
+        /**
+         * 获取扫描信息
+         */
+        fun getScanBillNoInfo(billno: String, totalQty: Int)
     }
 }

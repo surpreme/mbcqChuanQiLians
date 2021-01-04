@@ -29,6 +29,8 @@ class ShortTrunkDepartureScanOperatingContract {
          */
         fun againScanException(billno: String, lableNo: String, deviceNo: String, inOneVehicleFlag: String, soundStr: String, ewebidCode: String, ewebidCodeStr: String, scanPercentage: String, mScanType: Int, errorStr: String)
         fun deleteUnScanOrderS(billno: String, inOneVehicleFlag: String, scanOpeType: String, withoutScanBillno: MutableList<String>, isOver: Boolean)
+        fun getScanBillNoInfoS(billno: String, result: String, totalQty: Int)
+
     }
 
     interface Presenter : BasePresenter<View> {
@@ -49,5 +51,9 @@ class ShortTrunkDepartureScanOperatingContract {
         fun getVehicles(vehicleNo: String)
         fun deleteUnScanOrder(billno: String, inOneVehicleFlag: String, scanOpeType: String, withoutScanBillno: MutableList<String>)
 
+        /**
+         * 获取扫描信息
+         */
+        fun getScanBillNoInfo(billno: String, totalQty: Int)
     }
 }
