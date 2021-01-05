@@ -105,8 +105,12 @@ abstract class BaseLogInActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseD
                         // I can control the camera now
 //                        ScanDialogFragment(getScreenWidth()).show(supportFragmentManager, "ScanDialogFragment")
                         if (isFaceActive) {
-                            startActivity(RegisterAndRecognizeActivity::class.java)
+                            val bundle = Bundle()
+                            bundle.putInt("RegisterAndRecognizeType", 1)
+                            startActivity(RegisterAndRecognizeActivity::class.java,bundle)
                             /* ARouter.getInstance().build(ARouterConstants.FaceRecognitionActivity).navigation()*/
+                        }else{
+                            showToast("人脸识别初始化失败，请稍后再试")
                         }
                     } else {
                         // Oups permission denied

@@ -9,6 +9,7 @@ public class Constant extends BaseConstant {
     public static final String HONGRUAN_SDK_KEY = "UKmjnBR4S2RKxrxwgn3tAiwMcs5mpg4th9HfjKX5Mcd";
     public static final String HONGRUAN_SHAREPREFERENCES = "HONGRUAN_SHAREPREFERENCES";
     public static final String HONGRUAN_IS_ACTIVATE = "HONGRUAN_IS_ACTIVATE";//是否激活设备
+    public static final String HONGRUAN_IS_OPEN_FACE = "HONGRUAN_IS_OPEN_FACE";//是否打开人脸登录
     /**
      * 拍照fileprovider
      */

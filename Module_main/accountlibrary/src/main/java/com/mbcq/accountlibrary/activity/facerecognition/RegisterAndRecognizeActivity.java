@@ -13,9 +13,11 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.arcsoft.face.AgeInfo;
 import com.arcsoft.face.ErrorInfo;
 import com.arcsoft.face.FaceEngine;
@@ -43,13 +45,16 @@ import com.mbcq.commonlibrary.facerecognition.LivenessType;
 import com.mbcq.commonlibrary.facerecognition.RecognizeColor;
 import com.mbcq.commonlibrary.facerecognition.RequestFeatureStatus;
 import com.mbcq.commonlibrary.facerecognition.RequestLivenessStatus;
+
 import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -59,6 +64,10 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * @bunlde RegisterAndRecognizeType int @1 识别登录 @2 注册
+ * 6.0 权限在进入这个页面之前判断号
+ */
 public class RegisterAndRecognizeActivity extends BaseActivity implements ViewTreeObserver.OnGlobalLayoutListener {
     private static final String TAG = "RegisterAndRecognize";
     private static final int MAX_DETECT_NUM = 10;
@@ -206,6 +215,15 @@ public class RegisterAndRecognizeActivity extends BaseActivity implements ViewTr
         int spanCount = (int) (dm.widthPixels / (getResources().getDisplayMetrics().density * 100 + 0.5f));
         recyclerShowFaceInfo.setLayoutManager(new GridLayoutManager(this, spanCount));
         recyclerShowFaceInfo.setItemAnimator(new DefaultItemAnimator());
+        if (getIntent().getIntExtra("RegisterAndRecognizeType", 0) == 1) {
+            switchLivenessDetect.setVisibility(View.GONE);
+            findViewById(R.id.register_btn).setVisibility(View.GONE);
+            switchLivenessDetect.setVisibility(View.GONE);
+        } else if (getIntent().getIntExtra("RegisterAndRecognizeType", 0) == 2) {
+            switchLivenessDetect.setVisibility(View.GONE);
+            findViewById(R.id.register_btn).setVisibility(View.VISIBLE);
+            switchLivenessDetect.setVisibility(View.GONE);
+        }
     }
 
     /**

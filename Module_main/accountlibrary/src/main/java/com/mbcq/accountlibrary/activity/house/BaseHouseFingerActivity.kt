@@ -35,10 +35,7 @@ abstract class BaseHouseFingerActivity : BaseActivity(), FingerprintHelper.Simpl
 
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            initFingerTips()
-        }
-
+        initFingerTips()
     }
 
     private fun showFingerprintVerifyErrorInfo(info: String) {
@@ -47,21 +44,24 @@ abstract class BaseHouseFingerActivity : BaseActivity(), FingerprintHelper.Simpl
         }
     }
 
-    private fun initFingerTips() {
-        object : CountDownTimer(1000, 1000) {
-            override fun onFinish() {
-                if (helper.checkFingerprintAvailable(mContext) != -1) {
-                    if (UserInformationUtil.getUserIsAskFingerLogIn(mContext)) {
-                        showOpenFingerprintLoginDialog()
+    protected fun initFingerTips() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            object : CountDownTimer(1000, 1000) {
+                override fun onFinish() {
+                    if (helper.checkFingerprintAvailable(mContext) != -1) {
+                        if (UserInformationUtil.getUserIsAskFingerLogIn(mContext)) {
+                            showOpenFingerprintLoginDialog()
+                        }
                     }
                 }
-            }
 
-            override fun onTick(millisUntilFinished: Long) {
+                override fun onTick(millisUntilFinished: Long) {
 
-            }
+                }
 
-        }.start()
+            }.start()
+        }
+
 
     }
 

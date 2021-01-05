@@ -10,8 +10,8 @@
         android:id="@+id/face_recognition_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:backButtonIsShow="true"
         android:background="@android:color/transparent"
+        app:backButtonIsShow="true"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="切换相机"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:visibility="visible" />
         </LinearLayout>
 
