@@ -122,7 +122,7 @@ class ShipmentInventoryPresenter : BasePresenterImpl<ShipmentInventoryContract.V
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {
-                    mView?.getPageS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<ShipmentInventoryBean>>() {}.type),page,obj.optString("count"))
+                    mView?.getPageS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<ShipmentInventoryBean>>() {}.type),Gson().fromJson(obj.optString("totalRow"), ShipmentInventoryToTalBean::class.java),page,obj.optString("count"))
 
                 }
 

@@ -8,6 +8,7 @@ import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseListMVPFragment
+import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
@@ -23,19 +24,19 @@ import java.util.*
 /**
  * @author: lzy
  * @time: 2020-09-21 09:06
- * 短驳到车 TODO
+ * 短驳到车
+ *
  */
 
-class ArrivalShortFeederFragment : BaseListMVPFragment<ArrivalShortFeederContract.View, ArrivalShortFeederPresenter, ShortFeederBean>(), ArrivalShortFeederContract.View {
+class ArrivalShortFeederFragment : BaseSmartMVPFragment<ArrivalShortFeederContract.View, ArrivalShortFeederPresenter, ShortFeederBean>(), ArrivalShortFeederContract.View {
     var mStartDateTag = ""
     var mEndDateTag = ""
     var mShippingOutletsTag = ""//发货网点
-    var mType = 1
 
     override fun getLayoutResId() = R.layout.fragment_arrival_short_feeder
-
-
     override fun getRecyclerViewId(): Int = R.id.arrival_short_list_recycler
+    override fun getSmartLayoutId(): Int = R.id.arrival_short_list_smart
+    override fun getSmartEmptyId(): Int = R.id.arrival_short_list_smart_frame
 
     @SuppressLint("SimpleDateFormat")
     override fun initExtra() {
@@ -54,55 +55,28 @@ class ArrivalShortFeederFragment : BaseListMVPFragment<ArrivalShortFeederContrac
 
     @SuppressLint("CheckResult")
     override fun initDatas() {
+        arrival_short_list_smart.setEnableLoadMore(false)
         super.initDatas()
-        mPresenter?.getUnLoading(mShippingOutletsTag, mStartDateTag, mEndDateTag)
         RxBus.build().toObservable(this, ArrivalRecordEvent::class.java).subscribe { msg ->
             if (msg.type == 0) {
                 mShippingOutletsTag = msg.webCode
                 mStartDateTag = msg.startTime
                 mEndDateTag = msg.endTime
-                refreshDataType(mType)
+                refresh()
             }
 
         }
 
     }
 
-    protected fun refreshDataType(type: Int) {
-        when (type) {
-
-            1 -> {
-                adapter.clearData()
-                mPresenter?.getUnLoading(mShippingOutletsTag, mStartDateTag, mEndDateTag)
-            }
-            2 -> {
-                adapter.clearData()
-                mPresenter?.getLoading(mShippingOutletsTag, mStartDateTag, mEndDateTag)
-            }
-        }
+    override fun getPageDatas(mCurrentPage: Int) {
+        super.getPageDatas(mCurrentPage)
+        mPresenter?.getArrivalCarList(mShippingOutletsTag, mStartDateTag, mEndDateTag)
     }
+
 
     override fun onClick() {
         super.onClick()
-        type_gr.setOnCheckedChangeListener { _, checkedId ->
-            run {
-                when (checkedId) {
-                    R.id.roading_rb -> {
-                        mType = 1
-                        refreshDataType(1)
-                    }
-                    R.id.roaded_rb -> {
-                        mType = 2
-                        refreshDataType(2)
-                    }
-                    else -> {
-
-                    }
-
-                }
-
-            }
-        }
         cancel_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 for ((index, item) in (adapter.getAllData()).withIndex()) {
@@ -138,7 +112,7 @@ class ArrivalShortFeederFragment : BaseListMVPFragment<ArrivalShortFeederContrac
     }
 
     override fun getPageS(list: List<ShortFeederBean>) {
-        adapter.appendData(list)
+        appendDatas(list)
 
     }
 
@@ -146,11 +120,6 @@ class ArrivalShortFeederFragment : BaseListMVPFragment<ArrivalShortFeederContrac
         adapter.notifyItemChangeds(position, data)
 
     }
-
-    /* override fun confirmCarS(position: Int) {
-         adapter.removeItem(position)
-
-     }*/
 
 
     override fun canCelCarS(data: ShortFeederBean, position: Int) {

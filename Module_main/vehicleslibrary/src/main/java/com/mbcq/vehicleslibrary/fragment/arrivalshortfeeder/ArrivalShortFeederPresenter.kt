@@ -15,30 +15,12 @@ import org.json.JSONObject
  */
 
 class ArrivalShortFeederPresenter : BasePresenterImpl<ArrivalShortFeederContract.View>(), ArrivalShortFeederContract.Presenter {
-    override fun getUnLoading(selEwebidCode: String, startDate: String, endDate: String) {
-      /*  val mHttpParams = HttpParams()
-        mHttpParams.put("page", page)
-        mHttpParams.put("limit", 15)*/
-       /* mView?.getContext()?.let {
-            mHttpParams.put("selWebidCode", UserInformationUtil.getWebIdCode(it))
-        }*/
-//         mHttpParams.put("startDate", startDate)
-//         mHttpParams.put("endDate", endDate)
-        val mHttpParams = HttpParams()
-        mHttpParams.put("SelEwebidCode", selEwebidCode)
-        mHttpParams.put("startDate", startDate)
-        mHttpParams.put("endDate", endDate)
-        get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_LOADING_LOCAL_INFO_POST, mHttpParams, object : CallBacks {
-            override fun onResult(result: String) {
-                val obj = JSONObject(result)
-                mView?.getPageS(Gson().fromJson<List<ShortFeederBean>>(obj.optString("data"), object : TypeToken<List<ShortFeederBean>>() {}.type))
-            }
 
-        })
-    }
-
-    override fun getLoading(selEwebidCode: String, startDate: String, endDate: String) {
+    override fun getArrivalCarList(selEwebidCode: String, startDate: String, endDate: String) {
         val mHttpParams = HttpParams()
+        mHttpParams.put("page", 1)
+        mHttpParams.put("limit", 15)
+        mHttpParams.put("vehicleStateStr", "1,2,3")
         mHttpParams.put("SelEwebidCode", selEwebidCode)
         mHttpParams.put("startDate", startDate)
         mHttpParams.put("endDate", endDate)
@@ -66,7 +48,6 @@ class ArrivalShortFeederPresenter : BasePresenterImpl<ArrivalShortFeederContract
                 data.vehicleState = 2
                 data.vehicleStateStr = "到货"
                 mView?.confirmCarS(data, position)
-//                mView?.confirmCarS( position)
             }
 
         })

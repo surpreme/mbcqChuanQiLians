@@ -11,10 +11,19 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class TrunkDepartureUnloadingWarehousingContract {
 
     interface View : BaseView {
+        fun getVehicleInfoS(list: List<TrunkDepartureUnloadingWarehousingBean>)
+        fun getVehicleReceiptInfoS(list: List<TrunkDepartureUnloadingWarehousingBean>)
 
+        fun UnloadingWarehousingS(result: String)
     }
 
     interface Presenter : BasePresenter<View> {
+        fun getVehicleInfo(inoneVehicleFlag: String)
+        fun getVehicleReceiptInfo(inoneVehicleFlag: String)
 
+        /**
+         * 卸车入库
+         */
+        fun UnloadingWarehousing(commonStr: String, inoneVehicleFlag: String)
     }
 }

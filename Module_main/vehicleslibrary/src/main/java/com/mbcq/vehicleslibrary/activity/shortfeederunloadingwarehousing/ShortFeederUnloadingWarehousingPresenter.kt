@@ -1,8 +1,12 @@
 package com.mbcq.vehicleslibrary.activity.shortfeederunloadingwarehousing
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
+import com.mbcq.vehicleslibrary.activity.fixedscanshortfeederconfiguration.FixedScanShortFeederConfigurationBean
+import org.json.JSONObject
 
 /**
  * @author: lzy
@@ -15,30 +19,47 @@ class ShortFeederUnloadingWarehousingPresenter : BasePresenterImpl<ShortFeederUn
         params.put("InoneVehicleFlag", inoneVehicleFlag)
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_LOCAL_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
-
-             /*   val obj = JSONObject(result)
-                val mTotalData = obj.optJSONArray("data")
-                var mFixShortFeederHouseCarInfo: FixShortFeederHouseCarInfo? = null
-                mTotalData?.let { it1 ->
-                    if (!it1.isNull(0)) {
-                        val mFirstJson = it1.getJSONObject(0)
-                        val mFirstData = mFirstJson.optJSONArray("data")
-                        mFirstData?.let {
-                            val mCarInfo = mFirstData.optString(0)
-                            mFixShortFeederHouseCarInfo = Gson().fromJson(mCarInfo, FixShortFeederHouseCarInfo::class.java)
-                        }
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    if (!it.isNull(1)) {
+                        val dataObj = it.optJSONObject(1)
+                        mView?.getVehicleInfoS(Gson().fromJson<List<ShortFeederUnloadingWarehousingBean>>(dataObj.optString("data"), object : TypeToken<List<ShortFeederUnloadingWarehousingBean>>() {}.type))
 
                     }
-                    if (!it1.isNull(1)) {
-                        val mSencondJson = it1.getJSONObject(1)
-                        val mSecondData = mSencondJson.optString("data")
-                        mFixShortFeederHouseCarInfo?.item = Gson().fromJson<List<StockWaybillListBean>>(mSecondData, object : TypeToken<List<StockWaybillListBean>>() {}.type)
+
+                }
+            }
+
+        })
+    }
+
+    override fun getVehicleReceiptInfo(inoneVehicleFlag: String) {
+        val params = HttpParams()
+        params.put("InoneVehicleFlag", inoneVehicleFlag)
+        params.put("type", 1)
+        get<String>(ApiInterface.SHORT_FEEDER_UNLOADING_WAREHOUSING_RECEIPT_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    if (!it.isNull(1)) {
+                        val dataObj = it.optJSONObject(1)
+                        mView?.getVehicleReceiptInfoS(Gson().fromJson<List<ShortFeederUnloadingWarehousingBean>>(dataObj.optString("data"), object : TypeToken<List<ShortFeederUnloadingWarehousingBean>>() {}.type))
 
                     }
-                    mFixShortFeederHouseCarInfo?.let {
-                        mView?.getCarInfo(it)
-                    }
-                }*/
+
+                }
+            }
+
+        })
+    }
+
+    override fun UnloadingWarehousing(commonStr: String, inoneVehicleFlag: String) {
+        val jsonObj = JSONObject()
+        jsonObj.put("commonStr", commonStr)
+        jsonObj.put("inoneVehicleFlag", inoneVehicleFlag)
+        post<String>(ApiInterface.SHORT_FEEDER_UNLOADING_WAREHOUSING_POST, getRequestBody(jsonObj), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.UnloadingWarehousingS("车次为$inoneVehicleFlag,运单号为$commonStr")
             }
 
         })

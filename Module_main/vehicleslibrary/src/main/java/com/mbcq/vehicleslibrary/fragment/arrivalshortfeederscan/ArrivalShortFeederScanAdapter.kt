@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
@@ -23,6 +24,7 @@ class ArrivalShortFeederScanAdapter(context: Context) :BaseRecyclerAdapter<Arriv
         holder.feeder_state_tv.text = mDatas[position].vehicleStateStr
         holder.feeder_confirm_btn.visibility = if (mDatas[position].vehicleState == 1) View.VISIBLE else View.GONE
         holder.scan_rate_tv.visibility = if (mDatas[position].vehicleState != 1) View.VISIBLE else View.GONE
+        holder.operating_progressbar.visibility = if (mDatas[position].vehicleState != 1) View.VISIBLE else View.GONE
         holder.itemView.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
                 mClickInterface?.onItemClick(v, position, mDatas[position].id.toString())
@@ -40,5 +42,6 @@ class ArrivalShortFeederScanAdapter(context: Context) :BaseRecyclerAdapter<Arriv
         var feeder_state_tv: TextView = itemView.findViewById(R.id.feeder_state_tv)
         var receiver_outlets_tv: TextView = itemView.findViewById(R.id.receiver_outlets_tv)
         var feeder_confirm_btn: Button = itemView.findViewById(R.id.feeder_confirm_btn)
+        var operating_progressbar: ProgressBar = itemView.findViewById(R.id.operating_progressbar)
     }
 }

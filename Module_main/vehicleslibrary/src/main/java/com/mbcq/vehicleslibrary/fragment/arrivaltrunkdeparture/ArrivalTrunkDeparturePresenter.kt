@@ -50,32 +50,16 @@ class ArrivalTrunkDeparturePresenter : BasePresenterImpl<ArrivalTrunkDepartureCo
     "vehicleInterval": "义乌后湖-汕头"
     }
     ]}
+     * @1在途
+     * @2 已到车
      */
-    override fun getUnLoading(selEwebidCode: String, startDate: String, endDate: String) {
-        /*  val mHttpParams = HttpParams()
-          mHttpParams.put("page", page)
-          mHttpParams.put("limit", 15)*/
-        /* mHttpParams.put("selWebidCode", selWebidCode)
-         mHttpParams.put("startDate", startDate)
-         mHttpParams.put("endDate", endDate)*/
+
+    override fun getArrivalCar(selEwebidCode: String, startDate: String, endDate: String) {
         val mHttpParams = HttpParams()
         mHttpParams.put("selEwebidCode", selEwebidCode)
         mHttpParams.put("startDate", startDate)
         mHttpParams.put("endDate", endDate)
-        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_LOADING_LOCAL_INFO_GET, mHttpParams, object : CallBacks {
-            override fun onResult(result: String) {
-                val obj = JSONObject(result)
-                mView?.getPageS(Gson().fromJson<List<TrunkDepartureBean>>(obj.optString("data"), object : TypeToken<List<TrunkDepartureBean>>() {}.type))
-            }
-
-        })
-    }
-
-    override fun getLoading(selEwebidCode: String, startDate: String, endDate: String) {
-        val mHttpParams = HttpParams()
-        mHttpParams.put("selEwebidCode", selEwebidCode)
-        mHttpParams.put("startDate", startDate)
-        mHttpParams.put("endDate", endDate)
+        mHttpParams.put("vehicleStateStr", "1,2,3")
         get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_OVERRING_LOCAL_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)

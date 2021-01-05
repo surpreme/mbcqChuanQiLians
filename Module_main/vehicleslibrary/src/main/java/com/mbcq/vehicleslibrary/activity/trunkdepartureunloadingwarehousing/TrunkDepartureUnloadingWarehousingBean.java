@@ -1,6 +1,6 @@
-package com.mbcq.vehicleslibrary.activity.shortfeederunloadingwarehousing;
+package com.mbcq.vehicleslibrary.activity.trunkdepartureunloadingwarehousing;
 
-public class ShortFeederUnloadingWarehousingBean {
+public class TrunkDepartureUnloadingWarehousingBean {
 
 
     /**

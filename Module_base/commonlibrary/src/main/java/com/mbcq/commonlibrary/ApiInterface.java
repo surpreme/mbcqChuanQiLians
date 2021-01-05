@@ -146,9 +146,9 @@ public class ApiInterface {
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_LOADING_LOCAL_INFO_POST = BASE_URI + "DbVehicleOpe/SelNeeDbVehicleArrivalByCon";
     /**
-     * 短驳发车 查询到达车辆
+     * 短驳到车 查询到达车辆
      */
-    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_OVERRING_LOCAL_INFO_GET = BASE_URI + "DbVehicleOpe/SelDbVehicleArrivalByCon";
+    public static final String DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_OVERRING_LOCAL_INFO_GET = BASE_URI + "DbVehicleOpe/SelDbVehicleByCondition";
     /**
      * 短驳发车 取消完成本车
      */
@@ -223,9 +223,9 @@ public class ApiInterface {
     public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_LOADING_LOCAL_INFO_GET = BASE_URI + "GxVehicleOpe/SelNeeGxVehicleArrivalByCon";
 
     /**
-     * 干线发车 查询到达车辆
+     * 干线到车 查询到达车辆
      */
-    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_OVERRING_LOCAL_INFO_GET = BASE_URI + "GxVehicleOpe/SelGxVehicleArrivalByCon";
+    public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_OVERRING_LOCAL_INFO_GET = BASE_URI + "GxVehicleOpe/SelGxVehicleByCondition";
 
     /**
      * 干线发车 剔除运单
@@ -594,6 +594,22 @@ public class ApiInterface {
      * 改单申请 财务审核
      */
     public static final String ACCEPT_BILLING_RECORDING_INFO_FINANCE_REVIEW_POST = BASE_URI + "WaybillUpdateApplyOpe/UpdCwwaybillUpdateApplyByCondition";
+    /**
+     * 短驳到车 本车信封回单获取详情
+     */
+    public static final String SHORT_FEEDER_UNLOADING_WAREHOUSING_RECEIPT_GET = BASE_URI + "DbVehicleOpe/SelSmDbVehicleByConditionRts";
+    /**
+     * 短驳到车 卸车入库
+     */
+    public static final String SHORT_FEEDER_UNLOADING_WAREHOUSING_POST = BASE_URI + "DbVehicleOpe/UpdCofArrDbVehicle";
+    /**
+     * 干线到车 本车信封回单获取详情
+     */
+    public static final String TRUNK_DEPARTURE_UNLOADING_WAREHOUSING_RECEIPT_GET = BASE_URI + "GxVehicleOpe/SelSmGxVehicleByConditionRts";
+    /**
+     * 干线到车 卸车入库
+     */
+    public static final String TRUNK_DEPARTURE_UNLOADING_WAREHOUSING_POST = BASE_URI + "GxVehicleOpe/UpdCofArrGxVehicle";
 
 
 }

@@ -48,22 +48,6 @@ import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
         holder.waybill_move_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 mOnRemoveInterface?.onClick(position, mDatas[position])
-
-                /*val list = mutableListOf<ShortFeederHouseListBean>()
-                mDatas[position].isChecked = false
-                list.add(mDatas[position])
-                if (ShortFeederHouseLoadingListFragment().isAdded) {
-                    if (mUnShowedList.isNotEmpty()) {
-                        mUnShowedList.clear()
-                    }
-                    RxBus.build().postSticky(ShortFeederHouseInventoryListEvent(1, list))
-                }else{
-                    mUnShowedList.addAll(list)
-                    RxBus.build().postSticky(ShortFeederHouseInventoryListEvent(1, mUnShowedList))
-
-                }
-                removeItem(position)*/
-
             }
 
         })

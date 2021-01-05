@@ -19,8 +19,8 @@ class ArrivalShortFeederContract {
     }
 
     interface Presenter : BasePresenter<View> {
-        fun getUnLoading(selEwebidCode: String, startDate: String, endDate: String)
-        fun getLoading(selEwebidCode: String, startDate: String, endDate: String)
+//        fun getUnLoading(selEwebidCode: String, startDate: String, endDate: String)
+        fun getArrivalCarList(selEwebidCode: String, startDate: String, endDate: String)
 
         /**
          * 确认到车

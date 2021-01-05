@@ -21,6 +21,7 @@ class ArrivalTrunkDepartureAdapter(context: Context?) : BaseRecyclerAdapter<Trun
     interface OnArrivalConfirmInterface {
         fun onResult(position: Int, data: TrunkDepartureBean)
         fun onCancel(position: Int, data: TrunkDepartureBean)
+        fun onUnloadingWarehousing(position: Int, data: TrunkDepartureBean)
     }
 
     var mOnArrivalConfirmInterface: OnArrivalConfirmInterface? = null
@@ -45,6 +46,12 @@ class ArrivalTrunkDepartureAdapter(context: Context?) : BaseRecyclerAdapter<Trun
             }
 
         })
+        holder.unloading_warehousing_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                mOnArrivalConfirmInterface?.onUnloadingWarehousing(position, mDatas[position])
+            }
+
+        })
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -56,5 +63,7 @@ class ArrivalTrunkDepartureAdapter(context: Context?) : BaseRecyclerAdapter<Trun
         var outlets_info_tv: TextView = itemView.findViewById(R.id.outlets_info_tv)
         var overed_car_ll: LinearLayout = itemView.findViewById(R.id.overed_car_ll)
         var feeder_cancel_confirm_btn: Button = itemView.findViewById(R.id.feeder_cancel_confirm_btn)
+        var unloading_warehousing_btn: Button = itemView.findViewById(R.id.unloading_warehousing_btn)
+
     }
 }
