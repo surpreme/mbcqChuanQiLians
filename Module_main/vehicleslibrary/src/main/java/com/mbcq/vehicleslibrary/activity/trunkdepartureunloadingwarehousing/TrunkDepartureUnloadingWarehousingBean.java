@@ -119,7 +119,9 @@ public class TrunkDepartureUnloadingWarehousingBean {
     private String sendDate;
     private String arrivedDate;
     private String inoneVehicleFlag;
-    private int qtyDb;
+
+
+    private int qtyGx;
     private int unLoadQty;
     private int loadQty;
     private int webidCodeDb;
@@ -232,6 +234,13 @@ public class TrunkDepartureUnloadingWarehousingBean {
         isChecked = checked;
     }
 
+    public int getQtyGx() {
+        return qtyGx;
+    }
+
+    public void setQtyGx(int qtyGx) {
+        this.qtyGx = qtyGx;
+    }
 
 
 
@@ -275,13 +284,7 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.inoneVehicleFlag = inoneVehicleFlag;
     }
 
-    public int getQtyDb() {
-        return qtyDb;
-    }
 
-    public void setQtyDb(int qtyDb) {
-        this.qtyDb = qtyDb;
-    }
 
     public int getUnLoadQty() {
         return unLoadQty;

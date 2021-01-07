@@ -86,4 +86,8 @@
         <!--进度条的最大高度-->
         <item name="android:maxHeight">17dp</item>
     </style>
+    <declare-styleable name="FlowView">
+        <attr name="maxLine" format="integer" />
+        <attr name="noRightMargin" format="boolean" />
+    </declare-styleable>
 </resources>

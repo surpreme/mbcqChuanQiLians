@@ -8,6 +8,8 @@ import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.WebDbUtil
+import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import com.mbcq.vehicleslibrary.R
@@ -26,7 +28,7 @@ class ArrivalRecordActivity : BaseArrivalRecordActivity<ArrivalRecordContract.Vi
     override fun onClick() {
         super.onClick()
         arrival_record_toolbar.setRightButtonOnClickListener {
-            getDbWebId(object : WebDbInterface {
+            WebDbUtil.getDbWebId(application,object : WebsDbInterface {
                 override fun isNull() {
 
                 }

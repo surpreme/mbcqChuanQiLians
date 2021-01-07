@@ -9,6 +9,9 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
+import com.mbcq.baselibrary.gson.GsonUtils
+import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
@@ -17,9 +20,11 @@ import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
+import com.mbcq.vehicleslibrary.fragment.SplitTicketNumDialog
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.inventorylist.ShortFeederHouseInventoryListAdapter
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.loadinglist.ShortFeederHouseLoadingListAdapter
 import kotlinx.android.synthetic.main.activity_short_feeder_house.*
+import org.json.JSONObject
 
 /**
  * @author: lzy
@@ -96,7 +101,7 @@ abstract class BasesShortFeederHouseActivity<V : BaseView, T : BasePresenterImpl
                                 mQty += item.totalQty.toInt()
 
                         }
-                        mXWeight=mWeight
+                        mXWeight = mWeight
                         over_total_info_tv.text = "已 装  车：${it.getAllData().size} 票 $mQty 件 ${haveTwoDouble(mWeight)} Kg ${haveTwoDouble(mVolume)} 方      ${haveTwoDouble(mPrice)}元"
 
                     }
@@ -110,7 +115,7 @@ abstract class BasesShortFeederHouseActivity<V : BaseView, T : BasePresenterImpl
         val mSelectedDatas = mutableListOf<StockWaybillListBean>()
         val mUnSelectedDatas = mutableListOf<StockWaybillListBean>()
         mLoadingListAdapter?.getAllData()?.let {
-            for ((index, item) in (it.withIndex())) {
+            for ((_, item) in (it.withIndex())) {
                 if (item.isChecked) {
                     item.isChecked = false
                     mSelectedDatas.add(item)
@@ -131,7 +136,7 @@ abstract class BasesShortFeederHouseActivity<V : BaseView, T : BasePresenterImpl
         val mSelectedDatas = mutableListOf<StockWaybillListBean>()
         val mUnSelectedDatas = mutableListOf<StockWaybillListBean>()
         mInventoryListAdapter?.getAllData()?.let {
-            for ((index, item) in (it.withIndex())) {
+            for ((_, item) in (it.withIndex())) {
                 if (item.isChecked) {
                     item.isChecked = false
                     mSelectedDatas.add(item)
@@ -173,6 +178,20 @@ abstract class BasesShortFeederHouseActivity<V : BaseView, T : BasePresenterImpl
                 short_feeder_house_tabLayout.getTabAt(0)?.text = "库存清单(${mInventoryListAdapter?.getAllData()?.size})"
                 short_feeder_house_tabLayout.getTabAt(1)?.text = "配载清单(${mLoadingListAdapter?.getAllData()?.size})"
                 refreshTopInfo()
+
+            }
+
+        }
+        mLoadingListAdapter?.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                val obj = JSONObject(mResult)
+                SplitTicketNumDialog(obj.optInt("qty") , object : OnClickInterface.OnClickInterface {
+                    override fun onResult(s1: String, s2: String) {
+                        obj.put("developmentsQty", s1)
+                        mLoadingListAdapter?.notifyItemChangeds(position, Gson().fromJson(GsonUtils.toPrettyFormat(obj), StockWaybillListBean::class.java))
+                    }
+
+                }).show(supportFragmentManager, "SplitTicketNumDialog")
 
             }
 

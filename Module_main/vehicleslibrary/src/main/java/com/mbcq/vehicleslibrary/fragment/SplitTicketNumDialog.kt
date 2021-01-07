@@ -16,14 +16,11 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 /**
- * 扫描输入扫描件数 拆票
- * mScanType @1未装车 @2已扫描
+ *拆票
  */
-class ScanNumDialog(var mUnScanNum: Int = 0, var mScanType: Int = 0, var mClackInterface: OnClickInterface.OnClickInterface? = null) : BaseDialogFragment() {
+class SplitTicketNumDialog(var mAllNum: Int = 0, var mClackInterface: OnClickInterface.OnClickInterface? = null) : BaseDialogFragment() {
     @SuppressLint("SetTextI18n")
     override fun initView(view: View, savedInstanceState: Bundle?) {
-        scan_num_ed.hint = "还有$mUnScanNum 件${if (mScanType == 1) "未装车" else if (mScanType == 2) "已装车" else ""}"
-        scan_num_tips_tv.text = "还有$mUnScanNum 件${if (mScanType == 1) "未装车" else if (mScanType == 2) "已装车" else ""}"
         scan_num_ed.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -35,7 +32,7 @@ class ScanNumDialog(var mUnScanNum: Int = 0, var mScanType: Int = 0, var mClackI
             override fun afterTextChanged(s: Editable?) {
                 if (!checkStrIsNum(scan_num_ed.text.toString()))
                     return
-                if (scan_num_ed.text.toString().toLong() > mUnScanNum) {
+                if (scan_num_ed.text.toString().toLong() > mAllNum) {
                     scan_num_ed.setTextColor(Color.RED)
                 } else {
                     if (scan_num_ed.currentTextColor != Color.BLACK) {
@@ -50,7 +47,7 @@ class ScanNumDialog(var mUnScanNum: Int = 0, var mScanType: Int = 0, var mClackI
             override fun onSingleClick(v: View?) {
                 if (scan_num_ed.text.toString().isBlank())
                     return
-                if (scan_num_ed.text.toString().toInt() > mUnScanNum)
+                if (scan_num_ed.text.toString().toInt() > mAllNum)
                     return
                 if (scan_num_ed.text.toString().toInt() == 0)
                     return
@@ -59,6 +56,8 @@ class ScanNumDialog(var mUnScanNum: Int = 0, var mScanType: Int = 0, var mClackI
             }
 
         })
+        title_tv.text = "请输入拆票件数"
+        scan_num_tips_tv.text = "全部拆票件数${mAllNum}"
         cancel_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
 //                mCancelClackInterface?.onResult("", "")

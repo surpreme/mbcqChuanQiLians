@@ -19,6 +19,7 @@ import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.TimeUtils
+import com.mbcq.baselibrary.view.DialogFragmentUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.NumberPlateBean
@@ -301,7 +302,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         /**
          * 发货人信息
          * mShipperId
-         * TODO
+         * TODO 发货人公司
          */
         val ShipperId = shipper_mShipperId_ed.text.toString()//发货客户编号
         jsonObj.put("ShipperId", ShipperId)
@@ -338,6 +339,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
         /**
          * 收货人信息
+         * TODO 收货人客户编号
          */
         val ConsigneeMb = receiver_phone_ed.text.toString() //收货人手机号
         jsonObj.put("ConsigneeMb", ConsigneeMb)
@@ -407,7 +409,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         val WayGoosLst = JSONArray()
 //******************************************************************货物明细 多条货物***********************************************************************
         /**
-         * 点击添加货物
+         * 点击添加货物 这里只计算单独添加或只单独一个货物 TODO 混合未处理
          */
         if (mAddGoodsAcceptBillingAdapter.getAllData().isNotEmpty()) {
             //总件数  TODO
@@ -470,7 +472,9 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             jsonObj.put("GoodsNum", GoodsNum)
         }
 //******************************************************************货物展示汇总页面***********************************************************************
-
+        /**
+         * 点击添加货物 这里只计算单独添加或只单独一个货物 TODO 混合未处理
+         */
         if (mAddGoodsAcceptBillingAdapter.getAllData().isNotEmpty() && numbers_name_ed.text.toString().isBlank()) {
             val ggbb = mAddGoodsAcceptBillingAdapter.getAllData()[0]
 //            var mXProduct=0.00
@@ -824,6 +828,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
                     shipper_phone_ed.setText(it.contactMb)
                     shipper_mShipperTel_ed.setText(it.contactTel)
                     shipper_mShipperCid_ed.setText(it.idCard)
+                    shipper_company_ed.setText(it.companyName)
                 }
 
             }
@@ -844,6 +849,8 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
                     receiver_customer_code_tv.setText(it.vipId)
                     receiver_phone_ed.setText(it.contactMb)
                     receiver_mConsigneeTel_ed.setText(it.contactTel)
+                    receiver_company_ed.setText(it.companyName)
+
                     if (it.product.isNotBlank())
                         cargo_name_ed.setText(it.product)
                     if (it.packageX.isNotBlank())
@@ -860,6 +867,8 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
      * 因为常用网点和所有网点是两个recyclerview
      */
     private fun showWebIdDialog(list: MutableList<WebAreaDbInfo>) {
+        if (DialogFragmentUtils.getIsShowDialogFragment(this))
+            return
         FilterDialog(getScreenWidth(), Gson().toJson(list), "webid", "选择到货网点", true, isShowOutSide = true, showTipsTag = "RECEIVING_OUTLETS", showBarTipsStr = "网点", mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mWebAreaDbInfo = Gson().fromJson<WebAreaDbInfo>(mResult, WebAreaDbInfo::class.java)

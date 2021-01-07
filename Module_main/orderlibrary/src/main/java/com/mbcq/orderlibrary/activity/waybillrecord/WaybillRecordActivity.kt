@@ -13,12 +13,15 @@ import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseSmartMVPActivity
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.CommonApplication
+import com.mbcq.commonlibrary.WebDbUtil
+import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import com.mbcq.commonlibrary.greendao.DaoSession
@@ -71,34 +74,20 @@ class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, W
         mPresenter?.getPageData(mCurrentPage, mShippingOutletsTag, mStartDateTag, mEndDateTag)
     }
 
-    interface WebDbInterface {
-        fun isNull()
-        fun isSuccess(list: MutableList<WebAreaDbInfo>)
 
-    }
-
-    /**
-     * 得到greenDao数据库中的网点
-     * 可视化 stetho 度娘
-     */
-    protected fun getDbWebId(mWebDbInterface: WebDbInterface) {
-        val daoSession: DaoSession = (application as CommonApplication).daoSession
-        val userInfoDao: WebAreaDbInfoDao = daoSession.webAreaDbInfoDao
-        val dbDatas = userInfoDao.queryBuilder().list()
-        if (dbDatas.isNullOrEmpty()) {
-            mWebDbInterface.isNull()
-        } else {
-            mWebDbInterface.isSuccess(dbDatas)
-        }
-    }
 
     override fun onClick() {
         super.onClick()
         waybill_record_toolbar.setBackButtonOnClickListener {
             onBackPressed()
         }
+        waybill_record_search_tv.apply {
+            onSingleClicks {
+                ARouter.getInstance().build(ARouterConstants.HouseSearchActivity).navigation()
+            }
+        }
         waybill_record_toolbar.setRightButtonOnClickListener {
-            getDbWebId(object : WebDbInterface {
+            WebDbUtil.getDbWebId(application, object : WebsDbInterface {
                 override fun isNull() {
 
                 }
@@ -146,6 +135,11 @@ class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, W
     override fun setAdapter(): BaseRecyclerAdapter<WaybillRecordBean> = WaybillRecordAdapter(mContext).also {
         it.mOnRecyclerDeleteClickInterface = object : OnClickInterface.OnRecyclerDeleteClickInterface {
             override fun onDelete(v: View, position: Int, mResult: String) {
+                //billState @1 已入库
+                if (it.getAllData()[position].billState != "1") {
+                    showToast("该单已经${it.getAllData()[position].billStateStr}，无法删除记录！")
+                    return
+                }
                 TalkSureCancelDialog(mContext, getScreenWidth(), "您确定要删除运单号为${it.getAllData()[position].billno}的运单吗？ 删除后不可恢复！") {
                     mPresenter?.deleteWayBill(mResult, position)
                 }.show()

@@ -183,7 +183,23 @@ public class StockWaybillListBean {
     private String opeMan;
     private String remark;
     private String fromType;
-    private boolean isChecked=false;
+    private String qtyDb = "";
+    private String qtyGx = "";
+    private boolean isDevelopments = false;//是否可以拆票
+    private int developmentsQty = 0;//拆票缓存数量
+    private boolean isChecked = false;
+
+
+    public String getQtyGx() {
+        return qtyGx;
+    }
+
+    public void setQtyGx(String qtyGx) {
+        this.qtyGx = qtyGx;
+    }
+
+
+
 
     public String getId() {
         return id;
@@ -903,5 +919,29 @@ public class StockWaybillListBean {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    public boolean isDevelopments() {
+        return isDevelopments;
+    }
+
+    public void setDevelopments(boolean developments) {
+        isDevelopments = developments;
+    }
+
+    public String getQtyDb() {
+        return qtyDb;
+    }
+
+    public void setQtyDb(String qtyDb) {
+        this.qtyDb = qtyDb;
+    }
+
+    public int getDevelopmentsQty() {
+        return developmentsQty;
+    }
+
+    public void setDevelopmentsQty(int developmentsQty) {
+        this.developmentsQty = developmentsQty;
     }
 }

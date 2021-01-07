@@ -5,9 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.mbcq.orderlibrary.fragment.waybillscan.WaybillScanFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_waybill_scan_recycler"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/fragment_waybill_scan_smart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/fragment_waybill_scan_smart_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_waybill_scan_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+
+        </FrameLayout>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    
 </androidx.constraintlayout.widget.ConstraintLayout>

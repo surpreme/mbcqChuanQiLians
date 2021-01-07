@@ -1,10 +1,12 @@
 package com.mbcq.vehicleslibrary.activity.alldeparturerecord.shortfeederhouse
 
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
+import com.mbcq.vehicleslibrary.activity.alldeparturerecord.fixtrunkdeparturehouse.FixedTrunkDepartureHouseInfo
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import org.json.JSONObject
 
@@ -127,10 +129,48 @@ class ShortFeederHousePresenter : BasePresenterImpl<ShortFeederHouseContract.Vie
         params.put("ewebidCodeStr", ewebidCodeStr)
         get<String>(ApiInterface.WAYBILL_INVENTORY_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
-
                 val obj = JSONObject(result)
-                mView?.getInventoryS(Gson().fromJson<List<StockWaybillListBean>>(obj.optString("data"), object : TypeToken<List<StockWaybillListBean>>() {}.type))
+                val mData = Gson().fromJson<List<StockWaybillListBean>>(obj.optString("data"), object : TypeToken<List<StockWaybillListBean>>() {}.type)
+                for (item in mData) {
+                    item.isDevelopments = true
+                    item.developmentsQty = item.qty.toInt()
+                }
+                mView?.getInventoryS(mData)
 
+            }
+
+        })
+    }
+
+    override fun overLocalCar(inoneVehicleFlag: String) {
+        val params = HttpParams()
+        params.put("InoneVehicleFlag", inoneVehicleFlag)
+        get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_LOCAL_INFO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                val mTotalData = obj.optJSONArray("data")
+                mTotalData?.let { it1 ->
+                    if (!it1.isNull(0)) {
+                        val mFirstJson = it1.getJSONObject(0)
+                        val mFirstData = mFirstJson.optJSONArray("data")
+                        mFirstData?.let {
+                            val mCarInfo = mFirstData.optString(0)
+                            val postBody = JsonObject()
+                            postBody.addProperty("id", Gson().fromJson(mCarInfo, FixedTrunkDepartureHouseInfo::class.java).id)
+                            postBody.addProperty("InoneVehicleFlag", inoneVehicleFlag)
+                            post<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_COMPLETE_LOCAL_INFO_POST, getRequestBody(postBody), object : CallBacks {
+                                override fun onResult(mXResult: String) {
+                                    mView?.overLocalCarS("")
+
+                                }
+
+                            })
+
+                        }
+
+                    }
+
+                }
             }
 
         })

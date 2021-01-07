@@ -5,7 +5,8 @@
     android:id="@+id/mSwipeMenuLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context="com.mbcq.vehicleslibrary.fragment.shortfeederhouse.loadinglist.ShortFeederHouseLoadingListAdapter">
 
     <TextView
         android:id="@+id/waybill_number_tv"
@@ -118,6 +119,17 @@
         app:layout_constraintLeft_toRightOf="@+id/receiver_outlets_tv"
         app:layout_constraintTop_toTopOf="@+id/receiver_tv"
         tools:text="实发件数：100" />
+
+    <ImageView
+        android:id="@+id/waybill_move_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_back_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/receiver_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/receiver_outlets_tv" />
 
     <View
         android:id="@+id/line_view"

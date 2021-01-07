@@ -60,7 +60,9 @@
         <activity android:name=".activity.alldeparturerecord.fixshortfeederhouse.FixShortFeederHouseActivity" />
         <activity android:name=".activity.alldeparturerecord.fixtrunkdeparturehouse.FixedTrunkDepartureHouseActivity" />
         <activity android:name=".activity.alldeparturerecord.trunkdeparturehouse.TrunkDepartureHouseActivity" />
-        <activity android:name=".activity.alldeparturerecord.shortfeederhouse.ShortFeederHouseActivity" />
+        <activity
+            android:name=".activity.alldeparturerecord.shortfeederhouse.ShortFeederHouseActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.alldeparturerecord.addshortfeeder.AddShortFeederActivity" />
         <activity android:name=".activity.alldeparturerecord.addtrunkdeparture.AddTrunkDepartureActivity" />
         <activity

@@ -8,6 +8,7 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
+import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
@@ -60,8 +61,11 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
 
             for ((index, item) in it.withIndex()) {
                 val obj = JSONObject(Gson().toJson(item))
-             /*   obj.put("id", item.id)
-                obj.put("billno", item.billno)*/
+                obj.put("qty", item.developmentsQty)
+                val xV = ((item.volumn.toDouble()) / (item.totalQty.toInt()))
+                obj.put("sfVolumn",haveTwoDouble(xV* item.developmentsQty))
+                val xW = ((item.weight.toDouble()) / (item.totalQty.toInt()))
+                obj.put("sfWeight",haveTwoDouble(xW* item.developmentsQty))
                 kk.append(item.billno)
                 if (index != it.size - 1)
                     kk.append(",")
@@ -69,7 +73,7 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
             }
             mLastData.put("DbVehicleDetLst", jarray)
             mLastData.put("CommonStr", kk.toString())
-            mLastData.put("supWeight", mMaximumVehicleWeight/1000)//承重
+            mLastData.put("supWeight", mMaximumVehicleWeight / 1000)//承重
             mPresenter?.saveInfo(mLastData)
         }
 
@@ -89,7 +93,7 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
         super.onClick()
         complete_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                TalkSureDialog(mContext, getScreenWidth(), "${if (mMaximumVehicleWeight < mXWeight) "本车已超载，" else ""}您确定要完成本车吗？") {
+                TalkSureCancelDialog(mContext, getScreenWidth(), "${if (mMaximumVehicleWeight < mXWeight) "本车已超载，" else ""}您确定要完成本车吗？") {
                     completeCar()
                 }.show()
             }
@@ -118,10 +122,14 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
         }
 
     }
-
-    override fun saveInfoS(result: String) {
-        TalkSureDialog(mContext, getScreenWidth(), "短驳计划装车${mDepartureLot}完成，点击查看详情！") {
+    override fun overLocalCarS(s: String) {
+        TalkSureDialog(mContext, getScreenWidth(), "短驳计划装车${mDepartureLot}已完成，点击查看详情！") {
             onBackPressed()
+        }.show()
+    }
+    override fun saveInfoS(result: String) {
+        TalkSureCancelDialog(mContext, getScreenWidth(), "短驳计划装车${mDepartureLot}配载成功，您确定要完成本车吗?") {
+            mPresenter?.overLocalCar(mDepartureLot)
         }.show()
 
 

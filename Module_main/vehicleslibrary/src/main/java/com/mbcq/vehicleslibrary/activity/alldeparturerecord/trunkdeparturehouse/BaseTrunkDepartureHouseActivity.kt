@@ -9,6 +9,9 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
+import com.mbcq.baselibrary.gson.GsonUtils
+import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
@@ -21,9 +24,11 @@ import com.mbcq.commonlibrary.greendao.DaoSession
 import com.mbcq.commonlibrary.greendao.WebAreaDbInfoDao
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
+import com.mbcq.vehicleslibrary.fragment.SplitTicketNumDialog
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.inventorylist.ShortFeederHouseInventoryListAdapter
 import com.mbcq.vehicleslibrary.fragment.shortfeederhouse.loadinglist.ShortFeederHouseLoadingListAdapter
 import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.*
+import org.json.JSONObject
 
 
 /**
@@ -44,26 +49,6 @@ abstract class BaseTrunkDepartureHouseActivity<V : BaseView, T : BasePresenterIm
 
     }
 
-    interface WebDbInterface {
-        fun isNull()
-        fun isSuccess(list: MutableList<WebAreaDbInfo>)
-
-    }
-
-    /**
-     * 得到greenDao数据库中的网点
-     * 可视化 stetho 度娘
-     */
-    protected fun getDbWebId(mWebDbInterface: WebDbInterface) {
-        val daoSession: DaoSession = (application as CommonApplication).daoSession
-        val userInfoDao: WebAreaDbInfoDao = daoSession.webAreaDbInfoDao
-        val dbDatas = userInfoDao.queryBuilder().list()
-        if (dbDatas.isNullOrEmpty()) {
-            mWebDbInterface.isNull()
-        } else {
-            mWebDbInterface.isSuccess(dbDatas)
-        }
-    }
 
     override fun onClick() {
         super.onClick()
@@ -152,7 +137,7 @@ abstract class BaseTrunkDepartureHouseActivity<V : BaseView, T : BasePresenterIm
         val mSelectedDatas = mutableListOf<StockWaybillListBean>()
         val mUnSelectedDatas = mutableListOf<StockWaybillListBean>()
         mLoadingListAdapter?.getAllData()?.let {
-            for ((index, item) in (it.withIndex())) {
+            for ((_, item) in (it.withIndex())) {
                 if (item.isChecked) {
                     item.isChecked = false
                     mSelectedDatas.add(item)
@@ -173,7 +158,7 @@ abstract class BaseTrunkDepartureHouseActivity<V : BaseView, T : BasePresenterIm
         val mSelectedDatas = mutableListOf<StockWaybillListBean>()
         val mUnSelectedDatas = mutableListOf<StockWaybillListBean>()
         mInventoryListAdapter?.getAllData()?.let {
-            for ((index, item) in (it.withIndex())) {
+            for ((_, item) in (it.withIndex())) {
                 if (item.isChecked) {
                     item.isChecked = false
                     mSelectedDatas.add(item)
@@ -221,7 +206,20 @@ abstract class BaseTrunkDepartureHouseActivity<V : BaseView, T : BasePresenterIm
             }
 
         }
-        if (loadingList_recycler.itemDecorationCount == 0) {
+        mLoadingListAdapter?.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                val obj = JSONObject(mResult)
+                SplitTicketNumDialog(obj.optInt("qty"), object : OnClickInterface.OnClickInterface {
+                    override fun onResult(s1: String, s2: String) {
+                        obj.put("developmentsQty", s1)
+                        mLoadingListAdapter?.notifyItemChangeds(position, Gson().fromJson(GsonUtils.toPrettyFormat(obj), StockWaybillListBean::class.java))
+                    }
+
+                }).show(supportFragmentManager, "XSplitTicketNumDialog")
+
+            }
+        }
+            if (loadingList_recycler.itemDecorationCount == 0) {
             loadingList_recycler.addItemDecoration(object : BaseItemDecoration(mContext) {
                 override fun configExtraSpace(position: Int, count: Int, rect: Rect) {
                     rect.top = ScreenSizeUtils.dp2px(mContext, 10f)

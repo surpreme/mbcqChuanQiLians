@@ -10,12 +10,15 @@ import androidx.core.view.get
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
+import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.WebDbUtil
+import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.vehicleslibrary.R
@@ -78,6 +81,11 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
             for ((index, item) in it.withIndex()) {
                 val obj = JSONObject()
                 obj.put("billno", item.billno)
+                obj.put("qty", item.developmentsQty)
+                val xV = ((item.volumn.toDouble()) / (item.totalQty.toInt()))
+                obj.put("sfVolumn", haveTwoDouble(xV * item.developmentsQty))
+                val xW = ((item.weight.toDouble()) / (item.totalQty.toInt()))
+                obj.put("sfWeight", haveTwoDouble(xW * item.developmentsQty))
                 kk.append(item.billno)
                 if (index != it.size - 1)
                     kk.append(",")
@@ -116,7 +124,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
         })
         complete_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                TalkSureDialog(mContext, getScreenWidth(), "${if (mMaximumVehicleWeight < mXWeight) "本车已超载，" else ""}您确定要完成本车吗？") {
+                TalkSureCancelDialog(mContext, getScreenWidth(), "${if (mMaximumVehicleWeight < mXWeight) "本车已超载，" else ""}您确定要完成本车吗？") {
                     completeCar()
                 }.show()
             }
@@ -124,7 +132,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
         })
         add_operating_interval_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
+                WebDbUtil.getDbWebId(application,object : WebsDbInterface {
                     override fun isNull() {
 
                     }
@@ -239,9 +247,8 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
     override fun saveInfoS(s: String) {
         operating_interval_ll.visibility = View.GONE
         if (operating_interval_ll.childCount == 0) {
-            TalkSureDialog(mContext, getScreenWidth(), "干线计划装车${mDepartureLot}完成，点击查看详情！") {
-                onBackPressed()
-                finish()
+            TalkSureCancelDialog(mContext, getScreenWidth(), "干线计划装车${mDepartureLot}配载成功，您确定要完成本车吗?") {
+                mPresenter?.overLocalCar(mDepartureLot)
             }.show()
             return
         }
@@ -252,14 +259,19 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
 
     }
 
+    override fun overLocalCarS(s: String) {
+        TalkSureDialog(mContext, getScreenWidth(), "干线计划装车${mDepartureLot}已完成，点击查看详情！") {
+            onBackPressed()
+        }.show()
+    }
+
     override fun addStowageAlongWayS(inoneVehicleFlag: String, webidCode: String, webidCodeStr: String, result: String, datalist: HashMap<String, String>, isOver: Boolean) {
         if (operating_interval_ll.getChildAt(0) == null) return
         operating_interval_ll.removeViewAt(0)
         if (operating_interval_ll.getChildAt(0) == null) {
             closeLoading()
-            TalkSureDialog(mContext, getScreenWidth(), "干线计划装车${mDepartureLot}完成，点击查看详情！") {
-                onBackPressed()
-                finish()
+            TalkSureCancelDialog(mContext, getScreenWidth(), "干线计划装车${mDepartureLot}配载成功，您确定要完成本车吗？") {
+                mPresenter?.overLocalCar(inoneVehicleFlag)
             }.show()
             return
         }

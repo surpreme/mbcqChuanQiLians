@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".activity.waybillrecord.WaybillRecordActivity">
 
     <com.mbcq.baselibrary.view.CnToolbar
@@ -15,23 +16,44 @@
         app:centerTextViewText="运单记录（xxxxx）"
         app:layout_constraintTop_toTopOf="parent"
         app:rightButtonIcon="@drawable/ic_search_icon" />
+
+    <TextView
+        android:id="@+id/waybill_record_search_tv"
+        android:layout_width="match_parent"
+        android:layout_height="29dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/common_round_corner_gray_bg"
+        android:drawableLeft="@drawable/ic_search_icon"
+        android:drawableTint="@color/base_grayDark"
+        android:gravity="center|left"
+        android:hint="   请输入要查询的运单号"
+        android:paddingLeft="13dp"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/waybill_record_toolbar" />
+
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/waybill_record_smart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_line"
-        app:layout_constraintTop_toBottomOf="@id/waybill_record_toolbar" >
+        app:layout_constraintTop_toBottomOf="@id/waybill_record_search_tv">
+
         <FrameLayout
             android:id="@+id/waybill_record_smart_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/waybill_record_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:overScrollMode="never"
-                android:scrollbars="none"/>
+                android:scrollbars="none" />
 
         </FrameLayout>
 
@@ -40,37 +62,39 @@
 
     <View
         android:id="@+id/bottom_line"
-        app:layout_constraintBottom_toTopOf="@+id/all_info_bottom_tv"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="@color/base_gray"
         android:layout_marginBottom="5dp"
-        android:alpha="0.5"/>
+        android:alpha="0.5"
+        android:background="@color/base_gray"
+        app:layout_constraintBottom_toTopOf="@+id/all_info_bottom_tv" />
+
     <CheckBox
         android:id="@+id/check_all_box"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="9dp"
         android:layout_marginBottom="8dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="全选"
-        android:visibility="gone"
         android:buttonTint="@color/base_blue"
+        android:text="全选"
         android:textSize="17sp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_ll"/>
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/bottom_ll"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
     <TextView
         android:id="@+id/all_info_bottom_tv"
-        android:textColor="@color/black"
-        android:layout_marginRight="9dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="15dp"
         android:layout_width="match_parent"
-        android:textSize="17sp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="15dp"
         android:gravity="right"
         android:paddingRight="15dp"
-        android:layout_height="wrap_content"
-        android:text="合计：x票，x件，运费¥xxx"/>
+        android:text="合计：x票，x件，运费¥xxx"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <LinearLayout
         android:id="@+id/bottom_ll"
@@ -79,7 +103,6 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
-
 
 
         <Button

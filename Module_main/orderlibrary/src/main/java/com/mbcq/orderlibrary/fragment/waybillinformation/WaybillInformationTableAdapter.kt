@@ -18,8 +18,8 @@ class WaybillInformationTableAdapter (context: Context):BaseRecyclerAdapter<Wayb
         (holder as ItemViewHolder).product_tv.text = mDatas[position].product
         holder.qty_tv.text = mDatas[position].qty
         holder.packages_tv.text = mDatas[position].packages
-        holder.weight_tv.text = mDatas[position].weight + "KG"
-        holder.volumn_tv.text = mDatas[position].volumn + "m³"
+        holder.weight_tv.text = mDatas[position].weight /*+ "KG"*/
+        holder.volumn_tv.text = mDatas[position].volumn /*+ "m³"*/
         holder.itemView.setBackgroundColor(if (mDatas[position].isTitles) Color.parseColor("#686C74")else  Color.parseColor("#005CFF"))
     }
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

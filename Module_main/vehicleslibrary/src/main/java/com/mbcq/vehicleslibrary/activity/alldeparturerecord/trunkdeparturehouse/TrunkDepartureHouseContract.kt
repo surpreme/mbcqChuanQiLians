@@ -18,6 +18,7 @@ class TrunkDepartureHouseContract {
          */
         fun getInventoryS(list: List<StockWaybillListBean>)
         fun saveInfoS(s: String)
+        fun overLocalCarS(s: String)
         fun addStowageAlongWayS(inoneVehicleFlag: String, webidCode: String, webidCodeStr: String, result: String,datalist: HashMap<String, String>,isOver:Boolean)
 
     }
@@ -25,6 +26,7 @@ class TrunkDepartureHouseContract {
     interface Presenter : BasePresenter<View> {
         fun getInventory(page: Int)
         fun saveInfo(ob: JSONObject)
+        fun overLocalCar(inoneVehicleFlag: String)
         fun addStowageAlongWay(inoneVehicleFlag: String, webidCode: String, webidCodeStr: String,datalist:HashMap<String, String>,isOver:Boolean)
 
     }

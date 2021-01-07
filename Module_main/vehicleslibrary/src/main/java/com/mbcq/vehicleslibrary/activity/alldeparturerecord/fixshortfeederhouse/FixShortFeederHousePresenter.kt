@@ -128,9 +128,9 @@ class FixShortFeederHousePresenter : BasePresenterImpl<FixShortFeederHouseContra
         params.put("limit", 1000)
         get<String>(ApiInterface.WAYBILL_INVENTORY_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
-
                 val obj = JSONObject(result)
-                mView?.getInventoryS(Gson().fromJson<List<StockWaybillListBean>>(obj.optString("data"), object : TypeToken<List<StockWaybillListBean>>() {}.type))
+                val mXData =Gson().fromJson<List<StockWaybillListBean>>(obj.optString("data"), object : TypeToken<List<StockWaybillListBean>>() {}.type)
+                mView?.getInventoryS(mXData)
 
             }
 
@@ -143,7 +143,6 @@ class FixShortFeederHousePresenter : BasePresenterImpl<FixShortFeederHouseContra
         params.put("InoneVehicleFlag", inoneVehicleFlag)
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_LOCAL_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
-
                 val obj = JSONObject(result)
                 val mTotalData = obj.optJSONArray("data")
                 var mFixShortFeederHouseCarInfo: FixShortFeederHouseCarInfo? = null
@@ -160,7 +159,8 @@ class FixShortFeederHousePresenter : BasePresenterImpl<FixShortFeederHouseContra
                     if (!it1.isNull(1)) {
                         val mSencondJson = it1.getJSONObject(1)
                         val mSecondData = mSencondJson.optString("data")
-                        mFixShortFeederHouseCarInfo?.item = Gson().fromJson<List<StockWaybillListBean>>(mSecondData, object : TypeToken<List<StockWaybillListBean>>() {}.type)
+                        val mXData = Gson().fromJson<List<StockWaybillListBean>>(mSecondData, object : TypeToken<List<StockWaybillListBean>>() {}.type)
+                        mFixShortFeederHouseCarInfo?.item = mXData
 
                     }
                     mFixShortFeederHouseCarInfo?.let {

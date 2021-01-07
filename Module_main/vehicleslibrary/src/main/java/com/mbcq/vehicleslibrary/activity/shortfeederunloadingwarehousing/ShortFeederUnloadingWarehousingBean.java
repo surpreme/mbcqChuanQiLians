@@ -129,8 +129,8 @@ public class ShortFeederUnloadingWarehousingBean {
     private int state;
     private String stateStr;
     private int sendTimes;
-    private int sfWeight;
-    private int sfVolumn;
+    private String sfWeight = "";
+    private String sfVolumn="";
     private int inPdaState;
     private int outPdaState;
     private int finishState;
@@ -222,7 +222,7 @@ public class ShortFeederUnloadingWarehousingBean {
     private String remark;
     private int isScanDet;
     private int waybillFcdQty;
-    private boolean isChecked=false;
+    private boolean isChecked = false;
 
     public boolean isChecked() {
         return isChecked;
@@ -231,8 +231,6 @@ public class ShortFeederUnloadingWarehousingBean {
     public void setChecked(boolean checked) {
         isChecked = checked;
     }
-
-
 
 
     public String getSendOpeMan() {
@@ -355,19 +353,19 @@ public class ShortFeederUnloadingWarehousingBean {
         this.sendTimes = sendTimes;
     }
 
-    public int getSfWeight() {
+    public String getSfWeight() {
         return sfWeight;
     }
 
-    public void setSfWeight(int sfWeight) {
+    public void setSfWeight(String  sfWeight) {
         this.sfWeight = sfWeight;
     }
 
-    public int getSfVolumn() {
+    public String getSfVolumn() {
         return sfVolumn;
     }
 
-    public void setSfVolumn(int sfVolumn) {
+    public void setSfVolumn(String sfVolumn) {
         this.sfVolumn = sfVolumn;
     }
 

@@ -15,12 +15,14 @@ class ShortFeederHouseContract {
     interface View : BaseView {
         fun saveInfoS(result: String)
         fun getInventoryS(list:List<StockWaybillListBean>)
+        fun overLocalCarS(s: String)
 
     }
 
     interface Presenter : BasePresenter<View> {
         fun saveInfo(ob: JSONObject)
         fun getInventory(page: Int, ewebidCodeStr: String)
+        fun overLocalCar(inoneVehicleFlag: String)
 
     }
 }

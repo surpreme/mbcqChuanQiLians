@@ -35,6 +35,7 @@ class TrunkDepartureUnloadingWarehousingAdapter(context: Context) : BaseRecycler
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.shipper_tv.text = mDatas[position].shipper
         holder.receiver_tv.text = mDatas[position].consignee
+        holder.developments_qty_tv.text ="实发件数：${mDatas[position].qtyGx}"
         holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].qty}件 ${mDatas[position].volumn}m³ ${mDatas[position].packages} ${mDatas[position].weight}Kg ${mDatas[position].accTypeStr}${mDatas[position].accSum}  "
         context?.let {
             holder.record_checkbox_iv.setImageDrawable(ContextCompat.getDrawable(it, if (mDatas[position].isChecked) R.drawable.ic_checked_icon else R.drawable.ic_unchecked_icon))
@@ -59,5 +60,6 @@ class TrunkDepartureUnloadingWarehousingAdapter(context: Context) : BaseRecycler
         var receiver_outlets_tv: TextView = itemView.findViewById(R.id.receiver_outlets_tv)
         var shipper_tv: TextView = itemView.findViewById(R.id.shipper_tv)
         var receiver_tv: TextView = itemView.findViewById(R.id.receiver_tv)
+        var developments_qty_tv: TextView = itemView.findViewById(R.id.developments_qty_tv)
     }
 }

@@ -8,25 +8,30 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 
+/**
+ * 界面共用太多 这里当isDevelopments 处理拆票 在appenData的时候添加进去
+ */
 class ShortFeederHouseLoadingListAdapter(context: Context?) : BaseRecyclerAdapter<StockWaybillListBean>(context = context) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_short_feeder_house, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_short_feeder_house_loading, parent, false))
     fun checkedAll(isC: Boolean) {
         for ((index, item) in mDatas.withIndex()) {
             item.isChecked = isC
             notifyItemChanged(index)
-
         }
     }
+
     var mOnRemoveInterface: OnRemoveInterface? = null
 
     interface OnRemoveInterface {
         fun onClick(position: Int, item: StockWaybillListBean)
     }
+
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ItemViewHolder).waybill_number_tv.text = mDatas[position].billno
@@ -37,15 +42,25 @@ class ShortFeederHouseLoadingListAdapter(context: Context?) : BaseRecyclerAdapte
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.shipper_tv.text = mDatas[position].shipper
         holder.receiver_tv.text = mDatas[position].consignee
+
+        holder.developments_qty_tv.text = when {
+            //新增车辆 使用这个 这个是缓存自己写入的件数
+            mDatas[position].isDevelopments -> "实发件数：${mDatas[position].developmentsQty}"
+            //修改车辆 干线展示用
+            mDatas[position].qtyGx.isNotBlank() -> "实发件数：${mDatas[position].qtyGx}"
+            //修改车辆 短驳展示用
+            else -> "实发件数：${mDatas[position].qtyDb}"
+        }
+        holder.itemView.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View) {
+                if (mDatas[position].isDevelopments)
+                    mClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
+            }
+
+        })
         holder.waybill_move_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                mOnRemoveInterface?.onClick(position,mDatas[position])
-             /*   val list = mutableListOf<ShortFeederHouseListBean>()
-                mDatas[position].isChecked=false
-                list.add(mDatas[position])
-                RxBus.build().postSticky(ShortFeederHouseInventoryListEvent(0, list))
-                removeItem(position)*/
-
+                mOnRemoveInterface?.onClick(position, mDatas[position])
             }
 
         })
@@ -60,7 +75,7 @@ class ShortFeederHouseLoadingListAdapter(context: Context?) : BaseRecyclerAdapte
             }
 
         })
-        holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].qty}件 ${mDatas[position].volumn}m³ ${mDatas[position].packages} ${mDatas[position].weight}Kg ${mDatas[position].accTypeStr}${mDatas[position].accSum}  "
+        holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].totalQty}件 ${mDatas[position].volumn}m³ ${mDatas[position].packages} ${mDatas[position].weight}Kg ${mDatas[position].accTypeStr}${mDatas[position].accSum}  "
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -74,5 +89,6 @@ class ShortFeederHouseLoadingListAdapter(context: Context?) : BaseRecyclerAdapte
         var receiver_outlets_tv: TextView = itemView.findViewById(R.id.receiver_outlets_tv)
         var shipper_tv: TextView = itemView.findViewById(R.id.shipper_tv)
         var receiver_tv: TextView = itemView.findViewById(R.id.receiver_tv)
+        var developments_qty_tv: TextView = itemView.findViewById(R.id.developments_qty_tv)
     }
 }
