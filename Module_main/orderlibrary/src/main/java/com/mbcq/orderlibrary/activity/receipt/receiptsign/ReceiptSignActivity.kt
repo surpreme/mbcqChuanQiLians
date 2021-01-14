@@ -21,6 +21,7 @@ import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.commonlibrary.WebDbUtil
 import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
@@ -54,11 +55,8 @@ class ReceiptSignActivity : BaseSmartMVPActivity<ReceiptSignContract.View, Recei
     override fun initExtra() {
         super.initExtra()
         rxPermissions = RxPermissions(this)
-        val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val mDate = Date(System.currentTimeMillis())
-        val format = mDateFormat.format(mDate)
-        mStartDateTag = "${TimeUtils.getLastdayStr(7)} 00:00:00"
-        mEndDateTag = "$format 23:59:59"
+        mStartDateTag = FilterTimeUtils.getStartTime(7)
+        mEndDateTag = FilterTimeUtils.getEndTime()
         mShippingOutletsTag = UserInformationUtil.getWebIdCode(mContext)
     }
 
@@ -201,7 +199,7 @@ class ReceiptSignActivity : BaseSmartMVPActivity<ReceiptSignContract.View, Recei
         }
         it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
-                ARouter.getInstance().build(ARouterConstants.ReceiptInformationActivity).withString("", mResult).navigation()
+                ARouter.getInstance().build(ARouterConstants.ReceiptInformationActivity).withString("billno", mResult).navigation()
             }
 
         }

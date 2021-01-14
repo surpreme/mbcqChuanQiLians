@@ -3,7 +3,32 @@
     package="com.mbcq.amountlibrary">
 
     <application>
-        <activity android:name=".activity.generatereceiptvoucher.GenerateReceiptVoucherActivity"></activity>
+        <activity android:name=".activity.allwriteoffreceivepayment.commonreceivewriteoffinfo.CommonReceiveWriteOffInfoActivity"></activity>
+        <activity android:name=".activity.allwriteoffreceivepayment.commonreceivewriteoff.CommonReceiveWriteOffActivity" />
+        <activity android:name=".activity.allwriteoffreceivepayment.commonwriteoffreceivepaycard.CommonWriteOffReceivePayCardActivity" />
+        <activity android:name=".activity.allwriteoffpayment.commonwriteoffinfo.CommonWriteOffInfoActivity" />
+        <activity android:name=".activity.allwriteoffpayment.commonwriteoffpaycard.CommonWriteOffPayCardActivity" />
+        <activity android:name=".activity.allwriteoffpayment.commonwriteoff.CommonWriteOffActivity" />
+        <activity android:name=".activity.receipttuberculosissalesinfo.ReceiptTuberculosisSalesInfoActivity" />
+        <activity android:name=".activity.monthlytuberculosissalesinfo.MonthlyTuberculosisSalesInfoActivity" />
+        <activity android:name=".activity.monthlytuberculosissalespaycard.MonthlyTuberculosisSalesPayCardActivity" />
+        <activity android:name=".activity.monthlytuberculosissales.MonthlyTuberculosisSalesActivity" />
+        <activity android:name=".activity.receipttuberculosissalespaycard.ReceiptTuberculosisSalesPayCardActivity" />
+        <activity android:name=".activity.receiptmonthlytuberculosissales.ReceiptMonthlyTuberculosisSalesActivity" />
+        <activity android:name=".activity.paymentedwriteoffinfo.PaymentedWriteoffInfoActivity" />
+        <activity
+            android:name=".activity.paymentedwriteoffpaycard.PaymentedWriteOffPayCardActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.paymentingwriteoffpaycard.PaymentingWriteOffPayCardActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.paymentedwriteoff.PaymentedWriteoffActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.paymentingwriteoff.PaymentingWriteoffActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".activity.generatereceiptvoucher.GenerateReceiptVoucherActivity" />
         <activity
             android:name=".activity.generaledger.GeneralLedgerActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />

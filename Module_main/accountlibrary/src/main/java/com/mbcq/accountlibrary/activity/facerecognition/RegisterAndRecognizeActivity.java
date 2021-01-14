@@ -224,6 +224,12 @@ public class RegisterAndRecognizeActivity extends BaseActivity implements ViewTr
             findViewById(R.id.register_btn).setVisibility(View.VISIBLE);
             switchLivenessDetect.setVisibility(View.GONE);
         }
+        findViewById(R.id.face_recognition_back).setOnClickListener(new SingleClick() {
+            @Override
+            protected void onSingleClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     /**

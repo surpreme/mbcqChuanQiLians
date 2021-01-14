@@ -22,6 +22,7 @@ class ArrivalTrunkDepartureAdapter(context: Context?) : BaseRecyclerAdapter<Trun
         fun onResult(position: Int, data: TrunkDepartureBean)
         fun onCancel(position: Int, data: TrunkDepartureBean)
         fun onUnloadingWarehousing(position: Int, data: TrunkDepartureBean)
+        fun onItemClick(position: Int, data: TrunkDepartureBean)
     }
 
     var mOnArrivalConfirmInterface: OnArrivalConfirmInterface? = null
@@ -43,6 +44,12 @@ class ArrivalTrunkDepartureAdapter(context: Context?) : BaseRecyclerAdapter<Trun
         holder.feeder_cancel_confirm_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 mOnArrivalConfirmInterface?.onCancel(position, mDatas[position])
+            }
+
+        })
+        holder.itemView.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                mOnArrivalConfirmInterface?.onItemClick(position, mDatas[position])
             }
 
         })

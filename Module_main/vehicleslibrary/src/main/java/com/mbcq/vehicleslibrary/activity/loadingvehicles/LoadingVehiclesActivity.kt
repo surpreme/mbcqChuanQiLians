@@ -23,6 +23,7 @@ import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.commonlibrary.WebDbUtil
 import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
@@ -33,9 +34,6 @@ import com.mbcq.vehicleslibrary.R
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_loading_vehicles.*
 import org.json.JSONObject
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * @author: lzy
@@ -56,11 +54,8 @@ class LoadingVehiclesActivity : CommonScanPDAMVPSmartActivity<LoadingVehiclesCon
         mIsCanCloseLoading = false
         super.initExtra()
         rxPermissions = RxPermissions(this)
-        val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val mDate = Date(System.currentTimeMillis())
-        val format = mDateFormat.format(mDate)
-        mStartDateTag = "$format 00:00:00"
-        mEndDateTag = "$format 23:59:59"
+        mStartDateTag = FilterTimeUtils.getStartTime(7)
+        mEndDateTag = FilterTimeUtils.getEndTime()
         mShippingOutletsTag = UserInformationUtil.getWebIdCode(mContext)
     }
 

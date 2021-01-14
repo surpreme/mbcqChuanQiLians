@@ -14,6 +14,7 @@ import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.commonlibrary.WebDbUtil
 import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
@@ -44,11 +45,8 @@ class ShipmentInventoryActivity : BaseSmartMVPActivity<ShipmentInventoryContract
     @SuppressLint("SimpleDateFormat")
     override fun initExtra() {
         super.initExtra()
-        val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val mDate = Date(System.currentTimeMillis())
-        val format = mDateFormat.format(mDate)
-        mStartDateTag = "$format 00:00:00"
-        mEndDateTag = "$format 23:59:59"
+        mStartDateTag = FilterTimeUtils.getStartTime(7)
+        mEndDateTag = FilterTimeUtils.getEndTime()
         mShippingOutletsTag = UserInformationUtil.getWebIdCode(mContext)
     }
 

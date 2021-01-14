@@ -277,8 +277,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
 
                                 }
                                 2 -> {
-                                    //TODO
-//                                    ARouter.getInstance().build(ARouterConstants.ScanPDAActivity).navigation()
+                                    ARouter.getInstance().build(ARouterConstants.HomeDeliveryActivity).navigation()
 
                                 }
                                 3 -> {
@@ -334,11 +333,11 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
 
                                 }
                                 8 -> {
-                                    ARouter.getInstance().build(ARouterConstants.GoodsReceiptActivity).navigation()
+                                    ARouter.getInstance().build(ARouterConstants.GoodsReceiptHouseActivity).navigation()
 
                                 }
                                 9 -> {
-                                    ARouter.getInstance().build(ARouterConstants.SignRecordActivity).navigation()
+                                    ARouter.getInstance().build(ARouterConstants.GoodsReceiptHouseActivity).navigation()
 
                                 }
                                 10 -> {

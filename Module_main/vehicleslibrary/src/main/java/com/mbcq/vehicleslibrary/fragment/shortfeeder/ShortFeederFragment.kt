@@ -14,6 +14,7 @@ import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordEvent
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordRefreshEvent
@@ -56,6 +57,7 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
                 job.put("InoneVehicleFlag", itemData.inoneVehicleFlag)
                 job.put("Id", itemData.id)
                 job.put("VehicleNo", itemData.vehicleNo)
+                job.put("VehicleState", itemData.vehicleState)
                 ARouter.getInstance().build(ARouterConstants.FixShortFeederHouseActivity).withString("FixedShortFeederHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
             }
 
@@ -71,13 +73,17 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
     override fun setIsShowNetLoading(): Boolean {
         return false
     }
+
     override fun onClick() {
         super.onClick()
         search_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (billno_ed.text.toString().isNotBlank()) {
                     adapter.clearData()
-                    mPresenter?.searchScanInfo(billno_ed.text.toString())
+                    if (checkStrIsNum(billno_ed.text.toString()))
+                        mPresenter?.searchScanInfo(billno_ed.text.toString())
+                    else
+                        mPresenter?.searchBillnoShortFeeder(billno_ed.text.toString())
                 } else
                     refresh()
             }
@@ -90,19 +96,18 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
                     for (item in adapter.getAllData()) {
                         if (item.isChecked) {
                             mItemdata = item
+                            break
                         }
                     }
-                    if (mItemdata?.vehicleState == 3) {
-                        showToast("发车状态的车的不可以修改")
+                    if (mItemdata?.vehicleState != 0) {
+                        showToast("只有发车计划中才可以修改")
                         return@let
                     }
-                    if (mItemdata != null) {
+                    run {
                         val job = JSONObject()
                         job.put("InoneVehicleFlag", mItemdata.inoneVehicleFlag)
                         job.put("Id", mItemdata.id)
                         ARouter.getInstance().build(ARouterConstants.FixedShortFeederConfigurationActivity).withString("FixedShortFeederConfiguration", GsonUtils.toPrettyFormat(job.toString())).navigation()
-                    } else {
-                        showToast("请至少选择一辆车次进行操作修改")
                     }
 
                 }
@@ -143,11 +148,8 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
     override fun initExtra() {
         super.initExtra()
         mContext.let {
-            val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-            val mDate = Date(System.currentTimeMillis())
-            val format = mDateFormat.format(mDate)
-            mStartDateTag = "$format 00:00:00"
-            mEndDateTag = "$format 23:59:59"
+            mStartDateTag = FilterTimeUtils.getStartTime(7)
+            mEndDateTag = FilterTimeUtils.getEndTime()
             mShippingOutletsTag = UserInformationUtil.getWebIdCode(it) + ","
 
         }

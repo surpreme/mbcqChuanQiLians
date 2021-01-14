@@ -3,6 +3,7 @@ package com.mbcq.vehicleslibrary.activity.alldeparturerecord.fixtrunkdepartureho
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
 import androidx.core.view.get
@@ -294,21 +295,35 @@ class FixedTrunkDepartureHouseActivity : BaseFixedTrunkDepartureHouseActivity<Fi
         mStartWebCode = result.webidCodeStr
         mEndWebCode = result.ewebidCodeStr
         operating_interval_tv.text = result.vehicleInterval
-        if (result.vehicleState == "1") {
-            complete_btn.text = "取消完成本车"
-            /**
-             * 发货中不可以修改沿途网点
-             */
-            add_operating_interval_btn.isClickable = false
-            remove_operating_interval_btn.isClickable = false
-            add_operating_interval_btn.setBackgroundColor(Color.GRAY)
-            remove_operating_interval_btn.setBackgroundColor(Color.GRAY)
+        when (result.vehicleState) {
+            "1" -> {
+                complete_btn.text = "取消完成本车"
+                /**
+                 * 发货中不可以修改沿途网点
+                 */
+                add_operating_interval_btn.isClickable = false
+                remove_operating_interval_btn.isClickable = false
+                add_operating_interval_btn.setBackgroundColor(Color.GRAY)
+                remove_operating_interval_btn.setBackgroundColor(Color.GRAY)
 
-            operating_btn.setBackgroundColor(Color.GRAY)
-            operating_btn.isClickable = false
-            all_selected_checked.isEnabled = false
-            mInventoryListAdapter?.mOnRemoveInterface = null
-            mLoadingListAdapter?.mOnRemoveInterface = null
+                operating_btn.setBackgroundColor(Color.GRAY)
+                operating_btn.isClickable = false
+                all_selected_checked.isEnabled = false
+                mInventoryListAdapter?.mOnRemoveInterface = null
+                mLoadingListAdapter?.mOnRemoveInterface = null
+            }
+            "0" -> {
+
+            }
+            else -> {
+                bottom_ll.visibility = View.GONE
+                mInventoryListAdapter?.mOnRemoveInterface = null
+                mLoadingListAdapter?.mOnRemoveInterface = null
+                add_operating_interval_btn.isClickable = false
+                remove_operating_interval_btn.isClickable = false
+                add_operating_interval_btn.setBackgroundColor(Color.GRAY)
+                remove_operating_interval_btn.setBackgroundColor(Color.GRAY)
+            }
         }
         refreshTopNumber()
 

@@ -8,6 +8,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.accountlibrary.R
+import com.mbcq.accountlibrary.activity.commonlyinformationconfiguration.CommonlyInformationConfigurationSaveBean
 import com.mbcq.baselibrary.db.SharePreferencesHelper
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
@@ -22,6 +23,7 @@ import com.mbcq.commonlibrary.dialog.FilterDialog
 import kotlinx.android.synthetic.main.activity_commonly_information.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.lang.StringBuilder
 
 /**
  * @author: lzy
@@ -41,6 +43,30 @@ class CommonlyInformationActivity : BaseListMVPActivity<CommonlyInformationContr
      * 常用付货方式
      */
     val COMMON_DELIVERY_METHODS = "COMMON_DELIVERY_METHODS"
+
+    /**
+     * 备注
+     */
+    val COMMON_USERS_REMARK = "COMMON_USERS_REMARK"
+
+    /**
+     * 常用网点
+     */
+    val RECEIVING_OUTLETS = "RECEIVING_OUTLETS"
+    /**
+     * 常用目的地
+     */
+    val FREQUENTLY_USED_DESTINATIONS = "FREQUENTLY_USED_DESTINATIONS"
+
+    /**
+     * 常用货物名称
+     */
+    val COMMON_GOODS_NAME = "COMMON_GOODS_NAME"
+
+    /**
+     * 常用包装方式
+     */
+    val COMMON_PACKAGING_METHODS = "COMMON_PACKAGING_METHODS"
 
     override fun getLayoutId(): Int = R.layout.activity_commonly_information
 
@@ -68,8 +94,29 @@ class CommonlyInformationActivity : BaseListMVPActivity<CommonlyInformationContr
     override fun getRecyclerViewId(): Int = R.id.commonly_information_recycler
     override fun setAdapter(): BaseRecyclerAdapter<CommonlyInformationBean> = CommonlyInformationAdapter(mContext).also {
         it.appendData(mutableListOf(
-                CommonlyInformationBean("常用收货网点", "设置经常使用的收货地址"),
-                CommonlyInformationBean("常用目的地", "设置经常使用的目的地"),
+                CommonlyInformationBean("常用收货网点",
+                        if (mSharePreferencesHelper?.contain(RECEIVING_OUTLETS)!!) {
+                            val mSaveInfo = Gson().fromJson<CommonlyInformationConfigurationSaveBean>((mSharePreferencesHelper?.getSharePreference(RECEIVING_OUTLETS, "{list:[]}") as String), CommonlyInformationConfigurationSaveBean::class.java)
+                            val mRemark = StringBuilder()
+                            if (!mSaveInfo.list.isNullOrEmpty()) {
+                                for (item in mSaveInfo.list) {
+                                    mRemark.append(item.getmTitle()).append(" ")
+                                }
+                            }
+                            mRemark.toString()
+                        }else
+                            "设置经常使用的收货地址"),
+                CommonlyInformationBean("常用目的地",  if (mSharePreferencesHelper?.contain(FREQUENTLY_USED_DESTINATIONS)!!) {
+                    val mSaveInfo = Gson().fromJson<CommonlyInformationConfigurationSaveBean>((mSharePreferencesHelper?.getSharePreference(FREQUENTLY_USED_DESTINATIONS, "{list:[]}") as String), CommonlyInformationConfigurationSaveBean::class.java)
+                    val mRemark = StringBuilder()
+                    if (!mSaveInfo.list.isNullOrEmpty()) {
+                        for (item in mSaveInfo.list) {
+                            mRemark.append(item.getmTitle()).append(" ")
+                        }
+                    }
+                    mRemark.toString()
+                }else
+                    "设置经常使用的目的地"),
                 CommonlyInformationBean("常用收货方式",
                         if (mSharePreferencesHelper?.contain(COMMONLY_USED_RECEIVING_METHODS)!!)
                             mSharePreferencesHelper?.getSharePreference(COMMONLY_USED_RECEIVING_METHODS, "设置经常使用的收货方式") as String
@@ -80,9 +127,42 @@ class CommonlyInformationActivity : BaseListMVPActivity<CommonlyInformationContr
                             mSharePreferencesHelper?.getSharePreference(COMMON_DELIVERY_METHODS, "设置经常使用的常用付货方式") as String
                         else
                             "设置经常使用的常用付货方式"),
-                CommonlyInformationBean("常用货物名称", "设置经常使用的货物名称"),
-                CommonlyInformationBean("常用包装方式", "设置经常使用的包装方式"),
-                CommonlyInformationBean("常用开单备注", "设置经常使用的备注")
+                CommonlyInformationBean("常用货物名称",
+                        if (mSharePreferencesHelper?.contain(COMMON_GOODS_NAME)!!) {
+                            val mSaveInfo = Gson().fromJson<CommonlyInformationConfigurationSaveBean>((mSharePreferencesHelper?.getSharePreference(COMMON_GOODS_NAME, "{list:[]}") as String), CommonlyInformationConfigurationSaveBean::class.java)
+                            val mRemark = StringBuilder()
+                            if (!mSaveInfo.list.isNullOrEmpty()) {
+                                for (item in mSaveInfo.list) {
+                                    mRemark.append(item.getmTitle()).append(" ")
+                                }
+                            }
+                            mRemark.toString()
+                        }else
+                            "设置经常使用的货物名称"),
+                CommonlyInformationBean("常用包装方式",
+                        if (mSharePreferencesHelper?.contain(COMMON_PACKAGING_METHODS)!!) {
+                            val mSaveInfo = Gson().fromJson<CommonlyInformationConfigurationSaveBean>((mSharePreferencesHelper?.getSharePreference(COMMON_PACKAGING_METHODS, "{list:[]}") as String), CommonlyInformationConfigurationSaveBean::class.java)
+                            val mRemark = StringBuilder()
+                            if (!mSaveInfo.list.isNullOrEmpty()) {
+                                for (item in mSaveInfo.list) {
+                                    mRemark.append(item.getmTitle()).append(" ")
+                                }
+                            }
+                            mRemark.toString()
+                        } else
+                            "设置经常使用的包装方式"),
+                CommonlyInformationBean("常用开单备注",
+                        if (mSharePreferencesHelper?.contain(COMMON_USERS_REMARK)!!) {
+                            val mSaveInfo = Gson().fromJson<CommonlyInformationConfigurationSaveBean>((mSharePreferencesHelper?.getSharePreference(COMMON_USERS_REMARK, "{list:[]}") as String), CommonlyInformationConfigurationSaveBean::class.java)
+                            val mRemark = StringBuilder()
+                            if (!mSaveInfo.list.isNullOrEmpty()) {
+                                for (item in mSaveInfo.list) {
+                                    mRemark.append(item.getmTitle()).append(" ")
+                                }
+                            }
+                            mRemark.toString()
+                        } else
+                            "设置经常使用的备注")
         ))
         it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {

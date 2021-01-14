@@ -52,9 +52,12 @@ class TrunkDepartureUnloadingWarehousingActivity : BaseListMVPActivity<TrunkDepa
         departure_tv.text = "发车批次：${JSONObject(mTrunkDepartureUnloadingWarehousing).optString("inoneVehicleFlag")}"
         web_info_tv.text = "运行区间：${JSONObject(mTrunkDepartureUnloadingWarehousing).optString("vehicleInterval")}"
         over_total_info_tv.text = "已 装  车：${JSONObject(mTrunkDepartureUnloadingWarehousing).optString("ps")}票 x件 ${JSONObject(mTrunkDepartureUnloadingWarehousing).optString("weight")}Kg ${JSONObject(mTrunkDepartureUnloadingWarehousing).optString("volumn")}方     ${JSONObject(mTrunkDepartureUnloadingWarehousing).optString("yf")}元"
-        mTrunkDepartureUnloadingWarehousingReceiptAdapter=TrunkDepartureUnloadingWarehousingReceiptAdapter(mContext).also {
+        mTrunkDepartureUnloadingWarehousingReceiptAdapter = TrunkDepartureUnloadingWarehousingReceiptAdapter(mContext).also {
             receipt_list_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
             receipt_list_recycler.adapter = it
+        }
+        if (JSONObject(mTrunkDepartureUnloadingWarehousing).optBoolean("isLookInfo", false)) {
+            bottom_ll.visibility = View.GONE
         }
     }
 

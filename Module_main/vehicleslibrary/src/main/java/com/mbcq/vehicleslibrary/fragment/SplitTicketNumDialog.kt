@@ -56,8 +56,8 @@ class SplitTicketNumDialog(var mAllNum: Int = 0, var mClackInterface: OnClickInt
             }
 
         })
-        title_tv.text = "请输入拆票件数"
-        scan_num_tips_tv.text = "全部拆票件数${mAllNum}"
+        title_tv.text = "请输入实发件数"
+        scan_num_tips_tv.text = "全部库存件数${mAllNum}"
         cancel_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
 //                mCancelClackInterface?.onResult("", "")

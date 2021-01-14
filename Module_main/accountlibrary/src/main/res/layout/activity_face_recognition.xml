@@ -6,19 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".activity.facerecognition.FaceRecognitionActivity">
 
-    <com.mbcq.baselibrary.view.CnToolbar
-        android:id="@+id/face_recognition_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/transparent"
-        app:backButtonIsShow="true"
+
+    <ImageView
+        android:id="@+id/face_recognition_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_back_icon"
+        app:tint="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/face_recognition_toolbar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <FrameLayout
             android:layout_width="match_parent"

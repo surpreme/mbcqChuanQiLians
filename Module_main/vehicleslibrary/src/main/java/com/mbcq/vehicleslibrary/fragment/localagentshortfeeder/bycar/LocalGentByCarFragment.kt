@@ -16,6 +16,7 @@ import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localagent.LocalAgentEvent
 import kotlinx.android.synthetic.main.fragment_locala_gent_bycar.*
@@ -39,11 +40,8 @@ class LocalGentByCarFragment : BaseSmartMVPFragment<LocalGentByCarContract.View,
     override fun initExtra() {
         super.initExtra()
         mContext.let {
-            val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-            val mDate = Date(System.currentTimeMillis())
-            val format = mDateFormat.format(mDate)
-            mStartDateTag = "$format 00:00:00"
-            mEndDateTag = "$format 23:59:59"
+            mStartDateTag = FilterTimeUtils.getStartTime(7)
+            mEndDateTag = FilterTimeUtils.getEndTime()
             mShippingOutletsTag = UserInformationUtil.getWebIdCode(it)
 
         }

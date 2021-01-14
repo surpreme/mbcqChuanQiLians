@@ -24,17 +24,17 @@ class TrunkDeparturePresenter : BasePresenterImpl<TrunkDepartureContract.View>()
         get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
-                mView?.getTrunkDepartureS(Gson().fromJson<List<TrunkDepartureBean>>(obj.optString("data"), object : TypeToken<List<TrunkDepartureBean>>() {}.type),Gson().fromJson(obj.optString("totalRow"),TrunkDepartureTotalBean::class.java))
+                mView?.getTrunkDepartureS(Gson().fromJson<List<TrunkDepartureBean>>(obj.optString("data"), object : TypeToken<List<TrunkDepartureBean>>() {}.type), Gson().fromJson(obj.optString("totalRow"), TrunkDepartureTotalBean::class.java))
             }
 
         })
     }
 
     override fun invalidOrder(inoneVehicleFlag: String, id: Int) {
-        val obj=JsonObject()
-        obj.addProperty("inoneVehicleFlag",inoneVehicleFlag)
-        obj.addProperty("id",id)
-        post<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_INVALID_INFO_POST,getRequestBody(obj),object :CallBacks{
+        val obj = JsonObject()
+        obj.addProperty("inoneVehicleFlag", inoneVehicleFlag)
+        obj.addProperty("id", id)
+        post<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_INVALID_INFO_POST, getRequestBody(obj), object : CallBacks {
             override fun onResult(result: String) {
                 mView?.invalidOrderS()
 
@@ -43,7 +43,8 @@ class TrunkDeparturePresenter : BasePresenterImpl<TrunkDepartureContract.View>()
         })
 
     }
-    fun searchBillnoTrunkDeparture(inoneVehicleFlag: String) {
+
+    override fun searchInoneVehicleFlagTrunkDeparture(inoneVehicleFlag: String) {
         val params = HttpParams()
         params.put("InoneVehicleFlag", inoneVehicleFlag)
         get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET, params, object : CallBacks {
@@ -70,10 +71,10 @@ class TrunkDeparturePresenter : BasePresenterImpl<TrunkDepartureContract.View>()
                 val obj = JSONObject(result)
 
                 obj.optJSONArray("data")?.let {
-                    for (index in 0..it.length()){
+                    for (index in 0..it.length()) {
                         if (!it.isNull(index)) {
                             val itemObj = it.getJSONObject(index)
-                            searchBillnoTrunkDeparture(itemObj.optString("inoneVehicleFlag"))
+                            searchInoneVehicleFlagTrunkDeparture(itemObj.optString("inoneVehicleFlag"))
                         }
                     }
 

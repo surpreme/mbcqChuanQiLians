@@ -3,6 +3,8 @@ package com.mbcq.orderlibrary.fragment.waybillpictures
 
 import android.annotation.SuppressLint
 import android.view.View
+import android.widget.GridLayout.HORIZONTAL
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -21,8 +23,9 @@ class WaybillPictureFragment : BaseMVPFragment<WaybillPictureContract.View, Wayb
     var WaybillPicture = ""
     var mWaybillPictureAdapter: WaybillPictureAdapter? = null
     override fun getLayoutResId(): Int = R.layout.fragment_waybill_picture
+    @SuppressLint("WrongConstant")
     override fun initViews(view: View) {
-        waybill_picture_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
+        waybill_picture_recycler.layoutManager = GridLayoutManager(mContext, 2, HORIZONTAL, false)
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(waybill_picture_recycler)
         mWaybillPictureAdapter = WaybillPictureAdapter(mContext).also {

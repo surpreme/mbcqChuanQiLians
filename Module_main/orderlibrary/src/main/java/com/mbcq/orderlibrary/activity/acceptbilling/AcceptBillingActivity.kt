@@ -12,23 +12,23 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
+import com.mbcq.baselibrary.db.SharePreferencesHelper
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.dialog.dialogfragment.LoadingTipsDialogFragment
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.DialogFragmentUtils
 import com.mbcq.baselibrary.view.SingleClick
-import com.mbcq.commonlibrary.ARouterConstants
-import com.mbcq.commonlibrary.NumberPlateBean
-import com.mbcq.commonlibrary.PrintBlueToothBean
-import com.mbcq.commonlibrary.RadioGroupUtil
+import com.mbcq.commonlibrary.*
 import com.mbcq.commonlibrary.adapter.BaseEditTextAdapterBean
 import com.mbcq.commonlibrary.adapter.EditTextAdapter
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterDialog
+import com.mbcq.commonlibrary.dialog.MoreCheckBoxDialog
 import com.mbcq.commonlibrary.dialog.MoreCheckBoxPackageDialog
 import com.mbcq.orderlibrary.R
 import com.mbcq.orderlibrary.activity.acceptbilling.billingvolumecalculator.BillingVolumeCalculatorDialog
@@ -43,7 +43,7 @@ import org.json.JSONObject
 /**
  * @author: lzy
  * @time: 2020-12-08 08:59:12
- * 受理开单
+ * 受理开单 
  * @information 逻辑以及网络逻辑层 谨慎修改 随着项目叠加 分层压力
  */
 
@@ -71,6 +71,11 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
     override fun onClick() {
         super.onClick()
+        remarks_down_iv.apply {
+            onSingleClicks {
+                showMoreRemark()
+            }
+        }
         save_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (isCanSaveAcctBilling()) {
@@ -133,7 +138,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         })
         arrive_outlet_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
+                WebDbUtil.getDbWebId(application, object : WebsDbInterface {
                     override fun isNull() {
                         mPresenter?.getWebAreaId()
                     }
@@ -148,7 +153,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         })
         arrive_outlet_down_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                getDbWebId(object : WebDbInterface {
+                WebDbUtil.getDbWebId(application, object : WebsDbInterface {
                     override fun isNull() {
                         mPresenter?.getWebAreaId()
                     }
@@ -562,6 +567,20 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
     }
 
+    fun showMoreRemark() {
+        if (mCommonlyInformationSharePreferencesHelper?.contain(COMMON_USERS_REMARK)!!) {
+            //(mScreenWidth: Int, tips: String, mDatas: String, showTag: String, resultTag: String, mClickInterface: OnClickInterface.OnClickInterface)
+            val mSharePH = mCommonlyInformationSharePreferencesHelper?.getSharePreference(COMMON_USERS_REMARK, "{list:[]}") as String
+            MoreCheckBoxDialog(getScreenWidth(), "常用备注", JSONObject(mSharePH).optString("list"), "mTitle", "mTitle", object : OnClickInterface.OnClickInterface {
+                override fun onResult(s1: String, s2: String) {
+                    remarks_tv.setText(s1)
+                }
+
+            }).show(supportFragmentManager, "MoreCheckBoxDialog")
+
+        }
+    }
+
     override fun getDestinationS(result: String) {
         FilterDialog(getScreenWidth(), result, "mapDes", "选择目的地", true, isShowOutSide = true, showTipsTag = "FREQUENTLY_USED_DESTINATIONS", showBarTipsStr = "目的地", mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
@@ -755,6 +774,14 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         cost_information_recycler.layoutManager = GridLayoutManager(mContext, 2)
         cost_information_recycler.adapter = mEditTextAdapter
         mEditTextAdapter?.appendData(mKK)
+        mEditTextAdapter?.mSearchClick = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                if (isCanSaveAcctBilling()) {
+                    saveAcctBilling()
+                }
+            }
+
+        }
         mEditTextAdapter?.mOnToTalInterface = object : EditTextAdapter.OnToTalInterface {
             override fun onItemFoused(v: View, position: Int, result: String, tag: String) {
                 mEditTextAdapter?.getData()?.let {

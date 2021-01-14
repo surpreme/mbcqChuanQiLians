@@ -34,7 +34,20 @@
             android:hint="请输入关键字查询"
             android:inputType="number"
             android:paddingLeft="15dp" />
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_scan_iccon" />
 
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="#EAC11E"
+            android:text="搜索"
+            android:textColor="@color/white"
+            android:textSize="19sp" />
     </LinearLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout

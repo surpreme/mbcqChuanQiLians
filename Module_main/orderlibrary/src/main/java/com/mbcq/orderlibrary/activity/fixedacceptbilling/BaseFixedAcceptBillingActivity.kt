@@ -176,12 +176,10 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
             showToast("请选择目的地")
             return false
         }
-        //        if (mShipperMb.isEmpty()) {
         if (shipper_name_ed.text.toString().isBlank()) {
             showToast("请选择发货人")
             return false
         }
-//        if (mConsigneeMb.isEmpty()) {
         if (receiver_name_ed.text.toString().isBlank()) {
             showToast("请选择收货人")
             return false
@@ -190,23 +188,6 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
             showToast("请输入修改原因")
             return false
         }
-
-        /*  if (cargo_name_ed.text.toString().isEmpty()) {
-              showToast("请选择货物名称")
-              return false
-          }
-          if (package_name_ed.text.toString().isEmpty()) {
-              showToast("请选择包装")
-              return false
-          }
-          if (weight_name_ed.text.toString().isEmpty()) {
-              showToast("请输入重量")
-              return false
-          }
-          if (volume_name_tv.text.toString().isEmpty()) {
-              showToast("请输入体积")
-              return false
-          }*/
         if (receipt_requirements_name_ed.text.toString().isEmpty()) {
             showToast("请选择回单要求")
             return false

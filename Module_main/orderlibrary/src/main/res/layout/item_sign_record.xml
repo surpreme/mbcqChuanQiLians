@@ -100,12 +100,12 @@
 
     <TextView
         android:id="@+id/cancel_record_tv"
-        android:layout_width="100dp"
-        android:layout_height="35dp"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/hollow_out_gray"
         android:gravity="center"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:text="取消签收"
         android:textColor="@color/base_orange"
         app:layout_constraintBottom_toBottomOf="@+id/receiver_tv"

@@ -111,8 +111,9 @@ class AcceptBillingFixedReviewActivity : BaseMVPActivity<AcceptBillingFixedRevie
         webinfo_left_tv.text = "发货网点：${data.optString("webidCodeStr")}\n目  的 地：${data.optString("destination")}\n付货方式：${data.optString("okProcessStr")}"
         //到货网点：汕头\n运输方式：义乌市
         webinfo_right_tv.text = "到货网点：${data.optString("ewebidCodeStr")}\n运输方式：${data.optString("transneedStr")}"
-        shipper_info_tv.text = "发  货 人：${data.optString("shipper")}\n手  机 号：${data.optString("shipperMb")}\n地      址：${data.optString("shipperAddr")}\n发货人证件：${data.optString("shipperCid")}"
-        receiver_info_tv.text = "收  货 人：${data.optString("consignee")}\n手  机 号：${data.optString("consigneeMb")}\n地      址：${data.optString("consigneeAddr")}"
+        receiver_info_tv.text = "客户编号：${data.optString("consigneeId")}\n收  货 人：${data.optString("consignee")}\n手  机 号：${data.optString("consigneeMb")}\n固定电话：${data.optString("consigneeTel")}\n地      址：${data.optString("consigneeAddr")}"
+        shipper_info_tv.text = "客户编号：${data.optString("shipperId")}\n发  货 人：${data.optString("shipper")}\n手  机 号：${data.optString("shipperMb")}\n固定电话：${data.optString("shipperTel")}\n地      址：${data.optString("shipperAddr")}\n公      司：xxxx\n发货人证件：${data.optString("shipperCid")}"
+
         goods_info_tv.text = "货物名称：${data.optString("product")}\n包装方式：${data.optString("packages")}\n体      积：${data.optString("volumn")}m³\n保  价 费：${data.optString("accSafe")}\n送  货 费：${data.optString("accSend")}\n返      款：${data.optString("accHuiKou")}\n付款方式：${data.optString("accTypeStr")}\n实发货款：您看不到我\n备      注：${data.optString("remark")}"
         goods_info_second_tv.text = "件      数：${data.optString("qty")}\n重      量：${data.optString("weight")}kg\n保价金额：${data.optString("safeMoney")}\n提  货 费：${data.optString("accFetch")}\n中  转 费：${data.optString("outacc")}\n合计运费：${data.optString("accSum")}\n代收货款：${data.optString("accDaiShou")}"
         data.optJSONArray("WayGoosLst")?.let {

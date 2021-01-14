@@ -17,6 +17,7 @@ import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localagent.LocalAgentEvent
 import com.mbcq.vehicleslibrary.activity.allterminalagent.terminalagent.TerminalAgentEvent
@@ -41,11 +42,8 @@ class TerminalAgentByCarFragment : BaseSmartMVPFragment<TerminalAgentByCarContra
     override fun initExtra() {
         super.initExtra()
         mContext.let {
-            val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-            val mDate = Date(System.currentTimeMillis())
-            val format = mDateFormat.format(mDate)
-            mStartDateTag = "$format 00:00:00"
-            mEndDateTag = "$format 23:59:59"
+            mStartDateTag = FilterTimeUtils.getStartTime(7)
+            mEndDateTag = FilterTimeUtils.getEndTime()
             mShippingOutletsTag = UserInformationUtil.getWebIdCode(it)
 
         }
@@ -64,6 +62,7 @@ class TerminalAgentByCarFragment : BaseSmartMVPFragment<TerminalAgentByCarContra
 
         }
     }
+
     override fun onClick() {
         super.onClick()
         cancel_transfer_btn.setOnClickListener(object : SingleClick() {
@@ -101,6 +100,7 @@ class TerminalAgentByCarFragment : BaseSmartMVPFragment<TerminalAgentByCarContra
         })
 
     }
+
     override fun addItemDecoration(): RecyclerView.ItemDecoration = object : BaseItemDecoration(mContext) {
         override fun configExtraSpace(position: Int, count: Int, rect: Rect) {
             rect.top = ScreenSizeUtils.dp2px(mContext, 10f)
@@ -110,6 +110,7 @@ class TerminalAgentByCarFragment : BaseSmartMVPFragment<TerminalAgentByCarContra
             rect.bottom = rect.top
         }
     }
+
     override fun getPageDatas(mCurrentPage: Int) {
         super.getPageDatas(mCurrentPage)
         mPresenter?.getPage(mCurrentPage, mShippingOutletsTag, mStartDateTag, mEndDateTag)

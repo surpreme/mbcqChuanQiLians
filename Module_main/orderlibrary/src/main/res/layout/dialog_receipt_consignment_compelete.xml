@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:padding="7dp"
-    app:cardCornerRadius="5dp"
-    tools:context="com.mbcq.orderlibrary.activity.acceptbilling.billingweightcalculator.BillingWeightCalculatorDialog">
+    app:cardCornerRadius="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -279,9 +278,9 @@
                         android:gravity="left|center"
                         android:minWidth="14dp"
                         android:paddingLeft="10dp"
+                        android:text="正常"
                         android:textColor="@color/black"
-                        android:textSize="16sp"
-                        tools:text="正常" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="14dp"

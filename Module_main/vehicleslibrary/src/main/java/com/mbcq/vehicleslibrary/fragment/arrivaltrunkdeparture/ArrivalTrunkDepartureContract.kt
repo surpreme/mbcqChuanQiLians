@@ -29,6 +29,7 @@ class ArrivalTrunkDepartureContract {
          */
         fun confirmCar(data: TrunkDepartureBean, position: Int)
         fun canCelCar(data: TrunkDepartureBean, position: Int)
-
+        fun searchScanInfo(billno: String)
+        fun searchInoneVehicleFlagTrunkDepature(inoneVehicleFlag: String)
     }
 }

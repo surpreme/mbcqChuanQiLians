@@ -5,6 +5,10 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application>
+        <activity android:name=".activity.homedeliveryhouse.HomeDeliveryHouseActivity"></activity>
+        <activity android:name=".activity.addhomedelivery.AddHomeDeliveryActivity" />
+        <activity android:name=".activity.homedelivery.HomeDeliveryActivity" />
+        <activity android:name=".activity.goodsreceipthouseinfo.GoodsReceiptHouseInfoActivity" />
         <activity android:name=".activity.acceptbillingoperationreview.AcceptBillingFixedReviewActivity" />
         <activity android:name=".activity.stowagealongway.StowageAlongWayActivity" />
         <activity
@@ -38,7 +42,6 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.deliveryadjustment.DeliveryAdjustmentActivity" />
         <activity android:name=".activity.controlmanagement.ControlManagementActivity" />
-        <activity android:name=".activity.signrecord.SignRecordActivity" />
         <activity android:name=".activity.fixeddeliverysomethinghouse.FixedDeliverySomethingHouseActivity" />
         <activity android:name=".activity.deliverysomethinghouse.DeliverySomethingHouseActivity" />
         <activity android:name=".activity.adddeliverysomething.AddDeliverySomeThingActivity" />
@@ -51,9 +54,7 @@
         <activity android:name=".activity.addreceiver.AddReceiverActivity" />
         <activity android:name=".activity.addshipper.AddShipperActivity" />
         <activity android:name=".activity.acceptbilling.AcceptBillingActivity" />
-        <activity
-            android:name=".activity.goodsreceipt.GoodsReceiptActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".activity.goodsreceipthouse.GoodsReceiptHouseActivity" />
     </application>
 
 </manifest>

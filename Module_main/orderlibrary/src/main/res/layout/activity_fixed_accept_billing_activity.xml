@@ -75,33 +75,12 @@
                 android:layout_width="84dp"
                 android:layout_height="32dp"
                 android:layout_marginRight="8dp"
-                android:background="@drawable/hollow_out_blue"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="@id/waybill_number_title_tv"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/waybill_number_title_tv">
 
-                <TextView
-                    android:id="@+id/waybill_number_handwriting_tv"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_blue_lefttop_leftbottom"
-                    android:gravity="center"
-                    android:text="手写"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/waybill_number_machine_printed_tv"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:text="机打"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
             </LinearLayout>
 
             <View

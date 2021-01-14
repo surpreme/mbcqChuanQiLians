@@ -111,6 +111,16 @@ public class TrunkDepartureBean {
     private String sfWeight;
     private String accwz;
     private boolean isChecked;
+    private boolean isLookInfo;
+
+    public boolean isLookInfo() {
+        return isLookInfo;
+    }
+
+    public void setLookInfo(boolean lookInfo) {
+        isLookInfo = lookInfo;
+    }
+
 
     public boolean isChecked() {
         return isChecked;

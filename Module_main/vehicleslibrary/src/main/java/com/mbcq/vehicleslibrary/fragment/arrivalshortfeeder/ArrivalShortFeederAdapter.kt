@@ -21,6 +21,7 @@ class ArrivalShortFeederAdapter(context: Context?) : BaseRecyclerAdapter<ShortFe
         fun onResult(position: Int, data: ShortFeederBean)
         fun onCancel(position: Int, data: ShortFeederBean)
         fun onUnloadingWarehousing(position: Int, data: ShortFeederBean)
+        fun onItemClick(position: Int, data: ShortFeederBean)
     }
 
     var mOnArrivalConfirmInterface: OnArrivalConfirmInterface? = null
@@ -43,6 +44,12 @@ class ArrivalShortFeederAdapter(context: Context?) : BaseRecyclerAdapter<ShortFe
         holder.feeder_cancel_confirm_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 mOnArrivalConfirmInterface?.onCancel(position, mDatas[position])
+            }
+
+        })
+        holder.itemView.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                mOnArrivalConfirmInterface?.onItemClick(position, mDatas[position])
             }
 
         })

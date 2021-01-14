@@ -17,6 +17,7 @@ import com.mbcq.baselibrary.dialog.popup.XDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
+import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.util.system.ToastUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.WebDbUtil
@@ -50,6 +51,7 @@ class ReceiptConsignmentCompleteDialog(val mScreenWidth: Int, var mOnResultInter
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         initAreaData()
+        send_time_tv.text=TimeUtils.getCurrTime2()
         city_name_ll.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (mLock) {

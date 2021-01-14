@@ -72,8 +72,10 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
      */
     fun completeCar() {
         mLoadingListAdapter?.getAllData()?.let {
-            if (it.isEmpty())
+            if (it.isEmpty()) {
+                TalkSureDialog(mContext, getScreenWidth(), "请配载您要发的运单").show()
                 return
+            }
             val mLastData = JSONObject(mLastDataJson)
             val jarray = JSONArray()
             val kk = StringBuilder()
@@ -132,7 +134,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
         })
         add_operating_interval_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                WebDbUtil.getDbWebId(application,object : WebsDbInterface {
+                WebDbUtil.getDbWebId(application, object : WebsDbInterface {
                     override fun isNull() {
 
                     }

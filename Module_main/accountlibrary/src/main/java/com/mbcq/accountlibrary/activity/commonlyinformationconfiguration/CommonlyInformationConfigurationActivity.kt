@@ -248,6 +248,8 @@ class CommonlyInformationConfigurationActivity : BaseMVPActivity<CommonlyInforma
      * 常用包装方式
      */
     val COMMON_PACKAGING_METHODS = "COMMON_PACKAGING_METHODS"
+
+
     override fun onClick() {
         super.onClick()
         commit_btn.setOnClickListener(object : SingleClick() {

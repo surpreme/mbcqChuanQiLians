@@ -2,6 +2,8 @@ package com.mbcq.vehicleslibrary.activity.alldeparturerecord.addtrunkdeparture
 
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import com.google.gson.Gson
 import com.mbcq.baselibrary.interfaces.OnClickInterface
@@ -19,6 +21,7 @@ import com.mbcq.vehicleslibrary.R
 import kotlinx.android.synthetic.main.activity_add_trunk_departure.*
 
 
+
 /**
  * @author: lzy
  * @time: 2020-09-14 11:02:45
@@ -29,7 +32,7 @@ abstract class BaseAddTrunkDepartureActivity<V : BaseView, T : BasePresenterImpl
     var mThridEwebidCode = ""
     var mECompanyId = ""
     var mWebCodeId = ""
-    var mToPayTotalPrice = ""
+    var mToPayTotalPrice =0.00
     var mWebCodeIdStr = ""
     var mTransneed = 1//运输类型编码
     var mTransneedStr = ""//运输类型
@@ -45,7 +48,7 @@ abstract class BaseAddTrunkDepartureActivity<V : BaseView, T : BasePresenterImpl
         oil_card_second_ed.isFocusableInTouchMode = false
         oil_card_third_ed.isFocusable = false
         oil_card_third_ed.isFocusableInTouchMode = false
-
+        initTotalPrice()
     }
     protected fun initModeOfTransport() {
         mTransneedStr = "普运"
@@ -175,7 +178,112 @@ abstract class BaseAddTrunkDepartureActivity<V : BaseView, T : BasePresenterImpl
 
         }
     }
+    protected fun changeTotalPrice() {
+        var totalPrice = 0.00//油卡费用不计算
+        var otherTotalPrice = 0.00//
+        var ToPayTotalPrice = 0.00//到付 3个金额 不包括回付
+        if (cash_freight_ed.text.toString().isNotBlank()) {
+            totalPrice += (cash_freight_ed.text.toString()).toDouble()
+        }
+        if (return_freight_ed.text.toString().isNotBlank()) {
+            totalPrice += (return_freight_ed.text.toString()).toDouble()
+        }
+        if (oil_card_first_tv.text.toString().isNotBlank() && oil_card_first_ed.text.toString().isNotBlank()) {
+            totalPrice += (oil_card_first_ed.text.toString()).toDouble()
+            ToPayTotalPrice += (oil_card_first_ed.text.toString()).toDouble()
+        }
+        if (oil_card_second_tv.text.toString().isNotBlank() && oil_card_second_ed.text.toString().isNotBlank()) {
+            totalPrice += (oil_card_second_ed.text.toString()).toDouble()
+            ToPayTotalPrice += (oil_card_second_ed.text.toString()).toDouble()
+        }
+        if (oil_card_third_tv.text.toString().isNotBlank() && oil_card_third_ed.text.toString().isNotBlank()) {
+            totalPrice += (oil_card_third_ed.text.toString()).toDouble()
+            ToPayTotalPrice += (oil_card_third_ed.text.toString()).toDouble()
+        }
+        total_freight_tv.text = haveTwoDouble(totalPrice)
+        mToPayTotalPrice = ToPayTotalPrice
+    }
+    private fun initTotalPrice() {
 
+        cash_freight_ed.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                changeTotalPrice()
+
+
+            }
+
+        })
+
+        oil_card_first_ed.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                changeTotalPrice()
+
+
+            }
+
+        })
+
+        oil_card_second_ed.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                changeTotalPrice()
+
+
+            }
+
+        })
+        oil_card_third_ed.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                changeTotalPrice()
+
+
+            }
+
+        })
+        return_freight_ed.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                changeTotalPrice()
+
+
+            }
+
+        })
+
+    }
     override fun onClick() {
         super.onClick()
         add_trunk_departure_toolbar.setBackButtonOnClickListener(object : SingleClick() {

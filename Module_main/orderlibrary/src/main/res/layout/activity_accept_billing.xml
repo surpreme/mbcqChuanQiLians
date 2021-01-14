@@ -2068,6 +2068,17 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/remarks_title_tv"
                 tools:text="中国建设银行上海交通路支行" />
+            <ImageView
+                android:id="@+id/remarks_down_iv"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="3dp"
+                android:padding="6dp"
+                android:src="@drawable/ic_down_icon"
+                app:layout_constraintBottom_toBottomOf="@+id/remarks_tv"
+                app:layout_constraintRight_toRightOf="@+id/remarks_tv"
+                app:layout_constraintTop_toTopOf="@+id/remarks_tv" />
 
             <View
                 android:id="@+id/remarks_line"

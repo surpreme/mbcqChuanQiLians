@@ -9,8 +9,10 @@ import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordEvent
 import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
@@ -40,11 +42,8 @@ class ArrivalTrunkDepartureFragment : BaseSmartMVPFragment<ArrivalTrunkDeparture
     override fun initExtra() {
         super.initExtra()
         mContext.let {
-            val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-            val mDate = Date(System.currentTimeMillis())
-            val format = mDateFormat.format(mDate)
-            mStartDateTag = "$format 00:00:00"
-            mEndDateTag = "$format 23:59:59"
+            mStartDateTag = FilterTimeUtils.getStartTime(7)
+            mEndDateTag = FilterTimeUtils.getEndTime()
             mShippingOutletsTag = UserInformationUtil.getWebIdCode(it)
 
         }
@@ -69,6 +68,12 @@ class ArrivalTrunkDepartureFragment : BaseSmartMVPFragment<ArrivalTrunkDeparture
             }
 
             override fun onUnloadingWarehousing(position: Int, data: TrunkDepartureBean) {
+                ARouter.getInstance().build(ARouterConstants.TrunkDepartureUnloadingWarehousingActivity).withString("TrunkDepartureUnloadingWarehousing", Gson().toJson(data)).navigation()
+
+            }
+
+            override fun onItemClick(position: Int, data: TrunkDepartureBean) {
+                data.isLookInfo = true
                 ARouter.getInstance().build(ARouterConstants.TrunkDepartureUnloadingWarehousingActivity).withString("TrunkDepartureUnloadingWarehousing", Gson().toJson(data)).navigation()
 
             }
@@ -99,6 +104,19 @@ class ArrivalTrunkDepartureFragment : BaseSmartMVPFragment<ArrivalTrunkDeparture
 
     override fun onClick() {
         super.onClick()
+        search_btn.apply {
+            onSingleClicks {
+                if (search_arrival_trunk_ed.text.toString().isNotBlank()) {
+                    adapter.clearData()
+                    if (checkStrIsNum(search_arrival_trunk_ed.text.toString()))
+                        mPresenter?.searchScanInfo(search_arrival_trunk_ed.text.toString())
+                    else
+                        mPresenter?.searchInoneVehicleFlagTrunkDepature(search_arrival_trunk_ed.text.toString())
+
+                } else
+                    refresh()
+            }
+        }
         cancel_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 for ((index, item) in (adapter.getAllData()).withIndex()) {

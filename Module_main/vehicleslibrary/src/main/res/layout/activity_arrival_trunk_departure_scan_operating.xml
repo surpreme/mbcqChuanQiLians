@@ -14,7 +14,7 @@
         app:backButtonIsShow="true"
         app:centerTextViewText="干线扫描卸车"
         app:layout_constraintTop_toTopOf="parent"
-        app:rightTextViewText="操作" />
+        app:rightTextViewText="撤销" />
 
     <TextView
         android:id="@+id/unloading_batch_tv"

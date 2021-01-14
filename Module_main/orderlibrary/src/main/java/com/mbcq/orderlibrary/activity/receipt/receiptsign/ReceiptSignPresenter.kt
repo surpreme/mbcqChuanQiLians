@@ -32,7 +32,7 @@ class ReceiptSignPresenter : BasePresenterImpl<ReceiptSignContract.View>(), Rece
     }
 
     override fun complete(jsonStr: String) {
-        post<String>(ApiInterface.RECEIPT_MANAGEMENT_SIGN_OVER_POST, getRequestBody(jsonStr), object : CallBacks {
+        post<String>(ApiInterface.RECEIPT_MANAGEMENT_SIGN_OVER_POST, getRequestBody(jsonStr,false), object : CallBacks {
             override fun onResult(result: String) {
                 mView?.completeS("")
             }

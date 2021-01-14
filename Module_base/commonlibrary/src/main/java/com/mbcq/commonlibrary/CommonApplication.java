@@ -10,6 +10,10 @@ import com.mbcq.commonlibrary.greendao.DaoSession;
 
 import org.greenrobot.greendao.database.Database;
 
+import java.net.Proxy;
+
+import okhttp3.OkHttpClient;
+
 public class CommonApplication extends BaseApplication {
     protected DaoSession daoSession;
 
@@ -23,13 +27,16 @@ public class CommonApplication extends BaseApplication {
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
     }
-
+//used the global configuration.
     @Override
     public void onCreate() {
         super.onCreate();
         initGreenDao();
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5f4da9b3");
-        OkGo.getInstance().init(this).setCacheMode(CacheMode.NO_CACHE);
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+//        builder.proxy(Proxy.NO_PROXY);//禁止网络抓包
+        OkGo.getInstance().init(this).setCacheMode(CacheMode.NO_CACHE)/*.setOkHttpClient(builder.build())*/;
+
     }
 
 

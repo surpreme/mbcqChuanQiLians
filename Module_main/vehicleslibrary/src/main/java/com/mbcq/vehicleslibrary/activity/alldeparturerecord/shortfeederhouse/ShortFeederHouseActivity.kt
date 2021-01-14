@@ -53,8 +53,11 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
      */
     fun completeCar() {
         mLoadingListAdapter?.getAllData()?.let {
-            if (it.isEmpty())
+            if (it.isEmpty()) {
+                TalkSureDialog(mContext, getScreenWidth(), "请配载您要发的运单").show()
                 return
+
+            }
             val mLastData = JSONObject(mLastDataJson)
             val jarray = JSONArray()
             val kk = StringBuilder()
@@ -63,9 +66,9 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
                 val obj = JSONObject(Gson().toJson(item))
                 obj.put("qty", item.developmentsQty)
                 val xV = ((item.volumn.toDouble()) / (item.totalQty.toInt()))
-                obj.put("sfVolumn",haveTwoDouble(xV* item.developmentsQty))
+                obj.put("sfVolumn", haveTwoDouble(xV * item.developmentsQty))
                 val xW = ((item.weight.toDouble()) / (item.totalQty.toInt()))
-                obj.put("sfWeight",haveTwoDouble(xW* item.developmentsQty))
+                obj.put("sfWeight", haveTwoDouble(xW * item.developmentsQty))
                 kk.append(item.billno)
                 if (index != it.size - 1)
                     kk.append(",")
@@ -122,11 +125,13 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
         }
 
     }
+
     override fun overLocalCarS(s: String) {
         TalkSureDialog(mContext, getScreenWidth(), "短驳计划装车${mDepartureLot}已完成，点击查看详情！") {
             onBackPressed()
         }.show()
     }
+
     override fun saveInfoS(result: String) {
         TalkSureCancelDialog(mContext, getScreenWidth(), "短驳计划装车${mDepartureLot}配载成功，您确定要完成本车吗?") {
             mPresenter?.overLocalCar(mDepartureLot)

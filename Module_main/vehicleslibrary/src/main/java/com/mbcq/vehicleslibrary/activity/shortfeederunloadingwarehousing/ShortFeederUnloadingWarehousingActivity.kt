@@ -57,6 +57,9 @@ class ShortFeederUnloadingWarehousingActivity : BaseListMVPActivity<ShortFeederU
             receipt_list_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
             receipt_list_recycler.adapter = it
         }
+        if (JSONObject(mShortFeederUnloadingWarehousing).optBoolean("isLookInfo", false)) {
+            bottom_ll.visibility = View.GONE
+        }
     }
 
     private fun initToptab() {

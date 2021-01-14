@@ -81,4 +81,38 @@ class ArrivalShortFeederPresenter : BasePresenterImpl<ArrivalShortFeederContract
         })
     }
 
+    override fun searchInoneVehicleFlagShortFeeder(inoneVehicleFlag: String) {
+        val params = HttpParams()
+        params.put("InoneVehicleFlag", inoneVehicleFlag)
+        get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_OVERRING_LOCAL_INFO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    mView?.getPageS(Gson().fromJson<List<ShortFeederBean>>(obj.optString("data"), object : TypeToken<List<ShortFeederBean>>() {}.type))
+                }
+            }
+
+
+        })
+    }
+
+    override fun searchScanInfo(billno: String) {
+        val params = HttpParams()
+        params.put("billno", billno)
+        get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_BILLNO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    for (index in 0..it.length()) {
+                        if (!it.isNull(index)) {
+                            val itemObj = it.getJSONObject(index)
+                            searchInoneVehicleFlagShortFeeder(itemObj.optString("inoneVehicleFlag"))
+                        }
+                    }
+
+                }
+            }
+
+        })
+    }
 }

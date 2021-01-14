@@ -37,27 +37,38 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
 
     protected fun getRequestBody(jsonObject: JsonObject): RequestBody {
         val JSON = MediaType.parse("application/json; charset=utf-8")
-        jsonObject.addProperty("FromType","3")
-        jsonObject.addProperty("FromTypeStr","Android")
+        jsonObject.addProperty("FromType", "3")
+        jsonObject.addProperty("FromTypeStr", "Android")
         jsonObject.addProperty("DeviceNo", PhoneDeviceMsgUtils.getDeviceOnlyTag(mView?.getContext()))
         return RequestBody.create(JSON, Gson().toJson(jsonObject))
     }
 
     protected fun getRequestBody(jsonObject: JSONObject): RequestBody {
         val JSON = MediaType.parse("application/json; charset=utf-8")
-        jsonObject.put("FromType","3")
-        jsonObject.put("FromTypeStr","Android")
+        jsonObject.put("FromType", "3")
+        jsonObject.put("FromTypeStr", "Android")
         jsonObject.put("DeviceNo", PhoneDeviceMsgUtils.getDeviceOnlyTag(mView?.getContext()))
         return RequestBody.create(JSON, GsonUtils.toPrettyFormat(jsonObject.toString()))
     }
 
     protected fun getRequestBody(json: String): RequestBody {
-        val jsonObject=JSONObject(json)
-        jsonObject.put("FromType","3")
-        jsonObject.put("FromTypeStr","Android")
-        jsonObject.put("DeviceNo", PhoneDeviceMsgUtils.getDeviceOnlyTag(mView?.getContext()))
-        return getRequestBody(jsonObject)
+        return getRequestBody(json, true)
     }
+
+    protected fun getRequestBody(json: String, isAddDevice: Boolean): RequestBody {
+        return if (isAddDevice) {
+            val jsonObject = JSONObject(json)
+            jsonObject.put("FromType", "3")
+            jsonObject.put("FromTypeStr", "Android")
+            jsonObject.put("DeviceNo", PhoneDeviceMsgUtils.getDeviceOnlyTag(mView?.getContext()))
+            getRequestBody(jsonObject)
+        } else {
+            val JSON = MediaType.parse("application/json; charset=utf-8")
+            RequestBody.create(JSON, json)
+        }
+
+    }
+
 
     protected fun <T> post(url: String, body: RequestBody, callback: CallBacks) {
         post<T>(url, body, null, false, callback)
@@ -115,11 +126,13 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
                 }
 
             }
+
             override fun onAgainLogIn(result: String) {
                 super.onAgainLogIn(result)
                 mView?.UnToken(result)
 
             }
+
             override fun onStart(request: Request<T?, out Request<*, *>?>?) {
                 super.onStart(request)
                 mView?.showLoading()
@@ -209,6 +222,7 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
                 mView?.UnToken(result)
 
             }
+
             override fun onStart(request: Request<T?, out Request<*, *>?>?) {
                 super.onStart(request)
                 mView?.showLoading()

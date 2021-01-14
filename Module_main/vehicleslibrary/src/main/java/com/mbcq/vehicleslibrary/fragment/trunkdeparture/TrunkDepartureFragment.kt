@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
-import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
@@ -13,6 +12,7 @@ import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordEvent
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.TrunkDepartureIsRefreshEvent
@@ -39,7 +39,7 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
     override fun getRecyclerViewId(): Int = R.id.trunk_departure_recycler
 
     override fun setAdapter(): BaseRecyclerAdapter<TrunkDepartureBean> = TrunkDepartureAdapter(mContext).also {
-        it.mOnTrunkDepartureClickInterface=object :TrunkDepartureAdapter.OnTrunkDepartureClickInterface{
+        it.mOnTrunkDepartureClickInterface = object : TrunkDepartureAdapter.OnTrunkDepartureClickInterface {
             override fun onModify(v: View, position: Int, itemData: TrunkDepartureBean) {
                 val job = JSONObject()
                 job.put("InoneVehicleFlag", itemData.inoneVehicleFlag)
@@ -58,14 +58,17 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
                 job.put("InoneVehicleFlag", itemData.inoneVehicleFlag)
                 job.put("Id", itemData.id)
                 job.put("VehicleNo", itemData.vehicleNo)
+                job.put("VehicleState", itemData.vehicleState)
                 ARouter.getInstance().build(ARouterConstants.FixedTrunkDepartureHouseActivity).withString("FixedTrunkDepartureHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
             }
 
         }
     }
+
     override fun setIsShowNetLoading(): Boolean {
         return false
     }
+
     override fun getLayoutResId(): Int = R.layout.fragment_trunk_departure
 
     @SuppressLint("SetTextI18n")
@@ -86,22 +89,24 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
             override fun onSingleClick(v: View?) {
                 if (billno_ed.text.toString().isNotBlank()) {
                     adapter.clearData()
-                    mPresenter?.searchScanInfo(billno_ed.text.toString())
+                    if (checkStrIsNum(billno_ed.text.toString()))
+                        mPresenter?.searchScanInfo(billno_ed.text.toString())
+                    else
+                        mPresenter?.searchInoneVehicleFlagTrunkDeparture(billno_ed.text.toString())
+
                 } else
                     refresh()
             }
 
         })
     }
+
     @SuppressLint("SimpleDateFormat")
     override fun initExtra() {
         super.initExtra()
         mContext.let {
-            val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-            val mDate = Date(System.currentTimeMillis())
-            val format = mDateFormat.format(mDate)
-            mStartDateTag = "$format 00:00:00"
-            mEndDateTag = "$format 23:59:59"
+            mStartDateTag = FilterTimeUtils.getStartTime(7)
+            mEndDateTag = FilterTimeUtils.getEndTime()
             mShippingOutletsTag = UserInformationUtil.getWebIdCode(it) + ","
 
         }
@@ -117,15 +122,18 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
                     for (item in adapter.getAllData()) {
                         if (item.isChecked) {
                             mItemdata = item
+                            break
                         }
                     }
-                    if (mItemdata != null) {
+                    if (mItemdata?.vehicleState != 0) {
+                        showToast("只有发车计划中才可以修改")
+                        return@let
+                    }
+                    run {
                         val job = JSONObject()
                         job.put("InoneVehicleFlag", mItemdata.inoneVehicleFlag)
                         job.put("Id", mItemdata.id)
                         ARouter.getInstance().build(ARouterConstants.FixedDepartureTrunkConfigurationActivity).withString("FixedDepartureTrunkConfiguration", GsonUtils.toPrettyFormat(job.toString())).navigation()
-                    } else {
-                        showToast("请至少选择一辆车次进行操作修改")
                     }
 
                 }

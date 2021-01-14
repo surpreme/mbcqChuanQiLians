@@ -21,12 +21,12 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader
 abstract class BaseSmartMVPFragment<V : BaseView, T : BasePresenterImpl<V>, X> : BaseListMVPFragment<V, T, X>(), BaseView {
     abstract fun getSmartLayoutId(): Int
     abstract fun getSmartEmptyId(): Int
-    fun getEnableLoadMore(): Boolean = true//是否分页 加载更多
+    open fun getEnableLoadMore(): Boolean = true//是否分页 加载更多
     open fun getPageDatas(mCurrentPage: Int) {}
     private var isHaveMore: Boolean = true
     var isMore: Boolean = true
     private var mCurrentPage: Int = 1
-    fun getCurrentPage():Int=mCurrentPage
+    fun getCurrentPage(): Int = mCurrentPage
     lateinit var mSmartRefreshLayout: SmartRefreshLayout
     lateinit var mSmartFrameLayout: ViewGroup
     override fun initViews(view: View) {
@@ -34,6 +34,7 @@ abstract class BaseSmartMVPFragment<V : BaseView, T : BasePresenterImpl<V>, X> :
         mSmartRefreshLayout = view.findViewById(getSmartLayoutId())
         mSmartRefreshLayout.setRefreshHeader(ClassicsHeader(mContext))
         mSmartFrameLayout = view.findViewById(getSmartEmptyId())
+        mSmartRefreshLayout.setEnableLoadMore(getEnableLoadMore())
         showNoData()
         mSmartRefreshLayout.setOnRefreshListener {
             refresh()

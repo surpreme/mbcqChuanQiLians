@@ -21,6 +21,6 @@ class ShortFeederContract {
         fun getShortFeeder(page:Int, selWebidCode: String, startDate: String, endDate: String)
         fun invalidOrder(inoneVehicleFlag: String, id: Int)
         fun searchScanInfo(billno: String)
-
+        fun searchBillnoShortFeeder(inoneVehicleFlag: String)
     }
 }

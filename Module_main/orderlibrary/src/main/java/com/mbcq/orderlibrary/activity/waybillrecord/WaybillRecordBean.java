@@ -140,8 +140,8 @@ public class WaybillRecordBean {
     private String totalQty;
     private String qty;
     private String packages;
-    private String weight;
-    private String volumn;
+    private String weight="";
+    private String volumn="";
     private String weightJs;
     private String safeMoney;
     private String accDaiShou;

@@ -205,7 +205,7 @@ class FixedVehicleArchivesActivity : BaseMVPActivity<FixedVehicleArchivesContrac
                     annual_review_date_tv.text = format
 
 
-                }, "选择开始时间", isStartCurrentTime = false, isEndCurrentTime = false, isYear = true, isHM = false, isDialog = false).show(annual_review_date_ll)
+                }, "选择凭证日期", isStartCurrentTime = false, isEndCurrentTime = false, isYear = true, isHM = false, isDialog = false).show(annual_review_date_ll)
             }
 
         })

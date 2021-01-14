@@ -143,7 +143,7 @@ class ReceiptReceiveActivity : BaseSmartMVPActivity<ReceiptReceiveContract.View,
         }
         it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
-                ARouter.getInstance().build(ARouterConstants.ReceiptInformationActivity).withString("", mResult).navigation()
+                ARouter.getInstance().build(ARouterConstants.ReceiptInformationActivity).withString("billno", mResult).navigation()
             }
 
         }

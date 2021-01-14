@@ -59,7 +59,7 @@ public class ShortFeederBean {
      */
 
     private int id;
-    private int vehicleState;
+    private int vehicleState=-1;
     private String vehicleStateStr;
     private int companyId;
     private int ecompanyId;
@@ -111,6 +111,16 @@ public class ShortFeederBean {
     private String sfWeight;
     private String accwz;
     private boolean isChecked;
+    private boolean isLookInfo = false;
+
+    public boolean isLookInfo() {
+        return isLookInfo;
+    }
+
+    public void setLookInfo(boolean lookInfo) {
+        isLookInfo = lookInfo;
+    }
+
 
     public boolean isChecked() {
         return isChecked;

@@ -96,7 +96,7 @@ class ShortFeederPresenter : BasePresenterImpl<ShortFeederContract.View>(), Shor
         })
     }
 
-    fun searchBillnoShortFeeder(inoneVehicleFlag: String) {
+    override fun searchBillnoShortFeeder(inoneVehicleFlag: String) {
         val params = HttpParams()
         params.put("InoneVehicleFlag", inoneVehicleFlag)
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, params, object : CallBacks {

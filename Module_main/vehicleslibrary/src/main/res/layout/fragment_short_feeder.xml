@@ -20,8 +20,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:hintEnabled="false"
             app:endIconMode="clear_text"
+            app:hintEnabled="false"
             app:layout_constraintTop_toBottomOf="@+id/username_ll">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -29,9 +29,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
+                android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-"
                 android:gravity="center|left"
-                android:hint="请输入运单号查询"
-                android:inputType="number"
+                android:hint="请输入关键字查询"
+                android:inputType="textVisiblePassword"
                 android:paddingLeft="15dp"
                 android:textColor="@color/black"
                 android:textSize="15sp" />

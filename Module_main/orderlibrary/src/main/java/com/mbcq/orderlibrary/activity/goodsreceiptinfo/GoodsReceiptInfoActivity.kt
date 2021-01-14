@@ -27,7 +27,7 @@ import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.commonlibrary.dialog.PaymentDialog
 import com.mbcq.commonlibrary.dialog.UpdatePhotosFragment
 import com.mbcq.orderlibrary.R
-import com.mbcq.orderlibrary.activity.goodsreceipt.GoodsReceiptBean
+import com.mbcq.orderlibrary.fragment.goodsreceipt.GoodsReceiptBean
 import com.tbruyelle.rxpermissions.RxPermissions
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
@@ -78,21 +78,24 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
             }
 
         }
-        if (agent_name_ed.text.toString().isBlank()) {
-            showToast("请输入代理人")
-            return false
-        }
-        if (agent_card_number_ed.text.toString().isBlank()) {
-            showToast("请输入代理人证件号")
-            return false
-        }
-        if (agent_certificate_type_tv.text.toString() == "身份证" && !agent_card_number_ed.text.toString().isBlank()) {
-            if (!IDNumberUtils.isIDNumber(agent_card_number_ed.text.toString())) {
-                showToast("请检查代理人证件号")
+        if (agent_name_checkbox.isChecked){
+            if (agent_name_ed.text.toString().isBlank()) {
+                showToast("请输入代理人")
                 return false
             }
+            if (agent_card_number_ed.text.toString().isBlank()) {
+                showToast("请输入代理人证件号")
+                return false
+            }
+            if (agent_certificate_type_tv.text.toString() == "身份证" && !agent_card_number_ed.text.toString().isBlank()) {
+                if (!IDNumberUtils.isIDNumber(agent_card_number_ed.text.toString())) {
+                    showToast("请检查代理人证件号")
+                    return false
+                }
 
+            }
         }
+
         return true
     }
 

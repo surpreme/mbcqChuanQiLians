@@ -80,26 +80,7 @@ abstract class BaseDepartureRecordActivity<V : BaseView, T : BasePresenterImpl<V
 
     }
 
-    interface WebDbInterface {
-        fun isNull()
-        fun isSuccess(list: MutableList<WebAreaDbInfo>)
 
-    }
-
-    /**
-     * 得到greenDao数据库中的网点
-     * 可视化 stetho 度娘
-     */
-    protected fun getDbWebId(mWebDbInterface: WebDbInterface) {
-        val daoSession: DaoSession = (application as CommonApplication).daoSession
-        val userInfoDao: WebAreaDbInfoDao = daoSession.webAreaDbInfoDao
-        val dbDatas = userInfoDao.queryBuilder().list()
-        if (dbDatas.isNullOrEmpty()) {
-            mWebDbInterface.isNull()
-        } else {
-            mWebDbInterface.isSuccess(dbDatas)
-        }
-    }
 
     fun indexTop(type: Int) {
         when (type) {

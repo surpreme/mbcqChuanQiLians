@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat
 
 /**
  * @author: lzy
- * @time: 2020-11-20 13:10:12 生成付款凭证
+ * @time: 2020-11-20 13:10:12 生成付款凭证 现付 核销
  */
 
 @Route(path = ARouterConstants.GeneratePaymentVoucherActivity)

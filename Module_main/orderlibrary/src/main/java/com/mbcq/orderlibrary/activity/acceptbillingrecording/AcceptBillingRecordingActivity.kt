@@ -23,6 +23,7 @@ import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.commonlibrary.WebDbUtil
 import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean
@@ -58,11 +59,8 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
     @SuppressLint("SimpleDateFormat")
     override fun initExtra() {
         super.initExtra()
-        val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val mDate = Date(System.currentTimeMillis())
-        val format = mDateFormat.format(mDate)
-        mStartDateTag = "${TimeUtils.getLastdayStr(7)} 00:00:00"
-        mEndDateTag = "$format 23:59:59"
+        mStartDateTag = FilterTimeUtils.getStartTime(7)
+        mEndDateTag = FilterTimeUtils.getEndTime()
         mShippingOutletsTag = UserInformationUtil.getWebIdCode(mContext)
     }
 

@@ -6,20 +6,50 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".fragment.arrivaltrunkdeparture.ArrivalTrunkDepartureFragment">
-
-    <EditText
-        android:id="@+id/search_arrival_short_ed"
+    <LinearLayout
+        android:id="@+id/search_arrival_trunk_ll"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginRight="15dp"
         android:background="@drawable/hollow_out_gray"
-        android:hint="请输入关键字搜索"
-        android:paddingLeft="10dp"
-        android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:hintEnabled="false"
+            app:endIconMode="clear_text"
+            app:layout_constraintTop_toBottomOf="@+id/username_ll">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search_arrival_trunk_ed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center|left"
+                android:hint="请输入关键字查询"
+                android:inputType="textVisiblePassword"
+                android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-"
+                android:paddingLeft="15dp"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="#EAC11E"
+            android:text="查询"
+            android:textColor="@color/white"
+            android:textSize="19sp" />
+
+    </LinearLayout>
+
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/arrival_short_list_smart"
@@ -27,7 +57,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_ll"
-        app:layout_constraintTop_toBottomOf="@id/search_arrival_short_ed">
+        app:layout_constraintTop_toBottomOf="@id/search_arrival_trunk_ll">
 
         <FrameLayout
             android:id="@+id/arrival_short_list_smart_frame"

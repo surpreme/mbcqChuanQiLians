@@ -25,184 +25,184 @@ public class WaybillRecordTotalBean {
      * accSms : 0
      */
 
-    private int rowCou;
-    private int qty;
-    private int weight;
-    private int volumn;
-    private int accNow;
-    private int accArrived;
-    private int accBack;
-    private int accMonth;
-    private int accHuoKuanKou;
-    private int accTrans;
-    private int accHuiKou;
-    private int accSend;
-    private int accGb;
-    private int accSl;
-    private int accWz;
-    private int accZz;
-    private int accDaiShou;
-    private int accSum;
-    private int weightJs;
-    private int accSms;
+    private String rowCou;
+    private String qty;
+    private String weight;
+    private String volumn;
+    private String accNow;
+    private String accArrived;
+    private String accBack;
+    private String accMonth;
+    private String accHuoKuanKou;
+    private String accTrans;
+    private String accHuiKou;
+    private String accSend;
+    private String accGb;
+    private String accSl;
+    private String accWz;
+    private String accZz;
+    private String accDaiShou;
+    private String accSum;
+    private String weightJs;
+    private String accSms;
 
-    public int getRowCou() {
+    public String getRowCou() {
         return rowCou;
     }
 
-    public void setRowCou(int rowCou) {
+    public void setRowCou(String rowCou) {
         this.rowCou = rowCou;
     }
 
-    public int getQty() {
+    public String getQty() {
         return qty;
     }
 
-    public void setQty(int qty) {
+    public void setQty(String qty) {
         this.qty = qty;
     }
 
-    public int getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
-    public int getVolumn() {
+    public String getVolumn() {
         return volumn;
     }
 
-    public void setVolumn(int volumn) {
+    public void setVolumn(String volumn) {
         this.volumn = volumn;
     }
 
-    public int getAccNow() {
+    public String getAccNow() {
         return accNow;
     }
 
-    public void setAccNow(int accNow) {
+    public void setAccNow(String accNow) {
         this.accNow = accNow;
     }
 
-    public int getAccArrived() {
+    public String getAccArrived() {
         return accArrived;
     }
 
-    public void setAccArrived(int accArrived) {
+    public void setAccArrived(String accArrived) {
         this.accArrived = accArrived;
     }
 
-    public int getAccBack() {
+    public String getAccBack() {
         return accBack;
     }
 
-    public void setAccBack(int accBack) {
+    public void setAccBack(String accBack) {
         this.accBack = accBack;
     }
 
-    public int getAccMonth() {
+    public String getAccMonth() {
         return accMonth;
     }
 
-    public void setAccMonth(int accMonth) {
+    public void setAccMonth(String accMonth) {
         this.accMonth = accMonth;
     }
 
-    public int getAccHuoKuanKou() {
+    public String getAccHuoKuanKou() {
         return accHuoKuanKou;
     }
 
-    public void setAccHuoKuanKou(int accHuoKuanKou) {
+    public void setAccHuoKuanKou(String accHuoKuanKou) {
         this.accHuoKuanKou = accHuoKuanKou;
     }
 
-    public int getAccTrans() {
+    public String getAccTrans() {
         return accTrans;
     }
 
-    public void setAccTrans(int accTrans) {
+    public void setAccTrans(String accTrans) {
         this.accTrans = accTrans;
     }
 
-    public int getAccHuiKou() {
+    public String getAccHuiKou() {
         return accHuiKou;
     }
 
-    public void setAccHuiKou(int accHuiKou) {
+    public void setAccHuiKou(String accHuiKou) {
         this.accHuiKou = accHuiKou;
     }
 
-    public int getAccSend() {
+    public String getAccSend() {
         return accSend;
     }
 
-    public void setAccSend(int accSend) {
+    public void setAccSend(String accSend) {
         this.accSend = accSend;
     }
 
-    public int getAccGb() {
+    public String getAccGb() {
         return accGb;
     }
 
-    public void setAccGb(int accGb) {
+    public void setAccGb(String accGb) {
         this.accGb = accGb;
     }
 
-    public int getAccSl() {
+    public String getAccSl() {
         return accSl;
     }
 
-    public void setAccSl(int accSl) {
+    public void setAccSl(String accSl) {
         this.accSl = accSl;
     }
 
-    public int getAccWz() {
+    public String getAccWz() {
         return accWz;
     }
 
-    public void setAccWz(int accWz) {
+    public void setAccWz(String accWz) {
         this.accWz = accWz;
     }
 
-    public int getAccZz() {
+    public String getAccZz() {
         return accZz;
     }
 
-    public void setAccZz(int accZz) {
+    public void setAccZz(String accZz) {
         this.accZz = accZz;
     }
 
-    public int getAccDaiShou() {
+    public String getAccDaiShou() {
         return accDaiShou;
     }
 
-    public void setAccDaiShou(int accDaiShou) {
+    public void setAccDaiShou(String accDaiShou) {
         this.accDaiShou = accDaiShou;
     }
 
-    public int getAccSum() {
+    public String getAccSum() {
         return accSum;
     }
 
-    public void setAccSum(int accSum) {
+    public void setAccSum(String accSum) {
         this.accSum = accSum;
     }
 
-    public int getWeightJs() {
+    public String getWeightJs() {
         return weightJs;
     }
 
-    public void setWeightJs(int weightJs) {
+    public void setWeightJs(String weightJs) {
         this.weightJs = weightJs;
     }
 
-    public int getAccSms() {
+    public String getAccSms() {
         return accSms;
     }
 
-    public void setAccSms(int accSms) {
+    public void setAccSms(String accSms) {
         this.accSms = accSms;
     }
 }

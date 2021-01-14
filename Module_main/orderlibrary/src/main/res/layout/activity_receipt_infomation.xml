@@ -133,6 +133,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/receiver_outlets_tv" />
 
                 <TextView
+                    android:id="@+id/goods_info_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -188,6 +189,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/mFather_cl">
 
                 <TextView
+                    android:id="@+id/sign_for_state_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|left"
@@ -207,6 +209,7 @@
                     app:tint="@color/base_green" />
 
                 <TextView
+                    android:id="@+id/send_out_state_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|left"
@@ -226,6 +229,7 @@
                     app:tint="@color/base_green" />
 
                 <TextView
+                    android:id="@+id/receive_state_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|left"
@@ -245,6 +249,7 @@
                     app:tint="@color/base_green" />
 
                 <TextView
+                    android:id="@+id/return_factory_state_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|left"

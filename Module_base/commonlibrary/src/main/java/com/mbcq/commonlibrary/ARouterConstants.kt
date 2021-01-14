@@ -33,7 +33,6 @@ object ARouterConstants {
     const val ClaimSettlementActivity = "/order/ClaimSettlementActivity"
     const val ChoiceShipperActivity = "/order/ChoiceShipperActivity"
     const val ChoiceReceiverActivity = "/order/ChoiceReceiverActivity"
-    const val GoodsReceiptActivity = "/order/GoodsReceiptActivity"
     const val GoodsReceiptInfoActivity = "/order/GoodsReceiptInfoActivity"
     const val PayBarActivity = "/order/PayBarActivity"
     const val PaymentSuccessActivity = "/order/PaymentSuccessActivity"
@@ -42,7 +41,6 @@ object ARouterConstants {
     const val AddDeliverySomeThingActivity = "/order/AddDeliverySomeThingActivity"
     const val DeliverySomethingHouseActivity = "/order/DeliverySomethingHouseActivity"
     const val FixedDeliverySomethingHouseActivity = "/order/FixedDeliverySomethingHouseActivity"
-    const val SignRecordActivity = "/order/SignRecordActivity"
     const val AddClaimSettlementActivity = "/order/AddClaimSettlementActivity"
     const val ReceiptInformationActivity = "/order/ReceiptInformationActivity"
     const val ReceiptSignActivity = "/order/ReceiptSignActivity"
@@ -53,6 +51,11 @@ object ARouterConstants {
     const val ReceiptCancelActivity = "/order/ReceiptCancelActivity"
     const val StowageAlongWayActivity = "/order/StowageAlongWayActivity"
     const val AcceptBillingFixedReviewActivity = "/order/AcceptBillingFixedReviewActivity"
+    const val GoodsReceiptHouseActivity = "/order/GoodsReceiptHouseActivity"
+    const val GoodsReceiptHouseInfoActivity = "/order/GoodsReceiptHouseInfoActivity"
+    const val HomeDeliveryActivity = "/order/HomeDeliveryActivity"
+    const val AddHomeDeliveryActivity = "/order/AddHomeDeliveryActivity"
+    const val HomeDeliveryHouseActivity = "/order/HomeDeliveryHouseActivity"
 
     /**
      * 地图模块
@@ -116,6 +119,23 @@ object ARouterConstants {
     const val GeneralLedgerActivity = "/amount/GeneralLedgerActivity"
     const val LoanIssuanceActivity = "/amount/LoanIssuanceActivity"
     const val GenerateReceiptVoucherActivity = "/amount/GenerateReceiptVoucherActivity"
+    const val PaymentingWriteoffActivity = "/amount/PaymentingWriteoffActivity"
+    const val PaymentedWriteoffActivity = "/amount/PaymentedWriteoffActivity"
+    const val PaymentingWriteOffPayCardActivity = "/amount/PaymentingWriteOffPayCardActivity"
+    const val PaymentedWriteOffPayCardActivity = "/amount/PaymentedWriteOffPayCardActivity"
+    const val PaymentedWriteoffInfoActivity = "/amount/PaymentedWriteoffInfoActivity"
+    const val ReceiptMonthlyTuberculosisSalesActivity = "/amount/ReceiptMonthlyTuberculosisSalesActivity"
+    const val ReceiptTuberculosisSalesPayCardActivity = "/amount/ReceiptTuberculosisSalesPayCardActivity"
+    const val MonthlyTuberculosisSalesActivity = "/amount/MonthlyTuberculosisSalesActivity"
+    const val MonthlyTuberculosisSalesPayCardActivity = "/amount/MonthlyTuberculosisSalesPayCardActivity"
+    const val MonthlyTuberculosisSalesInfoActivity = "/amount/MonthlyTuberculosisSalesInfoActivity"
+    const val ReceiptTuberculosisSalesInfoActivity = "/amount/ReceiptTuberculosisSalesInfoActivity"
+    const val CommonWriteOffActivity = "/amount/CommonWriteOffActivity"
+    const val CommonWriteOffPayCardActivity = "/amount/CommonWriteOffPayCardActivity"
+    const val CommonWriteOffInfoActivity = "/amount/CommonWriteOffInfoActivity"
+    const val CommonWriteOffReceivePayCardActivity = "/amount/CommonWriteOffReceivePayCardActivity"
+    const val CommonReceiveWriteOffActivity = "/amount/CommonReceiveWriteOffActivity"
+    const val CommonReceiveWriteOffInfoActivity = "/amount/CommonReceiveWriteOffInfoActivity"
 
     /**
      * 公用模块

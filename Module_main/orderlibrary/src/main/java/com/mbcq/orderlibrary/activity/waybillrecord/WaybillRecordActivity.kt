@@ -18,10 +18,7 @@ import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
-import com.mbcq.commonlibrary.ARouterConstants
-import com.mbcq.commonlibrary.CommonApplication
-import com.mbcq.commonlibrary.WebDbUtil
-import com.mbcq.commonlibrary.WebsDbInterface
+import com.mbcq.commonlibrary.*
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import com.mbcq.commonlibrary.greendao.DaoSession
@@ -53,11 +50,8 @@ class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, W
 
     @SuppressLint("SimpleDateFormat")
     override fun initDatas() {
-        val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val mDate = Date(System.currentTimeMillis())
-        val format = mDateFormat.format(mDate)
-        mStartDateTag = "$format 00:00:00"
-        mEndDateTag = "$format 23:59:59"
+        mStartDateTag = FilterTimeUtils.getStartTime(7)
+        mEndDateTag = FilterTimeUtils.getEndTime()
         mShippingOutletsTag = UserInformationUtil.getWebIdCode(mContext) + ","
         super.initDatas()
 

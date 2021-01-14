@@ -31,7 +31,7 @@ class PaymentSuccessActivity : BaseMVPActivity<PaymentSuccessContract.View, Paym
             }
 
             override fun onFinish() {
-                ARouter.getInstance().build(ARouterConstants.GoodsReceiptActivity).navigation()
+                ARouter.getInstance().build(ARouterConstants.GoodsReceiptHouseActivity).navigation()
                 finish()
 
             }

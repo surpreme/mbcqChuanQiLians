@@ -30,8 +30,9 @@
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:gravity="center|left"
-                android:hint="请输入运单号查询"
-                android:inputType="number"
+                android:hint="请输入关键字查询"
+                android:inputType="textVisiblePassword"
+                android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-"
                 android:paddingLeft="15dp"
                 android:textColor="@color/black"
                 android:textSize="15sp" />

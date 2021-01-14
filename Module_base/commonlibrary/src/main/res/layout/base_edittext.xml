@@ -23,5 +23,6 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_weight="0.8"
+        android:imeOptions="actionDone"
         android:inputType="numberDecimal" />
 </LinearLayout>

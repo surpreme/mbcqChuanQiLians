@@ -195,7 +195,7 @@ public class ControlManagementBean {
     private String valueAddedService;
     private String bilThState;
     private String bilThStateStr;
-    private Boolean isChecked=false;
+    private boolean isChecked=false;
 
     public String getId() {
         return id;
@@ -957,11 +957,11 @@ public class ControlManagementBean {
         this.bilThStateStr = bilThStateStr;
     }
 
-    public Boolean getChecked() {
+    public boolean getChecked() {
         return isChecked;
     }
 
-    public void setChecked(Boolean checked) {
+    public void setChecked(boolean checked) {
         isChecked = checked;
     }
 }

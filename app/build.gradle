@@ -53,12 +53,6 @@ android {
         }
     }
 
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
 
     /**
      * 生成apk的名字
@@ -78,7 +72,7 @@ android {
      */
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             //以下俩行记得添加！
             debuggable false
@@ -86,7 +80,7 @@ android {
         }
         //以下配置记得添加！
         debug {
-            minifyEnabled true
+            minifyEnabled false
             debuggable true
             signingConfig signingConfigs.release
         }

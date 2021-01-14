@@ -113,7 +113,7 @@ public class ApiInterface {
      */
     public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET = BASE_URI + "GxVehicleOpe/SelGxVehicleByCondition";
     /**
-     * 干线发车 通过运单号查询
+     * 干线 通过运单号查询车次
      */
     public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_BILLNO_GET = BASE_URI + "GxVehicleOpe/SelGxInOneVehicleFlagCondition";
 
@@ -122,7 +122,7 @@ public class ApiInterface {
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET = BASE_URI + "DbVehicleOpe/SelDbVehicleByCondition";
     /**
-     * 短驳发车 通过运单号查询车次
+     * 短驳 通过运单号查询车次
      */
     public static final String DEPARTURE_RECORD_SHORT_FEEDER_SELECT_BILLNO_GET = BASE_URI + "DbVehicleOpe/SelDbInOneVehicleFlagCondition";
     /**
@@ -610,6 +610,95 @@ public class ApiInterface {
      * 干线到车 卸车入库
      */
     public static final String TRUNK_DEPARTURE_UNLOADING_WAREHOUSING_POST = BASE_URI + "GxVehicleOpe/UpdCofArrGxVehicle";
+    /**
+     *
+     */
+    /**
+     * 现付核销 获取记录
+     */
+    public static final String PAYMENTING_WRITE_OFF_RECORD_GET = BASE_URI + "CwhxOpe/SelAccNowHxByCondition";
+    /**
+     * 现付核销 核销
+     */
+    public static final String PAYMENTING_WRITE_OFF_SAVE_INFO_POST = BASE_URI + "CwhxOpe/AddAccNowHx";
+    /**
+     * 核销科目 查询
+     */
+    public static final String PAYMENTING_WRITE_OFF_TYPE_GET = BASE_URI + "ChargeOffItem/SelChargeOffItemByCondition";
+    /**
+     * 现付核销 获取 收款流水号
+     */
+    public static final String PAYMENTING_WRITE_OFF_SERIAL_NUMBER_GET = BASE_URI + "ChargeOffSSerialNo/SelChargeOffSSerialNo";
+    /**
+     * 现付核销 获取 凭证单号
+     */
+    public static final String PAYMENTING_WRITE_OFF_DOCUMENT_NO_GET = BASE_URI + "ChargeOffSReceiptNo/SelChargeOffSReceiptNo";
+    /**
+     * 提付核销 获取记录
+     */
+    public static final String PAYMENTED_WRITE_OFF_SERIAL_NUMBER_GET = BASE_URI + "CwhxOpe/SelAccArrivedHxByCondition";
+    /**
+     * 提付核销 核销
+     */
+    public static final String PAYMENTED_WRITE_OFF_SERIAL_SAVE_INFO_POST = BASE_URI + "CwhxOpe/AddAccArrivedHx";
+    /**
+     * 回单核销 获取记录
+     */
+    public static final String RECEIPT_MONTHLY_TUBERCULOSIS_SALES_RECORD_GET = BASE_URI + "CwhxOpe/SelAccBackHxByCondition";
+    /**
+     * 回单核销 核销
+     */
+    public static final String RECEIPT_MONTHLY_TUBERCULOSIS_SALES_SAVE_POST = BASE_URI + "CwhxOpe/AddAccBackHx";
+    /**
+     * 月付核销 获取记录
+     */
+    public static final String MONTHLY_TUBERCULOSIS_SALES_RECORD_GET = BASE_URI + "CwhxOpe/SelAccMonthHxByCondition";
+
+    /**
+     * 干线车费核销 获取记录
+     */
+    public static final String MAIN_LINE_FARE_RECORD_GET = BASE_URI + "CwhxOpe/SelGxAccHxByCondition";
+
+    /**
+     * 返款核销 获取记录
+     */
+    public static final String REBATE_VERIFICATION_RECORD_GET = BASE_URI + "CwhxOpe/SelAccHuiKouHxByCondition";
+    /**
+     * 中转费核销 获取记录
+     */
+    public static final String TRANSFER_FEE_VERIFICATION_RECORD_GET = BASE_URI + "CwhxOpe/SelOutaccHxByCondition";
+    /**
+     * 短驳车费 获取记录
+     */
+    public static final String SHUTTLE_FARE_VERIFICATION_RECORD_GET = BASE_URI + "CwhxOpe/SelDbAccHxByCondition";
+
+    /**
+     * 月付核销 核销
+     */
+    public static final String MONTHLY_TUBERCULOSIS_SALES_SAVE_POST = BASE_URI + "CwhxOpe/AddAccArrivedHx";
+    /**
+     * 短驳车费 核销
+     */
+    public static final String SHUTTLE_FARE_VERIFICATION_SAVE_POST = BASE_URI + "CwhxOpe/AddDbAccHx";
+
+    /**
+     * 返款核销 核销
+     */
+    public static final String REBATE_VERIFICATION_SAVE_POST = BASE_URI + "CwhxOpe/AddAccHuiKouHx";
+
+    /**
+     * 干线车费 核销
+     */
+    public static final String MAIN_LINE_FARE_SAVE_POST = BASE_URI + "CwhxOpe/AddGxAccHx";
+
+
+    //*********
+
+
+    /**
+     * 上门提货 获取记录
+     */
+    public static final String  HOME_DELIVERY_RECORD_GET = BASE_URI + "PickUpOpe/SelPickUpByCondition";
 
 
 }

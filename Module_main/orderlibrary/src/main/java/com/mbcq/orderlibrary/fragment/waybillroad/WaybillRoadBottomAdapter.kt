@@ -8,10 +8,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.util.system.TimeUtils
-import com.mbcq.baselibrary.util.system.ToastUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.orderlibrary.R
-import com.mbcq.orderlibrary.activity.goodsreceipt.GoodsReceiptAdapter
 import java.lang.Exception
 
 class WaybillRoadBottomAdapter(context: Context?) : BaseRecyclerAdapter<WaybillRoadBottomBean>(context) {

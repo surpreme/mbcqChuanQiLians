@@ -3,6 +3,7 @@ package com.mbcq.vehicleslibrary.activity.alldeparturerecord.fixshortfeederhouse
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -33,6 +34,7 @@ class FixShortFeederHouseActivity : BaseFixShortFeederHouseActivity<FixShortFeed
     var mMaximumVehicleWeight = 0.0
 
     override fun getLayoutId(): Int = R.layout.activity_fix_short_feeder_house
+
 
     @SuppressLint("SetTextI18n")
     override fun initDatas() {
@@ -198,13 +200,23 @@ class FixShortFeederHouseActivity : BaseFixShortFeederHouseActivity<FixShortFeed
     override fun getCarInfo(result: FixShortFeederHouseCarInfo) {
         mLoadingListAdapter?.appendData(result.item)
         short_feeder_house_tabLayout.getTabAt(1)?.text = "配载清单(${result.item.size})"
-        if (result.vehicleState == "1") {
-            complete_btn.text = "取消完成本车"
-            operating_btn.setBackgroundColor(Color.GRAY)
-            operating_btn.isClickable = false
-            all_selected_checked.isEnabled = false
-            mInventoryListAdapter?.mOnRemoveInterface = null
-            mLoadingListAdapter?.mOnRemoveInterface = null
+        when (result.vehicleState) {
+            "1" -> {
+                complete_btn.text = "取消完成本车"
+                operating_btn.setBackgroundColor(Color.GRAY)
+                operating_btn.isClickable = false
+                all_selected_checked.isEnabled = false
+                mInventoryListAdapter?.mOnRemoveInterface = null
+                mLoadingListAdapter?.mOnRemoveInterface = null
+            }
+            "0" -> {
+
+            }
+            else -> {
+                bottom_ll.visibility = View.GONE
+                mInventoryListAdapter?.mOnRemoveInterface = null
+                mLoadingListAdapter?.mOnRemoveInterface = null
+            }
         }
         refreshTopNumber()
 

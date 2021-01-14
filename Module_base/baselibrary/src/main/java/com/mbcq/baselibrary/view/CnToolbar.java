@@ -195,6 +195,10 @@ public class CnToolbar extends Toolbar {
         right_iv.setOnClickListener(li);
     }
 
+    public void setRightButtonVisibility(int li) {
+        right_iv.setVisibility(li);
+    }
+
     public void setBackButtonOnClickListener(OnClickListener li) {
 
         back_iv.setOnClickListener(li);
@@ -213,9 +217,10 @@ public class CnToolbar extends Toolbar {
         right_tv.setText(text);
         right_tv.setVisibility(VISIBLE);
     }
-   public void setLeftTitleText(CharSequence text) {
+
+    public void setLeftTitleText(CharSequence text) {
         left_title_tv.setText(text);
-       left_title_tv.setVisibility(VISIBLE);
+        left_title_tv.setVisibility(VISIBLE);
     }
 
 
