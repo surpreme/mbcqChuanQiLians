@@ -1,5 +1,6 @@
 package com.mbcq.orderlibrary.activity.goodsreceiptinfo
 
+import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import org.json.JSONObject
@@ -14,6 +15,7 @@ class GoodsReceiptInfoContract {
     interface View : BaseView {
         fun getPaymentWayS(result: String)
         fun receiptGoodsS()
+        fun postImgS(url: String)
 
     }
 
@@ -25,6 +27,7 @@ class GoodsReceiptInfoContract {
          *
          */
         fun receiptGoods(job: JSONObject)
+        fun postImg(params: HttpParams)
 
     }
 }

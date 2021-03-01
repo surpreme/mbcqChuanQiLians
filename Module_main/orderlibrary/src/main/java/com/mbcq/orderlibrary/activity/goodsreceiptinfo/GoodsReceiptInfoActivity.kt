@@ -5,24 +5,33 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
+import cc.shinichi.library.ImagePreview
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.regular.IDNumberUtils
+import com.mbcq.baselibrary.util.system.FileUtils
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.ApiInterface
 import com.mbcq.commonlibrary.Constant
+import com.mbcq.commonlibrary.adapter.ImageViewAdapter
+import com.mbcq.commonlibrary.adapter.ImageViewBean
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.commonlibrary.dialog.PaymentDialog
 import com.mbcq.commonlibrary.dialog.UpdatePhotosFragment
@@ -35,6 +44,7 @@ import com.zhihu.matisse.engine.impl.GlideEngine
 import com.zhihu.matisse.internal.entity.CaptureStrategy
 import kotlinx.android.synthetic.main.activity_goods_receipt_info.*
 import org.json.JSONObject
+import java.io.File
 
 /**
  * @author: lzy
@@ -53,6 +63,10 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
     var agentCertificateTypeTag = 1//代理人证件类型
     var mSigningSituationTag = 1//签收情况
     var payMethodTag = 1
+    var mImageViewAdapter: ImageViewAdapter? = null
+    var mSelected: List<Uri> = ArrayList()
+    val mShowImagesFile = mutableListOf<File>()
+    val mShowImagesURL = mutableListOf<String>()
 
     override fun getLayoutId(): Int = R.layout.activity_goods_receipt_info
     override fun initExtra() {
@@ -78,7 +92,7 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
             }
 
         }
-        if (agent_name_checkbox.isChecked){
+        if (agent_name_checkbox.isChecked) {
             if (agent_name_ed.text.toString().isBlank()) {
                 showToast("请输入代理人")
                 return false
@@ -205,10 +219,8 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
         increase_tv.text = "xxx"
         total_price_tv.text = mGoodsReceiptBean.accSum.toString() + "元"
 
-
-
-
         delivery_date_tv.text = TimeUtils.getCurrTime2()
+        initImageShowGridRecycler()
     }
 
     override fun initDatas() {
@@ -334,6 +346,10 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
     }
 
     fun takePhotoes() {
+        if (mShowImagesURL.size>9){
+            showToast("最多上传9张图片")
+            return
+        }
         val mUpdatePhotosFragment = UpdatePhotosFragment()
         mUpdatePhotosFragment.mlistener = object : UpdatePhotosFragment.OnThingClickInterface {
             override fun getThing(msg: Any) {
@@ -344,7 +360,6 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
                         }
                     }
                 } else if (msg.toString() == "2") {
-//                    TODO() 知乎图片 拍照 返回闪退
                     Matisse.from(this@GoodsReceiptInfoActivity)
                             .choose(MimeType.ofImage(), false) // 选择 mime 的类型
                             .countable(true)
@@ -360,9 +375,73 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
             }
 
         }
-        mUpdatePhotosFragment.show(supportFragmentManager, "GoodsReceiptInfoUpdatePhotosFragment")
+        mUpdatePhotosFragment.show(supportFragmentManager, "GoodsReceiptInfoActivityUpdatePhotosFragment")
 
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        var resultFile: File
+        if (requestCode == Constant.CHOOSE_PHOTOS_REQUEST_CODE && resultCode == RESULT_OK) {
+            mSelected = Matisse.obtainResult(data)
+//            Glide.with(mContext).load(mSelected[0]).into(result_image)
+            //************
+            val itemBean = ImageViewBean()
+            itemBean.imageUris = mSelected[0]
+            itemBean.tag = ""
+            mImageViewAdapter?.appendData(mutableListOf(itemBean))
+            if (!isDestroyed) {
+                val params = HttpParams()
+                resultFile = File(FileUtils.getRealFilePath(mContext, mSelected[0]))
+                mShowImagesFile.add(resultFile)
+                params.put(System.currentTimeMillis().toString(), resultFile)
+                mPresenter?.postImg(params)
+            }
+
+        } else if (requestCode == Constant.TAKE_PHOTOS_REQUEST_CODE && resultCode == RESULT_OK) {
+            data?.let {
+                val imageBitmap = it.extras?.get("data") as Bitmap
+//                Glide.with(mContext).load(imageBitmap).into(result_image)
+                val uri = Uri.parse(MediaStore.Images.Media.insertImage(contentResolver, imageBitmap, null, null))
+                //************
+                val itemBean = ImageViewBean()
+                itemBean.imageUris = uri
+                itemBean.tag = ""
+                mImageViewAdapter?.appendData(mutableListOf(itemBean))
+                if (!isDestroyed) {
+                    val params = HttpParams()
+                    resultFile = FileUtils.getFile(imageBitmap, "mbcq")
+                    mShowImagesFile.add(resultFile)
+                    params.put(System.currentTimeMillis().toString(), resultFile)
+                    mPresenter?.postImg(params)
+                }
+
+            }
+
+        }
+    }
+
+    fun initImageShowGridRecycler() {
+        update_goods_recycler.layoutManager = GridLayoutManager(mContext, 3)
+        mImageViewAdapter = ImageViewAdapter(mContext)
+        update_goods_recycler.adapter = mImageViewAdapter
+        mImageViewAdapter?.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                mImageViewAdapter?.getAllData()?.let {
+                    ImagePreview
+                            .getInstance()
+                            .setContext(this@GoodsReceiptInfoActivity)
+                            .setShowDownButton(false)
+                            .setIndex(position)
+                            .setImageList(mShowImagesURL)
+                            .start()
+
+                }
+
+            }
+
+        }
     }
 
     fun getCameraPermission() {
@@ -395,5 +474,10 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
         TalkSureDialog(mContext, getScreenWidth(), "货物签收成功，点击返回查看详情！") {
             onBackPressed()
         }.show()
+    }
+
+    override fun postImgS(url: String) {
+        mShowImagesURL.add(ApiInterface.BASE_URIS + url)
+
     }
 }

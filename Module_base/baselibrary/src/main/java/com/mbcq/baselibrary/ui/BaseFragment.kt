@@ -15,6 +15,7 @@ import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.util.screen.StatusBarUtils
 import com.mbcq.baselibrary.view.SingleClick
+import org.greenrobot.eventbus.EventBus
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.util.regex.Matcher
@@ -34,6 +35,14 @@ abstract class BaseFragment : Fragment() {
     open fun initDatas() {}
     protected lateinit var mContext: Context
 
+    /**
+     * eventBus
+     * true必须实现接收方法 @Subscribe
+     * 粘性事件只会接收到最后一条数据 @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+     * @Auther liziyang @datetime 21-02-25
+     */
+    open fun isOpenEventBus(): Boolean = false
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getLayoutResId(), container, false)
@@ -51,6 +60,8 @@ abstract class BaseFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        if (isOpenEventBus())
+            EventBus.getDefault().register(this)
         onClick()
     }
 
@@ -58,6 +69,13 @@ abstract class BaseFragment : Fragment() {
      * 为二次封装留下的初始化
      */
     open fun initExtra() {
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        if (isOpenEventBus())
+            EventBus.getDefault().unregister(this)
     }
 
     /**
@@ -125,6 +143,7 @@ abstract class BaseFragment : Fragment() {
         }
         return 0
     }
+
     protected open fun checkStrIsNum(str: String): Boolean {
         try {
             /** 先将str转成BigDecimal，然后在转成String  */
@@ -136,6 +155,7 @@ abstract class BaseFragment : Fragment() {
         val isNum: Matcher = Pattern.compile("-?[0-9]+(\\.[0-9]+)?").matcher(str)
         return isNum.matches()
     }
+
     protected fun getScreenHeight(): Int {
         return ScreenSizeUtils.getScreenHeight(mContext!!)
     }

@@ -4,6 +4,7 @@ package com.mbcq.vehicleslibrary.activity.alllocalagent.addlocalgentshortfeeder
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
@@ -27,7 +28,16 @@ import org.json.JSONObject
 
 @Route(path = ARouterConstants.AddLocalGentShortFeederActivity)
 class AddLocalGentShortFeederActivity : BaseMVPActivity<AddLocalGentShortFeederContract.View, AddLocalGentShortFeederPresenter>(), AddLocalGentShortFeederContract.View {
+    @Autowired(name = "AddLocalGentShortFeeder")
+    @JvmField
+    var mRefreshTypeS: String = ""
+
     override fun getLayoutId(): Int = R.layout.activity_add_local_gent_short_feeder
+    override fun initExtra() {
+        super.initExtra()
+        ARouter.getInstance().inject(this)
+    }
+
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
@@ -67,6 +77,7 @@ class AddLocalGentShortFeederActivity : BaseMVPActivity<AddLocalGentShortFeederC
         obj.put("Remark", remark_ed.text.toString())// 备注
         obj.put("AgentType", 1)// 代理类型编码
         obj.put("AgentTypeStr", "本地代理")// 代理类型
+        obj.put("mTypeS", mRefreshTypeS)// 按车按票刷新的种类 提供添加成功刷新
 
 
         val json = GsonUtils.toPrettyFormat(obj.toString())

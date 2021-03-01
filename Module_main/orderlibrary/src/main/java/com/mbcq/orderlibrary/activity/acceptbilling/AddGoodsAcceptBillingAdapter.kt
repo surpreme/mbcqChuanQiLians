@@ -32,6 +32,7 @@ class AddGoodsAcceptBillingAdapter(context: Context?) : BaseRecyclerAdapter<AddG
         holder.volumn_tv.text = mDatas[position].volumn + "m³"
         holder.remove_iv.setOnClickListener(object:SingleClick(){
             override fun onSingleClick(v: View) {
+                removeItem(position)
                 mOnRemoveItemInterface?.onResult(v,position,"")
             }
 

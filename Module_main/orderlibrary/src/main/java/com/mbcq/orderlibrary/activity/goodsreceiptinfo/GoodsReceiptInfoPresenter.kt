@@ -61,7 +61,20 @@ class GoodsReceiptInfoPresenter : BasePresenterImpl<GoodsReceiptInfoContract.Vie
 
         })
     }
+    override fun postImg(params: HttpParams) {
+        post<String>(ApiInterface.POST_PICTURE_POST, params, object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.getContext()?.let {
+                    val obj = JSONObject(result)
 
+                    mView?.postImgS(obj.optString("data"))
+
+                }
+
+            }
+
+        })
+    }
     override fun receiptGoods(job: JSONObject) {
         post<String>(ApiInterface.RECEIPT_GOODS_POST, getRequestBody(job), object : CallBacks {
             override fun onResult(result: String) {

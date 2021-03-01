@@ -16,6 +16,7 @@ import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.util.screen.StatusBarUtils
 import com.mbcq.baselibrary.util.system.ToastUtils
 import com.mbcq.baselibrary.view.SingleClick
+import org.greenrobot.eventbus.EventBus
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.util.regex.Matcher
@@ -28,6 +29,14 @@ abstract class BaseActivity : AppCompatActivity() {
     open fun initDatas() {}
     open fun onBeforeCreate() {}
     protected lateinit var mContext: Context
+    /**
+     * eventBus
+     * true必须实现接收方法 @Subscribe
+     * 粘性事件只会接收到最后一条数据 @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+     * @Auther liziyang @datetime 21-02-25
+     */
+    open fun isOpenEventBus(): Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         onBeforeCreate()
@@ -48,6 +57,15 @@ abstract class BaseActivity : AppCompatActivity() {
      * 为二次封装留下的初始化
      */
     open fun initExtra() {
+        if (isOpenEventBus())
+            EventBus.getDefault().register(this)
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isOpenEventBus())
+            EventBus.getDefault().unregister(this)
     }
 
     /**
@@ -61,7 +79,7 @@ abstract class BaseActivity : AppCompatActivity() {
      * ->string html5颜色
      * if (s !is Int)
      */
-    protected fun setStatusBar(s: Any) {
+    protected fun setStatusBar(s: Int) {
         when (s) {
 
             0 -> {
@@ -75,13 +93,11 @@ abstract class BaseActivity : AppCompatActivity() {
                 StatusBarUtils.setTransparent(mContext)
             }
             else -> {
-                if (s is Int) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        StatusBarUtils.setColor(this, getColor(s))
-                    } else {
-                        StatusBarUtils.setColor(this, ContextCompat.getColor(mContext, s))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    StatusBarUtils.setColor(this, getColor(s))
+                } else {
+                    StatusBarUtils.setColor(this, ContextCompat.getColor(mContext, s))
 
-                    }
                 }
 
             }
@@ -172,8 +188,24 @@ abstract class BaseActivity : AppCompatActivity() {
             ""
         }
     }
+
+    protected fun getBeanString(s: String?): String {
+        return when {
+            s == null -> {
+                ""
+            }
+            s.toLowerCase() == "null" -> {
+                ""
+            }
+            else -> {
+                s
+            }
+        }
+
+    }
 }
- fun View.onSingleClicks(onSingleClick: (View) -> Unit) {
+
+fun View.onSingleClicks(onSingleClick: (View) -> Unit) {
     this.setOnClickListener(object : SingleClick() {
         override fun onSingleClick(v: View) {
             onSingleClick.invoke(v)

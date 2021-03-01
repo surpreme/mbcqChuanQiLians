@@ -2,6 +2,7 @@ package com.mbcq.commonlibrary.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
@@ -44,7 +45,11 @@ class EditTextAdapter<T : BaseEditTextAdapterBean> : RecyclerView.Adapter<EditTe
         mSonBean.clear()
         notifyDataSetChanged()
     }
-
+    fun notifyItemChangeds(position: Int, data: T) {
+        mSonBean[position] = data
+        notifyItemChanged(position)
+//        notifyItemRangeChanged(position , position + 1)
+    }
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var title_tv: TextView = itemView.findViewById(R.id.title_tv)
         var inputStr_ed: EditText = itemView.findViewById(R.id.inputStr_ed)
@@ -65,7 +70,18 @@ class EditTextAdapter<T : BaseEditTextAdapterBean> : RecyclerView.Adapter<EditTe
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.title_tv.text = mSonBean[position].title
         holder.inputStr_ed.setText(mSonBean[position].inputStr)
-//        InputFilter[] filters={new CashierInputFilter()};
+        if (mSonBean[position].title.contains("回单服务费") || mSonBean[position].title.contains("工本费")||!mSonBean[position].isCanInput) {
+            holder.inputStr_ed.isFocusable = false
+            holder.inputStr_ed.isFocusableInTouchMode = false
+            holder.inputStr_ed.setTextColor(Color.GRAY)
+        } else {
+            holder.inputStr_ed.isFocusableInTouchMode = true
+            holder.inputStr_ed.isFocusable = true
+//            holder.inputStr_ed.requestFocus()
+            holder.inputStr_ed.setTextColor(Color.BLACK)
+        }
+
+//        InputFilter[] filters={new CashierInputFilter()}
         holder.inputStr_ed.filters = arrayOf<InputFilter>(MoneyInputFilter()) //设置金额输入的过滤器，保证只能输入金额类型
 //        holder.inputStr_ed.imeOptions = if (position == mSonBean.lastIndex) EditorInfo.IME_ACTION_DONE else EditorInfo.IME_ACTION_NEXT
         holder.inputStr_ed.setOnEditorActionListener(object : TextView.OnEditorActionListener {

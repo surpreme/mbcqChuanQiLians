@@ -15,8 +15,11 @@ import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordEvent
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordAddSuccessEvent
 import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.TrunkDepartureIsRefreshEvent
 import kotlinx.android.synthetic.main.fragment_trunk_departure.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.json.JSONObject
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -32,11 +35,18 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
     var mStartDateTag = ""
     var mEndDateTag = ""
     var mShippingOutletsTag = ""//发货网点
+
+    override fun getLayoutResId(): Int = R.layout.fragment_trunk_departure
+
     override fun getSmartLayoutId(): Int = R.id.trunk_departure_smart
 
     override fun getSmartEmptyId(): Int = R.id.trunk_departure_smart_frame
 
     override fun getRecyclerViewId(): Int = R.id.trunk_departure_recycler
+
+    override fun isOpenEventBus(): Boolean = true
+    override fun setIsShowNetLoading(): Boolean = false
+
 
     override fun setAdapter(): BaseRecyclerAdapter<TrunkDepartureBean> = TrunkDepartureAdapter(mContext).also {
         it.mOnTrunkDepartureClickInterface = object : TrunkDepartureAdapter.OnTrunkDepartureClickInterface {
@@ -65,11 +75,6 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
         }
     }
 
-    override fun setIsShowNetLoading(): Boolean {
-        return false
-    }
-
-    override fun getLayoutResId(): Int = R.layout.fragment_trunk_departure
 
     @SuppressLint("SetTextI18n")
     override fun getTrunkDepartureS(list: List<TrunkDepartureBean>, totalData: TrunkDepartureTotalBean) {
@@ -77,6 +82,12 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
         if (getCurrentPage() == 1)
             all_info_bottom_tv.text = "合计：${list.size}票，${totalData.weight}kg，${totalData.volumn}m³，运费${totalData.accSum}"
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onRefreshTrunkNewDataEvent(event: DepartureRecordAddSuccessEvent) {
+        if (event.refreshType == 2)
+            refresh()
     }
 
     override fun invalidOrderS() {
@@ -174,9 +185,9 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
     @SuppressLint("CheckResult")
     override fun initDatas() {
         super.initDatas()
-        RxBus.build().toObservable(this, TrunkDepartureIsRefreshEvent::class.java).subscribe {
-            refresh()
-        }
+        /* RxBus.build().toObservable(this, TrunkDepartureIsRefreshEvent::class.java).subscribe {
+             refresh()
+         }*/
         RxBus.build().toObservable(this, DepartureRecordEvent::class.java).subscribe { msg ->
             if (msg.type == 1) {
                 mShippingOutletsTag = msg.webCode

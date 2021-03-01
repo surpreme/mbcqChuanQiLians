@@ -11,6 +11,7 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.accountlibrary.R
 import com.mbcq.baselibrary.interfaces.OnClickInterface
@@ -92,6 +93,7 @@ class IconViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<IconViewB
                 //isLayoutFrozen
 //                holder.card_recycler_view.isLayoutFrozen=true
 
+//                holder.card_recycler_view.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 holder.card_recycler_view.layoutManager = GridLayoutManager(context, 3)
             }
         }

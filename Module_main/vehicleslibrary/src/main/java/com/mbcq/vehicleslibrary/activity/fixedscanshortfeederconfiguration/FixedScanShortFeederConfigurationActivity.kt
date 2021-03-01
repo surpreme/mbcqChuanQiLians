@@ -164,7 +164,7 @@ class FixedScanShortFeederConfigurationActivity : BaseFixedScanShortFeederConfig
     }
 
     override fun getCarInfoS(data: FixedScanShortFeederConfigurationBean) {
-        mFixedId = data.id
+        mFixedId = data.id.toInt()
         contract_No_tv.text = data.inoneVehicleFlag
         number_plate_tv.text = data.vehicleNo
         destination_tv.text = data.ewebidCodeStr
@@ -176,7 +176,7 @@ class FixedScanShortFeederConfigurationActivity : BaseFixedScanShortFeederConfig
         mFirstEwebidCode = data.ewebidCode1.toString()
         mSencondEwebidCode = data.ewebidCode2.toString()
         mThridEwebidCode = data.ewebidCode3.toString()
-        mToPayTotalPrice = data.accArrSum// 到付合计
+        mToPayTotalPrice = data.accArrSum.toDouble()// 到付合计
         driver_name_ed.setText(data.chauffer)
         contact_number_ed.setText(data.chaufferMb)
         oil_card_first_ed.setText(data.accArrived1.toString())
@@ -190,7 +190,7 @@ class FixedScanShortFeederConfigurationActivity : BaseFixedScanShortFeederConfig
         /**
          * 扫描类型 只限当前网点 不限网点
          */
-        scan_type_rg.check(if (data.scanWebidType == 1) 0 else 1)
+        scan_type_rg.check(if (data.scanWebidType == "1") 0 else 1)
         mScanType = data.scanWebidType.toString()
         /**
          * 普运  马帮快线 补发数据

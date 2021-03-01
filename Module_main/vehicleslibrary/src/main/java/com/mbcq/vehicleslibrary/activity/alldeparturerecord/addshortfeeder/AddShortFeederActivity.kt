@@ -94,7 +94,7 @@ class AddShortFeederActivity : BaseAddShortFeederActivity<AddShortFeederContract
         obj.put("WebidCodeStr", UserInformationUtil.getWebIdCodeStr(mContext))// 发车网点
         obj.put("vehicleShape", mVehicleShape)//车辆用途种类
         val json = GsonUtils.toPrettyFormat(obj.toString())
-        ARouter.getInstance().build(ARouterConstants.ShortFeederHouseActivity).withString("ShortFeederHouse", json).navigation()
+        ARouter.getInstance().build(ARouterConstants.ShortFeederHouseActivity).withString("ShortFeederHouse", json).navigation(this,43)
         this.finish()
     }
 

@@ -31,17 +31,55 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/waybill_number_title_tv"
+                android:id="@+id/order_number_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginLeft="22dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="运单号"
+                android:text="订单号"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/order_number_ed"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@null"
+                android:gravity="center|left"
+                android:inputType="number"
+                android:maxEms="15"
+                android:maxLength="15"
+                android:paddingLeft="20dp"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/order_number_title_tv"
+                app:layout_constraintLeft_toRightOf="@id/order_number_title_tv"
+                app:layout_constraintRight_toRightOf="@+id/waybill_number_ed"
+                app:layout_constraintTop_toTopOf="@id/order_number_title_tv"
+                tools:text="123456789" />
+
+            <View
+                android:id="@+id/order_number_line"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/base_grayDark"
+                app:layout_constraintLeft_toLeftOf="@id/order_number_title_tv"
+                app:layout_constraintRight_toRightOf="@+id/order_number_ed"
+                app:layout_constraintTop_toBottomOf="@id/order_number_title_tv" />
+
+            <TextView
+                android:id="@+id/waybill_number_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="22dp"
+                android:gravity="center"
+                android:text="运单号"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/order_number_title_tv" />
 
             <EditText
                 android:id="@+id/waybill_number_ed"
@@ -235,6 +273,67 @@
                 app:layout_constraintTop_toTopOf="@+id/destination_line" />
 
             <TextView
+                android:id="@+id/value_added_services_title_tv"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:gravity="center|left"
+                android:text="增值服务"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="@id/arrive_outlet_title_tv"
+                app:layout_constraintRight_toRightOf="@+id/arrive_outlet_title_tv"
+                app:layout_constraintTop_toBottomOf="@+id/destination_line" />
+
+            <EditText
+                android:id="@+id/value_added_services_ed"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginRight="17dp"
+                android:background="@null"
+                android:gravity="center|left"
+                android:inputType="number"
+                android:maxEms="15"
+                android:maxLength="15"
+                android:paddingLeft="20dp"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/value_added_services_title_tv"
+                app:layout_constraintLeft_toRightOf="@id/value_added_services_title_tv"
+                app:layout_constraintRight_toLeftOf="@+id/waybill_number_way_ll"
+                app:layout_constraintTop_toTopOf="@id/value_added_services_title_tv"
+                tools:text="123456789" />
+
+
+            <ImageView
+                android:id="@+id/value_added_services_down_iv"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="1dp"
+                android:padding="7dp"
+                android:src="@drawable/ic_down_icon"
+                app:layout_constraintBottom_toBottomOf="@id/value_added_services_title_tv"
+                app:layout_constraintLeft_toRightOf="@+id/value_added_services_ed"
+                app:layout_constraintTop_toTopOf="@id/value_added_services_title_tv" />
+
+            <View
+                android:id="@+id/value_added_services_line"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/base_grayDark"
+                app:layout_constraintLeft_toLeftOf="@id/waybill_number_title_tv"
+                app:layout_constraintRight_toRightOf="@+id/arrive_outlet_down_iv"
+                app:layout_constraintTop_toBottomOf="@id/value_added_services_ed" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="1dp"
+                android:background="@color/base_grayDark"
+                app:layout_constraintBottom_toBottomOf="@id/value_added_services_line"
+                app:layout_constraintStart_toEndOf="@+id/value_added_services_line"
+                app:layout_constraintTop_toTopOf="@+id/value_added_services_line" />
+
+
+            <TextView
                 android:id="@+id/receiving_method_title_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -245,7 +344,7 @@
                 android:textSize="16sp"
                 app:layout_constraintLeft_toLeftOf="@id/arrive_outlet_title_tv"
                 app:layout_constraintRight_toRightOf="@+id/arrive_outlet_title_tv"
-                app:layout_constraintTop_toBottomOf="@+id/destination_line" />
+                app:layout_constraintTop_toBottomOf="@+id/value_added_services_line" />
 
             <TextView
                 android:id="@+id/customer_mention_tv"
@@ -415,14 +514,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="21dp"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="添加发货人信息"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/shipper_circle_tv"
+                app:layout_constraintLeft_toRightOf="@+id/shipper_circle_tv"
                 app:layout_constraintRight_toLeftOf="@+id/choice_shipper_iv"
-                app:layout_constraintStart_toEndOf="@+id/shipper_circle_tv"
                 app:layout_constraintTop_toTopOf="@+id/shipper_circle_tv" />
 
             <ImageView
@@ -580,11 +681,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
                         android:gravity="left|center"
                         android:minWidth="80dp"
                         android:text="证件"
-
                         android:textColor="@color/black"
                         android:textSize="17sp" />
 
@@ -599,9 +698,10 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp">
+                    android:layout_marginRight="10dp"
+                    android:minHeight="40dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -616,7 +716,7 @@
                         android:id="@+id/shipper_address_ed"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:inputType="text"
+                        android:inputType="textMultiLine"
                         android:paddingLeft="10dp" />
 
                 </LinearLayout>
@@ -658,14 +758,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="添加收货人信息"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/receiver_circle_tv"
+                app:layout_constraintLeft_toRightOf="@+id/receiver_circle_tv"
                 app:layout_constraintRight_toLeftOf="@+id/choice_shipper_iv"
-                app:layout_constraintStart_toEndOf="@+id/receiver_circle_tv"
                 app:layout_constraintTop_toTopOf="@+id/receiver_circle_tv" />
 
             <ImageView
@@ -843,14 +945,14 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp">
+                    android:layout_marginRight="10dp"
+                    android:minHeight="40dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
                         android:gravity="left|center"
                         android:minWidth="80dp"
                         android:text="地址"
@@ -861,7 +963,7 @@
                         android:id="@+id/receiver_address_ed"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:inputType="text"
+                        android:inputType="textMultiLine"
                         android:paddingLeft="10dp" />
 
                 </LinearLayout>
@@ -926,7 +1028,7 @@
                             android:gravity="left|center"
                             android:text="货物名称"
                             android:textColor="@color/black"
-                            android:textSize="16dp" />
+                            android:textSize="14dp" />
 
                         <EditText
                             android:id="@+id/cargo_name_ed"
@@ -934,6 +1036,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.7"
                             android:gravity="left|center"
+                            android:inputType="text"
+                            android:maxLines="1"
                             android:minWidth="20dp"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
@@ -950,7 +1054,7 @@
                     </LinearLayout>
 
                     <View
-                        android:layout_width="15dp"
+                        android:layout_width="13dp"
                         android:layout_height="match_parent" />
 
                     <LinearLayout
@@ -1021,6 +1125,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.7"
                             android:gravity="left|center"
+                            android:inputType="text"
                             android:maxLines="1"
                             android:minWidth="20dp"
                             android:textColor="@color/black"
@@ -1038,7 +1143,7 @@
                     </LinearLayout>
 
                     <View
-                        android:layout_width="15dp"
+                        android:layout_width="13dp"
                         android:layout_height="match_parent" />
 
                     <LinearLayout
@@ -1048,34 +1153,35 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/weight_title_tv"
+                            android:id="@+id/insured_amount_tv"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.6"
                             android:gravity="left|center"
-                            android:text="重量"
+                            android:text="保价金额"
                             android:textColor="@color/black"
-                            android:textSize="16dp" />
+                            android:textSize="14dp" />
 
                         <EditText
-                            android:id="@+id/weight_name_ed"
+                            android:id="@+id/insured_amount_ed"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_marginBottom="5dp"
                             android:layout_weight="0.7"
+                            android:background="@drawable/hollow_out_gray"
                             android:gravity="left|center"
                             android:inputType="numberDecimal"
+                            android:maxEms="8"
+                            android:maxLength="8"
+                            android:maxLines="1"
                             android:minWidth="20dp"
+                            android:paddingLeft="7dp"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
-
-                        <ImageView
-                            android:id="@+id/weight_name_calculation_iv"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_calculator_icon" />
-
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -1122,43 +1228,181 @@
                     </LinearLayout>
 
                     <View
-                        android:layout_width="15dp"
+                        android:layout_width="13dp"
                         android:layout_height="match_parent" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="1"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal">
+
                         <TextView
-                            android:id="@+id/insured_amount_tv"
+                            android:id="@+id/weight_title_tv"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.6"
                             android:gravity="left|center"
-                            android:text="保价金额"
+                            android:text="重量"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
 
                         <EditText
-                            android:id="@+id/insured_amount_ed"
+                            android:id="@+id/weight_name_ed"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginRight="30dp"
-                            android:layout_marginBottom="5dp"
                             android:layout_weight="0.7"
-                            android:background="@drawable/hollow_out_gray"
                             android:gravity="left|center"
                             android:inputType="numberDecimal"
-                            android:maxEms="8"
-                            android:maxLength="8"
-                            android:maxLines="1"
                             android:minWidth="20dp"
-                            android:paddingLeft="7dp"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
+
+                        <ImageView
+                            android:id="@+id/weight_name_calculation_iv"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_calculator_icon" />
+
                     </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/quantity_price_title_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.6"
+                            android:gravity="left|center"
+                            android:text="数量单价"
+                            android:textColor="@color/black"
+                            android:textSize="14dp" />
+
+                        <EditText
+                            android:id="@+id/quantity_price_ed"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.7"
+                            android:gravity="left|center"
+                            android:inputType="numberDecimal"
+                            android:maxLines="1"
+                            android:minWidth="20dp"
+                            android:textColor="@color/black"
+                            android:textSize="16dp" />
+
+                        <View
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="13dp"
+                        android:layout_height="match_parent" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/weight_price_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.6"
+                            android:gravity="left|center"
+                            android:text="重量单价"
+                            android:textColor="@color/black"
+                            android:textSize="14dp" />
+
+                        <EditText
+                            android:id="@+id/weight_price_ed"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.7"
+                            android:gravity="left|center"
+                            android:inputType="numberDecimal"
+                            android:maxLines="1"
+                            android:minWidth="20dp"
+                            android:textColor="@color/black"
+                            android:textSize="16dp" />
+
+                        <View
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/volume_price_title_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.6"
+                            android:gravity="left|center"
+                            android:text="体积单价"
+                            android:textColor="@color/black"
+                            android:textSize="14dp" />
+
+                        <EditText
+                            android:id="@+id/volume_price_ed"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.7"
+                            android:gravity="left|center"
+                            android:inputType="numberDecimal"
+                            android:maxLines="1"
+                            android:minWidth="20dp"
+                            android:textColor="@color/black"
+                            android:textSize="16dp" />
+
+                        <View
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="13dp"
+                        android:layout_height="match_parent" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal" />
 
 
                 </LinearLayout>
@@ -1171,14 +1415,90 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/cargo_info_ll" />
-          
+            <LinearLayout
+                android:id="@+id/cargo_info_total_ll"
+                app:layout_constraintTop_toBottomOf="@+id/cargo_info_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#55BDC7F2"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:id="@+id/product_total_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center|left"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textSize="19sp"
+                    tools:text="配件" />
+
+                <TextView
+                    android:id="@+id/qty_total_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center|left"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textSize="19sp"
+                    tools:text="100件" />
+
+                <TextView
+                    android:id="@+id/packages_total_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center|left"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textSize="19sp"
+                    tools:text="纸箱" />
+
+                <TextView
+                    android:id="@+id/weight_total_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center|left"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textSize="19sp"
+                    tools:text="100kg" />
+
+                <TextView
+                    android:id="@+id/volumn_total_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center|left"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textSize="19sp"
+                    tools:text="2m³" />
+
+                <TextView
+                    android:text="合计"
+                    android:textSize="16sp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                     />
+
+            </LinearLayout>
             <View
                 android:id="@+id/cargo_information_line"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/base_gray"
-                app:layout_constraintTop_toBottomOf="@+id/cargo_info_recycler" />
+                app:layout_constraintTop_toBottomOf="@+id/cargo_info_total_ll" />
 
             <LinearLayout
                 android:id="@+id/cost_information_ll"
@@ -1990,7 +2310,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:hint="可填"
+                android:hint="可选"
                 android:minWidth="50dp"
                 android:textColor="@color/black"
                 android:textSize="16dp"
@@ -2038,7 +2358,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="13dp"
-                android:text="外转费另计"
+                android:text="外转另计"
                 app:layout_constraintLeft_toRightOf="@+id/wait_notice_check"
                 app:layout_constraintTop_toBottomOf="@+id/salesman_name_line" />
 
@@ -2068,12 +2388,13 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/remarks_title_tv"
                 tools:text="中国建设银行上海交通路支行" />
+
             <ImageView
                 android:id="@+id/remarks_down_iv"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginTop="3dp"
+                android:layout_marginRight="20dp"
                 android:padding="6dp"
                 android:src="@drawable/ic_down_icon"
                 app:layout_constraintBottom_toBottomOf="@+id/remarks_tv"

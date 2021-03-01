@@ -20,10 +20,14 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordAddSuccessEvent
+import com.mbcq.vehicleslibrary.activity.alllocalagent.event.LocalGentShortFeederHouseEvent
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localagent.LocalAgentEvent
 import com.mbcq.vehicleslibrary.fragment.localagentshortfeeder.bycar.LocalGentByCarAdapter
 import com.mbcq.vehicleslibrary.fragment.localagentshortfeeder.bycar.LocalGentByCarBean
 import kotlinx.android.synthetic.main.fragment_locala_gent_bycar.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -50,6 +54,7 @@ class LocalGentByOrderFragment : BaseSmartMVPFragment<LocalGentByOrderContract.V
     }
 
     override fun getLayoutResId(): Int = R.layout.fragment_local_gent_by_order
+    override fun isOpenEventBus(): Boolean = true
 
     override fun getPageDatas(mCurrentPage: Int) {
         super.getPageDatas(mCurrentPage)
@@ -69,12 +74,16 @@ class LocalGentByOrderFragment : BaseSmartMVPFragment<LocalGentByOrderContract.V
 
         }
     }
-
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onRefreshLocalGentByOrderNewDataEvent(event: LocalGentShortFeederHouseEvent) {
+        if (event.refreshType == 2)
+            refresh()
+    }
     override fun onClick() {
         super.onClick()
         out_stock_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.AddLocalGentShortFeederActivity).navigation()
+                ARouter.getInstance().build(ARouterConstants.AddLocalGentShortFeederActivity).withString("AddLocalGentShortFeeder", "2").navigation()
             }
 
         })

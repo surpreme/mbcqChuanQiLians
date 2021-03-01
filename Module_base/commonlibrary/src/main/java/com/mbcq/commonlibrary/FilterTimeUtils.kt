@@ -8,7 +8,10 @@ import java.util.*
 
 object FilterTimeUtils {
     fun getStartTime(lastDay: Int): String {
-        return "${TimeUtils.getLastdayStr(lastDay)} 00:00:00"
+        return if (lastDay == 0)
+            getCurrentMorningTime()
+        else
+            "${TimeUtils.getLastdayStr(lastDay)} 00:00:00"
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -17,5 +20,13 @@ object FilterTimeUtils {
         val mDate = Date(System.currentTimeMillis())
         val format = mDateFormat.format(mDate)
         return "$format 23:59:59"
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun getCurrentMorningTime(): String {
+        val mDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val mDate = Date(System.currentTimeMillis())
+        val format = mDateFormat.format(mDate)
+        return "$format 00:00:00"
     }
 }

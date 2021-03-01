@@ -11,6 +11,7 @@ import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
@@ -18,8 +19,11 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.alllocalagent.event.LocalGentShortFeederHouseEvent
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localagent.LocalAgentEvent
 import kotlinx.android.synthetic.main.fragment_locala_gent_bycar.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,10 +35,15 @@ import java.util.*
  */
 
 class LocalGentByCarFragment : BaseSmartMVPFragment<LocalGentByCarContract.View, LocalGentByCarPresenter, LocalGentByCarBean>(), LocalGentByCarContract.View {
-    override fun getLayoutResId(): Int = R.layout.fragment_locala_gent_bycar
     var mShippingOutletsTag = ""
     var mStartDateTag = ""
     var mEndDateTag = ""
+    override fun getLayoutResId(): Int = R.layout.fragment_locala_gent_bycar
+    override fun getSmartLayoutId(): Int = R.id.local_short_feeder_smart
+    override fun getSmartEmptyId(): Int = R.id.local_short_feeder_smart_frame
+    override fun getRecyclerViewId(): Int = R.id.local_short_feeder_recycler
+    override fun isOpenEventBus(): Boolean = true
+    override fun setAdapter(): BaseRecyclerAdapter<LocalGentByCarBean> = LocalGentByCarAdapter(mContext)
 
     @SuppressLint("SimpleDateFormat")
     override fun initExtra() {
@@ -66,11 +75,17 @@ class LocalGentByCarFragment : BaseSmartMVPFragment<LocalGentByCarContract.View,
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onRefreshLocalGentByOrderNewDataEvent(event: LocalGentShortFeederHouseEvent) {
+        if (event.refreshType == 1)
+            refresh()
+    }
+
     override fun onClick() {
         super.onClick()
         out_stock_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.AddLocalGentShortFeederActivity).navigation()
+                ARouter.getInstance().build(ARouterConstants.AddLocalGentShortFeederActivity).withString("AddLocalGentShortFeeder", "1").navigation()
             }
 
         })
@@ -116,11 +131,7 @@ class LocalGentByCarFragment : BaseSmartMVPFragment<LocalGentByCarContract.View,
         }
     }
 
-    override fun getSmartLayoutId(): Int = R.id.local_short_feeder_smart
-    override fun getSmartEmptyId(): Int = R.id.local_short_feeder_smart_frame
-    override fun getRecyclerViewId(): Int = R.id.local_short_feeder_recycler
 
-    override fun setAdapter(): BaseRecyclerAdapter<LocalGentByCarBean> = LocalGentByCarAdapter(mContext)
     override fun getPageS(list: List<LocalGentByCarBean>) {
         appendDatas(list)
 

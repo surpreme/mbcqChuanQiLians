@@ -22,6 +22,7 @@ import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordAddSuccessEvent
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.*
 import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.add_operating_interval_btn
@@ -33,6 +34,7 @@ import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.operati
 import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.operating_interval_tv
 import kotlinx.android.synthetic.main.activity_add_trunk_departure_house.remove_operating_interval_btn
 import kotlinx.android.synthetic.main.activity_fixed_trunk_departure_house.*
+import org.greenrobot.eventbus.EventBus
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -263,6 +265,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
 
     override fun overLocalCarS(s: String) {
         TalkSureDialog(mContext, getScreenWidth(), "干线计划装车${mDepartureLot}已完成，点击查看详情！") {
+            EventBus.getDefault().postSticky(DepartureRecordAddSuccessEvent(2))
             onBackPressed()
         }.show()
     }

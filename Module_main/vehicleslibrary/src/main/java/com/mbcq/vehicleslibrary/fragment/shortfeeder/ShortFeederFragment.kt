@@ -2,6 +2,8 @@ package com.mbcq.vehicleslibrary.fragment.shortfeeder
 
 
 import android.annotation.SuppressLint
+import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
@@ -11,14 +13,20 @@ import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordEvent
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordAddSuccessEvent
 import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordRefreshEvent
+import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.TrunkDepartureIsRefreshEvent
 import kotlinx.android.synthetic.main.fragment_short_feeder.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.json.JSONObject
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -39,6 +47,10 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
     override fun getSmartLayoutId(): Int = R.id.short_feeder_smart
     override fun getSmartEmptyId(): Int = R.id.short_feeder_smart_frame
     override fun getRecyclerViewId(): Int = R.id.short_feeder_recycler
+    override fun isOpenEventBus(): Boolean = true
+    override fun setIsShowNetLoading(): Boolean  = false
+    override fun getIsOnCreateGetData(): Boolean = true
+
     override fun setAdapter(): BaseRecyclerAdapter<ShortFeederBean> = ShortFeederAdapter(mContext).also {
         it.mOnShortFeederClickInterface = object : ShortFeederAdapter.OnShortFeederClickInterface {
             override fun onModify(v: View, position: Int, itemData: ShortFeederBean) {
@@ -64,15 +76,13 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
         }
     }
 
+
     override fun getPageDatas(mCurrentPage: Int) {
         super.getPageDatas(mCurrentPage)
         mPresenter?.getShortFeeder(mCurrentPage, mShippingOutletsTag, mStartDateTag, mEndDateTag)
-
     }
 
-    override fun setIsShowNetLoading(): Boolean {
-        return false
-    }
+
 
     override fun onClick() {
         super.onClick()
@@ -138,7 +148,7 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
         })
         add_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.AddShortFeederActivity).navigation()
+                ARouter.getInstance().build(ARouterConstants.AddShortFeederActivity).navigation(activity, 43)
             }
 
         })
@@ -148,22 +158,24 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
     override fun initExtra() {
         super.initExtra()
         mContext.let {
-            mStartDateTag = FilterTimeUtils.getStartTime(7)
+            mStartDateTag = FilterTimeUtils.getStartTime(0)
             mEndDateTag = FilterTimeUtils.getEndTime()
             mShippingOutletsTag = UserInformationUtil.getWebIdCode(it) + ","
 
         }
+
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onRefreshNewDataEvent(event: DepartureRecordAddSuccessEvent) {
+        if (event.refreshType == 1)
+            refresh()
     }
 
     @SuppressLint("CheckResult")
     override fun initDatas() {
         super.initDatas()
-        RxBus.build().toObservable(this, DepartureRecordRefreshEvent::class.java).subscribe {
-            refresh()
-        }
-        RxBus.build().toObservableSticky(this, DepartureRecordRefreshEvent::class.java).subscribe {
-            refresh()
-        }
         RxBus.build().toObservable(this, DepartureRecordEvent::class.java).subscribe { msg ->
             if (msg.type == 0) {
                 mShippingOutletsTag = msg.webCode
@@ -175,10 +187,6 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-//        RxBus.build().removeStickyEvent(DepartureRecordRefreshEvent::class.java)
-    }
 
     @SuppressLint("SetTextI18n")
     override fun getShortFeederS(list: List<ShortFeederBean>, toltalData: ShortFeederTotalBean) {

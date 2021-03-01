@@ -70,12 +70,12 @@
                 android:layout_marginTop="15dp"
                 android:lines="1"
                 android:maxEms="6"
-                android:text="汕头"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/waybill_number_tv" />
+                app:layout_constraintTop_toBottomOf="@+id/waybill_number_tv"
+                tools:text="汕头" />
 
             <TextView
                 android:id="@+id/center_address_tv"
@@ -95,24 +95,24 @@
                 android:layout_height="wrap_content"
                 android:lines="1"
                 android:maxEms="6"
-                android:text="义乌青口"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/center_address_tv"
                 app:layout_constraintLeft_toRightOf="@+id/center_address_tv"
-                app:layout_constraintTop_toTopOf="@+id/center_address_tv" />
+                app:layout_constraintTop_toTopOf="@+id/center_address_tv"
+                tools:text="义乌青口" />
 
             <TextView
                 android:id="@+id/goods_info_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:text="配件 116 纸箱"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/receiver_outlets_tv"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/receiver_outlets_tv" />
+                app:layout_constraintTop_toTopOf="@+id/receiver_outlets_tv"
+                tools:text="配件 116 纸箱" />
 
 
             <TextView
@@ -120,11 +120,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="收货人：吴轩         手机号：15995675861"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintLeft_toLeftOf="@+id/shipper_outlets_tv"
-                app:layout_constraintTop_toBottomOf="@+id/receiver_outlets_tv" />
+                app:layout_constraintTop_toBottomOf="@+id/receiver_outlets_tv"
+                tools:text="收货人：吴轩         手机号：15995675861" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -179,9 +179,9 @@
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
                         android:gravity="center|left"
-                        android:text="123456"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        tools:text="123456" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
@@ -212,9 +212,9 @@
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
                         android:gravity="center|left"
-                        android:text="1252"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        tools:text="1252" />
 
                     <TextView
                         android:layout_width="100dp"
@@ -231,9 +231,9 @@
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
                         android:gravity="center|left"
-                        android:text="1252"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        tools:text="1252" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -257,9 +257,9 @@
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
                         android:gravity="center|left"
-                        android:text="1252"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        tools:text="1252" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -283,9 +283,9 @@
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
                         android:gravity="center|left"
-                        android:text="1252"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        tools:text="1252" />
 
                     <TextView
                         android:layout_width="100dp"
@@ -302,9 +302,9 @@
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
                         android:gravity="center|left"
-                        android:text="1252"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        tools:text="1252" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -328,9 +328,9 @@
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
                         android:gravity="center|left"
-                        android:text=" 的辅导费个到货统计好女孩"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        tools:text=" 的辅导费个到货统计好女孩" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -354,14 +354,15 @@
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
                         android:gravity="center|left"
-                        android:text="300元"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        tools:text="300元" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:buttonTint="@color/base_blue"
+                        android:checked="true"
                         android:paddingRight="15dp"
                         android:text="已签回单" />
                 </LinearLayout>
@@ -389,6 +390,34 @@
                         android:background="@null"
                         android:gravity="center|left"
                         android:hint="请输入提货人"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="提货停车位"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/picker_parking_space_ed"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center|left"
+                        android:hint="请输入提货停车位"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -665,6 +694,14 @@
                         android:src="@drawable/ic_down_icon" />
 
                 </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/update_goods_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="15dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

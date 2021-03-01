@@ -3,6 +3,7 @@ package com.mbcq.orderlibrary.activity.acceptbilling
 import com.google.gson.JsonObject
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.commonlibrary.ApiInterface
 import org.json.JSONArray
 import org.json.JSONObject
@@ -332,46 +333,87 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
     }
 
     /**
-     * {"code":0,"msg":"","count":1,"data":[
+     *{"code":0,"msg":"","count":1,"data":[
     {
     "id": 21,
     "webidCodeStr": "汕头",
     "webidCode": 1003,
     "isCanRecGoo": 1,
-    "isCanRecGooStr": null,
-    "isUseMonth": 1,
-    "isUseMonthStr": null,
-    "showCost": "1,2,3,4,5,6,7,8",
-    "showCostStr": "基本运费,提货费,打包费,送货费,工本费,保价费,燃油费,返款",
-    "showCostFilNam": "accTrans,accFetch,accPackage,accSend,accGb,accSafe,accRyf,accHuiKou",
-    "canAccType": "1,2",
-    "canAccTypeStr": "现付,提付",
+    "isCanRecGooStr": "是",
+    "isUseMonth": 0,
+    "isUseMonthStr": "是",
+    "showCost": "16,5,1,2,3,4,6,7,8,18,17,15,14,13,12,11,10,9",
+    "showCostStr": "外转费,工本费,基本运费,提货费,打包费,送货费,保价费,燃油费,返款,回单服务费,进仓费,分拣费,安装费,上楼费,拆包费,装卸费,垫付费,短信费",
+    "showCostFilNam": "accWz,accGb,accTrans,accFetch,accPackage,accSend,accSafe,accRyf,accHuiKou,accBackService,accJc,accFj,accAz,accSl,accCb,accZx,accZz,accSms",
+    "canAccType": "1,2,3,4,6,5,7",
+    "canAccTypeStr": "现付,提付,回单付,货款扣,免费,月结,两笔付",
     "accGb": 5.00,
     "limDowAccTrans": 3.00,
     "limDowAccDaiShou": 5.00,
     "canHandBill": 1,
-    "canHandBillStr": null,
+    "canHandBillStr": "是",
     "priBillCount": 1,
     "priFetCount": 1,
     "isCanSenDs": 0,
-    "isCanSenDsStr": null,
+    "isCanSenDsStr": "",
     "isCanRecDs": 0,
-    "isCanRecDsStr": null,
+    "isCanRecDsStr": "",
     "isMustIdCard": 0,
-    "isMustIdCardStr": null,
+    "isMustIdCardStr": "",
     "isUseWaiNot": 1,
-    "isUseWaiNotStr": null,
-    "accNowIsCanHk": 1,
-    "accNowIsCanHkStr": null,
+    "isUseWaiNotStr": "",
+    "accNowIsCanHk": 0,
+    "accNowIsCanHkStr": "现付,提付,回单付,货款扣",
     "skipCursor": "",
     "banInfIsWri": 0,
-    "banInfIsWriStr": null,
+    "banInfIsWriStr": "",
     "arrHowHouCae": 0,
-    "accSafe": null,
+    "accSafe": 0.00,
     "bqWebidCode": 1002,
     "bqWebidCodeStr": "义乌后湖",
+    "dsOverDay": 13,
+    "pickUpOverFcdDay": 23,
+    "sendOverFcdDay": 232,
+    "cashFcdOverMoney": 3.00,
+    "sendBackOverDay": 121,
+    "pickUpBackOverDay": 112,
+    "bdAgentBackOverDay": 1,
+    "zdAgentBackOverDay": 22,
+    "cusComNoDealwithDay": 11,
+    "moneyExceptionOut": 1,
+    "sendNoFetchOverDay": 1,
+    "outNoFetchOverDay": 1,
+    "canEwebidCode": "",
+    "canEwebidCodeStr": "",
+    "joinBelongWebidCode": 1003,
+    "joinBelongWebidCodeStr": "汕头",
+    "balanceType": 1,
+    "balanceTypeStr": "比例",
+    "belongArea": 1,
+    "belongAreaStr": "",
+    "isUseTbAutoCount": 1,
+    "isUseOnlinePay": 1,
+    "isBasAccTraNoCanLessMinPri": 1,
+    "isUseOneCityDelivery": 1,
+    "isUseWms": 1,
+    "unionPayBusinessNo": "1123",
+    "unionPaySecret": "45664565",
+    "unionPayCashier": "4564564654654",
+    "isTransferCount": 1,
+    "isTransferCountStr": "1",
+    "isAutoChargeOff": 1,
+    "isAutoChargeOffStr": "是",
+    "isNoBalance": 1,
+    "isNoBalanceStr": "1",
+    "isStop": 1,
+    "isStopStr": "是",
     "opeMan": "测试",
-    "recordDate": "2019-03-08T15:32:38"
+    "recordDate": "2019-03-08T15:32:38",
+    "mustWrite": "orderId,billno,,shipperMb,shpperAddr,shipperCid,consignee,consigneeTel,consigneeMb,consigneeAddr,product,qty,packages,weight,volumn,
+    weightJs,safeMoney,qtyPrice,wPrice,vPrice,shipperCompany,shipperAddr,consigneeCompany,Lightandheavy,ewebidCode,destination,valueAddedService",
+    "vehicleinfo": 1,
+    "vehicleinfoStr": null,
+    "element": 0.00
     }
     ]}
      */
@@ -489,6 +531,7 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
 
         })
     }
+
     override fun getVehicles() {
         get<String>(ApiInterface.VEHICLE_SELECT_INFO_GET + "?=", null, object : CallBacks {
             override fun onResult(result: String) {
@@ -509,15 +552,22 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
         })
     }
 
-    override fun getSalesman() {
-        get<String>(ApiInterface.ACCEPT_SELECT_GETSALESMAN_GET+"?=",null,object :CallBacks{
+    override fun getSalesman(type: Int) {
+        val params = HttpParams()
+        mView?.getContext()?.let {
+            params.put("SelWebidCode", UserInformationUtil.getWebIdCode(it))
+        }
+        get<String>(ApiInterface.ACCEPT_SELECT_GETSALESMAN_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 val json = JSONTokener(obj.optString("data")).nextValue()
                 if (json is JSONArray) {
                     obj.optJSONArray("data")?.let {
                         if (!it.isNull(0)) {
-                            mView?.getSalesmanS(obj.optString("data"))
+                            if (type == 2)
+                                mView?.getSalesmanS(obj.optString("data"), type)
+                            else if (type == 1)
+                                mView?.getSalesmanS(it.getJSONObject(0).optString("salesmanName"), type)
                         }
                     }
 

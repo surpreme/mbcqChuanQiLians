@@ -22,11 +22,14 @@ import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 
 /**
- * @Auther: valy
+ * @Auther: lzy
  * @datetime: 2020/3/27
- * @desc: 不需要取消订阅
- * TODO 20/03/27 未实现在baseActivity的拓展 用来连接module之间的通信
+ * @desc: 不需要取消订阅 历史
+ * @history 20/03/27 未实现在baseActivity的拓展 用来连接module之间的通信
+ * @history 21/02/25 baseactvity已使用eventBus封装
  * https://github.com/DeMonLiu623/DeMon-RxBus
+ * 可以使用 粘性有问题 项目有用到的 这里不再维护
+ * 移至eventBus
  */
 public class RxBus {
     private volatile static RxBus mDefaultInstance;

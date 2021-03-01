@@ -239,7 +239,7 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
         var resultFile: File
         if (requestCode == Constant.CHOOSE_PHOTOS_REQUEST_CODE && resultCode == RESULT_OK) {
             mSelected = Matisse.obtainResult(data)
-            Glide.with(mContext).load(mSelected[0]).into(result_image)
+//            Glide.with(mContext).load(mSelected[0]).into(result_image)
             //************
             val itemBean = ImageViewBean()
             itemBean.imageUris = mSelected[0]
@@ -256,7 +256,7 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
         } else if (requestCode == Constant.TAKE_PHOTOS_REQUEST_CODE && resultCode == RESULT_OK) {
             data?.let {
                 val imageBitmap = it.extras?.get("data") as Bitmap
-                Glide.with(mContext).load(imageBitmap).into(result_image)
+//                Glide.with(mContext).load(imageBitmap).into(result_image)
                 val uri = Uri.parse(MediaStore.Images.Media.insertImage(contentResolver, imageBitmap, null, null))
                 //************
                 val itemBean = ImageViewBean()
@@ -277,6 +277,10 @@ class ExceptionRegistrationActivity : BaseExceptionRegistrationActivity<Exceptio
     }
 
     fun takePhotoes() {
+        if (mShowImagesURL.size>9){
+            showToast("最多上传9张图片")
+            return
+        }
         val mUpdatePhotosFragment = UpdatePhotosFragment()
         mUpdatePhotosFragment.mlistener = object : UpdatePhotosFragment.OnThingClickInterface {
             override fun getThing(msg: Any) {

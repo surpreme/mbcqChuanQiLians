@@ -119,7 +119,8 @@ class ShortFeederUnloadingWarehousingActivity : BaseListMVPActivity<ShortFeederU
                             billnoSsbuilder.append(item.billno).append(",")
                         }
                     }
-                    mPresenter?.UnloadingWarehousing(billnoSsbuilder.toString().substring(0, billnoSsbuilder.length - 1), JSONObject(mShortFeederUnloadingWarehousing).optString("inoneVehicleFlag"))
+
+                    mPresenter?.UnloadingWarehousing(billnoSsbuilder.toString().substring(0, billnoSsbuilder.toString().length - 1), JSONObject(mShortFeederUnloadingWarehousing).optString("inoneVehicleFlag"))
                 }
             }
         }

@@ -50,7 +50,7 @@ class TerminalAgentActivity : BaseMVPActivity<TerminalAgentContract.View, Termin
                     }
 
                     override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
-                        FilterWithTimeDialog(getScreenWidth(), Gson().toJson(list), "webid", "webidCode", true, "${if (mFragmentTag_index == 0) "按车" else "按票"}本地代理记录筛选", true, mClickInterface = object : OnClickInterface.OnClickInterface {
+                        FilterWithTimeDialog(getScreenWidth(), Gson().toJson(list), "webid", "webidCode", true, "${if (mFragmentTag_index == 0) "按车" else "按票"}终端代理记录筛选", true, mClickInterface = object : OnClickInterface.OnClickInterface {
                             /**
                              * s1 网点
                              * s2  start@end

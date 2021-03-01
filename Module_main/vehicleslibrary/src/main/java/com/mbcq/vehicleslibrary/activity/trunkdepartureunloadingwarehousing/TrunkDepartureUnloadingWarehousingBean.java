@@ -121,43 +121,43 @@ public class TrunkDepartureUnloadingWarehousingBean {
     private String inoneVehicleFlag;
 
 
-    private int qtyGx;
-    private int unLoadQty;
-    private int loadQty;
-    private int webidCodeDb;
+    private String qtyGx;
+    private String unLoadQty;
+    private String loadQty;
+    private String webidCodeDb;
     private String webidCodeStrDb;
-    private int ewebidCodeDb;
+    private String ewebidCodeDb;
     private String ewebidCodeStrDb;
-    private int state;
+    private String state;
     private String stateStr;
-    private int sendTimes;
-    private int sfWeight;
-    private int sfVolumn;
-    private int inPdaState;
-    private int outPdaState;
-    private int finishState;
-    private int accForktruck;
+    private String sendTimes;
+    private String sfWeight;
+    private String sfVolumn;
+    private String inPdaState;
+    private String outPdaState;
+    private String finishState;
+    private String accForktruck;
     private String orderId;
     private String billno;
     private String oBillno;
     private String billDate;
-    private int billState;
+    private String billState;
     private String billStateStr;
-    private int billType;
+    private String billType;
     private String billTypeStr;
     private String goodsNum;
-    private int okProcess;
+    private String okProcess;
     private String okProcessStr;
-    private int isUrgent;
+    private String isUrgent;
     private String isUrgentStr;
-    private int isTalkGoods;
+    private String isTalkGoods;
     private String isTalkGoodsStr;
-    private int webidCode;
+    private String webidCode;
     private String webidCodeStr;
-    private int ewebidCode;
+    private String ewebidCode;
     private String ewebidCodeStr;
     private String destination;
-    private int transneed;
+    private String transneed;
     private String transneedStr;
     private String vipId;
     private String shipperId;
@@ -171,48 +171,48 @@ public class TrunkDepartureUnloadingWarehousingBean {
     private String consignee;
     private String consigneeAddr;
     private String product;
-    private int totalQty;
-    private int qty;
+    private String totalQty;
+    private String qty;
     private String packages;
-    private int weight;
-    private int volumn;
-    private int weightJs;
-    private int safeMoney;
-    private int accDaiShou;
-    private int accHKChange;
+    private String weight;
+    private String volumn;
+    private String weightJs;
+    private String safeMoney;
+    private String accDaiShou;
+    private String accHKChange;
     private String hkChangeReason;
-    private int sxf;
-    private int wPrice;
-    private int vPrice;
-    private int qtyPrice;
-    private int accNow;
-    private int accArrived;
-    private int accBack;
-    private int accMonth;
-    private int accHuoKuanKou;
-    private int accTrans;
-    private int accFetch;
-    private int accPackage;
-    private int accSend;
-    private int accGb;
-    private int accSafe;
-    private int accRyf;
-    private int accHuiKou;
-    private int accSms;
-    private int accZz;
-    private int accZx;
-    private int accCb;
-    private int accSl;
-    private int accAz;
-    private int accFj;
-    private int accWz;
-    private int accJc;
-    private int accSum;
-    private int accType;
+    private String sxf;
+    private String wPrice;
+    private String vPrice;
+    private String qtyPrice;
+    private String accNow;
+    private String accArrived;
+    private String accBack;
+    private String accMonth;
+    private String accHuoKuanKou;
+    private String accTrans;
+    private String accFetch;
+    private String accPackage;
+    private String accSend;
+    private String accGb;
+    private String accSafe;
+    private String accRyf;
+    private String accHuiKou;
+    private String accSms;
+    private String accZz;
+    private String accZx;
+    private String accCb;
+    private String accSl;
+    private String accAz;
+    private String accFj;
+    private String accWz;
+    private String accJc;
+    private String accSum;
+    private String accType;
     private String accTypeStr;
     private String backQty;
-    private int backState;
-    private int isWaitNotice;
+    private String backState;
+    private String isWaitNotice;
     private String isWaitNoticeStr;
     private String bankCode;
     private String bankName;
@@ -222,8 +222,8 @@ public class TrunkDepartureUnloadingWarehousingBean {
     private String salesMan;
     private String opeMan;
     private String remark;
-    private int isScanDet;
-    private int waybillFcdQty;
+    private String isScanDet;
+    private String waybillFcdQty;
     private boolean isChecked=false;
 
     public boolean isChecked() {
@@ -234,11 +234,11 @@ public class TrunkDepartureUnloadingWarehousingBean {
         isChecked = checked;
     }
 
-    public int getQtyGx() {
+    public String getQtyGx() {
         return qtyGx;
     }
 
-    public void setQtyGx(int qtyGx) {
+    public void setQtyGx(String qtyGx) {
         this.qtyGx = qtyGx;
     }
 
@@ -286,27 +286,27 @@ public class TrunkDepartureUnloadingWarehousingBean {
 
 
 
-    public int getUnLoadQty() {
+    public String getUnLoadQty() {
         return unLoadQty;
     }
 
-    public void setUnLoadQty(int unLoadQty) {
+    public void setUnLoadQty(String unLoadQty) {
         this.unLoadQty = unLoadQty;
     }
 
-    public int getLoadQty() {
+    public String getLoadQty() {
         return loadQty;
     }
 
-    public void setLoadQty(int loadQty) {
+    public void setLoadQty(String loadQty) {
         this.loadQty = loadQty;
     }
 
-    public int getWebidCodeDb() {
+    public String getWebidCodeDb() {
         return webidCodeDb;
     }
 
-    public void setWebidCodeDb(int webidCodeDb) {
+    public void setWebidCodeDb(String webidCodeDb) {
         this.webidCodeDb = webidCodeDb;
     }
 
@@ -318,11 +318,11 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.webidCodeStrDb = webidCodeStrDb;
     }
 
-    public int getEwebidCodeDb() {
+    public String getEwebidCodeDb() {
         return ewebidCodeDb;
     }
 
-    public void setEwebidCodeDb(int ewebidCodeDb) {
+    public void setEwebidCodeDb(String ewebidCodeDb) {
         this.ewebidCodeDb = ewebidCodeDb;
     }
 
@@ -334,11 +334,11 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.ewebidCodeStrDb = ewebidCodeStrDb;
     }
 
-    public int getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(String state) {
         this.state = state;
     }
 
@@ -350,59 +350,59 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.stateStr = stateStr;
     }
 
-    public int getSendTimes() {
+    public String getSendTimes() {
         return sendTimes;
     }
 
-    public void setSendTimes(int sendTimes) {
+    public void setSendTimes(String sendTimes) {
         this.sendTimes = sendTimes;
     }
 
-    public int getSfWeight() {
+    public String getSfWeight() {
         return sfWeight;
     }
 
-    public void setSfWeight(int sfWeight) {
+    public void setSfWeight(String sfWeight) {
         this.sfWeight = sfWeight;
     }
 
-    public int getSfVolumn() {
+    public String getSfVolumn() {
         return sfVolumn;
     }
 
-    public void setSfVolumn(int sfVolumn) {
+    public void setSfVolumn(String sfVolumn) {
         this.sfVolumn = sfVolumn;
     }
 
-    public int getInPdaState() {
+    public String getInPdaState() {
         return inPdaState;
     }
 
-    public void setInPdaState(int inPdaState) {
+    public void setInPdaState(String inPdaState) {
         this.inPdaState = inPdaState;
     }
 
-    public int getOutPdaState() {
+    public String getOutPdaState() {
         return outPdaState;
     }
 
-    public void setOutPdaState(int outPdaState) {
+    public void setOutPdaState(String outPdaState) {
         this.outPdaState = outPdaState;
     }
 
-    public int getFinishState() {
+    public String getFinishState() {
         return finishState;
     }
 
-    public void setFinishState(int finishState) {
+    public void setFinishState(String finishState) {
         this.finishState = finishState;
     }
 
-    public int getAccForktruck() {
+    public String getAccForktruck() {
         return accForktruck;
     }
 
-    public void setAccForktruck(int accForktruck) {
+    public void setAccForktruck(String accForktruck) {
         this.accForktruck = accForktruck;
     }
 
@@ -438,11 +438,11 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.billDate = billDate;
     }
 
-    public int getBillState() {
+    public String getBillState() {
         return billState;
     }
 
-    public void setBillState(int billState) {
+    public void setBillState(String billState) {
         this.billState = billState;
     }
 
@@ -454,11 +454,11 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.billStateStr = billStateStr;
     }
 
-    public int getBillType() {
+    public String getBillType() {
         return billType;
     }
 
-    public void setBillType(int billType) {
+    public void setBillType(String billType) {
         this.billType = billType;
     }
 
@@ -478,11 +478,11 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.goodsNum = goodsNum;
     }
 
-    public int getOkProcess() {
+    public String getOkProcess() {
         return okProcess;
     }
 
-    public void setOkProcess(int okProcess) {
+    public void setOkProcess(String okProcess) {
         this.okProcess = okProcess;
     }
 
@@ -494,11 +494,11 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.okProcessStr = okProcessStr;
     }
 
-    public int getIsUrgent() {
+    public String getIsUrgent() {
         return isUrgent;
     }
 
-    public void setIsUrgent(int isUrgent) {
+    public void setIsUrgent(String isUrgent) {
         this.isUrgent = isUrgent;
     }
 
@@ -510,11 +510,11 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.isUrgentStr = isUrgentStr;
     }
 
-    public int getIsTalkGoods() {
+    public String getIsTalkGoods() {
         return isTalkGoods;
     }
 
-    public void setIsTalkGoods(int isTalkGoods) {
+    public void setIsTalkGoods(String isTalkGoods) {
         this.isTalkGoods = isTalkGoods;
     }
 
@@ -526,11 +526,11 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.isTalkGoodsStr = isTalkGoodsStr;
     }
 
-    public int getWebidCode() {
+    public String getWebidCode() {
         return webidCode;
     }
 
-    public void setWebidCode(int webidCode) {
+    public void setWebidCode(String webidCode) {
         this.webidCode = webidCode;
     }
 
@@ -542,11 +542,11 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.webidCodeStr = webidCodeStr;
     }
 
-    public int getEwebidCode() {
+    public String getEwebidCode() {
         return ewebidCode;
     }
 
-    public void setEwebidCode(int ewebidCode) {
+    public void setEwebidCode(String ewebidCode) {
         this.ewebidCode = ewebidCode;
     }
 
@@ -566,11 +566,11 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.destination = destination;
     }
 
-    public int getTransneed() {
+    public String getTransneed() {
         return transneed;
     }
 
-    public void setTransneed(int transneed) {
+    public void setTransneed(String transneed) {
         this.transneed = transneed;
     }
 
@@ -678,19 +678,19 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.product = product;
     }
 
-    public int getTotalQty() {
+    public String getTotalQty() {
         return totalQty;
     }
 
-    public void setTotalQty(int totalQty) {
+    public void setTotalQty(String totalQty) {
         this.totalQty = totalQty;
     }
 
-    public int getQty() {
+    public String getQty() {
         return qty;
     }
 
-    public void setQty(int qty) {
+    public void setQty(String qty) {
         this.qty = qty;
     }
 
@@ -702,51 +702,51 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.packages = packages;
     }
 
-    public int getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
-    public int getVolumn() {
+    public String getVolumn() {
         return volumn;
     }
 
-    public void setVolumn(int volumn) {
+    public void setVolumn(String volumn) {
         this.volumn = volumn;
     }
 
-    public int getWeightJs() {
+    public String getWeightJs() {
         return weightJs;
     }
 
-    public void setWeightJs(int weightJs) {
+    public void setWeightJs(String weightJs) {
         this.weightJs = weightJs;
     }
 
-    public int getSafeMoney() {
+    public String getSafeMoney() {
         return safeMoney;
     }
 
-    public void setSafeMoney(int safeMoney) {
+    public void setSafeMoney(String safeMoney) {
         this.safeMoney = safeMoney;
     }
 
-    public int getAccDaiShou() {
+    public String getAccDaiShou() {
         return accDaiShou;
     }
 
-    public void setAccDaiShou(int accDaiShou) {
+    public void setAccDaiShou(String accDaiShou) {
         this.accDaiShou = accDaiShou;
     }
 
-    public int getAccHKChange() {
+    public String getAccHKChange() {
         return accHKChange;
     }
 
-    public void setAccHKChange(int accHKChange) {
+    public void setAccHKChange(String accHKChange) {
         this.accHKChange = accHKChange;
     }
 
@@ -758,227 +758,227 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.hkChangeReason = hkChangeReason;
     }
 
-    public int getSxf() {
+    public String getSxf() {
         return sxf;
     }
 
-    public void setSxf(int sxf) {
+    public void setSxf(String sxf) {
         this.sxf = sxf;
     }
 
-    public int getWPrice() {
+    public String getWPrice() {
         return wPrice;
     }
 
-    public void setWPrice(int wPrice) {
+    public void setWPrice(String wPrice) {
         this.wPrice = wPrice;
     }
 
-    public int getVPrice() {
+    public String getVPrice() {
         return vPrice;
     }
 
-    public void setVPrice(int vPrice) {
+    public void setVPrice(String vPrice) {
         this.vPrice = vPrice;
     }
 
-    public int getQtyPrice() {
+    public String getQtyPrice() {
         return qtyPrice;
     }
 
-    public void setQtyPrice(int qtyPrice) {
+    public void setQtyPrice(String qtyPrice) {
         this.qtyPrice = qtyPrice;
     }
 
-    public int getAccNow() {
+    public String getAccNow() {
         return accNow;
     }
 
-    public void setAccNow(int accNow) {
+    public void setAccNow(String accNow) {
         this.accNow = accNow;
     }
 
-    public int getAccArrived() {
+    public String getAccArrived() {
         return accArrived;
     }
 
-    public void setAccArrived(int accArrived) {
+    public void setAccArrived(String accArrived) {
         this.accArrived = accArrived;
     }
 
-    public int getAccBack() {
+    public String getAccBack() {
         return accBack;
     }
 
-    public void setAccBack(int accBack) {
+    public void setAccBack(String accBack) {
         this.accBack = accBack;
     }
 
-    public int getAccMonth() {
+    public String getAccMonth() {
         return accMonth;
     }
 
-    public void setAccMonth(int accMonth) {
+    public void setAccMonth(String accMonth) {
         this.accMonth = accMonth;
     }
 
-    public int getAccHuoKuanKou() {
+    public String getAccHuoKuanKou() {
         return accHuoKuanKou;
     }
 
-    public void setAccHuoKuanKou(int accHuoKuanKou) {
+    public void setAccHuoKuanKou(String accHuoKuanKou) {
         this.accHuoKuanKou = accHuoKuanKou;
     }
 
-    public int getAccTrans() {
+    public String getAccTrans() {
         return accTrans;
     }
 
-    public void setAccTrans(int accTrans) {
+    public void setAccTrans(String accTrans) {
         this.accTrans = accTrans;
     }
 
-    public int getAccFetch() {
+    public String getAccFetch() {
         return accFetch;
     }
 
-    public void setAccFetch(int accFetch) {
+    public void setAccFetch(String accFetch) {
         this.accFetch = accFetch;
     }
 
-    public int getAccPackage() {
+    public String getAccPackage() {
         return accPackage;
     }
 
-    public void setAccPackage(int accPackage) {
+    public void setAccPackage(String accPackage) {
         this.accPackage = accPackage;
     }
 
-    public int getAccSend() {
+    public String getAccSend() {
         return accSend;
     }
 
-    public void setAccSend(int accSend) {
+    public void setAccSend(String accSend) {
         this.accSend = accSend;
     }
 
-    public int getAccGb() {
+    public String getAccGb() {
         return accGb;
     }
 
-    public void setAccGb(int accGb) {
+    public void setAccGb(String accGb) {
         this.accGb = accGb;
     }
 
-    public int getAccSafe() {
+    public String getAccSafe() {
         return accSafe;
     }
 
-    public void setAccSafe(int accSafe) {
+    public void setAccSafe(String accSafe) {
         this.accSafe = accSafe;
     }
 
-    public int getAccRyf() {
+    public String getAccRyf() {
         return accRyf;
     }
 
-    public void setAccRyf(int accRyf) {
+    public void setAccRyf(String accRyf) {
         this.accRyf = accRyf;
     }
 
-    public int getAccHuiKou() {
+    public String getAccHuiKou() {
         return accHuiKou;
     }
 
-    public void setAccHuiKou(int accHuiKou) {
+    public void setAccHuiKou(String accHuiKou) {
         this.accHuiKou = accHuiKou;
     }
 
-    public int getAccSms() {
+    public String getAccSms() {
         return accSms;
     }
 
-    public void setAccSms(int accSms) {
+    public void setAccSms(String accSms) {
         this.accSms = accSms;
     }
 
-    public int getAccZz() {
+    public String getAccZz() {
         return accZz;
     }
 
-    public void setAccZz(int accZz) {
+    public void setAccZz(String accZz) {
         this.accZz = accZz;
     }
 
-    public int getAccZx() {
+    public String getAccZx() {
         return accZx;
     }
 
-    public void setAccZx(int accZx) {
+    public void setAccZx(String accZx) {
         this.accZx = accZx;
     }
 
-    public int getAccCb() {
+    public String getAccCb() {
         return accCb;
     }
 
-    public void setAccCb(int accCb) {
+    public void setAccCb(String accCb) {
         this.accCb = accCb;
     }
 
-    public int getAccSl() {
+    public String getAccSl() {
         return accSl;
     }
 
-    public void setAccSl(int accSl) {
+    public void setAccSl(String accSl) {
         this.accSl = accSl;
     }
 
-    public int getAccAz() {
+    public String getAccAz() {
         return accAz;
     }
 
-    public void setAccAz(int accAz) {
+    public void setAccAz(String accAz) {
         this.accAz = accAz;
     }
 
-    public int getAccFj() {
+    public String getAccFj() {
         return accFj;
     }
 
-    public void setAccFj(int accFj) {
+    public void setAccFj(String accFj) {
         this.accFj = accFj;
     }
 
-    public int getAccWz() {
+    public String getAccWz() {
         return accWz;
     }
 
-    public void setAccWz(int accWz) {
+    public void setAccWz(String accWz) {
         this.accWz = accWz;
     }
 
-    public int getAccJc() {
+    public String getAccJc() {
         return accJc;
     }
 
-    public void setAccJc(int accJc) {
+    public void setAccJc(String accJc) {
         this.accJc = accJc;
     }
 
-    public int getAccSum() {
+    public String getAccSum() {
         return accSum;
     }
 
-    public void setAccSum(int accSum) {
+    public void setAccSum(String accSum) {
         this.accSum = accSum;
     }
 
-    public int getAccType() {
+    public String getAccType() {
         return accType;
     }
 
-    public void setAccType(int accType) {
+    public void setAccType(String accType) {
         this.accType = accType;
     }
 
@@ -998,19 +998,19 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.backQty = backQty;
     }
 
-    public int getBackState() {
+    public String getBackState() {
         return backState;
     }
 
-    public void setBackState(int backState) {
+    public void setBackState(String backState) {
         this.backState = backState;
     }
 
-    public int getIsWaitNotice() {
+    public String getIsWaitNotice() {
         return isWaitNotice;
     }
 
-    public void setIsWaitNotice(int isWaitNotice) {
+    public void setIsWaitNotice(String isWaitNotice) {
         this.isWaitNotice = isWaitNotice;
     }
 
@@ -1086,19 +1086,19 @@ public class TrunkDepartureUnloadingWarehousingBean {
         this.remark = remark;
     }
 
-    public int getIsScanDet() {
+    public String getIsScanDet() {
         return isScanDet;
     }
 
-    public void setIsScanDet(int isScanDet) {
+    public void setIsScanDet(String isScanDet) {
         this.isScanDet = isScanDet;
     }
 
-    public int getWaybillFcdQty() {
+    public String getWaybillFcdQty() {
         return waybillFcdQty;
     }
 
-    public void setWaybillFcdQty(int waybillFcdQty) {
+    public void setWaybillFcdQty(String waybillFcdQty) {
         this.waybillFcdQty = waybillFcdQty;
     }
 }

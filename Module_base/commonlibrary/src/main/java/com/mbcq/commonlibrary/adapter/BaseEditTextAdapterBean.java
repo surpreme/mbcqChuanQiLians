@@ -3,6 +3,7 @@ package com.mbcq.commonlibrary.adapter;
 public class BaseEditTextAdapterBean {
     private String title="";
     private String tag="";
+    private boolean isCanInput=true;
     private String inputStr="";
 
     public void setTitle(String title) {
@@ -27,5 +28,13 @@ public class BaseEditTextAdapterBean {
 
     public void setInputStr(String inputStr) {
         this.inputStr = inputStr;
+    }
+
+    public boolean isCanInput() {
+        return isCanInput;
+    }
+
+    public void setCanInput(boolean canInput) {
+        isCanInput = canInput;
     }
 }

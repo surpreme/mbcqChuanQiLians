@@ -70,7 +70,7 @@ abstract class BaseDepartureTrunkDepartureScanOperatingActivity<V : BaseView, T 
     lateinit var rxPermissions: RxPermissions
     var mTts: SpeechSynthesizer? = null
     var mSoundPool: SoundPool? = null
-    protected var soundPoolMap: HashMap<Int, Int>? = null
+    private var soundPoolMap: HashMap<Int, Int>? = null
     val SCAN_SOUND_ERROR_TAG = 1
 
 

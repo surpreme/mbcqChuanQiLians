@@ -31,7 +31,7 @@ class AcceptBillingContract {
         fun getShipperInfoS(result: String)
         fun getReceiverInfoS(result: String)
         fun getVehicleS(result: String)
-        fun getSalesmanS(result: String)
+        fun getSalesmanS(result: String,type: Int)
 
     }
 
@@ -99,8 +99,10 @@ class AcceptBillingContract {
         fun getVehicles()
         /**
          * 业务员
+         * 1 获取默认值
+         * 2 展示
          */
 
-        fun getSalesman()
+        fun getSalesman(type:Int)
     }
 }

@@ -5,16 +5,16 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
 import android.location.LocationManager
+import android.media.AudioManager
+import android.media.SoundPool
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Editable
 import android.text.InputFilter
-import android.text.TextPaint
-import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import androidx.core.widget.NestedScrollView
@@ -27,15 +27,13 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.view.MoneyInputFilter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.*
-import com.mbcq.commonlibrary.db.WebAreaDbInfo
-import com.mbcq.commonlibrary.greendao.DaoSession
-import com.mbcq.commonlibrary.greendao.WebAreaDbInfoDao
 import com.mbcq.orderlibrary.R
 import com.mbcq.orderlibrary.activity.acceptbilling.billingvolumecalculator.BillingVolumeCalculatorDialog
 import com.mbcq.orderlibrary.activity.acceptbilling.billingweightcalculator.BillingWeightCalculatorDialog
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_accept_billing.*
 import org.json.JSONObject
+import java.lang.StringBuilder
 
 
 /**
@@ -44,7 +42,7 @@ import org.json.JSONObject
  * @information 受理开单 工具层 主要分担主城压力
  */
 
-abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>> : CommonPrintMVPActivity<V, T>(), BaseView {
+abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseBlueToothAcceptBillingActivity<V, T>(), BaseView {
 
     /**
      * 到达网点
@@ -71,7 +69,19 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
     var mTransneed = ""//运输类型编码
     var mTransneedStr = ""//运输类型
 
+    var mRequiredStr = ""//必填项
+    var mAccNowIsCanHkStr = ""//返款限制的支付方式配置参数
+    var mBackState = "" //回单状态编码
+    var mBackStateListStr = "" //回单状态文字list字符串
 
+    //结算重量 配置
+    val mSettlementWeightConfiguration = 260
+
+    //结算重量
+    var mSettlementWeightValue = 0.00
+
+    //轻重货 false 轻 true 重
+    var mLightAndHeavyGoods = false
     /**
      * 发货人信息
      */
@@ -128,11 +138,15 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
     protected lateinit var okProcessStrTag: String
     var okProcessStrTagIndex = 1
     protected var isTalkGoodsStrTag: Boolean = false
+    var mSoundPool: SoundPool? = null
+    protected var soundPoolMap: HashMap<Int, Int>? = null
+    val ACCEPT_SOUND_SUCCESS_TAG = 1
     override fun isShowErrorDialog() = true
 
     override fun initExtra() {
         super.initExtra()
         rxPermissions = RxPermissions(this)
+        initSoundPool()
         if (mCommonlyInformationSharePreferencesHelper == null)
             mCommonlyInformationSharePreferencesHelper = SharePreferencesHelper(mContext, Constant.COMMON_CONFIGURATION_PREFERENCESMODE)
     }
@@ -158,8 +172,13 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
         weight_name_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
         volume_name_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
+        insured_amount_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
+        quantity_price_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
+        weight_price_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
+        volume_price_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
         shipper_circle_hide_ll.visibility = View.GONE
         receiver_circle_hide_ll.visibility = View.GONE
+        cargo_info_total_ll.visibility = View.GONE
         accept_billing_nested.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (scrollY > shipper_circle_hide_ll.top) {
                 if (shipper_circle_hide_ll.visibility == View.VISIBLE) {
@@ -177,6 +196,51 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                 }
             }
         })
+        receipt_requirements_name_ed.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                //如果回单要求里面没有这个参数 就把回单backstate改成空字符串
+                if (mBackStateListStr.isNotBlank()) {
+                    if (receipt_requirements_name_ed.text.toString().isNotEmpty()) {
+                        if (!mBackStateListStr.contains(receipt_requirements_name_ed.text.toString())) {
+                            mBackState = ""
+                        }
+                    }
+                }
+
+            }
+
+        })
+        volume_name_ed.addTextChangedListener(mSettlementWeightValueTextWatcher)
+        weight_name_ed.addTextChangedListener(mSettlementWeightValueTextWatcher)
+    }
+    /**
+     * 结算重量和轻重货修改逻辑 要修改两个地方 这个是计算
+     */
+    val mSettlementWeightValueTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            if (volume_name_ed.text.toString().isNotEmpty() && weight_name_ed.text.toString().isNotEmpty()) {
+                val mVolumeValue = volume_name_ed.text.toString().toDouble() * mSettlementWeightConfiguration
+                val mWeightValue = weight_name_ed.text.toString().toDouble()
+                mSettlementWeightValue = if (mVolumeValue > mWeightValue) mVolumeValue else mWeightValue
+                mLightAndHeavyGoods = mWeightValue > mVolumeValue
+            }
+
+        }
+
     }
 
     /**
@@ -201,6 +265,41 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivityForResult(intent, Constant.GPS_REQUEST_CODE)
             }.show()
+
+        }
+    }
+
+    fun planMoreGoods() {
+        if (mAddGoodsAcceptBillingAdapter.getAllData().isNotEmpty()) {
+            cargo_info_total_ll.visibility = View.VISIBLE
+            val totalProduct = StringBuilder()
+            var totalQty = 0
+            val totalPackages = StringBuilder()
+            var totalWeight = 0.00
+            var totalVolume = 0.00
+            for (item in mAddGoodsAcceptBillingAdapter.getAllData()) {
+                totalProduct.append(item.product).append(",")
+                totalQty += item.qty.toInt()
+                totalPackages.append(item.packages).append(" ")
+                totalWeight += item.weight.toDouble()
+                totalVolume += item.volumn.toDouble()
+            }
+            product_total_tv.text = totalProduct.toString()
+            qty_total_tv.text = totalQty.toString()
+            packages_total_tv.text = totalPackages.toString()
+            weight_total_tv.text = totalWeight.toString()
+            volumn_total_tv.text = totalVolume.toString()
+        } else {
+            cargo_info_total_ll.visibility = View.GONE
+        }
+    }
+
+    fun initSoundPool() {
+        mSoundPool = SoundPool(1, AudioManager.STREAM_ALARM, 0)
+//        mSoundPool?.setOnLoadCompleteListener { soundPool, sampleId, status -> }
+        soundPoolMap = HashMap<Int, Int>()
+        mSoundPool?.let {
+            soundPoolMap?.put(ACCEPT_SOUND_SUCCESS_TAG, it.load(this, com.mbcq.commonlibrary.R.raw.scan_success, 1))
 
         }
     }
@@ -417,8 +516,15 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                     mAddGoodsAcceptBillingBean.packages = package_name_ed.text.toString()
                     mAddGoodsAcceptBillingBean.weight = weight_name_ed.text.toString()
                     mAddGoodsAcceptBillingBean.volumn = volume_name_ed.text.toString()
+                    mAddGoodsAcceptBillingBean.safeMoney = insured_amount_ed.text.toString()
+                    mAddGoodsAcceptBillingBean.qtyPrice = quantity_price_ed.text.toString()
+                    mAddGoodsAcceptBillingBean.lightandheavy = if (mLightAndHeavyGoods) "重货" else "轻货"
+                    mAddGoodsAcceptBillingBean.weightJs = mSettlementWeightValue.toString()
+                    mAddGoodsAcceptBillingBean.setwPrice(weight_price_ed.text.toString())
+                    mAddGoodsAcceptBillingBean.setvPrice(volume_price_ed.text.toString())
                     mAddGoodsAcceptBillingAdapter.appendData(mutableListOf(mAddGoodsAcceptBillingBean))
                     clearCargoInfoAdd()
+                    planMoreGoods()
                 }
 
             }
@@ -432,7 +538,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         mAddGoodsAcceptBillingAdapter = AddGoodsAcceptBillingAdapter(mContext).also {
             it.mOnRemoveItemInterface = object : AddGoodsAcceptBillingAdapter.OnRemoveItemInterface {
                 override fun onResult(v: View, position: Int, data: String) {
-                    it.removeItem(position)
+                    planMoreGoods()
                 }
 
             }
@@ -447,77 +553,189 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         package_name_ed.setText("")
         weight_name_ed.setText("")
         volume_name_ed.setText("")
+        insured_amount_ed.setText("")
+        quantity_price_ed.setText("")
+        weight_price_ed.setText("")
+        volume_price_ed.setText("")
+        mSettlementWeightValue = 0.00
+        mLightAndHeavyGoods = false
     }
 
+
     protected fun isCanCargoInfoAdd(): Boolean {
-        if (cargo_name_ed.text.toString().isEmpty()) {
-            showToast("请选择货物名称")
-            showEditTextFocus(cargo_name_ed)
-            return false
-        }
-        if (numbers_name_ed.text.toString().isEmpty()) {
-            showToast("请输入件数")
-            showEditTextFocus(numbers_name_ed)
-            return false
-        }
-        if (package_name_ed.text.toString().isEmpty()) {
-            showToast("请选择包装")
-            showEditTextFocus(package_name_ed)
-            return false
-        }
-        if (weight_name_ed.text.toString().isEmpty()) {
-            showToast("请输入重量")
-            showEditTextFocus(weight_name_ed)
-            return false
-        }
-        if (volume_name_ed.text.toString().isEmpty()) {
-            showToast("请输入体积")
-            showEditTextFocus(volume_name_ed)
-            return false
-        }
+        if (mRequiredStr.contains("product"))
+            if (cargo_name_ed.text.toString().isEmpty()) {
+                showToast("请选择货物名称")
+                showEditTextFocus(cargo_name_ed)
+                return false
+            }
+        if (mRequiredStr.contains("qty"))
+            if (numbers_name_ed.text.toString().isEmpty()) {
+                showToast("请输入件数")
+                showEditTextFocus(numbers_name_ed)
+                return false
+            }
+        if (mRequiredStr.contains("packages"))
+            if (package_name_ed.text.toString().isEmpty()) {
+                showToast("请选择包装")
+                showEditTextFocus(package_name_ed)
+                return false
+            }
+        if (mRequiredStr.contains("weight"))
+            if (weight_name_ed.text.toString().isEmpty()) {
+                showToast("请输入重量")
+                showEditTextFocus(weight_name_ed)
+                return false
+            }
+        if (mRequiredStr.contains("volumn"))
+            if (volume_name_ed.text.toString().isEmpty()) {
+                showToast("请输入体积")
+                showEditTextFocus(volume_name_ed)
+                return false
+            }
+        // 保价金额 数量单价 重量单价 体积单价
+        if (mRequiredStr.contains("safeMoney"))
+            if (insured_amount_ed.text.toString().isEmpty()) {
+                showToast("请输入保价金额")
+                showEditTextFocus(insured_amount_ed)
+                return false
+            }
+        if (mRequiredStr.contains("qtyPrice"))
+            if (quantity_price_ed.text.toString().isEmpty()) {
+                showToast("请输入数量单价")
+                showEditTextFocus(quantity_price_ed)
+                return false
+            }
+        if (mRequiredStr.contains("wPrice"))
+            if (weight_price_ed.text.toString().isEmpty()) {
+                showToast("请输入重量单价")
+                showEditTextFocus(weight_price_ed)
+                return false
+            }
+        if (mRequiredStr.contains("vPrice"))
+            if (volume_price_ed.text.toString().isEmpty()) {
+                showToast("请输入体积单价")
+                showEditTextFocus(volume_price_ed)
+                return false
+            }
         return true
 
     }
+    //订单号 运单号 到达网点 目的地 增值服务 卡号 原单号 发货人 发货人电话 发货人手机 发货人公司 发货人地址 发货人身份证号
+    //收货人 收货人电话 收货人手机 收货人地址 收货人公司 货物名称 件数 包装方式 重量 体积 结算重量 轻重货 保价金额 数量单价 重量单价 体积单价
+
+    //收货人 收货人电话 收货人手机 收货人地址 收货人公司
+    // 货物名称 件数 包装方式 重量 体积
+    // 结算重量 轻重货
+    // 保价金额 数量单价 重量单价 体积单价
 
     protected fun isCanSaveAcctBilling(): Boolean {
-        if (endWebIdCode.isEmpty()) {
-            showToast("请选择到达网点")
-            return false
-        }
-        if (destinationt.isEmpty()) {
-            showToast("请选择目的地")
-            return false
-        }
-//        if (mShipperMb.isEmpty()) {
-        if (shipper_name_ed.text.toString().isBlank()) {
-            showToast("请选择发货人")
-            return false
-        }
-//        if (mConsigneeMb.isEmpty()) {
-        if (receiver_name_ed.text.toString().isBlank()) {
-            showToast("请选择收货人")
-            return false
-        }
-        /*  if (cargo_name_ed.text.toString().isEmpty()) {
-              showToast("请选择货物名称")
-              return false
-          }
-          if (package_name_ed.text.toString().isEmpty()) {
-              showToast("请选择包装")
-              return false
-          }
-          if (weight_name_ed.text.toString().isEmpty()) {
-              showToast("请输入重量")
-              return false
-          }
-          if (volume_name_ed.text.toString().isEmpty()) {
-              showToast("请输入体积")
-              return false
-          }*/
-        if (receipt_requirements_name_ed.text.toString().isEmpty()) {
-            showToast("请选择回单要求")
-            return false
-        }
+        if (mRequiredStr.contains("orderId"))
+            if (order_number_ed.text.toString().isEmpty()) {
+                showToast("请输入订单号")
+                showEditTextFocus(order_number_ed)
+                return false
+            }
+        if (mRequiredStr.contains("billno"))
+            if (waybill_number_ed.text.toString().isEmpty()) {
+                showToast("请输入运单号")
+                showEditTextFocus(waybill_number_ed)
+                return false
+            }
+        if (mRequiredStr.contains("ewebidCode"))
+            if (arrive_outlet_tv.text.toString().isEmpty()) {
+                showToast("请选择到达网点")
+                return false
+            }
+        if (mRequiredStr.contains("destination"))
+            if (destinationt_tv.text.toString().isEmpty()) {
+                showToast("请选择目的地")
+                return false
+            }
+        if (mRequiredStr.contains("valueAddedService"))
+            if (value_added_services_ed.text.toString().isEmpty()) {
+                showToast("请输入增值服务")
+                showEditTextFocus(value_added_services_ed)
+                return false
+            }
+        if (mRequiredStr.contains("vipId"))
+            if (bank_number_ed.text.toString().isEmpty()) {
+                showToast("请输入卡号")
+                showEditTextFocus(bank_number_ed)
+                return false
+            }
+        if (mRequiredStr.contains("oBillno"))
+            if (original_order_number_name_ed.text.toString().isEmpty()) {
+                showToast("请输入原单号")
+                showEditTextFocus(original_order_number_name_ed)
+                return false
+            }
+        if (mRequiredStr.contains("shipper"))
+            if (shipper_name_ed.text.toString().isEmpty()) {
+                showToast("请输入发货人")
+                showEditTextFocus(shipper_name_ed)
+                return false
+            }
+        if (mRequiredStr.contains("shipperTel"))
+            if (shipper_mShipperTel_ed.text.toString().isEmpty()) {
+                showToast("请输入发货人电话")
+                showEditTextFocus(shipper_mShipperTel_ed)
+                return false
+            }
+        if (mRequiredStr.contains("shipperMb"))
+            if (shipper_name_ed.text.toString().isEmpty()) {
+                showToast("请输入发货人手机")
+                showEditTextFocus(shipper_name_ed)
+                return false
+            }
+        if (mRequiredStr.contains("shipperAddr"))
+            if (shipper_address_ed.text.toString().isEmpty()) {
+                showToast("请输入发货人地址")
+                showEditTextFocus(shipper_address_ed)
+                return false
+            }
+        if (mRequiredStr.contains("shipperCompany"))
+            if (shipper_company_ed.text.toString().isEmpty()) {
+                showToast("请输入发货人公司")
+                showEditTextFocus(shipper_company_ed)
+                return false
+            }
+        if (mRequiredStr.contains("shipperCid"))
+            if (shipper_mShipperCid_ed.text.toString().isEmpty()) {
+                showToast("请输入发货人证件号")
+                showEditTextFocus(shipper_mShipperCid_ed)
+                return false
+            }
+        if (mRequiredStr.contains("consignee"))
+            if (receiver_name_ed.text.toString().isEmpty()) {
+                showToast("请输入收货人")
+                showEditTextFocus(receiver_name_ed)
+                return false
+            }
+        if (mRequiredStr.contains("consigneeTel"))
+            if (receiver_phone_ed.text.toString().isEmpty()) {
+                showToast("请输入收货人电话")
+                showEditTextFocus(receiver_phone_ed)
+                return false
+            }
+        if (mRequiredStr.contains("consigneeMb"))
+            if (receiver_phone_ed.text.toString().isEmpty()) {
+                showToast("请输入收货人手机")
+                showEditTextFocus(receiver_phone_ed)
+                return false
+            }
+        if (mRequiredStr.contains("consigneeAddr"))
+            if (receiver_address_ed.text.toString().isEmpty()) {
+                showToast("请输入收货人地址")
+                showEditTextFocus(receiver_address_ed)
+                return false
+            }
+        if (mRequiredStr.contains("consigneeCompany"))
+            if (receiver_company_ed.text.toString().isEmpty()) {
+                showToast("请输入收货人公司")
+                showEditTextFocus(receiver_company_ed)
+                return false
+            }
         return true
     }
 

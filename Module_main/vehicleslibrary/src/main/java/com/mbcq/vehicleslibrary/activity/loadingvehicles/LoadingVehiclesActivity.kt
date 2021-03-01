@@ -49,6 +49,9 @@ class LoadingVehiclesActivity : CommonScanPDAMVPSmartActivity<LoadingVehiclesCon
 
     override fun getLayoutId(): Int = R.layout.activity_loading_vehicles
 
+
+    override fun getIsOnCreateGetData(): Boolean = false
+
     @SuppressLint("SimpleDateFormat")
     override fun initExtra() {
         mIsCanCloseLoading = false

@@ -27,6 +27,7 @@ abstract class BaseDepartureRecordActivity<V : BaseView, T : BasePresenterImpl<V
     var mTrunkDepartureFragment: TrunkDepartureFragment? = null
     var mFragmentTag_index = 0
     private var fragmentManager: FragmentManager? = null
+    protected val REFRESH_DATA_TAG_CODE=43
 
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)

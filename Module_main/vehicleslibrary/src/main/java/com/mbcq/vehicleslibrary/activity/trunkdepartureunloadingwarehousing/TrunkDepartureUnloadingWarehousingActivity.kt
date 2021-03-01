@@ -116,7 +116,7 @@ class TrunkDepartureUnloadingWarehousingActivity : BaseListMVPActivity<TrunkDepa
                             billnoSsbuilder.append(item.billno).append(",")
                         }
                     }
-                    mPresenter?.UnloadingWarehousing(billnoSsbuilder.toString().substring(0, billnoSsbuilder.length - 1), JSONObject(mTrunkDepartureUnloadingWarehousing).optString("inoneVehicleFlag"))
+                    mPresenter?.UnloadingWarehousing(billnoSsbuilder.toString().substring(0, billnoSsbuilder.toString().length - 1), JSONObject(mTrunkDepartureUnloadingWarehousing).optString("inoneVehicleFlag"))
                 }
             }
         }

@@ -1,11 +1,15 @@
 package com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord
 
 
+import android.content.Intent
+import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.interfaces.RxBus
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.WebDbUtil
@@ -14,6 +18,10 @@ import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import com.mbcq.vehicleslibrary.R
 import kotlinx.android.synthetic.main.activity_departure_record.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+
 
 /**
  * @author: lzy
@@ -24,6 +32,7 @@ import kotlinx.android.synthetic.main.activity_departure_record.*
 class DepartureRecordActivity : BaseDepartureRecordActivity<DepartureRecordContract.View, DepartureRecordPresenter>(), DepartureRecordContract.View {
 
     override fun getLayoutId(): Int = R.layout.activity_departure_record
+
     override fun onClick() {
         super.onClick()
         short_feeder_tv.setOnClickListener(object : SingleClick() {
@@ -46,7 +55,7 @@ class DepartureRecordActivity : BaseDepartureRecordActivity<DepartureRecordContr
             onBackPressed()
         }
         departure_billing_toolbar.setRightButtonOnClickListener {
-            WebDbUtil.getDbWebId(application,object : WebsDbInterface {
+            WebDbUtil.getDbWebId(application, object : WebsDbInterface {
                 override fun isNull() {
 
                 }
@@ -77,13 +86,10 @@ class DepartureRecordActivity : BaseDepartureRecordActivity<DepartureRecordContr
         }
     }
 
-    override fun onRestart() {
-        super.onRestart()
-        if (intent.getBooleanExtra("IsRefresh", false)) {
-            RxBus.build().post(DepartureRecordRefreshEvent::class.java)
-        }
-        if (intent.getBooleanExtra("TrunkDepartureIsRefresh", false)) {
-            RxBus.build().post(TrunkDepartureIsRefreshEvent::class.java)
-        }
-    }
+
+
+
+
+
+
 }

@@ -36,27 +36,32 @@ import com.mbcq.orderlibrary.activity.acceptbilling.billingweightcalculator.Bill
 import com.mbcq.orderlibrary.activity.addreceiver.AddReceiverBean
 import com.mbcq.orderlibrary.activity.addshipper.AddShipperBean
 import kotlinx.android.synthetic.main.activity_accept_billing.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.json.JSONArray
 import org.json.JSONObject
+import java.lang.StringBuilder
 
 
 /**
  * @author: lzy
  * @time: 2020-12-08 08:59:12
- * 受理开单 
+ * 受理开单
  * @information 逻辑以及网络逻辑层 谨慎修改 随着项目叠加 分层压力
  */
 
 @Route(path = ARouterConstants.AcceptBillingActivity)
-class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingContract.View, AcceptBillingPresenter>(), AcceptBillingContract.View {
+class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.View, AcceptBillingPresenter>(), AcceptBillingContract.View {
 
     override fun getLayoutId(): Int = R.layout.activity_accept_billing
+    override fun isOpenEventBus(): Boolean = true
 
     override fun initDatas() {
         super.initDatas()
         mPresenter?.getWaybillNumber()
-        mPresenter?.getPaymentMode()
         mPresenter?.getTransportMode()
+        mPresenter?.getSalesman(1)
         mPresenter?.getCostInformation(UserInformationUtil.getWebIdCode(mContext))
         initPeople()
         bank_number_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
@@ -68,6 +73,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         }
 
     }
+
 
     override fun onClick() {
         super.onClick()
@@ -174,7 +180,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         })
         salesman_name_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                mPresenter?.getSalesman()
+                mPresenter?.getSalesman(2)
             }
 
         })
@@ -219,6 +225,23 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = false)
+    fun onAccNowIsCanHkDataEvent(event: AcceptBillingAccNowIsCanHkEvent) {
+        mEditTextAdapter?.getData()?.let {
+            for ((index, item) in it.withIndex()) {
+                if (item.tag == event.mAccNowTag) {
+                    item.isCanInput = if (event.isCanInput == 1) true else if (event.isCanInput == 2) false else false
+                    if (event.isCanInput != 1) {
+                        item.inputStr = "0"
+                    }
+                    mEditTextAdapter?.notifyItemChangeds(index, item)
+                    break
+                }
+            }
+        }
+
+    }
+
     fun showDestination() {
         if (endWebIdCode.isEmpty()) {
             showToast("请先选择到达网点")
@@ -239,7 +262,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         jsonObj.put("Destination", Destination)
 
         //订单号
-        val OrderId = ""
+        val OrderId = order_number_ed.text.toString()
         jsonObj.put("OrderId", OrderId)
 
         //发货网点
@@ -279,6 +302,9 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         jsonObj.put("BillState", BillState)
 
 
+        //运单类型 billType 运单类型0机打1手写
+        val BillType = if (waybillNumberTag == "机打") "0" else "1"
+        jsonObj.put("BillType", BillType)
         //运单类型 billTypeStr
         val BillTypeStr = waybillNumberTag
         jsonObj.put("BillTypeStr", BillTypeStr)
@@ -295,13 +321,24 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         val IsTalkGoods = if (isTalkGoodsStrTag) "1" else "0"
         jsonObj.put("IsTalkGoods", IsTalkGoods)
 
-        //是否上门提货
+        //是否上门提货 TODO pc传的客户自送
         val IsTalkGoodsStr = if (isTalkGoodsStrTag) "是" else "否"
         jsonObj.put("IsTalkGoodsStr", IsTalkGoodsStr)
 
         //会员卡号
         val VipId = bank_number_ed.text.toString()
         jsonObj.put("VipId", VipId)
+
+        //增值服务
+        val ValueAddedService = value_added_services_ed.text.toString()
+        jsonObj.put("ValueAddedService", ValueAddedService)
+
+        //连开
+        val Continuity = "0"
+        jsonObj.put("Continuity", Continuity)
+        //CompanyId 未知
+        val CompanyId = ""
+        jsonObj.put("CompanyId", CompanyId)
 
 
         /**
@@ -326,6 +363,9 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
         val ShipperAddr = shipper_address_ed.text.toString() //发货人地址
         jsonObj.put("ShipperAddr", ShipperAddr)
+
+        val ShipperCompany = shipper_company_ed.text.toString() //发货人公司
+        jsonObj.put("ShipperCompany", ShipperCompany)
 
         //**********************************************
 
@@ -358,6 +398,9 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         val ConsigneeAddr = receiver_address_ed.text.toString() //收货人地址
         jsonObj.put("ConsigneeAddr", ConsigneeAddr)
 
+        val ConsigneeCompany = receiver_company_ed.text.toString() //收货人公司
+        jsonObj.put("ConsigneeCompany", ConsigneeCompany)
+
 
         //合计金额
         val AccSum = total_amount_tv.text.toString()
@@ -371,12 +414,18 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         //回单要求
         val BackQty = receipt_requirements_name_ed.text.toString()
         jsonObj.put("BackQty", BackQty)
-        //是否等通知放货
+        //回单状态 TODO 网页传的签回单
+        val BackState = mBackState
+        jsonObj.put("BackState", BackState)
+        //是否等通知放货 TODO  网页传的0
         val IsWaitNoticeStr = if (wait_notice_check.isChecked) "是" else "否"
         jsonObj.put("IsWaitNoticeStr", IsWaitNoticeStr)
         //是否等通知放货编码
         val IsWaitNotice = if (wait_notice_check.isChecked) "1" else "0"
         jsonObj.put("IsWaitNotice", IsWaitNotice)
+        //是否外转另计
+        val IsTransferCount = if (transfer_dee_check.isChecked) "1" else "0"
+        jsonObj.put("IsTransferCount", IsTransferCount)
 
         //银行卡号
         val BankCode = bank_number_tv.text.toString()
@@ -426,6 +475,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
                 //件数
                 testObj.put("Qty", item.qty)
+
                 if (isInteger(item.qty)) {
                     TotalQty += (item.qty).toInt()
                 }
@@ -438,6 +488,18 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
                 //体积
                 testObj.put("Volumn", item.volumn)
+                //数量单价
+                testObj.put("qtyPrice", item.qtyPrice)
+                //重量单价
+                testObj.put("wPrice", item.getwPrice())
+                //体积单价
+                testObj.put("vPrice", item.getvPrice())
+                //保价金额
+                testObj.put("safeMoney", item.safeMoney)
+                //结算重量
+                testObj.put("weightJs", item.weightJs)
+                //轻重货
+                testObj.put("lightandheavy", item.lightandheavy)
 
                 WayGoosLst.put(testObj)
             }
@@ -468,6 +530,23 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             //体积
             testObj.put("Volumn", volume_name_ed.text.toString())
 
+            //结算重量
+            val VVWeightJs = mSettlementWeightValue
+            testObj.put("WeightJs", VVWeightJs)
+
+            //轻重货
+            val VVLightandheavy = if (mLightAndHeavyGoods) "重货" else "轻货"
+            testObj.put("Lightandheavy", VVLightandheavy)
+
+            //数量单价
+            testObj.put("qtyPrice", quantity_price_ed.text.toString())
+            //重量单价
+            testObj.put("wPrice", weight_price_ed.text.toString())
+            //体积单价
+            testObj.put("vPrice", volume_price_ed.text.toString())
+            //保价金额
+            testObj.put("safeMoney", insured_amount_ed.text.toString())
+
             WayGoosLst.put(testObj)
             //总件数  TODO
             val TotalQty = numbers_name_ed.text.toString()
@@ -479,40 +558,77 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 //******************************************************************货物展示汇总页面***********************************************************************
         /**
          * 点击添加货物 这里只计算单独添加或只单独一个货物 TODO 混合未处理
+         * 名字不需要太大区分 if else 局部变量不能引用
          */
         if (mAddGoodsAcceptBillingAdapter.getAllData().isNotEmpty() && numbers_name_ed.text.toString().isBlank()) {
-            val ggbb = mAddGoodsAcceptBillingAdapter.getAllData()[0]
-//            var mXProduct=0.00
+//            val ggbb = mAddGoodsAcceptBillingAdapter.getAllData()[0]
+            val mXProduct = StringBuilder()
+            val mXPackages = StringBuilder()
+            var mXQtyPrice = 0.00
+            var mXwPrice = 0.00
+            var mXvPrice = 0.00
             var mXWeight = 0.00
             var mXVolumn = 0.00
+            var mXSafeMoney = 0.00
             var mXQty = 0
             for (item in mAddGoodsAcceptBillingAdapter.getAllData()) {
                 mXWeight += (item.weight).toDouble()
                 mXVolumn += (item.volumn).toDouble()
                 mXQty += (item.qty).toInt()
+                mXQtyPrice += (item.qtyPrice).toDouble()
+                mXwPrice += (item.getwPrice()).toDouble()
+                mXvPrice += (item.getvPrice()).toDouble()
+                mXSafeMoney += (item.safeMoney).toDouble()
+                mXProduct.append(item.product).append(",")
+                mXPackages.append(item.packages).append(",")
             }
 
             //货物名称
-            val Product = ggbb.product
+            val Product = product_total_tv.text.toString()
             jsonObj.put("Product", Product)
 
             //件数
-            val Qty = mXQty
+            val Qty = qty_total_tv.text.toString()
             jsonObj.put("Qty", Qty)
 
 
             //包装方式
-            val Packages = ggbb.packages
+            val Packages = packages_total_tv.text.toString()
             jsonObj.put("Packages", Packages)
 
 
             //重量
-            val Weight = mXWeight
-            jsonObj.put("Weight", Weight)
+            val CCWeight = weight_total_tv.text.toString()
+            jsonObj.put("Weight", CCWeight)
 
             //体积
-            val Volumn = mXVolumn
-            jsonObj.put("Volumn", Volumn)
+            val CCVolumn = volumn_total_tv.text.toString()
+            jsonObj.put("Volumn", CCVolumn)
+            /**
+             * 结算重量和轻重货修改逻辑 要修改两个地方 这个是统计
+             */
+            if (CCWeight.toDoubleOrNull() != null && CCVolumn.toDoubleOrNull() != null) {
+                //轻重货
+                val mCCLightandheavy = if (CCWeight.toDouble() > (CCVolumn.toDouble() * mSettlementWeightConfiguration)) "重货" else "轻货"
+                jsonObj.put("Lightandheavy", mCCLightandheavy)
+
+                //结算重量
+                val mXXWeightJs =
+                        if (CCWeight.toDouble() > (CCVolumn.toDouble() * mSettlementWeightConfiguration))
+                            CCWeight.toDouble()
+                        else
+                            (CCVolumn.toDouble() * mSettlementWeightConfiguration)
+                jsonObj.put("WeightJs", mXXWeightJs)
+            }
+
+            //数量单价
+            jsonObj.put("qtyPrice", mXQtyPrice)
+            //重量单价
+            jsonObj.put("wPrice", mXwPrice)
+            //体积单价
+            jsonObj.put("vPrice", mXvPrice)
+            //保价金额
+            jsonObj.put("safeMoney", mXSafeMoney)
         } else {
             //货物名称
             val Product = cargo_name_ed.text.toString()
@@ -535,6 +651,23 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             //体积
             val Volumn = volume_name_ed.text.toString()
             jsonObj.put("Volumn", Volumn)
+
+            //结算重量
+            val kkWeightJs = mSettlementWeightValue
+            jsonObj.put("WeightJs", kkWeightJs)
+
+            //轻重货
+            val kkLightandheavy = if (mLightAndHeavyGoods) "重货" else "轻货"
+            jsonObj.put("Lightandheavy", kkLightandheavy)
+
+            //数量单价
+            jsonObj.put("qtyPrice", quantity_price_ed.text.toString())
+            //重量单价
+            jsonObj.put("wPrice", weight_price_ed.text.toString())
+            //体积单价
+            jsonObj.put("vPrice", volume_price_ed.text.toString())
+            //保价金额
+            jsonObj.put("safeMoney", insured_amount_ed.text.toString())
         }
         /**
          *
@@ -549,8 +682,8 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
          */
         mEditTextAdapter?.getData()?.let {
             for (item in it) {
-                jsonObj.put(item.tag, item.inputStr)
-                priceObj.put(item.tag, item.inputStr)
+                jsonObj.put(item.tag, if (item.inputStr.isNotBlank()) item.inputStr else "0")
+                priceObj.put(item.tag, if (item.inputStr.isNotBlank()) item.inputStr else "0")
 
             }
         }
@@ -559,7 +692,7 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         }
 
         mPresenter?.saveAcceptBilling(jsonObj, GsonUtils.toPrettyFormat(jsonObj.toString()), GsonUtils.toPrettyFormat(priceObj.toString()))
-
+        //TODO weightJs结算重量 continuity conmapyid Lightandheavy轻重货 IsTalkGoodsStr BackState backQty  网页
     }
 
     override fun getWaybillNumberS(result: String) {
@@ -642,11 +775,19 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
 
     }
 
+    //TODO 回单要求是可以输入也可以选择的 选择是
     override fun getReceiptRequirementS(result: String) {
+        val jay = JSONArray(result)
+        val mBackBuilder = StringBuilder()
+        for (index in 0 until jay.length()) {
+            mBackBuilder.append(jay.getJSONObject(index).optString("tdescribe")).append(",")
+        }
+        mBackStateListStr = mBackBuilder.toString()
         FilterDialog(getScreenWidth(), result, "tdescribe", "回单要求", false, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mSelectData = Gson().fromJson<AcceptReceiptRequirementBean>(mResult, AcceptReceiptRequirementBean::class.java)
                 receipt_requirements_name_ed.setText(mSelectData.tdescribe)
+                mBackState = mSelectData.typecode
             }
 
         }).show(supportFragmentManager, "getReceiptRequirementSFilterDialog")
@@ -703,7 +844,6 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             }
         }
 
-        pay_way_title_rg.check(mWithdrawIndex)
         /**
          * 默认数据
          */
@@ -719,12 +859,27 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         pay_way_title_rg.setOnCheckedChangeListener { _, checkedId ->
             mAccType = mPaymentModeArray.getJSONObject(checkedId).optString("typecode")
             mAccTypeStr = mPaymentModeArray.getJSONObject(checkedId).optString("tdescribe")
+            if (mAccNowIsCanHkStr.isNotBlank()) {
+                var isCanPost = false
+                for (item in mAccNowIsCanHkStr.split(",")) {
+                    if (item == mAccTypeStr) {
+                        isCanPost = true
+                        break
+                    }
+                }
+                EventBus.getDefault().post(AcceptBillingAccNowIsCanHkEvent("accHuiKou", if (isCanPost) 1 else 2))
+
+
+            }
         }
+        pay_way_title_rg.check(mWithdrawIndex)
+
     }
 
     var mEditTextAdapter: EditTextAdapter<BaseEditTextAdapterBean>? = null
     override fun getCostInformationS(result: String) {
         val data = JSONObject(result)
+        mRequiredStr = data.optString("mustWrite")
         val mShowCostFilNam = data.optString("showCostFilNam").split(",")
         val mShowCostStr = data.optString("showCostStr").split(",")
         /**
@@ -753,6 +908,20 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
                     mBaseEditTextAdapterBean.inputStr = data.optString("accSafe")
 
                 }
+                //回单服务费
+                "accBackService" -> {
+                    mBaseEditTextAdapterBean.inputStr = data.optString("accBackService")
+
+                }
+                //返款
+                "accHuiKou" -> {
+                    if (data.optInt("accNowIsCanHk") == 0)
+                        mBaseEditTextAdapterBean.isCanInput = false
+                    else {
+                        mAccNowIsCanHkStr = data.optString("accNowIsCanHkStr")
+                    }
+
+                }
             }
             //
 
@@ -765,10 +934,10 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         mBasicAccTransX.title = "代收货款"
         mBasicAccTransX.tag = "accDaiShou"
         mKK.add(mBasicAccTransX)
-        val mBasicAccTrans = BaseEditTextAdapterBean()
-        mBasicAccTrans.title = "回单服务费"
-        mBasicAccTrans.tag = "accBackService"
-        mKK.add(mBasicAccTrans)
+//        val mBasicAccTrans = BaseEditTextAdapterBean()
+//        mBasicAccTrans.title = "回单服务费"
+//        mBasicAccTrans.tag = "accBackService"
+//        mKK.add(mBasicAccTrans)
         if (mEditTextAdapter == null)
             mEditTextAdapter = EditTextAdapter<BaseEditTextAdapterBean>(mContext)
         cost_information_recycler.layoutManager = GridLayoutManager(mContext, 2)
@@ -804,11 +973,14 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
             }
 
         }
+        mPresenter?.getPaymentMode()
 
 
     }
 
     override fun saveAcceptBillingS(result: String, printJson: String, priceJson: String) {
+        soundPoolMap?.get(ACCEPT_SOUND_SUCCESS_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
+
         var showTipsStr = result
         if (labelcheck.isChecked or waybillcheck.isChecked) {
             showLoading()
@@ -937,7 +1109,11 @@ class AcceptBillingActivity : BaseBlueToothAcceptBillingActivity<AcceptBillingCo
         }).show(supportFragmentManager, "getVehicleSFilterDialog")
     }
 
-    override fun getSalesmanS(result: String) {
+    override fun getSalesmanS(result: String, type: Int) {
+        if (type == 1) {
+            salesman_name_tv.text = result
+            return
+        }
         FilterDialog(getScreenWidth(), result, "salesmanName", "选择业务员", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             @SuppressLint("SetTextI18n")
             override fun onItemClick(v: View, position: Int, mResult: String) {

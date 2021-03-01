@@ -5,6 +5,7 @@ import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.commonlibrary.ApiInterface
 import com.mbcq.vehicleslibrary.activity.alldeparturerecord.fixtrunkdeparturehouse.FixedTrunkDepartureHouseInfo
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
@@ -127,6 +128,10 @@ class ShortFeederHousePresenter : BasePresenterImpl<ShortFeederHouseContract.Vie
         params.put("page", 1)
         params.put("limit", 1000)
         params.put("ewebidCodeStr", ewebidCodeStr)
+//        mView?.getContext()?.let {
+//            params.put("SelWebidCode", UserInformationUtil.getWebIdCode(it))
+//        }
+
         get<String>(ApiInterface.WAYBILL_INVENTORY_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)

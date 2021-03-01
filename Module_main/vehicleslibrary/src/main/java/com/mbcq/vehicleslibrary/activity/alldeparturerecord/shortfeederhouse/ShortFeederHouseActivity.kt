@@ -2,21 +2,26 @@ package com.mbcq.vehicleslibrary.activity.alldeparturerecord.shortfeederhouse
 
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
-import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordAddSuccessEvent
 import com.mbcq.vehicleslibrary.bean.StockWaybillListBean
 import kotlinx.android.synthetic.main.activity_short_feeder_house.*
+import org.greenrobot.eventbus.EventBus
 import org.json.JSONArray
 import org.json.JSONObject
+
 
 /**
  * @author: lzy
@@ -128,6 +133,8 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
 
     override fun overLocalCarS(s: String) {
         TalkSureDialog(mContext, getScreenWidth(), "短驳计划装车${mDepartureLot}已完成，点击查看详情！") {
+            LogUtils.e("dncsjdnsd")
+            EventBus.getDefault().postSticky(DepartureRecordAddSuccessEvent(1))
             onBackPressed()
         }.show()
     }

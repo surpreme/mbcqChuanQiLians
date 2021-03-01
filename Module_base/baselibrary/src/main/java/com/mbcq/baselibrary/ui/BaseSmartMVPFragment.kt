@@ -22,6 +22,7 @@ abstract class BaseSmartMVPFragment<V : BaseView, T : BasePresenterImpl<V>, X> :
     abstract fun getSmartLayoutId(): Int
     abstract fun getSmartEmptyId(): Int
     open fun getEnableLoadMore(): Boolean = true//是否分页 加载更多
+    open fun getIsOnCreateGetData(): Boolean = true
     open fun getPageDatas(mCurrentPage: Int) {}
     private var isHaveMore: Boolean = true
     var isMore: Boolean = true
@@ -54,8 +55,15 @@ abstract class BaseSmartMVPFragment<V : BaseView, T : BasePresenterImpl<V>, X> :
 
 
     override fun initDatas() {
-        getPageDatas(mCurrentPage)
+        if (getIsOnCreateGetData())
+            getPageDatas(mCurrentPage)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        if (!getIsOnCreateGetData()) {
+            refresh()
+        }
     }
 
     var mNoDataView: View? = null

@@ -18,7 +18,9 @@ import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.alllocalagent.event.LocalGentShortFeederHouseEvent
 import kotlinx.android.synthetic.main.activity_local_gent_short_feeder_house.*
+import org.greenrobot.eventbus.EventBus
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -130,6 +132,7 @@ class LocalGentShortFeederHouseActivity : BaseLocalGentShortFeederHouseActivity<
 
     override fun completeVehicleS() {
         TalkSureDialog(mContext, getScreenWidth(), "${dispatch_number_tv.text}已完成出库") {
+            EventBus.getDefault().postSticky(LocalGentShortFeederHouseEvent(JSONObject(mLastDataJson).optInt("mTypeS")))
             onBackPressed()
         }.show()
     }

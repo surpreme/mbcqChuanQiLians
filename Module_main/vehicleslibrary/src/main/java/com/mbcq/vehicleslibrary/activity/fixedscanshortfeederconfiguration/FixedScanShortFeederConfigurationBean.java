@@ -41,7 +41,7 @@ public class FixedScanShortFeederConfigurationBean {
      * accArrSum : 77.0
      * accTansSum : 77.0
      * accOther : 0.0
-     * vehicleInterval : 汕头-杭州萧山
+     * vehicleStringerval : 汕头-杭州萧山
      * remark :
      * fromType : 0
      * fromTypeStr : PC浏览器
@@ -50,65 +50,65 @@ public class FixedScanShortFeederConfigurationBean {
      * ScanWebidType : 0
      */
 
-    private int id;
-    private int vehicleState;
+    private String id;
+    private String vehicleState;
     private String vehicleStateStr;
-    private int companyId;
-    private int ecompanyId;
+    private String companyId;
+    private String ecompanyId;
     private String inoneVehicleFlag;
     private String contractNo;
     private String sendOpeMan;
     private String arriOpeMan;
-    private int webidCode;
+    private String webidCode;
     private String webidCodeStr;
-    private int ewebidCode;
+    private String ewebidCode;
     private String ewebidCodeStr;
     private String vehicleNo;
     private String chauffer;
     private String chaufferMb;
-    private int transneed;
+    private String transneed;
     private String transneedStr;
     private String sendDate;
     private String arrivedDate;
-    private double accNow;
-    private double accBack;
-    private double accYk;
+    private String accNow;
+    private String accBack;
+    private String accYk;
     private String ykCard;
-    private int ewebidCode1;
+    private String ewebidCode1;
     private String ewebidCodeStr1;
-    private double accArrived1;
-    private int ewebidCode2;
+    private String accArrived1;
+    private String ewebidCode2;
     private String ewebidCodeStr2;
-    private double accArrived2;
-    private int ewebidCode3;
+    private String accArrived2;
+    private String ewebidCode3;
     private String ewebidCodeStr3;
-    private double accArrived3;
-    private double accZx;
-    private double accJh;
-    private double accArrSum;
-    private double accTansSum;
-    private double accOther;
-    private String vehicleInterval;
+    private String accArrived3;
+    private String accZx;
+    private String accJh;
+    private String accArrSum;
+    private String accTansSum;
+    private String accOther;
+    private String vehicleStringerval;
     private String remark;
-    private int fromType;
+    private String fromType;
     private String fromTypeStr;
-    private int isScan;
-    private double scanPercentage;
-    private int ScanWebidType;
+    private String isScan;
+    private String scanPercentage;
+    private String ScanWebidType;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getVehicleState() {
+    public String getVehicleState() {
         return vehicleState;
     }
 
-    public void setVehicleState(int vehicleState) {
+    public void setVehicleState(String vehicleState) {
         this.vehicleState = vehicleState;
     }
 
@@ -120,19 +120,19 @@ public class FixedScanShortFeederConfigurationBean {
         this.vehicleStateStr = vehicleStateStr;
     }
 
-    public int getCompanyId() {
+    public String getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(int companyId) {
+    public void setCompanyId(String companyId) {
         this.companyId = companyId;
     }
 
-    public int getEcompanyId() {
+    public String getEcompanyId() {
         return ecompanyId;
     }
 
-    public void setEcompanyId(int ecompanyId) {
+    public void setEcompanyId(String ecompanyId) {
         this.ecompanyId = ecompanyId;
     }
 
@@ -168,11 +168,11 @@ public class FixedScanShortFeederConfigurationBean {
         this.arriOpeMan = arriOpeMan;
     }
 
-    public int getWebidCode() {
+    public String getWebidCode() {
         return webidCode;
     }
 
-    public void setWebidCode(int webidCode) {
+    public void setWebidCode(String webidCode) {
         this.webidCode = webidCode;
     }
 
@@ -184,11 +184,11 @@ public class FixedScanShortFeederConfigurationBean {
         this.webidCodeStr = webidCodeStr;
     }
 
-    public int getEwebidCode() {
+    public String getEwebidCode() {
         return ewebidCode;
     }
 
-    public void setEwebidCode(int ewebidCode) {
+    public void setEwebidCode(String ewebidCode) {
         this.ewebidCode = ewebidCode;
     }
 
@@ -224,11 +224,11 @@ public class FixedScanShortFeederConfigurationBean {
         this.chaufferMb = chaufferMb;
     }
 
-    public int getTransneed() {
+    public String getTransneed() {
         return transneed;
     }
 
-    public void setTransneed(int transneed) {
+    public void setTransneed(String transneed) {
         this.transneed = transneed;
     }
 
@@ -256,27 +256,27 @@ public class FixedScanShortFeederConfigurationBean {
         this.arrivedDate = arrivedDate;
     }
 
-    public double getAccNow() {
+    public String getAccNow() {
         return accNow;
     }
 
-    public void setAccNow(double accNow) {
+    public void setAccNow(String accNow) {
         this.accNow = accNow;
     }
 
-    public double getAccBack() {
+    public String getAccBack() {
         return accBack;
     }
 
-    public void setAccBack(double accBack) {
+    public void setAccBack(String accBack) {
         this.accBack = accBack;
     }
 
-    public double getAccYk() {
+    public String getAccYk() {
         return accYk;
     }
 
-    public void setAccYk(double accYk) {
+    public void setAccYk(String accYk) {
         this.accYk = accYk;
     }
 
@@ -288,11 +288,11 @@ public class FixedScanShortFeederConfigurationBean {
         this.ykCard = ykCard;
     }
 
-    public int getEwebidCode1() {
+    public String getEwebidCode1() {
         return ewebidCode1;
     }
 
-    public void setEwebidCode1(int ewebidCode1) {
+    public void setEwebidCode1(String ewebidCode1) {
         this.ewebidCode1 = ewebidCode1;
     }
 
@@ -304,19 +304,19 @@ public class FixedScanShortFeederConfigurationBean {
         this.ewebidCodeStr1 = ewebidCodeStr1;
     }
 
-    public double getAccArrived1() {
+    public String getAccArrived1() {
         return accArrived1;
     }
 
-    public void setAccArrived1(double accArrived1) {
+    public void setAccArrived1(String accArrived1) {
         this.accArrived1 = accArrived1;
     }
 
-    public int getEwebidCode2() {
+    public String getEwebidCode2() {
         return ewebidCode2;
     }
 
-    public void setEwebidCode2(int ewebidCode2) {
+    public void setEwebidCode2(String ewebidCode2) {
         this.ewebidCode2 = ewebidCode2;
     }
 
@@ -328,19 +328,19 @@ public class FixedScanShortFeederConfigurationBean {
         this.ewebidCodeStr2 = ewebidCodeStr2;
     }
 
-    public double getAccArrived2() {
+    public String getAccArrived2() {
         return accArrived2;
     }
 
-    public void setAccArrived2(double accArrived2) {
+    public void setAccArrived2(String accArrived2) {
         this.accArrived2 = accArrived2;
     }
 
-    public int getEwebidCode3() {
+    public String getEwebidCode3() {
         return ewebidCode3;
     }
 
-    public void setEwebidCode3(int ewebidCode3) {
+    public void setEwebidCode3(String ewebidCode3) {
         this.ewebidCode3 = ewebidCode3;
     }
 
@@ -352,60 +352,60 @@ public class FixedScanShortFeederConfigurationBean {
         this.ewebidCodeStr3 = ewebidCodeStr3;
     }
 
-    public double getAccArrived3() {
+    public String getAccArrived3() {
         return accArrived3;
     }
 
-    public void setAccArrived3(double accArrived3) {
+    public void setAccArrived3(String accArrived3) {
         this.accArrived3 = accArrived3;
     }
 
-    public double getAccZx() {
+    public String getAccZx() {
         return accZx;
     }
 
-    public void setAccZx(double accZx) {
+    public void setAccZx(String accZx) {
         this.accZx = accZx;
     }
 
-    public double getAccJh() {
+    public String getAccJh() {
         return accJh;
     }
 
-    public void setAccJh(double accJh) {
+    public void setAccJh(String accJh) {
         this.accJh = accJh;
     }
 
-    public double getAccArrSum() {
+    public String getAccArrSum() {
         return accArrSum;
     }
 
-    public void setAccArrSum(double accArrSum) {
+    public void setAccArrSum(String accArrSum) {
         this.accArrSum = accArrSum;
     }
 
-    public double getAccTansSum() {
+    public String getAccTansSum() {
         return accTansSum;
     }
 
-    public void setAccTansSum(double accTansSum) {
+    public void setAccTansSum(String accTansSum) {
         this.accTansSum = accTansSum;
     }
 
-    public double getAccOther() {
+    public String getAccOther() {
         return accOther;
     }
 
-    public void setAccOther(double accOther) {
+    public void setAccOther(String accOther) {
         this.accOther = accOther;
     }
 
-    public String getVehicleInterval() {
-        return vehicleInterval;
+    public String getVehicleStringerval() {
+        return vehicleStringerval;
     }
 
-    public void setVehicleInterval(String vehicleInterval) {
-        this.vehicleInterval = vehicleInterval;
+    public void setVehicleStringerval(String vehicleStringerval) {
+        this.vehicleStringerval = vehicleStringerval;
     }
 
     public String getRemark() {
@@ -416,11 +416,11 @@ public class FixedScanShortFeederConfigurationBean {
         this.remark = remark;
     }
 
-    public int getFromType() {
+    public String getFromType() {
         return fromType;
     }
 
-    public void setFromType(int fromType) {
+    public void setFromType(String fromType) {
         this.fromType = fromType;
     }
 
@@ -432,27 +432,27 @@ public class FixedScanShortFeederConfigurationBean {
         this.fromTypeStr = fromTypeStr;
     }
 
-    public int getIsScan() {
+    public String getIsScan() {
         return isScan;
     }
 
-    public void setIsScan(int isScan) {
+    public void setIsScan(String isScan) {
         this.isScan = isScan;
     }
 
-    public double getScanPercentage() {
+    public String getScanPercentage() {
         return scanPercentage;
     }
 
-    public void setScanPercentage(double scanPercentage) {
+    public void setScanPercentage(String scanPercentage) {
         this.scanPercentage = scanPercentage;
     }
 
-    public int getScanWebidType() {
+    public String getScanWebidType() {
         return ScanWebidType;
     }
 
-    public void setScanWebidType(int ScanWebidType) {
+    public void setScanWebidType(String ScanWebidType) {
         this.ScanWebidType = ScanWebidType;
     }
 }
