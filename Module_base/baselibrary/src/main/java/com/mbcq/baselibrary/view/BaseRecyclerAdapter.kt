@@ -2,7 +2,6 @@ package com.mbcq.baselibrary.view
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 
@@ -27,6 +26,13 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
         mDatas[position] = data
         notifyItemChanged(position)
 //        notifyItemRangeChanged(position , position + 1)
+    }
+
+     fun replaceData(list: List<T>) {
+        if (mDatas.isNotEmpty())
+            mDatas.clear()
+        mDatas.addAll(list)
+        notifyDataSetChanged()
     }
 
     fun getAllData(): ArrayList<T> {

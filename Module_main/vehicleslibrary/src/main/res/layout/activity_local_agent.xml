@@ -12,7 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
-        app:centerTextViewText="本地代理-中转记录"
+        app:centerTextViewText="外转记录"
         app:layout_constraintTop_toTopOf="parent"
         app:rightButtonIcon="@drawable/ic_search_icon" />
 

@@ -4,25 +4,19 @@ package com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhous
 import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.alibaba.android.arouter.facade.annotation.Autowired
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
-import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.SingleClick
-import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.vehicleslibrary.R
 import kotlinx.android.synthetic.main.activity_local_gent_short_feeder_house.*
-import org.json.JSONArray
-import org.json.JSONObject
 
 
 /**
@@ -30,7 +24,7 @@ import org.json.JSONObject
  * @time: 2020-09-22 17:13:27
  * 中转出库
  */
-abstract class BaseLocalGentShortFeederHouseActivity  <V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V,T>(), BaseView {
+abstract class BaseLocalGentShortFeederHouseActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
 
     var mDepartureLot = ""
 
@@ -50,7 +44,42 @@ abstract class BaseLocalGentShortFeederHouseActivity  <V : BaseView, T : BasePre
 
     }
 
+    var mTotalQty = 0
+    var mToTalWeight = 0.0
+    var mToTalVolume = 0.0
+    fun refreshTopInfo() {
+        object : CountDownTimer(500, 500) {
+            override fun onTick(millisUntilFinished: Long) {
 
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onFinish() {
+                if (!isDestroyed) {
+                    mLoadingListAdapter?.let {
+                        mToTalWeight = 0.0
+                        mToTalVolume = 0.0
+                        mTotalQty = 0
+                        var mPrice = 0.00
+                        for (item in it.getAllData()) {
+                            if (item.weight.toDoubleOrNull() != null)
+                                mToTalWeight += item.weight.toDouble()
+                            if (item.volumn.toDoubleOrNull() != null)
+                                mToTalVolume += item.volumn.toDouble()
+                            if (item.accSum.toDoubleOrNull() != null)
+                                mPrice += item.accSum.toDouble()
+                            if (item.totalQty.toIntOrNull() != null)
+                                mTotalQty += item.totalQty.toInt()
+
+                        }
+                        over_total_info_tv.text = "已 装  车：${it.getAllData().size} 票 $mTotalQty 件 ${haveTwoDouble(mToTalWeight)} Kg ${haveTwoDouble(mToTalVolume)} 方      ${haveTwoDouble(mPrice)}元"
+
+                    }
+                }
+            }
+
+        }.start()
+    }
 
     fun removeSomeThing() {
         val mSelectedDatas = mutableListOf<LocalGentShortFeederHouseBean>()
@@ -98,7 +127,7 @@ abstract class BaseLocalGentShortFeederHouseActivity  <V : BaseView, T : BasePre
 
     var mInventoryListAdapter: LocalGentShortFeederHouseInventoryAdapter? = null
     var mLoadingListAdapter: LocalGentShortFeederHouseLoadingAdapter? = null
-    private fun initLoadingList() {
+    open fun initLoadingList() {
         loading_list_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         mLoadingListAdapter = LocalGentShortFeederHouseLoadingAdapter(mContext)
         loading_list_recycler.adapter = mLoadingListAdapter
@@ -107,7 +136,6 @@ abstract class BaseLocalGentShortFeederHouseActivity  <V : BaseView, T : BasePre
                 mLoadingListAdapter?.removeItem(position)
                 mInventoryListAdapter?.appendData(mutableListOf(item))
                 showTopTotal()
-
             }
 
         }
@@ -195,6 +223,8 @@ abstract class BaseLocalGentShortFeederHouseActivity  <V : BaseView, T : BasePre
     fun showTopTotal() {
         inventory_list_tv.text = "库存清单(${mInventoryListAdapter?.getAllData()?.size})"
         loading_list_tv.text = "配载清单(${mLoadingListAdapter?.getAllData()?.size})"
+        refreshTopInfo()
+
     }
 
     override fun onClick() {

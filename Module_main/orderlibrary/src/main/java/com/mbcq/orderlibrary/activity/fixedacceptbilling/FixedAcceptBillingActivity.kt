@@ -50,7 +50,7 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
 
 
     private fun saveAcctBilling() {
-        val jsonObj = JSONObject()
+        val jsonObj = JSONObject(mBillnoOlderInfo)
         //id
         val Id = mSearchaId
         jsonObj.put("Id", Id)
@@ -383,6 +383,10 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
         super.onClick()
         save_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
+                if (mBillnoOlderInfo.isBlank()) {
+                    TalkSureDialog(mContext, getScreenWidth(), "数据错误，请稍后再试").show()
+                    return
+                }
                 if (isCanSaveAcctBilling())
                     saveAcctBilling()
             }
@@ -620,9 +624,11 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
         }).show(supportFragmentManager, "showWebIdDialogFilterDialog")
     }
 
+    var mBillnoOlderInfo = ""
 
     @SuppressLint("SetTextI18n")
     override fun getWillByInfoS(data: JSONObject) {
+        mBillnoOlderInfo = Gson().toJson(data)
         destinationt = data.optString("destination")//目的地
         destinationt_tv.text = destinationt
         endWebIdCodeStr = data.optString("ewebidCodeStr")//到货网点
@@ -705,6 +711,7 @@ class FixedAcceptBillingActivity : BaseFixedAcceptBillingActivity<FixedAcceptBil
 
     override fun getWillByInfoNull() {
         mSearchaId = ""
+        mBillnoOlderInfo = ""
         TalkSureDialog(mContext, getScreenWidth(), "未查询到运单信息，请检查后重新查询").show()
     }
 

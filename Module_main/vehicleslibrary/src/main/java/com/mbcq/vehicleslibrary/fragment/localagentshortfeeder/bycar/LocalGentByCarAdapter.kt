@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
@@ -34,6 +35,12 @@ class LocalGentByCarAdapter(context: Context?) : BaseRecyclerAdapter<LocalGentBy
                 }
 //                mDatas[position].isChecked = !mDatas[position].isChecked
                 notifyDataSetChanged()
+            }
+
+        })
+        holder.itemView.setOnClickListener(object :SingleClick(){
+            override fun onSingleClick(v: View) {
+                mClickInterface?.onItemClick(v,position,Gson().toJson(mDatas[position]))
             }
 
         })

@@ -3,5 +3,6 @@
 
     <application>
         <activity android:name=".LocationActivity" />
+        <activity android:name=".LocationTestActivity" />
     </application>
 </manifest>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:background="@color/base_scan_background_green">
+
+    <TextView
+        android:id="@+id/location_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.徐泾门店"
+        android:textColor="@color/black"
+        android:textSize="19sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/location_address_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="上海青浦武昌路001号"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/location_name_tv" />
+
+    <!--<ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/icon_affirm_selected"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <ImageView
+        android:id="@+id/navigation_location_iv"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_navigation_location_icon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location_address_tv"
+        app:tint="@color/black" />
+
+    <TextView
+        android:id="@+id/location_distance_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="3km"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/navigation_location_iv"
+        app:layout_constraintLeft_toRightOf="@+id/navigation_location_iv"
+        app:layout_constraintTop_toTopOf="@+id/navigation_location_iv" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_call_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/call_information_tv"
+        app:layout_constraintRight_toLeftOf="@+id/call_information_tv"
+        app:layout_constraintTop_toTopOf="@+id/call_information_tv"
+        app:tint="@color/base_blue" />
+
+    <TextView
+        android:id="@+id/call_information_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="159999999999"
+        android:textColor="@color/base_blue"
+        app:layout_constraintBottom_toBottomOf="@+id/location_distance_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/location_distance_tv" />
+</androidx.constraintlayout.widget.ConstraintLayout>

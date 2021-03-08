@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
@@ -20,6 +21,7 @@ class LocalGentByOrderAdapter(context: Context?) : BaseRecyclerAdapter<LocalGent
         (holder as ItemViewHolder).departure_number_tv.text = mDatas[position].agentBillno
         holder.short_feeder_time_tv.text = mDatas[position].agentDate
         holder.vehicler_info_tv.text = "${mDatas[position].vehcileNo}  ${mDatas[position].chauffer}  ${mDatas[position].chaufferTel}  中转费：xxx"
+        holder.information_tv.text = "${mDatas[position].vehcileNo}  ${mDatas[position].chauffer}  ${mDatas[position].chaufferTel}  中转费：xxx"
         context?.let {
             holder.feeder_checkbox_iv.setImageDrawable(ContextCompat.getDrawable(context, if (mDatas[position].isChecked) R.drawable.ic_checked_icon else R.drawable.ic_unchecked_icon))
 
@@ -37,6 +39,12 @@ class LocalGentByOrderAdapter(context: Context?) : BaseRecyclerAdapter<LocalGent
             }
 
         })
+        holder.itemView.setOnClickListener(object :SingleClick(){
+            override fun onSingleClick(v: View) {
+                mClickInterface?.onItemClick(v,position, Gson().toJson(mDatas[position]))
+            }
+
+        })
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -44,6 +52,7 @@ class LocalGentByOrderAdapter(context: Context?) : BaseRecyclerAdapter<LocalGent
         var departure_number_tv: TextView = itemView.findViewById(R.id.departure_number_tv)
         var vehicler_info_tv: TextView = itemView.findViewById(R.id.vehicler_info_tv)
         var short_feeder_time_tv: TextView = itemView.findViewById(R.id.short_feeder_time_tv)
+        var information_tv: TextView = itemView.findViewById(R.id.information_tv)
 
     }
 }

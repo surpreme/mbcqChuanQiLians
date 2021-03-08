@@ -37,7 +37,8 @@ import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2020-11-04 09:49:32 装车
+ * @time: 2020-11-04 09:49:32 装车 短驳
+ * TODO 因需求拆分 标识符不会删掉  这里考虑后期维护 裁成多个模块
  */
 
 @Route(path = ARouterConstants.LoadingVehiclesActivity)
@@ -49,6 +50,11 @@ class LoadingVehiclesActivity : CommonScanPDAMVPSmartActivity<LoadingVehiclesCon
 
     override fun getLayoutId(): Int = R.layout.activity_loading_vehicles
 
+    override fun getRecyclerViewId(): Int = R.id.loading_vehicles_recycler
+
+    override fun getSmartLayoutId(): Int = R.id.loading_vehicles_smart
+
+    override fun getSmartEmptyId(): Int = R.id.loading_vehicles_smart_frame
 
     override fun getIsOnCreateGetData(): Boolean = false
 
@@ -178,7 +184,6 @@ class LoadingVehiclesActivity : CommonScanPDAMVPSmartActivity<LoadingVehiclesCon
         }
     }
 
-    override fun getRecyclerViewId(): Int = R.id.loading_vehicles_recycler
 
     override fun setAdapter(): BaseRecyclerAdapter<LoadingVehiclesBean> = LoadingVehiclesAdapter(mContext).also {
         it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
@@ -285,7 +290,5 @@ class LoadingVehiclesActivity : CommonScanPDAMVPSmartActivity<LoadingVehiclesCon
         mPresenter?.searchScanInfo(if (checkStrIsNum(result)) result.substring(0, result.length - 4) else result)
     }
 
-    override fun getSmartLayoutId(): Int = R.id.loading_vehicles_smart
 
-    override fun getSmartEmptyId(): Int = R.id.loading_vehicles_smart_frame
 }

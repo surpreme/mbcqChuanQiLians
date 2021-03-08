@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.text.TextPaint
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
+import com.mbcq.commonlibrary.CommonPrintMVPActivity
 import com.mbcq.commonlibrary.MoneyChineseUtil
 import com.mbcq.commonlibrary.PrintBlueToothBean
 import com.mbcq.orderlibrary.R
@@ -27,7 +28,7 @@ import java.util.*
  * @time 2020-10-24 11:03:00
  */
 
-abstract class BaseBlueToothAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseAcceptBillingActivity<V, T>(), BaseView {
+abstract class BaseBlueToothAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>> : CommonPrintMVPActivity<V, T>(), BaseView {
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         labelcheck.setOnCheckedChangeListener { _, isChecked ->

@@ -220,6 +220,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         volume_name_ed.addTextChangedListener(mSettlementWeightValueTextWatcher)
         weight_name_ed.addTextChangedListener(mSettlementWeightValueTextWatcher)
     }
+
     /**
      * 结算重量和轻重货修改逻辑 要修改两个地方 这个是计算
      */
@@ -258,7 +259,14 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
     fun takeGPS() {
         if (checkGPSIsOpen()) {
-            ARouter.getInstance().build(ARouterConstants.LocationActivity).navigation()
+            if (mMapType == 1) {
+                ARouter.getInstance().build(ARouterConstants.LocationActivity).navigation()
+
+            } else if (mMapType == 2) {
+                ARouter.getInstance().build(ARouterConstants.LocationTestActivity).withString("LocationMapType",mMapType.toString()).navigation()
+
+            } else if (mMapType == 3)
+                ARouter.getInstance().build(ARouterConstants.LocationTestActivity).withString("LocationMapType",mMapType.toString()).navigation()
         } else {
             TalkSureCancelDialog(mContext, getScreenWidth(), "需要打开系统定位开关 用于提供精确的定位及导航服务") {
                 //跳转GPS设置界面
@@ -561,36 +569,53 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         mLightAndHeavyGoods = false
     }
 
+    /**
+     * edittext.error 自带错误提示信息
+     * setError（null）即可关闭
+     * getError（）是可能为空的 因为可以设置为null
+     */
+    protected fun closeRedEditTextErrorMsg(editText: EditText) {
+        if (editText.text == null) return
+        if (editText.error == null) return
+        if (editText.text.toString().isNotBlank() && editText.error.toString().isNotBlank()) {
+            editText.error = null
+        }
+    }
 
     protected fun isCanCargoInfoAdd(): Boolean {
         if (mRequiredStr.contains("product"))
             if (cargo_name_ed.text.toString().isEmpty()) {
                 showToast("请选择货物名称")
                 showEditTextFocus(cargo_name_ed)
+                cargo_name_ed.error = "请选择货物名称"
                 return false
             }
         if (mRequiredStr.contains("qty"))
             if (numbers_name_ed.text.toString().isEmpty()) {
                 showToast("请输入件数")
                 showEditTextFocus(numbers_name_ed)
+                numbers_name_ed.error = "请输入件数"
                 return false
             }
         if (mRequiredStr.contains("packages"))
             if (package_name_ed.text.toString().isEmpty()) {
                 showToast("请选择包装")
                 showEditTextFocus(package_name_ed)
+                package_name_ed.error = "请选择包装"
                 return false
             }
         if (mRequiredStr.contains("weight"))
             if (weight_name_ed.text.toString().isEmpty()) {
                 showToast("请输入重量")
                 showEditTextFocus(weight_name_ed)
+                weight_name_ed.error = "请输入重量"
                 return false
             }
         if (mRequiredStr.contains("volumn"))
             if (volume_name_ed.text.toString().isEmpty()) {
                 showToast("请输入体积")
                 showEditTextFocus(volume_name_ed)
+                volume_name_ed.error = "请输入体积"
                 return false
             }
         // 保价金额 数量单价 重量单价 体积单价
@@ -598,24 +623,28 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
             if (insured_amount_ed.text.toString().isEmpty()) {
                 showToast("请输入保价金额")
                 showEditTextFocus(insured_amount_ed)
+                insured_amount_ed.error = "请输入保价金额"
                 return false
             }
         if (mRequiredStr.contains("qtyPrice"))
             if (quantity_price_ed.text.toString().isEmpty()) {
                 showToast("请输入数量单价")
                 showEditTextFocus(quantity_price_ed)
+                quantity_price_ed.error = "请输入数量单价"
                 return false
             }
         if (mRequiredStr.contains("wPrice"))
             if (weight_price_ed.text.toString().isEmpty()) {
                 showToast("请输入重量单价")
                 showEditTextFocus(weight_price_ed)
+                weight_price_ed.error = "请输入重量单价"
                 return false
             }
         if (mRequiredStr.contains("vPrice"))
             if (volume_price_ed.text.toString().isEmpty()) {
                 showToast("请输入体积单价")
                 showEditTextFocus(volume_price_ed)
+                volume_price_ed.error = "请输入体积单价"
                 return false
             }
         return true
@@ -927,6 +956,13 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         editText.isFocusableInTouchMode = true
         editText.requestFocus()
     }
+
+    /**
+     * 1 网点地图页面 网点
+     * 2 地址地图页面 发货人
+     * 3 地址地图页面 收货人
+     */
+    var mMapType = 0
 
     fun getLocation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

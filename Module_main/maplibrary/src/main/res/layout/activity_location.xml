@@ -15,29 +15,90 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/search_ed" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/search_ed"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="36dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/round_gray"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/common_round_corner_gray_bg"
+        android:completionThreshold="1"
         android:drawableRight="@drawable/ic_search_icon"
-        android:drawableTint="@color/base_grayDark"
-        android:hint="请输入关键词查找"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:drawableTint="@color/black"
+        android:dropDownVerticalOffset="1.0dip"
+        android:focusable="true"
+        android:hint="   请输入关键词查找"
+        android:imeOptions="actionDone"
+        android:inputType="text|textAutoComplete"
+        android:maxLength="20"
+        android:paddingLeft="20.0dip"
+        android:paddingRight="20.00dip"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textColorHint="#C0C0C0"
+        android:textSize="16.0sp"
         app:layout_constraintLeft_toRightOf="@+id/iv_back"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/sure_location_btn"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.amap.api.maps.MapView
-        android:id="@+id/location_map"
-        android:layout_marginTop="10dp"
+    <Button
+        android:id="@+id/sure_location_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/base_green"
+        android:text="确定"
+        android:textSize="21sp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/search_ed"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/search_ed" />
+    <!-- <EditText
+         android:id="@+id/search_ed"
+         android:layout_width="0dp"
+         android:layout_height="40dp"
+         android:layout_marginLeft="10dp"
+         android:layout_marginTop="10dp"
+         android:layout_marginRight="10dp"
+         android:background="@drawable/round_gray"
+         android:drawableRight="@drawable/ic_search_icon"
+         android:drawableTint="@color/base_grayDark"
+         android:hint="请输入关键词查找"
+         android:paddingLeft="15dp"
+         android:paddingRight="15dp"
+         app:layout_constraintLeft_toRightOf="@+id/iv_back"
+         app:layout_constraintRight_toRightOf="parent"
+         app:layout_constraintTop_toTopOf="parent" />-->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_ed" />
+        app:layout_constraintTop_toBottomOf="@id/search_ed">
+
+        <com.amap.api.maps.MapView
+            android:id="@+id/location_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_ed" />
+
+        <RelativeLayout
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="25dp"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+            <include layout="@layout/item_location_father" />
+        </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

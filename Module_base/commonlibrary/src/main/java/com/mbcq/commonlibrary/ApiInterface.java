@@ -19,6 +19,13 @@ public class ApiInterface {
      * 到达网点 Arrive at the outlet
      */
     public static final String ACCEPT_OUTLET_GET = BASE_URI + "WebMain/SelWebMainByCondition";
+    /*  */
+    /**
+     * 查询网点配置详细参数
+     */
+    /*
+    public static final String ACCEPT_OUTLET_MORE_INFORMATION_GET = BASE_URI + "WebMain/SelWebMainByCondition";
+ */
     /**
      * 受理开单 获取目的地
      */
@@ -313,6 +320,10 @@ public class ApiInterface {
      * 本地代理-取消本车
      */
     public static final String LOCAL_AGENT_CANCEL_VEHICLE_POST = BASE_URI + "WaybillAgentOpe/DelWaybillAgentByCon";
+    /**
+     * 本地代理-获取中转公司列表
+     */
+    public static final String LOCAL_AGENT_TRANSIT_COMPANY_GET = BASE_URI + "Carriage_Unit/SelCarriage_UnitByCondition";
     /**
      * ---------------------------------------------------------------------------------------------***********************************************
      */
@@ -698,7 +709,7 @@ public class ApiInterface {
     /**
      * 上门提货 获取记录
      */
-    public static final String  HOME_DELIVERY_RECORD_GET = BASE_URI + "PickUpOpe/SelPickUpByCondition";
+    public static final String HOME_DELIVERY_RECORD_GET = BASE_URI + "PickUpOpe/SelPickUpByCondition";
 
 
 }

@@ -16,14 +16,10 @@ import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordEvent
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.DepartureRecordAddSuccessEvent
-import com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord.TrunkDepartureIsRefreshEvent
 import kotlinx.android.synthetic.main.fragment_trunk_departure.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.json.JSONObject
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * @author: lzy

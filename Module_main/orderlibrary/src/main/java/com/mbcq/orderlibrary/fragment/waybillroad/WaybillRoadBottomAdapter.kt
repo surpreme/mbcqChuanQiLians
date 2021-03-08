@@ -28,6 +28,11 @@ class WaybillRoadBottomAdapter(context: Context?) : BaseRecyclerAdapter<WaybillR
             context?.let {
                 holder.father_state_tag_iv.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_warehouse_icon))
             }
+        } else if (mDatas[position].content.contains("卸车入库")) {
+            (holder as ItemViewHolder).father_state_content_tv.text = "卸车入库"
+            context?.let {
+                holder.father_state_tag_iv.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_transiting_icon))
+            }
         } else {
             (holder as ItemViewHolder).father_state_content_tv.text = "未知进度"
             context?.let {

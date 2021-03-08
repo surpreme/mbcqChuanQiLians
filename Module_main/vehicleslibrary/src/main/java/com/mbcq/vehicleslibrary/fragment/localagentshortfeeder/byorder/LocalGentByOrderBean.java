@@ -2,33 +2,36 @@ package com.mbcq.vehicleslibrary.fragment.localagentshortfeeder.byorder;
 
 public class LocalGentByOrderBean {
 
+
     /**
-     * id : 27
+     * id : 77
      * companyId : 2001
      * webidCode : 1003
      * webidCodeStr : 汕头
-     * agentBillno : BDDL1003-20200624-002
-     * agentDate : 2020-06-24T13:54:56
-     * vehcileNo : 1
-     * vehicleNoTmp : 2
-     * vehicleType : 3
-     * chauffer : 4
-     * chaufferTel : 5
+     * agentBillno : BDDL1003-20201031-007
+     * agentDate : 2020-10-31T00:00:00
+     * vehcileNo : 浙G12370
+     * vehicleNoTmp : 折人
+     * vehicleType : 0
+     * chauffer : 张凯
+     * chaufferTel : 16276665366
      * agentAccSend : 0.0
-     * agentAccNow : 1980.0
-     * agentAccFetch : 830.0
+     * agentAccNow : 0.0
+     * agentAccFetch : 125538.0
      * agentAccBack : 0.0
      * agentAccMonth : 0.0
-     * agentAccTotal : 2810.0
-     * remark :
+     * agentAccTotal : 125538.0
+     * remark : 
      * opeMan : 汕头
      * agentType : 1
      * agentTypeStr : 本地代理
+     * outDate : 2020-10-31T17:32:48
+     * outAcc : 0.0
      */
 
-    private int id;
-    private int companyId;
-    private int webidCode;
+    private String id;
+    private String companyId;
+    private String webidCode;
     private String webidCodeStr;
     private String agentBillno;
     private String agentDate;
@@ -37,39 +40,41 @@ public class LocalGentByOrderBean {
     private String vehicleType;
     private String chauffer;
     private String chaufferTel;
-    private double agentAccSend;
-    private double agentAccNow;
-    private double agentAccFetch;
-    private double agentAccBack;
-    private double agentAccMonth;
-    private double agentAccTotal;
+    private String agentAccSend;
+    private String agentAccNow;
+    private String agentAccFetch;
+    private String agentAccBack;
+    private String agentAccMonth;
+    private String agentAccTotal;
     private String remark;
     private String opeMan;
-    private int agentType;
+    private String agentType;
     private String agentTypeStr;
+    private String outDate;
+    private String outAcc;
     private boolean isChecked;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getCompanyId() {
+    public String getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(int companyId) {
+    public void setCompanyId(String companyId) {
         this.companyId = companyId;
     }
 
-    public int getWebidCode() {
+    public String getWebidCode() {
         return webidCode;
     }
 
-    public void setWebidCode(int webidCode) {
+    public void setWebidCode(String webidCode) {
         this.webidCode = webidCode;
     }
 
@@ -137,51 +142,51 @@ public class LocalGentByOrderBean {
         this.chaufferTel = chaufferTel;
     }
 
-    public double getAgentAccSend() {
+    public String getAgentAccSend() {
         return agentAccSend;
     }
 
-    public void setAgentAccSend(double agentAccSend) {
+    public void setAgentAccSend(String agentAccSend) {
         this.agentAccSend = agentAccSend;
     }
 
-    public double getAgentAccNow() {
+    public String getAgentAccNow() {
         return agentAccNow;
     }
 
-    public void setAgentAccNow(double agentAccNow) {
+    public void setAgentAccNow(String agentAccNow) {
         this.agentAccNow = agentAccNow;
     }
 
-    public double getAgentAccFetch() {
+    public String getAgentAccFetch() {
         return agentAccFetch;
     }
 
-    public void setAgentAccFetch(double agentAccFetch) {
+    public void setAgentAccFetch(String agentAccFetch) {
         this.agentAccFetch = agentAccFetch;
     }
 
-    public double getAgentAccBack() {
+    public String getAgentAccBack() {
         return agentAccBack;
     }
 
-    public void setAgentAccBack(double agentAccBack) {
+    public void setAgentAccBack(String agentAccBack) {
         this.agentAccBack = agentAccBack;
     }
 
-    public double getAgentAccMonth() {
+    public String getAgentAccMonth() {
         return agentAccMonth;
     }
 
-    public void setAgentAccMonth(double agentAccMonth) {
+    public void setAgentAccMonth(String agentAccMonth) {
         this.agentAccMonth = agentAccMonth;
     }
 
-    public double getAgentAccTotal() {
+    public String getAgentAccTotal() {
         return agentAccTotal;
     }
 
-    public void setAgentAccTotal(double agentAccTotal) {
+    public void setAgentAccTotal(String agentAccTotal) {
         this.agentAccTotal = agentAccTotal;
     }
 
@@ -201,11 +206,11 @@ public class LocalGentByOrderBean {
         this.opeMan = opeMan;
     }
 
-    public int getAgentType() {
+    public String getAgentType() {
         return agentType;
     }
 
-    public void setAgentType(int agentType) {
+    public void setAgentType(String agentType) {
         this.agentType = agentType;
     }
 
@@ -215,6 +220,22 @@ public class LocalGentByOrderBean {
 
     public void setAgentTypeStr(String agentTypeStr) {
         this.agentTypeStr = agentTypeStr;
+    }
+
+    public String getOutDate() {
+        return outDate;
+    }
+
+    public void setOutDate(String outDate) {
+        this.outDate = outDate;
+    }
+
+    public String getOutAcc() {
+        return outAcc;
+    }
+
+    public void setOutAcc(String outAcc) {
+        this.outAcc = outAcc;
     }
 
     public boolean isChecked() {

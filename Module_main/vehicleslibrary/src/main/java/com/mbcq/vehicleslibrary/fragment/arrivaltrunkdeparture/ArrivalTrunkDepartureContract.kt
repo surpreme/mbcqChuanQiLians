@@ -13,17 +13,18 @@ import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
 class ArrivalTrunkDepartureContract {
 
     interface View : BaseView {
-        fun getPageS(list: List<TrunkDepartureBean>)
+        fun getPageS(list: List<TrunkDepartureBean>, totalNum: Int)
         fun confirmCarS(data: TrunkDepartureBean, position: Int)
-        fun canCelCarS( data: TrunkDepartureBean, position: Int)
+        fun canCelCarS(data: TrunkDepartureBean, position: Int)
 
     }
 
     interface Presenter : BasePresenter<View> {
-         /**
+        /**
          *  这个为到货网点编号
          */
-        fun getArrivalCar(selEwebidCode: String, startDate: String, endDate: String)
+        fun getArrivalCar(page: Int, selEwebidCode: String, startDate: String, endDate: String)
+
         /**
          * 确认到车
          */

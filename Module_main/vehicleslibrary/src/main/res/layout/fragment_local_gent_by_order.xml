@@ -95,7 +95,7 @@
                 android:layout_height="35dp"
                 android:alpha="0.7"
                 android:background="@drawable/hollow_out_red"
-                android:text="取消中转"
+                android:text="取消外转"
                 android:textColor="@color/base_red" />
         </androidx.cardview.widget.CardView>
 

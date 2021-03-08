@@ -15,19 +15,20 @@ import org.json.JSONObject
  */
 
 class ArrivalShortFeederPresenter : BasePresenterImpl<ArrivalShortFeederContract.View>(), ArrivalShortFeederContract.Presenter {
-
+//DbVehicleOpe/SelDbVehicleByCondition?Page=1&limit=30&vehicleStateStr=3&SelWebidCode=1006&StartDate=2020-01-01+00:00:00&EndDate=2021-03-03+23:59:59
     override fun getArrivalCarList(selEwebidCode: String, startDate: String, endDate: String) {
         val mHttpParams = HttpParams()
         mHttpParams.put("page", 1)
         mHttpParams.put("limit", 15)
         mHttpParams.put("vehicleStateStr", "1,2,3")
-        mHttpParams.put("SelEwebidCode", selEwebidCode)
+        mHttpParams.put("SelWebidCode", selEwebidCode)
+//        mHttpParams.put("SelEwebidCode", selEwebidCode)
         mHttpParams.put("startDate", startDate)
         mHttpParams.put("endDate", endDate)
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_OVERRING_LOCAL_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
-                mView?.getPageS(Gson().fromJson<List<ShortFeederBean>>(obj.optString("data"), object : TypeToken<List<ShortFeederBean>>() {}.type))
+                mView?.getPageS(Gson().fromJson<List<ShortFeederBean>>(obj.optString("data"), object : TypeToken<List<ShortFeederBean>>() {}.type),obj.optJSONObject("totalRow").optInt("rowCou"))
             }
 
         })
@@ -88,7 +89,7 @@ class ArrivalShortFeederPresenter : BasePresenterImpl<ArrivalShortFeederContract
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {
-                    mView?.getPageS(Gson().fromJson<List<ShortFeederBean>>(obj.optString("data"), object : TypeToken<List<ShortFeederBean>>() {}.type))
+                    mView?.getPageS(Gson().fromJson<List<ShortFeederBean>>(obj.optString("data"), object : TypeToken<List<ShortFeederBean>>() {}.type),-1)
                 }
             }
 

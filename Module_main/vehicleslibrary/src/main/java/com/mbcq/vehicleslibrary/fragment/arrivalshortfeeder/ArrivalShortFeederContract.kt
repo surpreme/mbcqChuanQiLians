@@ -12,7 +12,7 @@ import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederBean
 class ArrivalShortFeederContract {
 
     interface View : BaseView {
-        fun getPageS(list: List<ShortFeederBean>)
+        fun getPageS(list: List<ShortFeederBean>,totalNum:Int)
         fun confirmCarS(data: ShortFeederBean, position: Int)
 
         //        fun confirmCarS( position: Int)

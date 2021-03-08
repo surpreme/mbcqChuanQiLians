@@ -1,6 +1,7 @@
 package com.mbcq.orderlibrary.activity.acceptbillingrecording
 
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Rect
@@ -11,6 +12,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
+import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.dialog.popup.XDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
@@ -30,7 +32,9 @@ import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.BottomOptionsDialog
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
+import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.orderlibrary.R
+import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_accept_billing_recording.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -43,6 +47,8 @@ import java.util.*
 
 @Route(path = ARouterConstants.AcceptBillingRecordingActivity)
 class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordingContract.View, AcceptBillingRecordingPresenter, AcceptBillingRecordingBean>(), AcceptBillingRecordingContract.View {
+    lateinit var rxPermissions: RxPermissions
+
     var mStartDateTag = ""
     var mEndDateTag = ""
     var mShippingOutletsTag = ""
@@ -62,6 +68,8 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
         mStartDateTag = FilterTimeUtils.getStartTime(7)
         mEndDateTag = FilterTimeUtils.getEndTime()
         mShippingOutletsTag = UserInformationUtil.getWebIdCode(mContext)
+        rxPermissions = RxPermissions(this)
+
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
@@ -83,6 +91,12 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
 
     override fun onClick() {
         super.onClick()
+        scan_iv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                getCameraPermission()
+            }
+
+        })
         type_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 val list = mutableListOf<BaseTextAdapterBean>()
@@ -152,6 +166,25 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
             }
 
         })
+    }
+
+    fun getCameraPermission() {
+        rxPermissions.request(Manifest.permission.CAMERA)
+                .subscribe { granted ->
+                    if (granted) { // Always true pre-M
+                        // I can control the camera now
+                        ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
+                            override fun onResult(s1: String, s2: String) {
+                            }
+
+                        }).show(supportFragmentManager, "ScanDialogFragment")
+                    } else {
+                        // Oups permission denied
+                        TalkSureDialog(mContext, getScreenWidth(), "权限未赋予！照相机无法启动！请联系在线客服或手动进入系统设置授予摄像头权限！").show()
+
+                    }
+                }
+
     }
 
     override fun addItemDecoration(): RecyclerView.ItemDecoration = object : BaseItemDecoration(mContext) {

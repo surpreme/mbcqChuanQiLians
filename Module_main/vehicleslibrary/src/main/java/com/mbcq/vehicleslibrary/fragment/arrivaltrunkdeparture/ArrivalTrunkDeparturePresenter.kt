@@ -54,16 +54,19 @@ class ArrivalTrunkDeparturePresenter : BasePresenterImpl<ArrivalTrunkDepartureCo
      * @2 已到车
      */
 
-    override fun getArrivalCar(selEwebidCode: String, startDate: String, endDate: String) {
+    override fun getArrivalCar(page: Int, selEwebidCode: String, startDate: String, endDate: String) {
         val mHttpParams = HttpParams()
-        mHttpParams.put("selEwebidCode", selEwebidCode)
+//        mHttpParams.put("selEwebidCode", selEwebidCode)
+        mHttpParams.put("page", 1)
+        mHttpParams.put("limit", 15)
+        mHttpParams.put("SelWebidCode", selEwebidCode)
         mHttpParams.put("startDate", startDate)
         mHttpParams.put("endDate", endDate)
         mHttpParams.put("vehicleStateStr", "1,2,3")
         get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_OVERRING_LOCAL_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
-                mView?.getPageS(Gson().fromJson<List<TrunkDepartureBean>>(obj.optString("data"), object : TypeToken<List<TrunkDepartureBean>>() {}.type))
+                mView?.getPageS(Gson().fromJson<List<TrunkDepartureBean>>(obj.optString("data"), object : TypeToken<List<TrunkDepartureBean>>() {}.type), obj.optJSONObject("totalRow").optInt("rowCou"))
             }
 
         })
@@ -108,7 +111,7 @@ class ArrivalTrunkDeparturePresenter : BasePresenterImpl<ArrivalTrunkDepartureCo
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {
-                    mView?.getPageS(Gson().fromJson<List<TrunkDepartureBean>>(obj.optString("data"), object : TypeToken<List<TrunkDepartureBean>>() {}.type))
+                    mView?.getPageS(Gson().fromJson<List<TrunkDepartureBean>>(obj.optString("data"), object : TypeToken<List<TrunkDepartureBean>>() {}.type), -1)
                 }
             }
 

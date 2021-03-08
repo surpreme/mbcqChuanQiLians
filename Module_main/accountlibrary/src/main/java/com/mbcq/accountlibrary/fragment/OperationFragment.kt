@@ -40,7 +40,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                     mOperationViewBean.tag = 2
                     val listItem = arrayListOf<IconViewBean.ItemBean>()
 
-                    for (mItemIndex in 0..12) {
+                    for (mItemIndex in 0..18) {
                         val item = IconViewBean.ItemBean()
                         when (mItemIndex) {
                             0 -> {
@@ -80,9 +80,26 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                 item.itemText = "发车记录"
                             }
                             12 -> {
-                                item.itemText = "本地代理"
+                                item.itemText = "外转"
                             }
-
+                            13 -> {
+                                item.itemText = "短驳无计划扫描"
+                            }
+                            14 -> {
+                                item.itemText = "干线无计划扫描"
+                            }
+                            15 -> {
+                                item.itemText = "短驳有计划扫描"
+                            }
+                            16 -> {
+                                item.itemText = "干线有计划扫描"
+                            }
+                            17 -> {
+                                item.itemText = "短驳发车"
+                            }
+                            18 -> {
+                                item.itemText = "干线发车"
+                            }
                         }
                         listItem.add(item)
                     }
@@ -96,7 +113,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                     mOperationViewBean.tag = 2
                     val listItem = arrayListOf<IconViewBean.ItemBean>()
 
-                    for (mItemIndex in 0..10) {
+                    for (mItemIndex in 0..12) {
                         val item = IconViewBean.ItemBean()
                         when (mItemIndex) {
                             0 -> {
@@ -132,6 +149,13 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                             10 -> {
                                 item.itemText = "终端代理"
                             }
+                            11 -> {
+                                item.itemText = "短驳到车"
+                            }
+                            12 -> {
+                                item.itemText = "干线到车"
+                            }
+
                         }
                         listItem.add(item)
                     }
@@ -292,7 +316,7 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                     ARouter.getInstance().build(ARouterConstants.PrintAcceptBillingActivity).navigation()
 
                                 }
-                                8->{
+                                8 -> {
                                     //TODO 当日运单删除
                                 }
 
@@ -310,6 +334,30 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                 }
                                 12 -> {
                                     ARouter.getInstance().build(ARouterConstants.LocalAgentActivity).navigation()
+
+                                }
+                                13 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ShortBargeUnLoadingVehiclesActivity).navigation()
+
+                                }
+                                14 -> {
+                                    ARouter.getInstance().build(ARouterConstants.TrunkUnLoadingVehiclesActivity).navigation()
+
+                                }
+                                15 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ShortBargeLoadingVehiclesActivity).navigation()
+
+                                }
+                                16 -> {
+                                    ARouter.getInstance().build(ARouterConstants.TrunkLoadingVehiclesActivity).navigation()
+
+                                }
+                                17 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ShortBargeDepartureRecordActivity).navigation()
+
+                                }
+                                18 -> {
+                                    ARouter.getInstance().build(ARouterConstants.TrunkDepartureRecordActivity).navigation()
 
                                 }
                             }
@@ -342,6 +390,14 @@ class OperationFragment : BaseListFragment<IconViewBean>() {
                                 }
                                 10 -> {
                                     ARouter.getInstance().build(ARouterConstants.TerminalAgentActivity).navigation()
+
+                                }
+                                11 -> {
+                                    ARouter.getInstance().build(ARouterConstants.ShortBargeArrivalRecordActivity).navigation()
+
+                                }
+                                12 -> {
+                                    ARouter.getInstance().build(ARouterConstants.TrunkArrivalRecordActivity).navigation()
 
                                 }
                             }

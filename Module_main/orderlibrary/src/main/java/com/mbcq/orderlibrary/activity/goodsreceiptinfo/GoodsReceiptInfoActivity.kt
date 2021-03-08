@@ -213,11 +213,11 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
         withdraw_tv.text = mGoodsReceiptBean.accArrived.toString()
         reason_difference_tv.text = mGoodsReceiptBean.hkChangeReason.toString()
         original_order_payment.text = mGoodsReceiptBean.accDaiShou.toString()//
-        change_payment_tv.text = mGoodsReceiptBean.accHKChange.toString()
+        change_payment_tv.text = getBeanString(mGoodsReceiptBean.accHKChange)
         actual_payment_tv.text = mGoodsReceiptBean.accDaiShou.toString()//
         underpayment_tv.text = mGoodsReceiptBean.accDaiShou.toString()
         increase_tv.text = "xxx"
-        total_price_tv.text = mGoodsReceiptBean.accSum.toString() + "元"
+        total_price_tv.text = getBeanString(mGoodsReceiptBean.accSum) + "元"
 
         delivery_date_tv.text = TimeUtils.getCurrTime2()
         initImageShowGridRecycler()
@@ -346,7 +346,7 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
     }
 
     fun takePhotoes() {
-        if (mShowImagesURL.size>9){
+        if (mShowImagesURL.size > 9) {
             showToast("最多上传9张图片")
             return
         }

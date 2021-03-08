@@ -6,6 +6,7 @@ import android.graphics.Point
 import android.os.Bundle
 import android.util.Log
 import android.view.animation.LinearInterpolator
+import com.amap.api.location.AMapLocation
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
@@ -16,6 +17,7 @@ import com.amap.api.maps.model.animation.Animation
 import com.amap.api.maps.model.animation.RotateAnimation
 import com.amap.api.maps.model.animation.TranslateAnimation
 import com.mbcq.baselibrary.BaseApplication
+import com.mbcq.baselibrary.ui.BaseListMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
@@ -31,10 +33,10 @@ import kotlinx.android.synthetic.main.activity_location.*
  * @time: 2018.08.25
  */
 
-abstract class BaseLocationActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
-    private var mAMap: AMap? = null
+abstract class BaseLocationActivity<V : BaseView, T : BasePresenterImpl<V>, X> : BaseListMVPActivity<V, T, X>(), BaseView {
+    protected var mAMap: AMap? = null
     private var mLatLng = LatLng(0.0, 0.0)
-
+    abstract fun locationSuccessResult(mLatLng: LatLng)
 
     protected fun initGaoDeAmapView(savedInstanceState: Bundle?) {
         location_map.onCreate(savedInstanceState)
@@ -88,6 +90,7 @@ abstract class BaseLocationActivity<V : BaseView, T : BasePresenterImpl<V>> : Ba
             locationMarker?.setAnimation(animation)
             //开始动画
             locationMarker?.startAnimation()
+            locationSuccessResult(latLng)
         } else {
             Log.e("ama", "screenMarker is null")
         }
@@ -167,7 +170,7 @@ abstract class BaseLocationActivity<V : BaseView, T : BasePresenterImpl<V>> : Ba
         mAMap?.let {
             mLatLng = LatLng(location.latitude, location.longitude)
             initAMap(mLatLng, it)
-
+            locationSuccessResult(mLatLng)
         }
         sb.append("回调时间: ${GaodeLocationUtils.formatUTC(callBackTime, null)}".trimIndent())
         if (null == location) {
@@ -176,7 +179,8 @@ abstract class BaseLocationActivity<V : BaseView, T : BasePresenterImpl<V>> : Ba
             sb.append(GaodeLocationUtils.getLocationStr(location))
         }
         LogUtils.d(sb.toString())
-        ToastUtils.showToast(BaseApplication.getContext(), sb.toString())
+        //TODO 位置回调
+//        ToastUtils.showToast(BaseApplication.getContext(), sb.toString())
     }
     private var mLocationClientSingle: AMapLocationClient? = null
 
@@ -202,6 +206,7 @@ abstract class BaseLocationActivity<V : BaseView, T : BasePresenterImpl<V>> : Ba
         super.onSaveInstanceState(outState)
         location_map.onSaveInstanceState(outState)
     }
+
     override fun onDestroy() {
         super.onDestroy()
         mLocationClientSingle?.onDestroy()

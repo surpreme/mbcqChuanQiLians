@@ -19,8 +19,7 @@
         android:background="@color/white"
         app:itemIconTint="@color/selector_bnv"
         app:itemTextColor="@color/selector_bnv"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/menu_bottom_navigation" />
-
+        app:layout_constraintBottom_toBottomOf="parent" />
+    <!--    app:menu="@menu/menu_bottom_navigation"-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

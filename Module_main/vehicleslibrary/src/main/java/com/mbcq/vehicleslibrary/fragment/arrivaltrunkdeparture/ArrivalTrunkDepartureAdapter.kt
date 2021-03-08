@@ -1,5 +1,6 @@
 package com.mbcq.vehicleslibrary.fragment.arrivaltrunkdeparture
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
@@ -26,12 +27,14 @@ class ArrivalTrunkDepartureAdapter(context: Context?) : BaseRecyclerAdapter<Trun
     }
 
     var mOnArrivalConfirmInterface: OnArrivalConfirmInterface? = null
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ItemViewHolder).departure_number_tv.text = mDatas[position].inoneVehicleFlag
         holder.transport_type_tv.text = mDatas[position].transneedStr
         holder.short_feeder_time_tv.text = mDatas[position].sendDate
         holder.outlets_info_tv.text = mDatas[position].vehicleInterval
         holder.feeder_state_tv.text = mDatas[position].vehicleStateStr
+        holder.vehicler_info_tv.text = "${mDatas[position].vehicleNo}  ${mDatas[position].chauffer}  ${mDatas[position].chaufferMb}"
         //车辆状态0代表发车计划中 1代表发货2代表到货 3到货处理结束
         holder.feeder_confirm_btn.visibility = if (mDatas[position].vehicleState == 1) View.VISIBLE else View.GONE
         holder.overed_car_ll.visibility = if (mDatas[position].vehicleState == 2) View.VISIBLE else View.GONE
@@ -71,6 +74,7 @@ class ArrivalTrunkDepartureAdapter(context: Context?) : BaseRecyclerAdapter<Trun
         var overed_car_ll: LinearLayout = itemView.findViewById(R.id.overed_car_ll)
         var feeder_cancel_confirm_btn: Button = itemView.findViewById(R.id.feeder_cancel_confirm_btn)
         var unloading_warehousing_btn: Button = itemView.findViewById(R.id.unloading_warehousing_btn)
+        var vehicler_info_tv: TextView = itemView.findViewById(R.id.vehicler_info_tv)
 
     }
 }

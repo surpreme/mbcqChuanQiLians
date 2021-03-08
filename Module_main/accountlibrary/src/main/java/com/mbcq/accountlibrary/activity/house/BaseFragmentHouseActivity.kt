@@ -4,13 +4,17 @@ package com.mbcq.accountlibrary.activity.house
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuItem
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.mbcq.accountlibrary.R
-import com.mbcq.accountlibrary.fragment.*
+import com.mbcq.accountlibrary.fragment.FinanceFragment
+import com.mbcq.accountlibrary.fragment.HouseFragment
 import com.mbcq.accountlibrary.fragment.OperationFragment
+import com.mbcq.accountlibrary.fragment.ReportFragment
 import com.mbcq.accountlibrary.fragment.setting.SettingFragment
 import com.mbcq.baselibrary.util.screen.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_house.*
@@ -206,40 +210,53 @@ abstract class BaseFragmentHouseActivity : BaseHouseFingerActivity() {
 
     private fun initFragment() {
         fragmentManager = supportFragmentManager
+        val titles= arrayListOf<String>("首页","运营","财务","报表","我的")
+        val icons= arrayListOf(R.drawable.ic_house_botom,R.drawable.ic_operation_bottom,R.drawable.ic_finance_bottom,R.drawable.ic_report_bottom,R.drawable.ic_setting_bottom)
+        val menu: Menu = main_bottom_navigation_view.menu
+        for (i in 0 until titles.size) {
+            menu.add(1, i, i, titles[i])
+            val item: MenuItem = menu.findItem(i)
+            item.setIcon(icons[i])
+        }
         main_bottom_navigation_view.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 /**
                  * 首页
                  */
-                R.id.home_item -> {
+//                R.id.home_item
+                0-> {
                     setTabSelection(0)
 
                 }
                 /**
                  * 运营
                  */
-                R.id.operation_item -> {
+//                R.id.operation_item
+                1-> {
                     setTabSelection(1)
 
                 }
                 /**
                  * 财务
                  */
-                R.id.finance_item -> {
+//                R.id.finance_item
+                2-> {
                     setTabSelection(2)
 
                 }
                 /**
                  * 报表
                  */
-                R.id.report_item -> {
+//                R.id.report_item
+                3-> {
                     setTabSelection(3)
 
                 }
                 /**
                  * 我的
                  */
-                R.id.setting_item -> {
+//                R.id.setting_item
+                4-> {
                     setTabSelection(4)
 
                 }

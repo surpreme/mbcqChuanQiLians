@@ -187,6 +187,22 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
         location_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
+                mMapType = 1
+                getLocation()
+            }
+
+        })
+        shipper_address_location_iv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                mMapType = 2
+                getLocation()
+            }
+
+        })
+
+        receiver_address_location_iv.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                mMapType = 3
                 getLocation()
             }
 
@@ -199,6 +215,8 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
                     mBillingWeightCalculatorDialog = BillingWeightCalculatorDialog(getScreenWidth(), object : BillingWeightCalculatorDialog.OnResultInterface {
                         override fun onResult(totalWeight: String) {
                             weight_name_ed.setText(totalWeight)
+                            closeRedEditTextErrorMsg(weight_name_ed)
+
                         }
 
                     })
@@ -213,6 +231,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
                     mBillingVolumeCalculatorDialog = BillingVolumeCalculatorDialog(getScreenWidth(), object : BillingVolumeCalculatorDialog.OnResultInterface {
                         override fun onResult(totalVolume: String) {
                             volume_name_ed.setText(totalVolume)
+                            closeRedEditTextErrorMsg(volume_name_ed)
                         }
 
                     })
@@ -240,6 +259,18 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             }
         }
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onLocationResultDataEvent(event: LocationResultEvent) {
+        if (event.type==1){
+            val obj=JSONObject(event.resultStr)
+            refreshArriveOutlet(obj.optString("webid"),obj.optString("webidCode"),obj.optString("companyId"))
+        }else  if (event.type==2){
+            shipper_address_ed.setText(event.resultStr)
+        }else  if (event.type==3){
+            receiver_address_ed.setText(event.resultStr)
+        }
     }
 
     fun showDestination() {
@@ -334,7 +365,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         jsonObj.put("ValueAddedService", ValueAddedService)
 
         //连开
-        val Continuity = "0"
+        val Continuity = if (continuous_invoicing_check.isChecked) "1" else "0"
         jsonObj.put("Continuity", Continuity)
         //CompanyId 未知
         val CompanyId = ""
@@ -730,6 +761,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mSelectData = Gson().fromJson<CargoAppellationBean>(mResult, CargoAppellationBean::class.java)
                 cargo_name_ed.setText(mSelectData.product)
+                closeRedEditTextErrorMsg(cargo_name_ed)
             }
 
         }).show(supportFragmentManager, "getCargoAppellationSFilterDialog")
@@ -741,6 +773,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             mMoreCheckBoxPackageDialog = MoreCheckBoxPackageDialog(getScreenWidth(), "请选择或者输入包装", result, "packages", "", object : OnClickInterface.OnClickInterface {
                 override fun onResult(s1: String, s2: String) {
                     package_name_ed.setText(s1)
+                    closeRedEditTextErrorMsg(package_name_ed)
 
                 }
 
@@ -1061,6 +1094,26 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         }).show(supportFragmentManager, "AddReceiverActivityFilterDialog")
     }
 
+    fun refreshArriveOutlet(webid: String, webidCode: String, companyId: String) {
+        arrive_outlet_tv.text = webid
+        destinationt_tv.text = ""
+        destinationt = ""
+        endWebIdCode = webidCode
+        endWebIdCodeStr = webid
+        eCompanyId = companyId
+        object : CountDownTimer(500, 500) {
+            override fun onTick(millisUntilFinished: Long) {
+
+            }
+
+            override fun onFinish() {
+                if (!isDestroyed)
+                    showDestination()
+            }
+
+        }.start()
+    }
+
     /**
      * 注 position 已经无法区别
      * 因为常用网点和所有网点是两个recyclerview
@@ -1071,23 +1124,8 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         FilterDialog(getScreenWidth(), Gson().toJson(list), "webid", "选择到货网点", true, isShowOutSide = true, showTipsTag = "RECEIVING_OUTLETS", showBarTipsStr = "网点", mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mWebAreaDbInfo = Gson().fromJson<WebAreaDbInfo>(mResult, WebAreaDbInfo::class.java)
-                arrive_outlet_tv.text = mWebAreaDbInfo.webid
-                destinationt_tv.text = ""
-                destinationt = ""
-                endWebIdCode = mWebAreaDbInfo.webidCode
-                endWebIdCodeStr = mWebAreaDbInfo.webid
-                eCompanyId = mWebAreaDbInfo.companyId
-                object : CountDownTimer(500, 500) {
-                    override fun onTick(millisUntilFinished: Long) {
+                refreshArriveOutlet(mWebAreaDbInfo.webid, mWebAreaDbInfo.webidCode, mWebAreaDbInfo.companyId)
 
-                    }
-
-                    override fun onFinish() {
-                        if (!isDestroyed)
-                            showDestination()
-                    }
-
-                }.start()
 
             }
 

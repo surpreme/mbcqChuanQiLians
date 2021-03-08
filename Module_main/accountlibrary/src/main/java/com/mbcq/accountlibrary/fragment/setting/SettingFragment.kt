@@ -69,9 +69,9 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
 
     override fun addItemDecoration(): RecyclerView.ItemDecoration = object : BaseItemDecoration(mContext) {
         override fun configExtraSpace(position: Int, count: Int, rect: Rect) {
-            if (position == 0 || position == 7 || position == 14 || position == 18)
+            if (position == 0 || position == 7 ||position == 11)
                 rect.bottom = ScreenSizeUtils.dp2px(mContext, 10f)
-            else if (position == 17)
+            else if (position == 10)
                 rect.bottom = ScreenSizeUtils.dp2px(mContext, 1f)
             else
                 rect.bottom = ScreenSizeUtils.dp2px(mContext, 1.5f)
@@ -91,7 +91,7 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
 
         }
         val list = arrayListOf<SettingIconBean>()
-        for (index in 0..18) {
+        for (index in 0..11) {
             val mSettingIconBean = SettingIconBean()
             when (index) {
                 0 -> {
@@ -155,60 +155,26 @@ class SettingFragment : BaseListFragment<SettingIconBean>() {
                 /**
                  *
                  */
-                8 -> {
-                    mSettingIconBean.tag = 3
-                    mSettingIconBean.title = "常用收货网点"
 
-                }
-                9 -> {
-                    mSettingIconBean.tag = 3
-                    mSettingIconBean.title = "常用目的地"
-
-                }
-                10 -> {
-                    mSettingIconBean.tag = 3
-                    mSettingIconBean.title = "常用收货方式"
-
-                }
-                11 -> {
-                    mSettingIconBean.tag = 3
-                    mSettingIconBean.title = "常用付货方式"
-
-                }
-                12 -> {
-                    mSettingIconBean.tag = 3
-                    mSettingIconBean.title = "常用货物名称"
-
-                }
-                13 -> {
-                    mSettingIconBean.tag = 3
-                    mSettingIconBean.title = "常用包装方式"
-
-                }
-                14 -> {
-                    mSettingIconBean.tag = 3
-                    mSettingIconBean.title = "常用开单备注"
-
-                }
                 /**
                  *
                  */
-                15 -> {
+                8 -> {
                     mSettingIconBean.tag = 3
                     mSettingIconBean.title = "扫描备注"
 
                 }
-                16 -> {
+                9 -> {
                     mSettingIconBean.tag = 3
                     mSettingIconBean.title = "语音播报开关"
 
                 }
-                17 -> {
+                10 -> {
                     mSettingIconBean.tag = 3
                     mSettingIconBean.title = "语音播报人"
 
                 }
-                18 -> {
+                11 -> {
                     mSettingIconBean.tag = 4
                 }
             }

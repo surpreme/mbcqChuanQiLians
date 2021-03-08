@@ -15,6 +15,8 @@ class LocalGentShortFeederHouseContract {
 
         fun getInventoryS(list:List<LocalGentShortFeederHouseBean>)
         fun  completeVehicleS()
+        fun  getTransitCompanyS(result:String)
+
     }
 
     interface Presenter : BasePresenter<View> {
@@ -28,6 +30,8 @@ class LocalGentShortFeederHouseContract {
          * 完成本车 车辆
          */
         fun completeVehicle(s: JSONObject)
+
+        fun  getTransitCompany(selWebidCode:String)
 
     }
 }

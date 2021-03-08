@@ -37,6 +37,7 @@
             android:paddingLeft="15dp" />
 
         <ImageView
+            android:id="@+id/scan_iv"
             android:layout_width="25dp"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"

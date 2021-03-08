@@ -109,7 +109,8 @@ abstract class BaseMVPActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseAct
         if (isShowErrorDialog())
             TalkSureDialog(mContext, getScreenWidth(), msg).show()
         else {
-            ToastUtils.showToast(mContext, msg)
+//            ToastUtils.showToast(mContext, msg)
+            showToast(msg)
             //*************************
             /*  val toastUtil = CustomizeToastUtil()
               toastUtil.Short(mContext, msg).setGravity(Gravity.TOP).setErrorToast(Color.WHITE, R.drawable.toast_radius).show()*/

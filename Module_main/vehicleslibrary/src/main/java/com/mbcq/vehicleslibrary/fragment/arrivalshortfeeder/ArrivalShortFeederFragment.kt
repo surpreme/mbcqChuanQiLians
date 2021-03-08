@@ -17,8 +17,10 @@ import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordEvent
+import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordRefreshEvent
 import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederBean
 import kotlinx.android.synthetic.main.fragment_arrival_short_feeder.*
+import org.greenrobot.eventbus.EventBus
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -128,8 +130,12 @@ class ArrivalShortFeederFragment : BaseSmartMVPFragment<ArrivalShortFeederContra
         }
     }
 
-    override fun getPageS(list: List<ShortFeederBean>) {
+    override fun getPageS(list: List<ShortFeederBean>, totalNum: Int) {
         appendDatas(list)
+        if (getCurrentPage() == 1) {
+            if (totalNum == -1) return
+            EventBus.getDefault().post(ArrivalRecordRefreshEvent(totalNum.toString(), 1))
+        }
 
     }
 

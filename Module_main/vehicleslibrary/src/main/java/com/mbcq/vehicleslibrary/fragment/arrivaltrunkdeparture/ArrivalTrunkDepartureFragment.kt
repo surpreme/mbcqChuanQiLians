@@ -15,8 +15,10 @@ import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordEvent
+import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordRefreshEvent
 import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
 import kotlinx.android.synthetic.main.fragment_arrival_trunk_departure.*
+import org.greenrobot.eventbus.EventBus
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -97,7 +99,7 @@ class ArrivalTrunkDepartureFragment : BaseSmartMVPFragment<ArrivalTrunkDeparture
 
     override fun getPageDatas(mCurrentPage: Int) {
         super.getPageDatas(mCurrentPage)
-        mPresenter?.getArrivalCar(mShippingOutletsTag, mStartDateTag, mEndDateTag)
+        mPresenter?.getArrivalCar(mCurrentPage,mShippingOutletsTag, mStartDateTag, mEndDateTag)
 
     }
 
@@ -130,8 +132,12 @@ class ArrivalTrunkDepartureFragment : BaseSmartMVPFragment<ArrivalTrunkDeparture
     }
 
 
-    override fun getPageS(list: List<TrunkDepartureBean>) {
+    override fun getPageS(list: List<TrunkDepartureBean>,totalNum:Int) {
         appendDatas(list)
+        if (getCurrentPage() == 1) {
+            if (totalNum==-1)return
+            EventBus.getDefault().post(ArrivalRecordRefreshEvent(totalNum.toString(), 2))
+        }
 
     }
 

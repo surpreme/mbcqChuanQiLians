@@ -21,10 +21,7 @@
         android:id="@+id/waybill_record_search_tv"
         android:layout_width="match_parent"
         android:layout_height="29dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="13dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/common_round_corner_gray_bg"
         android:drawableLeft="@drawable/ic_search_icon"
         android:drawableTint="@color/base_grayDark"
@@ -32,6 +29,8 @@
         android:hint="   请输入要查询的运单号"
         android:paddingLeft="13dp"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/waybill_record_toolbar" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout

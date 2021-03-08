@@ -1,3 +1,0 @@
-package com.mbcq.vehicleslibrary.activity.alldeparturerecord.departurerecord
-
-class TrunkDepartureIsRefreshEvent

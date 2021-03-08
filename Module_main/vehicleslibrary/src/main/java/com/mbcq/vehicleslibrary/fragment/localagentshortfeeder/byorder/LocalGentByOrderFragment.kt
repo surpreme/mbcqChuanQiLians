@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
+import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
@@ -74,11 +75,13 @@ class LocalGentByOrderFragment : BaseSmartMVPFragment<LocalGentByOrderContract.V
 
         }
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onRefreshLocalGentByOrderNewDataEvent(event: LocalGentShortFeederHouseEvent) {
         if (event.refreshType == 2)
             refresh()
     }
+
     override fun onClick() {
         super.onClick()
         out_stock_btn.setOnClickListener(object : SingleClick() {
@@ -133,7 +136,14 @@ class LocalGentByOrderFragment : BaseSmartMVPFragment<LocalGentByOrderContract.V
     override fun getSmartEmptyId(): Int = R.id.local_short_feeder_smart_frame
     override fun getRecyclerViewId(): Int = R.id.local_short_feeder_recycler
 
-    override fun setAdapter(): BaseRecyclerAdapter<LocalGentByOrderBean> = LocalGentByOrderAdapter(mContext)
+    override fun setAdapter(): BaseRecyclerAdapter<LocalGentByOrderBean> = LocalGentByOrderAdapter(mContext).also {
+        it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                ARouter.getInstance().build(ARouterConstants.LocalGentShortFeederHouseInfoActivity).withString("LocalGentShortFeederInfoJson", mResult).navigation()
+            }
+        }
+    }
+
     override fun getPageS(list: List<LocalGentByOrderBean>) {
         appendDatas(list)
 

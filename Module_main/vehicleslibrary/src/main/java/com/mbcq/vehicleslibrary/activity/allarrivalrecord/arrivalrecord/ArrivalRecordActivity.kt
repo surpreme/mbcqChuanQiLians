@@ -1,6 +1,7 @@
 package com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord
 
 
+import android.annotation.SuppressLint
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
@@ -13,7 +14,10 @@ import com.mbcq.commonlibrary.WebsDbInterface
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.activity.alllocalagent.event.LocalGentShortFeederHouseEvent
 import kotlinx.android.synthetic.main.activity_arrival_record.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * @author: lzy
@@ -25,10 +29,21 @@ class ArrivalRecordActivity : BaseArrivalRecordActivity<ArrivalRecordContract.Vi
 
     override fun getLayoutId(): Int = R.layout.activity_arrival_record
 
+    override fun isOpenEventBus(): Boolean = true
+
+    @SuppressLint("SetTextI18n")
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = false)
+    fun onRefreshArrivalRecordNewDataEvent(event: ArrivalRecordRefreshEvent) {
+        if (event.type == 1)
+            short_feeder_tv.text = "短驳到车(${event.num})"
+        else if (event.type == 2)
+            main_line_departure_tv.text = "干线到车(${event.num})"
+    }
+
     override fun onClick() {
         super.onClick()
         arrival_record_toolbar.setRightButtonOnClickListener {
-            WebDbUtil.getDbWebId(application,object : WebsDbInterface {
+            WebDbUtil.getDbWebId(application, object : WebsDbInterface {
                 override fun isNull() {
 
                 }

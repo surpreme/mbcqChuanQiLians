@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
+import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.interfaces.RxBus
 import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
@@ -43,7 +44,14 @@ class LocalGentByCarFragment : BaseSmartMVPFragment<LocalGentByCarContract.View,
     override fun getSmartEmptyId(): Int = R.id.local_short_feeder_smart_frame
     override fun getRecyclerViewId(): Int = R.id.local_short_feeder_recycler
     override fun isOpenEventBus(): Boolean = true
-    override fun setAdapter(): BaseRecyclerAdapter<LocalGentByCarBean> = LocalGentByCarAdapter(mContext)
+    override fun setAdapter(): BaseRecyclerAdapter<LocalGentByCarBean> = LocalGentByCarAdapter(mContext).also {
+        it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                ARouter.getInstance().build(ARouterConstants.LocalGentShortFeederHouseInfoActivity).withString("LocalGentShortFeederInfoJson", mResult).navigation()
+            }
+
+        }
+    }
 
     @SuppressLint("SimpleDateFormat")
     override fun initExtra() {

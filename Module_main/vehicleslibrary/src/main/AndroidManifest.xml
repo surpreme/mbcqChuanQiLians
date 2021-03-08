@@ -3,7 +3,14 @@
     package="com.mbcq.vehicleslibrary">
 
     <application>
-        <activity android:name=".activity.shortfeederunloadingwarehousing.ShortFeederUnloadingWarehousingActivity"></activity>
+        <activity android:name=".activity.loadingvehicles.trunk.TrunkLoadingVehiclesActivity"></activity>
+        <activity android:name=".activity.loadingvehicles.shortbarge.ShortBargeLoadingVehiclesActivity" />
+        <activity android:name=".activity.loadingvehicles.untrunk.TrunkUnLoadingVehiclesActivity" />
+        <activity
+            android:name=".activity.loadingvehicles.unshortbarge.ShortBargeUnLoadingVehiclesActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".activity.alllocalagent.localgentshortfeederhouseinfo.LocalGentShortFeederHouseInfoActivity" />
+        <activity android:name=".activity.shortfeederunloadingwarehousing.ShortFeederUnloadingWarehousingActivity" />
         <activity android:name=".activity.trunkdepartureunloadingwarehousing.TrunkDepartureUnloadingWarehousingActivity" />
         <activity android:name=".activity.fixeddeparturetrunkconfiguration.FixedDepartureTrunkConfigurationActivity" />
         <activity android:name=".activity.fixedshortfeederconfiguration.FixedShortFeederConfigurationActivity" />
@@ -52,7 +59,9 @@
         <activity android:name=".activity.allterminalagent.addterminalagentbycar.AddTerminalAgentByCarActivity" />
         <activity android:name=".activity.allterminalagent.terminalagent.TerminalAgentActivity" />
         <activity android:name=".activity.alllocalagent.fixlocalgentshortfeederhouse.FixedLocalGentShortFeederHouseActivity" />
-        <activity android:name=".activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseActivity" />
+        <activity
+            android:name=".activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.alllocalagent.addlocalgentshortfeeder.AddLocalGentShortFeederActivity" />
         <activity android:name=".activity.alllocalagent.localagent.LocalAgentActivity" />
         <activity android:name=".activity.allarrivalrecord.unloadingwarehousing.UnloadingWarehousingActivity" />
@@ -71,6 +80,14 @@
         <activity
             android:name=".activity.stowagealongwayhouse.StowageAlongWayHouseActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.alldeparturerecord.departurerecord.trunk.TrunkDepartureRecordActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.alldeparturerecord.departurerecord.shortbarge.ShortBargeDepartureRecordActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".activity.allarrivalrecord.arrivalrecord.shortbarge.ShortBargeArrivalRecordActivity" />
+        <activity android:name=".activity.allarrivalrecord.arrivalrecord.trunk.TrunkArrivalRecordActivity" />
     </application>
 
 </manifest>

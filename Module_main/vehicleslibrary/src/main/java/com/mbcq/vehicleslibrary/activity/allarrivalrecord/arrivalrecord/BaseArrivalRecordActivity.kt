@@ -2,6 +2,7 @@ package com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord
 
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
@@ -31,7 +32,7 @@ import kotlinx.android.synthetic.main.activity_arrival_record.*
  * @time: 2020-09-09 17:22:09
  * 到车记录
  */
-abstract class BaseArrivalRecordActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V,T>(), BaseView {
+abstract class BaseArrivalRecordActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
     private var fragmentManager: FragmentManager? = null
     private var mArrivalShortFeederFragment: ArrivalShortFeederFragment? = null
     private var mArrivalTrunkDepartureFragment: ArrivalTrunkDepartureFragment? = null
@@ -41,7 +42,20 @@ abstract class BaseArrivalRecordActivity<V : BaseView, T : BasePresenterImpl<V>>
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
         fragmentManager = supportFragmentManager
-        setTabSelection(0)
+        setTabSelection(1)
+        object : CountDownTimer(200, 200) {
+            override fun onFinish() {
+                if (isDestroyed) return
+                setTabSelection(0)
+
+
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+            }
+
+        }.start()
+
     }
 
     private fun hideFragment(transaction: FragmentTransaction) {

@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
@@ -21,11 +22,13 @@ class LocalGentShortFeederHouseLoadingAdapter(context: Context?) : BaseRecyclerA
 
         }
     }
+
     var mOnRemoveInterface: OnRemoveInterface? = null
 
     interface OnRemoveInterface {
         fun onClick(position: Int, item: LocalGentShortFeederHouseBean)
     }
+
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ItemViewHolder).waybill_number_tv.text = mDatas[position].billno
@@ -36,6 +39,8 @@ class LocalGentShortFeederHouseLoadingAdapter(context: Context?) : BaseRecyclerA
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.shipper_tv.text = mDatas[position].shipper
         holder.receiver_tv.text = mDatas[position].consignee
+        holder.transit_company_info_tv.text = "${if (mDatas[position].outCygs.isNotBlank()) "${mDatas[position].outCygs}\n" else ""}${if (mDatas[position].outacc.isNotBlank()) "中转费${mDatas[position].outacc}" else ""}"
+//        holder.transit_company_info_tv.text = /*if (mDatas[position].outCygs.isNotBlank()) "${mDatas[position].outCygs}" else "" +*/ if (mDatas[position].outacc.isNotBlank()) mDatas[position].outacc else ""
         holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].qty}件 ${mDatas[position].volumn}m³ ${mDatas[position].packages} ${mDatas[position].weight}Kg ${mDatas[position].accTypeStr}${mDatas[position].accSum}  "
 
         context?.let {
@@ -49,9 +54,15 @@ class LocalGentShortFeederHouseLoadingAdapter(context: Context?) : BaseRecyclerA
             }
 
         })
+        holder.itemView.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View) {
+                mClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
+            }
+
+        })
         holder.waybill_move_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                mOnRemoveInterface?.onClick(position,mDatas[position])
+                mOnRemoveInterface?.onClick(position, mDatas[position])
             }
 
         })
@@ -69,5 +80,6 @@ class LocalGentShortFeederHouseLoadingAdapter(context: Context?) : BaseRecyclerA
         var receiver_outlets_tv: TextView = itemView.findViewById(R.id.receiver_outlets_tv)
         var shipper_tv: TextView = itemView.findViewById(R.id.shipper_tv)
         var receiver_tv: TextView = itemView.findViewById(R.id.receiver_tv)
+        var transit_company_info_tv: TextView = itemView.findViewById(R.id.transit_company_info_tv)
     }
 }

@@ -61,11 +61,14 @@ object ARouterConstants {
      * 地图模块
      */
     const val LocationActivity = "/map/LocationActivity"
+    const val LocationTestActivity = "/map/LocationTestActivity"
 
     /**
      * 车辆模块
      */
     const val DepartureRecordActivity = "/vehicles/DepartureRecordActivity"
+    const val TrunkDepartureRecordActivity = "/vehicles/TrunkDepartureRecordActivity"
+    const val ShortBargeDepartureRecordActivity = "/vehicles/ShortBargeDepartureRecordActivity"
     const val AddTrunkDepartureActivity = "/vehicles/AddTrunkDepartureActivity"
     const val AddShortFeederActivity = "/vehicles/AddShortFeederActivity"
     const val ShortFeederHouseActivity = "/vehicles/ShortFeederHouseActivity"
@@ -73,8 +76,14 @@ object ARouterConstants {
     const val FixedTrunkDepartureHouseActivity = "/vehicles/FixedTrunkDepartureHouseActivity"
     const val FixShortFeederHouseActivity = "/vehicles/FixShortFeederHouseActivity"
     const val ArrivalRecordActivity = "/vehicles/ArrivalRecordActivity"
+    const val ShortBargeArrivalRecordActivity = "/vehicles/ShortBargeArrivalRecordActivity"
+    const val TrunkArrivalRecordActivity = "/vehicles/TrunkArrivalRecordActivity"
     const val UnloadingWarehousingActivity = "/vehicles/UnloadingWarehousingActivity"
     const val LoadingVehiclesActivity = "/vehicles/LoadingVehiclesActivity"
+    const val ShortBargeUnLoadingVehiclesActivity = "/vehicles/ShortBargeUnLoadingVehiclesActivity"
+    const val TrunkLoadingVehiclesActivity = "/vehicles/TrunkLoadingVehiclesActivity"
+    const val ShortBargeLoadingVehiclesActivity = "/vehicles/ShortBargeLoadingVehiclesActivity"
+    const val TrunkUnLoadingVehiclesActivity = "/vehicles/TrunkUnLoadingVehiclesActivity"
     const val LocalAgentActivity = "/vehicles/LocalAgentActivity"
     const val VehicleArchivesActivity = "/vehicles/VehicleArchivesActivity"
     const val AddLocalGentShortFeederActivity = "/vehicles/AddLocalGentShortFeederActivity"
@@ -109,6 +118,7 @@ object ARouterConstants {
     const val FixedDepartureTrunkConfigurationActivity = "/vehicles/FixedDepartureTrunkConfigurationActivity"
     const val ShortFeederUnloadingWarehousingActivity = "/vehicles/ShortFeederUnloadingWarehousingActivity"
     const val TrunkDepartureUnloadingWarehousingActivity = "/vehicles/TrunkDepartureUnloadingWarehousingActivity"
+    const val LocalGentShortFeederHouseInfoActivity = "/vehicles/LocalGentShortFeederHouseInfoActivity"
 
     /**
      * 财务模块
