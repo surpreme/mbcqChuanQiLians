@@ -18,7 +18,7 @@ class TrunkLoadingVehiclesPresenter : BasePresenterImpl<TrunkLoadingVehiclesCont
     /**
      * 发车记录短驳和干线
      */
-    override fun getScanVehicleList(startDate: String, endDate: String) {
+    override fun getScanVehicleList(startDate: String, endDate: String,selWebidCode:String) {
         val params = HttpParams()
         params.put("page", 1)
         params.put("limit", 1000)
@@ -27,6 +27,8 @@ class TrunkLoadingVehiclesPresenter : BasePresenterImpl<TrunkLoadingVehiclesCont
         params.put("IsScanStr", "1")//筛选状态的种类 有计划无计划"1,2"
         params.put("startDate", startDate)
         params.put("endDate", endDate)
+        params.put("SelWebidCode", selWebidCode)
+
         get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val mXobj = JSONObject(result)

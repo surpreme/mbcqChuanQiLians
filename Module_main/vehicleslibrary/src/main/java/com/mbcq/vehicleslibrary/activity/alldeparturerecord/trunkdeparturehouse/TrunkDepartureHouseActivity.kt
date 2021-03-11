@@ -50,6 +50,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
     var mLastDataJson: String = ""
     var mStartWebCode = ""
     var mEndWebCode = ""
+    var mEndWebCodeInt = ""
     val mOutList = HashMap<String, String>()
     var mMaximumVehicleWeight = 0.0
 
@@ -64,6 +65,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
         departure_lot_tv.text = "发车批次: $mDepartureLot"
         mStartWebCode = mLastData.optString("WebidCodeStr")
         mEndWebCode = mLastData.optString("EwebidCodeStr")
+        mEndWebCodeInt = mLastData.optString("EwebidCode")
         operating_interval_tv.text = "$mStartWebCode-$mEndWebCode"
         mMaximumVehicleWeight = mLastData.optDouble("MaximumVehicleWeight", 0.0)
 
@@ -240,7 +242,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
 
     override fun initDatas() {
         super.initDatas()
-        mPresenter?.getInventory(1)
+        mPresenter?.getInventory(1, mEndWebCodeInt, mEndWebCode)
     }
 
     override fun getInventoryS(list: List<StockWaybillListBean>) {

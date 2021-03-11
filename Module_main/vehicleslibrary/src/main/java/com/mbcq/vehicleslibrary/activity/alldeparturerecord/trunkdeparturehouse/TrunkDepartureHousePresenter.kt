@@ -112,10 +112,12 @@ class TrunkDepartureHousePresenter : BasePresenterImpl<TrunkDepartureHouseContra
     ]}
      */
 
-    override fun getInventory(page: Int) {
+    override fun getInventory(page: Int, ewebidCode: String, ewebidCodeStr: String) {
         val params = HttpParams()
-        params.put("page", 1)
-        params.put("limit", 1000)
+//        params.put("page", 1)
+//        params.put("limit", 1000)
+        params.put("webidCode", ewebidCode)
+        params.put("WebidCodeStr", ewebidCodeStr)
         get<String>(ApiInterface.WAYBILL_INVENTORY_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
 

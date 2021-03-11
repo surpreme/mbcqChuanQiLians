@@ -13,12 +13,15 @@ import com.mbcq.baselibrary.finger.FingerprintHelper
 import com.mbcq.baselibrary.finger.FingerprintUtil
 import com.mbcq.baselibrary.finger.FingerprintVerifyDialog
 import com.mbcq.baselibrary.ui.BaseActivity
+import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
+import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
+import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 
 /**
  *开启指纹
  */
-abstract class BaseHouseFingerActivity : BaseActivity(), FingerprintHelper.SimpleAuthenticationCallback {
+abstract class BaseHouseFingerActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView,FingerprintHelper.SimpleAuthenticationCallback {
     lateinit var helper: FingerprintHelper
     private var openFingerprintLoginTipDialog: CommonTipDialog? = null
     private var fingerprintVerifyDialog: FingerprintVerifyDialog? = null

@@ -135,7 +135,7 @@ class TrunkLoadingVehiclesActivity : CommonScanPDAMVPSmartActivity<TrunkLoadingV
 
     override fun getPageDatas(mCurrentPage: Int) {
         super.getPageDatas(mCurrentPage)
-        mPresenter?.getScanVehicleList(mStartDateTag, mEndDateTag)
+        mPresenter?.getScanVehicleList(mStartDateTag, mEndDateTag,mShippingOutletsTag)
     }
 
     override fun setAdapter(): BaseRecyclerAdapter<LoadingVehiclesBean> = LoadingVehiclesAdapter(mContext).also {

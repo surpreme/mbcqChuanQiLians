@@ -24,7 +24,7 @@ class TrunkDepartureHouseContract {
     }
 
     interface Presenter : BasePresenter<View> {
-        fun getInventory(page: Int)
+        fun getInventory(page: Int, ewebidCode: String, ewebidCodeStr: String)
         fun saveInfo(ob: JSONObject)
         fun overLocalCar(inoneVehicleFlag: String)
         fun addStowageAlongWay(inoneVehicleFlag: String, webidCode: String, webidCodeStr: String,datalist:HashMap<String, String>,isOver:Boolean)

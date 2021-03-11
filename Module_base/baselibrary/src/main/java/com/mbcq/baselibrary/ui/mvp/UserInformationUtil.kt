@@ -47,11 +47,18 @@ object UserInformationUtil {
     private val USR_INFORMATION_PSW: String = "USR_INFORMATION_PSW"
 
     /**
-     * 运单打印机 蓝牙地址  address Waybill printer
+     * 运单打印机 蓝牙地址
      */
 
     private val USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_ADDRESS_TAG: String = "USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_ADDRESS"
     private val USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_NAME_TAG: String = "USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_NAME_TAG"
+
+    /**
+     * 标签 打印机 蓝牙地址
+     */
+
+    private val USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_ADDRESS_TAG: String = "USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_ADDRESS_TAG"
+    private val USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_NAME_TAG: String = "USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_NAME_TAG"
 
     /**
      * 两级保存运单打印机 蓝牙地址
@@ -70,6 +77,26 @@ object UserInformationUtil {
         if (mSharePreferencesHelper == null)
             mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
         mSharePreferencesHelper?.put(USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_NAME_TAG, name)
+
+    }
+
+    /**
+     * 两级保存标签打印机 蓝牙地址
+     */
+
+    fun setLabelBlueToothPrinter(context: Context, address: String) {
+        BaseConstant.USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_ADDRESS = address
+        if (mSharePreferencesHelper == null)
+            mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
+        mSharePreferencesHelper?.put(USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_ADDRESS_TAG, address)
+
+    }
+
+    fun setLabelBlueToothPrinterName(context: Context, name: String) {
+        BaseConstant.USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_NAME = name
+        if (mSharePreferencesHelper == null)
+            mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
+        mSharePreferencesHelper?.put(USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_NAME_TAG, name)
 
     }
 
@@ -169,7 +196,7 @@ object UserInformationUtil {
             BaseConstant.USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_ADDRESS
         }
     }
-    fun  getBase():String=""
+
 
     fun getWayBillBlueToothPrinterName(context: Context): String {
         return if (BaseConstant.USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_NAME.isNullOrEmpty()) {
@@ -183,6 +210,37 @@ object UserInformationUtil {
 
         } else {
             BaseConstant.USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_NAME
+        }
+    }
+
+    fun getLabelBlueToothPrinter(context: Context): String {
+        return if (BaseConstant.USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_ADDRESS.isNullOrEmpty()) {
+            if (mSharePreferencesHelper == null)
+                mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
+            if (mSharePreferencesHelper?.contain(USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_ADDRESS_TAG)!!) {
+                mSharePreferencesHelper?.getSharePreference(USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_ADDRESS_TAG, "") as String
+            } else {
+                ""
+            }
+
+        } else {
+            BaseConstant.USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_ADDRESS
+        }
+    }
+
+
+    fun getLabelBlueToothPrinterName(context: Context): String {
+        return if (BaseConstant.USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_NAME.isNullOrEmpty()) {
+            if (mSharePreferencesHelper == null)
+                mSharePreferencesHelper = SharePreferencesHelper(context, USR_INFORMATION_ALL)
+            if (mSharePreferencesHelper?.contain(USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_NAME_TAG)!!) {
+                mSharePreferencesHelper?.getSharePreference(USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_NAME_TAG, "") as String
+            } else {
+                ""
+            }
+
+        } else {
+            BaseConstant.USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_NAME
         }
     }
 

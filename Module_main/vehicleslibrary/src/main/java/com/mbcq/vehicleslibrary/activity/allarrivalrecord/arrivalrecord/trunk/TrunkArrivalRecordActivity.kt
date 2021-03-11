@@ -15,11 +15,11 @@ import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordEvent
-import kotlinx.android.synthetic.main.activity_short_barge_arrival_record.*
+import kotlinx.android.synthetic.main.activity_trunk_departure_record.*
 
 @Route(path = ARouterConstants.TrunkArrivalRecordActivity)
 class TrunkArrivalRecordActivity : BaseActivity() {
-    override fun getLayoutId(): Int = R.layout.activity_short_barge_arrival_record
+    override fun getLayoutId(): Int = R.layout.activity_trunk_departure_record
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
@@ -27,13 +27,13 @@ class TrunkArrivalRecordActivity : BaseActivity() {
 
     override fun onClick() {
         super.onClick()
-        arrival_record_toolbar.setBackButtonOnClickListener(object : SingleClick() {
+        departure_billing_toolbar.setBackButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 onBackPressed()
             }
 
         })
-        arrival_record_toolbar.setRightButtonOnClickListener {
+        departure_billing_toolbar.setRightButtonOnClickListener {
             WebDbUtil.getDbWebId(application, object : WebsDbInterface {
                 override fun isNull() {
 

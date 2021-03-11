@@ -28,7 +28,7 @@ class FixShortFeederHouseContract {
 
     interface Presenter : BasePresenter<View> {
         fun modify(jsonObject: JSONObject)
-        fun getInventory(page: Int)
+        fun getInventory(page: Int, ewebidCode: String, ewebidCodeStr: String)
         fun getCarInfo(id: Int, inoneVehicleFlag: String)
         fun removeOrder(commonStr: String, id: String, inoneVehicleFlag: String)
         fun removeOrderItem(commonStr: String, id: String, inoneVehicleFlag: String,position: Int, item: StockWaybillListBean)

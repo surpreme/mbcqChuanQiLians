@@ -51,7 +51,7 @@ class FixedTrunkDepartureHouseActivity : BaseFixedTrunkDepartureHouseActivity<Fi
         departure_lot_tv.text = "发车批次: $mInoneVehicleFlag"
         mIsCanCloseLoading = false
         mPresenter?.getCarInfo(mLastData.optInt("Id"), mLastData.optString("InoneVehicleFlag"))
-        mPresenter?.getInventory(1)
+        mPresenter?.getInventory(1,mLastData.optString("ewebidCode"), mLastData.optString("ewebidCodeStr"))
         mPresenter?.getStowageAlongWay(mLastData.optString("InoneVehicleFlag"), mLastData.optInt("Id"))
         mPresenter?.getVehicles(mLastData.optString("VehicleNo"))
 

@@ -123,11 +123,12 @@ class ShortFeederHousePresenter : BasePresenterImpl<ShortFeederHouseContract.Vie
     ]}
      */
 
-    override fun getInventory(page: Int, ewebidCodeStr: String) {
+    override fun getInventory(page: Int, ewebidCode: String, ewebidCodeStr: String) {
         val params = HttpParams()
-        params.put("page", 1)
-        params.put("limit", 1000)
-        params.put("ewebidCodeStr", ewebidCodeStr)
+//        params.put("page", 1)
+//        params.put("limit", 1000)
+        params.put("webidCode", ewebidCode)
+        params.put("WebidCodeStr", ewebidCodeStr)
 //        mView?.getContext()?.let {
 //            params.put("SelWebidCode", UserInformationUtil.getWebIdCode(it))
 //        }

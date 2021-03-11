@@ -38,7 +38,7 @@ class FixedTrunkDepartureHouseContract {
         fun addOrderItem(commonStr: String, id: String, inoneVehicleFlag: String, position: Int, item: StockWaybillListBean)
         fun modify(jsonObject: JSONObject)
         fun removeOrder(commonStr: String, id: String, inoneVehicleFlag: String)
-        fun getInventory(page: Int)
+        fun getInventory(page: Int, ewebidCode: String, ewebidCodeStr: String)
 
         //作废本车
         fun invalidOrder(inoneVehicleFlag: String, id: Int)

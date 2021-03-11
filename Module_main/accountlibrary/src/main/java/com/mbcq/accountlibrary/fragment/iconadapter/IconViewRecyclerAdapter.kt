@@ -45,6 +45,7 @@ class IconViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<IconViewB
         }
     }
 
+    var mIconClickInterface : OnClickInterface.OnClickInterface? = null
 
     @SuppressLint("RtlHardcoded")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -88,7 +89,7 @@ class IconViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<IconViewB
                     holder.itemView.layoutParams = marginParams
 
                 }
-                mI.mClick = mClickInterface
+                mI.mClick = mIconClickInterface
                 (holder as CardViewHolder).card_recycler_view.adapter = mI
                 //isLayoutFrozen
 //                holder.card_recycler_view.isLayoutFrozen=true
@@ -130,7 +131,7 @@ class IconViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<IconViewB
 
         }
 
-        var mClick: OnClickInterface.OnRecyclerClickInterface? = null
+        var mClick: OnClickInterface.OnClickInterface? = null
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
             return ItemViewHolder(inflater.inflate(R.layout.item_operation_card, parent, false))
@@ -145,7 +146,8 @@ class IconViewRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<IconViewB
             holder.tool_text_tv.textSize = 16f
 
             holder.itemView.setOnClickListener {
-                mClick?.onItemClick(it, position, mIndexTag.toString())
+//                mClick?.onItemClick(it, position, mIndexTag.toString())
+                mClick?.onResult( mSonBean[position].arouterAddress, mSonBean[position].itemText)
             }
 
             context?.let {

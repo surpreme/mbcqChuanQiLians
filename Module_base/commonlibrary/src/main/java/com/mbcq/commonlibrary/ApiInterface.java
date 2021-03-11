@@ -9,6 +9,10 @@ public class ApiInterface {
      */
     public static final String LOG_IN_POST = BASE_URI + "Common/Login";
     /**
+     * 获取导航菜单显示item
+     */
+    public static final String NAVIGATION_ITEM_MENU_AUTHORITY_GET = BASE_URI + "Menuinfo/SelMenuinfoV1";
+    /**
      * 受理开单 获取运单号
      */
     public static final String ACCEPT_BILLING_WAYBILL_NUMBER_GET = BASE_URI + "RuleBillno/SelRule2Billno";

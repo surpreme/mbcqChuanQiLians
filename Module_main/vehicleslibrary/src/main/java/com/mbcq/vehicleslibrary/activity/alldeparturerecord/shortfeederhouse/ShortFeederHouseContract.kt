@@ -21,7 +21,7 @@ class ShortFeederHouseContract {
 
     interface Presenter : BasePresenter<View> {
         fun saveInfo(ob: JSONObject)
-        fun getInventory(page: Int, ewebidCodeStr: String)
+        fun getInventory(page: Int, ewebidCode: String, ewebidCodeStr: String)
         fun overLocalCar(inoneVehicleFlag: String)
 
     }

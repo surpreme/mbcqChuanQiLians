@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="18dp"
         android:layout_marginTop="10dp"
-        android:text="合计：100票 40件 2000kg  23m³ 运费1111"
+        tools:text="合计：100票 40件 2000kg  23m³ 运费1111"
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"

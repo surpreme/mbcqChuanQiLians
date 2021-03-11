@@ -56,7 +56,7 @@ class AddShortFeederActivity : BaseAddShortFeederActivity<AddShortFeederContract
         obj.put("InoneVehicleFlag", contract_No_tv.text.toString())
         obj.put("ContractNo", contract_No_tv.text.toString())
         obj.put("EcompanyId", mECompanyId)// 到车公司编码
-        obj.put("EwebidCode", mWebCodeId)// 到车网点编码
+        obj.put("ewebidCode", mWebCodeId)// 到车网点编码
         obj.put("Transneed", mTransneed)// 运输类型编码
         obj.put("TransneedStr", mTransneedStr)// 运输类型
         obj.put("AccNow", cash_freight_ed.text.toString())// 现付

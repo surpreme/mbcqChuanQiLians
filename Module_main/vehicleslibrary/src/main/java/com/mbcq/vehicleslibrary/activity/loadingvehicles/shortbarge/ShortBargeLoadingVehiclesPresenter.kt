@@ -28,7 +28,7 @@ class ShortBargeLoadingVehiclesPresenter : BasePresenterImpl<ShortBargeLoadingVe
         params.put("IsScanStr", "1")//筛选状态的种类 "1,2"有计划无计划
         params.put("startDate", startDate)
         params.put("endDate", endDate)
-//        params.put("SelWebidCode", selWebidCode)
+        params.put("SelWebidCode", selWebidCode)
 //        params.put("kong", "按车")
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {

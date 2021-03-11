@@ -41,7 +41,7 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
 
     override fun initDatas() {
         super.initDatas()
-        mPresenter?.getInventory(1, JSONObject(mLastDataJson).optString("ewebidCodeStr"))
+        mPresenter?.getInventory(1, JSONObject(mLastDataJson).optString("ewebidCode"), JSONObject(mLastDataJson).optString("ewebidCodeStr"))
     }
 
     @SuppressLint("SetTextI18n")

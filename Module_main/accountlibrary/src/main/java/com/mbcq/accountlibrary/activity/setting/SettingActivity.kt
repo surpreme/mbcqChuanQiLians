@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_setting.*
  * 设置页面
  */
 @Route(path = ARouterConstants.SettingActivity)
-class SettingActivity : BaseHouseFingerActivity() {
+class SettingActivity : BaseHouseFingerActivity<SettingContract.View, SettingPresenter>(), SettingContract.View {
     lateinit var rxPermissions: RxPermissions
     var isFaceOpenLogIn = false
 

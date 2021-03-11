@@ -11,11 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.mbcq.accountlibrary.R
-import com.mbcq.accountlibrary.fragment.FinanceFragment
+import com.mbcq.accountlibrary.fragment.finance.FinanceFragment
 import com.mbcq.accountlibrary.fragment.HouseFragment
-import com.mbcq.accountlibrary.fragment.OperationFragment
-import com.mbcq.accountlibrary.fragment.ReportFragment
+import com.mbcq.accountlibrary.fragment.operation.OperationFragment
+import com.mbcq.accountlibrary.fragment.report.ReportFragment
 import com.mbcq.accountlibrary.fragment.setting.SettingFragment
+import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
+import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.util.screen.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_house.*
 import kotlin.system.exitProcess
@@ -24,8 +26,7 @@ import kotlin.system.exitProcess
 /**
  * 主页面
  */
-@Suppress("DEPRECATED_IDENTITY_EQUALS")
-abstract class BaseFragmentHouseActivity : BaseHouseFingerActivity() {
+abstract class BaseFragmentHouseActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseHouseFingerActivity<V, T>(), BaseView {
     private var fragmentManager: FragmentManager? = null
     private val FRAGMENT_TAG = arrayOf("HouseFragment", "OperationFragment", "FinanceFragment", "ReportFragment", "SettingFragment")
     private val CODE_FRAGMENT_KEY = "FRAGMENT_TAG" //key
@@ -208,10 +209,36 @@ abstract class BaseFragmentHouseActivity : BaseHouseFingerActivity() {
 
     }
 
-    private fun initFragment() {
-        fragmentManager = supportFragmentManager
-        val titles= arrayListOf<String>("首页","运营","财务","报表","我的")
-        val icons= arrayListOf(R.drawable.ic_house_botom,R.drawable.ic_operation_bottom,R.drawable.ic_finance_bottom,R.drawable.ic_report_bottom,R.drawable.ic_setting_bottom)
+    //        val titles = arrayListOf<String>("首页", "运营", "财务", "报表", "我的")
+    //        val icons = arrayListOf(R.drawable.ic_house_botom, R.drawable.ic_operation_bottom, R.drawable.ic_finance_bottom, R.drawable.ic_report_bottom, R.drawable.ic_setting_bottom)
+    protected fun resultNavigation(result: String) {
+        val mResult = result.split(",")
+        val titles = arrayListOf<String>("首页")
+        val icons = arrayListOf<Int>(R.drawable.ic_house_botom)
+
+        for (item in mResult) {
+            when {
+                item.contains("运营") -> {
+                    icons.add(R.drawable.ic_operation_bottom)
+                    titles.add("运营")
+
+                }
+                item.contains("财务") -> {
+                    icons.add(R.drawable.ic_finance_bottom)
+                    titles.add("财务")
+                }
+                item.contains("报表") -> {
+                    icons.add(R.drawable.ic_report_bottom)
+                    titles.add("报表")
+
+                }
+            }
+
+
+        }
+
+        titles.add("我的")
+        icons.add(R.drawable.ic_setting_bottom)
         val menu: Menu = main_bottom_navigation_view.menu
         for (i in 0 until titles.size) {
             menu.add(1, i, i, titles[i])
@@ -219,12 +246,12 @@ abstract class BaseFragmentHouseActivity : BaseHouseFingerActivity() {
             item.setIcon(icons[i])
         }
         main_bottom_navigation_view.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
+            when (item.title) {
                 /**
                  * 首页
                  */
 //                R.id.home_item
-                0-> {
+                "首页" -> {
                     setTabSelection(0)
 
                 }
@@ -232,7 +259,7 @@ abstract class BaseFragmentHouseActivity : BaseHouseFingerActivity() {
                  * 运营
                  */
 //                R.id.operation_item
-                1-> {
+                "运营" -> {
                     setTabSelection(1)
 
                 }
@@ -240,7 +267,7 @@ abstract class BaseFragmentHouseActivity : BaseHouseFingerActivity() {
                  * 财务
                  */
 //                R.id.finance_item
-                2-> {
+                "财务" -> {
                     setTabSelection(2)
 
                 }
@@ -248,7 +275,8 @@ abstract class BaseFragmentHouseActivity : BaseHouseFingerActivity() {
                  * 报表
                  */
 //                R.id.report_item
-                3-> {
+
+                "报表" -> {
                     setTabSelection(3)
 
                 }
@@ -256,7 +284,7 @@ abstract class BaseFragmentHouseActivity : BaseHouseFingerActivity() {
                  * 我的
                  */
 //                R.id.setting_item
-                4-> {
+                "我的" -> {
                     setTabSelection(4)
 
                 }
@@ -264,6 +292,11 @@ abstract class BaseFragmentHouseActivity : BaseHouseFingerActivity() {
 
             true
         }
+    }
+
+    private fun initFragment() {
+        fragmentManager = supportFragmentManager
+
     }
 
     var exitTime: Long = 0L

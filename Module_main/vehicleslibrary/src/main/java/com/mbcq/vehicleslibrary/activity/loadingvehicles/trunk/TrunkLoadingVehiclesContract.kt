@@ -19,7 +19,7 @@ class TrunkLoadingVehiclesContract {
     }
 
     interface Presenter : BasePresenter<View> {
-        fun getScanVehicleList(startDate: String, endDate: String)
+        fun getScanVehicleList(startDate: String, endDate: String,selWebidCode:String)
         //        fun searchShortFeeder(inoneVehicleFlag: String)
         //        fun searchTrunkDeparture(inoneVehicleFlag: String)
         fun searchScanInfo(sendInfo: String)

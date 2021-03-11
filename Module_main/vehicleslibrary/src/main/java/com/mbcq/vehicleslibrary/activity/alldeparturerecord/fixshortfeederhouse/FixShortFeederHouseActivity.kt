@@ -42,7 +42,7 @@ class FixShortFeederHouseActivity : BaseFixShortFeederHouseActivity<FixShortFeed
         val mLastData = JSONObject(mFixDataJson)
         mInoneVehicleFlag = mLastData.optString("InoneVehicleFlag")
         departure_lot_tv.text = "发车批次: $mInoneVehicleFlag"
-        mPresenter?.getInventory(1)
+        mPresenter?.getInventory(1,mLastData.optString("ewebidCode"), mLastData.optString("ewebidCodeStr"))
         mPresenter?.getCarInfo(mLastData.optInt("Id"), mLastData.optString("InoneVehicleFlag"))
         mPresenter?.getVehicles(mLastData.optString("VehicleNo"))
     }

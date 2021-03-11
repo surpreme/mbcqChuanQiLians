@@ -6,4 +6,6 @@ public class BaseConstant {
     public static String WEBID_CODE_STR = "";
     public static String USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_ADDRESS = "";
     public static String USR_INFORMATION_WAYBILL_PRINTER_BLUETOOTH_NAME = "";
+  public static String USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_ADDRESS = "";
+    public static String USR_INFORMATION_LABEL_PRINTER_BLUETOOTH_NAME = "";
 }

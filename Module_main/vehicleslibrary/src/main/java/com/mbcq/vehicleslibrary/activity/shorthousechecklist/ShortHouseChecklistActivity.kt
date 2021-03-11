@@ -73,12 +73,12 @@ class ShortHouseChecklistActivity : BaseListMVPActivity<ShortHouseChecklistContr
                         if (mXList.isNotEmpty()) {
                             adapter.clearData()
                             adapter.appendData(mXList)
-                        }else{
+                        } else {
                             showToast("未查询到此运单")
                         }
                     }
 
-                }else{
+                } else {
                     adapter.clearData()
                     adapter.appendData(mShowList)
                 }
@@ -103,5 +103,8 @@ class ShortHouseChecklistActivity : BaseListMVPActivity<ShortHouseChecklistContr
     override fun getInventoryS(list: List<ShortHouseChecklistBean>) {
         mShowList.addAll(list)
         adapter.appendData(list)
+//        if (getCurrentPage() == 1)
+//            all_info_bottom_tv.text = "合计：${list.size}票，${toltalData.rowCou}件，${toltalData.weight}kg，${toltalData.volumn}m³，运费${toltalData.accSum}"
+
     }
 }
