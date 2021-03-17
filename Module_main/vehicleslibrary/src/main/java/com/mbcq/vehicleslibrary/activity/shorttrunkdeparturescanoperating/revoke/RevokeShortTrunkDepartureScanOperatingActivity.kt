@@ -14,6 +14,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
@@ -84,6 +85,15 @@ class RevokeShortTrunkDepartureScanOperatingActivity : CommonScanPDAMVPListActiv
 
     override fun onClick() {
         super.onClick()
+        search_btn.apply {
+            onSingleClicks {
+                if (billno_ed.text.toString().length<5){
+                    showToast("请检查您输入的标签号！")
+                    return@onSingleClicks
+                }
+                scanSuccess(billno_ed.text.toString())
+            }
+        }
         scan_number_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 getCameraPermission()

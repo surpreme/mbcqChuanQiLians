@@ -51,6 +51,8 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
                 job.put("InoneVehicleFlag", itemData.inoneVehicleFlag)
                 job.put("Id", itemData.id)
                 job.put("VehicleNo", itemData.vehicleNo)
+                job.put("ewebidCode", itemData.ewebidCode)
+                job.put("ewebidCodeStr", itemData.ewebidCodeStr)
                 ARouter.getInstance().build(ARouterConstants.FixedTrunkDepartureHouseActivity).withString("FixedTrunkDepartureHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
 
             }
@@ -65,6 +67,8 @@ class TrunkDepartureFragment : BaseSmartMVPFragment<TrunkDepartureContract.View,
                 job.put("Id", itemData.id)
                 job.put("VehicleNo", itemData.vehicleNo)
                 job.put("VehicleState", itemData.vehicleState)
+                job.put("ewebidCode", itemData.ewebidCode)
+                job.put("ewebidCodeStr", itemData.ewebidCodeStr)
                 ARouter.getInstance().build(ARouterConstants.FixedTrunkDepartureHouseActivity).withString("FixedTrunkDepartureHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
             }
 

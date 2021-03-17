@@ -263,12 +263,12 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onLocationResultDataEvent(event: LocationResultEvent) {
-        if (event.type==1){
-            val obj=JSONObject(event.resultStr)
-            refreshArriveOutlet(obj.optString("webid"),obj.optString("webidCode"),obj.optString("companyId"))
-        }else  if (event.type==2){
+        if (event.type == 1) {
+            val obj = JSONObject(event.resultStr)
+            refreshArriveOutlet(obj.optString("webid"), obj.optString("webidCode"), obj.optString("companyId"))
+        } else if (event.type == 2) {
             shipper_address_ed.setText(event.resultStr)
-        }else  if (event.type==3){
+        } else if (event.type == 3) {
             receiver_address_ed.setText(event.resultStr)
         }
     }
@@ -353,7 +353,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         jsonObj.put("IsTalkGoods", IsTalkGoods)
 
         //是否上门提货 TODO pc传的客户自送
-        val IsTalkGoodsStr = if (isTalkGoodsStrTag) "是" else "否"
+        val IsTalkGoodsStr = if (isTalkGoodsStrTag) "上门提货" else "客户自送"
         jsonObj.put("IsTalkGoodsStr", IsTalkGoodsStr)
 
         //会员卡号
@@ -375,7 +375,6 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         /**
          * 发货人信息
          * mShipperId
-         * TODO 发货人公司
          */
         val ShipperId = shipper_mShipperId_ed.text.toString()//发货客户编号
         jsonObj.put("ShipperId", ShipperId)
@@ -923,11 +922,13 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
          * 添加数据到recyclerView
          */
         val mKK = mutableListOf<BaseEditTextAdapterBean>()
-        /* val mBasicAccTrans = BaseEditTextAdapterBean()
-         mBasicAccTrans.title = "基本运费"
-         mBasicAccTrans.tag = "accTrans"
-         mKK.add(mBasicAccTrans)*/
+        val mBasicAccTrans = BaseEditTextAdapterBean()
+        mBasicAccTrans.title = "基本运费"
+        mBasicAccTrans.tag = "accTrans"
+        mKK.add(mBasicAccTrans)
         for (mIndex in mShowCostStr.indices) {
+            if (mShowCostFilNam[mIndex].contains("accTrans"))
+                continue
             val mBaseEditTextAdapterBean = BaseEditTextAdapterBean()
             mBaseEditTextAdapterBean.title = mShowCostStr[mIndex]
             when (mShowCostFilNam[mIndex]) {
@@ -1014,7 +1015,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
     override fun saveAcceptBillingS(result: String, printJson: String, priceJson: String) {
         soundPoolMap?.get(ACCEPT_SOUND_SUCCESS_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
 
-        var showTipsStr = result
+        var showTipsStr = if (result.isNotBlank()) result else "开单成功！"
         if (labelcheck.isChecked or waybillcheck.isChecked) {
             showLoading()
             save_btn.isClickable = false
@@ -1040,6 +1041,15 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
              * 重启activity
              * recreate()由于这个方法会走缓存 弃用
              */
+            if (continuous_invoicing_check.isChecked) {
+                if (waybillNumberIndexTag == 0)
+                    mPresenter?.getWaybillNumber()
+                return@TalkSureDialog
+            }
+            /**
+             * 在onDestory无法移除 因为时间短 任务多
+             */
+            EventBus.getDefault().removeStickyEvent(LocationResultEvent::class.java)
             finish()
             ARouter.getInstance().build(ARouterConstants.AcceptBillingActivity).navigation()
 
@@ -1195,4 +1205,6 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             }
         }
     }
+
+
 }

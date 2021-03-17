@@ -3,6 +3,7 @@ package com.mbcq.vehicleslibrary.activity.addscanshortfeeder
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.InputFilter
 import android.util.Config
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -14,6 +15,7 @@ import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.system.PhoneDeviceMsgUtils
 import com.mbcq.baselibrary.util.system.TimeUtils
+import com.mbcq.baselibrary.view.MoneyInputFilter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.Constant
@@ -21,29 +23,6 @@ import com.mbcq.commonlibrary.NumberPlateBean
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.vehicleslibrary.R
 import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.*
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.cash_card_ed
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.cash_freight_ed
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.cash_freight_ll
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.contact_number_ed
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.contract_No_tv
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.destination_tv
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.driver_name_ed
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.freight_onarrival_ll
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.loading_fee_ed
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.next_step_btn
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.number_plate_tv
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.oil_card_first_ed
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.oil_card_first_tv
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.oil_card_number_ed
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.oil_card_second_ed
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.oil_card_second_tv
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.oil_card_third_ed
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.oil_card_third_tv
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.on_board_weight_tv
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.return_freight_ed
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.total_freight_tv
-import kotlinx.android.synthetic.main.activity_add_scan_short_feeder.vehicle_type_tv
-import kotlinx.android.synthetic.main.activity_add_short_feeder.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -56,7 +35,12 @@ import org.json.JSONObject
 @Route(path = ARouterConstants.AddScanShortFeederActivity)
 class AddScanShortFeederActivity : BaseAddScanShortFeederActivity<AddScanShortFeederContract.View, AddScanShortFeederPresenter>(), AddScanShortFeederContract.View {
     override fun getLayoutId(): Int = R.layout.activity_add_scan_short_feeder
-
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
+        oil_card_first_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
+        oil_card_second_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
+        oil_card_third_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
+    }
     override fun initDatas() {
         super.initDatas()
         mPresenter?.getDepartureBatchNumber()

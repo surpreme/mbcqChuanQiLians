@@ -50,7 +50,7 @@ class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, W
 
     @SuppressLint("SimpleDateFormat")
     override fun initDatas() {
-        mStartDateTag = FilterTimeUtils.getStartTime(7)
+        mStartDateTag = FilterTimeUtils.getStartTime(0)
         mEndDateTag = FilterTimeUtils.getEndTime()
         mShippingOutletsTag = UserInformationUtil.getWebIdCode(mContext) + ","
         super.initDatas()

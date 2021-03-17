@@ -37,7 +37,7 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
     override fun getSmartEmptyId(): Int = R.id.short_feeder_smart_frame
     override fun getRecyclerViewId(): Int = R.id.short_feeder_recycler
     override fun isOpenEventBus(): Boolean = true
-    override fun setIsShowNetLoading(): Boolean  = false
+    override fun setIsShowNetLoading(): Boolean = false
     override fun getIsOnCreateGetData(): Boolean = true
 
     override fun setAdapter(): BaseRecyclerAdapter<ShortFeederBean> = ShortFeederAdapter(mContext).also {
@@ -47,6 +47,8 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
                 job.put("InoneVehicleFlag", itemData.inoneVehicleFlag)
                 job.put("Id", itemData.id)
                 job.put("VehicleNo", itemData.vehicleNo)
+                job.put("ewebidCode", itemData.ewebidCode)
+                job.put("ewebidCodeStr", itemData.ewebidCodeStr)
                 ARouter.getInstance().build(ARouterConstants.FixShortFeederHouseActivity).withString("FixedShortFeederHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
             }
 
@@ -59,6 +61,8 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
                 job.put("Id", itemData.id)
                 job.put("VehicleNo", itemData.vehicleNo)
                 job.put("VehicleState", itemData.vehicleState)
+                job.put("ewebidCode", itemData.ewebidCode)
+                job.put("ewebidCodeStr", itemData.ewebidCodeStr)
                 ARouter.getInstance().build(ARouterConstants.FixShortFeederHouseActivity).withString("FixedShortFeederHouse", GsonUtils.toPrettyFormat(job.toString())).navigation()
             }
 
@@ -70,7 +74,6 @@ class ShortFeederFragment : BaseSmartMVPFragment<ShortFeederContract.View, Short
         super.getPageDatas(mCurrentPage)
         mPresenter?.getShortFeeder(mCurrentPage, mShippingOutletsTag, mStartDateTag, mEndDateTag)
     }
-
 
 
     override fun onClick() {

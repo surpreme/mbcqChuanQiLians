@@ -3,6 +3,7 @@ package com.mbcq.vehicleslibrary.activity.trunkdepartureunloadingwarehousing
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Autowired
@@ -10,7 +11,10 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
+import com.google.gson.Gson
+import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.onSingleClicks
@@ -19,7 +23,11 @@ import com.mbcq.baselibrary.view.LocalEntity
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.fragment.ArrivalVehiclesEvent
+import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederBean
+import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
 import kotlinx.android.synthetic.main.activity_trunk_departure_unloading_warehousing.*
+import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import java.lang.StringBuilder
 
@@ -56,8 +64,19 @@ class TrunkDepartureUnloadingWarehousingActivity : BaseListMVPActivity<TrunkDepa
             receipt_list_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
             receipt_list_recycler.adapter = it
         }
-        if (JSONObject(mTrunkDepartureUnloadingWarehousing).optBoolean("isLookInfo", false)) {
-            bottom_ll.visibility = View.GONE
+        when (JSONObject(mTrunkDepartureUnloadingWarehousing).optInt("vehicleState", 0)) {
+            1 -> {//发货
+                bottom_ll.visibility = View.VISIBLE
+
+            }
+            2 -> {//到货
+                bottom_ll.visibility = View.VISIBLE
+
+            }
+            else -> {
+                bottom_ll.visibility = View.GONE
+
+            }
         }
     }
 
@@ -110,13 +129,22 @@ class TrunkDepartureUnloadingWarehousingActivity : BaseListMVPActivity<TrunkDepa
                         showToast("请至少选择一件运单进行卸车入库")
                         return@onSingleClicks
                     }
+                    //************************************************start
+                    val mVehicleObj = JSONObject(mTrunkDepartureUnloadingWarehousing)
+                    if (mVehicleObj.optInt("vehicleState", 0) == 1) {
+                        TalkSureCancelDialog(mContext, getScreenWidth(), "您还未到车，您确认要到车${mVehicleObj.optString("inoneVehicleFlag")}吗？") {
+                            mPresenter?.confirmCar(Gson().fromJson(mTrunkDepartureUnloadingWarehousing, TrunkDepartureBean::class.java), 0)
+                        }.show()
+                        return@onSingleClicks
+                    }
+                    //************************************************end
                     val billnoSsbuilder = StringBuilder()
                     for (item in adapter.getAllData()) {
                         if (item.isChecked) {
                             billnoSsbuilder.append(item.billno).append(",")
                         }
                     }
-                    mPresenter?.UnloadingWarehousing(billnoSsbuilder.toString().substring(0, billnoSsbuilder.toString().length - 1), JSONObject(mTrunkDepartureUnloadingWarehousing).optString("inoneVehicleFlag"))
+                    mPresenter?.UnloadingWarehousing(billnoSsbuilder.toString().substring(0, billnoSsbuilder.toString().length - 1), mVehicleObj.optString("inoneVehicleFlag"))
                 }
             }
         }
@@ -148,9 +176,66 @@ class TrunkDepartureUnloadingWarehousingActivity : BaseListMVPActivity<TrunkDepa
 
     }
 
+    override fun confirmCarS(data: TrunkDepartureBean, position: Int) {
+        val mVehicleObj = JSONObject(mTrunkDepartureUnloadingWarehousing)
+        if (mVehicleObj.has("vehicleState")) {
+            mVehicleObj.remove("vehicleState")
+            mVehicleObj.put("vehicleState", 2)
+        }
+        if (mVehicleObj.has("vehicleStateStr")) {
+            mVehicleObj.remove("vehicleStateStr")
+            mVehicleObj.put("vehicleStateStr", "到货")
+        }
+        mTrunkDepartureUnloadingWarehousing = GsonUtils.toPrettyFormat(mVehicleObj)
+        EventBus.getDefault().postSticky(ArrivalVehiclesEvent(2, mTrunkDepartureUnloadingWarehousing))
+        var isSelected = false
+        for (item in adapter.getAllData()) {
+            if (item.isChecked) {
+                isSelected = true
+                break
+            }
+        }
+        if (!isSelected) {
+            showToast("请至少选择一件运单进行卸车入库")
+            return
+        }
+
+        val billnoSsbuilder = StringBuilder()
+        for (item in adapter.getAllData()) {
+            if (item.isChecked) {
+                billnoSsbuilder.append(item.billno).append(",")
+            }
+        }
+        mPresenter?.UnloadingWarehousing(billnoSsbuilder.toString().substring(0, billnoSsbuilder.toString().length - 1), JSONObject(mTrunkDepartureUnloadingWarehousing).optString("inoneVehicleFlag"))
+
+    }
+
     override fun UnloadingWarehousingS(result: String) {
-        TalkSureDialog(mContext, getScreenWidth(), "$result 卸车入库成功,点击返回！") {
-            onBackPressed()
-        }.show()
+        val mVehicleObj = JSONObject(mTrunkDepartureUnloadingWarehousing)
+        if (mVehicleObj.has("vehicleState")) {
+            mVehicleObj.remove("vehicleState")
+            mVehicleObj.put("vehicleState", 3)
+        }
+        if (mVehicleObj.has("vehicleStateStr")) {
+            mVehicleObj.remove("vehicleStateStr")
+            mVehicleObj.put("vehicleStateStr", "到货处理结束")
+        }
+        mTrunkDepartureUnloadingWarehousing = GsonUtils.toPrettyFormat(mVehicleObj)
+        EventBus.getDefault().postSticky(ArrivalVehiclesEvent(2, mTrunkDepartureUnloadingWarehousing))
+        object : CountDownTimer(200, 200) {
+            override fun onFinish() {
+                if (!isDestroyed) {
+                    TalkSureDialog(mContext, getScreenWidth(), "$result 卸车入库成功,点击返回！") {
+                        onBackPressed()
+                    }.show()
+                }
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+
+            }
+
+        }.start()
+
     }
 }

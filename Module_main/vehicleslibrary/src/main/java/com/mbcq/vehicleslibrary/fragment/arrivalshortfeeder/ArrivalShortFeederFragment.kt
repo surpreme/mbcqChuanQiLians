@@ -7,7 +7,6 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.interfaces.RxBus
-import com.mbcq.baselibrary.ui.BaseListMVPFragment
 import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.ui.onSingleClicks
@@ -18,12 +17,12 @@ import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordEvent
 import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordRefreshEvent
+import com.mbcq.vehicleslibrary.fragment.ArrivalVehiclesEvent
 import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederBean
 import kotlinx.android.synthetic.main.fragment_arrival_short_feeder.*
 import org.greenrobot.eventbus.EventBus
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * @author: lzy
@@ -102,6 +101,26 @@ class ArrivalShortFeederFragment : BaseSmartMVPFragment<ArrivalShortFeederContra
         })
     }
 
+    override fun isOpenEventBus(): Boolean = true
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onRefreshNewDataEvent(event: ArrivalVehiclesEvent) {
+        if (event.type == 1) {
+            val mShortFeederBean = Gson().fromJson<ShortFeederBean>(event.info, ShortFeederBean::class.java)
+            for ((index, item) in adapter.getAllData().withIndex()) {
+                if (item.id == mShortFeederBean.id) {
+                    adapter.notifyItemChangeds(index, mShortFeederBean)
+                    break
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().removeStickyEvent(ArrivalVehiclesEvent::class.java)
+    }
+
     override fun setAdapter(): BaseRecyclerAdapter<ShortFeederBean> = ArrivalShortFeederAdapter(mContext).also {
         it.mOnArrivalConfirmInterface = object : ArrivalShortFeederAdapter.OnArrivalConfirmInterface {
             override fun onResult(position: Int, data: ShortFeederBean) {
@@ -118,11 +137,12 @@ class ArrivalShortFeederFragment : BaseSmartMVPFragment<ArrivalShortFeederContra
             }
 
             override fun onUnloadingWarehousing(position: Int, data: ShortFeederBean) {
+//                data.isLookInfo = false
                 ARouter.getInstance().build(ARouterConstants.ShortFeederUnloadingWarehousingActivity).withString("ShortFeederUnloadingWarehousing", Gson().toJson(data)).navigation()
             }
 
             override fun onItemClick(position: Int, data: ShortFeederBean) {
-                data.isLookInfo = true
+//                data.isLookInfo = true
                 ARouter.getInstance().build(ARouterConstants.ShortFeederUnloadingWarehousingActivity).withString("ShortFeederUnloadingWarehousing", Gson().toJson(data)).navigation()
 
             }

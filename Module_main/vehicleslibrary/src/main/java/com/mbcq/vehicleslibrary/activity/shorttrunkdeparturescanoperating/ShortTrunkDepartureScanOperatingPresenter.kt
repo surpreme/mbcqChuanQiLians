@@ -135,6 +135,13 @@ class ShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ShortTrunkDe
                                 mXPostScaningDataStr.append(",")
                         }
                         mTopLableNo = mXPostScaningDataStr.toString()
+                    }else {
+                        for (itemIndex in 0 until it.length()) {
+                            if (lableNo==listAry.getJSONObject(itemIndex).optString("lableNo")){
+                                mView?.againScanException(billno, lableNo, deviceNo, inOneVehicleFlag, soundStr, ewebidCode, soundStr, scanPercentage, 2,"该车已经在车次${listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag")}扫描,请核实后重试！")
+                                return@let
+                            }
+                        }
                     }
                     val jsonO = JSONObject()
                     jsonO.put("CompanyId", "2001")
@@ -175,7 +182,7 @@ class ShortTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ShortTrunkDe
                     jsonO.put("ScanOpeTypeStr", if (mScanOpeType == 0) "短驳装车" else if (mScanOpeType == 1) "干线装车" else if (mScanOpeType == 2) "短驳到车" else if (mScanOpeType == 3) "干线到车" else "")
 
                     post<String>(ApiInterface.DEPARTURE_SHORT_FEEDER_DEPARTURE_SCAN_INFO_POST, getRequestBody(jsonO), object : CallBacks {
-                        override fun onResult(result: String) {
+                        override fun onResult(mResult: String) {
                             mView?.scanOrderS(billno, soundStr, lableNo)
 
                         }

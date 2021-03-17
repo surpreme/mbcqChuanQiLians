@@ -3,7 +3,8 @@
     package="com.mbcq.vehicleslibrary">
 
     <application>
-        <activity android:name=".activity.loadingvehicles.trunk.TrunkLoadingVehiclesActivity"></activity>
+        <activity android:name=".activity.arrivalscanoperatingmoreinfo.ArrivalScanOperatingMoreInfoActivity"></activity>
+        <activity android:name=".activity.loadingvehicles.trunk.TrunkLoadingVehiclesActivity" />
         <activity android:name=".activity.loadingvehicles.shortbarge.ShortBargeLoadingVehiclesActivity" />
         <activity android:name=".activity.loadingvehicles.untrunk.TrunkUnLoadingVehiclesActivity" />
         <activity

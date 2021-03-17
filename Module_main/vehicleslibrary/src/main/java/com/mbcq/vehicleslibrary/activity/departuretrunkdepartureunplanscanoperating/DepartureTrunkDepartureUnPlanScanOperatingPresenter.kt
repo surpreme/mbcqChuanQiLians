@@ -145,6 +145,13 @@ class DepartureTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<De
                                 mXPostScaningDataStr.append(",")
                         }
                         mTopLableNo = mXPostScaningDataStr.toString()
+                    } else {
+                        for (itemIndex in 0 until it.length()) {
+                            if (lableNo==listAry.getJSONObject(itemIndex).optString("lableNo")){
+                                mView?.againScanException(billno, lableNo, deviceNo, inOneVehicleFlag, soundStr, ewebidCode, ewebidCodeStr, scanPercentage, 2,"该车已经在车次${listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag")}扫描,请核实后重试！")
+                                return@let
+                            }
+                        }
                     }
 
                     val jsonO = JSONObject()

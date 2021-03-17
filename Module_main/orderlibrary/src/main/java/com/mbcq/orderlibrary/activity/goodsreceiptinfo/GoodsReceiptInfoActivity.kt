@@ -157,6 +157,12 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
 
         val FetAgeIdCard = agent_card_number_ed.text.toString()//代理人证件号
         obj.put("FetAgeIdCard", FetAgeIdCard)
+
+        val ReceiptSigned = if (signed_receipt_checked.isChecked) "1" else "0"//回单已签收
+        obj.put("ReceiptSigned", ReceiptSigned)
+
+        val MoneyReceived = "1"//代收货款已收
+        obj.put("MoneyReceived", MoneyReceived)
         /**
          * 1代理 2提货 3送货 4外转
          */

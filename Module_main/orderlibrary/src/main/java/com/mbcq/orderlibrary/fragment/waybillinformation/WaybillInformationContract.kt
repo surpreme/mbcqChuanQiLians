@@ -11,10 +11,14 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class WaybillInformationContract {
 
     interface View : BaseView {
+        fun getCostInformationS(result: String)
 
     }
 
     interface Presenter : BasePresenter<View> {
-
+        /**
+         * 获取（所有配置信息）费用信息 显示的集合
+         */
+        fun getCostInformation(webidCode: String)
     }
 }

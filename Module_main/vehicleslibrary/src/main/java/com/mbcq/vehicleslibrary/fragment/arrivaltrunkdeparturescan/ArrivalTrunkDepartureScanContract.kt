@@ -14,16 +14,25 @@ class ArrivalTrunkDepartureScanContract {
     interface View : BaseView {
         fun getPageS(list: List<ArrivalTrunkDepartureScanBean>)
 
+        fun sureArrivalCarS(result: String)
+
     }
 
     interface Presenter : BasePresenter<View> {
-       /*
-        * 获取未到车 这个为到货网点编号
-        */
+        /*
+         * 获取未到车 这个为到货网点编号
+         */
         fun getUnLoading(selEwebidCode: String, startDate: String, endDate: String)
+
         /**
          * 获取已到车 这个为到货网点编号
          */
         fun getLoading(selEwebidCode: String, startDate: String, endDate: String)
+
+        /**
+         * 确认到车
+         */
+        fun sureArrivalCar(inoneVehicleFlag: String)
+
     }
 }

@@ -75,7 +75,20 @@ class ShortFeederHouseLoadingListAdapter(context: Context?) : BaseRecyclerAdapte
             }
 
         })
-        holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].totalQty}件 ${mDatas[position].volumn}m³ ${mDatas[position].packages} ${mDatas[position].weight}Kg ${mDatas[position].accTypeStr}${mDatas[position].accSum}  "
+        var mProduct=""
+        mProduct = if (mDatas[position].product.length>2){
+            mDatas[position].product.substring(0,3)+"..."
+        }else{
+            mDatas[position].product
+        }
+        var mPackages=""
+        mPackages = if (mDatas[position].packages.length>2){
+            mDatas[position].packages.substring(0,3)+"..."
+        }else{
+            mDatas[position].packages
+        }
+
+        holder.information_tv.text = "$mProduct ${mDatas[position].totalQty}件 ${mDatas[position].volumn}m³ $mPackages ${mDatas[position].weight}Kg ${mDatas[position].accTypeStr}${mDatas[position].accSum}  "
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

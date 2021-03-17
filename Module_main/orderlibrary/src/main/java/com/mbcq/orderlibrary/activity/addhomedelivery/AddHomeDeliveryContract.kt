@@ -11,10 +11,18 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class AddHomeDeliveryContract {
 
     interface View : BaseView {
+        fun getBatchS(result: String)
+        fun getVehicleS(result: String)
 
     }
 
     interface Presenter : BasePresenter<View> {
+
+        /**
+         * 获取 批次
+         */
+        fun getBatch()
+        fun getVehicles()
 
     }
 }

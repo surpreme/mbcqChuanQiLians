@@ -358,13 +358,7 @@
                         android:textSize="16sp"
                         tools:text="300元" />
 
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="@color/base_blue"
-                        android:checked="true"
-                        android:paddingRight="15dp"
-                        android:text="已签回单" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -681,7 +675,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="15dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:text="正常" />
 
 
                     <ImageView
@@ -693,6 +688,14 @@
                         android:layout_marginRight="15dp"
                         android:src="@drawable/ic_down_icon" />
 
+                    <CheckBox
+                        android:id="@+id/signed_receipt_checked"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:buttonTint="@color/base_blue"
+                        android:checked="true"
+                        android:text="已签回单" />
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView

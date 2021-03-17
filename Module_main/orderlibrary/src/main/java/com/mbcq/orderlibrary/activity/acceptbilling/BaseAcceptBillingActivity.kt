@@ -32,6 +32,7 @@ import com.mbcq.orderlibrary.activity.acceptbilling.billingvolumecalculator.Bill
 import com.mbcq.orderlibrary.activity.acceptbilling.billingweightcalculator.BillingWeightCalculatorDialog
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_accept_billing.*
+import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import java.lang.StringBuilder
 
@@ -263,10 +264,10 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                 ARouter.getInstance().build(ARouterConstants.LocationActivity).navigation()
 
             } else if (mMapType == 2) {
-                ARouter.getInstance().build(ARouterConstants.LocationTestActivity).withString("LocationMapType",mMapType.toString()).navigation()
+                ARouter.getInstance().build(ARouterConstants.LocationTestActivity).withString("LocationMapType", mMapType.toString()).navigation()
 
             } else if (mMapType == 3)
-                ARouter.getInstance().build(ARouterConstants.LocationTestActivity).withString("LocationMapType",mMapType.toString()).navigation()
+                ARouter.getInstance().build(ARouterConstants.LocationTestActivity).withString("LocationMapType", mMapType.toString()).navigation()
         } else {
             TalkSureCancelDialog(mContext, getScreenWidth(), "需要打开系统定位开关 用于提供精确的定位及导航服务") {
                 //跳转GPS设置界面
@@ -345,7 +346,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                 "客户自提" -> initDeliveryMethod(1)
                 "送货上门" -> initDeliveryMethod(2)
                 "司机直送" -> initDeliveryMethod(3)
-                else -> initReceivingMethod(1)
+                else -> initDeliveryMethod(1)
             }
 
 
@@ -767,6 +768,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
             }
         return true
     }
+
 
     abstract fun refreshWaybillNumber()
     fun waybillNumber(isHandWriting: Boolean) {

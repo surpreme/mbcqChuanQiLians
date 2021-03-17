@@ -89,6 +89,15 @@ public class ArrivalTrunkDepartureScanBean {
     private int fromType;
     private String fromTypeStr;
     private boolean isChecked=false;
+    private String xcScanPercentage="0";
+
+    public String getXcScanPercentage() {
+        return xcScanPercentage;
+    }
+
+    public void setXcScanPercentage(String xcScanPercentage) {
+        this.xcScanPercentage = xcScanPercentage;
+    }
 
     public int getId() {
         return id;

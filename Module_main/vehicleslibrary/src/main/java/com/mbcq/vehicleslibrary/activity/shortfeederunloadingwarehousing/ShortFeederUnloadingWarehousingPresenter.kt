@@ -6,6 +6,8 @@ import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
 import com.mbcq.vehicleslibrary.activity.fixedscanshortfeederconfiguration.FixedScanShortFeederConfigurationBean
+import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederBean
+import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -51,6 +53,24 @@ class ShortFeederUnloadingWarehousingPresenter : BasePresenterImpl<ShortFeederUn
             }
 
         })
+    }
+    override fun confirmCar(data: ShortFeederBean, position: Int) {
+        val jsonObj = JSONObject()
+        jsonObj.put("Id", data.id)
+        jsonObj.put("InoneVehicleFlag", data.inoneVehicleFlag)
+        val jsonArray = JSONArray()
+        val itemObj = JSONObject()
+        itemObj.put("Id", data.id)
+        itemObj.put("InoneVehicleFlag", data.inoneVehicleFlag)
+        jsonArray.put(itemObj)
+        jsonObj.put("DbVehicleDetLst", jsonArray)
+        post<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_ARRIVAL_CONFIRM_LOCAL_INFO_POST, getRequestBody(jsonObj), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.confirmCarS(data, position)
+            }
+
+        })
+
     }
 
     override fun UnloadingWarehousing(commonStr: String, inoneVehicleFlag: String) {

@@ -24,6 +24,7 @@ class ScanNumDialog(var mUnScanNum: Int = 0, var mScanType: Int = 0, var mClackI
     override fun initView(view: View, savedInstanceState: Bundle?) {
         scan_num_ed.hint = "还有$mUnScanNum 件${if (mScanType == 1) "未装车" else if (mScanType == 2) "已装车" else ""}"
         scan_num_tips_tv.text = "还有$mUnScanNum 件${if (mScanType == 1) "未装车" else if (mScanType == 2) "已装车" else ""}"
+        scan_num_ed.setText(mUnScanNum.toString())
         scan_num_ed.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 

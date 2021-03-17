@@ -7,6 +7,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.ui.mvp.BaseMVPFragment
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.orderlibrary.R
@@ -62,10 +63,26 @@ class WaybillInformationFragment : BaseMVPFragment<WaybillInformationContract.Vi
         webinfo_left_tv.text = "发货网点：${obj.optString("webidCodeStr")}\n目  的 地：${obj.optString("destination")}\n付货方式：${obj.optString("okProcessStr")}"
         //到货网点：汕头\n运输方式：义乌市
         webinfo_right_tv.text = "到货网点：${obj.optString("ewebidCodeStr")}\n运输方式：${obj.optString("transneedStr")}"
-        shipper_info_tv.text = "客户编号：${obj.optString("shipperId")}\n发  货 人：${obj.optString("shipper")}\n手  机 号：${obj.optString("shipperMb")}\n固定电话：${obj.optString("shipperTel")}\n地      址：${obj.optString("shipperAddr")}\n公      司：xxxx\n发货人证件：${obj.optString("shipperCid")}"
+        shipper_info_tv.text = "客户编号：${obj.optString("shipperId")}\n发  货 人：${obj.optString("shipper")}\n手  机 号：${obj.optString("shipperMb")}\n固定电话：${obj.optString("shipperTel")}\n地      址：${obj.optString("shipperAddr")}\n公      司：${obj.optString("shipperCompany")}\n发货人证件：${obj.optString("shipperCid")}"
         receiver_info_tv.text = "客户编号：${obj.optString("consigneeId")}\n收  货 人：${obj.optString("consignee")}\n手  机 号：${obj.optString("consigneeMb")}\n固定电话：${obj.optString("consigneeTel")}\n地      址：${obj.optString("consigneeAddr")}"
-        goods_info_tv.text = "货物名称：${obj.optString("product")}\n包装方式：${obj.optString("packages")}\n体      积：${obj.optString("volumn")}m³\n保  价 费：${obj.optString("accSafe")}\n送  货 费：${obj.optString("accSend")}\n返      款：${obj.optString("accHuiKou")}\n付款方式：${obj.optString("accTypeStr")}\n实发货款：您看不到我\n备      注：${obj.optString("remark")}"
-        goods_info_second_tv.text = "件      数：${obj.optString("qty")}\n重      量：${obj.optString("weight")}kg\n保价金额：${obj.optString("safeMoney")}\n提  货 费：${obj.optString("accFetch")}\n中  转 费：${obj.optString("outacc")}\n合计运费：${obj.optString("accSum")}\n代收货款：${obj.optString("accDaiShou")}"
+        /**
+         *
+        保  价 费：${obj.optString("accSafe")}
+        送  货 费：${obj.optString("accSend")}
+        返      款：${obj.optString("accHuiKou")}
+        付款方式：${obj.optString("accTypeStr")}
+        实发货款：您看不到我
+        备      注：${obj.optString("remark")}
+         */
+        goods_info_tv.text = "货物名称：${obj.optString("product")}\n包装方式：${obj.optString("packages")}\n体      积：${obj.optString("volumn")}m³"
+        /**
+         *
+        提  货 费：${obj.optString("accFetch")}
+        中  转 费：${obj.optString("outacc")}
+        合计运费：${obj.optString("accSum")}
+        代收货款：${obj.optString("accDaiShou")}
+         */
+        goods_info_second_tv.text = "件      数：${obj.optString("qty")}\n重      量：${obj.optString("weight")}kg\n保价金额：${obj.optString("safeMoney")}"
         obj.optJSONArray("WayGoosLst")?.let {
             val mAdapterList = mutableListOf<WaybillInformationTableBean>()
             val mTopTitleBean = WaybillInformationTableBean()
@@ -91,4 +108,28 @@ class WaybillInformationFragment : BaseMVPFragment<WaybillInformationContract.Vi
         }
     }
 
+    override fun initDatas() {
+        super.initDatas()
+        mPresenter?.getCostInformation(UserInformationUtil.getWebIdCode(mContext))
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun getCostInformationS(result: String) {
+        val data = JSONObject(result)
+        val mShowCostFilNam = data.optString("showCostFilNam").split(",")
+        val mShowCostStr = data.optString("showCostStr").split(",")
+        var mA = ""
+        var mB = ""
+        val obj = JSONObject(WaybillDetails)
+        for (mIndex in mShowCostStr.indices) {
+            if ((mIndex + 1) % 2 != 0) {
+                mA += "${mShowCostStr[mIndex]}:${obj.optString(mShowCostFilNam[mIndex])}\n"
+            } else {
+                mB += "${mShowCostStr[mIndex]}:${obj.optString(mShowCostFilNam[mIndex])}\n"
+            }
+
+        }
+        goods_info_bottom_tv.text = mA + "付款方式：${obj.optString("accTypeStr")}\n" + "实发货款：您看不到我\n" + "备      注：${obj.optString("remark")}"
+        goods_info_bottom_second_tv.text = mB + "合计运费：${obj.optString("accSum")}\n" + "代收货款：${obj.optString("accDaiShou")}"
+    }
 }

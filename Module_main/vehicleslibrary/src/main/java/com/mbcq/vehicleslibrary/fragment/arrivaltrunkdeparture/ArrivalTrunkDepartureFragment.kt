@@ -16,12 +16,13 @@ import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordEvent
 import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordRefreshEvent
+import com.mbcq.vehicleslibrary.fragment.ArrivalVehiclesEvent
+import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederBean
 import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
 import kotlinx.android.synthetic.main.fragment_arrival_trunk_departure.*
 import org.greenrobot.eventbus.EventBus
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * @author: lzy
@@ -51,7 +52,20 @@ class ArrivalTrunkDepartureFragment : BaseSmartMVPFragment<ArrivalTrunkDeparture
         }
 
     }
+    override fun isOpenEventBus(): Boolean = true
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onRefreshArrivalTrunkNewDataEvent(event: ArrivalVehiclesEvent) {
+        if (event.type == 1) {
+            val mTrunkDepartureBean = Gson().fromJson<TrunkDepartureBean>(event.info, ShortFeederBean::class.java)
+            for ((index, item) in adapter.getAllData().withIndex()) {
+                if (item.id == mTrunkDepartureBean.id) {
+                    adapter.notifyItemChangeds(index, mTrunkDepartureBean)
+                    break
+                }
+            }
+        }
+    }
     override fun setAdapter() = ArrivalTrunkDepartureAdapter(mContext).also {
         it.mOnArrivalConfirmInterface = object : ArrivalTrunkDepartureAdapter.OnArrivalConfirmInterface {
             override fun onResult(position: Int, data: TrunkDepartureBean) {
@@ -70,12 +84,13 @@ class ArrivalTrunkDepartureFragment : BaseSmartMVPFragment<ArrivalTrunkDeparture
             }
 
             override fun onUnloadingWarehousing(position: Int, data: TrunkDepartureBean) {
+//                data.isLookInfo = false
                 ARouter.getInstance().build(ARouterConstants.TrunkDepartureUnloadingWarehousingActivity).withString("TrunkDepartureUnloadingWarehousing", Gson().toJson(data)).navigation()
 
             }
 
             override fun onItemClick(position: Int, data: TrunkDepartureBean) {
-                data.isLookInfo = true
+//                data.isLookInfo = true
                 ARouter.getInstance().build(ARouterConstants.TrunkDepartureUnloadingWarehousingActivity).withString("TrunkDepartureUnloadingWarehousing", Gson().toJson(data)).navigation()
 
             }

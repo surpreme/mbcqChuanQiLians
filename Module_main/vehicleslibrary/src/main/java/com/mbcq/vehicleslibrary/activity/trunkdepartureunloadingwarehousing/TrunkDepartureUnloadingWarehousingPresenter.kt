@@ -5,6 +5,8 @@ import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
+import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
+import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -51,7 +53,26 @@ class TrunkDepartureUnloadingWarehousingPresenter : BasePresenterImpl<TrunkDepar
 
         })
     }
+    override fun confirmCar(data: TrunkDepartureBean, position: Int) {
+        val jsonObj = JSONObject()
+        jsonObj.put("id", data.id)
+        jsonObj.put("inoneVehicleFlag", data.inoneVehicleFlag)
+        val jsonArray = JSONArray()
+        val itemObj = JSONObject()
+        itemObj.put("id", data.id)
+        itemObj.put("inoneVehicleFlag", data.inoneVehicleFlag)
+        jsonArray.put(itemObj)
+        jsonObj.put("GxVehicleDetLst", jsonArray)
+        post<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_ARRIVAL_CONFIRM_LOCAL_INFO_POST, getRequestBody(jsonObj), object : CallBacks {
+            override fun onResult(result: String) {
+                data.vehicleState = 2
+                data.vehicleStateStr = "到货"
+                mView?.confirmCarS(data, position)
+//                mView?.confirmCarS(position)
+            }
 
+        })
+    }
     override fun UnloadingWarehousing(commonStr: String, inoneVehicleFlag: String) {
         val jsonObj = JSONObject()
         jsonObj.put("commonStr", commonStr)

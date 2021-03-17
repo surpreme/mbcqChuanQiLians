@@ -2,6 +2,7 @@ package com.mbcq.vehicleslibrary.activity.alldeparturerecord.addtrunkdeparture
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -10,6 +11,7 @@ import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.system.TimeUtils
+import com.mbcq.baselibrary.view.MoneyInputFilter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.db.WebAreaDbInfo
@@ -29,6 +31,9 @@ class AddTrunkDepartureActivity : BaseAddTrunkDepartureActivity<AddTrunkDepartur
     override fun getLayoutId(): Int = R.layout.activity_add_trunk_departure
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
+        oil_card_first_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
+        oil_card_second_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
+        oil_card_third_ed.filters = arrayOf<InputFilter>(MoneyInputFilter())
         initModeOfTransport()
     }
 

@@ -56,10 +56,10 @@ class ArrivalTrunkDeparturePresenter : BasePresenterImpl<ArrivalTrunkDepartureCo
 
     override fun getArrivalCar(page: Int, selEwebidCode: String, startDate: String, endDate: String) {
         val mHttpParams = HttpParams()
-//        mHttpParams.put("selEwebidCode", selEwebidCode)
+        mHttpParams.put("selEwebidCode", selEwebidCode)
         mHttpParams.put("page", 1)
         mHttpParams.put("limit", 15)
-        mHttpParams.put("SelWebidCode", selEwebidCode)
+//        mHttpParams.put("SelWebidCode", selEwebidCode)
         mHttpParams.put("startDate", startDate)
         mHttpParams.put("endDate", endDate)
         mHttpParams.put("vehicleStateStr", "1,2,3")

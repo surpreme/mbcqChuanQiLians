@@ -2,6 +2,7 @@ package com.mbcq.vehicleslibrary.activity.shortfeederunloadingwarehousing
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
+import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederBean
 
 /**
  * @author: lzy
@@ -13,7 +14,7 @@ class ShortFeederUnloadingWarehousingContract {
     interface View : BaseView {
         fun getVehicleInfoS(list: List<ShortFeederUnloadingWarehousingBean>)
         fun getVehicleReceiptInfoS(list: List<ShortFeederUnloadingWarehousingBean>)
-
+        fun confirmCarS(data: ShortFeederBean, position: Int)
         fun UnloadingWarehousingS(result: String)
     }
 
@@ -25,5 +26,10 @@ class ShortFeederUnloadingWarehousingContract {
          * 卸车入库
          */
         fun UnloadingWarehousing(commonStr: String, inoneVehicleFlag: String)
+        /**
+         * 确认到车
+         */
+        fun confirmCar(data: ShortFeederBean, position: Int)
+
     }
 }

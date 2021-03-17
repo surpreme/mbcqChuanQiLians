@@ -210,6 +210,7 @@
             app:layout_constraintTop_toBottomOf="@+id/receiver_info_line" />
 
         <LinearLayout
+            android:id="@+id/top_info_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -224,7 +225,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:lineSpacingExtra="10dp"
-                android:text="货物名称：电脑\n包装方式：纸箱\n体      积：13m³\n保  价 费：4\n送  货 费：200\n返      款：30\n付款方式：提付\n实发货款：750\n备      注：等通知放货"
+                android:text="货物名称：电脑\n包装方式：纸箱\n体      积：13m³"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -234,7 +235,37 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:lineSpacingExtra="10dp"
-                android:text="件      数：100\n重      量：3200kg\n保价金额：2000\n提  货 费：100\n中  转 费：230\n合计运费：1000\n代收货款：800"
+                android:text="件      数：100\n重      量：3200kg\n保价金额：2000"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/top_info_ll">
+
+            <TextView
+                android:id="@+id/goods_info_bottom_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:lineSpacingExtra="10dp"
+                android:text="保  价 费：4\n送  货 费：200\n返      款：30\n付款方式：提付\n实发货款：750\n备      注：等通知放货"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/goods_info_bottom_second_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:lineSpacingExtra="10dp"
+                android:text="提  货 费：100\n中  转 费：230\n合计运费：1000\n代收货款：800"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>

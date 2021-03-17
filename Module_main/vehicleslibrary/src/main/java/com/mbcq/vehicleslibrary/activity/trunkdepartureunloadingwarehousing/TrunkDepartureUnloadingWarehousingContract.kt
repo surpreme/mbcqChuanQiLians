@@ -2,6 +2,8 @@ package com.mbcq.vehicleslibrary.activity.trunkdepartureunloadingwarehousing
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
+import com.mbcq.vehicleslibrary.fragment.shortfeeder.ShortFeederBean
+import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
 
 /**
  * @author: lzy
@@ -13,6 +15,7 @@ class TrunkDepartureUnloadingWarehousingContract {
     interface View : BaseView {
         fun getVehicleInfoS(list: List<TrunkDepartureUnloadingWarehousingBean>)
         fun getVehicleReceiptInfoS(list: List<TrunkDepartureUnloadingWarehousingBean>)
+        fun confirmCarS(data: TrunkDepartureBean, position: Int)
 
         fun UnloadingWarehousingS(result: String)
     }
@@ -25,5 +28,9 @@ class TrunkDepartureUnloadingWarehousingContract {
          * 卸车入库
          */
         fun UnloadingWarehousing(commonStr: String, inoneVehicleFlag: String)
+        /**
+         * 确认到车
+         */
+        fun confirmCar(data: TrunkDepartureBean, position: Int)
     }
 }

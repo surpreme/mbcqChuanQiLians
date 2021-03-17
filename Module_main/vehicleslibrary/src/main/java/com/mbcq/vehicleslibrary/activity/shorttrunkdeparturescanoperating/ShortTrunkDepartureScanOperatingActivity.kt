@@ -288,6 +288,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
 
                         )
 
+                    break
                 }
             }
             /**
@@ -584,7 +585,7 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
         var mShowBillnoLable = ""
         val obj = JSONObject(result)
         val listAry = obj.optJSONArray("data")
-        for (mCCCIndex in totalQty downTo  1) {
+        for (mCCCIndex in totalQty downTo 1) {
             val endBillno = billno + if (mCCCIndex.toString().length == 1) "000$mCCCIndex" else if (mCCCIndex.toString().length == 2) "00$mCCCIndex" else if (mCCCIndex.toString().length == 3) "0$mCCCIndex" else if (mCCCIndex.toString().length == 4) "$mCCCIndex" else ""
             listAry?.let {
                 var isHas = false

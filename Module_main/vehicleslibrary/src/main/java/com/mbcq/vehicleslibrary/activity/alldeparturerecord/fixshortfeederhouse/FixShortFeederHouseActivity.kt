@@ -23,7 +23,7 @@ import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2020-09-18 14:23:00
+ * @time: 2020-09-18 14:23:00 修改短驳计划装车
  */
 @Route(path = ARouterConstants.FixShortFeederHouseActivity)
 class FixShortFeederHouseActivity : BaseFixShortFeederHouseActivity<FixShortFeederHouseContract.View, FixShortFeederHousePresenter>(), FixShortFeederHouseContract.View {

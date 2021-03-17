@@ -2,11 +2,13 @@ package com.mbcq.accountlibrary.activity.housesearch
 
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -47,7 +49,25 @@ class HouseSearchActivity : BaseMVPActivity<HouseSearchContract.View, HouseSearc
         super.initViews(savedInstanceState)
         setStatusBar(R.color.white)
         showHistory()
+        showKeyboard()
 
+    }
+
+    private fun showKeyboard() {
+        object : CountDownTimer(100, 100) {
+            override fun onFinish() {
+                if (isDestroyed) return
+                house_search_ed.requestFocus()
+                val imm: InputMethodManager = mContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(house_search_ed, InputMethodManager.SHOW_IMPLICIT)
+
+
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+            }
+
+        }.start()
     }
 
     override fun onRestart() {
@@ -66,7 +86,7 @@ class HouseSearchActivity : BaseMVPActivity<HouseSearchContract.View, HouseSearc
             val mg = ScreenSizeUtils.dp2px(mContext, 6f)
             val pa = ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             pa.setMargins(0, mg, mg * 2, 0)
-            if (history_FlowView.childCount >0)
+            if (history_FlowView.childCount > 0)
                 history_FlowView.removeAllViews()
             for (i in 0..it.length()) {
                 if (!it.isNull(i)) {
@@ -156,7 +176,7 @@ class HouseSearchActivity : BaseMVPActivity<HouseSearchContract.View, HouseSearc
             var isHas = false
             for (index in 0..jsonAry.length()) {
                 if (!jsonAry.isNull(index)) {
-                    if (jsonAry.getJSONObject(index).optString("content").replace(" ","") ==data.optString("billno")) {
+                    if (jsonAry.getJSONObject(index).optString("content").replace(" ", "") == data.optString("billno")) {
                         isHas = true
                         break
                     }

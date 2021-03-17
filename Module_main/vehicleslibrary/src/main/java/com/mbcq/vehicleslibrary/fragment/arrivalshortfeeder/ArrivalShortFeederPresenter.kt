@@ -21,8 +21,8 @@ class ArrivalShortFeederPresenter : BasePresenterImpl<ArrivalShortFeederContract
         mHttpParams.put("page", 1)
         mHttpParams.put("limit", 15)
         mHttpParams.put("vehicleStateStr", "1,2,3")
-        mHttpParams.put("SelWebidCode", selEwebidCode)
-//        mHttpParams.put("SelEwebidCode", selEwebidCode)
+//        mHttpParams.put("SelWebidCode", selEwebidCode)
+        mHttpParams.put("SelEwebidCode", selEwebidCode)
         mHttpParams.put("startDate", startDate)
         mHttpParams.put("endDate", endDate)
         get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_OVERRING_LOCAL_INFO_GET, mHttpParams, object : CallBacks {
