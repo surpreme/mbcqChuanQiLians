@@ -1,5 +1,6 @@
 package com.mbcq.vehicleslibrary.activity.departuretrunkdepartureunplanscanoperating
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
@@ -126,6 +127,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<De
                             val endBillno = billno + if (mCCCIndex.toString().length == 1) "000$mCCCIndex" else if (mCCCIndex.toString().length == 2) "00$mCCCIndex" else if (mCCCIndex.toString().length == 3) "0$mCCCIndex" else if (mCCCIndex.toString().length == 4) "$mCCCIndex" else ""
                             var isHasIt = false
                             for (itemIndex in 0 until it.length()) {
+                                Log.e("lableNo", "onResult: " + listAry.getJSONObject(itemIndex).optString("lableNo") + "  " + endBillno)
                                 if (listAry.getJSONObject(itemIndex).optString("lableNo") == endBillno && listAry.getJSONObject(itemIndex).optInt("scanType") != 2) {
                                     isHasIt = true
                                     continue
@@ -145,10 +147,11 @@ class DepartureTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<De
                                 mXPostScaningDataStr.append(",")
                         }
                         mTopLableNo = mXPostScaningDataStr.toString()
+                        Log.e("mXPostScaningDataStr", "onResult: " + mXPostScaningDataStr.toString())
                     } else {
                         for (itemIndex in 0 until it.length()) {
-                            if (lableNo==listAry.getJSONObject(itemIndex).optString("lableNo")){
-                                mView?.againScanException(billno, lableNo, deviceNo, inOneVehicleFlag, soundStr, ewebidCode, ewebidCodeStr, scanPercentage, 2,"该车已经在车次${listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag")}扫描,请核实后重试！")
+                            if (lableNo == listAry.getJSONObject(itemIndex).optString("lableNo")) {
+                                mView?.againScanException(billno, lableNo, deviceNo, inOneVehicleFlag, soundStr, ewebidCode, ewebidCodeStr, scanPercentage, 2, "该车已经在车次${listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag")}扫描,请核实后重试！")
                                 return@let
                             }
                         }
@@ -280,6 +283,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingPresenter : BasePresenterImpl<De
          * -1 查询扫描信息
          */
         params.put("scanOpeType", "-1")
+        params.put("limit", "9999")
         get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 if (type == 2)

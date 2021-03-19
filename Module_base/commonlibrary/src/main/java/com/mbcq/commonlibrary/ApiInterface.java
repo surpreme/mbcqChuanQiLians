@@ -241,25 +241,45 @@ public class ApiInterface {
      * 干线到车 确认到车 后台新增 （special）
      */
     public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SURE_ARRIVAL_POST = BASE_URI + "GxXcSm/GxVehicleSmOk";
+    /**
+     * 短驳到车 确认到车 后台新增 （special）
+     */
+    public static final String SHORT_MAIN_LINE_DEPARTURE_SURE_ARRIVAL_POST = BASE_URI + "DbXcSm/DbVehicleSmOk";
 
     /**
      * 干线到车 查询到达扫描车辆 后台新增 （special）
      */
     public static final String DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SCAN_OVER_LOCAL_INFO_GET = BASE_URI + "GxXcSm/GxVehicleSmList";
     /**
+     * 短驳到车 查询到达扫描车辆 后台新增 （special）
+     */
+    public static final String SHORT_RECORD_MAIN_LINE_DEPARTURE_SCAN_OVER_LOCAL_INFO_GET = BASE_URI + "DbXcSm/DbVehicleSmList";
+    /**
      * 干线扫描 扫描 后台新增 （special）
      */
     public static final String DEPARTURE_SCAN_ARRIVAL_DATA_POST = BASE_URI + "GxXcSm/AddGxXcWaybillScan";
+    /**
+     * 短驳扫描 扫描 后台新增 （special）
+     */
+    public static final String SHORT_SCAN_ARRIVAL_DATA_POST = BASE_URI + "DbXcSm/AddDbXcWaybillScan";
 
     /**
      * 干线扫描卸车获取车辆运单列表 后台新增（special）
      */
     public static final String DEPARTURE_VEHICLE_ORDER_INFO_GET = BASE_URI + "GxXcSm/GxVehicleSmDetailData";
+    /**
+     * 短驳扫描卸车获取车辆运单列表 后台新增（special）
+     */
+    public static final String SHORT_VEHICLE_ORDER_INFO_GET = BASE_URI + "DbXcSm/DbVehicleSmDetailData";
 
     /**
      * 干线扫描卸车 获取扫描详情 后台新增（special）
      */
     public static final String DEPARTURE_VEHICLE_SCANED_ORDER_INFO_GET = BASE_URI + "GxXcSm/SelGxXcWaybillScanDetail";
+    /**
+     * 短驳扫描卸车 获取扫描详情 后台新增（special）
+     */
+    public static final String SHORT_VEHICLE_SCANED_ORDER_INFO_GET = BASE_URI + "DbXcSm/SelDbXcWaybillScanDetail";
 
     /**
      * 干线发车 剔除运单
@@ -616,7 +636,7 @@ public class ApiInterface {
      * 查詢扫描数据
      */
     public static final String SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET = BASE_URI + "Scan/SelWaybillScanByCondition";
-     /**
+    /**
      * 改单记录 驳回申请
      */
     public static final String ACCEPT_BILLING_RECORDING_REJECT_ORDER_POST = BASE_URI + "WaybillUpdateApplyOpe/UpdWaybillCheckManByCondition";

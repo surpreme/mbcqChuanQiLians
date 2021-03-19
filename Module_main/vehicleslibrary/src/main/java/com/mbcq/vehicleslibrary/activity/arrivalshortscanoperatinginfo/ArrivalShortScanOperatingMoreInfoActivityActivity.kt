@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.activity.arrivalscanoperatingmoreinfo
+package com.mbcq.vehicleslibrary.activity.arrivalshortscanoperatinginfo
 
 
 import android.annotation.SuppressLint
@@ -13,23 +13,23 @@ import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.vehicleslibrary.R
-import kotlinx.android.synthetic.main.activity_arrival_scan_operating_more_info.*
+import kotlinx.android.synthetic.main.activity_arrival_short_scan_operating_more_info_activity.*
 import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2021-03-16 14:22:43 到车干线扫描详情
+ * @time: 2021-03-19 13:43:12 短驳到车扫描详情
  */
 
-@Route(path = ARouterConstants.ArrivalScanOperatingMoreInfoActivity)
-class ArrivalScanOperatingMoreInfoActivity : BaseListMVPActivity<ArrivalScanOperatingMoreInfoContract.View, ArrivalScanOperatingMoreInfoPresenter, ArrivalScanOperatingMoreInfoBean>(), ArrivalScanOperatingMoreInfoContract.View {
-    @Autowired(name = "ArrivalScanOperatingMoreInfo")
+@Route(path = ARouterConstants.ArrivalShortScanOperatingMoreInfoActivityActivity)
+class ArrivalShortScanOperatingMoreInfoActivityActivity : BaseListMVPActivity<ArrivalShortScanOperatingMoreInfoActivityContract.View, ArrivalShortScanOperatingMoreInfoActivityPresenter, ArrivalShortScanOperatingMoreInfoBean>(), ArrivalShortScanOperatingMoreInfoActivityContract.View {
+    @Autowired(name = "ArrivalShortScanOperatingMoreInfo")
     @JvmField
     var mLastDataNo: String = ""
-    val mCacheList = mutableListOf<ArrivalScanOperatingMoreInfoBean>()
-    val mCacheCarList = mutableListOf<ArrivalScanOperatingMoreInfoBean>()
+    val mCacheList = mutableListOf<ArrivalShortScanOperatingMoreInfoBean>()
+    val mCacheCarList = mutableListOf<ArrivalShortScanOperatingMoreInfoBean>()
 
-    override fun getLayoutId(): Int = R.layout.activity_arrival_scan_operating_more_info
+    override fun getLayoutId(): Int = R.layout.activity_arrival_short_scan_operating_more_info_activity
     override fun initExtra() {
         super.initExtra()
         ARouter.getInstance().inject(this)
@@ -42,7 +42,7 @@ class ArrivalScanOperatingMoreInfoActivity : BaseListMVPActivity<ArrivalScanOper
             if (!isChecked) {
                 adapter.replaceData(if (mCacheList.isNotEmpty()) mCacheList else mCacheCarList)
             } else {
-                val mFilterList = mutableListOf<ArrivalScanOperatingMoreInfoBean>()
+                val mFilterList = mutableListOf<ArrivalShortScanOperatingMoreInfoBean>()
                 for (item in if (mCacheList.isNotEmpty()) mCacheList else mCacheCarList) {
                     if (!item.isScan)
                         mFilterList.add(item)
@@ -50,7 +50,6 @@ class ArrivalScanOperatingMoreInfoActivity : BaseListMVPActivity<ArrivalScanOper
                 adapter.replaceData(mFilterList)
             }
         }
-
     }
 
     override fun initDatas() {
@@ -72,7 +71,7 @@ class ArrivalScanOperatingMoreInfoActivity : BaseListMVPActivity<ArrivalScanOper
 
                 } else {
                     val searchStr = billno_ed.text.toString()
-                    val mFilterList = mutableListOf<ArrivalScanOperatingMoreInfoBean>()
+                    val mFilterList = mutableListOf<ArrivalShortScanOperatingMoreInfoBean>()
                     for (item in if (mCacheList.isNotEmpty()) mCacheList else mCacheCarList) {
                         if (item.lableNo == searchStr)
                             mFilterList.add(item)
@@ -96,8 +95,12 @@ class ArrivalScanOperatingMoreInfoActivity : BaseListMVPActivity<ArrivalScanOper
         })
     }
 
+    override fun getRecyclerViewId(): Int = R.id.arrival_vehicles_scan_operating_more_info_recycler
+
+    override fun setAdapter(): BaseRecyclerAdapter<ArrivalShortScanOperatingMoreInfoBean> = ArrivalShortScanOperatingMoreInfoAdapter(mContext)
+
     @SuppressLint("SetTextI18n")
-    fun showTopTotal(list: List<ArrivalScanOperatingMoreInfoBean>) {
+    fun showTopTotal(list: List<ArrivalShortScanOperatingMoreInfoBean>) {
         var mUnScanTotalQty = 0
         var mHandScanQty = 0
         var mPDAScanQty = 0
@@ -121,32 +124,28 @@ class ArrivalScanOperatingMoreInfoActivity : BaseListMVPActivity<ArrivalScanOper
         scan_right_info_tv.text = "未扫件数：${mUnScanTotalQty}\npda扫描件数：${mPDAScanQty}"
     }
 
-    override fun getRecyclerViewId(): Int = R.id.arrival_vehicles_scan_operating_more_info_recycler
-
-    override fun setAdapter(): BaseRecyclerAdapter<ArrivalScanOperatingMoreInfoBean> = ArrivalScanOperatingMoreInfoAdapter(mContext)
-
-    override fun getScanInfoS(list: List<ArrivalScanOperatingMoreInfoBean>) {
+    override fun getScanInfoS(list: List<ArrivalShortScanOperatingMoreInfoBean>) {
         val obj = JSONObject(mLastDataNo)
         val billno = obj.optString("billno")
         val totalQty = obj.optInt("totalQty", 1)
-        val mArrivalScanOperatingMoreInfoList = mutableListOf<ArrivalScanOperatingMoreInfoBean>()
+        val mArrivalScanOperatingMoreInfoList = mutableListOf<ArrivalShortScanOperatingMoreInfoBean>()
         for (index in 1..totalQty) {
             val endBillno = if (index.toString().length == 1) "000$index" else if (index.toString().length == 2) "00$index" else if (index.toString().length == 3) "0$index" else if (index.toString().length == 4) "$index" else ""
-            val mArrivalScanOperatingMoreInfoBean = ArrivalScanOperatingMoreInfoBean()
-            mArrivalScanOperatingMoreInfoBean.lableNo = "${billno}$endBillno"
+            val mArrivalShortScanOperatingMoreInfoBean = ArrivalShortScanOperatingMoreInfoBean()
+            mArrivalShortScanOperatingMoreInfoBean.lableNo = "${billno}$endBillno"
             for (xxx in list) {
-                if (xxx.lableNo == mArrivalScanOperatingMoreInfoBean.lableNo) {
-                    mArrivalScanOperatingMoreInfoBean.isScan = true
-                    mArrivalScanOperatingMoreInfoBean.billno = xxx.billno
-                    mArrivalScanOperatingMoreInfoBean.inOneVehicleFlag = xxx.inOneVehicleFlag
-                    mArrivalScanOperatingMoreInfoBean.opeMan = xxx.opeMan
-                    mArrivalScanOperatingMoreInfoBean.recordDate = xxx.recordDate
-                    mArrivalScanOperatingMoreInfoBean.scanTypeStr = xxx.scanTypeStr
-                    mArrivalScanOperatingMoreInfoBean.scanType = xxx.scanType
+                if (xxx.lableNo == mArrivalShortScanOperatingMoreInfoBean.lableNo) {
+                    mArrivalShortScanOperatingMoreInfoBean.isScan = true
+                    mArrivalShortScanOperatingMoreInfoBean.billno = xxx.billno
+                    mArrivalShortScanOperatingMoreInfoBean.inOneVehicleFlag = xxx.inOneVehicleFlag
+                    mArrivalShortScanOperatingMoreInfoBean.opeMan = xxx.opeMan
+                    mArrivalShortScanOperatingMoreInfoBean.recordDate = xxx.recordDate
+                    mArrivalShortScanOperatingMoreInfoBean.scanTypeStr = xxx.scanTypeStr
+                    mArrivalShortScanOperatingMoreInfoBean.scanType = xxx.scanType
                     continue
                 }
             }
-            mArrivalScanOperatingMoreInfoList.add(mArrivalScanOperatingMoreInfoBean)
+            mArrivalScanOperatingMoreInfoList.add(mArrivalShortScanOperatingMoreInfoBean)
         }
         adapter.appendData(mArrivalScanOperatingMoreInfoList)
         mCacheList.addAll(mArrivalScanOperatingMoreInfoList)
@@ -154,7 +153,7 @@ class ArrivalScanOperatingMoreInfoActivity : BaseListMVPActivity<ArrivalScanOper
 
     }
 
-    override fun getScanCarInfoS(list: List<ArrivalScanOperatingMoreInfoBean>) {
+    override fun getScanCarInfoS(list: List<ArrivalShortScanOperatingMoreInfoBean>) {
         adapter.appendData(list)
         mCacheList.addAll(list)
         showTopTotal(list)

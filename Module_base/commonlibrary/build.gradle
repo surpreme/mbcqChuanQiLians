@@ -77,7 +77,7 @@ dependencies {
 //设置greenGao配置
 greendao {
     //版本号
-    schemaVersion 2
+    schemaVersion 3
     //设置新建的三个文件包的位置
     daoPackage 'com.mbcq.commonlibrary.greendao'
     //设置DaoMaster、DaoSession、Dao目录

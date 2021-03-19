@@ -13,7 +13,8 @@
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
         app:centerTextViewText="到车扫描"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:rightButtonIcon="@drawable/ic_search_icon" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/top_index_title_tabLyout"

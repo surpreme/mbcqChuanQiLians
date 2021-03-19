@@ -16,12 +16,6 @@ import org.json.JSONObject
 
 class ArrivalTrunkDepartureScanPresenter : BasePresenterImpl<ArrivalTrunkDepartureScanContract.View>(), ArrivalTrunkDepartureScanContract.Presenter {
     override fun getUnLoading(selEwebidCode: String, startDate: String, endDate: String) {
-        /*  val mHttpParams = HttpParams()
-          mHttpParams.put("page", page)
-          mHttpParams.put("limit", 15)*/
-        /* mHttpParams.put("selWebidCode", selWebidCode)
-         mHttpParams.put("startDate", startDate)
-         mHttpParams.put("endDate", endDate)*/
         val mHttpParams = HttpParams()
         mHttpParams.put("selEwebidCode", selEwebidCode)
         mHttpParams.put("startDate", startDate)

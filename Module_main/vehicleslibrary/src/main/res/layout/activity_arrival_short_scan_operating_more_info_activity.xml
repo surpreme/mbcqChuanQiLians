@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.arrivalscanoperatingmoreinfo.ArrivalScanOperatingMoreInfoActivity">
+    tools:context=".activity.arrivalshortscanoperatinginfo.ArrivalShortScanOperatingMoreInfoActivityActivity">
+
     <com.mbcq.baselibrary.view.CnToolbar
         android:id="@+id/arrival_vehicles_scan_operating_more_info_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
-        app:centerTextViewText="干线扫描清单"
+        app:centerTextViewText="短驳扫描清单"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout

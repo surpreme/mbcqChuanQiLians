@@ -30,8 +30,8 @@ public class WebAreaDbInfo {
      * county : 5
      * street : 8
      * address : 23
-     * longitude : null
-     * latitude : null
+     * longitude :  31.194109
+     * latitude : 121.269549
      * dbWebCode : 23
      * dbWebCodeStr : null
      * gxWebCode : 33434

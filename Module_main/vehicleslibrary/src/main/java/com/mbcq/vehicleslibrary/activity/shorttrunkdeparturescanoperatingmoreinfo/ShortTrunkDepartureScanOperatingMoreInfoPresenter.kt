@@ -85,7 +85,7 @@ class ShortTrunkDepartureScanOperatingMoreInfoPresenter : BasePresenterImpl<Shor
         val params = HttpParams()
         if (billno.isNotBlank())
             params.put("billno", billno)
-        params.put("limit", 99999)
+        params.put("limit", 9999)
         /**
          * @scanOpeType 操作类型
          * 0 短驳装车

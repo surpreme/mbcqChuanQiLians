@@ -1176,14 +1176,20 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         shipper_phone_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (shipper_phone_ed.text.toString().isNotEmpty() && shipper_circle_hide_ll.visibility == View.VISIBLE) {
-                    mPresenter?.getShipperInfo(HttpParams("contactMb", shipper_phone_ed.text.toString()))
+                    val params = HttpParams()
+                    params.put("contactmb", shipper_phone_ed.text.toString())
+                    params.put("webidCode", UserInformationUtil.getWebIdCode(mContext))
+                    mPresenter?.getShipperInfo(params)
                 }
             }
         }
         shipper_mShipperId_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (shipper_mShipperId_ed.text.toString().isNotEmpty() && shipper_circle_hide_ll.visibility == View.VISIBLE) {
-                    mPresenter?.getShipperInfo(HttpParams("vipId", shipper_mShipperId_ed.text.toString()))
+                    val params = HttpParams()
+                    params.put("vipid", shipper_mShipperId_ed.text.toString())
+                    params.put("webidCode", UserInformationUtil.getWebIdCode(mContext))
+                    mPresenter?.getShipperInfo(params)
                 }
             }
         }
@@ -1193,14 +1199,21 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         receiver_phone_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (receiver_phone_ed.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {
-                    mPresenter?.getReceiverInfo(HttpParams("contactMb", receiver_phone_ed.text.toString()))
+                    val params = HttpParams()
+                    params.put("contactmb", receiver_phone_ed.text.toString())
+                    params.put("webidCode", UserInformationUtil.getWebIdCode(mContext))
+                    mPresenter?.getReceiverInfo(params)
                 }
             }
         }
         receiver_mConsigneeTel_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (receiver_mConsigneeTel_ed.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {
-                    mPresenter?.getReceiverInfo(HttpParams("contactTel", receiver_mConsigneeTel_ed.text.toString()))
+                    val params = HttpParams()
+                    params.put("contactTel", receiver_mConsigneeTel_ed.text.toString())
+                    params.put("webidCode", UserInformationUtil.getWebIdCode(mContext))
+                    mPresenter?.getReceiverInfo(params)
+//                    mPresenter?.getReceiverInfo(HttpParams("contactTel", receiver_mConsigneeTel_ed.text.toString()))
                 }
             }
         }

@@ -74,6 +74,24 @@ class DepartureTrunkDepartureScanOperatingScanInfoActivity : BaseListMVPActivity
 
     override fun onClick() {
         super.onClick()
+        search_btn.apply {
+            onSingleClicks {
+                if (billno_ed.text.toString().isBlank()) {
+                    adapter.replaceData(if (mCacheList.isNotEmpty()) mCacheList else mCacheCarList)
+
+                } else {
+                    val searchStr = billno_ed.text.toString()
+                    val mFilterList = mutableListOf<DepartureTrunkDepartureScanOperatingScanInfoBean>()
+                    for (item in if (mCacheList.isNotEmpty()) mCacheList else mCacheCarList) {
+                        if (item.lableNo == searchStr)
+                            mFilterList.add(item)
+                    }
+                    if (mFilterList.isNotEmpty())
+                        adapter.replaceData(mFilterList)
+                }
+
+            }
+        }
         departure_vehicles_scan_operating_more_info_toolbar.setBackButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 onBackPressed()

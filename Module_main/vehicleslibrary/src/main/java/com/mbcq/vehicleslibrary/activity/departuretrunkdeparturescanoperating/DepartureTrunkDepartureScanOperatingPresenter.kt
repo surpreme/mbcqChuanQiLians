@@ -428,6 +428,8 @@ class DepartureTrunkDepartureScanOperatingPresenter : BasePresenterImpl<Departur
          * -1 查询扫描信息
          */
         params.put("scanOpeType", "-1")
+        params.put("limit", "9999")
+
         get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 if (type == 2)

@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.arrivaltrunkdeparturescanoperating.ArrivalTrunkDepartureScanOperatingActivity">
-
+    tools:context=".activity.arrivalshortscanoperating.ArrivalShortScanOperatingActivity">
     <com.mbcq.baselibrary.view.CnToolbar
         android:id="@+id/arrival_vehicles_scan_operating_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
-        app:centerTextViewText="干线扫描卸车"
+        app:centerTextViewText="短驳扫描卸车"
         app:layout_constraintTop_toTopOf="parent"
         app:rightTextViewText="撤销" />
 
@@ -176,6 +175,5 @@
             android:layout_marginRight="15dp"
             android:src="@drawable/ic_down_icon" />
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

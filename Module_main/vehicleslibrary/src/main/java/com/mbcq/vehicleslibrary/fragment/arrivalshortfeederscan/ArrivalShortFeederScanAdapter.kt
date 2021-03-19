@@ -1,5 +1,6 @@
 package com.mbcq.vehicleslibrary.fragment.arrivalshortfeederscan
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
@@ -7,17 +8,22 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
+import com.mbcq.vehicleslibrary.fragment.arrivaltrunkdeparturescan.ArrivalTrunkDepartureScanAdapter
 
 class ArrivalShortFeederScanAdapter(context: Context) :BaseRecyclerAdapter<ArrivalShortFeederScanBean>(context){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_arrival_short_scan_feeder, parent, false))
+    var mSureArrivalClickInterface: OnClickInterface.OnRecyclerClickInterface? = null
 
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ItemViewHolder).departure_number_tv.text = mDatas[position].inoneVehicleFlag
-        holder.transport_type_tv.text = mDatas[position].transneedStr
+//        holder.transport_type_tv.text = mDatas[position].transneedStr
         holder.short_feeder_time_tv.text = mDatas[position].sendDate
         holder.shipper_outlets_tv.text = mDatas[position].webidCodeStr
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
@@ -25,9 +31,18 @@ class ArrivalShortFeederScanAdapter(context: Context) :BaseRecyclerAdapter<Arriv
         holder.feeder_confirm_btn.visibility = if (mDatas[position].vehicleState == 1) View.VISIBLE else View.GONE
         holder.scan_rate_tv.visibility = if (mDatas[position].vehicleState != 1) View.VISIBLE else View.GONE
         holder.operating_progressbar.visibility = if (mDatas[position].vehicleState != 1) View.VISIBLE else View.GONE
+        holder.operating_progressbar.progress = if (mDatas[position].xcScanPercentage.isNullOrEmpty()) 0 else mDatas[position].xcScanPercentage.toInt()
+        holder.scan_rate_tv.text = "扫描率：${if (mDatas[position].xcScanPercentage.isNullOrEmpty()) "0" else mDatas[position].xcScanPercentage}%"
+        holder.feeder_confirm_btn.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View) {
+                mSureArrivalClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
+            }
+
+        })
+
         holder.itemView.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
-                mClickInterface?.onItemClick(v, position, mDatas[position].id.toString())
+                mClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
             }
 
         })

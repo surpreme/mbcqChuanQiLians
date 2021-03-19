@@ -156,7 +156,6 @@ class DepartureTrunkDepartureScanOperatingScanInfoPresenter : BasePresenterImpl<
                         }
                         if (mCarBiilno.toString().isNotBlank())
                             getCarScanData(mCarBiilno.toString(), mCarQty.toString(), inoneVehicleFlag)
-
                     }
                 }
             }

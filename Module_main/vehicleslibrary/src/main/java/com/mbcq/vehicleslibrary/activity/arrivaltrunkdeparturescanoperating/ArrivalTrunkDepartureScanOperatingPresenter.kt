@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
 import com.mbcq.vehicleslibrary.activity.arrivalscanoperatingmoreinfo.ArrivalScanOperatingMoreInfoBean
@@ -71,6 +72,8 @@ class ArrivalTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ArrivalTru
                         scanObj.put("inoneVehicleFlag", inoneVehicleFlag)
                         scanObj.put("scanType", scanType)
                         scanObj.put("scanTypeStr", if (scanType == 0) "PDA" else "手动输入")
+//                        Log.e("scanObj", "onResult: " + GsonUtils.toPrettyFormat(scanObj))
+//                        if (true) return
                         post<String>(ApiInterface.DEPARTURE_SCAN_ARRIVAL_DATA_POST, getRequestBody(scanObj), object : CallBacks {
                             override fun onResult(result: String) {
                                 mView?.scanOrderS(billno, ewebidCodeStr, lableNo)
@@ -123,9 +126,10 @@ class ArrivalTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ArrivalTru
 //                        Log.e("vvvvvvv", "onResult: item" + item.toString())
                         var isVHas = false
                         for (vItem in 0 until xIt.length()) {
-                            Log.e("vvvvvvv", "onResult:lableNo " + xIt.getJSONObject(vItem).optString("lableNo"))
+//                            Log.e("vvvvvvv", "onResult:lableNo " + xIt.getJSONObject(vItem).optString("lableNo"))
                             if (xIt.getJSONObject(vItem).optString("lableNo") == item.toString()) {
                                 isVHas = true
+                                continue
                             }
                         }
                         if (!isVHas) {
@@ -135,7 +139,7 @@ class ArrivalTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ArrivalTru
                     val mXPostScaningDataStr = StringBuilder()
 //                    val shortNum=if ()
                     for (index in (mVlableNo.size - (lableNo.split(",").size)) until mVlableNo.size) {
-                        if (index>=0){
+                        if (index >= 0) {
                             mXPostScaningDataStr.append(mVlableNo[index])
                             if (index != (mVlableNo.size - 1))
                                 mXPostScaningDataStr.append(",")
@@ -162,10 +166,10 @@ class ArrivalTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ArrivalTru
                 mAlableNo.add(endBillno.toLong())
 //                }
             }
-            //-1 前 1后 正序
-            mAlableNo.sortWith(Comparator { o1, o2 ->
-                if (o1 > o2) 1 else -1
-            })
+            /* //-1 前 1后 正序
+             mAlableNo.sortWith(Comparator { o1, o2 ->
+                 if (o1 > o2) 1 else -1
+             })*/
             getTopLableNo2(mAlableNo, billno, inoneVehicleFlag, lableNo, 1, mOnResultInteface)
         } else
             mOnResultInteface.onResult(lableNo)
@@ -189,10 +193,10 @@ class ArrivalTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ArrivalTru
                         if (it.getJSONObject(mXitemIndex).optString("inOneVehicleFlag").replace(" ", "").contains(inoneVehicleFlag.replace(" ", "")))
                             mXlableNo.add(it.getJSONObject(mXitemIndex).optLong("lableNo"))
                     }
-                    //-1 前 1后 正序
-                    mXlableNo.sortWith(Comparator { o1, o2 ->
-                        if (o1 > o2) 1 else -1
-                    })
+                    /*  //-1 前 1后 正序
+                      mXlableNo.sortWith(Comparator { o1, o2 ->
+                          if (o1 > o2) 1 else -1
+                      })*/
                     getTopLableNo2(mXlableNo, billno, inoneVehicleFlag, lableNo, 1, mOnResultInteface)
 
 

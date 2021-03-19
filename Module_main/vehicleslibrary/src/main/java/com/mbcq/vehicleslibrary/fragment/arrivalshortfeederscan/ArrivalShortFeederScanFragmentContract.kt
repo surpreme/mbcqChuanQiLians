@@ -13,12 +13,17 @@ class ArrivalShortFeederScanFragmentContract {
 
     interface View : BaseView {
         fun getPageS(list: List<ArrivalShortFeederScanBean>)
+        fun sureArrivalCarS(result: String)
 
     }
 
     interface Presenter : BasePresenter<View> {
         fun getUnLoading(selEwebidCode: String, startDate: String, endDate: String)
         fun getLoading(selEwebidCode: String, startDate: String, endDate: String)
+        /**
+         * 确认到车
+         */
+        fun sureArrivalCar(inoneVehicleFlag: String)
 
     }
 }

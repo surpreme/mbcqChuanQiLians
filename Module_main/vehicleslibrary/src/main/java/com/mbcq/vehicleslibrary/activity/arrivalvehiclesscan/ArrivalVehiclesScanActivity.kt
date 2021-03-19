@@ -6,15 +6,22 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
+import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.view.FragmentViewPagerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.baselibrary.view.TabBuilder
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.WebDbUtil
+import com.mbcq.commonlibrary.WebsDbInterface
+import com.mbcq.commonlibrary.db.WebAreaDbInfo
+import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.fragment.arrivalshortfeederscan.ArrivalShortFeederScanFragment
 import com.mbcq.vehicleslibrary.fragment.arrivaltrunkdeparturescan.ArrivalTrunkDepartureScanFragment
 import kotlinx.android.synthetic.main.activity_arrival_vehicles_scan.*
+import org.greenrobot.eventbus.EventBus
 
 /**
  * @author: lzy
@@ -23,6 +30,10 @@ import kotlinx.android.synthetic.main.activity_arrival_vehicles_scan.*
 
 @Route(path = ARouterConstants.ArrivalVehiclesScanActivity)
 class ArrivalVehiclesScanActivity : BaseMVPActivity<ArrivalVehiclesScanContract.View, ArrivalVehiclesScanPresenter>(), ArrivalVehiclesScanContract.View {
+//    var mStartDateTag = ""
+//    var mEndDateTag = ""
+//    var mShippingOutletsTag = ""//发货网点
+
     override fun getLayoutId(): Int = R.layout.activity_arrival_vehicles_scan
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
@@ -46,6 +57,40 @@ class ArrivalVehiclesScanActivity : BaseMVPActivity<ArrivalVehiclesScanContract.
 
     override fun onClick() {
         super.onClick()
+        arrival_vehicles_scan_toolbar.setRightButtonOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View?) {
+                WebDbUtil.getDbWebId(application, object : WebsDbInterface {
+                    override fun isNull() {
+
+                    }
+
+                    override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
+                        FilterWithTimeDialog(getScreenWidth(), Gson().toJson(list), "webid", "webidCode", true, "到车扫描筛选", true, mClickInterface = object : OnClickInterface.OnClickInterface {
+                            /**
+                             * s1 网点
+                             * s2  start@end
+                             */
+                            override fun onResult(s1: String, s2: String) {
+//                                mShippingOutletsTag = s1
+                                val timeList = s2.split("@")
+                                if (timeList.isNotEmpty() && timeList.size == 2) {
+//                                    mStartDateTag = timeList[0]
+//                                    mEndDateTag = timeList[1]
+                                    val mArrivalVehiclesScanFilterRefreshEvent = ArrivalVehiclesScanFilterRefreshEvent(1, "", timeList[0], timeList[1], s1)
+                                    EventBus.getDefault().post(mArrivalVehiclesScanFilterRefreshEvent)
+
+                                }
+//                                isCanRefreshTotalTitle = true
+//                                refresh()
+                            }
+
+                        }).show(supportFragmentManager, "ArrivalVehiclesScanFilterWithTimeDialog")
+                    }
+
+                })
+            }
+
+        })
         arrival_vehicles_scan_toolbar.setBackButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 onBackPressed()

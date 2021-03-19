@@ -1,10 +1,10 @@
-package com.mbcq.vehicleslibrary.activity.arrivaltrunkdeparturescanoperating
+package com.mbcq.vehicleslibrary.activity.arrivalshortscanoperating
 
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -23,60 +23,32 @@ import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.DialogFragmentUtils
-import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean
 import com.mbcq.commonlibrary.dialog.BottomOptionsDialog
 import com.mbcq.commonlibrary.scan.scanlogin.ScanDialogFragment
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.fragment.ScanNumDialog
-import kotlinx.android.synthetic.main.activity_arrival_trunk_departure_scan_operating.*
+import kotlinx.android.synthetic.main.activity_arrival_short_scan_operating.*
 import org.json.JSONObject
 import java.lang.StringBuilder
 
 /**
  * @author: lzy
- * @time: 2020-10-30 09:24:35 干线到车扫描操作页 干线扫描卸车
+ * @time: 2021-03-19 10:30:12 短驳到车扫描
  */
 
-@Route(path = ARouterConstants.ArrivalTrunkDepartureScanOperatingActivity)
-class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScanOperatingActivity<ArrivalTrunkDepartureScanOperatingContract.View, ArrivalTrunkDepartureScanOperatingPresenter, ArrivalTrunkDepartureScanOperatingBean>(), ArrivalTrunkDepartureScanOperatingContract.View {
+@Route(path = ARouterConstants.ArrivalShortScanOperatingActivity)
+class ArrivalShortScanOperatingActivity : BaseArrivalShortScanOperatingActivity<ArrivalShortScanOperatingContract.View, ArrivalShortScanOperatingPresenter, ArrivalShortScanOperatingBean>(), ArrivalShortScanOperatingContract.View {
     @Autowired(name = "ArrivalVehicles")
     @JvmField
     var mLastData: String = ""
 
+    override fun getLayoutId(): Int = R.layout.activity_arrival_short_scan_operating
+    override fun getRecyclerViewId(): Int = R.id.arrival_vehicles_scan_operating_recycler
 
-    override fun getLayoutId(): Int = R.layout.activity_arrival_trunk_departure_scan_operating
-
-    override fun onResume() {
-        super.onResume()
-        refreshScanInfo()
-    }
-
-    @SuppressLint("SetTextI18n")
-    fun refreshScanInfo() {
-        val obj = JSONObject(mLastData)
-        mPresenter?.getCarInfo(obj.optString("inoneVehicleFlag"))
-        unloading_batch_tv.text = "卸车批次：${obj.optString("inoneVehicleFlag")}"
-        unScan_info__tv.text = "未扫：0票 0件 0kg  0m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
-
-    }
-
-    fun lookLocalCarScanMoreInfo() {
-        val obj = JSONObject()
-        obj.put("lookType", 2)
-        obj.put("inoneVehicleFlag", JSONObject(mLastData).optString("inoneVehicleFlag"))
-        ARouter.getInstance().build(ARouterConstants.ArrivalScanOperatingMoreInfoActivity).withString("ArrivalScanOperatingMoreInfo", GsonUtils.toPrettyFormat(obj)).navigation()
-
-    }
-
-    override fun onClick() {
-        super.onClick()
-        look_more_info_btn.apply {
-            onSingleClicks {
-                lookLocalCarScanMoreInfo()
-            }
-        }
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         //侧滑动画
         SmartSwipe.wrap(this)
                 .addConsumer(SpaceConsumer())
@@ -89,9 +61,44 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
                         }
                     }
                 })
+    }
+
+    fun lookLocalCarScanMoreInfo() {
+        val obj = JSONObject()
+        obj.put("lookType", 2)
+        obj.put("inoneVehicleFlag", JSONObject(mLastData).optString("inoneVehicleFlag"))
+        ARouter.getInstance().build(ARouterConstants.ArrivalShortScanOperatingMoreInfoActivityActivity).withString("ArrivalShortScanOperatingMoreInfo", GsonUtils.toPrettyFormat(obj)).navigation()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshScanInfo()
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun refreshScanInfo() {
+        val obj = JSONObject(mLastData)
+        mPresenter?.getCarInfo(obj.optString("inoneVehicleFlag"))
+        unloading_batch_tv.text = "卸车批次：${obj.optString("inoneVehicleFlag")}"
+        unScan_info__tv.text = "未扫：0票 0件 0kg  0m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
+    }
+
+    override fun onClick() {
+        super.onClick()
+        look_more_info_btn.apply {
+            onSingleClicks {
+                lookLocalCarScanMoreInfo()
+            }
+        }
         type_tv.apply {
             onSingleClicks {
                 onFilterRecyclerData()
+            }
+        }
+        scan_number_iv.apply {
+            onSingleClicks {
+                getCameraPermission()
             }
         }
         search_btn.apply {
@@ -104,44 +111,98 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
 
             }
         }
-        scan_number_iv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                getCameraPermission()
+    }
+
+    override fun setAdapter(): BaseRecyclerAdapter<ArrivalShortScanOperatingBean> = ArrivalShortScanOperatingAdapter(mContext).also {
+        it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            @SuppressLint("SetTextI18n")
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                val mSelectBean = Gson().fromJson<ArrivalShortScanOperatingBean>(mResult, ArrivalShortScanOperatingBean::class.java)
+                if (mSelectBean.totalQty in 1..20) {
+                    mPresenter?.getClickLable(mSelectBean.billno, mSelectBean.inoneVehicleFlag, mSelectBean.totalQty)
+
+                } else if (mSelectBean.totalQty in 21..9999) {
+                    billno_ed.setText("${mSelectBean.billno}0001")
+                }
             }
 
-        })
+        }
+        it.mOnLookInformationInterface = object : ArrivalShortScanOperatingAdapter.OnLookInformationInterface {
+            override fun lookInfo(v: View, position: Int, data: ArrivalShortScanOperatingBean) {
+                val obj = JSONObject()
+                obj.put("lookType", 1)
+                obj.put("billno", data.billno)
+                obj.put("inoneVehicleFlag", data.inoneVehicleFlag)
+                obj.put("totalQty", data.totalQty)
+                ARouter.getInstance().build(ARouterConstants.ArrivalShortScanOperatingMoreInfoActivityActivity).withString("ArrivalShortScanOperatingMoreInfo", GsonUtils.toPrettyFormat(obj)).navigation()
+
+            }
+
+            override fun lookAllInfo(v: View, position: Int, data: ArrivalShortScanOperatingBean) {
+
+            }
+
+        }
 
     }
 
-    fun getCameraPermission() {
-        rxPermissions.request(Manifest.permission.CAMERA)
-                .subscribe { granted ->
-                    if (granted) { // Always true pre-M
-                        // I can control the camera now
-                        ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
-                            override fun onResult(s1: String, s2: String) {
-                                object : CountDownTimer(1000, 1000) {
-                                    override fun onFinish() {
-                                        if (!isDestroyed)
-                                            scanSuccess(s1, false)
+    fun onFilterRecyclerData() {
+        val list = mutableListOf<BaseTextAdapterBean>()
+        /**
+        按扫描先后
+        按扫描率
+        按计划外
+        按计划
+         */
+        for (index in 0..1) {
+            val mBaseTextAdapterBean = BaseTextAdapterBean()
+            mBaseTextAdapterBean.title = if (index == 0) "默认" else "按扫描率"
+            mBaseTextAdapterBean.tag = index.toString()
+            list.add(mBaseTextAdapterBean)
+        }
+        XDialog.Builder(mContext)
+                .setContentView(R.layout.dialog_bottom_options)
+//                        .setWidth(type_tv.width)
+                .setIsDarkWindow(false)
+                .asCustom(BottomOptionsDialog(mContext, list).also {
+                    it.mOnRecyclerClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+                        override fun onItemClick(v: View, position: Int, mResult: String) {
+                            type_tv.text = if (mResult == "0") "默认" else "按扫描率"
+                            when (mResult) {
+                                "0" -> {
+                                    refreshScanInfo()
+                                }
+                                "1" -> {
+                                    showLoading()
+                                    /**
+                                     * 扫描率算法要跟recyclerview adapter统一
+                                     *
+                                     */
+                                    //-1 前 1后
+                                    adapter.sortWith(Comparator { o1, o2 ->
+                                        val mO1Progress = if (o1.loadQty == 0)
+                                            0
+                                        else if (o1.loadQty == o1.qty)
+                                            100
+                                        else
+                                            ((o1.loadQty * 100) / (o1.qty))
+                                        val mO2Progress = if (o2.loadQty == 0)
+                                            0
+                                        else if (o2.loadQty == o2.qty)
+                                            100
+                                        else
+                                            ((o2.loadQty * 100) / (o2.qty))
 
-                                    }
-
-                                    override fun onTick(millisUntilFinished: Long) {
-
-                                    }
-
-                                }.start()
+                                        if (mO1Progress >= mO2Progress) 1 else -1
+                                    })
+                                    closeLoading()
+                                }
                             }
-
-                        }).show(supportFragmentManager, "ScanDialogFragment")
-                    } else {
-                        // Oups permission denied
-                        TalkSureDialog(mContext, getScreenWidth(), "权限未赋予！照相机无法启动！请联系在线客服或手动进入系统设置授予摄像头权限！").show()
+                        }
 
                     }
-                }
-
+                })
+                .showUp(type_tv)
     }
 
     fun scanSuccess(s1: String, isHeaderPint: Boolean) {
@@ -214,105 +275,43 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
 
     }
 
-    fun onFilterRecyclerData() {
-        val list = mutableListOf<BaseTextAdapterBean>()
-        /**
-        按扫描先后
-        按扫描率
-        按计划外
-        按计划
-         */
-        for (index in 0..1) {
-            val mBaseTextAdapterBean = BaseTextAdapterBean()
-            mBaseTextAdapterBean.title = if (index == 0) "默认" else "按扫描率"
-            mBaseTextAdapterBean.tag = index.toString()
-            list.add(mBaseTextAdapterBean)
-        }
-        XDialog.Builder(mContext)
-                .setContentView(R.layout.dialog_bottom_options)
-//                        .setWidth(type_tv.width)
-                .setIsDarkWindow(false)
-                .asCustom(BottomOptionsDialog(mContext, list).also {
-                    it.mOnRecyclerClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
-                        override fun onItemClick(v: View, position: Int, mResult: String) {
-                            type_tv.text = if (mResult == "0") "默认" else "按扫描率"
-                            when (mResult) {
-                                "0" -> {
-                                    refreshScanInfo()
-                                }
-                                "1" -> {
-                                    showLoading()
-                                    /**
-                                     * 扫描率算法要跟recyclerview adapter统一
-                                     *
-                                     */
-                                    //-1 前 1后
-                                    adapter.sortWith(Comparator { o1, o2 ->
-                                        val mO1Progress = if (o1.loadQty == 0)
-                                            0
-                                        else if (o1.loadQty == o1.qty)
-                                            100
-                                        else
-                                            ((o1.loadQty * 100) / (o1.qty))
-                                        val mO2Progress = if (o2.loadQty == 0)
-                                            0
-                                        else if (o2.loadQty == o2.qty)
-                                            100
-                                        else
-                                            ((o2.loadQty * 100) / (o2.qty))
+    fun getCameraPermission() {
+        rxPermissions.request(Manifest.permission.CAMERA)
+                .subscribe { granted ->
+                    if (granted) { // Always true pre-M
+                        // I can control the camera now
+                        ScanDialogFragment(getScreenWidth(), null, object : OnClickInterface.OnClickInterface {
+                            override fun onResult(s1: String, s2: String) {
+                                object : CountDownTimer(1000, 1000) {
+                                    override fun onFinish() {
+                                        if (!isDestroyed)
+                                            scanSuccess(s1, false)
 
-                                        if (mO1Progress >= mO2Progress) 1 else -1
-                                    })
-                                    closeLoading()
-                                }
+                                    }
+
+                                    override fun onTick(millisUntilFinished: Long) {
+
+                                    }
+
+                                }.start()
                             }
-                        }
+
+                        }).show(supportFragmentManager, "ScanDialogFragment")
+                    } else {
+                        // Oups permission denied
+                        TalkSureDialog(mContext, getScreenWidth(), "权限未赋予！照相机无法启动！请联系在线客服或手动进入系统设置授予摄像头权限！").show()
 
                     }
-                })
-                .showUp(type_tv)
-    }
-
-    override fun getRecyclerViewId(): Int = R.id.arrival_vehicles_scan_operating_recycler
-
-    override fun setAdapter(): BaseRecyclerAdapter<ArrivalTrunkDepartureScanOperatingBean> = ArrivalTrunkDepartureScanOperatingAdapter(mContext).also {
-        it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
-            @SuppressLint("SetTextI18n")
-            override fun onItemClick(v: View, position: Int, mResult: String) {
-                val mSelectBean = Gson().fromJson<ArrivalTrunkDepartureScanOperatingBean>(mResult, ArrivalTrunkDepartureScanOperatingBean::class.java)
-                if (mSelectBean.totalQty in 1..20) {
-                    mPresenter?.getClickLable(mSelectBean.billno, mSelectBean.inoneVehicleFlag, mSelectBean.totalQty)
-
-                } else if (mSelectBean.totalQty in 21..9999) {
-                    billno_ed.setText("${mSelectBean.billno}0001")
                 }
-            }
-
-        }
-        it.mOnLookInformationInterface = object : ArrivalTrunkDepartureScanOperatingAdapter.OnLookInformationInterface {
-            override fun lookInfo(v: View, position: Int, data: ArrivalTrunkDepartureScanOperatingBean) {
-                val obj = JSONObject()
-                obj.put("lookType", 1)
-                obj.put("billno", data.billno)
-                obj.put("inoneVehicleFlag", data.inoneVehicleFlag)
-                obj.put("totalQty", data.totalQty)
-                ARouter.getInstance().build(ARouterConstants.ArrivalScanOperatingMoreInfoActivity).withString("ArrivalScanOperatingMoreInfo", GsonUtils.toPrettyFormat(obj)).navigation()
-
-            }
-
-            override fun lookAllInfo(v: View, position: Int, data: ArrivalTrunkDepartureScanOperatingBean) {
-
-            }
-
-        }
 
     }
 
     override fun onPDAScanResult(result: String) {
         scanSuccess(result, false)
+
     }
 
-    override fun getCarInfoS(list: List<ArrivalTrunkDepartureScanOperatingBean>, id: Int) {
+    override fun getCarInfoS(list: List<ArrivalShortScanOperatingBean>, id: Int) {
         if (!adapter.getAllData().isNullOrEmpty()) {
             adapter.clearData()
         }
@@ -341,7 +340,6 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
 
     }
 
-
     @SuppressLint("SetTextI18n")
     fun notifyMathChange() {
         clearInfo()
@@ -366,5 +364,4 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
         scan_progressBar.progress = (((totalLoadingNum - mTotalUnLoadingNum) * 100) / totalLoadingNum)
         scan_number_total_tv.text = "${totalLoadingNum - mTotalUnLoadingNum} / $totalLoadingNum"
     }
-
 }

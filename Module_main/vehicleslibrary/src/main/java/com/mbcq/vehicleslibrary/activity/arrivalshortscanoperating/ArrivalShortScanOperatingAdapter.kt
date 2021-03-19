@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.activity.arrivaltrunkdeparturescanoperating
+package com.mbcq.vehicleslibrary.activity.arrivalshortscanoperating
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -19,10 +19,10 @@ import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
 
-class ArrivalTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecyclerAdapter<ArrivalTrunkDepartureScanOperatingBean>(context) {
+class ArrivalShortScanOperatingAdapter(context: Context) : BaseRecyclerAdapter<ArrivalShortScanOperatingBean>(context) {
     interface OnLookInformationInterface {
-        fun lookInfo(v: View, position: Int, data: ArrivalTrunkDepartureScanOperatingBean)
-        fun lookAllInfo(v: View, position: Int, data: ArrivalTrunkDepartureScanOperatingBean)
+        fun lookInfo(v: View, position: Int, data: ArrivalShortScanOperatingBean)
+        fun lookAllInfo(v: View, position: Int, data: ArrivalShortScanOperatingBean)
     }
 
     var mOnLookInformationInterface: OnLookInformationInterface? = null

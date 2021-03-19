@@ -14,14 +14,6 @@ import org.json.JSONObject
 
 class ArrivalShortFeederScanFragmentPresenter : BasePresenterImpl<ArrivalShortFeederScanFragmentContract.View>(), ArrivalShortFeederScanFragmentContract.Presenter {
     override fun getUnLoading(selEwebidCode: String, startDate: String, endDate: String) {
-        /*  val mHttpParams = HttpParams()
-          mHttpParams.put("page", page)
-          mHttpParams.put("limit", 15)*/
-        /* mView?.getContext()?.let {
-             mHttpParams.put("selWebidCode", UserInformationUtil.getWebIdCode(it))
-         }*/
-//         mHttpParams.put("startDate", startDate)
-//         mHttpParams.put("endDate", endDate)
         val mHttpParams = HttpParams()
         mHttpParams.put("SelEwebidCode", selEwebidCode)
         mHttpParams.put("startDate", startDate)
@@ -40,13 +32,24 @@ class ArrivalShortFeederScanFragmentPresenter : BasePresenterImpl<ArrivalShortFe
         mHttpParams.put("SelEwebidCode", selEwebidCode)
         mHttpParams.put("startDate", startDate)
         mHttpParams.put("endDate", endDate)
-        get<String>(ApiInterface.DEPARTURE_RECORD_SHORT_FEEDER_DEPARTURE_SELECT_OVERRING_LOCAL_INFO_GET, mHttpParams, object : CallBacks {
+        get<String>(ApiInterface.SHORT_RECORD_MAIN_LINE_DEPARTURE_SCAN_OVER_LOCAL_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
+//                if (true)return
                 mView?.getPageS(Gson().fromJson<List<ArrivalShortFeederScanBean>>(obj.optString("data"), object : TypeToken<List<ArrivalShortFeederScanBean>>() {}.type))
             }
 
         })
     }
+    override fun sureArrivalCar(inoneVehicleFlag: String) {
+        val mXObj=JSONObject()
+        mXObj.put("inoneVehicleFlag",inoneVehicleFlag)
+        post<String>(ApiInterface.SHORT_MAIN_LINE_DEPARTURE_SURE_ARRIVAL_POST,getRequestBody(mXObj),object :CallBacks{
+            override fun onResult(result: String) {
+                mView?.sureArrivalCarS(result)
 
+            }
+
+        })
+    }
 }
