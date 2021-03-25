@@ -120,7 +120,7 @@ class ArrivalShortScanOperatingActivity : BaseArrivalShortScanOperatingActivity<
     fun judgmentLabelCanScan(label: String, isHeaderPint: Boolean) {
         var isBig = false
         for (item in adapter.getAllData()) {
-            if (item.billno == label) {
+            if (item.billno == label.substring(0, label.length - 4)) {
                 if (item.totalQty > 20) {
                     isBig = true
                     scanSuccess(label, isHeaderPint)

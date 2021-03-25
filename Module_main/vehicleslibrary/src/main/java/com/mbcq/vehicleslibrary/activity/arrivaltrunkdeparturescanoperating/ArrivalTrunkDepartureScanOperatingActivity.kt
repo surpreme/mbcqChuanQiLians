@@ -120,7 +120,7 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
     fun judgmentLabelCanScan(label: String, isHeaderPint: Boolean) {
         var isBig = false
         for (item in adapter.getAllData()) {
-            if (item.billno == label) {
+            if (item.billno == label.substring(0, label.length - 4)) {
                 if (item.totalQty > 20) {
                     isBig = true
                     scanSuccess(label, isHeaderPint)
@@ -368,8 +368,19 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
 
     }
 
+    /**
+     * 扫描的地方是否有弹窗的判断 所以延迟 关闭需要时间
+     */
     override fun getScanDataS(result: String) {
-        judgmentLabelCanScan(result, true)
+        object : CountDownTimer(500, 500) {
+            override fun onFinish() {
+                scanSuccess(result, true)
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+            }
+
+        }.start()
     }
 
 
