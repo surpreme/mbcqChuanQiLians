@@ -23,7 +23,7 @@ class LocationTestActivity : BaseAmapSelectionsActivity() {
         sure_location_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (getmSelectAddress().isNotBlank()) {
-                    EventBus.getDefault().postSticky(LocationResultEvent(getmSelectAddress(), mLocationMapType.toInt()))
+                    EventBus.getDefault().postSticky(LocationResultEvent(getmSelectAddress(), mLocationMapType.toInt(),getmLatitude(),getmLongitude()))
                     onBackPressed()
                 } else
                     ToastUtils.showToast(this@LocationTestActivity, "请选择一个地址进行操作")

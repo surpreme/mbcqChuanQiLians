@@ -35,7 +35,7 @@ class ArrivalTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecycler
         holder.receiver_tv.text = mDatas[position].consignee
         holder.address_tv.text = "${mDatas[position].webidCodeStr}-${mDatas[position].ewebidCodeStr}"
         holder.goods_name_tv.text = mDatas[position].product
-        holder.goods_number_ifo_tv.text = "已扫:${mDatas[position].loadQty}     本车:${mDatas[position].qty}    剩余:${(mDatas[position].qty) - (mDatas[position].loadQty)}     总件数:${mDatas[position].totalQty}*${mDatas[position].weight}kg*${mDatas[position].volumn}m*"
+        holder.goods_number_ifo_tv.text = "已扫:${mDatas[position].loadQty}     本车:${mDatas[position].qty}    剩余:${(mDatas[position].qty) - (mDatas[position].loadQty)}     总件数:${mDatas[position].totalQty}"
         holder.father_fl.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
                 if ((mDatas[position].qty) - (mDatas[position].loadQty) == 0) return

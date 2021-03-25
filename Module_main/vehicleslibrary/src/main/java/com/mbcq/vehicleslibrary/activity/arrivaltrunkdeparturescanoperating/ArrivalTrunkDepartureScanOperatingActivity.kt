@@ -56,7 +56,7 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
     @SuppressLint("SetTextI18n")
     fun refreshScanInfo() {
         val obj = JSONObject(mLastData)
-        mPresenter?.getCarInfo(obj.optString("inoneVehicleFlag"))
+        mPresenter?.getCarInfo(obj.optString("inoneVehicleFlag"), UserInformationUtil.getWebIdCode(mContext))
         unloading_batch_tv.text = "卸车批次：${obj.optString("inoneVehicleFlag")}"
         unScan_info__tv.text = "未扫：0票 0件 0kg  0m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
 
@@ -100,8 +100,7 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
                     showToast("请检查扫描编码后重试")
                     return@onSingleClicks
                 }
-                scanSuccess(billno_ed.text.toString(), true)
-
+                judgmentLabelCanScan(billno_ed.text.toString(), true)
             }
         }
         scan_number_iv.setOnClickListener(object : SingleClick() {
@@ -111,6 +110,26 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
 
         })
 
+    }
+
+    /**
+     * 判断是否可扫
+     * 遍历所有车里货物 如果为大件（大件扫是输入件数的 会从发车数据取对应的标签号） 直接跳到扫描
+     * 如果为小件 去发车的标签号查询
+     */
+    fun judgmentLabelCanScan(label: String, isHeaderPint: Boolean) {
+        var isBig = false
+        for (item in adapter.getAllData()) {
+            if (item.billno == label) {
+                if (item.totalQty > 20) {
+                    isBig = true
+                    scanSuccess(label, isHeaderPint)
+                }
+                break
+            }
+        }
+        if (!isBig)
+            mPresenter?.getScanData(label.substring(0, label.length - 4), label, JSONObject(mLastData).optString("inoneVehicleFlag"))
     }
 
     fun getCameraPermission() {
@@ -123,8 +142,7 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
                                 object : CountDownTimer(1000, 1000) {
                                     override fun onFinish() {
                                         if (!isDestroyed)
-                                            scanSuccess(s1, false)
-
+                                            judgmentLabelCanScan(s1, true)
                                     }
 
                                     override fun onTick(millisUntilFinished: Long) {
@@ -156,6 +174,10 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
                     mIsOrderNumber = true
                     if (item.totalQty > 20) {
                         val mUnLoadNum = (item.qty - item.loadQty)
+                        if (mUnLoadNum <= 0) {
+                            showToast("该票${item.billno}已经扫描完毕")
+                            return
+                        }
                         ScanNumDialog(mUnLoadNum, 1, object : OnClickInterface.OnClickInterface {
                             override fun onResult(x1: String, x2: String) {
                                 if (isInteger(x1)) {
@@ -180,7 +202,7 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
                                             item.ewebidCodeStr,
                                             if (isHeaderPint) 1 else 0,
                                             item.totalQty,
-                                            (((totalLoadingNum - (mTotalUnLoadingNum - (scanBuilder.toString().split(",").lastIndex + 1))) * 100) / totalLoadingNum).toString()
+                                            haveTwoDouble((((totalLoadingNum - (mTotalUnLoadingNum - (scanBuilder.toString().split(",").lastIndex + 1))) * 100) / totalLoadingNum).toDouble())
 
                                     )
 
@@ -190,6 +212,10 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
                         }).show(supportFragmentManager, "ScanDialogFragment")
 
                     } else {
+                        if (s1.substring(s1.length - 4, s1.length).toInt() > item.totalQty) {
+                            showError("标签号$s1 异常!请核对件数后重试！")
+                            return
+                        }
                         mPresenter?.scanOrder(
                                 s1.substring(0, s1.length - 4),
                                 s1,
@@ -296,6 +322,7 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
                 obj.put("billno", data.billno)
                 obj.put("inoneVehicleFlag", data.inoneVehicleFlag)
                 obj.put("totalQty", data.totalQty)
+                obj.put("qty", data.qty)
                 ARouter.getInstance().build(ARouterConstants.ArrivalScanOperatingMoreInfoActivity).withString("ArrivalScanOperatingMoreInfo", GsonUtils.toPrettyFormat(obj)).navigation()
 
             }
@@ -339,6 +366,10 @@ class ArrivalTrunkDepartureScanOperatingActivity : BaseArrivalTrunkDepartureScan
     override fun getClickLableS(result: String) {
         billno_ed.setText(result.replace(",", ""))
 
+    }
+
+    override fun getScanDataS(result: String) {
+        judgmentLabelCanScan(result, true)
     }
 
 

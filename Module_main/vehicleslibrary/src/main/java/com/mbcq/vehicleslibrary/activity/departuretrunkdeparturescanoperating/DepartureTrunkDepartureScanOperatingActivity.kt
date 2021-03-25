@@ -258,7 +258,7 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
                                             obj.optString("inoneVehicleFlag"),
                                             soundString,
                                             item.ewebidCode.toString(),
-                                            (((totalLoadingNum - (mTotalUnLoadingNum - mOutPintO)) * 100) / totalLoadingNum).toString(),
+                                            haveTwoDouble ((((totalLoadingNum - (mTotalUnLoadingNum - mOutPintO)) * 100) / totalLoadingNum).toDouble()),
                                             item.totalQty,
                                             if (isHeaderPint) 1 else 0
 
@@ -268,17 +268,24 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
                             }
 
                         }).show(supportFragmentManager, "ScanDialogFragment")
-                    } else
+                    } else {
+                        if (s1.substring(s1.length - 4, s1.length).toInt() > item.totalQty) {
+                            showError("标签号$s1 异常!请核对件数后重试！")
+                            return
+                        }
                         mPresenter?.scanOrder(s1.substring(0, s1.length - 4),
                                 s1,
                                 PhoneDeviceMsgUtils.getDeviceOnlyTag(mContext),
                                 obj.optString("inoneVehicleFlag"),
                                 soundString,
                                 item.ewebidCode.toString(),
-                                (((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toString(),
+                                haveTwoDouble    ((((totalLoadingNum - (mTotalUnLoadingNum - 1)) * 100) / totalLoadingNum).toDouble()),
                                 item.totalQty,
                                 if (isHeaderPint) 1 else 0
                         )
+
+                    }
+                    break
 
                 }
             }
@@ -516,7 +523,7 @@ class DepartureTrunkDepartureScanOperatingActivity : BaseDepartureTrunkDeparture
         var mShowBillnoLable = ""
         val obj = JSONObject(result)
         val listAry = obj.optJSONArray("data")
-        for (mCCCIndex in totalQty downTo  1) {
+        for (mCCCIndex in totalQty downTo 1) {
             val endBillno = billno + if (mCCCIndex.toString().length == 1) "000$mCCCIndex" else if (mCCCIndex.toString().length == 2) "00$mCCCIndex" else if (mCCCIndex.toString().length == 3) "0$mCCCIndex" else if (mCCCIndex.toString().length == 4) "$mCCCIndex" else ""
             listAry?.let {
                 var isHas = false

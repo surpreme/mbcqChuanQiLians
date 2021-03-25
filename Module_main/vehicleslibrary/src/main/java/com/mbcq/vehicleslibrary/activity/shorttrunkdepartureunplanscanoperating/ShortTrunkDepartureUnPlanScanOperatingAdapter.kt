@@ -63,7 +63,7 @@ class ShortTrunkDepartureUnPlanScanOperatingAdapter(context: Context) : BaseRecy
         4、已扫件数=所有扫描的件数（大票货扫描件数+小票货扫描件数+PDA手动录入的件数）
         5、@旧 进度条=已扫件数件数/库存件数*100 @新 进度条=已扫描件数/（已扫件数件数+库存件数）*100
          */
-        holder.goods_number_ifo_tv.text = "已扫:${mDatas[position].unLoadQty}     本车:${mDatas[position].unLoadQty}    剩余:${mDatas[position].waybillFcdQty}     总件数:${mDatas[position].totalQty}*${mDatas[position].weight}kg*${mDatas[position].volumn}m*"
+        holder.goods_number_ifo_tv.text = "已扫:${mDatas[position].unLoadQty}     本车:${mDatas[position].unLoadQty}    剩余:${mDatas[position].waybillFcdQty}     总件数:${mDatas[position].totalQty}"
         holder.operating_progressbar.progress = if (mDatas[position].unLoadQty == 0) 0 else if (mDatas[position].unLoadQty == (mDatas[position].unLoadQty + mDatas[position].waybillFcdQty)) 100 else ((mDatas[position].unLoadQty * 100) / (mDatas[position].unLoadQty + mDatas[position].waybillFcdQty))
         //侧滑删除
         SmartSwipe.wrap(holder.father_fl)

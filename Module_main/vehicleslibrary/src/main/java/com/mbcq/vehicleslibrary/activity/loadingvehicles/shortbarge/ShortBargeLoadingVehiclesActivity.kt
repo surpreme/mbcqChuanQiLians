@@ -150,7 +150,9 @@ class ShortBargeLoadingVehiclesActivity : CommonScanPDAMVPSmartActivity<ShortBar
                  */
                 if (obj.optInt("type") == 0) {
                     if (obj.optInt("isScan") == 1)
-                        ARouter.getInstance().build(ARouterConstants.ShortTrunkDepartureUnPlanScanOperatingActivity).withString("ShortLoadingVehicles", mResult).navigation()
+                        ARouter.getInstance().build(ARouterConstants.ShortTrunkDepartureScanOperatingActivity).withString("ShortLoadingVehicles", mResult).navigation()
+
+//                    ARouter.getInstance().build(ARouterConstants.ShortTrunkDepartureUnPlanScanOperatingActivity).withString("ShortLoadingVehicles", mResult).navigation()
 
 
                 }

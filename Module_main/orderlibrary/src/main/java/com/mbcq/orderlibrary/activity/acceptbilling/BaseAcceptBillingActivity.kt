@@ -5,7 +5,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.*
+import android.graphics.Color
 import android.location.LocationManager
 import android.media.AudioManager
 import android.media.SoundPool
@@ -20,21 +20,26 @@ import android.widget.EditText
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
+import com.amap.api.maps.model.LatLng
+import com.amap.api.services.geocoder.GeocodeAddress
+import com.amap.api.services.geocoder.GeocodeResult
+import com.amap.api.services.geocoder.GeocodeSearch
+import com.amap.api.services.geocoder.RegeocodeResult
 import com.mbcq.baselibrary.db.SharePreferencesHelper
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.view.MoneyInputFilter
 import com.mbcq.baselibrary.view.SingleClick
-import com.mbcq.commonlibrary.*
+import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.Constant
+import com.mbcq.commonlibrary.RadioGroupUtil
 import com.mbcq.orderlibrary.R
 import com.mbcq.orderlibrary.activity.acceptbilling.billingvolumecalculator.BillingVolumeCalculatorDialog
 import com.mbcq.orderlibrary.activity.acceptbilling.billingweightcalculator.BillingWeightCalculatorDialog
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.activity_accept_billing.*
-import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
-import java.lang.StringBuilder
 
 
 /**
@@ -120,7 +125,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
      */
     var mBillingVolumeCalculatorDialog: BillingVolumeCalculatorDialog? = null
     protected var mCommonlyInformationSharePreferencesHelper: SharePreferencesHelper? = null
-
+    var mGeocodeSearch: GeocodeSearch? = null
     lateinit var rxPermissions: RxPermissions
     protected val RESULT_DATA_CODE = 5848
     protected val RECEIVER_RESULT_DATA_CODE = 4439
@@ -150,6 +155,28 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         initSoundPool()
         if (mCommonlyInformationSharePreferencesHelper == null)
             mCommonlyInformationSharePreferencesHelper = SharePreferencesHelper(mContext, Constant.COMMON_CONFIGURATION_PREFERENCESMODE)
+        initGaoDeAddress()
+    }
+
+    var mDestinationLatLng: LatLng? = null
+    private fun initGaoDeAddress() {
+        mGeocodeSearch = GeocodeSearch(this)
+        mGeocodeSearch?.setOnGeocodeSearchListener(object : GeocodeSearch.OnGeocodeSearchListener {
+            override fun onRegeocodeSearched(p0: RegeocodeResult?, p1: Int) {
+
+            }
+
+            override fun onGeocodeSearched(p0: GeocodeResult?, p1: Int) {
+                if (p1 == 1000) {
+                    if (p0?.geocodeAddressList != null && p0.geocodeAddressList.size > 0) {
+                        val geocodeAddress: GeocodeAddress = p0.geocodeAddressList[0]
+                        mDestinationLatLng = LatLng(geocodeAddress.latLonPoint.latitude, geocodeAddress.latLonPoint.latitude)
+
+                    }
+                }
+            }
+
+        })
     }
 
     override fun onBackPressed() {

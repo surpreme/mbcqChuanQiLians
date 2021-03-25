@@ -130,7 +130,7 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
         })
         complete_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                TalkSureCancelDialog(mContext, getScreenWidth(), "${if (mMaximumVehicleWeight < mXWeight) "本车已超载，" else ""}您确定要完成本车吗？") {
+                TalkSureCancelDialog(mContext, getScreenWidth(), "${if (mMaximumVehicleWeight < mXWeight) "本车已超载，" else ""}您确定要完成配载吗？") {
                     completeCar()
                 }.show()
             }
@@ -253,9 +253,17 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
     override fun saveInfoS(s: String) {
         operating_interval_ll.visibility = View.GONE
         if (operating_interval_ll.childCount == 0) {
-            TalkSureCancelDialog(mContext, getScreenWidth(), "干线计划装车${mDepartureLot}配载成功，您确定要完成本车吗?") {
-                mPresenter?.overLocalCar(mDepartureLot)
-            }.show()
+            if (JSONObject(mLastDataJson).optInt("isScan") == 1) {
+                TalkSureDialog(mContext, getScreenWidth(), "短驳计划装车${mDepartureLot}已完成，您需要到扫描页面进行扫描！") {
+                    EventBus.getDefault().postSticky(DepartureRecordAddSuccessEvent(2))
+                    onBackPressed()
+                }.show()
+            }else{
+                TalkSureCancelDialog(mContext, getScreenWidth(), "干线计划装车${mDepartureLot}配载成功，您确定要完成本车并发车吗?") {
+                    mPresenter?.overLocalCar(mDepartureLot)
+                }.show()
+            }
+
             return
         }
 
@@ -277,9 +285,16 @@ class TrunkDepartureHouseActivity : BaseTrunkDepartureHouseActivity<TrunkDepartu
         operating_interval_ll.removeViewAt(0)
         if (operating_interval_ll.getChildAt(0) == null) {
             closeLoading()
-            TalkSureCancelDialog(mContext, getScreenWidth(), "干线计划装车${mDepartureLot}配载成功，您确定要完成本车吗？") {
-                mPresenter?.overLocalCar(inoneVehicleFlag)
-            }.show()
+            if (JSONObject(mLastDataJson).optInt("isScan") == 1) {
+                TalkSureDialog(mContext, getScreenWidth(), "短驳计划装车${mDepartureLot}已完成，您需要到扫描页面进行扫描！") {
+                    EventBus.getDefault().postSticky(DepartureRecordAddSuccessEvent(2))
+                    onBackPressed()
+                }.show()
+            }else{
+                TalkSureCancelDialog(mContext, getScreenWidth(), "干线计划装车${mDepartureLot}配载成功，您确定要完成本车并发车吗?") {
+                    mPresenter?.overLocalCar(mDepartureLot)
+                }.show()
+            }
             return
         }
         val itemCheckBox = operating_interval_ll[0] as CheckBox

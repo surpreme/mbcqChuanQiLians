@@ -164,13 +164,14 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
         return isNum.matches()
     }
 
-    protected fun <T> get(url: String, params: HttpParams?, callback: CallBacks) {
+    protected fun <T> get(url: String, params: HttpParams?, isAddHeader: Boolean, callback: CallBacks) {
         val mHttpHeaders = HttpHeaders()
         mView?.getContext()?.let {
-            mHttpHeaders.put("Content-Type", "application/json")
-            mHttpHeaders.put("charset", "utf-8")
-            mHttpHeaders.put("token", UserInformationUtil.getUserToken(it))
-
+            if (isAddHeader) {
+                mHttpHeaders.put("Content-Type", "application/json")
+                mHttpHeaders.put("charset", "utf-8")
+                mHttpHeaders.put("token", UserInformationUtil.getUserToken(it))
+            }
         }
         OkGo.get<T>(url).tag(mView?.getContext()).headers(mHttpHeaders).params(params
                 ?: HttpParams()).execute(object : ResultDataCallBack<T>() {
@@ -234,6 +235,11 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
             }
 
         })
+    }
+
+    protected fun <T> get(url: String, params: HttpParams?, callback: CallBacks) {
+        get<T>(url, params, true, callback)
+
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)

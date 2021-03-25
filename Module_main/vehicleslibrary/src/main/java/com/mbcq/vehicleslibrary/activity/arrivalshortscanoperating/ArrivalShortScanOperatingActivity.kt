@@ -107,10 +107,29 @@ class ArrivalShortScanOperatingActivity : BaseArrivalShortScanOperatingActivity<
                     showToast("请检查扫描编码后重试")
                     return@onSingleClicks
                 }
-                scanSuccess(billno_ed.text.toString(), true)
-
+                judgmentLabelCanScan(billno_ed.text.toString(), true)
             }
         }
+    }
+
+    /**
+     * 判断是否可扫
+     * 遍历所有车里货物 如果为大件（大件扫是输入件数的 会从发车数据取对应的标签号） 直接跳到扫描
+     * 如果为小件 去发车的标签号查询
+     */
+    fun judgmentLabelCanScan(label: String, isHeaderPint: Boolean) {
+        var isBig = false
+        for (item in adapter.getAllData()) {
+            if (item.billno == label) {
+                if (item.totalQty > 20) {
+                    isBig = true
+                    scanSuccess(label, isHeaderPint)
+                }
+                break
+            }
+        }
+        if (!isBig)
+            mPresenter?.getScanData(label.substring(0, label.length - 4), label, JSONObject(mLastData).optString("inoneVehicleFlag"))
     }
 
     override fun setAdapter(): BaseRecyclerAdapter<ArrivalShortScanOperatingBean> = ArrivalShortScanOperatingAdapter(mContext).also {
@@ -119,7 +138,7 @@ class ArrivalShortScanOperatingActivity : BaseArrivalShortScanOperatingActivity<
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mSelectBean = Gson().fromJson<ArrivalShortScanOperatingBean>(mResult, ArrivalShortScanOperatingBean::class.java)
                 if (mSelectBean.totalQty in 1..20) {
-                    mPresenter?.getClickLable(mSelectBean.billno, mSelectBean.inoneVehicleFlag, mSelectBean.totalQty)
+                    mPresenter?.getClickLable(mSelectBean.billno, mSelectBean.inoneVehicleFlag, mSelectBean.totalQty, 1)
 
                 } else if (mSelectBean.totalQty in 21..9999) {
                     billno_ed.setText("${mSelectBean.billno}0001")
@@ -134,6 +153,7 @@ class ArrivalShortScanOperatingActivity : BaseArrivalShortScanOperatingActivity<
                 obj.put("billno", data.billno)
                 obj.put("inoneVehicleFlag", data.inoneVehicleFlag)
                 obj.put("totalQty", data.totalQty)
+                obj.put("qty", data.qty)
                 ARouter.getInstance().build(ARouterConstants.ArrivalShortScanOperatingMoreInfoActivityActivity).withString("ArrivalShortScanOperatingMoreInfo", GsonUtils.toPrettyFormat(obj)).navigation()
 
             }
@@ -217,6 +237,10 @@ class ArrivalShortScanOperatingActivity : BaseArrivalShortScanOperatingActivity<
                     mIsOrderNumber = true
                     if (item.totalQty > 20) {
                         val mUnLoadNum = (item.qty - item.loadQty)
+                        if (mUnLoadNum <= 0) {
+                            showToast("该票${item.billno}已经扫描完毕")
+                            return
+                        }
                         ScanNumDialog(mUnLoadNum, 1, object : OnClickInterface.OnClickInterface {
                             override fun onResult(x1: String, x2: String) {
                                 if (isInteger(x1)) {
@@ -251,6 +275,10 @@ class ArrivalShortScanOperatingActivity : BaseArrivalShortScanOperatingActivity<
                         }).show(supportFragmentManager, "ScanDialogFragment")
 
                     } else {
+                        if (s1.substring(s1.length - 4, s1.length).toInt() > item.totalQty) {
+                            showError("标签号$s1 异常!请核对件数后重试！")
+                            return
+                        }
                         mPresenter?.scanOrder(
                                 s1.substring(0, s1.length - 4),
                                 s1,
@@ -285,7 +313,8 @@ class ArrivalShortScanOperatingActivity : BaseArrivalShortScanOperatingActivity<
                                 object : CountDownTimer(1000, 1000) {
                                     override fun onFinish() {
                                         if (!isDestroyed)
-                                            scanSuccess(s1, false)
+                                            judgmentLabelCanScan(s1, false)
+
 
                                     }
 
@@ -307,7 +336,7 @@ class ArrivalShortScanOperatingActivity : BaseArrivalShortScanOperatingActivity<
     }
 
     override fun onPDAScanResult(result: String) {
-        scanSuccess(result, false)
+        judgmentLabelCanScan(result, false)
 
     }
 
@@ -340,28 +369,46 @@ class ArrivalShortScanOperatingActivity : BaseArrivalShortScanOperatingActivity<
 
     }
 
+    override fun getScanDataS(result: String) {
+        object : CountDownTimer(500, 500) {
+            override fun onFinish() {
+                scanSuccess(result, true)
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+            }
+
+        }.start()
+
+    }
+
     @SuppressLint("SetTextI18n")
     fun notifyMathChange() {
-        clearInfo()
-        if (adapter.getAllData().isEmpty()) return
-        for (item in adapter.getAllData()) {
-            val mUnLoadNum = (item.qty - item.loadQty)
-            totalLoadingNum = (totalLoadingNum + item.qty) //本车全部货物数量+
-            mTotalUnLoadingNum = (mTotalUnLoadingNum + mUnLoadNum)//全部未扫描数量
-            mTotalUnLoadingVolume = (mTotalUnLoadingVolume + (item.volumn / item.totalQty) * mUnLoadNum)//全部未扫描体积
-            mTotalLoadingVolume = (mTotalLoadingVolume + (item.volumn / item.totalQty) * item.loadQty)//全部扫描体积
-            mTotalUnLoadingWeight = (mTotalUnLoadingWeight + (item.weight / item.totalQty) * mUnLoadNum)//全部未扫描重量
-            mTotalLoadingWeight = (mTotalLoadingWeight + (item.weight / item.totalQty) * item.loadQty)//全部扫描重量
-            if (mUnLoadNum != 0) {
-                mTotalUnLoadingOrderNum = (mTotalUnLoadingOrderNum + 1)//全部未扫描单子
-            } else {
-                mTotalLoadingOrderNum = (mTotalLoadingOrderNum + 1)//全部扫描单子
+        try {
+            clearInfo()
+            if (adapter.getAllData().isEmpty()) return
+            for (item in adapter.getAllData()) {
+                val mUnLoadNum = (item.qty - item.loadQty)
+                totalLoadingNum = (totalLoadingNum + item.qty) //本车全部货物数量+
+                mTotalUnLoadingNum = (mTotalUnLoadingNum + mUnLoadNum)//全部未扫描数量
+                mTotalUnLoadingVolume = (mTotalUnLoadingVolume + (item.volumn / item.totalQty) * mUnLoadNum)//全部未扫描体积
+                mTotalLoadingVolume = (mTotalLoadingVolume + (item.volumn / item.totalQty) * item.loadQty)//全部扫描体积
+                mTotalUnLoadingWeight = (mTotalUnLoadingWeight + (item.weight / item.totalQty) * mUnLoadNum)//全部未扫描重量
+                mTotalLoadingWeight = (mTotalLoadingWeight + (item.weight / item.totalQty) * item.loadQty)//全部扫描重量
+                if (mUnLoadNum != 0) {
+                    mTotalUnLoadingOrderNum = (mTotalUnLoadingOrderNum + 1)//全部未扫描单子
+                } else {
+                    mTotalLoadingOrderNum = (mTotalLoadingOrderNum + 1)//全部扫描单子
 
+                }
             }
+            unScan_info__tv.text = "未扫：${mTotalUnLoadingOrderNum}票 ${mTotalUnLoadingNum}件 ${haveTwoDouble(mTotalUnLoadingWeight)}kg  ${haveTwoDouble(mTotalUnLoadingVolume)}m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
+            scaned_info__tv.text = "已扫：${mTotalLoadingOrderNum}票 ${totalLoadingNum - mTotalUnLoadingNum}件 ${haveTwoDouble(mTotalLoadingWeight)}kg  ${haveTwoDouble(mTotalLoadingVolume)}m³             金额:xxxx"
+            scan_progressBar.progress = (((totalLoadingNum - mTotalUnLoadingNum) * 100) / totalLoadingNum)
+            scan_number_total_tv.text = "${totalLoadingNum - mTotalUnLoadingNum} / $totalLoadingNum"
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        unScan_info__tv.text = "未扫：${mTotalUnLoadingOrderNum}票 ${mTotalUnLoadingNum}件 ${haveTwoDouble(mTotalUnLoadingWeight)}kg  ${haveTwoDouble(mTotalUnLoadingVolume)}m³             扫描人:${UserInformationUtil.getUserName(mContext)}"
-        scaned_info__tv.text = "已扫：${mTotalLoadingOrderNum}票 ${totalLoadingNum - mTotalUnLoadingNum}件 ${haveTwoDouble(mTotalLoadingWeight)}kg  ${haveTwoDouble(mTotalLoadingVolume)}m³             金额:xxxx"
-        scan_progressBar.progress = (((totalLoadingNum - mTotalUnLoadingNum) * 100) / totalLoadingNum)
-        scan_number_total_tv.text = "${totalLoadingNum - mTotalUnLoadingNum} / $totalLoadingNum"
+
     }
 }

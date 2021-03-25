@@ -27,12 +27,17 @@ class AcceptBillingContract {
         fun getTransportModeS(result: String)
         fun getPaymentModeS(result: String)
         fun getCostInformationS(result: String)
-        fun saveAcceptBillingS(result: String, printJson: String,priceJson:String)
+        fun saveAcceptBillingS(result: String, printJson: String, priceJson: String)
         fun getShipperInfoS(result: String)
         fun getReceiverInfoS(result: String)
         fun getVehicleS(result: String)
-        fun getSalesmanS(result: String,type: Int)
+        fun getSalesmanS(result: String, type: Int)
 
+        /**
+         * 通过地址获取经纬度 地理编码
+         * 高德 https://developer.amap.com/api/webservice/guide/api/georegeo
+         */
+        fun getGaoDeAddressLocationS(result: String, latitude: String, longitude: String)
     }
 
     interface Presenter : BasePresenter<View> {
@@ -83,11 +88,13 @@ class AcceptBillingContract {
         /**
          * 保存受理开单
          */
-        fun saveAcceptBilling(job: JSONObject, printJson: String,priceJson:String)
+        fun saveAcceptBilling(job: JSONObject, printJson: String, priceJson: String)
+
         /**
          * 发货人
          */
         fun getShipperInfo(params: HttpParams)
+
         /**
          * 收货人
          */
@@ -97,12 +104,19 @@ class AcceptBillingContract {
          * 车辆信息
          */
         fun getVehicles()
+
         /**
          * 业务员
          * 1 获取默认值
          * 2 展示
          */
 
-        fun getSalesman(type:Int)
+        fun getSalesman(type: Int)
+
+        /**
+         * 通过地址获取经纬度 地理编码
+         * 高德 https://developer.amap.com/api/webservice/guide/api/georegeo
+         */
+        fun getGaoDeAddressLocation(params: HttpParams, latitude: String, longitude:String)
     }
 }

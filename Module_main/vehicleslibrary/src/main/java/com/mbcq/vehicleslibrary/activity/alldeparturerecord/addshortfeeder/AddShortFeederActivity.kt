@@ -61,46 +61,46 @@ class AddShortFeederActivity : BaseAddShortFeederActivity<AddShortFeederContract
             return
         }
         val obj = JSONObject()
-        obj.put("InoneVehicleFlag", contract_No_tv.text.toString())
-        obj.put("ContractNo", contract_No_tv.text.toString())
+        obj.put("InoneVehicleFlag", contract_No_tv.text.toString())//**
+        obj.put("ContractNo", contract_No_tv.text.toString())//
         obj.put("EcompanyId", mECompanyId)// 到车公司编码
-        obj.put("ewebidCode", mWebCodeId)// 到车网点编码
-        obj.put("Transneed", mTransneed)// 运输类型编码
-        obj.put("TransneedStr", mTransneedStr)// 运输类型
-        obj.put("AccNow", cash_freight_ed.text.toString())// 现付
-        obj.put("AccBack", return_freight_ed.text.toString())// 回付
+        obj.put("ewebidCode", mWebCodeId)// 到车网点编码**
+        obj.put("Transneed", mTransneed)// 运输类型编码**
+        obj.put("TransneedStr", mTransneedStr)// 运输类型**
+        obj.put("AccNow", cash_freight_ed.text.toString())// 现付**
+        obj.put("AccBack", return_freight_ed.text.toString())// 回付**
         obj.put("AccYk", cash_card_ed.text.toString())// 油费
         obj.put("YkCard", oil_card_number_ed.text.toString())// 油卡
         obj.put("EwebidCode1", mFirstEwebidCode)// 到付网点1
-        obj.put("EwebidCodeStr1", oil_card_first_tv.text.toString())// 到付网点1
-        obj.put("AccArrived1", oil_card_first_ed.text.toString())// 到付金额
+        obj.put("EwebidCodeStr1", oil_card_first_tv.text.toString())// 到付网点1**
+        obj.put("AccArrived1", oil_card_first_ed.text.toString())// 到付金额**
         obj.put("EwebidCode2", mSencondEwebidCode)// 到付网点2
-        obj.put("EwebidCodeStr2", oil_card_second_tv.text.toString())// 到付网点2
-        obj.put("AccArrived2", oil_card_second_ed.text.toString())// 到付金额2
+        obj.put("EwebidCodeStr2", oil_card_second_tv.text.toString())// 到付网点2**
+        obj.put("AccArrived2", oil_card_second_ed.text.toString())// 到付金额2**
         obj.put("EwebidCode3", mThridEwebidCode)// 到付网点3
-        obj.put("EwebidCodeStr3", oil_card_third_tv.text.toString())// 到付网点3
-        obj.put("AccArrived3", oil_card_third_ed.text.toString())// 到付金额3
+        obj.put("EwebidCodeStr3", oil_card_third_tv.text.toString())// 到付网点3**
+        obj.put("AccArrived3", oil_card_third_ed.text.toString())// 到付金额3**
         obj.put("AccZx", loading_fee_ed.text.toString())// 装卸费
         obj.put("AccJh", 0)// 接货费
-        obj.put("AccTansSum", total_freight_tv.text.toString())// 运费合计
+        obj.put("AccTansSum", total_freight_tv.text.toString())// 运费合计**
         obj.put("isScan", if (choice_scan_checkBox.isChecked) "1" else "0")// 是否扫描发车
         obj.put("AccArrSum", mToPayTotalPrice)// 到付合计
         obj.put("AccOther", 0)// 其它费用
         obj.put("VehicleInterval", UserInformationUtil.getWebIdCodeStr(mContext) + "-" + destination_tv.text.toString())// 发车区间  A-B
         obj.put("Remark", "")// 备注
 
-        obj.put("SendDate", TimeUtils.getCurrTime2())// 发车日期
-        obj.put("VehicleNo", number_plate_tv.text.toString())// 车牌号
-        obj.put("Chauffer", driver_name_ed.text.toString())// 司机
+        obj.put("SendDate", TimeUtils.getCurrTime2())// 发车日期**
+        obj.put("VehicleNo", number_plate_tv.text.toString())// 车牌号**
+        obj.put("Chauffer", driver_name_ed.text.toString())// 司机**
+        obj.put("ChaufferMb", contact_number_ed.text.toString())// 司机手机号码**
         obj.put("ChaufferMb", contact_number_ed.text.toString())// 司机手机号码
-        obj.put("ChaufferMb", contact_number_ed.text.toString())// 司机手机号码
-        obj.put("ewebidCodeStr", destination_tv.text.toString())// 到车网点
+        obj.put("ewebidCodeStr", destination_tv.text.toString())// 到车网点**
         if (on_board_weight_tv.text.toString().replace("吨", "").toDoubleOrNull() != null)
             obj.put("MaximumVehicleWeight", on_board_weight_tv.text.toString().replace("吨", "").toDouble() * 1000)// 车载最大重量
         obj.put("SendOpeMan", UserInformationUtil.getUserName(mContext))// 发车操作人
-        obj.put("WebidCode", UserInformationUtil.getWebIdCode(mContext))// 发车网点编码
-        obj.put("WebidCodeStr", UserInformationUtil.getWebIdCodeStr(mContext))// 发车网点
-        obj.put("vehicleShape", mVehicleShape)//车辆用途种类
+        obj.put("WebidCode", UserInformationUtil.getWebIdCode(mContext))// 发车网点编码**
+        obj.put("WebidCodeStr", UserInformationUtil.getWebIdCodeStr(mContext))// 发车网点**
+        obj.put("vehicleShape", mVehicleShape)//车辆用途种类**
         val json = GsonUtils.toPrettyFormat(obj.toString())
         ARouter.getInstance().build(ARouterConstants.ShortFeederHouseActivity).withString("ShortFeederHouse", json).navigation(this,43)
         this.finish()

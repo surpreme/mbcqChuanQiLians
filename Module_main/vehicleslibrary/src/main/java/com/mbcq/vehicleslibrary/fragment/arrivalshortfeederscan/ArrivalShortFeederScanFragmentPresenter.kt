@@ -35,18 +35,31 @@ class ArrivalShortFeederScanFragmentPresenter : BasePresenterImpl<ArrivalShortFe
         get<String>(ApiInterface.SHORT_RECORD_MAIN_LINE_DEPARTURE_SCAN_OVER_LOCAL_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
-//                if (true)return
-                mView?.getPageS(Gson().fromJson<List<ArrivalShortFeederScanBean>>(obj.optString("data"), object : TypeToken<List<ArrivalShortFeederScanBean>>() {}.type))
+                val list=Gson().fromJson<List<ArrivalShortFeederScanBean>>(obj.optString("data"), object : TypeToken<List<ArrivalShortFeederScanBean>>() {}.type)
+                val xList= mutableListOf<ArrivalShortFeederScanBean>()
+                for (item in list){
+                    if (item.vehicleState==1){
+                        xList.add(item)
+                    }
+                }
+                 for (item in list){
+                    if (item.vehicleState==2){
+                        xList.add(item)
+                    }
+                }
+
+                mView?.getPageS(xList)
             }
 
         })
     }
-    override fun sureArrivalCar(inoneVehicleFlag: String) {
-        val mXObj=JSONObject()
-        mXObj.put("inoneVehicleFlag",inoneVehicleFlag)
-        post<String>(ApiInterface.SHORT_MAIN_LINE_DEPARTURE_SURE_ARRIVAL_POST,getRequestBody(mXObj),object :CallBacks{
+
+    override fun sureArrivalCar(inoneVehicleFlag: String, position: Int) {
+        val mXObj = JSONObject()
+        mXObj.put("inoneVehicleFlag", inoneVehicleFlag)
+        post<String>(ApiInterface.SHORT_MAIN_LINE_DEPARTURE_SURE_ARRIVAL_POST, getRequestBody(mXObj), object : CallBacks {
             override fun onResult(result: String) {
-                mView?.sureArrivalCarS(result)
+                mView?.sureArrivalCarS(result,position)
 
             }
 

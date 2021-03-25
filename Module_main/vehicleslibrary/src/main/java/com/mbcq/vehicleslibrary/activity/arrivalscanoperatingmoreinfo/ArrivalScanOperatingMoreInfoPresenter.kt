@@ -21,14 +21,32 @@ import java.lang.StringBuilder
 class ArrivalScanOperatingMoreInfoPresenter : BasePresenterImpl<ArrivalScanOperatingMoreInfoContract.View>(), ArrivalScanOperatingMoreInfoContract.Presenter {
     override fun getScanInfo(billno: String, inoneVehicleFlag: String) {
         val params = HttpParams()
-        if (billno.isNotBlank())
-            params.put("billno", billno)
-        params.put("inoneVehicleFlag", inoneVehicleFlag)
+        params.put("billno", billno)
+//        params.put("inoneVehicleFlag", inoneVehicleFlag)
         get<String>(ApiInterface.DEPARTURE_VEHICLE_SCANED_ORDER_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {
-                    mView?.getScanInfoS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<ArrivalScanOperatingMoreInfoBean>>() {}.type))
+                    val list = Gson().fromJson<List<ArrivalScanOperatingMoreInfoBean>>(obj.optString("data"), object : TypeToken<List<ArrivalScanOperatingMoreInfoBean>>() {}.type)
+
+                    val xParams = HttpParams()
+                    xParams.put("billno", billno)
+                    xParams.put("limit", 99999)
+                    /**
+                     * @scanOpeType 操作类型
+                     * 0 短驳装车
+                     * 1 干线装车
+                     * 2 短驳到车
+                     * 3 干线到车
+                     */
+                    xParams.put("scanOpeType", "-1")
+                    get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, xParams, object : CallBacks {
+                        override fun onResult(xResult: String) {
+                            val xObj = JSONObject(xResult)
+
+                            mView?.getScanInfoS(list, xObj.optString("data"))
+                        }
+                    })
                 }
             }
 
@@ -50,6 +68,7 @@ class ArrivalScanOperatingMoreInfoPresenter : BasePresenterImpl<ArrivalScanOpera
                         val mArrivalScanOperatingMoreInfoBean = ArrivalScanOperatingMoreInfoBean()
                         val endBillno = if (mXTotalQtyItem.toString().length == 1) "000$mXTotalQtyItem" else if (mXTotalQtyItem.toString().length == 2) "00$mXTotalQtyItem" else if (mXTotalQtyItem.toString().length == 3) "0$mXTotalQtyItem" else if (mXTotalQtyItem.toString().length == 4) "$mXTotalQtyItem" else ""
                         mArrivalScanOperatingMoreInfoBean.lableNo = mXBillnoItem + endBillno
+//                        mArrivalScanOperatingMoreInfoBean.setmDismantleInfo("拆")
                         listAry?.let {
                             for (itemIndex in 0 until it.length()) {
                                 if (listAry.getJSONObject(itemIndex).optString("lableNo") == (mXBillnoItem + endBillno)) {
@@ -60,7 +79,8 @@ class ArrivalScanOperatingMoreInfoPresenter : BasePresenterImpl<ArrivalScanOpera
                                     mArrivalScanOperatingMoreInfoBean.recordDate = listAry.getJSONObject(itemIndex).optString("recordDate")
                                     mArrivalScanOperatingMoreInfoBean.scanTypeStr = listAry.getJSONObject(itemIndex).optString("scanTypeStr")
                                     mArrivalScanOperatingMoreInfoBean.scanType = listAry.getJSONObject(itemIndex).optInt("scanType")
-                                    mArrivalScanOperatingMoreInfoBean.setmDismantleInfo( if (!inoneVehicleFlag.contains(listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag"))) "拆" else "")
+                                    if (listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag").isNotBlank())
+                                        mArrivalScanOperatingMoreInfoBean.setmDismantleInfo(if (!inoneVehicleFlag.contains(listAry.getJSONObject(itemIndex).optString("inOneVehicleFlag"))) "拆" else "")
                                     continue
                                 }
                             }
@@ -79,9 +99,10 @@ class ArrivalScanOperatingMoreInfoPresenter : BasePresenterImpl<ArrivalScanOpera
         })
     }
 
-    override fun getScanCarInfo(inoneVehicleFlag: String) {
+    override fun getScanCarInfo(inoneVehicleFlag: String, selEwebidCode: String) {
         val params = HttpParams()
         params.put("inoneVehicleFlag", inoneVehicleFlag)
+        params.put("SelEwebidCode", selEwebidCode)
         get<String>(ApiInterface.DEPARTURE_VEHICLE_ORDER_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)

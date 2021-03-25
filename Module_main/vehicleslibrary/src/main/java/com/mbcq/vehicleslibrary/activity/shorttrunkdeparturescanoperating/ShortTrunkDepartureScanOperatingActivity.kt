@@ -274,7 +274,11 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
                             }
 
                         }).show(supportFragmentManager, "ScanDialogFragment")
-                    } else
+                    } else{
+                        if (s1.substring(s1.length - 4, s1.length).toInt() > item.totalQty) {
+                            showError("标签号$s1 异常!请核对件数后重试！")
+                            return
+                        }
                         mPresenter?.scanOrder(
                                 s1.substring(0, s1.length - 4),
                                 s1,
@@ -287,8 +291,8 @@ class ShortTrunkDepartureScanOperatingActivity : BaseShortTrunkDepartureScanOper
                                 if (isHeaderPint) 1 else 0
 
                         )
+                    }
 
-                    break
                 }
             }
             /**

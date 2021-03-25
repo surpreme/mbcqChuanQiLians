@@ -1,10 +1,12 @@
 package com.mbcq.orderlibrary.activity.acceptbilling
 
+import android.telecom.Call
 import com.google.gson.JsonObject
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.commonlibrary.ApiInterface
+import com.mbcq.commonlibrary.Constant
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
@@ -579,4 +581,34 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
 
     }
 
+    /**
+     *  {
+    "id": 62,
+    "companyId": 2001,
+    "belWebCod": 1001,
+    "belWebCodStr": "义乌后湖",
+    "ewebidCode": 1001,
+    "ewebidCodeStr": "义乌后湖",
+    "mapDes": "上海",
+    "opeMan": "wzj",
+    "recordDate": "2021-01-26T18:26:46",
+    "area": "",
+    "county": "奉贤区",
+    "province": "上海",
+    "city": "上海市"
+    }
+     */
+    /**
+     * {"status":"1","info":"OK","infocode":"10000","count":"1","geocodes":[
+     * {"formatted_address":"浙江省金华市义乌市","country":"中国","province":"浙江省","citycode":"0579","city":"金华市","district":"义乌市","township":[],
+     * "neighborhood":{"name":[],"type":[]},"building":{"name":[],"type":[]},"adcode":"330782","street":[],"number":[],"location":"120.075058,29.306841","level":"区县"}]}
+     */
+    override fun getGaoDeAddressLocation(params: HttpParams, latitude: String, longitude: String) {
+        get<String>("https://restapi.amap.com/v3/geocode/geo", params, false, object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.getGaoDeAddressLocationS(result,latitude,longitude)
+            }
+
+        })
+    }
 }

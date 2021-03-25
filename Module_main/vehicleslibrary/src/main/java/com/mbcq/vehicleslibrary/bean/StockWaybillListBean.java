@@ -1,6 +1,8 @@
 package com.mbcq.vehicleslibrary.bean;
 
-public class StockWaybillListBean {
+import java.io.Serializable;
+
+public class StockWaybillListBean implements Serializable {
 
     /**
      * id : 2
@@ -197,8 +199,6 @@ public class StockWaybillListBean {
     public void setQtyGx(String qtyGx) {
         this.qtyGx = qtyGx;
     }
-
-
 
 
     public String getId() {

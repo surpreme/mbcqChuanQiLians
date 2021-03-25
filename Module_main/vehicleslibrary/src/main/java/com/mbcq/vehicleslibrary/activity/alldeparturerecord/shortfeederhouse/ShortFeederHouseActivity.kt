@@ -101,7 +101,7 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
         super.onClick()
         complete_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                TalkSureCancelDialog(mContext, getScreenWidth(), "${if (mMaximumVehicleWeight < mXWeight) "本车已超载，" else ""}您确定要完成本车吗？") {
+                TalkSureCancelDialog(mContext, getScreenWidth(), "${if (mMaximumVehicleWeight < mXWeight) "本车已超载，" else ""}您确定要完成配载吗？") {
                     completeCar()
                 }.show()
             }
@@ -133,16 +133,24 @@ class ShortFeederHouseActivity : BasesShortFeederHouseActivity<ShortFeederHouseC
 
     override fun overLocalCarS(s: String) {
         TalkSureDialog(mContext, getScreenWidth(), "短驳计划装车${mDepartureLot}已完成，点击查看详情！") {
-            LogUtils.e("dncsjdnsd")
             EventBus.getDefault().postSticky(DepartureRecordAddSuccessEvent(1))
             onBackPressed()
         }.show()
     }
 
     override fun saveInfoS(result: String) {
-        TalkSureCancelDialog(mContext, getScreenWidth(), "短驳计划装车${mDepartureLot}配载成功，您确定要完成本车吗?") {
-            mPresenter?.overLocalCar(mDepartureLot)
-        }.show()
+        if (JSONObject(mLastDataJson).optInt("isScan") == 1) {
+            TalkSureDialog(mContext, getScreenWidth(), "短驳计划装车${mDepartureLot}已完成，您需要到扫描页面进行扫描！") {
+                EventBus.getDefault().postSticky(DepartureRecordAddSuccessEvent(1))
+                onBackPressed()
+            }.show()
+        } else {
+            TalkSureCancelDialog(mContext, getScreenWidth(), "短驳计划装车${mDepartureLot}配载成功，您确定要完成本车并发车吗?") {
+                mPresenter?.overLocalCar(mDepartureLot)
+            }.show()
+        }
+
+
 
 
     }

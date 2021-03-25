@@ -729,6 +729,13 @@
                         android:layout_gravity="center"
                         android:src="@drawable/ic_location_icon" />
 
+                    <TextView
+                        android:id="@+id/shipper_address_location_distance_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        tools:text="2230.00km" />
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -985,7 +992,12 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_location_icon" />
-
+                    <TextView
+                        android:id="@+id/receiver_address_location_distance_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        tools:text="2230.00km" />
                 </LinearLayout>
 
             </LinearLayout>

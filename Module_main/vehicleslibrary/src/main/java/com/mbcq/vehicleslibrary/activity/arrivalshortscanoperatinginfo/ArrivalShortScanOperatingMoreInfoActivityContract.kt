@@ -12,7 +12,7 @@ import com.mbcq.vehicleslibrary.activity.arrivalscanoperatingmoreinfo.ArrivalSca
 class ArrivalShortScanOperatingMoreInfoActivityContract {
 
     interface View : BaseView {
-        fun getScanInfoS(list: List<ArrivalShortScanOperatingMoreInfoBean>)
+        fun getScanInfoS(list: List<ArrivalShortScanOperatingMoreInfoBean>, sendScanJay: String)
         fun getScanCarInfoS(list: List<ArrivalShortScanOperatingMoreInfoBean>)
     }
 

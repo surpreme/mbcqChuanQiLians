@@ -3,7 +3,9 @@
     package="com.mbcq.vehicleslibrary">
 
     <application>
-        <activity android:name=".activity.arrivalshortscanoperatinginfo.ArrivalShortScanOperatingMoreInfoActivityActivity"></activity>
+        <activity android:name=".activity.arrivalvehiclesscan.arrivalvehiclestrunkscan.ArrivalVehiclesScanShortTrunkActivity" />
+        <activity android:name=".activity.arrivalvehiclesscan.arrivalvehiclesshortscan.ArrivalVehiclesScanShortActivity" />
+        <activity android:name=".activity.arrivalshortscanoperatinginfo.ArrivalShortScanOperatingMoreInfoActivityActivity" />
         <activity android:name=".activity.arrivalshortscanoperating.ArrivalShortScanOperatingActivity" />
         <activity android:name=".activity.arrivalscanoperatingmoreinfo.ArrivalScanOperatingMoreInfoActivity" />
         <activity android:name=".activity.loadingvehicles.trunk.TrunkLoadingVehiclesActivity" />

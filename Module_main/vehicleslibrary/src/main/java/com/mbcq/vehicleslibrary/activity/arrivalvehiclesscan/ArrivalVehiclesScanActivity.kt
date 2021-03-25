@@ -30,9 +30,7 @@ import org.greenrobot.eventbus.EventBus
 
 @Route(path = ARouterConstants.ArrivalVehiclesScanActivity)
 class ArrivalVehiclesScanActivity : BaseMVPActivity<ArrivalVehiclesScanContract.View, ArrivalVehiclesScanPresenter>(), ArrivalVehiclesScanContract.View {
-//    var mStartDateTag = ""
-//    var mEndDateTag = ""
-//    var mShippingOutletsTag = ""//发货网点
+
 
     override fun getLayoutId(): Int = R.layout.activity_arrival_vehicles_scan
     override fun initViews(savedInstanceState: Bundle?) {
@@ -71,17 +69,11 @@ class ArrivalVehiclesScanActivity : BaseMVPActivity<ArrivalVehiclesScanContract.
                              * s2  start@end
                              */
                             override fun onResult(s1: String, s2: String) {
-//                                mShippingOutletsTag = s1
                                 val timeList = s2.split("@")
                                 if (timeList.isNotEmpty() && timeList.size == 2) {
-//                                    mStartDateTag = timeList[0]
-//                                    mEndDateTag = timeList[1]
                                     val mArrivalVehiclesScanFilterRefreshEvent = ArrivalVehiclesScanFilterRefreshEvent(1, "", timeList[0], timeList[1], s1)
                                     EventBus.getDefault().post(mArrivalVehiclesScanFilterRefreshEvent)
-
                                 }
-//                                isCanRefreshTotalTitle = true
-//                                refresh()
                             }
 
                         }).show(supportFragmentManager, "ArrivalVehiclesScanFilterWithTimeDialog")

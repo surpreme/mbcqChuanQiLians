@@ -119,12 +119,21 @@ object ARouterConstants {
     const val ShortFeederUnloadingWarehousingActivity = "/vehicles/ShortFeederUnloadingWarehousingActivity"
     const val TrunkDepartureUnloadingWarehousingActivity = "/vehicles/TrunkDepartureUnloadingWarehousingActivity"
     const val LocalGentShortFeederHouseInfoActivity = "/vehicles/LocalGentShortFeederHouseInfoActivity"
+
     //到车干线扫描详情
     const val ArrivalScanOperatingMoreInfoActivity = "/vehicles/ArrivalScanOperatingMoreInfoActivity"
+
     //到车短驳扫描页面
     const val ArrivalShortScanOperatingActivity = "/vehicles/ArrivalShortScanOperatingActivity"
+
     //到车短驳扫描详情
     const val ArrivalShortScanOperatingMoreInfoActivityActivity = "/vehicles/ArrivalShortScanOperatingMoreInfoActivityActivity"
+
+    //到车短驳记录
+    const val ArrivalVehiclesScanShortActivity = "/vehicles/ArrivalVehiclesScanShortActivity"
+
+    //到车干线记录
+    const val ArrivalVehiclesScanShortTrunkActivity = "/vehicles/ArrivalVehiclesScanShortTrunkActivity"
 
     /**
      * 财务模块

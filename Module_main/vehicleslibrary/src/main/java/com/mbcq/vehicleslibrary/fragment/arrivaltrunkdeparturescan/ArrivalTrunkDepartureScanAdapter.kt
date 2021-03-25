@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.util.regular.NumberUtils
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
@@ -31,7 +32,7 @@ class ArrivalTrunkDepartureScanAdapter(context: Context) : BaseRecyclerAdapter<A
         holder.scan_rate_tv.visibility = if (mDatas[position].vehicleState != 1) View.VISIBLE else View.GONE
         holder.operating_progressbar.visibility = if (mDatas[position].vehicleState != 1) View.VISIBLE else View.GONE
         holder.operating_progressbar.progress = if (mDatas[position].xcScanPercentage.isNullOrEmpty()) 0 else mDatas[position].xcScanPercentage.toInt()
-        holder.scan_rate_tv.text = "扫描率：${if (mDatas[position].xcScanPercentage.isNullOrEmpty()) "0" else mDatas[position].xcScanPercentage}%"
+        holder.scan_rate_tv.text = "扫描率：${if (mDatas[position].xcScanPercentage.isNullOrEmpty()) "0" else NumberUtils.format(mDatas[position].xcScanPercentage,2)}%"
         holder.feeder_confirm_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
                 mSureArrivalClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))

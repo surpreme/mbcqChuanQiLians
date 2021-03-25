@@ -17,11 +17,12 @@ class ArrivalShortScanOperatingContract {
 
         //        fun getUnScanBillnoDataS(result: String)
         fun getClickLableS(result: String)
+        fun getScanDataS(result: String)
     }
 
     interface Presenter : BasePresenter<View> {
-        fun getClickLable(billno: String, inoneVehicleFlag: String, totalQty: Int)
-
+        fun getClickLable(billno: String, inoneVehicleFlag: String, totalQty: Int, type: Int)
+        fun getScanData(billno: String, lableNo: String, inoneVehicleFlag: String)
 
         fun getCarInfo(inoneVehicleFlag: String)
         fun scanOrder(billno: String, lableNo: String, inoneVehicleFlag: String, ewebidCodeStr: String, scanType: Int, totalQty: Int, xcScanPercentage: String)

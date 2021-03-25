@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
+import com.mbcq.vehicleslibrary.fragment.arrivalshortfeederscan.ArrivalShortFeederScanBean
 import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
 import org.json.JSONObject
 
@@ -20,7 +21,7 @@ class ArrivalTrunkDepartureScanPresenter : BasePresenterImpl<ArrivalTrunkDepartu
         mHttpParams.put("selEwebidCode", selEwebidCode)
         mHttpParams.put("startDate", startDate)
         mHttpParams.put("endDate", endDate)
-        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_LOADING_LOCAL_INFO_GET , mHttpParams, object : CallBacks {
+        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SELECT_LOADING_LOCAL_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 mView?.getPageS(Gson().fromJson<List<ArrivalTrunkDepartureScanBean>>(obj.optString("data"), object : TypeToken<List<ArrivalTrunkDepartureScanBean>>() {}.type))
@@ -34,21 +35,33 @@ class ArrivalTrunkDepartureScanPresenter : BasePresenterImpl<ArrivalTrunkDepartu
         mHttpParams.put("selEwebidCode", selEwebidCode)
         mHttpParams.put("startDate", startDate)
         mHttpParams.put("endDate", endDate)
-        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SCAN_OVER_LOCAL_INFO_GET , mHttpParams, object : CallBacks {
+        get<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SCAN_OVER_LOCAL_INFO_GET, mHttpParams, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
-                mView?.getPageS(Gson().fromJson<List<ArrivalTrunkDepartureScanBean>>(obj.optString("data"), object : TypeToken<List<ArrivalTrunkDepartureScanBean>>() {}.type))
+                val list = Gson().fromJson<List<ArrivalTrunkDepartureScanBean>>(obj.optString("data"), object : TypeToken<List<ArrivalTrunkDepartureScanBean>>() {}.type)
+                val xList = mutableListOf<ArrivalTrunkDepartureScanBean>()
+                for (item in list) {
+                    if (item.vehicleState == 1) {
+                        xList.add(item)
+                    }
+                }
+                for (item in list) {
+                    if (item.vehicleState == 2) {
+                        xList.add(item)
+                    }
+                }
+                mView?.getPageS(xList)
             }
 
         })
     }
 
-    override fun sureArrivalCar(inoneVehicleFlag: String) {
-        val mXObj=JSONObject()
-        mXObj.put("inoneVehicleFlag",inoneVehicleFlag)
-        post<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SURE_ARRIVAL_POST,getRequestBody(mXObj),object :CallBacks{
+    override fun sureArrivalCar(inoneVehicleFlag: String, position: Int) {
+        val mXObj = JSONObject()
+        mXObj.put("inoneVehicleFlag", inoneVehicleFlag)
+        post<String>(ApiInterface.DEPARTURE_RECORD_MAIN_LINE_DEPARTURE_SURE_ARRIVAL_POST, getRequestBody(mXObj), object : CallBacks {
             override fun onResult(result: String) {
-                mView?.sureArrivalCarS(result)
+                mView?.sureArrivalCarS(result, position)
 
             }
 

@@ -478,7 +478,18 @@ public class BaseAmapSelectionsActivity extends AppCompatActivity implements Loc
         return mSelectAddress;
     }
 
-    private  String mSelectAddress = "";
+
+    public String getmLatitude() {
+        return mLatitude;
+    }
+
+    public String getmLongitude() {
+        return mLongitude;
+    }
+
+    private String mSelectAddress = "";
+    private String mLatitude = "";
+    private String mLongitude = "";
     AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -492,7 +503,9 @@ public class BaseAmapSelectionsActivity extends AppCompatActivity implements Loc
 
                 searchResultAdapter.setSelectedPosition(position);
                 searchResultAdapter.notifyDataSetChanged();
-                mSelectAddress = poiItem.getCityName() + poiItem.getAdName() + poiItem.getSnippet()+ poiItem.getTitle();
+                mSelectAddress = poiItem.getCityName() + poiItem.getAdName() + poiItem.getSnippet() + poiItem.getTitle();
+                mLatitude = String.valueOf(poiItem.getLatLonPoint().getLatitude());
+                mLongitude = String.valueOf(poiItem.getLatLonPoint().getLongitude());
             }
         }
     };

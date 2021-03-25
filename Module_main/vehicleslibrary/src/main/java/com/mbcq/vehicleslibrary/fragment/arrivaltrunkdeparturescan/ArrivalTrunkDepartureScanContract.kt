@@ -14,7 +14,7 @@ class ArrivalTrunkDepartureScanContract {
     interface View : BaseView {
         fun getPageS(list: List<ArrivalTrunkDepartureScanBean>)
 
-        fun sureArrivalCarS(result: String)
+        fun sureArrivalCarS(result: String,position:Int)
 
     }
 
@@ -32,7 +32,7 @@ class ArrivalTrunkDepartureScanContract {
         /**
          * 确认到车
          */
-        fun sureArrivalCar(inoneVehicleFlag: String)
+        fun sureArrivalCar(inoneVehicleFlag: String,position:Int)
 
     }
 }

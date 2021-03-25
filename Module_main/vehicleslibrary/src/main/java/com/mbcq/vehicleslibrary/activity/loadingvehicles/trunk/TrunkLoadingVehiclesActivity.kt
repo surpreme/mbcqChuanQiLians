@@ -152,7 +152,7 @@ class TrunkLoadingVehiclesActivity : CommonScanPDAMVPSmartActivity<TrunkLoadingV
                  */
                 if (obj.optInt("type") == 1) {
                     if (obj.optInt("isScan") == 1)
-                        ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureUnPlanScanOperatingActivity).withString("DepartureLoadingVehicles", mResult).navigation()
+                        ARouter.getInstance().build(ARouterConstants.DepartureTrunkDepartureScanOperatingActivity).withString("LoadingVehicles", mResult).navigation()
 
                 }
             }

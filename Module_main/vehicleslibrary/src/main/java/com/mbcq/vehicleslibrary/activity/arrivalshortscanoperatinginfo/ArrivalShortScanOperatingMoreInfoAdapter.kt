@@ -19,7 +19,7 @@ class ArrivalShortScanOperatingMoreInfoAdapter(context: Context) : BaseRecyclerA
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ItemViewHolder).item_text.text = mDatas[position].lableNo
-//        holder.dismantle_info_tv.text = mDatas[position].mDismantleInfo
+        holder.dismantle_info_tv.text = mDatas[position].getmDismantleInfo()
         holder.scan_inOneVehicleFlag_info_tv.text = mDatas[position].inOneVehicleFlag
         holder.scan_name_tv.text = "${mDatas[position].opeMan}  ${mDatas[position].scanTypeStr}"
         holder.scan_time_tv.text = mDatas[position].recordDate

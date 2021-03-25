@@ -9,17 +9,16 @@ import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
 import com.mbcq.baselibrary.ui.BaseListMVPFragment
+import com.mbcq.baselibrary.ui.BaseSmartMVPFragment
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.FilterTimeUtils
 import com.mbcq.vehicleslibrary.R
-import com.mbcq.vehicleslibrary.activity.allarrivalrecord.arrivalrecord.ArrivalRecordRefreshEvent
 import com.mbcq.vehicleslibrary.activity.arrivalvehiclesscan.ArrivalVehiclesScanFilterRefreshEvent
-import com.mbcq.vehicleslibrary.fragment.trunkdeparture.TrunkDepartureBean
-import com.tbruyelle.rxpermissions.RxPermissions
-import kotlinx.android.synthetic.main.activity_arrival_record.*
+import com.mbcq.vehicleslibrary.fragment.arrivalshortfeederscan.ArrivalShortFeederScanBean
 import kotlinx.android.synthetic.main.fragment_arrival_trunk_departure_scan.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -30,13 +29,22 @@ import org.json.JSONObject
  * @time: 2020-10-29 15:37:12 干线到车扫描
  */
 
-class ArrivalTrunkDepartureScanFragment : BaseListMVPFragment<ArrivalTrunkDepartureScanContract.View, ArrivalTrunkDepartureScanPresenter, ArrivalTrunkDepartureScanBean>(), ArrivalTrunkDepartureScanContract.View {
+class ArrivalTrunkDepartureScanFragment : BaseSmartMVPFragment<ArrivalTrunkDepartureScanContract.View, ArrivalTrunkDepartureScanPresenter, ArrivalTrunkDepartureScanBean>(), ArrivalTrunkDepartureScanContract.View {
     var mStartDateTag = ""
     var mEndDateTag = ""
     var mShippingOutletsTag = ""//发货网点
 
     override fun getLayoutResId(): Int = R.layout.fragment_arrival_trunk_departure_scan
     override fun getRecyclerViewId(): Int = R.id.arrival_trunk_departure_scan_list_recycler
+
+    override fun getIsOnCreateGetData(): Boolean {
+        return false
+    }
+
+    override fun getEnableLoadMore(): Boolean {
+        return false
+    }
+
     override fun setIsShowNetLoading(): Boolean {
         return false
     }
@@ -52,9 +60,10 @@ class ArrivalTrunkDepartureScanFragment : BaseListMVPFragment<ArrivalTrunkDepart
             mStartDateTag = event.startDate
             mEndDateTag = event.endDate
             mShippingOutletsTag = event.shippingOutletsTag
-            initDatas()
+            refresh()
         }
     }
+
     @SuppressLint("SimpleDateFormat")
     override fun initExtra() {
         super.initExtra()
@@ -63,19 +72,44 @@ class ArrivalTrunkDepartureScanFragment : BaseListMVPFragment<ArrivalTrunkDepart
         mShippingOutletsTag = UserInformationUtil.getWebIdCode(mContext)
 
     }
-    override fun initDatas() {
-        super.initDatas()
+
+
+    override fun getPageDatas(mCurrentPage: Int) {
+        super.getPageDatas(mCurrentPage)
         mPresenter?.getLoading(mShippingOutletsTag, mStartDateTag, mEndDateTag)
+
     }
 
-    override fun initViews(view: View) {
-        super.initViews(view)
-        search_arrival_trunk_departure_scan_smart.setEnableLoadMore(false)
-        search_arrival_trunk_departure_scan_smart.setOnRefreshListener {
-            adapter.clearData()
-            initDatas()
-            it.finishRefresh()
+
+    override fun onClick() {
+        super.onClick()
+        search_btn.apply {
+            onSingleClicks {
+                hideKeyboard(search_info_ed)
+                val mEditInfo = search_info_ed.text.toString()
+                if (mEditInfo.isBlank()) {
+                    refresh()
+                    return@onSingleClicks
+                }
+                val mCachList = mutableListOf<ArrivalTrunkDepartureScanBean>()
+                val mAdpterData = adapter.getAllData()
+                for (item in mAdpterData) {
+                    if (item.inoneVehicleFlag == mEditInfo)
+                        mCachList.add(item)
+                    if (item.chauffer == mEditInfo)
+                        mCachList.add(item)
+                    if (item.chaufferMb == mEditInfo)
+                        mCachList.add(item)
+                    if (item.vehicleNo == mEditInfo)
+                        mCachList.add(item)
+                }
+                if (mCachList.isNotEmpty())
+                    adapter.replaceData(mCachList)
+
+
+            }
         }
+
     }
 
     override fun setAdapter(): BaseRecyclerAdapter<ArrivalTrunkDepartureScanBean> = ArrivalTrunkDepartureScanAdapter(mContext).also {
@@ -83,7 +117,7 @@ class ArrivalTrunkDepartureScanFragment : BaseListMVPFragment<ArrivalTrunkDepart
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val obj = JSONObject(mResult)
                 TalkSureCancelDialog(mContext, getScreenWidth(), "您确认要到车批次号为${obj.optString("inoneVehicleFlag")}的车辆吗") {
-                    mPresenter?.sureArrivalCar(obj.optString("inoneVehicleFlag"))
+                    mPresenter?.sureArrivalCar(obj.optString("inoneVehicleFlag"), position)
                 }.show()
             }
 
@@ -97,10 +131,25 @@ class ArrivalTrunkDepartureScanFragment : BaseListMVPFragment<ArrivalTrunkDepart
     }
 
     override fun getPageS(list: List<ArrivalTrunkDepartureScanBean>) {
-        adapter.replaceData(list)
+        appendDatas(list)
     }
 
-    override fun sureArrivalCarS(result: String) {
-        showToast("到车成功")
+    override fun sureArrivalCarS(result: String, position: Int) {
+        TalkSureDialog(mContext, getScreenWidth(), "到车成功") {
+            val mAdapterData = adapter.getAllData()
+            for ((index, item) in mAdapterData.withIndex()) {
+                if (position == index) {
+                    item.vehicleState = 2
+                    item.vehicleStateStr = "到货"
+                    adapter.notifyItemChangeds(position, item)
+                    break
+                }
+            }
+        }.show()
     }
+
+    override fun getSmartLayoutId(): Int = R.id.search_arrival_trunk_departure_scan_smart
+    override fun getSmartEmptyId(): Int = R.id.arrival_trunk_departure_scan_list_smart_frame
+
+
 }

@@ -5,35 +5,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.arrivalshortfeederscan.ArrivalShortFeederScanFragment">
-    <EditText
-        android:id="@+id/search_arrival_short_scan_ed"
+
+    <LinearLayout
+        android:id="@+id/search_ll"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
         android:background="@drawable/hollow_out_gray"
-        android:hint="请输入关键字搜索"
-        android:paddingLeft="10dp"
-        android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/search_info_ed"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:hint="请输入关键字"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:paddingLeft="15dp" />
+
+        <ImageView
+            android:id="@+id/scan_search_iv"
+            android:layout_width="35dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:paddingRight="10dp"
+            android:src="@drawable/ic_scan_iccon" />
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="#EAC11E"
+            android:text="输入"
+            android:textColor="@color/white"
+            android:textSize="19sp" />
+
+    </LinearLayout>
+
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/search_arrival_short_scan_smart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_arrival_short_scan_ed">
-
+        app:layout_constraintTop_toBottomOf="@id/search_ll">
+        <FrameLayout
+            android:id="@+id/arrival_short_scan_list_smart_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/arrival_short_scan_list_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
             android:scrollbars="none" />
+        </FrameLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

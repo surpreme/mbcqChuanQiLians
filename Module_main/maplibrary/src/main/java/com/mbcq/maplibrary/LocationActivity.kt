@@ -133,7 +133,7 @@ class LocationActivity : BaseLocationActivity<LocationContract.View, LocationPre
                     }
                 }
                 if (mSelectData.isNotBlank()) {
-                    EventBus.getDefault().postSticky(LocationResultEvent(mSelectData,1))
+                    EventBus.getDefault().postSticky(LocationResultEvent(mSelectData,1,"",""))
                     onBackPressed()
                 } else {
                     showToast("请选择您的到货网点")

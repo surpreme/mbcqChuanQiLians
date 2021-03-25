@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
+import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.commonlibrary.ApiInterface
 import com.mbcq.vehicleslibrary.activity.arrivalscanoperatingmoreinfo.ArrivalScanOperatingMoreInfoBean
 import org.json.JSONObject
@@ -17,9 +18,10 @@ import java.lang.StringBuilder
  */
 
 class ArrivalTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ArrivalTrunkDepartureScanOperatingContract.View>(), ArrivalTrunkDepartureScanOperatingContract.Presenter {
-    override fun getCarInfo(inoneVehicleFlag: String) {
+    override fun getCarInfo(inoneVehicleFlag: String, selEwebidCode: String) {
         val params = HttpParams()
         params.put("inoneVehicleFlag", inoneVehicleFlag)
+        params.put("SelEwebidCode", selEwebidCode)
         get<String>(ApiInterface.DEPARTURE_VEHICLE_ORDER_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
@@ -105,11 +107,63 @@ class ArrivalTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ArrivalTru
             override fun onResult(mXresult: String) {
                 getTopLableNo(mXresult, billno, inoneVehicleFlag, billno + "0001,", totalQty, object : OnResultInteface {
                     override fun onResult(xlableNo: String) {
-                        mView?.getClickLableS(xlableNo.split(",")[0])
+                        /*   var mBig=0
+                           val mList=xlableNo.split(",")
+                           for (item in mList){
+                               if (item.substring(item.length-4,item.length).toInt()>mBig){
+                                   mBig=item.substring(item.length-4,item.length).toInt()
+                               }
+                           }*/
+
+                        mView?.getClickLableS(xlableNo.split(",")[if (xlableNo.split(",").size > 1) 1 else 0])
                     }
                 })
             }
 
+        })
+    }
+
+    override fun getScanData(billno: String, lableNo: String, inoneVehicleFlag: String) {
+        val testParams = HttpParams()
+        testParams.put("billno", billno)
+        /**
+         * @scanOpeType 操作类型
+         * 0 短驳装车
+         * 1 干线装车
+         * -1 查询扫描信息
+         * SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET 装车的扫描详情
+         */
+
+        testParams.put("scanOpeType", "1")
+        testParams.put("limit", "9999")
+        get<String>(ApiInterface.SHORT_TRUNK_DEPARTURE_SCAN_OPERATING_MORE_INFO_GET, testParams, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    if (!it.isNull(0)) {
+                        var isCanScan = false
+                        for (index in 0 until it.length()) {
+                            val itemObj = it.getJSONObject(index)
+                            if (itemObj.optString("lableNo") == lableNo) {
+                                if (itemObj.optString("inOneVehicleFlag") == inoneVehicleFlag) {
+                                    isCanScan = true
+                                    break
+                                }
+
+
+                            }
+                        }
+                        if (!isCanScan)
+                            mView?.showError("该标签号${lableNo}不存在于本车，请核实后重试！")
+                        else
+                            mView?.getScanDataS(lableNo)
+                    } else {
+                        mView?.getScanDataS(lableNo)
+
+                    }
+
+                }
+            }
         })
     }
 
@@ -136,6 +190,9 @@ class ArrivalTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ArrivalTru
                             mVlableNo.add(item)
                         }
                     }
+                    mVlableNo.sortWith(Comparator { o1, o2 ->
+                        if (o1 > o2) 1 else -1
+                    })
                     val mXPostScaningDataStr = StringBuilder()
 //                    val shortNum=if ()
                     for (index in (mVlableNo.size - (lableNo.split(",").size)) until mVlableNo.size) {
@@ -148,6 +205,8 @@ class ArrivalTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ArrivalTru
                     }
 
 //                    Log.e("vvvvvvv", "onResult: " + mXPostScaningDataStr.toString())
+                    //-1 前 1后 正序
+
                     if (type == 1)
                         mOnResultInteface?.onResult(mXPostScaningDataStr.toString())
                 }
@@ -166,10 +225,10 @@ class ArrivalTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ArrivalTru
                 mAlableNo.add(endBillno.toLong())
 //                }
             }
-            /* //-1 前 1后 正序
-             mAlableNo.sortWith(Comparator { o1, o2 ->
-                 if (o1 > o2) 1 else -1
-             })*/
+            //-1 前 1后 正序
+            mAlableNo.sortWith(Comparator { o1, o2 ->
+                if (o1 > o2) 1 else -1
+            })
             getTopLableNo2(mAlableNo, billno, inoneVehicleFlag, lableNo, 1, mOnResultInteface)
         } else
             mOnResultInteface.onResult(lableNo)
@@ -193,10 +252,10 @@ class ArrivalTrunkDepartureScanOperatingPresenter : BasePresenterImpl<ArrivalTru
                         if (it.getJSONObject(mXitemIndex).optString("inOneVehicleFlag").replace(" ", "").contains(inoneVehicleFlag.replace(" ", "")))
                             mXlableNo.add(it.getJSONObject(mXitemIndex).optLong("lableNo"))
                     }
-                    /*  //-1 前 1后 正序
-                      mXlableNo.sortWith(Comparator { o1, o2 ->
-                          if (o1 > o2) 1 else -1
-                      })*/
+                    //-1 前 1后 正序
+                    mXlableNo.sortWith(Comparator { o1, o2 ->
+                        if (o1 > o2) 1 else -1
+                    })
                     getTopLableNo2(mXlableNo, billno, inoneVehicleFlag, lableNo, 1, mOnResultInteface)
 
 

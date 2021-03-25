@@ -264,6 +264,10 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                              * 多件扫描end------------------------------------------------------
                              */
                         } else {
+                            if (s1.substring(s1.length - 4, s1.length).toInt() > item.totalQty) {
+                                showError("标签号$s1 异常!请核对件数后重试！")
+                                return
+                            }
                             //单件扫描
                             mPresenter?.scanOrder(
                                     s1.substring(0, s1.length - 4),

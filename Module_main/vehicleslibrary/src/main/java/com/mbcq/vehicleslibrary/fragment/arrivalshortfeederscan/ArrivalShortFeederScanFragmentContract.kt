@@ -13,7 +13,7 @@ class ArrivalShortFeederScanFragmentContract {
 
     interface View : BaseView {
         fun getPageS(list: List<ArrivalShortFeederScanBean>)
-        fun sureArrivalCarS(result: String)
+        fun sureArrivalCarS(result: String, position: Int)
 
     }
 
@@ -23,7 +23,7 @@ class ArrivalShortFeederScanFragmentContract {
         /**
          * 确认到车
          */
-        fun sureArrivalCar(inoneVehicleFlag: String)
+        fun sureArrivalCar(inoneVehicleFlag: String, position: Int)
 
     }
 }
