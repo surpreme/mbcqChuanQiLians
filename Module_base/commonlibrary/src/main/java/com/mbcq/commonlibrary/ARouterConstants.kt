@@ -53,9 +53,8 @@ object ARouterConstants {
     const val AcceptBillingFixedReviewActivity = "/order/AcceptBillingFixedReviewActivity"
     const val GoodsReceiptHouseActivity = "/order/GoodsReceiptHouseActivity"
     const val GoodsReceiptHouseInfoActivity = "/order/GoodsReceiptHouseInfoActivity"
-    const val HomeDeliveryActivity = "/order/HomeDeliveryActivity"
-    const val AddHomeDeliveryActivity = "/order/AddHomeDeliveryActivity"
-    const val HomeDeliveryHouseActivity = "/order/HomeDeliveryHouseActivity"
+
+
 
     /**
      * 地图模块
@@ -67,6 +66,16 @@ object ARouterConstants {
      * 车辆模块
      */
     const val DepartureRecordActivity = "/vehicles/DepartureRecordActivity"
+    //添加上门提货配置
+    const val AddHomeDeliveryActivity = "/vehicles/AddHomeDeliveryActivity"
+    //上门提货记录
+    const val HomeDeliveryActivity = "/vehicles/HomeDeliveryActivity"
+
+    //修改上门提货配置
+    const val FixHomeDeliveryConfigurationActivity = "/vehicles/FixHomeDeliveryConfigurationActivity"
+
+    //上门提货 操作页
+    const val HomeDeliveryHouseActivity = "/vehicles/HomeDeliveryHouseActivity"
     const val TrunkDepartureRecordActivity = "/vehicles/TrunkDepartureRecordActivity"
     const val ShortBargeDepartureRecordActivity = "/vehicles/ShortBargeDepartureRecordActivity"
     const val AddTrunkDepartureActivity = "/vehicles/AddTrunkDepartureActivity"
@@ -134,6 +143,9 @@ object ARouterConstants {
 
     //到车干线记录
     const val ArrivalVehiclesScanShortTrunkActivity = "/vehicles/ArrivalVehiclesScanShortTrunkActivity"
+
+    //修改上门提货
+    const val FixHomeDeliveryHouseActivity = "/vehicles/FixHomeDeliveryHouseActivity"
 
     /**
      * 财务模块

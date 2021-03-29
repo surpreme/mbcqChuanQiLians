@@ -7,6 +7,7 @@ import android.os.CountDownTimer
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
+import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.log.LogUtils
@@ -28,6 +29,40 @@ class PrintAcceptBillingActivity : BaseBlueToothPrintAcceptBillingActivity<Print
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
         clearInfo()
+
+    }
+
+    fun printInfo() {
+        loadingTips = "正在打印中...."
+        showLoading()
+        object : CountDownTimer(1000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+
+            }
+
+            override fun onFinish() {
+                if (isDestroyed)
+                    return
+                try {
+                    val printAdapter = getZpBluetoothPrinter()
+                    if (consignment_checkbox.isChecked) {
+                        print_YH_TYD_NEW1(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), mWayBillInfoJObj, printAdapter)
+                    }
+                    if (label_checkbox.isChecked) {
+                        printMoreLabel(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), start_print_num_ed.text.toString().toInt(), end_print_num_ed.text.toString().toInt(), printAdapter)
+
+                    }
+                    closePrint(printAdapter)
+                    closeLoading()
+                    TalkSureDialog(mContext, getScreenWidth(), "打印完成").show()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    LogUtils.e(e)
+                    closeLoading()
+                }
+            }
+
+        }.start()
 
     }
 
@@ -58,37 +93,9 @@ class PrintAcceptBillingActivity : BaseBlueToothPrintAcceptBillingActivity<Print
                     showToast("请检查您输入开始数量和结束数量")
                     return
                 }
-                loadingTips="正在打印中...."
-                showLoading()
-                object : CountDownTimer(1000, 1000) {
-                    override fun onTick(millisUntilFinished: Long) {
-
-                    }
-
-                    override fun onFinish() {
-                        if (isDestroyed)
-                            return
-                        try {
-                            val printAdapter = getZpBluetoothPrinter()
-                            if (consignment_checkbox.isChecked) {
-                                print_YH_TYD_NEW1(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), false, UserInformationUtil.getWebIdCodeStr(mContext), mWayBillInfoJObj, printAdapter)
-                            }
-                            if (label_checkbox.isChecked) {
-                                printMoreLabel(Gson().fromJson(mWayBillInfoJson, PrintAcceptBillingBean::class.java), start_print_num_ed.text.toString().toInt(), end_print_num_ed.text.toString().toInt(), printAdapter)
-
-                            }
-                            closePrint(printAdapter)
-                            closeLoading()
-                            TalkSureDialog(mContext, getScreenWidth(), "打印完成").show()
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                            LogUtils.e(e)
-                            closeLoading()
-                        }
-                    }
-
-                }.start()
-
+                TalkSureCancelDialog(mContext, getScreenWidth(), "您确认要打印运单号为${billno_ed.text.toString()} 的运单吗？") {
+                    printInfo()
+                }.show()
 
             }
 

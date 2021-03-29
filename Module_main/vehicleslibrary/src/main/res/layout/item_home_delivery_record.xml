@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/base_red"
-            android:text="删除"
+            android:text="作废"
             android:textColor="@color/white"
             android:textSize="19sp" />
         <View
@@ -103,12 +103,12 @@
             android:layout_height="0dp"/>
 
         <Button
-            android:id="@+id/complete_delivery_btn"
+            android:id="@+id/fixed_delivery_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/base_blue"
-            android:text="完成"
+            android:text="修改"
             android:textColor="@color/white"
             android:textSize="19sp" />
 

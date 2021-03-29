@@ -1,4 +1,4 @@
-package com.mbcq.orderlibrary.activity.addhomedelivery
+package com.mbcq.vehicleslibrary.activity.fixhomedeliveryconfiguration
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
@@ -8,10 +8,10 @@ import org.json.JSONTokener
 
 /**
  * @author: lzy
- * @time: 2021-01-14 17:09:34 添加上门提货配置
+ * @time: 2021-03-27 17:53:06 修改上门提货配置
  */
 
-class AddHomeDeliveryPresenter : BasePresenterImpl<AddHomeDeliveryContract.View>(), AddHomeDeliveryContract.Presenter {
+class FixHomeDeliveryConfigurationPresenter : BasePresenterImpl<FixHomeDeliveryConfigurationContract.View>(), FixHomeDeliveryConfigurationContract.Presenter {
     /**
      * {"code":0,"msg":"","count":1,"data":[
     {

@@ -268,6 +268,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             refreshArriveOutlet(obj.optString("webid"), obj.optString("webidCode"), obj.optString("companyId"))
 
         } else if (event.type == 2) {
+            //发货人
             shipper_address_ed.setText(event.resultStr)
             WebDbUtil.getDbWebId(application, object : WebsDbInterface {
                 override fun isNull() {
@@ -290,6 +291,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
             })
         } else if (event.type == 3) {
+            //收货人
             receiver_address_ed.setText(event.resultStr)
             if (mDestinationtJson.isNotBlank()) {
                 val mDObj = JSONObject(mDestinationtJson)
@@ -297,8 +299,13 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
                 params.put("address", mDObj.optString("province") + mDObj.optString("city") + mDObj.optString("county"))
                 params.put("city", mDObj.optString("city"))
                 params.put("key", "d211a65c1c867ec8cac16acad00dd7dc")
-                mPresenter?.getGaoDeAddressLocation(params,event.latitude,event.longitude)
+                mPresenter?.getGaoDeAddressLocation(params, event.latitude, event.longitude)
             }
+            val xObj = JSONObject()
+            xObj.put("latitude", event.latitude)
+            xObj.put("longitude", event.longitude)
+            mDestinationtLang = GsonUtils.toPrettyFormat(xObj)
+
         }
     }
 
@@ -774,6 +781,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
     }
 
     var mDestinationtJson = ""
+    var mDestinationtLang = ""
     override fun getDestinationS(result: String) {
         FilterDialog(getScreenWidth(), result, "mapDes", "选择目的地", true, isShowOutSide = true, showTipsTag = "FREQUENTLY_USED_DESTINATIONS", showBarTipsStr = "目的地", mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
@@ -781,10 +789,15 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
                 destinationt_tv.text = mSelectData.mapDes
                 destinationt = mSelectData.mapDes
                 mDestinationtJson = mResult
-                // name表示地址，第二个参数表示查询城市，中文或者中文全拼，citycode、adcode
-//                val query = GeocodeQuery(name, "010")
-//
-//                geocoderSearch.getFromLocationNameAsyn(query)
+                if (mDestinationtLang.isNotBlank()) {
+                    val params = HttpParams()
+                    params.put("address", mSelectData.province + mSelectData.city + mSelectData.county)
+                    params.put("city", mSelectData.city)
+                    params.put("key", "d211a65c1c867ec8cac16acad00dd7dc")
+                    val jjjObj = JSONObject(mDestinationtLang)
+                    mPresenter?.getGaoDeAddressLocation(params, jjjObj.optString("latitude"), jjjObj.optString("longitude"))
+                }
+
             }
 
         }).show(supportFragmentManager, "getDestinationSFilterDialog")
@@ -1204,7 +1217,6 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
                 val mSelectData = Gson().fromJson<SalesmanAcceptBean>(mResult, SalesmanAcceptBean::class.java)
                 salesman_name_tv.text = mSelectData.salesmanName
             }
-
         }).show(supportFragmentManager, "getSalesmanSFilterDialog")
     }
 
@@ -1212,22 +1224,28 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
      * status 返回值为 0 或 1，0 表示请求失败；1 表示请求成功。
      */
     @SuppressLint("SetTextI18n")
-    override fun getGaoDeAddressLocationS(result: String, latitude: String, longitude: String)  {
-        try{
+    override fun getGaoDeAddressLocationS(result: String, latitude: String, longitude: String) {
+        try {
             val obj = JSONObject(result)
             if (obj.optInt("status") == 1) {
                 obj.optJSONArray("geocodes")?.let {
                     if (!it.isNull(0)) {
                         val locationObj = it.getJSONObject(0)
                         val lalang = locationObj.optString("location")
-                        val mlatitude=lalang.split(",")[0]
-                        val mlongitude=lalang.split(",")[1]
+                        val mlatitude = lalang.split(",")[0]
+                        val mlongitude = lalang.split(",")[1]
                         val distance: Float = AMapUtils.calculateLineDistance(LatLng(mlatitude.toDouble(), mlongitude.toDouble()), LatLng(latitude.toDouble(), longitude.toDouble()))
                         receiver_address_location_distance_tv.text = """${haveTwoDouble((distance / 1000).toDouble())}km"""
+                    }else {
+                        receiver_address_location_distance_tv.text = ""
+                        LogUtils.e("地理代码获取失败，可能是后台未配置网点地址")
                     }
                 }
+            } else {
+                receiver_address_location_distance_tv.text = ""
+                LogUtils.e("地理代码获取失败，可能是后台未配置网点地址")
             }
-        }catch (e:java.lang.Exception){
+        } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
 

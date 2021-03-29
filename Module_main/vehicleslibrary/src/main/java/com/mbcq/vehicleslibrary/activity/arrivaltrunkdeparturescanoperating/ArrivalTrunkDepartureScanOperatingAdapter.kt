@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -43,8 +44,15 @@ class ArrivalTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecycler
             }
 
         })
+        holder.look_information_ll.setOnClickListener(object :SingleClick(){
+            override fun onSingleClick(v: View) {
+                mOnLookInformationInterface?.lookInfo(v, position, mDatas[position])
+
+            }
+
+        })
         //侧滑删除
-        holder.mSwipeConsumer?.let {
+      /*  holder.mSwipeConsumer?.let {
             it.addConsumer(TranslucentSlidingConsumer())
                     .enableRight() //启用左右两侧侧滑
                     .addListener(object : SimpleSwipeListener() {
@@ -58,7 +66,7 @@ class ArrivalTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecycler
                             }
                         }
                     })
-        }
+        }*/
 
         /**
          * @qty 本车数量
@@ -87,14 +95,15 @@ class ArrivalTrunkDepartureScanOperatingAdapter(context: Context) : BaseRecycler
         var goods_number_ifo_tv = itemView.findViewById<TextView>(R.id.goods_number_ifo_tv)
         var operating_progressbar = itemView.findViewById<ProgressBar>(R.id.operating_progressbar)
         var father_fl = itemView.findViewById<FrameLayout>(R.id.father_fl)
+        var look_information_ll: LinearLayout = itemView.findViewById(R.id.look_information_ll)
 
         //侧滑删除
-        var mSwipeConsumer: SmartSwipeWrapper? = null
+//        var mSwipeConsumer: SmartSwipeWrapper =SmartSwipe.wrap(father_fl)
 
         //                .addConsumer(TranslucentSlidingConsumer())
 //                .enableRight() //启用左右两侧侧滑
         constructor(itemView: View) : super(itemView) {
-            mSwipeConsumer = SmartSwipe.wrap(father_fl)
+//            mSwipeConsumer = SmartSwipe.wrap(father_fl)
 
         }
 

@@ -27,6 +27,7 @@ import com.arcsoft.face.LivenessInfo;
 import com.arcsoft.face.enums.DetectFaceOrientPriority;
 import com.arcsoft.face.enums.DetectMode;
 import com.mbcq.accountlibrary.R;
+import com.mbcq.baselibrary.dialog.common.TalkSureDialog;
 import com.mbcq.baselibrary.ui.BaseActivity;
 import com.mbcq.baselibrary.view.SingleClick;
 import com.mbcq.commonlibrary.facerecognition.CameraHelper;
@@ -556,6 +557,13 @@ public class RegisterAndRecognizeActivity extends BaseActivity implements ViewTr
                         public void onNext(Boolean success) {
                             String result = success ? "register success!" : "register failed!";
                             showToast(result);
+                            new TalkSureDialog(mContext,getScreenWidth(),"注册成功，点击返回！",new TalkSureDialog.OnClickInterface(){
+
+                                @Override
+                                public void onClick(View view) {
+
+                                }
+                            }).show();
                             registerStatus = REGISTER_STATUS_DONE;
                         }
 
@@ -714,6 +722,13 @@ public class RegisterAndRecognizeActivity extends BaseActivity implements ViewTr
                             }
                             requestFeatureStatusMap.put(requestId, RequestFeatureStatus.SUCCEED);
                             faceHelper.setName(requestId, getString(R.string.recognize_success_notice, compareResult.getUserName()));
+                            new TalkSureDialog(mContext,getScreenWidth(),"验证通过，点击登录！",new TalkSureDialog.OnClickInterface(){
+
+                                @Override
+                                public void onClick(View view) {
+
+                                }
+                            }).show();
 
                         } else {
                             faceHelper.setName(requestId, getString(R.string.recognize_failed_notice, "NOT_REGISTERED"));

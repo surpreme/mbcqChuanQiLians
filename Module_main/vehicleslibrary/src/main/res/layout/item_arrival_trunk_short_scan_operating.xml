@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mSwipeMenuLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="5dp"
@@ -102,23 +103,20 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:id="@+id/look_information_ll"
         android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:alpha="0.7"
-        android:visibility="gone"
-        android:layout_marginLeft="5dp"
-        android:background="@color/base_grayDark"
-        app:cardCornerRadius="8dp">
+        android:layout_height="match_parent"
+        android:background="@color/base_orange"
+        android:gravity="center">
 
         <TextView
-            android:id="@+id/look_information_tv"
-            android:layout_width="150dp"
-            android:layout_height="60dp"
+            android:id="@+id/tv_look_information"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="查看详情"
-            android:textColor="@color/base_blue"
+            android:text="查看"
+            android:textColor="@color/white"
             android:textSize="22sp" />
-    </androidx.cardview.widget.CardView>
-</FrameLayout>
+    </LinearLayout>
+</com.mcxtzhang.swipemenulib.SwipeMenuLayout>

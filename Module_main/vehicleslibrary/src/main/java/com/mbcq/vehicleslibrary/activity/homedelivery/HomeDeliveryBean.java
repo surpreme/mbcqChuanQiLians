@@ -1,4 +1,8 @@
-package com.mbcq.orderlibrary.activity.homedelivery;
+package com.mbcq.vehicleslibrary.activity.homedelivery;
+
+import com.mbcq.vehicleslibrary.activity.homedeliveryhouse.HomeDeliveryHouseBean;
+
+import java.util.List;
 
 public class HomeDeliveryBean {
 
@@ -41,6 +45,8 @@ public class HomeDeliveryBean {
     private String confirmMan;
     private String confirmMan1;
     private String sfaccHuiKou;
+    private String commonStr="";
+    private List<HomeDeliveryHouseBean> pickUpdetLst;
 
     public String getId() {
         return id;
@@ -184,5 +190,21 @@ public class HomeDeliveryBean {
 
     public void setSfaccHuiKou(String sfaccHuiKou) {
         this.sfaccHuiKou = sfaccHuiKou;
+    }
+
+    public List<HomeDeliveryHouseBean> getPickUpdetLst() {
+        return pickUpdetLst;
+    }
+
+    public void setPickUpdetLst(List<HomeDeliveryHouseBean> pickUpdetLst) {
+        this.pickUpdetLst = pickUpdetLst;
+    }
+
+    public String getCommonStr() {
+        return commonStr;
+    }
+
+    public void setCommonStr(String commonStr) {
+        this.commonStr = commonStr;
     }
 }

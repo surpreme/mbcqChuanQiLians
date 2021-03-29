@@ -224,6 +224,10 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
                          *  多件扫描start------------------------------------------------------
                          */
                         if (item.totalQty > 20) {
+                            if (item.waybillFcdQty <= 0) {
+                                showToast("该票${item.billno}已经扫描完毕")
+                                return
+                            }
                             ScanNumDialog(item.waybillFcdQty, 1, object : OnClickInterface.OnClickInterface {
                                 override fun onResult(x1: String, x2: String) {
                                     if (isInteger(x1)) {
@@ -572,7 +576,7 @@ class DepartureTrunkDepartureUnPlanScanOperatingActivity : BaseDepartureTrunkDep
         var mShowBillnoLable = ""
         val obj = JSONObject(result)
         val listAry = obj.optJSONArray("data")
-        for (mCCCIndex in totalQty downTo  1) {
+        for (mCCCIndex in totalQty downTo 1) {
             val endBillno = billno + if (mCCCIndex.toString().length == 1) "000$mCCCIndex" else if (mCCCIndex.toString().length == 2) "00$mCCCIndex" else if (mCCCIndex.toString().length == 3) "0$mCCCIndex" else if (mCCCIndex.toString().length == 4) "$mCCCIndex" else ""
             listAry?.let {
                 var isHas = false

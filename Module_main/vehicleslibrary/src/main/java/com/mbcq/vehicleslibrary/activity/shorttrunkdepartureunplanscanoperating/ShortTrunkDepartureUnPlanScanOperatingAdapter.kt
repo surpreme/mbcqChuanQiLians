@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -37,12 +38,6 @@ class ShortTrunkDepartureUnPlanScanOperatingAdapter(context: Context) : BaseRecy
         context?.let {
             holder.operating_progressbar.progressDrawable = ContextCompat.getDrawable(context, if (mDatas[position].waybillFcdQty == 0) R.drawable.progress_indeterminate_green_horizontal else R.drawable.progress_indeterminate_horizontal)
         }
-        holder.look_information_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View) {
-                mOnLookInformationInterface?.lookInfo(v, position, mDatas[position])
-            }
-
-        })
         holder.father_cl.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
                 //库存为0 不可再扫描
@@ -65,22 +60,13 @@ class ShortTrunkDepartureUnPlanScanOperatingAdapter(context: Context) : BaseRecy
          */
         holder.goods_number_ifo_tv.text = "已扫:${mDatas[position].unLoadQty}     本车:${mDatas[position].unLoadQty}    剩余:${mDatas[position].waybillFcdQty}     总件数:${mDatas[position].totalQty}"
         holder.operating_progressbar.progress = if (mDatas[position].unLoadQty == 0) 0 else if (mDatas[position].unLoadQty == (mDatas[position].unLoadQty + mDatas[position].waybillFcdQty)) 100 else ((mDatas[position].unLoadQty * 100) / (mDatas[position].unLoadQty + mDatas[position].waybillFcdQty))
-        //侧滑删除
-        SmartSwipe.wrap(holder.father_fl)
-                .addConsumer(TranslucentSlidingConsumer())
-                .enableRight() //启用左右两侧侧滑
-                .addListener(object : SimpleSwipeListener() {
-                    override fun onSwipeOpened(wrapper: SmartSwipeWrapper?, consumer: SwipeConsumer, direction: Int) {
-                        super.onSwipeOpened(wrapper, consumer, direction)
-                        if (direction == SwipeConsumer.DIRECTION_RIGHT) {
-                            mOnLookInformationInterface?.lookInfo(holder.father_fl, position, mDatas[position])
-                        } else if (direction == SwipeConsumer.DIRECTION_LEFT) {
-//                            mOnLookInformationInterface?.lookAllInfo(holder.father_fl, position, mDatas[position])
+        holder.look_information_ll.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View) {
+                mOnLookInformationInterface?.lookInfo(v, position, mDatas[position])
 
-                        }
-                    }
-                })
+            }
 
+        })
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -90,7 +76,7 @@ class ShortTrunkDepartureUnPlanScanOperatingAdapter(context: Context) : BaseRecy
         var address_tv = itemView.findViewById<TextView>(R.id.address_tv)
         var goods_name_tv = itemView.findViewById<TextView>(R.id.goods_name_tv)
         var goods_number_ifo_tv = itemView.findViewById<TextView>(R.id.goods_number_ifo_tv)
-        var look_information_tv = itemView.findViewById<TextView>(R.id.look_information_tv)
+        var look_information_ll: LinearLayout = itemView.findViewById(R.id.look_information_ll)
         var father_cl = itemView.findViewById<ConstraintLayout>(R.id.father_cl)
         var father_fl = itemView.findViewById<FrameLayout>(R.id.father_fl)
 

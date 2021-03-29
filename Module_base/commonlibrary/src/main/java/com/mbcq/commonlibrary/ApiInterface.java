@@ -113,6 +113,23 @@ public class ApiInterface {
      */
     public static final String WAYBILL_RECORD_DELETE_INFO_POST = BASE_URI + "WaybillOpe/DelWaybill";
 
+    /**
+     * 上门提货  按运单获取库存
+     */
+    public static final String HOME_DELIVERY_INVENTORY_GET = BASE_URI + "PickUpOpe/SelWaybillByCondition";
+    /**
+     * 上门提货  获取车辆内的运单
+     */
+    public static final String HOME_DELIVERY_LOADING_GET = BASE_URI + "PickUpOpe/SelPickUpDetByCondition";
+  /**
+     * 上门提货  剔除
+     */
+    public static final String HOME_DELIVERY_REMOVE_ITEM_GET = BASE_URI + "PickUpOpe/DelPickUpOpeByCondition";
+  /**
+     * 上门提货  添加
+     */
+    public static final String HOME_DELIVERY_ADD_ITEM_GET = BASE_URI + "PickUpOpe/AddPickUpJoinOpeByCondition";
+
 
     /**
      * --------------------------------------------------------------------------------------------------------------
@@ -308,6 +325,10 @@ public class ApiInterface {
      * 完成短驳发车
      */
     public static final String COMPELETE_SHORT_TRANSFER_DEPARTURE_BATCH_NUMBER_POST = BASE_URI + "DbVehicleOpe/AddDbVehicle";
+    /**
+     * 完成上门提货
+     */
+    public static final String COMPELETE_HOME_DELIVERY_HOUSE_POST = BASE_URI + "PickUpOpe/AddPickUpOpeByCondition";
     /**
      * 完成干线发车
      */
@@ -757,6 +778,10 @@ public class ApiInterface {
      * 上门提货 获取记录
      */
     public static final String HOME_DELIVERY_RECORD_GET = BASE_URI + "PickUpOpe/SelPickUpByCondition";
+    /**
+     * 上门提货 作废
+     */
+    public static final String HOME_DELIVERY_RECORD_REMOVE_POST = BASE_URI + "PickUpOpe/UpdPickUpOpeByCondition";
 
     /**
      * 新增 上门提货 获取发车批次

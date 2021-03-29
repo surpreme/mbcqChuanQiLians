@@ -24,6 +24,7 @@ import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.fixedscandeparturetrunkconfiguration.FixedScanDepartureTrunkConfigurationBean
 import kotlinx.android.synthetic.main.activity_fixed_departure_trunk_configuration.*
 import org.json.JSONObject
+import java.lang.Exception
 
 
 /**
@@ -50,6 +51,7 @@ class FixedDepartureTrunkConfigurationActivity : BaseFixedDepartureTrunkConfigur
         super.initDatas()
         mPresenter?.getCarInfo(JSONObject(mLastDataNo).optString("InoneVehicleFlag"))
     }
+
     override fun onClick() {
         super.onClick()
         commit_btn.apply {
@@ -190,35 +192,43 @@ class FixedDepartureTrunkConfigurationActivity : BaseFixedDepartureTrunkConfigur
     }
 
     override fun getCarInfoS(data: FixedScanDepartureTrunkConfigurationBean) {
-        mFixedId = data.id
-        contract_No_tv.text = data.inoneVehicleFlag
-        number_plate_tv.text = data.vehicleNo
-        destination_tv.text = data.ewebidCodeStr
-        oil_card_first_tv.text = data.ewebidCodeStr1
-        oil_card_second_tv.text = data.ewebidCodeStr2
-        oil_card_third_tv.text = data.ewebidCodeStr3
-        total_freight_tv.text = data.accTansSum.toString()// 运费合计
-        mWebCodeId = data.ewebidCode.toString()
-        mFirstEwebidCode = data.ewebidCode1.toString()
-        mSencondEwebidCode = data.ewebidCode2.toString()
-        mThridEwebidCode = data.ewebidCode3.toString()
-        mToPayTotalPrice = data.accArrSum.toString()// 到付合计
-        driver_name_ed.setText(data.chauffer)
-        contact_number_ed.setText(data.chaufferMb)
-        oil_card_first_ed.setText(data.accArrived1.toString())
-        oil_card_second_ed.setText(data.accArrived2.toString())
-        oil_card_third_ed.setText(data.accArrived3.toString())
-        cash_freight_ed.setText(data.accNow.toString())// 现付
-        return_freight_ed.setText(data.accBack.toString())// 回付
-        cash_card_ed.setText(data.accYk.toString())// 油费
-        oil_card_number_ed.setText(data.ykCard.toString())// 油卡
-        loading_fee_ed.setText(data.accZx.toString())// 装卸费
-        /**
-         * 普运  马帮快线 补发数据
-         */
-        mode_transport_rg.check(if (data.transneedStr == "普运") 0 else if (data.transneedStr == "马帮快线") 1 else 2)
-        mTransneedStr = data.transneedStr
-        mPresenter?.geSelectVehicles(data.vehicleNo, data.chaufferMb)
+        try {
+            mFixedId = data.id
+            contract_No_tv.text = data.inoneVehicleFlag
+            number_plate_tv.text = data.vehicleNo
+            destination_tv.text = data.ewebidCodeStr
+            oil_card_first_tv.text = data.ewebidCodeStr1
+            oil_card_second_tv.text = data.ewebidCodeStr2
+            oil_card_third_tv.text = data.ewebidCodeStr3
+            total_freight_tv.text = data.accTansSum.toString()// 运费合计
+            mWebCodeId = data.ewebidCode.toString()
+            mFirstEwebidCode = data.ewebidCode1.toString()
+            mSencondEwebidCode = data.ewebidCode2.toString()
+            mThridEwebidCode = data.ewebidCode3.toString()
+            mToPayTotalPrice = data.accArrSum.toString()// 到付合计
+            driver_name_ed.setText(data.chauffer)
+            contact_number_ed.setText(data.chaufferMb)
+            oil_card_first_ed.setText(data.accArrived1.toString())
+            oil_card_second_ed.setText(data.accArrived2.toString())
+            oil_card_third_ed.setText(data.accArrived3.toString())
+            cash_freight_ed.setText(data.accNow.toString())// 现付
+            return_freight_ed.setText(data.accBack.toString())// 回付
+            cash_card_ed.setText(data.accYk.toString())// 油费
+            oil_card_number_ed.setText(getBeanString(data.ykCard))// 油卡
+            loading_fee_ed.setText(data.accZx.toString())// 装卸费
+            /**
+             * 普运  马帮快线 补发数据
+             */
+            mode_transport_rg.check(if (data.transneedStr == "普运") 0 else if (data.transneedStr == "马帮快线") 1 else 2)
+            mTransneedStr = data.transneedStr
+            mPresenter?.geSelectVehicles(data.vehicleNo, data.chaufferMb)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            TalkSureDialog(mContext, getScreenWidth(), "数据异常，点击返回！") {
+                onBackPressed()
+            }.show()
+        }
+
     }
 
     override fun getVehicleS(result: String) {

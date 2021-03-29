@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -43,22 +44,13 @@ class ArrivalShortScanOperatingAdapter(context: Context) : BaseRecyclerAdapter<A
             }
 
         })
-        //侧滑删除
-        holder.mSwipeConsumer?.let {
-            it.addConsumer(TranslucentSlidingConsumer())
-                    .enableRight() //启用左右两侧侧滑
-                    .addListener(object : SimpleSwipeListener() {
-                        override fun onSwipeOpened(wrapper: SmartSwipeWrapper?, consumer: SwipeConsumer, direction: Int) {
-                            super.onSwipeOpened(wrapper, consumer, direction)
-                            if (direction == SwipeConsumer.DIRECTION_RIGHT) {
-                                mOnLookInformationInterface?.lookInfo(holder.father_fl, position, mDatas[position])
-                            } else if (direction == SwipeConsumer.DIRECTION_LEFT) {
-//                            mOnLookInformationInterface?.lookAllInfo(holder.father_fl, position, mDatas[position])
+        holder.look_information_ll.setOnClickListener(object :SingleClick(){
+            override fun onSingleClick(v: View) {
+                mOnLookInformationInterface?.lookInfo(v, position, mDatas[position])
 
-                            }
-                        }
-                    })
-        }
+            }
+
+        })
 
         /**
          * @qty 本车数量
@@ -79,7 +71,7 @@ class ArrivalShortScanOperatingAdapter(context: Context) : BaseRecyclerAdapter<A
 
     }
 
-    class ItemViewHolder : RecyclerView.ViewHolder {
+    class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var billno_tv = itemView.findViewById<TextView>(R.id.billno_tv)
         var receiver_tv = itemView.findViewById<TextView>(R.id.receiver_tv)
         var address_tv = itemView.findViewById<TextView>(R.id.address_tv)
@@ -87,16 +79,7 @@ class ArrivalShortScanOperatingAdapter(context: Context) : BaseRecyclerAdapter<A
         var goods_number_ifo_tv = itemView.findViewById<TextView>(R.id.goods_number_ifo_tv)
         var operating_progressbar = itemView.findViewById<ProgressBar>(R.id.operating_progressbar)
         var father_fl = itemView.findViewById<FrameLayout>(R.id.father_fl)
-
-        //侧滑删除
-        var mSwipeConsumer: SmartSwipeWrapper? = null
-
-        //                .addConsumer(TranslucentSlidingConsumer())
-//                .enableRight() //启用左右两侧侧滑
-        constructor(itemView: View) : super(itemView) {
-            mSwipeConsumer = SmartSwipe.wrap(father_fl)
-
-        }
+        var look_information_ll: LinearLayout = itemView.findViewById(R.id.look_information_ll)
 
 
     }

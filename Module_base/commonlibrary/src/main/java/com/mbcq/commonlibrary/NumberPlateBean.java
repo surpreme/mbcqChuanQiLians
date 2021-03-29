@@ -7,7 +7,7 @@ public class NumberPlateBean {
      * companyid : 2001
      * vehicleno : 浙G12362
      * vehicletype : 1
-     * vehicleshape : 0
+     * "vehicleshape": "集装箱",
      * vlength : 12.0
      * vwidth : 16.0
      * vheight : 2001.0
@@ -44,7 +44,6 @@ public class NumberPlateBean {
      * vusetype : 0
      * oilwear : 12.0
      * Israliable : 0
-     * vehicleshape:
      */
 
     private int id;

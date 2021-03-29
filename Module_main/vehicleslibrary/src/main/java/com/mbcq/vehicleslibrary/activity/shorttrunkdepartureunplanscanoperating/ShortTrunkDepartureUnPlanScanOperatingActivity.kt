@@ -225,6 +225,10 @@ class ShortTrunkDepartureUnPlanScanOperatingActivity : BaseShortTrunkDepartureUn
                          *  多件扫描start------------------------------------------------------
                          */
                         if (item.totalQty > 20) {
+                            if (item.waybillFcdQty <= 0) {
+                                showToast("该票${item.billno}已经扫描完毕")
+                                return
+                            }
                             ScanNumDialog(item.waybillFcdQty, 1, object : OnClickInterface.OnClickInterface {
                                 override fun onResult(x1: String, x2: String) {
                                     if (isInteger(x1)) {

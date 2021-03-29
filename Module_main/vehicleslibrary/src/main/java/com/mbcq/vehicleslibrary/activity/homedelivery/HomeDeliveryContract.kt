@@ -1,4 +1,4 @@
-package com.mbcq.orderlibrary.activity.homedelivery
+package com.mbcq.vehicleslibrary.activity.homedelivery
 
 import com.mbcq.baselibrary.ui.mvp.BasePresenter
 import com.mbcq.baselibrary.ui.mvp.BaseView
@@ -13,10 +13,13 @@ class HomeDeliveryContract {
     interface View : BaseView {
 
         fun getPageS(list: List<HomeDeliveryBean>)
+        fun onDeleteS(position: Int)
+
     }
 
     interface Presenter : BasePresenter<View> {
         fun getPage(page: Int, selWebidCode: String, startDate: String, endDate: String)
+        fun onDelete(json: String, position: Int)
 
     }
 }

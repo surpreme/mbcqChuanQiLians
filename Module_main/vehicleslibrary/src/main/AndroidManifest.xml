@@ -3,6 +3,7 @@
     package="com.mbcq.vehicleslibrary">
 
     <application>
+        <activity android:name=".activity.fixhomedeliveryhouse.FixHomeDeliveryHouseActivity"></activity>
         <activity android:name=".activity.arrivalvehiclesscan.arrivalvehiclestrunkscan.ArrivalVehiclesScanShortTrunkActivity" />
         <activity android:name=".activity.arrivalvehiclesscan.arrivalvehiclesshortscan.ArrivalVehiclesScanShortActivity" />
         <activity android:name=".activity.arrivalshortscanoperatinginfo.ArrivalShortScanOperatingMoreInfoActivityActivity" />

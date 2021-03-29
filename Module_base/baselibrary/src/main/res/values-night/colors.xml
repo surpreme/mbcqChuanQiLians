@@ -9,10 +9,10 @@
     <!--    深灰色-->
     <color name="base_grayDark">#A0A1A4</color>
     <color name="base_red">#FF0000</color>
-    <color name="base_blue">#44536DFF</color>
+    <color name="base_blue">#536DFF</color>
     <color name="base_gold">#CAA93F</color>
-    <color name="base_un_green">#9CF3FDF0</color>
-    <color name="base_green">#443EEE0A</color>
+    <color name="base_un_green">#F3FDF0</color>
+    <color name="base_green">#3EEE0A</color>
     <color name="base_scan_background_green">#ACFDB2</color>
     <color name="base_coffee">#F2AD4A</color>
     <color name="dark_keyboard">#9d472c</color>

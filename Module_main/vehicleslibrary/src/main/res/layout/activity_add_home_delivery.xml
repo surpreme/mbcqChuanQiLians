@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.addhomedelivery.AddHomeDeliveryActivity">
+    tools:context="com.mbcq.vehicleslibrary.activity.addhomedelivery.AddHomeDeliveryActivity">
 
     <com.mbcq.baselibrary.view.CnToolbar
         android:id="@+id/add_home_delivery_toolbar"
