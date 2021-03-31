@@ -115,17 +115,14 @@ class ArrivalInventoryPresenter : BasePresenterImpl<ArrivalInventoryContract.Vie
         params.put("Limit", 15)
         params.put("StartDate", startDate)
         params.put("EndDate", endDate)
-        params.put("SelType", 12)
-        params.put("selloc", 12)
-        mView?.getContext()?.let {
-            params.put("SelWebidCode", selWebidCode)
-
-        }
+        params.put("SelType", 13)
+//        params.put("selloc", 12)
+        params.put("SelWebidCode", selWebidCode)
         get<String>(ApiInterface.ARRIVAL_INVENTORY_SELECTED_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {
-                    mView?.getPageS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<ArrivalInventoryBean>>() {}.type),page,obj.optString("count"))
+                    mView?.getPageS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<ArrivalInventoryBean>>() {}.type), page, obj.optString("count"))
 
                 }
 

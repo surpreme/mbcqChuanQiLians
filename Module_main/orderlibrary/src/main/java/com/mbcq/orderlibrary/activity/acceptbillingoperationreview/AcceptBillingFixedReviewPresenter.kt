@@ -11,6 +11,11 @@ import org.json.JSONObject
  */
 
 class AcceptBillingFixedReviewPresenter : BasePresenterImpl<AcceptBillingFixedReviewContract.View>(), AcceptBillingFixedReviewContract.Presenter {
+    /**
+     * "updateItem": "订单号－付货方式－发货人手机号－",
+     *   "UpdateBeforeContent": "123－客户自提－13916742298－",
+     *"UpdateAfterContent": "1234－自提－13916742299－"
+     */
     override fun getReviewData(billno: String) {
         val params = HttpParams()
         params.put("billno", billno)
@@ -19,7 +24,10 @@ class AcceptBillingFixedReviewPresenter : BasePresenterImpl<AcceptBillingFixedRe
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {
                     if (!it.isNull(0)) {
-                        mView?.getReviewDataS(it.getJSONObject(0).optString("updateContent"), it.getJSONObject(0).optString("updateRemark"))
+                        val itemObj=it.getJSONObject(0)
+                        mView?.getReviewDataS(itemObj.optString("updateContent"), itemObj.optString("updateRemark"),itemObj.optString("opeDate")+"   "+itemObj.optString("opeMan")+"   "+itemObj.optString("opeWebidCodeStr"))
+
+                        mView?.getReviewMoreFixDataS(itemObj.optString("updateItem").split("－"),itemObj.optString("UpdateBeforeContent").split("－"),itemObj.optString("UpdateAfterContent").split("－"))
 
                     }
 

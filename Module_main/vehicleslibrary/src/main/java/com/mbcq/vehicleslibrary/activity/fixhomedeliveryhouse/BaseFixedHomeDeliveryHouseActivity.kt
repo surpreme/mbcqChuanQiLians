@@ -1,4 +1,4 @@
-package com.mbcq.vehicleslibrary.activity.homedeliveryhouse
+package com.mbcq.vehicleslibrary.activity.fixhomedeliveryhouse
 
 
 import android.annotation.SuppressLint
@@ -16,7 +16,10 @@ import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
-import kotlinx.android.synthetic.main.activity_home_delivery_house.*
+import com.mbcq.vehicleslibrary.activity.homedeliveryhouse.HomeDeliveryHouseBean
+import com.mbcq.vehicleslibrary.activity.homedeliveryhouse.HomeDeliveryHouseInventoryAdapter
+import com.mbcq.vehicleslibrary.activity.homedeliveryhouse.HomeDeliveryHouseLoadingAdapter
+import kotlinx.android.synthetic.main.activity_fix_home_delivery_house.*
 
 
 /**
@@ -24,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_home_delivery_house.*
  * @time: 2021-01-14 17:59:02 上门提货
  *
  */
-abstract class BaseHomeDeliveryHouseActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
+abstract class BaseFixedHomeDeliveryHouseActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
 
     var mDepartureLot = ""
 
@@ -78,8 +81,8 @@ abstract class BaseHomeDeliveryHouseActivity<V : BaseView, T : BasePresenterImpl
                                 mTotalQty += item.totalQty.toInt()
                             if (item.accCc.toDoubleOrNull() != null)
                                 mForkliftFee += item.accCc.toDouble()
-                            if (item.accZx.toDoubleOrNull() != null)
-                                mLoadingFee += item.accZx.toDouble()
+                            if (item.accZxf.toDoubleOrNull() != null)
+                                mLoadingFee += item.accZxf.toDouble()
 
                         }
                         over_total_info_tv.text = "已 装  车：${it.getAllData().size} 票 $mTotalQty 件 ${haveTwoDouble(mToTalWeight)} Kg ${haveTwoDouble(mToTalVolume)} 方      ${haveTwoDouble(mPrice)}元"
@@ -239,7 +242,7 @@ abstract class BaseHomeDeliveryHouseActivity<V : BaseView, T : BasePresenterImpl
 
     override fun onClick() {
         super.onClick()
-        home_delivery_house_toolbar.setBackButtonOnClickListener(object : SingleClick() {
+        fix_home_delivery_house_toolbar.setBackButtonOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 onBackPressed()
             }

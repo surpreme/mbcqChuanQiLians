@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
+import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
 
 class ArrivalInventoryAdapter(context: Context?) :BaseRecyclerAdapter<ArrivalInventoryBean>(context){
@@ -26,6 +27,12 @@ class ArrivalInventoryAdapter(context: Context?) :BaseRecyclerAdapter<ArrivalInv
         holder.receiver_tv.text = mDatas[position].consignee
         holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].qty}件 ${mDatas[position].volumn}m³ ${mDatas[position].packages} ${mDatas[position].weight}Kg ${mDatas[position].accTypeStr}${mDatas[position].accSum}  "
         holder.waybill_state_tv.text = mDatas[position].billStateStr
+        holder.itemView.setOnClickListener(object :SingleClick(){
+            override fun onSingleClick(v: View) {
+                mClickInterface?.onItemClick(v,position,mDatas[position].billno)
+            }
+
+        })
     }
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var waybill_number_tv: TextView = itemView.findViewById(R.id.waybill_number_tv)

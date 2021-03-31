@@ -16,10 +16,11 @@ class FixHomeDeliveryHouseContract {
     interface View : BaseView {
         fun getInventoryS(list: List<HomeDeliveryHouseBean>)
         fun getLoadingS(list: List<HomeDeliveryHouseBean>)
-        fun removeOrderItemS(position: Int, item: HomeDeliveryHouseBean)
-        fun addOrderItemS(position: Int, item: HomeDeliveryHouseBean)
+//        fun removeOrderItemS(position: Int, item: HomeDeliveryHouseBean)
+//        fun addOrderItemS(position: Int, item: HomeDeliveryHouseBean)
         fun removeOrderS()
         fun addOrderS()
+        fun overOrderS()
     }
 
     interface Presenter : BasePresenter<View> {
@@ -32,6 +33,7 @@ class FixHomeDeliveryHouseContract {
          *
          */
         fun getLoading(id: String)
+        fun overOrder(orderData: String,id: String,intentJson:String)
         fun removeOrder(removeOrderData: String)
         fun addOrder(removeOrderData: String)
         fun removeOrderItem(removeOrderData: String, position: Int, item: HomeDeliveryHouseBean)

@@ -18,6 +18,8 @@ import com.mbcq.baselibrary.view.BaseItemDecoration
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.orderlibrary.R
+import com.mbcq.orderlibrary.fragment.waybillinformation.WaybillInformationFixedTableAdapter
+import com.mbcq.orderlibrary.fragment.waybillinformation.WaybillInformationFixedTableBean
 import com.mbcq.orderlibrary.fragment.waybillinformation.WaybillInformationTableAdapter
 import com.mbcq.orderlibrary.fragment.waybillinformation.WaybillInformationTableBean
 import kotlinx.android.synthetic.main.activity_accept_billing_fixed_review.*
@@ -36,6 +38,7 @@ class AcceptBillingFixedReviewActivity : BaseMVPActivity<AcceptBillingFixedRevie
     @JvmField
     var mAcceptBillingFixedReview: String = ""
     var mWaybillInformationTableAdapter: WaybillInformationTableAdapter? = null
+    var mWaybillInformationFixedTableAdapter: WaybillInformationFixedTableAdapter? = null
 
     override fun getLayoutId(): Int = R.layout.activity_accept_billing_fixed_review
     override fun initExtra() {
@@ -51,9 +54,14 @@ class AcceptBillingFixedReviewActivity : BaseMVPActivity<AcceptBillingFixedRevie
         if (mToolbarShowType == 3) {
             review_btn.visibility = View.GONE
         }
+        //***************************************************************************||*********************************************************************************
         waybill_information_table_recycler.layoutManager = LinearLayoutManager(mContext)
+        waybill_fixed_information_table_recycler.layoutManager = LinearLayoutManager(mContext)
         mWaybillInformationTableAdapter = WaybillInformationTableAdapter(mContext).also {
             waybill_information_table_recycler.adapter = it
+        }
+        mWaybillInformationFixedTableAdapter = WaybillInformationFixedTableAdapter(mContext).also {
+            waybill_fixed_information_table_recycler.adapter = it
         }
         waybill_information_table_recycler.addItemDecoration(object : BaseItemDecoration(mContext) {
             override fun configExtraSpace(position: Int, count: Int, rect: Rect) {
@@ -65,12 +73,24 @@ class AcceptBillingFixedReviewActivity : BaseMVPActivity<AcceptBillingFixedRevie
             }
 
         })
+        waybill_fixed_information_table_recycler.addItemDecoration(object : BaseItemDecoration(mContext) {
+            override fun configExtraSpace(position: Int, count: Int, rect: Rect) {
+                rect.top = ScreenSizeUtils.dp2px(mContext, 1f)
+            }
+
+            override fun doRule(position: Int, rect: Rect) {
+                rect.bottom = rect.top
+            }
+
+        })
+        //***************************************************************************||*********************************************************************************
     }
 
     override fun initDatas() {
         super.initDatas()
-        mPresenter?.getReviewData(JSONObject(mAcceptBillingFixedReview).optString("billno"))
-        mPresenter?.getOrderData(JSONObject(mAcceptBillingFixedReview).optString("billno"))
+        val mXBillno = JSONObject(mAcceptBillingFixedReview).optString("billno")
+        mPresenter?.getReviewData(mXBillno)
+        mPresenter?.getOrderData(mXBillno)
     }
 
     override fun onClick() {
@@ -93,10 +113,34 @@ class AcceptBillingFixedReviewActivity : BaseMVPActivity<AcceptBillingFixedRevie
 
 
     @SuppressLint("SetTextI18n")
-    override fun getReviewDataS(modifyContent: String, modifyReason: String) {
-        fixed_order_info_tv.text = "修改内容：${modifyContent}"
+    override fun getReviewDataS(modifyContent: String, modifyReason: String, modifyManInfoStr: String) {
+//        fixed_order_info_tv.text = "修改内容：${modifyContent}"
         fixed_reason_order_info_tv.text = "修改原因：${modifyReason}"
+        applicant_info_tv.text = modifyManInfoStr
 
+    }
+
+    override fun getReviewMoreFixDataS(titlesStr: List<String>, beforeStr: List<String>, afterStr: List<String>) {
+        if (titlesStr.lastIndex == beforeStr.lastIndex && beforeStr.lastIndex == afterStr.lastIndex) {
+            val recyList = mutableListOf<WaybillInformationFixedTableBean>()
+            val mTitleBean = WaybillInformationFixedTableBean()
+            mTitleBean.contentStr = "修改内容"
+            mTitleBean.beforeStr = "旧信息"
+            mTitleBean.endStr = "新信息"
+            mTitleBean.isTitles = true
+            recyList.add(mTitleBean)
+            for (index in 0 until titlesStr.size) {
+                if (titlesStr[index].isBlank() && beforeStr[index].isBlank() && afterStr[index].isBlank())
+                    continue
+                val mWaybillInformationFixedTableBean = WaybillInformationFixedTableBean()
+                mWaybillInformationFixedTableBean.contentStr = titlesStr[index]
+                mWaybillInformationFixedTableBean.beforeStr = beforeStr[index]
+                mWaybillInformationFixedTableBean.endStr = afterStr[index]
+                mWaybillInformationFixedTableBean.isTitles = false
+                recyList.add(mWaybillInformationFixedTableBean)
+            }
+            mWaybillInformationFixedTableAdapter?.appendData(recyList)
+        }
     }
 
     override fun getOrderDataNull(billno: String) {

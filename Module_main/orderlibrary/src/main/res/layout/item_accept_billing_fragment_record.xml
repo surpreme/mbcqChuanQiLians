@@ -8,17 +8,29 @@
     tools:context="com.mbcq.orderlibrary.fragment.fixedwaybill.FixedWaybillFragmentAdapter">
 
     <TextView
+        android:id="@+id/fix_waybill_state_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:text="已审核"
+        android:textColor="@color/base_red"
+        android:textSize="16sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/fixed_waybill_info_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="20dp"
-        android:lineSpacingExtra="10dp"
-        tools:text="修改时间：2020-11-11  12:12\n修  改 人：吴轩\n修改原因：实话实说，你填写错了"
+        android:lineSpacingExtra="7dp"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="修改时间：2020-11-11  12:12\n修  改 人：吴轩\n修改原因：实话实说，你填写错了" />
 
     <TextView
         android:id="@+id/fixed_waybill_content_title_tv"
@@ -33,39 +45,27 @@
         android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/fixed_waybill_info_tv" />
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fixed_waybill_table_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/fixed_waybill_content_title_tv">
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/fixed_waybill_content_title_tv" />
 
-        <TextView
-            android:id="@+id/fixed_waybill_content_left_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:lineSpacingExtra="10dp"
-            tools:text="原运费合计：1000\n原   件   数：111\n操   作   端：PC"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/fixed_waybill_content_right_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:lineSpacingExtra="10dp"
-            tools:text="修  改 后：1200\n修  改 后：123"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
-
+    <TextView
+        android:id="@+id/device_from_info_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:lineSpacingExtra="7dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/fixed_waybill_table_recycler"
+        tools:text="移动端" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

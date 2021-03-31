@@ -24,6 +24,8 @@ import com.mbcq.orderlibrary.fragment.waybillpictures.WaybillPictureFragment
 import com.mbcq.orderlibrary.fragment.waybillroad.WaybillRoadBottomFragment
 import com.mbcq.orderlibrary.fragment.waybillscan.WaybillScanFragment
 import kotlinx.android.synthetic.main.activity_waybill_details.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.json.JSONObject
 
 /**
@@ -36,6 +38,7 @@ class WaybillDetailsActivity : BaseMVPActivity<WaybillDetailsContract.View, Wayb
     @Autowired(name = "WaybillDetails")
     @JvmField
     var mLastDataNo: String = ""
+    override fun isOpenEventBus(): Boolean = true
 
     override fun getLayoutId(): Int = R.layout.activity_waybill_details
     override fun initExtra() {
@@ -53,6 +56,13 @@ class WaybillDetailsActivity : BaseMVPActivity<WaybillDetailsContract.View, Wayb
         mPresenter?.getWaybillDetail(mLastDataNo)
     }
 
+    @SuppressLint("SetTextI18n")
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = false)
+    fun onRefreshRecordNewDataEvent(event: FixedWaybillRefreshEvent) {
+        if (event.type == 1)
+            options_index_tablayout.getTabAt(3)?.text = "改单记录(${event.number})"
+    }
+
     override fun onClick() {
         super.onClick()
         waybill_details_toolbar.setBackButtonOnClickListener(object : SingleClick() {
@@ -67,7 +77,7 @@ class WaybillDetailsActivity : BaseMVPActivity<WaybillDetailsContract.View, Wayb
         options_index_tablayout.addTab(options_index_tablayout.newTab().setText("运单信息"))
         options_index_tablayout.addTab(options_index_tablayout.newTab().setText("运单轨迹"))
         options_index_tablayout.addTab(options_index_tablayout.newTab().setText("扫描轨迹"))
-        options_index_tablayout.addTab(options_index_tablayout.newTab().setText("改单记录(x)"))
+        options_index_tablayout.addTab(options_index_tablayout.newTab().setText("改单记录"))
         options_index_tablayout.addTab(options_index_tablayout.newTab().setText("本单图片"))
         val fragments = ArrayList<Fragment>()
         fragments.add(WaybillInformationFragment())

@@ -119,13 +119,13 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
         choice_shipper_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.ChoiceShipperActivity).navigation(this@AcceptBillingActivity, RESULT_DATA_CODE)
+                ARouter.getInstance().build(ARouterConstants.ChoiceShipperActivity).navigation(this@AcceptBillingActivity)
             }
 
         })
         choice_receiver_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.ChoiceReceiverActivity).navigation(this@AcceptBillingActivity, RECEIVER_RESULT_DATA_CODE)
+                ARouter.getInstance().build(ARouterConstants.ChoiceReceiverActivity).navigation(this@AcceptBillingActivity)
             }
 
         })
@@ -1016,10 +1016,6 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         mBasicAccTransX.title = "代收货款"
         mBasicAccTransX.tag = "accDaiShou"
         mKK.add(mBasicAccTransX)
-//        val mBasicAccTrans = BaseEditTextAdapterBean()
-//        mBasicAccTrans.title = "回单服务费"
-//        mBasicAccTrans.tag = "accBackService"
-//        mKK.add(mBasicAccTrans)
         if (mEditTextAdapter == null)
             mEditTextAdapter = EditTextAdapter<BaseEditTextAdapterBean>(mContext)
         cost_information_recycler.layoutManager = GridLayoutManager(mContext, 2)
@@ -1084,7 +1080,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             closeLoading()
 
         }
-        TalkSureDialog(mContext, getScreenWidth(), showTipsStr) {
+        TalkSureDialog(mContext, getScreenWidth(), if (result.isNotBlank()) showTipsStr else "开单成功！") {
             /**
              * 重启activity
              * recreate()由于这个方法会走缓存 弃用
@@ -1236,7 +1232,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
                         val mlongitude = lalang.split(",")[1]
                         val distance: Float = AMapUtils.calculateLineDistance(LatLng(mlatitude.toDouble(), mlongitude.toDouble()), LatLng(latitude.toDouble(), longitude.toDouble()))
                         receiver_address_location_distance_tv.text = """${haveTwoDouble((distance / 1000).toDouble())}km"""
-                    }else {
+                    } else {
                         receiver_address_location_distance_tv.text = ""
                         LogUtils.e("地理代码获取失败，可能是后台未配置网点地址")
                     }

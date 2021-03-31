@@ -121,14 +121,19 @@ public class ApiInterface {
      * 上门提货  获取车辆内的运单
      */
     public static final String HOME_DELIVERY_LOADING_GET = BASE_URI + "PickUpOpe/SelPickUpDetByCondition";
-  /**
+    /**
      * 上门提货  剔除
      */
     public static final String HOME_DELIVERY_REMOVE_ITEM_GET = BASE_URI + "PickUpOpe/DelPickUpOpeByCondition";
-  /**
+    /**
      * 上门提货  添加
      */
     public static final String HOME_DELIVERY_ADD_ITEM_GET = BASE_URI + "PickUpOpe/AddPickUpJoinOpeByCondition";
+
+    /**
+     * 上门提货  修改配置
+     */
+    public static final String HOME_DELIVERY_SAVE_ITEM_CONFIGURATION_POST= BASE_URI + "PickUpOpe/AddPickUpJoinOpeByCondition";
 
 
     /**
@@ -428,7 +433,7 @@ public class ApiInterface {
      * //waybillFcd.SelType=17; selloc=17 按到货时间查询
      */
 
-    public static final String ARRIVAL_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelDhWaybillFcdByCon";
+    public static final String ARRIVAL_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelDhWaybillBillDateFcdByCon";
     /**
      * 发货库存
      */

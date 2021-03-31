@@ -94,6 +94,15 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.allarrivalrecord.arrivalrecord.shortbarge.ShortBargeArrivalRecordActivity" />
         <activity android:name=".activity.allarrivalrecord.arrivalrecord.trunk.TrunkArrivalRecordActivity" />
+        <activity
+            android:name=".activity.homedeliveryhouse.HomeDeliveryHouseActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.fixhomedeliveryhouse.FixedHomeDeliveryHouseActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".activity.homedelivery.HomeDeliveryActivity" />
+        <activity android:name=".activity.addhomedelivery.AddHomeDeliveryActivity" />
+        <activity android:name=".activity.fixhomedeliveryconfiguration.FixHomeDeliveryConfigurationActivity" />
     </application>
 
 </manifest>

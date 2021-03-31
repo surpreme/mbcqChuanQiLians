@@ -1,11 +1,13 @@
 package com.mbcq.vehicleslibrary.activity.fixhomedeliveryhouse
 
+import android.os.CountDownTimer
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.commonlibrary.ApiInterface
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseBean
+import com.mbcq.vehicleslibrary.activity.homedelivery.HomeDeliveryBean
 import com.mbcq.vehicleslibrary.activity.homedeliveryhouse.HomeDeliveryHouseBean
 import org.json.JSONObject
 
@@ -95,6 +97,45 @@ class FixHomeDeliveryHousePresenter : BasePresenterImpl<FixHomeDeliveryHouseCont
         })
     }
 
+    override fun overOrder(orderData: String, id: String, intentJson: String) {
+        val params = HttpParams()
+        params.put("id", id)
+        get<String>(ApiInterface.HOME_DELIVERY_LOADING_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    val resultList = Gson().fromJson<List<HomeDeliveryHouseBean>>(obj.optString("data"), object : TypeToken<List<HomeDeliveryHouseBean>>() {}.type)
+                    val mHomeDeliveryBean = Gson().fromJson<HomeDeliveryBean>(intentJson, HomeDeliveryBean::class.java)
+                    mHomeDeliveryBean.pickUpdetLst = resultList
+                    val mSelectWaybillNumber = StringBuilder()
+                    for ((index, item) in (resultList.withIndex())) {
+                        if (item.isChecked) {
+                            mSelectWaybillNumber.append(item.billno)
+                            if (index != resultList.size - 1)
+                                mSelectWaybillNumber.append(",")
+                        }
+                    }
+                    mHomeDeliveryBean.commonStr = mSelectWaybillNumber.toString()
+                    post<String>(ApiInterface.HOME_DELIVERY_REMOVE_ITEM_GET, getRequestBody(Gson().toJson(mHomeDeliveryBean)), object : CallBacks {
+                        override fun onResult(dResult: String) {
+                            post<String>(ApiInterface.HOME_DELIVERY_ADD_ITEM_GET, getRequestBody(orderData), object : CallBacks {
+                                override fun onResult(xResult: String) {
+                                    mView?.overOrderS()
+
+                                }
+
+                            })
+
+
+                        }
+
+                    })
+                }
+            }
+
+        })
+    }
+
     override fun removeOrder(removeOrderData: String) {
         post<String>(ApiInterface.HOME_DELIVERY_REMOVE_ITEM_GET, getRequestBody(removeOrderData), object : CallBacks {
             override fun onResult(result: String) {
@@ -119,7 +160,7 @@ class FixHomeDeliveryHousePresenter : BasePresenterImpl<FixHomeDeliveryHouseCont
     override fun removeOrderItem(removeOrderData: String, position: Int, item: HomeDeliveryHouseBean) {
         post<String>(ApiInterface.HOME_DELIVERY_REMOVE_ITEM_GET, getRequestBody(removeOrderData), object : CallBacks {
             override fun onResult(result: String) {
-                mView?.removeOrderItemS(position, item)
+//                mView?.removeOrderItemS(position, item)
 
             }
 
@@ -130,7 +171,7 @@ class FixHomeDeliveryHousePresenter : BasePresenterImpl<FixHomeDeliveryHouseCont
     override fun addOrderItem(removeOrderData: String, position: Int, item: HomeDeliveryHouseBean) {
         post<String>(ApiInterface.HOME_DELIVERY_ADD_ITEM_GET, getRequestBody(removeOrderData), object : CallBacks {
             override fun onResult(result: String) {
-                mView?.addOrderItemS(position, item)
+//                mView?.addOrderItemS(position, item)
 
             }
 

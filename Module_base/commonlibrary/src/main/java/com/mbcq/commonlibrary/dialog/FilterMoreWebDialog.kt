@@ -44,19 +44,6 @@ class FilterMoreWebDialog : BaseDialogFragment {
     var mClickInterface: OnClickInterface
     var mStartTime = ""
     var mEndTime = ""
-   /* lateinit var filter_recycler_view: RecyclerView
-    lateinit var top_title_tv: TextView
-    lateinit var today_tv: TextView
-    lateinit var yesterday_tv: TextView
-    lateinit var last_three_day: TextView
-    lateinit var this_monday_tv: TextView
-    lateinit var end_time_ll: LinearLayout
-    lateinit var start_time_ll: LinearLayout
-    lateinit var start_time_tv: TextView
-    lateinit var end_time_tv: TextView
-    lateinit var cancel_btn: Button
-    lateinit var sure_btn: Button
-    lateinit var all_check_box: CheckBox*/
     var mTimeTag = "今天"
     override fun setDialogWidth(): Int {
         return mScreenWidth / 5 * 4

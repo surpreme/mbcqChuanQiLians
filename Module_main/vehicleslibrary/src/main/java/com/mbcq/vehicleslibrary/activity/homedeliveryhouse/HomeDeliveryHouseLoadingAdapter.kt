@@ -24,9 +24,15 @@ class HomeDeliveryHouseLoadingAdapter(context: Context?) : BaseRecyclerAdapter<H
     }
 
     var mOnRemoveInterface: OnRemoveInterface? = null
+    var mOnFeeInterface: OnFeeInterface? = null
 
     interface OnRemoveInterface {
         fun onClick(position: Int, item: HomeDeliveryHouseBean)
+    }
+
+    interface OnFeeInterface {
+        fun onFeeClick(position: Int, item: HomeDeliveryHouseBean)
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -34,12 +40,12 @@ class HomeDeliveryHouseLoadingAdapter(context: Context?) : BaseRecyclerAdapter<H
         (holder as ItemViewHolder).waybill_number_tv.text = mDatas[position].billno
         holder.waybill_number_tv.text = mDatas[position].billno
         holder.cargo_No_tv.text = mDatas[position].goodsNum
-        holder.waybill_time_tv.text = if (!mDatas[position].billDate.isNullOrBlank())mDatas[position].billDate else mDatas[position].pickUpDate
+        holder.waybill_time_tv.text = if (!mDatas[position].billDate.isNullOrBlank()) mDatas[position].billDate else mDatas[position].pickUpDate
         holder.shipper_outlets_tv.text = mDatas[position].webidCodeStr
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.shipper_tv.text = mDatas[position].shipper
         holder.receiver_tv.text = mDatas[position].consignee
-        holder.transit_company_info_tv.text = "${if (mDatas[position].outCygs.isNotBlank()) "${mDatas[position].outCygs}\n" else ""}${if (mDatas[position].outacc.isNotBlank()) "中转费${mDatas[position].outacc}" else ""}"
+        holder.transit_company_info_tv.text = "${if (mDatas[position].accZxf.isNotBlank()) "装卸费：${mDatas[position].accZxf}\n" else ""}${if (mDatas[position].accCc.isNotBlank()) "叉车费：${mDatas[position].accCc}\n" else ""}${if (mDatas[position].outacc.isNotBlank()) "送货费：${mDatas[position].outacc}" else ""}"
         holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].qty}件 ${mDatas[position].volumn}m³ ${mDatas[position].packages} ${mDatas[position].weight}Kg ${mDatas[position].accTypeStr}${mDatas[position].accSum}  "
 
         context?.let {
@@ -55,7 +61,7 @@ class HomeDeliveryHouseLoadingAdapter(context: Context?) : BaseRecyclerAdapter<H
         })
         holder.itemView.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
-                mClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
+                mOnFeeInterface?.onFeeClick(position, mDatas[position])
             }
 
         })

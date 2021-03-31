@@ -131,7 +131,7 @@ class HomeDeliveryActivity : BaseSmartMVPActivity<HomeDeliveryContract.View, Hom
         }
         it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
-                ARouter.getInstance().build(ARouterConstants.FixHomeDeliveryHouseActivity).withString("FixHomeDeliveryHouse", mResult).navigation()
+                ARouter.getInstance().build(ARouterConstants.FixedHomeDeliveryHouseActivity).withString("FixHomeDeliveryHouse", mResult).navigation()
             }
 
         }

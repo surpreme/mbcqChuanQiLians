@@ -21,7 +21,7 @@ import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2021-03-27 09:22:17 修改上门提货
+ * @time: 2021-03-27 09:22:17 修改上门提货 实时
  */
 
 @Route(path = ARouterConstants.FixHomeDeliveryHouseActivity)
@@ -100,7 +100,7 @@ class FixHomeDeliveryHouseActivity : BaseFixHomeDeliveryHouseActivity<FixHomeDel
                 } else if (operating_btn.text.toString() == "移出本车") {
                     val mHomeDeliveryBean = Gson().fromJson<HomeDeliveryBean>(mLastData, HomeDeliveryBean::class.java)
                     mHomeDeliveryBean.pickUpdetLst = getSelectLoadingList()
-                    mHomeDeliveryBean.commonStr =  getSelectLoadingOrder()
+                    mHomeDeliveryBean.commonStr = getSelectLoadingOrder()
                     mPresenter?.removeOrder(Gson().toJson(mHomeDeliveryBean))
 
                 }
@@ -133,19 +133,19 @@ class FixHomeDeliveryHouseActivity : BaseFixHomeDeliveryHouseActivity<FixHomeDel
         refreshTopInfo()
     }
 
-    override fun removeOrderItemS(position: Int, item: HomeDeliveryHouseBean) {
-        mLoadingListAdapter?.removeItem(position)
-        mInventoryListAdapter?.appendData(mutableListOf(item))
-        showTopTotal()
+    /* override fun removeOrderItemS(position: Int, item: HomeDeliveryHouseBean) {
+         mLoadingListAdapter?.removeItem(position)
+         mInventoryListAdapter?.appendData(mutableListOf(item))
+         showTopTotal()
 
-    }
+     }
 
-    override fun addOrderItemS(position: Int, item: HomeDeliveryHouseBean) {
-        mInventoryListAdapter?.removeItem(position)
-        mLoadingListAdapter?.appendData(mutableListOf(item))
-        showTopTotal()
+     override fun addOrderItemS(position: Int, item: HomeDeliveryHouseBean) {
+         mInventoryListAdapter?.removeItem(position)
+         mLoadingListAdapter?.appendData(mutableListOf(item))
+         showTopTotal()
 
-    }
+     }*/
 
     override fun removeOrderS() {
         removeSomeThing()
@@ -156,5 +156,9 @@ class FixHomeDeliveryHouseActivity : BaseFixHomeDeliveryHouseActivity<FixHomeDel
     override fun addOrderS() {
         addSomeThing()
         showTopTotal()
+    }
+
+    override fun overOrderS() {
+
     }
 }

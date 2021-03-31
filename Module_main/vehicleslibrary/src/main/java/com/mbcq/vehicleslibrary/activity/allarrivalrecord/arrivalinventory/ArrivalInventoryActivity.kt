@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseSmartMVPActivity
@@ -95,7 +96,15 @@ class ArrivalInventoryActivity : BaseSmartMVPActivity<ArrivalInventoryContract.V
     override fun getSmartLayoutId() = R.id.arrival_inventory_smart
     override fun getSmartEmptyId() = R.id.arrival_inventory_smart_frame
     override fun getRecyclerViewId(): Int = R.id.arrival_inventory_recycler
-    override fun setAdapter(): BaseRecyclerAdapter<ArrivalInventoryBean> = ArrivalInventoryAdapter(mContext)
+    override fun setAdapter(): BaseRecyclerAdapter<ArrivalInventoryBean> = ArrivalInventoryAdapter(mContext).also {
+        it.mClickInterface=object :OnClickInterface.OnRecyclerClickInterface{
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                ARouter.getInstance().build(ARouterConstants.WaybillDetailsActivity).withString("WaybillDetails", mResult).navigation()
+
+            }
+
+        }
+    }
     override fun getPageS(list: List<ArrivalInventoryBean>, page: Int, count: String) {
         appendDatas(list)
         if (page == 1) {

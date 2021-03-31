@@ -132,7 +132,7 @@ public class HomeDeliveryHouseBean {
     private String consignee;
     private String consigneeAddr;
     private String product;
-    private String totalQty;
+    private String totalQty="";
     private String qty;
     private String packages;
     private String weight;
@@ -161,7 +161,8 @@ public class HomeDeliveryHouseBean {
     private String accHuiKou;
     private String accSms;
     private String accZz;
-    private String accZx;
+    private String accZx="";//装卸费
+    private String accZxf="";//装卸费
     private String accCb;
     private String accSl;
     private String accAz;
@@ -186,6 +187,7 @@ public class HomeDeliveryHouseBean {
     private String fromType;
     private String outCygs = "";
     private String outacc = "";
+    private String accCc = "";//叉车费
 
     private String outbillno = "";
     private String contactmb = "";
@@ -198,8 +200,21 @@ public class HomeDeliveryHouseBean {
     public void setPickUpDate(String pickUpDate) {
         this.pickUpDate = pickUpDate;
     }
+    public String getAccCc() {
+        return accCc;
+    }
 
+    public void setAccCc(String accCc) {
+        this.accCc = accCc;
+    }
 
+    public String getAccZxf() {
+        return accZxf;
+    }
+
+    public void setAccZxf(String accZxf) {
+        this.accZxf = accZxf;
+    }
     public String geteCompanyId() {
         return eCompanyId;
     }

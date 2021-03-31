@@ -76,6 +76,8 @@ object ARouterConstants {
 
     //上门提货 操作页
     const val HomeDeliveryHouseActivity = "/vehicles/HomeDeliveryHouseActivity"
+    //上门提货修改
+    const val FixedHomeDeliveryHouseActivity = "/vehicles/FixedHomeDeliveryHouseActivity"
     const val TrunkDepartureRecordActivity = "/vehicles/TrunkDepartureRecordActivity"
     const val ShortBargeDepartureRecordActivity = "/vehicles/ShortBargeDepartureRecordActivity"
     const val AddTrunkDepartureActivity = "/vehicles/AddTrunkDepartureActivity"

@@ -1,5 +1,4 @@
-package com.mbcq.vehicleslibrary.activity.homedeliveryhouse
-
+package com.mbcq.vehicleslibrary.activity.fixhomedeliveryhouse
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -8,6 +7,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
+import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.onSingleClicks
@@ -16,23 +16,24 @@ import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.dialog.FilterDialog
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.ShareDeliveryCostsBean
-import kotlinx.android.synthetic.main.activity_home_delivery_house.*
+import com.mbcq.vehicleslibrary.activity.homedelivery.HomeDeliveryBean
+import com.mbcq.vehicleslibrary.activity.homedeliveryhouse.*
+import kotlinx.android.synthetic.main.activity_fix_home_delivery_house.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-
 /**
  * @author: lzy
- * @time: 2021-01-14 17:59:02 上门提货
+ * @time: 2021-01-14 17:59:02 修改上门提货 本地
  */
 
-@Route(path = ARouterConstants.HomeDeliveryHouseActivity)
-class HomeDeliveryHouseActivity : BaseHomeDeliveryHouseActivity<HomeDeliveryHouseContract.View, HomeDeliveryHousePresenter>(), HomeDeliveryHouseContract.View {
-    @Autowired(name = "HomeDeliveryHouse")
+@Route(path = ARouterConstants.FixedHomeDeliveryHouseActivity)
+class FixedHomeDeliveryHouseActivity : BaseFixedHomeDeliveryHouseActivity<FixHomeDeliveryHouseContract.View, FixHomeDeliveryHousePresenter>(), FixHomeDeliveryHouseContract.View {
+    @Autowired(name = "FixHomeDeliveryHouse")
     @JvmField
     var mLastData: String = ""
 
-    override fun getLayoutId(): Int = R.layout.activity_home_delivery_house
+    override fun getLayoutId(): Int = R.layout.activity_fix_home_delivery_house
     override fun initExtra() {
         super.initExtra()
         ARouter.getInstance().inject(this)
@@ -59,39 +60,18 @@ class HomeDeliveryHouseActivity : BaseHomeDeliveryHouseActivity<HomeDeliveryHous
 
                     }
 
-                }).show(supportFragmentManager, "HomeDeliveryHousePrice")
+                }).show(supportFragmentManager, "FixedHomeDeliveryHousePrice")
             }
 
         }
     }
 
-    fun completeCar() {
-        mLoadingListAdapter?.getAllData()?.let {
-            if (it.isEmpty()) {
-                TalkSureDialog(mContext, getScreenWidth(), "请配载您要发的运单").show()
-                return
-            }
-            val mLastDataObj = JSONObject(mLastData)
-            val jarray = JSONArray()
-            val kk = StringBuilder()
-            for ((index, item) in it.withIndex()) {
-                val obj = JSONObject(Gson().toJson(item))
-                kk.append(item.billno)
-                if (index != it.size - 1)
-                    kk.append(",")
-                jarray.put(obj)
-            }
-            mLastDataObj.put("PickUpdetLst", jarray)
-            mLastDataObj.put("CommonStr", kk.toString())
-            mPresenter?.saveInfo(mLastDataObj)
-
-
-        }
-    }
 
     override fun initDatas() {
         super.initDatas()
         mPresenter?.getInventory()
+        mPresenter?.getLoading(JSONObject(mLastData).optString("id"))
+
     }
 
     /**
@@ -99,6 +79,33 @@ class HomeDeliveryHouseActivity : BaseHomeDeliveryHouseActivity<HomeDeliveryHous
      */
     override fun onClick() {
         super.onClick()
+        complete_vehicle_btn.apply {
+            onSingleClicks {
+                TalkSureCancelDialog(mContext, getScreenWidth(), "您确定要完成修改本车吗？") {
+
+                    val list = mLoadingListAdapter?.getAllData()
+                    list?.let {
+                        if (it.isEmpty()) {
+                            TalkSureDialog(mContext, getScreenWidth(), "请配载您要发的运单").show()
+                            return@TalkSureCancelDialog
+                        }
+                        val mSelectWaybillNumber = StringBuilder()
+                        for ((index, item) in (list.withIndex())) {
+                            if (item.isChecked) {
+                                mSelectWaybillNumber.append(item.billno)
+                                if (index != list.size - 1)
+                                    mSelectWaybillNumber.append(",")
+                            }
+                        }
+                        val mHomeDeliveryBean = Gson().fromJson<HomeDeliveryBean>(mLastData, HomeDeliveryBean::class.java)
+                        mHomeDeliveryBean.pickUpdetLst = it
+                        mHomeDeliveryBean.commonStr = mSelectWaybillNumber.toString()
+                        mPresenter?.overOrder(Gson().toJson(mHomeDeliveryBean), JSONObject(mLastData).optString("id"), mLastData)
+                    }
+
+                }.show()
+            }
+        }
         share_delivery_costs_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 if (share_delivery_costs_ed.text.toString().isBlank()) {
@@ -163,7 +170,7 @@ class HomeDeliveryHouseActivity : BaseHomeDeliveryHouseActivity<HomeDeliveryHous
                                 "按该单所占重量比例分担" -> {
                                     val toltal = mCalculationMoney / mToTalWeight
                                     for (item in it) {
-                                        item.outacc =haveTwoDouble (toltal * item.weight.toDouble())
+                                        item.outacc = haveTwoDouble(toltal * item.weight.toDouble())
                                         mNewData.add(item) //accsendout
                                     }
 
@@ -172,7 +179,7 @@ class HomeDeliveryHouseActivity : BaseHomeDeliveryHouseActivity<HomeDeliveryHous
                                 "按该单所占体积比例分担" -> {
                                     val toltal = mCalculationMoney / mToTalVolume
                                     for (item in it) {
-                                        item.outacc =haveTwoDouble (toltal * item.volumn.toDouble())
+                                        item.outacc = haveTwoDouble(toltal * item.volumn.toDouble())
                                         mNewData.add(item) //accsendout
                                     }
 
@@ -186,15 +193,15 @@ class HomeDeliveryHouseActivity : BaseHomeDeliveryHouseActivity<HomeDeliveryHous
 
                     }
 
-                }).show(supportFragmentManager, "ShareDeliveryCostsFilterDialog")
+                }).show(supportFragmentManager, "FixedHomeDeliveryHouseCostsFilterDialog")
             }
 
         })
-        complete_vehicle_btn.apply {
-            onSingleClicks {
-                completeCar()
-            }
-        }
+        /*  complete_vehicle_btn.apply {
+              onSingleClicks {
+                  completeCar()
+              }
+          }*/
         inventory_list_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 selectIndex(1)
@@ -236,10 +243,25 @@ class HomeDeliveryHouseActivity : BaseHomeDeliveryHouseActivity<HomeDeliveryHous
         inventory_list_tv.text = "库存清单(${list.size})"
     }
 
-    override fun saveInfoS(result: String) {
-        TalkSureDialog(mContext, getScreenWidth(), "上门提货${JSONObject(mLastData).optString("inOneVehicleFlag")}已完成，点击返回查看详情！") {
-            onBackPressed()
+    @SuppressLint("SetTextI18n")
+    override fun getLoadingS(list: List<HomeDeliveryHouseBean>) {
+        mLoadingListAdapter?.appendData(list)
+        loading_list_tv.text = "配载清单(${list.size})"
+        refreshTopInfo()
+    }
 
+    override fun removeOrderS() {
+
+    }
+
+    override fun addOrderS() {
+    }
+
+    override fun overOrderS() {
+        TalkSureDialog(mContext, getScreenWidth(), "上门提货修改成功，点击返回！") {
+            onBackPressed()
         }.show()
     }
+
+
 }

@@ -12,7 +12,8 @@ import org.json.JSONObject
 class AcceptBillingFixedReviewContract {
 
     interface View : BaseView {
-        fun getReviewDataS(modifyContent: String, modifyReason: String)
+        fun getReviewDataS(modifyContent: String, modifyReason: String, modifyManInfoStr: String)
+        fun getReviewMoreFixDataS(titlesStr: List<String>, beforeStr: List<String>, afterStr: List<String>)
         fun getOrderDataNull(billno: String)
         fun getOrderDataS(data: JSONObject)
         fun postReviewDataS(result: String)

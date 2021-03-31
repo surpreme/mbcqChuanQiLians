@@ -11,10 +11,10 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class FixedWaybillFragmentContract {
 
     interface View : BaseView {
-
+        fun getReviewDataS(list: List<FixedWaybillListBean>)
     }
 
     interface Presenter : BasePresenter<View> {
-
+        fun getReviewData(billno: String)
     }
 }

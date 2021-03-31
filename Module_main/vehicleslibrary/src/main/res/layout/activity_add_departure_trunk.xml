@@ -160,46 +160,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/contact_number_title_tv" />
 
-            <TextView
-                android:id="@+id/arrival_company_title_tv"
-                android:layout_width="80dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:text="到站公司"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/contact_number_title_tv" />
-
-            <TextView
-                android:id="@+id/arrival_company_tv"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/hollow_out_gray"
-                android:gravity="center|left"
-                android:inputType="phone"
-                android:paddingLeft="10dp"
-                android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="@id/arrival_company_title_tv"
-                app:layout_constraintLeft_toRightOf="@id/arrival_company_title_tv"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/arrival_company_title_tv"
-                tools:text="苏州快运" />
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/ic_down_icon"
-                app:layout_constraintBottom_toBottomOf="@+id/arrival_company_tv"
-                app:layout_constraintRight_toRightOf="@+id/arrival_company_tv"
-                app:layout_constraintTop_toTopOf="@+id/arrival_company_tv" />
 
             <TextView
                 android:id="@+id/destination_title_tv"
@@ -211,7 +171,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/arrival_company_title_tv" />
+                app:layout_constraintTop_toBottomOf="@id/contact_number_ed" />
 
             <TextView
                 android:id="@+id/destination_tv"
