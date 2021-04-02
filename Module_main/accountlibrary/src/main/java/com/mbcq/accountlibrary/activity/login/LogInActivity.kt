@@ -2,6 +2,7 @@ package com.mbcq.accountlibrary.activity.login
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -78,6 +79,13 @@ class LogInActivity : BaseLogInActivity<LogInContract.View, LogInPresenter>(), L
         })
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode==7840){
+            isSavePsw = false
+            mPresenter?.logIn(UserInformationUtil.getUserName(mContext), UserInformationUtil.getUserPsw(mContext))
+        }
+    }
 
     override fun loInS(result: LogInSuccessBean) {
         UserInformationUtil.setUserKey(mContext, result.token)

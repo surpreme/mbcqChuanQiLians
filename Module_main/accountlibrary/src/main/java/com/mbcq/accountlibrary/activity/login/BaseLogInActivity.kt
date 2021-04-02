@@ -2,6 +2,7 @@ package com.mbcq.accountlibrary.activity.login
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -105,9 +106,12 @@ abstract class BaseLogInActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseD
                         // I can control the camera now
 //                        ScanDialogFragment(getScreenWidth()).show(supportFragmentManager, "ScanDialogFragment")
                         if (isFaceActive) {
+                            val intent=Intent()
+                            intent.setClass(mContext,RegisterAndRecognizeActivity::class.java)
+                            intent.putExtra("RegisterAndRecognizeType", 1)
                             val bundle = Bundle()
                             bundle.putInt("RegisterAndRecognizeType", 1)
-                            startActivity(RegisterAndRecognizeActivity::class.java,bundle)
+                            startActivityForResult(intent,7840,bundle)
                             /* ARouter.getInstance().build(ARouterConstants.FaceRecognitionActivity).navigation()*/
                         }else{
                             showToast("人脸识别初始化失败，请稍后再试")

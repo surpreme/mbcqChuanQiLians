@@ -35,6 +35,7 @@ import java.util.*
  * 运单记录
  */
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 @Route(path = ARouterConstants.WaybillRecordActivity)
 class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, WaybillRecordPresenter, WaybillRecordBean>(), WaybillRecordContract.View {
     var mStartDateTag = ""
@@ -67,7 +68,6 @@ class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, W
         super.getPageDatas(mCurrentPage)
         mPresenter?.getPageData(mCurrentPage, mShippingOutletsTag, mStartDateTag, mEndDateTag)
     }
-
 
 
     override fun onClick() {
@@ -155,7 +155,7 @@ class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, W
     override fun getPageDataS(list: List<WaybillRecordBean>, totalS: String, mWaybillRecordTotalBean: WaybillRecordTotalBean) {
         if (isCanRefreshTotalTitle) {
             waybill_record_toolbar.setCenterTitleText("运单记录($totalS)")
-            all_info_bottom_tv.text = "合计：$totalS 票，${mWaybillRecordTotalBean.qty}件，运费¥${mWaybillRecordTotalBean.accSum}"
+            all_info_bottom_tv.text = "合计：$totalS 票，${if (mWaybillRecordTotalBean.qty.isNullOrEmpty()) 0 else mWaybillRecordTotalBean.qty.toInt()}件，运费¥${if (mWaybillRecordTotalBean.accSum.isNullOrEmpty()) 0.00 else mWaybillRecordTotalBean.accSum}"
             if (isInteger(totalS))
                 mTotalS = totalS.toInt()
             isCanRefreshTotalTitle = false

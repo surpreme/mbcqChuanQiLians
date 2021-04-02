@@ -23,10 +23,12 @@ class CommonWriteOffAdapter (context: Context):BaseRecyclerAdapter<CommonWriteOf
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.shipper_tv.text = mDatas[position].shipper
         holder.receiver_tv.text = mDatas[position].consignee
-        holder.waybill_state_tv.text = mDatas[position].hxtype
+        holder.waybill_state_tv.text = mDatas[position].billStateStr
+        holder.write_off_state_tv.text = mDatas[position].hxtype
+        holder.information_tv.text = mDatas[position].hxtype
         holder.phone_info_tv.text = "手机号  手机号"
-        holder.unwrittened_ll.visibility = if (mDatas[position].hxtype == "未收款") View.VISIBLE else View.GONE
-        holder.writtened_ll.visibility = if (mDatas[position].hxtype == "未收款") View.GONE else View.VISIBLE
+        holder.unwrittened_ll.visibility = if (mDatas[position].hxtype != "已收款") View.VISIBLE else View.GONE
+        holder.writtened_ll.visibility = if (mDatas[position].hxtype != "已收款") View.GONE else View.VISIBLE
         context?.let {
             holder.record_checkbox_iv.setImageDrawable(ContextCompat.getDrawable(it, if (mDatas[position].isChecked) R.drawable.ic_checked_icon else R.drawable.ic_unchecked_icon))
 
@@ -47,6 +49,8 @@ class CommonWriteOffAdapter (context: Context):BaseRecyclerAdapter<CommonWriteOf
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var information_tv = itemView.findViewById<TextView>(R.id.information_tv)
+        var write_off_state_tv = itemView.findViewById<TextView>(R.id.write_off_state_tv)
         var waybill_number_tv = itemView.findViewById<TextView>(R.id.waybill_number_tv)
         var waybill_time_tv = itemView.findViewById<TextView>(R.id.waybill_time_tv)
         var shipper_outlets_tv = itemView.findViewById<TextView>(R.id.shipper_outlets_tv)

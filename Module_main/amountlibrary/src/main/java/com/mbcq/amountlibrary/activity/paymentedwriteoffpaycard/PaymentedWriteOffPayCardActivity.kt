@@ -10,13 +10,16 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bigkoo.pickerview.listener.OnTimeSelectListener
+import com.google.gson.Gson
 import com.mbcq.amountlibrary.R
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.ui.BaseListMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.system.TimeUtils
+import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean
@@ -35,11 +38,10 @@ import java.text.SimpleDateFormat
  */
 
 @Route(path = ARouterConstants.PaymentedWriteOffPayCardActivity)
-class PaymentedWriteOffPayCardActivity : BaseMVPActivity<PaymentedWriteOffPayCardContract.View, PaymentedWriteOffPayCardPresenter>(), PaymentedWriteOffPayCardContract.View {
+class PaymentedWriteOffPayCardActivity : BaseListMVPActivity<PaymentedWriteOffPayCardContract.View, PaymentedWriteOffPayCardPresenter, PaymentInfoBean>(), PaymentedWriteOffPayCardContract.View {
     @Autowired(name = "xSelectData")
     @JvmField
     var xSelectData: String = ""
-    var mTextViewAdapter: TextViewAdapter<BaseTextAdapterBean>? = null
 
     override fun getLayoutId(): Int = R.layout.activity_paymented_write_off_pay_card
 
@@ -52,12 +54,7 @@ class PaymentedWriteOffPayCardActivity : BaseMVPActivity<PaymentedWriteOffPayCar
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
         voucher_date_tv.text = TimeUtils.getCurrentYYMMDD()
-        waybill_order_recycler.layoutManager = LinearLayoutManager(mContext)
-        mTextViewAdapter = TextViewAdapter<BaseTextAdapterBean>(mContext, Gravity.CENTER_VERTICAL).also {
-            it.setIsShowOutSide(false)
-            waybill_order_recycler.adapter = it
 
-        }
     }
 
     override fun initDatas() {
@@ -162,10 +159,20 @@ class PaymentedWriteOffPayCardActivity : BaseMVPActivity<PaymentedWriteOffPayCar
         }).show(supportFragmentManager, "getPaymentWaySFilterDialog")
     }
 
+    /* fun planTotalData(result: String) {
+         var mPriceTotal=0.00
+         for (item in list){
+
+         }
+     }*/
+
     override fun getDocumentNoS(result: String) {
         mReceiptNo = result
-        val list = mutableListOf<BaseTextAdapterBean>(BaseTextAdapterBean("源  单 号：${JSONObject(xSelectData).optString("billno")}       金      额：${JSONObject(xSelectData).optString("accArrived")}\n摘      要：\n凭证编号：$result", ""))
-        mTextViewAdapter?.appendData(list)
+        val mPaymentInfoBean = Gson().fromJson<PaymentInfoBean>(xSelectData, PaymentInfoBean::class.java)
+        mPaymentInfoBean.documentNo = result
+        mPaymentInfoBean.summary = "收${TimeUtils.getCurrentYYMMDD()}提付款"
+//        val list = mutableListOf<BaseTextAdapterBean>(BaseTextAdapterBean("源  单 号：${JSONObject(xSelectData).optString("billno")}       金      额：${JSONObject(xSelectData).optString("accArrived")}\n摘      要：\n凭证编号：$result", ""))
+        adapter.appendData(mutableListOf(mPaymentInfoBean))
     }
 
     override fun savePayCardInfoS(result: String) {
@@ -173,5 +180,10 @@ class PaymentedWriteOffPayCardActivity : BaseMVPActivity<PaymentedWriteOffPayCar
             onBackPressed()
         }.show()
     }
+
+    override fun getRecyclerViewId(): Int = R.id.waybill_order_recycler
+
+    override fun setAdapter(): BaseRecyclerAdapter<PaymentInfoBean> = PaymentWriteOffPayCardAdapter(mContext)
+
 
 }

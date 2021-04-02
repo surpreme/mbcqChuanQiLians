@@ -119,13 +119,13 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
         choice_shipper_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.ChoiceShipperActivity).navigation(this@AcceptBillingActivity)
+                ARouter.getInstance().build(ARouterConstants.ChoiceShipperActivity).navigation(this@AcceptBillingActivity, RESULT_DATA_CODE)
             }
 
         })
         choice_receiver_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.ChoiceReceiverActivity).navigation(this@AcceptBillingActivity)
+                ARouter.getInstance().build(ARouterConstants.ChoiceReceiverActivity).navigation(this@AcceptBillingActivity, RECEIVER_RESULT_DATA_CODE)
             }
 
         })

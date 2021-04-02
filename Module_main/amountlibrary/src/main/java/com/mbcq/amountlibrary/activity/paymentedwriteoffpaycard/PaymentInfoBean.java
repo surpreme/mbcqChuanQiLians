@@ -1,6 +1,6 @@
-package com.mbcq.amountlibrary.activity.allwriteoffpayment.commonwriteoff;
+package com.mbcq.amountlibrary.activity.paymentedwriteoffpaycard;
 
-public class CommonWriteOffBean {
+public class PaymentInfoBean {
     /**
      * receiptDate : 2021-01-12 00:00:00
      * hxtype : 未收款
@@ -63,7 +63,8 @@ public class CommonWriteOffBean {
     private String accType;
     private String accTypeStr;
     private String accHuiKou;
-    private String accArrived;
+    private String accArrived="";
+    private String accArrivedAfter="";
     private String accDaiShou;
     private String backQty;
     private String weight;
@@ -86,18 +87,25 @@ public class CommonWriteOffBean {
     private String vehicleNo;
     private String fetchType;
     private String fetchTypeStr;
-    private String mCommonTitleStr="";
+    private String documentNo="";//凭证编号
+    private String summary="";//摘要
     private String yue="";//部分核销
     private boolean isChecked=false;
-
-    public String getmCommonTitleStr() {
-        return mCommonTitleStr;
+    public String getDocumentNo() {
+        return documentNo;
     }
 
-    public void setmCommonTitleStr(String mCommonTitleStr) {
-        this.mCommonTitleStr = mCommonTitleStr;
+    public void setDocumentNo(String documentNo) {
+        this.documentNo = documentNo;
     }
 
+    public String getAccArrivedAfter() {
+        return accArrivedAfter;
+    }
+
+    public void setAccArrivedAfter(String accArrivedAfter) {
+        this.accArrivedAfter = accArrivedAfter;
+    }
 
     public String getYue() {
         return yue;
@@ -108,6 +116,13 @@ public class CommonWriteOffBean {
     }
 
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
 
     public boolean isChecked() {
         return isChecked;

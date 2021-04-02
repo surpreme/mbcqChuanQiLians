@@ -26,7 +26,7 @@ public class WaybillRecordTotalBean {
      */
 
     private String rowCou;
-    private String qty;
+    private String qty="";
     private String weight;
     private String volumn;
     private String accNow;
@@ -42,7 +42,7 @@ public class WaybillRecordTotalBean {
     private String accWz;
     private String accZz;
     private String accDaiShou;
-    private String accSum;
+    private String accSum="";
     private String weightJs;
     private String accSms;
 

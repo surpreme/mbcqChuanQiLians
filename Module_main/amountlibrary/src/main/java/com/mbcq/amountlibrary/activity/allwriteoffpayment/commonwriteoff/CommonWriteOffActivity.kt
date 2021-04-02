@@ -26,6 +26,7 @@ import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.BottomOptionsDialog
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import kotlinx.android.synthetic.main.activity_common_write_off.*
+import org.json.JSONArray
 import org.json.JSONObject
 
 
@@ -107,14 +108,19 @@ class CommonWriteOffActivity : BaseSmartMVPActivity<CommonWriteOffContract.View,
                     showToast("请至少选择一个运单进行操作")
                     return@onSingleClicks
                 }
-                var selectData = ""
+                val selectDataObj = JSONObject()
+                val selectDataJry = JSONArray()
+//                 selectData = ""
                 for ((_, item) in adapter.getAllData().withIndex()) {
                     if (item.isChecked) {
-                        item.setmCommonTitleStr(xTitle)
-                        selectData = Gson().toJson(item)
+                        val selectData = Gson().toJson(item)
+                        selectDataJry.put(JSONObject(selectData))
                     }
                 }
-                ARouter.getInstance().build(ARouterConstants.CommonWriteOffPayCardActivity).withString("xSelectData", selectData).navigation()
+                selectDataObj.put("selectData", selectDataJry)
+                selectDataObj.put("mCommonTitleStr", xTitle)
+
+                ARouter.getInstance().build(ARouterConstants.CommonWriteOffPayCardActivity).withString("xSelectData", GsonUtils.toPrettyFormat(selectDataObj)).navigation()
             }
         }
         common_write_off_toolbar.setRightButtonOnClickListener(
@@ -124,6 +130,7 @@ class CommonWriteOffActivity : BaseSmartMVPActivity<CommonWriteOffContract.View,
                             override fun isNull() {
 
                             }
+
                             override fun isSuccess(list: MutableList<WebAreaDbInfo>) {
                                 FilterWithTimeDialog(getScreenWidth(), Gson().toJson(list), "webid", "webidCode", true, "提付核销记录筛选", true, mClickInterface = object : OnClickInterface.OnClickInterface {
 

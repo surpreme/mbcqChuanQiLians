@@ -71,7 +71,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class RegisterAndRecognizeActivity extends BaseActivity implements ViewTreeObserver.OnGlobalLayoutListener {
     private static final String TAG = "RegisterAndRecognize";
-    private static final int MAX_DETECT_NUM = 10;
+    private static final int MAX_DETECT_NUM = 1;
     /**
      * 当FR成功，活体未成功时，FR等待活体的时间
      */
@@ -726,6 +726,8 @@ public class RegisterAndRecognizeActivity extends BaseActivity implements ViewTr
 
                                 @Override
                                 public void onClick(View view) {
+                                    setResult(7840);
+                                    onBackPressed();
 
                                 }
                             }).show();
