@@ -105,7 +105,7 @@
                     android:background="@drawable/common_round_corner_gray_bg"
                     android:drawableLeft="@drawable/ic_search_icon"
                     android:drawableTint="@color/base_grayDark"
-                    android:hint="    请输入要查询的运单号"
+                    android:hint="    请输入关键字查询"
                     android:paddingLeft="15dp"
                     android:textSize="16sp" />
 

@@ -13,8 +13,13 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.maplibrary.R
 
 class WebCodeLocationRecyclerAdapter(context: Context) : BaseRecyclerAdapter<WebCodeLocationBean>(context) {
-    var mOnCallInterface: OnClickInterface.OnRecyclerClickInterface? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = ItemViewHolder(inflater.inflate(R.layout.item_webcode_location, parent, false))
+    interface OnLocationInterface {
+        fun onSelected(v: View, position: Int, result: String)
+        fun onCall(v: View, position: Int, result: String)
+    }
+
+    var mOnLocationInterface: OnLocationInterface? = null
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -27,21 +32,25 @@ class WebCodeLocationRecyclerAdapter(context: Context) : BaseRecyclerAdapter<Web
 
         }
         holder.itemView.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                for (index in 0 until mDatas.size) {
-                    if (index != position)
-                        mDatas[index].isChecked = false
-                    else
-                        mDatas[index].isChecked = !mDatas[index].isChecked
-                }
-//                mDatas[position].isChecked = !mDatas[position].isChecked
-                notifyDataSetChanged()
+            override fun onSingleClick(v: View) {
+                mOnLocationInterface?.onSelected(v, position, Gson().toJson(mDatas[position]))
+                /* for (index in 0 until mDatas.size) {
+                     if (index != position)
+                         mDatas[index].isChecked = false
+                     else
+                         mDatas[index].isChecked = !mDatas[index].isChecked
+                 }
+ //                mDatas[position].isChecked = !mDatas[position].isChecked
+                 notifyDataSetChanged()*/
+
             }
 
         })
         holder.call_information_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
-                mOnCallInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
+                mOnLocationInterface?.onCall(v, position, Gson().toJson(mDatas[position]))
+
+//                mOnCallInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
             }
 
         })

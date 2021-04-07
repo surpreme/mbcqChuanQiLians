@@ -40,6 +40,10 @@ class AcceptBillingFixedReviewActivity : BaseMVPActivity<AcceptBillingFixedRevie
     var mWaybillInformationTableAdapter: WaybillInformationTableAdapter? = null
     var mWaybillInformationFixedTableAdapter: WaybillInformationFixedTableAdapter? = null
 
+    companion object {
+        const val ACCEPT_BILLING_FIXED_REVIEW_REFRESH_TAG = 4511
+    }
+
     override fun getLayoutId(): Int = R.layout.activity_accept_billing_fixed_review
     override fun initExtra() {
         super.initExtra()
@@ -187,6 +191,7 @@ class AcceptBillingFixedReviewActivity : BaseMVPActivity<AcceptBillingFixedRevie
 
     override fun postReviewDataS(result: String) {
         TalkSureDialog(mContext, getScreenWidth(), "审核完成，点击返回！") {
+            setResult(ACCEPT_BILLING_FIXED_REVIEW_REFRESH_TAG)
             onBackPressed()
         }.show()
 

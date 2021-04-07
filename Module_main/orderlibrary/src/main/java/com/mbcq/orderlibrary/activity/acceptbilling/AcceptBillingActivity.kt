@@ -76,6 +76,11 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
     override fun onClick() {
         super.onClick()
+        shipper_search_no_iv.run {
+            onSingleClicks {
+                mPresenter?.getMonthShipperInfo()
+            }
+        }
         remarks_down_iv.apply {
             onSingleClicks {
                 showMoreRemark()
@@ -1102,14 +1107,14 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
     }
 
     override fun getShipperInfoS(result: String) {
-        val titleList = mutableListOf<String>("opeMan", "contactMb", "address")
-        val startList = mutableListOf<String>("姓名:", "电话:", "地址:")
+        val titleList = mutableListOf<String>("vipId", "contactMan", "contactMb", "address")
+        val startList = mutableListOf<String>("客户编号:", "姓名:", "电话:", "地址:")
         FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择发货人", false, isShowOutSide = false, gravity = Gravity.CENTER_VERTICAL, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mAddShipperBean = Gson().fromJson<AddShipperBean>(mResult, AddShipperBean::class.java)
                 mAddShipperBean?.let {
                     shipper_address_ed.setText(it.address)
-                    shipper_name_ed.setText(it.opeMan)
+                    shipper_name_ed.setText(it.contactMan)
                     shipper_mShipperId_ed.setText(it.vipId)
                     shipper_phone_ed.setText(it.contactMb)
                     shipper_mShipperTel_ed.setText(it.contactTel)
@@ -1124,14 +1129,14 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
     }
 
     override fun getReceiverInfoS(result: String) {
-        val titleList = mutableListOf<String>("opeMan", "contactMb", "address")
-        val startList = mutableListOf<String>("姓名:", "电话:", "地址:")
+        val titleList = mutableListOf<String>("vipId", "contactMan", "contactMb", "address")
+        val startList = mutableListOf<String>("客户编号:", "姓名:", "电话:", "地址:")
         FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择收货人", false, isShowOutSide = false, gravity = Gravity.CENTER_VERTICAL, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mAddReceiverBean = Gson().fromJson<AddReceiverBean>(mResult, AddReceiverBean::class.java)
                 mAddReceiverBean?.let {
                     receiver_address_ed.setText(it.address)
-                    receiver_name_ed.setText(it.opeMan)
+                    receiver_name_ed.setText(it.contactMan)
                     receiver_customer_code_tv.setText(it.vipId)
                     receiver_phone_ed.setText(it.contactMb)
                     receiver_mConsigneeTel_ed.setText(it.contactTel)
@@ -1248,6 +1253,16 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
     }
 
     fun initPeople() {
+        shipper_name_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (shipper_name_ed.text.toString().isNotEmpty() && shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    val params = HttpParams()
+                    params.put("contactMan", shipper_name_ed.text.toString())
+                    params.put("webidCode", UserInformationUtil.getWebIdCode(mContext))
+                    mPresenter?.getShipperInfo(params)
+                }
+            }
+        }
         shipper_phone_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (shipper_phone_ed.text.toString().isNotEmpty() && shipper_circle_hide_ll.visibility == View.VISIBLE) {
@@ -1271,6 +1286,16 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         /**
          *
          */
+        receiver_name_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (receiver_name_ed.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    val params = HttpParams()
+                    params.put("contactMan", receiver_name_ed.text.toString())
+                    params.put("webidCode", UserInformationUtil.getWebIdCode(mContext))
+                    mPresenter?.getReceiverInfo(params)
+                }
+            }
+        }
         receiver_phone_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (receiver_phone_ed.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {

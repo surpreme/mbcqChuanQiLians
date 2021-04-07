@@ -53,6 +53,7 @@
         android:backgroundTint="@color/base_green"
         android:text="确定"
         android:textSize="21sp"
+        android:visibility="gone"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/search_ed"
         app:layout_constraintRight_toRightOf="parent"

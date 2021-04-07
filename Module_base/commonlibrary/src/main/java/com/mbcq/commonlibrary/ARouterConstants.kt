@@ -23,6 +23,12 @@ object ARouterConstants {
     const val AcceptBillingActivity = "/order/AcceptBillingActivity"
     const val WaybillRecordActivity = "/order/WaybillRecordActivity"
     const val AddShipperActivity = "/order/AddShipperActivity"
+
+    //修改发货人
+    const val FixShipperActivity = "/order/FixShipperActivity"
+    //修改收货客户
+    const val FixReceiverActivity = "/order/FixReceiverActivity"
+
     const val AddReceiverActivity = "/order/AddReceiverActivity"
     const val ControlManagementActivity = "/order/ControlManagementActivity"
     const val DeliveryAdjustmentActivity = "/order/DeliveryAdjustmentActivity"
@@ -55,7 +61,6 @@ object ARouterConstants {
     const val GoodsReceiptHouseInfoActivity = "/order/GoodsReceiptHouseInfoActivity"
 
 
-
     /**
      * 地图模块
      */
@@ -66,8 +71,10 @@ object ARouterConstants {
      * 车辆模块
      */
     const val DepartureRecordActivity = "/vehicles/DepartureRecordActivity"
+
     //添加上门提货配置
     const val AddHomeDeliveryActivity = "/vehicles/AddHomeDeliveryActivity"
+
     //上门提货记录
     const val HomeDeliveryActivity = "/vehicles/HomeDeliveryActivity"
 
@@ -76,6 +83,7 @@ object ARouterConstants {
 
     //上门提货 操作页
     const val HomeDeliveryHouseActivity = "/vehicles/HomeDeliveryHouseActivity"
+
     //上门提货修改
     const val FixedHomeDeliveryHouseActivity = "/vehicles/FixedHomeDeliveryHouseActivity"
     const val TrunkDepartureRecordActivity = "/vehicles/TrunkDepartureRecordActivity"

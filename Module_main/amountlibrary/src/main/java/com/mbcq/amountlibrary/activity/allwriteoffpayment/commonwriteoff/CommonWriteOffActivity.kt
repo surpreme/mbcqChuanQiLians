@@ -2,6 +2,7 @@ package com.mbcq.amountlibrary.activity.allwriteoffpayment.commonwriteoff
 
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
@@ -45,6 +46,10 @@ class CommonWriteOffActivity : BaseSmartMVPActivity<CommonWriteOffContract.View,
     var mShippingOutletsTag = ""
     var mSelectedType = 0
 
+    companion object {
+        const val COMMON_WRITE_OFF_REFRESH_TAG = 4417
+    }
+
     override fun getLayoutId(): Int = R.layout.activity_common_write_off
 
     @SuppressLint("SimpleDateFormat")
@@ -60,6 +65,13 @@ class CommonWriteOffActivity : BaseSmartMVPActivity<CommonWriteOffContract.View,
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
         common_write_off_toolbar.setCenterTitleText(xTitle)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == COMMON_WRITE_OFF_REFRESH_TAG) {
+            refresh()
+        }
     }
 
     override fun getPageDatas(mCurrentPage: Int) {
@@ -120,7 +132,7 @@ class CommonWriteOffActivity : BaseSmartMVPActivity<CommonWriteOffContract.View,
                 selectDataObj.put("selectData", selectDataJry)
                 selectDataObj.put("mCommonTitleStr", xTitle)
 
-                ARouter.getInstance().build(ARouterConstants.CommonWriteOffPayCardActivity).withString("xSelectData", GsonUtils.toPrettyFormat(selectDataObj)).navigation()
+                ARouter.getInstance().build(ARouterConstants.CommonWriteOffPayCardActivity).withString("xSelectData", GsonUtils.toPrettyFormat(selectDataObj)).navigation(this@CommonWriteOffActivity, COMMON_WRITE_OFF_REFRESH_TAG)
             }
         }
         common_write_off_toolbar.setRightButtonOnClickListener(

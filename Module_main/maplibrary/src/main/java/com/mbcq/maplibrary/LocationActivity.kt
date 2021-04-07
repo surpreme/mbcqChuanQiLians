@@ -178,18 +178,20 @@ class LocationActivity : BaseLocationActivity<LocationContract.View, LocationPre
     override fun addItemDecoration(): RecyclerView.ItemDecoration = BaseItemDecoration(mContext)
 
     override fun setAdapter(): BaseRecyclerAdapter<WebCodeLocationBean> = WebCodeLocationRecyclerAdapter(mContext).also {
-//        it.appendData(mutableListOf(WebCodeLocationBean(), WebCodeLocationBean()))
-        it.mOnCallInterface = object : OnClickInterface.OnRecyclerClickInterface {
-            override fun onItemClick(v: View, position: Int, mResult: String) {
-                //if (mDatas[position].webTel.isNullOrBlank()) mDatas[position].webMb else mDatas[position].webTel
-                val obj = JSONObject(mResult)
+        it.mOnLocationInterface=object :WebCodeLocationRecyclerAdapter.OnLocationInterface{
+            override fun onSelected(v: View, position: Int, result: String) {
+                EventBus.getDefault().postSticky(LocationResultEvent(result,1,"",""))
+                onBackPressed()
+            }
+
+            override fun onCall(v: View, position: Int, result: String) {
+                val obj = JSONObject(result)
                 TalkSureCancelDialog(mContext, getScreenWidth(), "您确认要拨打${obj.optString("webid")}的客服电话${if (obj.optString("webTel").isNullOrBlank()) obj.optString("webMb") else obj.optString("webTel")}吗？") {
                     val intent = Intent(Intent.ACTION_DIAL)
                     val data: Uri = Uri.parse("tel:${if (obj.optString("webTel").isNullOrBlank()) obj.optString("webMb") else obj.optString("webTel")}")
                     intent.data = data
                     startActivity(intent)
                 }.show()
-
             }
 
         }

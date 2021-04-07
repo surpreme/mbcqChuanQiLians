@@ -551,8 +551,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp">
+                    android:layout_marginRight="10dp"
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -565,10 +567,19 @@
 
                     <EditText
                         android:id="@+id/shipper_mShipperId_ed"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:inputType="number"
                         android:paddingLeft="10dp" />
+
+                    <ImageView
+                        android:id="@+id/shipper_search_no_iv"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_search_icon"
+                        app:tint="@color/base_grayDark" />
 
                 </LinearLayout>
 
@@ -992,6 +1003,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_location_icon" />
+
                     <TextView
                         android:id="@+id/receiver_address_location_distance_tv"
                         android:layout_width="wrap_content"

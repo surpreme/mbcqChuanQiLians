@@ -53,10 +53,6 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
     var mEndDateTag = ""
     var mShippingOutletsTag = ""
 
-    /**
-     * 刷新
-     */
-    private val REFRESH_DATA_CODE = 1730
     override fun getLayoutId(): Int = R.layout.activity_accept_billing_recording
     override fun getSmartLayoutId(): Int = R.id.accept_billing_recording_smart
     override fun getSmartEmptyId(): Int = R.id.accept_billing_recording_smart_frame
@@ -84,7 +80,7 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REFRESH_DATA_CODE) {
+        if (requestCode == REFRESH_DATA_CODE || requestCode == ACCEPT_BILLING_FIXED_REVIEW_REFRESH_TAG) {
             refresh()
         }
     }
@@ -198,6 +194,18 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
 
     }
 
+    companion object {
+        /**
+         * 刷新 审核
+         */
+        const val ACCEPT_BILLING_FIXED_REVIEW_REFRESH_TAG = 4511
+
+        /**
+         * 刷新 修改
+         */
+        const val REFRESH_DATA_CODE = 1730
+    }
+
     override fun setAdapter(): BaseRecyclerAdapter<AcceptBillingRecordingBean> = AcceptBillingRecordingAdapter(mContext).also {
         it.mOnFixedAcceptBillingRecordingInterface = object : AcceptBillingRecordingAdapter.OnFixedAcceptBillingRecordingInterface {
             override fun onReject(v: View, position: Int, data: AcceptBillingRecordingBean) {
@@ -210,21 +218,21 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
             override fun onReview(v: View, position: Int, data: AcceptBillingRecordingBean) {
                 if (data.yyCheckMan.isBlank()) {
                     data.fixType = 1
-                    ARouter.getInstance().build(ARouterConstants.AcceptBillingFixedReviewActivity).withString("AcceptBillingFixedReview", Gson().toJson(data)).navigation()
+                    ARouter.getInstance().build(ARouterConstants.AcceptBillingFixedReviewActivity).withString("AcceptBillingFixedReview", Gson().toJson(data)).navigation(this@AcceptBillingRecordingActivity, ACCEPT_BILLING_FIXED_REVIEW_REFRESH_TAG)
                 } else if (data.cwCheckMan.isBlank() && data.isUpdMon == 1) {
                     data.fixType = 2
-                    ARouter.getInstance().build(ARouterConstants.AcceptBillingFixedReviewActivity).withString("AcceptBillingFixedReview", Gson().toJson(data)).navigation()
+                    ARouter.getInstance().build(ARouterConstants.AcceptBillingFixedReviewActivity).withString("AcceptBillingFixedReview", Gson().toJson(data)).navigation(this@AcceptBillingRecordingActivity, ACCEPT_BILLING_FIXED_REVIEW_REFRESH_TAG)
                 }
             }
 
             override fun onOperationReview(v: View, position: Int, data: AcceptBillingRecordingBean) {
                 data.fixType = 1
-                ARouter.getInstance().build(ARouterConstants.AcceptBillingFixedReviewActivity).withString("AcceptBillingFixedReview", Gson().toJson(data)).navigation()
+                ARouter.getInstance().build(ARouterConstants.AcceptBillingFixedReviewActivity).withString("AcceptBillingFixedReview", Gson().toJson(data)).navigation(this@AcceptBillingRecordingActivity, ACCEPT_BILLING_FIXED_REVIEW_REFRESH_TAG)
             }
 
             override fun onFinancialAudit(v: View, position: Int, data: AcceptBillingRecordingBean) {
                 data.fixType = 2
-                ARouter.getInstance().build(ARouterConstants.AcceptBillingFixedReviewActivity).withString("AcceptBillingFixedReview", Gson().toJson(data)).navigation()
+                ARouter.getInstance().build(ARouterConstants.AcceptBillingFixedReviewActivity).withString("AcceptBillingFixedReview", Gson().toJson(data)).navigation(this@AcceptBillingRecordingActivity, ACCEPT_BILLING_FIXED_REVIEW_REFRESH_TAG)
             }
 
             override fun onLookMoreInfo(v: View, position: Int, data: AcceptBillingRecordingBean) {
@@ -240,6 +248,7 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
     }
 
     override fun rejectOrderS(result: String, position: Int) {
+        adapter.removeItem(position)
 
     }
 }

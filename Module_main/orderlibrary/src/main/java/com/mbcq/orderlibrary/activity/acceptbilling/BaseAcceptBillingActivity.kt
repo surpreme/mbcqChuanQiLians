@@ -50,6 +50,24 @@ import org.json.JSONObject
 
 abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseBlueToothAcceptBillingActivity<V, T>(), BaseView {
 
+    companion object {
+        const val RESULT_DATA_CODE = 5848
+        const val RECEIVER_RESULT_DATA_CODE = 4439
+
+        /**
+         * 常用收货方式
+         */
+        const val COMMONLY_USED_RECEIVING_METHODS = "COMMONLY_USED_RECEIVING_METHODS"
+
+        /**
+         * 常用付货方式
+         */
+        const val COMMON_DELIVERY_METHODS = "COMMON_DELIVERY_METHODS"
+        const val COMMON_USERS_REMARK = "COMMON_USERS_REMARK"
+        const val ACCEPT_SOUND_SUCCESS_TAG = 1
+
+    }
+
     /**
      * 到达网点
      */
@@ -88,32 +106,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
     //轻重货 false 轻 true 重
     var mLightAndHeavyGoods = false
-    /**
-     * 发货人信息
-     */
-//    var mShipperId = ""//发货客户编号
-//    var mShipperMb = ""//发货人手机号
-//    var mShipperTel = ""//发货人固定电话
-//    var mShipper = ""//发货人
-//    var mShipperCid = ""//发货人身份证号
-//    var mShipperAddr = ""//发货人地址
 
-    /**
-     * 收货人信息
-     */
-//    var mConsigneeMb = ""//收货人手机号
-//    var mConsigneeTel = ""//收货人固定电话
-//    var mConsignee = ""//收货人
-//    var mConsigneeAddr = ""//收货人地址
-    /**
-     * 常用收货方式
-     */
-    val COMMONLY_USED_RECEIVING_METHODS = "COMMONLY_USED_RECEIVING_METHODS"
-
-    /**
-     * 常用付货方式
-     */
-    val COMMON_DELIVERY_METHODS = "COMMON_DELIVERY_METHODS"
 
     /**
      * 计算重量 弹窗 需要保存状态
@@ -127,9 +120,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
     protected var mCommonlyInformationSharePreferencesHelper: SharePreferencesHelper? = null
     var mGeocodeSearch: GeocodeSearch? = null
     lateinit var rxPermissions: RxPermissions
-    protected val RESULT_DATA_CODE = 5848
-    protected val RECEIVER_RESULT_DATA_CODE = 4439
-    protected val COMMON_USERS_REMARK = "COMMON_USERS_REMARK"
+
 
     /**
      * 运单号生成方式
@@ -146,7 +137,6 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
     protected var isTalkGoodsStrTag: Boolean = false
     var mSoundPool: SoundPool? = null
     protected var soundPoolMap: HashMap<Int, Int>? = null
-    val ACCEPT_SOUND_SUCCESS_TAG = 1
     override fun isShowErrorDialog() = true
 
     override fun initExtra() {
@@ -397,6 +387,8 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                     shipper_name_ed.setText(mDatas.optString("name"))
                     shipper_address_ed.setText(mDatas.optString("address"))
                     shipper_mShipperTel_ed.setText(mDatas.optString("shipperTel"))
+                    shipper_mShipperCid_ed.setText(mDatas.optString("shipperCid"))
+                    shipper_mShipperId_ed.setText(mDatas.optString("shipperId"))
                     add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
                 }
             }
@@ -791,6 +783,12 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
             if (receiver_company_ed.text.toString().isEmpty()) {
                 showToast("请输入收货人公司")
                 showEditTextFocus(receiver_company_ed)
+                return false
+            }
+        if (mAccTypeStr.replace(" ", "") == "月结")
+            if (shipper_mShipperId_ed.text.toString().isEmpty()) {
+                showToast("月结客户必须输入客户编号")
+                showEditTextFocus(shipper_mShipperId_ed)
                 return false
             }
         return true

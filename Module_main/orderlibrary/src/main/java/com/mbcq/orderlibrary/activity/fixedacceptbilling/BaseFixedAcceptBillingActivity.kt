@@ -80,24 +80,6 @@ abstract class BaseFixedAcceptBillingActivity<V : BaseView, T : BasePresenterImp
      */
     var waybillNumberTag = ""
 
-    /**
-     * 发货人信息
-     */
-    /*  var mShipperId = ""//发货客户编号
-      var mShipperMb = ""//发货人手机号
-      var mShipperTel = ""//发货人固定电话
-      var mShipper = ""//发货人
-      var mShipperCid = ""//发货人身份证号
-      var mShipperAddr = ""//发货人地址
-
-      */
-    /**
-     * 收货人信息
-     *//*
-    var mConsigneeMb = ""//收货人手机号
-    var mConsigneeTel = ""//收货人固定电话
-    var mConsignee = ""//收货人
-    var mConsigneeAddr = ""//收货人地址*/
 
     var mSearchaId = ""
 

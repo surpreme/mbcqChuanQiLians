@@ -68,7 +68,7 @@ import java.util.List;
  * @datetime: 2020-02-11
  * @desc: 定位选点
  */
-public class BaseAmapSelectionsActivity extends AppCompatActivity implements LocationSource,
+public abstract class BaseAmapSelectionsActivity extends AppCompatActivity implements LocationSource,
         AMapLocationListener, GeocodeSearch.OnGeocodeSearchListener, PoiSearch.OnPoiSearchListener { // Inputtips.InputtipsListener
 
 
@@ -504,11 +504,15 @@ public class BaseAmapSelectionsActivity extends AppCompatActivity implements Loc
                 searchResultAdapter.setSelectedPosition(position);
                 searchResultAdapter.notifyDataSetChanged();
                 mSelectAddress = poiItem.getCityName() + poiItem.getAdName() + poiItem.getSnippet() + poiItem.getTitle();
+                selectData(mSelectAddress);
                 mLatitude = String.valueOf(poiItem.getLatLonPoint().getLatitude());
                 mLongitude = String.valueOf(poiItem.getLatLonPoint().getLongitude());
             }
         }
     };
+
+    public abstract void selectData(String result);
+
 
     public void showDialog() {
         progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

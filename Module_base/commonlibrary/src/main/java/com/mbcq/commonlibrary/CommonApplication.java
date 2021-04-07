@@ -34,7 +34,7 @@ public class CommonApplication extends BaseApplication {
         initGreenDao();
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5f4da9b3");
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-//        builder.proxy(Proxy.NO_PROXY);//禁止网络抓包
+        builder.proxy(Proxy.NO_PROXY);//禁止网络抓包
         OkGo.getInstance().init(this).setCacheMode(CacheMode.NO_CACHE)/*.setOkHttpClient(builder.build())*/;
 
     }

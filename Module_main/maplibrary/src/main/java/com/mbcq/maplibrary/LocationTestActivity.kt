@@ -16,6 +16,10 @@ class LocationTestActivity : BaseAmapSelectionsActivity() {
     @Autowired(name = "LocationMapType")
     @JvmField
     var mLocationMapType: String = ""
+    override fun selectData(result: String) {
+        EventBus.getDefault().postSticky(LocationResultEvent(result, mLocationMapType.toInt(),getmLatitude(),getmLongitude()))
+        onBackPressed()
+    }
 
     override fun onStart() {
         super.onStart()

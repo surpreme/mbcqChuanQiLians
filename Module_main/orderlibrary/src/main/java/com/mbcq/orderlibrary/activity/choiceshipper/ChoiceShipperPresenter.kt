@@ -2,7 +2,9 @@ package com.mbcq.orderlibrary.activity.choiceshipper
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.commonlibrary.ApiInterface
 import org.json.JSONObject
 
@@ -13,7 +15,13 @@ import org.json.JSONObject
 
 class ChoiceShipperPresenter : BasePresenterImpl<ChoiceShipperContract.View>(), ChoiceShipperContract.Presenter {
     override fun getInfo() {
-        get<String>(ApiInterface.SHIPPER_SELECT_INFO_GET + "?=", null, object : CallBacks {
+        val params = HttpParams()
+        params.put("limit", "9999")
+        params.put("page", 1)
+        mView?.getContext()?.let {
+            params.put("webidCode", UserInformationUtil.getWebIdCode(it))
+        }
+        get<String>(ApiInterface.SHIPPER_SELECT_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {
@@ -23,6 +31,18 @@ class ChoiceShipperPresenter : BasePresenterImpl<ChoiceShipperContract.View>(), 
             }
 
         })
+    }
+
+    override fun deleteShipper(id: String, position: Int) {
+        val paramsObj = JSONObject()
+        paramsObj.put("id", id)
+        post<String>(ApiInterface.SHIPPER_DELETE_INFO_POST, getRequestBody(paramsObj), object : CallBacks {
+            override fun onResult(result: String) {
+                mView?.deleteShipperS(position)
+            }
+
+        })
+
     }
 
 }

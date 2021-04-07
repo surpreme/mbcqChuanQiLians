@@ -5,10 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
+import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
-import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
@@ -23,7 +24,7 @@ import org.json.JSONObject
 
 @Route(path = ARouterConstants.ChoiceReceiverActivity)
 class ChoiceReceiverActivity : BaseListMVPActivity<ChoiceReceiverContract.View, ChoiceReceiverPresenter, ChoiceReceiverBean>(), ChoiceReceiverContract.View {
-     val RECEIVER_RESULT_DATA_CODE = 4439
+    val RECEIVER_RESULT_DATA_CODE = 4439
 
     override fun getLayoutId(): Int = R.layout.activity_choice_receiver
     override fun initViews(savedInstanceState: Bundle?) {
@@ -31,8 +32,8 @@ class ChoiceReceiverActivity : BaseListMVPActivity<ChoiceReceiverContract.View, 
         setStatusBar(R.color.base_blue)
     }
 
-    override fun initDatas() {
-        super.initDatas()
+    override fun onResume() {
+        super.onResume()
         mPresenter?.getInfo()
 
     }
@@ -49,6 +50,22 @@ class ChoiceReceiverActivity : BaseListMVPActivity<ChoiceReceiverContract.View, 
 
     override fun getRecyclerViewId(): Int = R.id.choice_receiver_recycler
     override fun setAdapter(): BaseRecyclerAdapter<ChoiceReceiverBean> = ChoiceReceiverAdapter(mContext).also {
+        it.mOnDeleteInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                val obj = JSONObject(mResult)
+                TalkSureCancelDialog(mContext, getScreenWidth(), "您确认要删除收货客户${obj.optString("contactMan")}吗？") {
+                    mPresenter?.deleteReceiver(obj.optString("id"), position)
+                }.show()
+
+            }
+
+        }
+        it.mOnFixedInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                ARouter.getInstance().build(ARouterConstants.FixReceiverActivity).withString("FixReceiverData", mResult).navigation()
+            }
+
+        }
         it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
 
@@ -69,6 +86,11 @@ class ChoiceReceiverActivity : BaseListMVPActivity<ChoiceReceiverContract.View, 
     }
 
     override fun getInfoS(list: List<ChoiceReceiverBean>) {
-        adapter.appendData(list)
+        adapter.replaceData(list)
+    }
+
+    override fun deleteReceiverS(position: Int) {
+        adapter.removeItem(position)
+
     }
 }

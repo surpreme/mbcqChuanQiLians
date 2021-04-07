@@ -17,6 +17,7 @@ import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.util.screen.StatusBarUtils
 import com.mbcq.baselibrary.util.system.ToastUtils
+import com.mbcq.baselibrary.view.CnToolbar
 import com.mbcq.baselibrary.view.CustomizeToastUtil
 import com.mbcq.baselibrary.view.SingleClick
 import org.greenrobot.eventbus.EventBus
@@ -32,6 +33,7 @@ abstract class BaseActivity : AppCompatActivity() {
     open fun initDatas() {}
     open fun onBeforeCreate() {}
     protected lateinit var mContext: Context
+
     /**
      * eventBus
      * true必须实现接收方法 @Subscribe
@@ -210,6 +212,15 @@ abstract class BaseActivity : AppCompatActivity() {
 
 fun View.onSingleClicks(onSingleClick: (View) -> Unit) {
     this.setOnClickListener(object : SingleClick() {
+        override fun onSingleClick(v: View) {
+            onSingleClick.invoke(v)
+        }
+
+    })
+}
+
+fun CnToolbar.onToolbarBackClicks(onSingleClick: (View) -> Unit) {
+    this.setBackButtonOnClickListener(object : SingleClick() {
         override fun onSingleClick(v: View) {
             onSingleClick.invoke(v)
         }

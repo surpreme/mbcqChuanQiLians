@@ -11,12 +11,14 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 class ChoiceShipperContract {
 
     interface View : BaseView {
-        fun  getInfoS(list: List<ChoiceShipperBean>)
+        fun getInfoS(list: List<ChoiceShipperBean>)
 
+        fun deleteShipperS(position:Int)
     }
 
     interface Presenter : BasePresenter<View> {
-        fun  getInfo()
+        fun getInfo()
+        fun deleteShipper(id: String,position:Int)
 
     }
 }

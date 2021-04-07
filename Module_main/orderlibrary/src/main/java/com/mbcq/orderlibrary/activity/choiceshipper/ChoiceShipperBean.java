@@ -42,7 +42,7 @@ public class ChoiceShipperBean {
 
     private int id;
     private int companyId;
-    private String vipId;
+    private String vipId="";
     private String companyName;
     private int cType;
     private String cTypeStr;

@@ -106,11 +106,11 @@ public abstract class BaseDialogFragment extends DialogFragment {
     }
 
     protected boolean setCanceledOnTouchOutside() {
-        return false;
+        return true;
     }
 
     protected boolean setCancelable() {
-        return false;
+        return true;
     }
 
     protected int setDialogGravity() {

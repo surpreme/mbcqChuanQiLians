@@ -1,12 +1,14 @@
 package com.mbcq.orderlibrary.activity.acceptbilling
 
 import android.telecom.Call
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.commonlibrary.ApiInterface
 import com.mbcq.commonlibrary.Constant
+import kotlinx.android.synthetic.main.activity_accept_billing.*
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
@@ -497,6 +499,8 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
     }
      */
     override fun getShipperInfo(params: HttpParams) {
+        params.put("page", "1")
+        params.put("limit", "9999")
         get<String>(ApiInterface.ACCEPT_SELECT_SHIPPER_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
@@ -515,7 +519,43 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
         })
     }
 
+    override fun getMonthShipperInfo() {
+        val params = HttpParams()
+        mView?.getContext()?.let {
+            params.put("webidCode", UserInformationUtil.getWebIdCode(it))
+            params.put("page", "1")
+            params.put("limit", "9999")
+        }
+
+        get<String>(ApiInterface.ACCEPT_SELECT_SHIPPER_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                val datas = obj.opt("data")
+                datas?.let {
+                    val json = JSONTokener(it.toString()).nextValue()
+                    if (json is JSONArray) {
+                        if (!(json as JSONArray).isNull(0)) {
+                            val jay = JSONArray(it.toString())
+                            val oJay = JSONArray()
+                            for (index in 0 until jay.length()) {
+                                val itemObj = jay.getJSONObject(index)
+                                if (itemObj.optString("vipId").isNotBlank()) {
+                                    oJay.put(itemObj)
+                                }
+                            }
+                            mView?.getShipperInfoS(oJay.toString())
+                        }
+
+                    }
+
+                }
+            }
+
+        })
+    }
+
     override fun getReceiverInfo(params: HttpParams) {
+        params.put("limit", "9999")
         get<String>(ApiInterface.ACCEPT_SELECT_RECEIVER_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
@@ -606,7 +646,7 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
     override fun getGaoDeAddressLocation(params: HttpParams, latitude: String, longitude: String) {
         get<String>("https://restapi.amap.com/v3/geocode/geo", params, false, object : CallBacks {
             override fun onResult(result: String) {
-                mView?.getGaoDeAddressLocationS(result,latitude,longitude)
+                mView?.getGaoDeAddressLocationS(result, latitude, longitude)
             }
 
         })

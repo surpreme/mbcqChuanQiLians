@@ -17,6 +17,7 @@ import com.mbcq.baselibrary.dialog.dialogfragment.BaseDialogFragment
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
+import com.mbcq.baselibrary.util.system.SoftKeyboardUtil
 import com.mbcq.baselibrary.util.system.pinyin.PinYinUtil
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.Constant
@@ -46,7 +47,8 @@ class FilterDialog : BaseDialogFragment {
     var mClickInterface: OnClickInterface.OnRecyclerClickInterface
     lateinit var filter_recycler_view: RecyclerView
     lateinit var top_title_tv: TextView
-//    lateinit var close_btn: Button
+
+    //    lateinit var close_btn: Button
     lateinit var filter_search_ed: EditText
     override fun setDialogWidth(): Int {
         return mScreenWidth / 4 * 3
@@ -201,6 +203,7 @@ class FilterDialog : BaseDialogFragment {
                     override fun onItemClick(v: View, position: Int, mResult: String) {
 
                         mClickInterface.onItemClick(v, position, mResult)
+                        SoftKeyboardUtil.closeKeyboard(activity)
                         dismiss()
                     }
 
@@ -213,9 +216,9 @@ class FilterDialog : BaseDialogFragment {
         } else {
             commonly_configuration_ll.visibility = View.GONE
         }
-      /*  close_btn.setOnClickListener {
-            dismiss()
-        }*/
+        /*  close_btn.setOnClickListener {
+              dismiss()
+          }*/
         if (isGridLayoutManager)
             filter_recycler_view.layoutManager = GridLayoutManager(mContext, 3)
         else
@@ -224,8 +227,8 @@ class FilterDialog : BaseDialogFragment {
         val mTextViewAdapter = TextViewAdapter<BaseTextAdapterBean>(mContext, if (mXTextGravity == 0) Gravity.CENTER else mXTextGravity)
         mTextViewAdapter.mClick = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
-
                 mClickInterface.onItemClick(v, position, mResult)
+                SoftKeyboardUtil.closeKeyboard(activity)
                 dismiss()
             }
 

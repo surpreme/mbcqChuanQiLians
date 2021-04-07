@@ -13,11 +13,13 @@ class ChoiceReceiverContract {
 
     interface View : BaseView {
         fun  getInfoS(list: List<ChoiceReceiverBean>)
+        fun deleteReceiverS(position:Int)
 
     }
 
     interface Presenter : BasePresenter<View> {
         fun  getInfo()
+        fun deleteReceiver(id: String, position:Int)
 
     }
 }

@@ -133,7 +133,7 @@ public class ApiInterface {
     /**
      * 上门提货  修改配置
      */
-    public static final String HOME_DELIVERY_SAVE_ITEM_CONFIGURATION_POST= BASE_URI + "PickUpOpe/AddPickUpJoinOpeByCondition";
+    public static final String HOME_DELIVERY_SAVE_ITEM_CONFIGURATION_POST = BASE_URI + "PickUpOpe/AddPickUpJoinOpeByCondition";
 
 
     /**
@@ -567,6 +567,22 @@ public class ApiInterface {
      */
     public static final String SHIPPER_SELECT_INFO_GET = BASE_URI + "Shipper/SelShipperByCondition";
     /**
+     * 删除发货人
+     */
+    public static final String SHIPPER_DELETE_INFO_POST = BASE_URI + "Shipper/DelShipperByCondition";
+    /**
+     * 删除收货人
+     */
+    public static final String RECEIVER_DELETE_INFO_POST = BASE_URI + "Consignee/DelConsigneeByCondition";
+    /**
+     * 修改发货人
+     */
+    public static final String SHIPPER_FIXED_INFO_POST = BASE_URI + "Shipper/UpdShipperByCondition";
+  /**
+     * 修改收货人
+     */
+    public static final String CONSIGNEE_FIXED_INFO_POST = BASE_URI + "Consignee/UpdConsigneeByCondition";
+    /**
      * 获取收货人列表
      */
     public static final String RECEIVER_SELECT_INFO_GET = BASE_URI + "Consignee/SelConsigneeByCondition";
@@ -759,7 +775,7 @@ public class ApiInterface {
     /**
      * 月付核销 核销
      */
-    public static final String MONTHLY_TUBERCULOSIS_SALES_SAVE_POST = BASE_URI + "CwhxOpe/AddAccArrivedHx";
+    public static final String MONTHLY_TUBERCULOSIS_SALES_SAVE_POST = BASE_URI + "CwhxOpe/AddAccMonthHx";
     /**
      * 短驳车费 核销
      */

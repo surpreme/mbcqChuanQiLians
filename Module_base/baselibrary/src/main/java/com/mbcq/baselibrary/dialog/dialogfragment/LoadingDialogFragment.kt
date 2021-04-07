@@ -15,6 +15,13 @@ class LoadingDialogFragment : BaseDialogFragment() {
 
     }
 
+    override fun isCancelable(): Boolean {
+        return false
+    }
+      override fun setCanceledOnTouchOutside(): Boolean {
+        return false
+    }
+
     override fun setContentView(): Int=R.layout.dialog_loading;
 
 

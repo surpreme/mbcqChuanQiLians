@@ -14,6 +14,7 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mbcq.amountlibrary.R
+import com.mbcq.amountlibrary.activity.allwriteoffpayment.commonwriteoff.CommonWriteOffActivity
 import com.mbcq.amountlibrary.activity.paymentedwriteoffpaycard.PaymentInfoBean
 import com.mbcq.amountlibrary.activity.paymentedwriteoffpaycard.PaymentWriteOffPayCardAdapter
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
@@ -92,8 +93,8 @@ class CommonWriteOffPayCardActivity : BaseListMVPActivity<CommonWriteOffPayCardC
                 obj.put("opeMan", payee_ed.text.toString())
                 obj.put("receiptTypeStr", payment_method_tv.text.toString())
                 obj.put("receiptNo", mReceiptNo)
-              /*  obj.put("billno", JSONObject(xSelectData).optString("billno"))
-                obj.put("account", JSONObject(xSelectData).optString("accArrived"))*/
+                /*  obj.put("billno", JSONObject(xSelectData).optString("billno"))
+                  obj.put("account", JSONObject(xSelectData).optString("accArrived"))*/
                 val jay = JSONArray()
                 for (item in adapter.getAllData()) {
                     val itemObj = JSONObject()
@@ -208,8 +209,13 @@ class CommonWriteOffPayCardActivity : BaseListMVPActivity<CommonWriteOffPayCardC
 
     }
 
+    companion object {
+        const val COMMON_WRITE_OFF_REFRESH_TAG = 4417
+    }
+
     override fun savePayCardInfoS(result: String) {
         TalkSureDialog(mContext, getScreenWidth(), "核销成功，点击返回！") {
+            setResult(COMMON_WRITE_OFF_REFRESH_TAG)
             onBackPressed()
         }.show()
     }

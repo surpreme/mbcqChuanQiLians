@@ -114,6 +114,11 @@ class AcceptBillingContract {
         fun getSalesman(type: Int)
 
         /**
+         * 获取月结客户
+         */
+        fun getMonthShipperInfo()
+
+        /**
          * 通过地址获取经纬度 地理编码
          * 高德 https://developer.amap.com/api/webservice/guide/api/georegeo
          */

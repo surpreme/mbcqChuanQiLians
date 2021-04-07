@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
+import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
@@ -32,9 +34,10 @@ class ChoiceShipperActivity : BaseListMVPActivity<ChoiceShipperContract.View, Ch
 
     }
 
-    override fun initDatas() {
-        super.initDatas()
+    override fun onResume() {
+        super.onResume()
         mPresenter?.getInfo()
+
     }
 
 
@@ -51,6 +54,21 @@ class ChoiceShipperActivity : BaseListMVPActivity<ChoiceShipperContract.View, Ch
     override fun getRecyclerViewId(): Int = R.id.choice_shipper_recycler
 
     override fun setAdapter(): BaseRecyclerAdapter<ChoiceShipperBean> = ChoiceShipperAdapter(mContext).also {
+        it.mOnDeleteInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                val obj = JSONObject(mResult)
+                TalkSureCancelDialog(mContext, getScreenWidth(), "您确认要删除发货客户${obj.optString("contactMan")}吗？") {
+                    mPresenter?.deleteShipper(obj.optString("id"), position)
+                }.show()
+
+            }
+        }
+        it.mOnFixedInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                ARouter.getInstance().build(ARouterConstants.FixShipperActivity).withString("FixShipperData", mResult).navigation()
+            }
+
+        }
         it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
 
@@ -60,8 +78,8 @@ class ChoiceShipperActivity : BaseListMVPActivity<ChoiceShipperContract.View, Ch
                 obj.put("phone", resultObj.optString("contactMb"))
                 obj.put("address", resultObj.optString("address"))
                 obj.put("shipperTel", resultObj.optString("contactTel"))
-                obj.put("shipperCid", "")
-                obj.put("shipperId", "")
+                obj.put("shipperCid", resultObj.optString("idCard"))
+                obj.put("shipperId", resultObj.optString("vipId"))
                 val json = GsonUtils.toPrettyFormat(obj.toString())
                 setResult(RESULT_DATA_CODE, Intent().putExtra("AddShipperResultData", json))
                 finish()
@@ -71,6 +89,10 @@ class ChoiceShipperActivity : BaseListMVPActivity<ChoiceShipperContract.View, Ch
     }
 
     override fun getInfoS(list: List<ChoiceShipperBean>) {
-        adapter.appendData(list)
+        adapter.replaceData(list)
+    }
+
+    override fun deleteShipperS(position: Int) {
+        adapter.removeItem(position)
     }
 }
