@@ -2,10 +2,12 @@ package com.mbcq.orderlibrary.activity.waybillrecord
 
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
@@ -25,6 +27,7 @@ import com.mbcq.commonlibrary.greendao.DaoSession
 import com.mbcq.commonlibrary.greendao.WebAreaDbInfoDao
 import com.mbcq.orderlibrary.R
 import kotlinx.android.synthetic.main.activity_waybill_record.*
+import org.json.JSONObject
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,12 +41,26 @@ import java.util.*
 @Suppress("IMPLICIT_CAST_TO_ANY")
 @Route(path = ARouterConstants.WaybillRecordActivity)
 class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, WaybillRecordPresenter, WaybillRecordBean>(), WaybillRecordContract.View {
+    @Autowired(name = "WaybillRecord")
+    @JvmField
+    var mWaybillRecord: String = "{}"
     var mStartDateTag = ""
     var mEndDateTag = ""
     var mShippingOutletsTag = ""//发货网点
+    private var isCanRefreshTotalTitle = true
+
+    companion object {
+        const val AGAIN_FIXED_DATA_CODE = 7389
+
+    }
 
     override fun getLayoutId(): Int = R.layout.activity_waybill_record
-    private var isCanRefreshTotalTitle = true
+
+    override fun initExtra() {
+        super.initExtra()
+        ARouter.getInstance().inject(this)
+    }
+
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
@@ -126,7 +143,7 @@ class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, W
     override fun getSmartEmptyId(): Int = R.id.waybill_record_smart_frame
     override fun getRecyclerViewId(): Int = R.id.waybill_record_recycler
 
-    override fun setAdapter(): BaseRecyclerAdapter<WaybillRecordBean> = WaybillRecordAdapter(mContext).also {
+    override fun setAdapter(): BaseRecyclerAdapter<WaybillRecordBean> = WaybillRecordAdapter(mContext, if (!mWaybillRecord.isNullOrBlank()) (JSONObject(mWaybillRecord).optBoolean("isShowFixed")) else false).also {
         it.mOnRecyclerDeleteClickInterface = object : OnClickInterface.OnRecyclerDeleteClickInterface {
             override fun onDelete(v: View, position: Int, mResult: String) {
                 //billState @1 已入库
@@ -137,6 +154,13 @@ class WaybillRecordActivity : BaseSmartMVPActivity<WaybillRecordContract.View, W
                 TalkSureCancelDialog(mContext, getScreenWidth(), "您确定要删除运单号为${it.getAllData()[position].billno}的运单吗？ 删除后不可恢复！") {
                     mPresenter?.deleteWayBill(mResult, position)
                 }.show()
+            }
+
+        }
+        it.mOnRecyclerFixedClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                setResult(AGAIN_FIXED_DATA_CODE, Intent().putExtra("fixedData",mResult) )
+                onBackPressed()
             }
 
         }

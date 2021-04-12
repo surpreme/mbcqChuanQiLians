@@ -20,7 +20,6 @@
             android:layout_height="15dp" />
 
 
-
         <TextView
             android:id="@+id/title_tv"
             android:layout_width="match_parent"
@@ -50,16 +49,18 @@
             android:maxLength="4"
             android:maxLines="1"
             android:paddingLeft="10dp"
-            android:textColor="#000"
+            android:textColor="@color/black"
             android:textSize="18sp"
             tools:hint="还有9件未装车" />
+
         <TextView
             android:id="@+id/scan_num_tips_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="还剩50件未装车"
+            android:layout_gravity="left"
             android:layout_marginLeft="15dp"
-            android:layout_gravity="left"/>
+            tools:text="还剩50件未装车" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"

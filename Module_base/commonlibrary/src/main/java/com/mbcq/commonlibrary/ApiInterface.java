@@ -89,7 +89,7 @@ public class ApiInterface {
 
 
     /**
-     * 运单记录  获取所有信息 Waybill record
+     * 运单记录  获取所有信息 Waybill record SelWaybillByCondition
      */
     public static final String WAYBILL_RECORD_SELECT_ALLINFO_GET = BASE_URI + "WaybillOpe/SelWaybillByCondition";
     /**
@@ -590,6 +590,10 @@ public class ApiInterface {
      * 查询运单的信息 详细
      */
     public static final String RECORD_SELECT_ORDER_MORE_INFO_GET = BASE_URI + "WaybillOpe/SelOneWaybillById";
+    /**
+     * 查询运单的信息 详细2
+     */
+    public static final String RECORD_SELECT_ORDER_MORES_INFO_GET = BASE_URI + "WaybillOpe/SelWaybillByCondition";
 
     /**
      * 异常记录 新增 提交

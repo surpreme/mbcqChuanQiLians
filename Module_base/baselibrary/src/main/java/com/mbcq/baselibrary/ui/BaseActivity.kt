@@ -227,3 +227,11 @@ fun CnToolbar.onToolbarBackClicks(onSingleClick: (View) -> Unit) {
 
     })
 }
+fun CnToolbar.onToolbarRightClicks(onSingleClick: (View) -> Unit) {
+    this.setRightButtonOnClickListener(object : SingleClick() {
+        override fun onSingleClick(v: View) {
+            onSingleClick.invoke(v)
+        }
+
+    })
+}

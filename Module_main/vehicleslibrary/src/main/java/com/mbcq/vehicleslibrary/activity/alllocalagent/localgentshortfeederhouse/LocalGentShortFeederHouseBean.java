@@ -183,7 +183,7 @@ public class LocalGentShortFeederHouseBean {
     private String opeMan;
     private String remark;
     private String fromType;
-    private String outCygs = "";
+    private String outcygs = "";
     private String outacc = "";
 
     private String outbillno = "";
@@ -222,12 +222,12 @@ public class LocalGentShortFeederHouseBean {
         this.vPrice = vPrice;
     }
 
-    public String getOutCygs() {
-        return outCygs;
+    public String getOutcygs() {
+        return outcygs;
     }
 
-    public void setOutCygs(String outCygs) {
-        this.outCygs = outCygs;
+    public void setOutcygs(String outcygs) {
+        this.outcygs = outcygs;
     }
 
     public String getOutacc() {

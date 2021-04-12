@@ -48,7 +48,7 @@ class LocalGentShortFeederHouseTransitCompanyConfigurationDialog(var listDatas: 
         })
         if (mShowAgain.isNotBlank()){
             val mShowAgainObj = JSONObject(mShowAgain)
-            transit_company_tv.text = mShowAgainObj.optString("outCygs")
+            transit_company_tv.text = mShowAgainObj.optString("outcygs")
             transit_fee_ed.setText(mShowAgainObj.optString("outacc"))
             transfer_order_number_ed.setText(mShowAgainObj.optString("outbillno"))
             transfer_call_ed.setText(mShowAgainObj.optString("contactmb"))
@@ -58,7 +58,7 @@ class LocalGentShortFeederHouseTransitCompanyConfigurationDialog(var listDatas: 
         sure_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 val obj = JSONObject()
-                obj.put("outCygs", transit_company_tv.text.toString())//中转公司
+                obj.put("outcygs", transit_company_tv.text.toString())//中转公司
                 obj.put("outacc", transit_fee_ed.text.toString())//中转费
                 obj.put("outbillno", transfer_order_number_ed.text.toString())//中转单号
                 obj.put("contactmb", transfer_call_ed.text.toString())//中转手机号

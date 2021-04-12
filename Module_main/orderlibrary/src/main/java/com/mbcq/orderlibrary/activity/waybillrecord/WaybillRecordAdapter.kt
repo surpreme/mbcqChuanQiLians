@@ -9,18 +9,20 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.orderlibrary.R
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout
 
-class WaybillRecordAdapter(context: Context?) : BaseRecyclerAdapter<WaybillRecordBean>(context) {
+class WaybillRecordAdapter(context: Context, var isShowFixed: Boolean = false) : BaseRecyclerAdapter<WaybillRecordBean>(context) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ItemViewHolder(inflater.inflate(R.layout.item_waybill_record, parent, false))
     }
 
     var mOnRecyclerDeleteClickInterface: OnClickInterface.OnRecyclerDeleteClickInterface? = null
+    var mOnRecyclerFixedClickInterface: OnClickInterface.OnRecyclerClickInterface? = null
 
     @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -32,16 +34,17 @@ class WaybillRecordAdapter(context: Context?) : BaseRecyclerAdapter<WaybillRecor
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.shipper_tv.text = mDatas[position].shipper
         holder.receiver_tv.text = mDatas[position].consignee
-        var mProduct=""
-        mProduct = if (mDatas[position].product.length>2){
-            mDatas[position].product.substring(0,3)+"..."
-        }else{
+        holder.fixed_ll.visibility = if (isShowFixed) View.VISIBLE else View.GONE
+        var mProduct = ""
+        mProduct = if (mDatas[position].product.length > 2) {
+            mDatas[position].product.substring(0, 3) + "..."
+        } else {
             mDatas[position].product
         }
-        var mPackages=""
-        mPackages = if (mDatas[position].packages.length>2){
-            mDatas[position].packages.substring(0,3)+"..."
-        }else{
+        var mPackages = ""
+        mPackages = if (mDatas[position].packages.length > 2) {
+            mDatas[position].packages.substring(0, 3) + "..."
+        } else {
             mDatas[position].packages
         }
 
@@ -53,9 +56,15 @@ class WaybillRecordAdapter(context: Context?) : BaseRecyclerAdapter<WaybillRecor
             }
 
         })
+        holder.fixed_ll.setOnClickListener(object : SingleClick() {
+            override fun onSingleClick(v: View) {
+                mOnRecyclerFixedClickInterface?.onItemClick(v, position, Gson().toJson(mDatas[position]))
+            }
+
+        })
         holder.mFather_cl.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View) {
-                mClickInterface?.onItemClick(v,position,mDatas[position].billno)
+                mClickInterface?.onItemClick(v, position, mDatas[position].billno)
             }
 
         })
@@ -74,6 +83,7 @@ class WaybillRecordAdapter(context: Context?) : BaseRecyclerAdapter<WaybillRecor
         var shipper_tv: TextView = itemView.findViewById(R.id.shipper_tv)
         var receiver_tv: TextView = itemView.findViewById(R.id.receiver_tv)
         var delete_ll: LinearLayout = itemView.findViewById(R.id.delete_ll)
+        var fixed_ll: LinearLayout = itemView.findViewById(R.id.fixed_ll)
         var mFather_cl: ConstraintLayout = itemView.findViewById(R.id.mFather_cl)
 
     }

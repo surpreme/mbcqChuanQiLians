@@ -684,41 +684,43 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:text="回付运费"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/return_freight_ed"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/hollow_out_gray"
-                        android:gravity="center|left"
-                        android:inputType="numberDecimal"
-                        android:paddingLeft="10dp"
-                        android:textColor="@color/base_red"
-                        android:textSize="17sp"
-                        tools:text="200" />
-                </LinearLayout>
 
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/return_freight_ll"
+                app:layout_constraintTop_toBottomOf="@+id/freight_onarrival_hide_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="回付运费"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/return_freight_ed"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/hollow_out_gray"
+                    android:gravity="center|left"
+                    android:inputType="numberDecimal"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/base_red"
+                    android:textSize="17sp"
+                    tools:text="200" />
+            </LinearLayout>
             <TextView
                 android:id="@+id/total_freight_title_tv"
                 android:layout_width="80dp"
@@ -730,7 +732,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/freight_onarrival_hide_ll" />
+                app:layout_constraintTop_toBottomOf="@id/return_freight_ll" />
 
             <TextView
                 android:id="@+id/total_freight_tv"

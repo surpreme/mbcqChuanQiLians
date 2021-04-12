@@ -2,6 +2,7 @@ package com.mbcq.baselibrary.dialog.dialogfragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.mbcq.baselibrary.util.system.SoftKeyboardUtil;
 
 import java.lang.reflect.Field;
 
@@ -37,6 +40,19 @@ public abstract class BaseDialogFragment extends DialogFragment {
         return mBaseView;
     }
 
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        if (getActivity() != null)
+            SoftKeyboardUtil.closeKeyboard(getActivity());
+        super.onDestroy();
+
+    }
 
     @Override
     public void onStart() {
@@ -69,6 +85,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     /**
      * 如果显示闪退 用这个方法
      * 内部类有两个参数不公开 反射方法设置
+     *
      * @param manager
      * @param tag
      */

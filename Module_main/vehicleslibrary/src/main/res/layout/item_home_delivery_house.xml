@@ -111,7 +111,7 @@
         android:id="@+id/transit_company_info_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:textColor="@color/base_gold"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/waybill_move_iv"
         app:layout_constraintRight_toLeftOf="@+id/waybill_move_iv"

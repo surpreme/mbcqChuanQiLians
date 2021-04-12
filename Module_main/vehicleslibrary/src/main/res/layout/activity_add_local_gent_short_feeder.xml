@@ -12,7 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
-        app:centerTextViewText="中转出库"
+        app:centerTextViewText="外转出库"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout

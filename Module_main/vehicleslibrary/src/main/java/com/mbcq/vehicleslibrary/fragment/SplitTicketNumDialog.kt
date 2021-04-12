@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.View
 import com.mbcq.baselibrary.dialog.dialogfragment.BaseDialogFragment
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.util.system.SoftKeyboardUtil
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.vehicleslibrary.R
 import kotlinx.android.synthetic.main.dialog_scan_num.*
@@ -21,6 +22,7 @@ import java.util.regex.Pattern
 class SplitTicketNumDialog(var mAllNum: Int = 0, var mClackInterface: OnClickInterface.OnClickInterface? = null) : BaseDialogFragment() {
     @SuppressLint("SetTextI18n")
     override fun initView(view: View, savedInstanceState: Bundle?) {
+        SoftKeyboardUtil.showAndHideInput(scan_num_ed,true)
         scan_num_ed.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -67,6 +69,10 @@ class SplitTicketNumDialog(var mAllNum: Int = 0, var mClackInterface: OnClickInt
         })
     }
 
+    override fun dismiss() {
+        SoftKeyboardUtil.hideKeyboard(activity,scan_num_ed)
+        super.dismiss()
+    }
     private fun checkStrIsNum(str: String): Boolean {
         try {
             /** 先将str转成BigDecimal，然后在转成String  */

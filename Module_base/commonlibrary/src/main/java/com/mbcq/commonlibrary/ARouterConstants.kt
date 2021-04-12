@@ -26,6 +26,7 @@ object ARouterConstants {
 
     //修改发货人
     const val FixShipperActivity = "/order/FixShipperActivity"
+
     //修改收货客户
     const val FixReceiverActivity = "/order/FixReceiverActivity"
 
@@ -37,7 +38,11 @@ object ARouterConstants {
     const val WaybillDetailsActivity = "/order/WaybillDetailsActivity"
     const val PrintAcceptBillingActivity = "/order/PrintAcceptBillingActivity"
     const val ClaimSettlementActivity = "/order/ClaimSettlementActivity"
+
+    //选择发货人
     const val ChoiceShipperActivity = "/order/ChoiceShipperActivity"
+
+    //选择收货人
     const val ChoiceReceiverActivity = "/order/ChoiceReceiverActivity"
     const val GoodsReceiptInfoActivity = "/order/GoodsReceiptInfoActivity"
     const val PayBarActivity = "/order/PayBarActivity"
@@ -105,6 +110,8 @@ object ARouterConstants {
     const val TrunkUnLoadingVehiclesActivity = "/vehicles/TrunkUnLoadingVehiclesActivity"
     const val LocalAgentActivity = "/vehicles/LocalAgentActivity"
     const val VehicleArchivesActivity = "/vehicles/VehicleArchivesActivity"
+
+    //新增外转出库配置
     const val AddLocalGentShortFeederActivity = "/vehicles/AddLocalGentShortFeederActivity"
     const val LocalGentShortFeederHouseActivity = "/vehicles/LocalGentShortFeederHouseActivity"
     const val FixedLocalGentShortFeederHouseActivity = "/vehicles/FixedLocalGentShortFeederHouseActivity"

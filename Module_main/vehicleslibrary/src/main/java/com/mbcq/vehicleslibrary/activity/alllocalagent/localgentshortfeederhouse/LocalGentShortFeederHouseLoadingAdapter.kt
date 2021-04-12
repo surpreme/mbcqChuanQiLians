@@ -39,7 +39,7 @@ class LocalGentShortFeederHouseLoadingAdapter(context: Context?) : BaseRecyclerA
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.shipper_tv.text = mDatas[position].shipper
         holder.receiver_tv.text = mDatas[position].consignee
-        holder.transit_company_info_tv.text = "${if (mDatas[position].outCygs.isNotBlank()) "${mDatas[position].outCygs}\n" else ""}${if (mDatas[position].outacc.isNotBlank()) "中转费${mDatas[position].outacc}" else ""}"
+        holder.transit_company_info_tv.text = "${if (mDatas[position].outcygs.isNotBlank()) "${mDatas[position].outcygs}\n" else ""}${if (mDatas[position].outacc.isNotBlank()) "中转费${mDatas[position].outacc}" else ""}"
 //        holder.transit_company_info_tv.text = /*if (mDatas[position].outCygs.isNotBlank()) "${mDatas[position].outCygs}" else "" +*/ if (mDatas[position].outacc.isNotBlank()) mDatas[position].outacc else ""
         holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].qty}件 ${mDatas[position].volumn}m³ ${mDatas[position].packages} ${mDatas[position].weight}Kg ${mDatas[position].accTypeStr}${mDatas[position].accSum}  "
 

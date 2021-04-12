@@ -32,15 +32,16 @@
 
             <TextView
                 android:id="@+id/order_number_title_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:gravity="center|left"
                 android:text="订单号"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="@+id/arrive_outlet_title_tv"
+                app:layout_constraintRight_toRightOf="@+id/arrive_outlet_title_tv"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
@@ -71,14 +72,14 @@
 
             <TextView
                 android:id="@+id/waybill_number_title_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="22dp"
-                android:gravity="center"
+                android:gravity="center|left"
                 android:text="运单号"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintLeft_toLeftOf="@+id/arrive_outlet_title_tv"
+                app:layout_constraintRight_toRightOf="@+id/arrive_outlet_title_tv"
                 app:layout_constraintTop_toBottomOf="@+id/order_number_title_tv" />
 
             <EditText
@@ -583,6 +584,10 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -609,6 +614,10 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -633,6 +642,10 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -656,6 +669,10 @@
                         android:paddingLeft="10dp" />
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -683,6 +700,10 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -706,6 +727,10 @@
                         android:paddingLeft="10dp" />
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -736,7 +761,7 @@
                     <ImageView
                         android:id="@+id/shipper_address_location_iv"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_location_icon" />
 
@@ -843,6 +868,9 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -871,6 +899,10 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -895,6 +927,10 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -918,6 +954,10 @@
                         android:paddingLeft="10dp" />
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -945,6 +985,10 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -970,6 +1014,10 @@
                         android:paddingLeft="10dp" />
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1000,7 +1048,7 @@
                     <ImageView
                         android:id="@+id/receiver_address_location_iv"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_location_icon" />
 
@@ -1078,6 +1126,7 @@
                             android:id="@+id/cargo_name_ed"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+
                             android:layout_weight="0.7"
                             android:gravity="left|center"
                             android:inputType="text"
@@ -1140,6 +1189,9 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1167,6 +1219,7 @@
                             android:id="@+id/package_name_ed"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+
                             android:layout_weight="0.7"
                             android:gravity="left|center"
                             android:inputType="text"
@@ -1228,6 +1281,10 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1254,6 +1311,8 @@
                             android:id="@+id/volume_name_ed"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
                             android:layout_weight="0.7"
                             android:gravity="left|center"
                             android:inputType="numberDecimal"
@@ -1295,6 +1354,8 @@
                             android:id="@+id/weight_name_ed"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
                             android:layout_weight="0.7"
                             android:gravity="left|center"
                             android:inputType="numberDecimal"
@@ -1314,6 +1375,10 @@
 
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1341,6 +1406,8 @@
                             android:id="@+id/quantity_price_ed"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
                             android:layout_weight="0.7"
                             android:gravity="left|center"
                             android:inputType="numberDecimal"
@@ -1380,6 +1447,8 @@
                             android:id="@+id/weight_price_ed"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
                             android:layout_weight="0.7"
                             android:gravity="left|center"
                             android:inputType="numberDecimal"
@@ -1396,6 +1465,10 @@
 
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1423,6 +1496,8 @@
                             android:id="@+id/volume_price_ed"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
                             android:layout_weight="0.7"
                             android:gravity="left|center"
                             android:inputType="numberDecimal"
@@ -2262,8 +2337,8 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/bank_number_line" />
 
-            <TextView
-                android:id="@+id/pre_installed_car_number_name_tv"
+            <EditText
+                android:id="@+id/pre_installed_car_number_name_ed"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -2286,7 +2361,7 @@
                 android:padding="6dp"
                 android:src="@drawable/ic_down_icon"
                 app:layout_constraintBottom_toBottomOf="@+id/pre_installed_car_number_title_tv"
-                app:layout_constraintRight_toRightOf="@+id/pre_installed_car_number_name_tv"
+                app:layout_constraintRight_toRightOf="@+id/pre_installed_car_number_name_ed"
                 app:layout_constraintTop_toTopOf="@+id/pre_installed_car_number_title_tv" />
 
             <View
@@ -2295,9 +2370,9 @@
                 android:layout_height="1dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/base_grayDark"
-                app:layout_constraintLeft_toLeftOf="@+id/pre_installed_car_number_name_tv"
-                app:layout_constraintRight_toRightOf="@+id/pre_installed_car_number_name_tv"
-                app:layout_constraintTop_toBottomOf="@+id/pre_installed_car_number_name_tv" />
+                app:layout_constraintLeft_toLeftOf="@+id/pre_installed_car_number_name_ed"
+                app:layout_constraintRight_toRightOf="@+id/pre_installed_car_number_name_ed"
+                app:layout_constraintTop_toBottomOf="@+id/pre_installed_car_number_name_ed" />
 
             <TextView
                 android:id="@+id/original_order_number_title_tv"
@@ -2405,6 +2480,16 @@
                 android:layout_marginTop="13dp"
                 android:text="外转另计"
                 app:layout_constraintLeft_toRightOf="@+id/wait_notice_check"
+                app:layout_constraintTop_toBottomOf="@+id/salesman_name_line" />
+
+            <CheckBox
+                android:id="@+id/bag_fee_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="13dp"
+                android:text="提包费已付"
+                app:layout_constraintLeft_toRightOf="@+id/transfer_dee_check"
                 app:layout_constraintTop_toBottomOf="@+id/salesman_name_line" />
 
             <TextView

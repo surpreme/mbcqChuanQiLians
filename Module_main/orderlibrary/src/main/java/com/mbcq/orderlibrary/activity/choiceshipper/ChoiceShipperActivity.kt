@@ -3,7 +3,11 @@ package com.mbcq.orderlibrary.activity.choiceshipper
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
@@ -11,10 +15,14 @@ import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
+import com.mbcq.baselibrary.util.system.pinyin.PinYinUtil
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean
 import com.mbcq.orderlibrary.R
+import com.mbcq.orderlibrary.activity.acceptbilling.billingvolumecalculator.afterTextChanged
+import kotlinx.android.synthetic.main.activity_accept_billing.*
 import kotlinx.android.synthetic.main.activity_choice_shipper.*
 import org.json.JSONObject
 
@@ -27,11 +35,42 @@ import org.json.JSONObject
 class ChoiceShipperActivity : BaseListMVPActivity<ChoiceShipperContract.View, ChoiceShipperPresenter, ChoiceShipperBean>(), ChoiceShipperContract.View {
     private val RESULT_DATA_CODE = 5848
 
+    private val mMoreData = mutableListOf<ChoiceShipperBean>()
+
     override fun getLayoutId(): Int = R.layout.activity_choice_shipper
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
+        filter_search_ed.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isBlank()) {
+                    adapter.replaceData(mMoreData)
+                    return
+                }
+                val mSearchDatas = mutableListOf<ChoiceShipperBean>()
+                for (item in adapter.getAllData()) {
+                    if (item.contactMb.startsWith(s.toString()) or item.contactMan.contains(s.toString()) or item.vipId.contains(s.toString()) or item.address.contains(s.toString())) {
+                        mSearchDatas.add(item)
+                    } else {
+                        if (PinYinUtil.getFirstSpell(item.contactMan).contains(s.toString().toLowerCase()) or PinYinUtil.getFullSpell(item.address).contains(s.toString().toLowerCase()))
+                            mSearchDatas.add(item)
+
+                    }
+                }
+                if (mSearchDatas.isNotEmpty()) {
+                    adapter.replaceData(mSearchDatas)
+                }
+
+            }
+
+        })
     }
 
     override fun onResume() {
@@ -71,7 +110,6 @@ class ChoiceShipperActivity : BaseListMVPActivity<ChoiceShipperContract.View, Ch
         }
         it.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
-
                 val resultObj = JSONObject(mResult)
                 val obj = JSONObject()
                 obj.put("name", resultObj.optString("contactMan"))
@@ -89,6 +127,9 @@ class ChoiceShipperActivity : BaseListMVPActivity<ChoiceShipperContract.View, Ch
     }
 
     override fun getInfoS(list: List<ChoiceShipperBean>) {
+        if (mMoreData.isNotEmpty())
+            mMoreData.clear()
+        mMoreData.addAll(list)
         adapter.replaceData(list)
     }
 

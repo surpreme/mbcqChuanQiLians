@@ -64,7 +64,7 @@ public class FixedScanShortFeederConfigurationBean {
     private String ewebidCode;
     private String ewebidCodeStr;
     private String vehicleNo;
-    private String chauffer;
+    private String Chauffer;
     private String chaufferMb;
     private String transneed;
     private String transneedStr;
@@ -209,11 +209,11 @@ public class FixedScanShortFeederConfigurationBean {
     }
 
     public String getChauffer() {
-        return chauffer;
+        return Chauffer;
     }
 
-    public void setChauffer(String chauffer) {
-        this.chauffer = chauffer;
+    public void setChauffer(String Chauffer) {
+        this.Chauffer = Chauffer;
     }
 
     public String getChaufferMb() {

@@ -176,12 +176,6 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             }
 
         })
-        pre_installed_car_number_name_tv.setOnClickListener(object : SingleClick() {
-            override fun onSingleClick(v: View?) {
-                mPresenter?.getVehicles()
-            }
-
-        })
         salesman_name_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 mPresenter?.getSalesman(2)
@@ -405,6 +399,14 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         val ValueAddedService = value_added_services_ed.text.toString()
         jsonObj.put("ValueAddedService", ValueAddedService)
 
+        //提包费已付 编码
+        val IsPayAccTbPrice = if (bag_fee_check.isChecked) "1" else "0"
+        jsonObj.put("IsPayAccTbPrice", IsPayAccTbPrice)
+
+        //提包费已付
+        val IsPayAccTbPriceStr = if (bag_fee_check.isChecked) "提包费已付" else "提包费未付"
+        jsonObj.put("IsPayAccTbPriceStr", IsPayAccTbPriceStr)
+
         //连开
         val Continuity = if (continuous_invoicing_check.isChecked) "1" else "0"
         jsonObj.put("Continuity", Continuity)
@@ -512,7 +514,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         val SalesMan = salesman_name_tv.text.toString()
         jsonObj.put("SalesMan", SalesMan)
         //预装车号
-        val PreVehicleNo = pre_installed_car_number_name_tv.text.toString()
+        val PreVehicleNo = pre_installed_car_number_name_ed.text.toString()
         jsonObj.put("PreVehicleNo", PreVehicleNo)
 
 
@@ -814,6 +816,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
                 val mSelectData = Gson().fromJson<CargoAppellationBean>(mResult, CargoAppellationBean::class.java)
                 cargo_name_ed.setText(mSelectData.product)
                 closeRedEditTextErrorMsg(cargo_name_ed)
+                showEditTextFocus(numbers_name_ed)
             }
 
         }).show(supportFragmentManager, "getCargoAppellationSFilterDialog")
@@ -1057,7 +1060,8 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
         }
         mPresenter?.getPaymentMode()
-
+        showIsCanSaveAcctBillingColor()
+        showIsCanCargoInfoAddColor()
 
     }
 
@@ -1201,7 +1205,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             @SuppressLint("SetTextI18n")
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mSelectData = Gson().fromJson<NumberPlateBean>(mResult, NumberPlateBean::class.java)
-                pre_installed_car_number_name_tv.text = mSelectData.vehicleno
+                pre_installed_car_number_name_ed.setText(mSelectData.vehicleno)
             }
 
         }).show(supportFragmentManager, "getVehicleSFilterDialog")
@@ -1306,17 +1310,17 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
                 }
             }
         }
-        receiver_mConsigneeTel_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                if (receiver_mConsigneeTel_ed.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {
-                    val params = HttpParams()
-                    params.put("contactTel", receiver_mConsigneeTel_ed.text.toString())
-                    params.put("webidCode", UserInformationUtil.getWebIdCode(mContext))
-                    mPresenter?.getReceiverInfo(params)
-//                    mPresenter?.getReceiverInfo(HttpParams("contactTel", receiver_mConsigneeTel_ed.text.toString()))
-                }
-            }
-        }
+        /* receiver_mConsigneeTel_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+             if (!hasFocus) {
+                 if (receiver_mConsigneeTel_ed.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                     val params = HttpParams()
+                     params.put("contactTel", receiver_mConsigneeTel_ed.text.toString())
+                     params.put("webidCode", UserInformationUtil.getWebIdCode(mContext))
+                     mPresenter?.getReceiverInfo(params)
+ //                    mPresenter?.getReceiverInfo(HttpParams("contactTel", receiver_mConsigneeTel_ed.text.toString()))
+                 }
+             }
+         }*/
     }
 
 

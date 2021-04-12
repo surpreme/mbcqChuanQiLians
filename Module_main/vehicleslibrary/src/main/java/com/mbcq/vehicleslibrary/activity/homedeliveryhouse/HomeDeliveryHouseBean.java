@@ -161,8 +161,8 @@ public class HomeDeliveryHouseBean {
     private String accHuiKou;
     private String accSms;
     private String accZz;
-    private String accZx="";//装卸费
-    private String accZxf="";//装卸费
+    private String accZx="0.00";//装卸费
+    private String accZxf="0.00";//装卸费
     private String accCb;
     private String accSl;
     private String accAz;
@@ -186,8 +186,8 @@ public class HomeDeliveryHouseBean {
     private String remark;
     private String fromType;
     private String outCygs = "";
-    private String outacc = "";
-    private String accCc = "";//叉车费
+    private String outacc = "0.00";
+    private String accCc = "0.00";//叉车费
 
     private String outbillno = "";
     private String contactmb = "";

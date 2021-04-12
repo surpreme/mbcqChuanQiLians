@@ -78,8 +78,8 @@ abstract class BaseHomeDeliveryHouseActivity<V : BaseView, T : BasePresenterImpl
                                 mTotalQty += item.totalQty.toInt()
                             if (item.accCc.toDoubleOrNull() != null)
                                 mForkliftFee += item.accCc.toDouble()
-                            if (item.accZx.toDoubleOrNull() != null)
-                                mLoadingFee += item.accZx.toDouble()
+                            if (item.accZxf.toDoubleOrNull() != null)
+                                mLoadingFee += item.accZxf.toDouble()
 
                         }
                         over_total_info_tv.text = "已 装  车：${it.getAllData().size} 票 $mTotalQty 件 ${haveTwoDouble(mToTalWeight)} Kg ${haveTwoDouble(mToTalVolume)} 方      ${haveTwoDouble(mPrice)}元"

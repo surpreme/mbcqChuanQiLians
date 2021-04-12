@@ -9,12 +9,17 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
+import com.mbcq.baselibrary.gson.GsonUtils
+import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
+import com.mbcq.commonlibrary.adapter.BaseTextAdapterBean
 import com.mbcq.vehicleslibrary.R
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseBean
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseInventoryAdapter
 import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseLoadingAdapter
+import com.mbcq.vehicleslibrary.activity.alllocalagent.localgentshortfeederhouse.LocalGentShortFeederHouseTransitCompanyConfigurationDialog
 import kotlinx.android.synthetic.main.activity_fixed_local_gent_short_feeder_house.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -51,8 +56,8 @@ class FixedLocalGentShortFeederHouseActivity : BaseFixedLocalGentShortFeederHous
             val kk = StringBuilder()
 
             for ((index, item) in it.withIndex()) {
-                val obj = JSONObject()
-                obj.put("billno", item.billno)
+                val obj = JSONObject(Gson().toJson(item))
+//                obj.put("billno", item.billno)
                 kk.append(item.billno)
                 if (index != it.size - 1)
                     kk.append(",")
@@ -69,12 +74,12 @@ class FixedLocalGentShortFeederHouseActivity : BaseFixedLocalGentShortFeederHous
             /**
              * TODO
              */
-            mLastData.put("agentAccSend",6)//中转送货费
-            mLastData.put("agentAccNow",6)// 现付
-            mLastData.put("agentAccFetch",6)//到付
-            mLastData.put("agentAccBack",6)//回付
-            mLastData.put("agentAccMonth",6)//月结
-            mLastData.put("agentAccTotal",30)//总金额
+            mLastData.put("agentAccSend", 6)//中转送货费
+            mLastData.put("agentAccNow", 6)// 现付
+            mLastData.put("agentAccFetch", 6)//到付
+            mLastData.put("agentAccBack", 6)//回付
+            mLastData.put("agentAccMonth", 6)//月结
+            mLastData.put("agentAccTotal", 30)//总金额
             mPresenter?.completeVehicle(mLastData)
         }
     }
@@ -85,10 +90,42 @@ class FixedLocalGentShortFeederHouseActivity : BaseFixedLocalGentShortFeederHous
 
         mPresenter?.getInventory()
         mPresenter?.getLoadingData(mDepartureLot)
+        mPresenter?.getTransitCompany(UserInformationUtil.getWebIdCode(mContext))
+
     }
 
     override fun initLoadingList() {
         super.initLoadingList()
+        mLoadingListAdapter?.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
+            override fun onItemClick(v: View, position: Int, mResult: String) {
+                if (mtTransitCompanyJsonStr.isBlank()) {
+                    showToast("初始化失败")
+                    return
+                }
+                val jay = JSONArray(mtTransitCompanyJsonStr)
+                val mShowCList = mutableListOf<BaseTextAdapterBean>()
+                for (index in 0 until jay.length()) {
+                    val mBaseTextAdapterBean = BaseTextAdapterBean(jay.getJSONObject(index).optString("caruniname") + "  " + jay.getJSONObject(index).optString("mb") + "  " + jay.getJSONObject(index).optString("mainroute"), GsonUtils.toPrettyFormat(jay.getJSONObject(index)))
+                    mShowCList.add(mBaseTextAdapterBean)
+                }
+                val mLocalGentShortFeederHouseTransitCompanyDialog = LocalGentShortFeederHouseTransitCompanyConfigurationDialog(mShowCList, mResult).also {
+                    it.mOnClickInterface = object : OnClickInterface.OnClickInterface {
+                        override fun onResult(s1: String, s2: String) {
+                            val obj = JSONObject(mResult)
+                            val mDataObj = JSONObject(s1)
+                            obj.put("outcygs", mDataObj.optString("outcygs"))
+                            obj.put("outacc", mDataObj.optString("outacc"))
+                            obj.put("outbillno", mDataObj.optString("outbillno"))
+                            obj.put("contactmb", mDataObj.optString("contactmb"))
+                            mLoadingListAdapter?.notifyItemChangeds(position, Gson().fromJson(GsonUtils.toPrettyFormat(obj), LocalGentShortFeederHouseBean::class.java))
+                        }
+
+                    }
+                }
+                mLocalGentShortFeederHouseTransitCompanyDialog.show(supportFragmentManager, "FixLocalGentShortFeederHouseTransitCompanyDialog$position")
+            }
+
+        }
         mLoadingListAdapter?.mOnRemoveInterface = object : LocalGentShortFeederHouseLoadingAdapter.OnRemoveInterface {
             override fun onClick(position: Int, item: LocalGentShortFeederHouseBean) {
                 val mLastData = JSONObject(mLastDataJson)
@@ -113,8 +150,6 @@ class FixedLocalGentShortFeederHouseActivity : BaseFixedLocalGentShortFeederHous
 
         }
     }
-
-
 
 
     override fun onClick() {
@@ -170,7 +205,6 @@ class FixedLocalGentShortFeederHouseActivity : BaseFixedLocalGentShortFeederHous
     }
 
 
-
     @SuppressLint("SetTextI18n")
     override fun getInventoryS(list: List<LocalGentShortFeederHouseBean>) {
         mInventoryListAdapter?.appendData(list)
@@ -182,7 +216,7 @@ class FixedLocalGentShortFeederHouseActivity : BaseFixedLocalGentShortFeederHous
     override fun getLoadingDataS(list: List<LocalGentShortFeederHouseBean>) {
         mLoadingListAdapter?.appendData(list)
         loading_list_tv.text = "配载清单(${list.size})"
-
+        showTopTotal()
     }
 
     override fun completeVehicleS() {
@@ -217,5 +251,8 @@ class FixedLocalGentShortFeederHouseActivity : BaseFixedLocalGentShortFeederHous
 
     }
 
-
+    var mtTransitCompanyJsonStr = ""
+    override fun getTransitCompanyS(result: String) {
+        mtTransitCompanyJsonStr = result
+    }
 }

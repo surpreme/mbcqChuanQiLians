@@ -97,8 +97,8 @@ abstract class BasesShortFeederHouseActivity<V : BaseView, T : BasePresenterImpl
                                 mVolume += item.volumn.toDouble()
                             if (item.accSum.toDoubleOrNull() != null)
                                 mPrice += item.accSum.toDouble()
-                            if (item.totalQty.toIntOrNull() != null)
-                                mQty += item.totalQty.toInt()
+                            if (item.developmentsQty != 0)
+                                mQty += item.developmentsQty
 
                         }
                         mXWeight = mWeight
@@ -185,7 +185,7 @@ abstract class BasesShortFeederHouseActivity<V : BaseView, T : BasePresenterImpl
         mLoadingListAdapter?.mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val obj = JSONObject(mResult)
-                SplitTicketNumDialog(obj.optInt("qty") , object : OnClickInterface.OnClickInterface {
+                SplitTicketNumDialog(obj.optInt("qty"), object : OnClickInterface.OnClickInterface {
                     override fun onResult(s1: String, s2: String) {
                         obj.put("developmentsQty", s1)
                         mLoadingListAdapter?.notifyItemChangeds(position, Gson().fromJson(GsonUtils.toPrettyFormat(obj), StockWaybillListBean::class.java))

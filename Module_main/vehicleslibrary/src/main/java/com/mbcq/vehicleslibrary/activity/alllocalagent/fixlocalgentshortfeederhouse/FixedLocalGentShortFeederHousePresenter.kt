@@ -284,4 +284,27 @@ class FixedLocalGentShortFeederHousePresenter : BasePresenterImpl<FixedLocalGent
 
         })
     }
+    /**
+     * {"code":0,"msg":"","count":3,"data":[
+     * {"id":5,"companyid":2001,"webidcode":1003,"webid":"汕头","belwebcod":1001,"belwebstr":"义乌后湖","caruninum":"13698897362","caruniname":"马帮传奇","mainroute":"汕头，义乌，黄口，青口",
+     * "resman":"汕头","mb":"12555999999","tel":"111","addr":"111","opehou":1111,"comlegper":"111","creditlevel":0,"opeman":"汕头","recorddate":"2019-03-06 00:00:00"},
+     * {"id":11,"companyid":2001,"webidcode":1003,"webid":"汕头","belwebcod":1001,"belwebstr":"义乌后湖","caruninum":"1111","caruniname":"111......","mainroute":"11111","resman":"qqq......","mb":"15","tel":"","addr":"114","opehou":0,"comlegper":"111","creditlevel":0,"opeman":"wzj","recorddate":"2021-01-19 08:19:23"},{"id":12,"companyid":2001,"webidcode":1003,"webid":"汕头","belwebcod":1006,"belwebstr":"汕头峡山","caruninum":"1111","caruniname":"111","mainroute":"111","resman":"111","mb":"111","tel":"","addr":"111","opehou":0,"comlegper":"111","creditlevel":5,"opeman":"wzj","recorddate":"2021-01-19 08:20:50"}],"totalRow":
+    {
+    "rowCou": 3
+    }
+    }
+     */
+    override fun getTransitCompany(selWebidCode: String) {
+        val params = HttpParams()
+        params.put("selWebidCode", selWebidCode)
+        get<String>(ApiInterface.LOCAL_AGENT_TRANSIT_COMPANY_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    mView?.getTransitCompanyS(obj.optString("data"))
+                }
+            }
+
+        })
+    }
 }

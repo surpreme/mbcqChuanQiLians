@@ -58,8 +58,8 @@ class LocalGentShortFeederHouseActivity : BaseLocalGentShortFeederHouseActivity<
             val kk = StringBuilder()
 
             for ((index, item) in it.withIndex()) {
-                val obj = JSONObject()
-                obj.put("billno", item.billno)
+                val obj = JSONObject(Gson().toJson(item))
+//                obj.put("billno", item.billno)
                 kk.append(item.billno)
                 if (index != it.size - 1)
                     kk.append(",")
@@ -97,7 +97,7 @@ class LocalGentShortFeederHouseActivity : BaseLocalGentShortFeederHouseActivity<
                         override fun onResult(s1: String, s2: String) {
                             val obj = JSONObject(mResult)
                             val mDataObj = JSONObject(s1)
-                            obj.put("outCygs", mDataObj.optString("outCygs"))
+                            obj.put("outcygs", mDataObj.optString("outcygs"))
                             obj.put("outacc", mDataObj.optString("outacc"))
                             obj.put("outbillno", mDataObj.optString("outbillno"))
                             obj.put("contactmb", mDataObj.optString("contactmb"))

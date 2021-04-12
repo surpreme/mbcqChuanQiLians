@@ -25,10 +25,15 @@ import com.amap.api.services.geocoder.GeocodeAddress
 import com.amap.api.services.geocoder.GeocodeResult
 import com.amap.api.services.geocoder.GeocodeSearch
 import com.amap.api.services.geocoder.RegeocodeResult
+import com.google.gson.Gson
 import com.mbcq.baselibrary.db.SharePreferencesHelper
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
+import com.mbcq.baselibrary.gson.GsonUtils
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
+import com.mbcq.baselibrary.ui.onToolbarBackClicks
+import com.mbcq.baselibrary.ui.onToolbarRightClicks
+import com.mbcq.baselibrary.util.regular.IDNumberUtils
 import com.mbcq.baselibrary.view.MoneyInputFilter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
@@ -53,6 +58,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
     companion object {
         const val RESULT_DATA_CODE = 5848
         const val RECEIVER_RESULT_DATA_CODE = 4439
+        const val AGAIN_FIXED_DATA_CODE = 7389
 
         /**
          * 常用收货方式
@@ -95,7 +101,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
     var mRequiredStr = ""//必填项
     var mAccNowIsCanHkStr = ""//返款限制的支付方式配置参数
-    var mBackState = "" //回单状态编码
+    var mBackState = "0" //回单状态编码
     var mBackStateListStr = "" //回单状态文字list字符串
 
     //结算重量 配置
@@ -226,9 +232,13 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                 //如果回单要求里面没有这个参数 就把回单backstate改成空字符串
                 if (mBackStateListStr.isNotBlank()) {
                     if (receipt_requirements_name_ed.text.toString().isNotEmpty()) {
-                        if (!mBackStateListStr.contains(receipt_requirements_name_ed.text.toString())) {
-                            mBackState = ""
+                        for (item in mBackStateListStr.split(",")) {
+                            if (item != receipt_requirements_name_ed.text.toString()) {
+                                mBackState = "0"
+                                break
+                            }
                         }
+
                     }
                 }
 
@@ -411,6 +421,11 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                 //做需要做的事情，比如再次检测是否打开GPS了 或者定位
                 getLocation()
             }
+            AGAIN_FIXED_DATA_CODE -> {
+                (data?.getStringExtra("fixedData"))?.let {
+                    showError(it)
+                }
+            }
         }
 
 
@@ -425,6 +440,12 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
     override fun onClick() {
         super.onClick()
+        accept_billing_toolbar.onToolbarRightClicks {
+            val obj = JSONObject()
+            obj.put("isShowFixed", true)
+            ARouter.getInstance().build(ARouterConstants.WaybillRecordActivity).withString("WaybillRecord", GsonUtils.toPrettyFormat(obj)).navigation(this, AGAIN_FIXED_DATA_CODE)
+
+        }
         shipper_circle_tv.setOnClickListener(object : SingleClick(100L) {
             @SuppressLint("SetTextI18n")
             override fun onSingleClick(v: View?) {
@@ -602,6 +623,41 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         }
     }
 
+    protected fun showIsCanCargoInfoAddColor() {
+        if (mRequiredStr.contains("product"))
+            cargo_name_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+        if (mRequiredStr == "qty")
+            numbers_name_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+        if (mRequiredStr.contains("packages"))
+            package_name_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+        if (mRequiredStr.contains("weight"))
+            weight_name_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("volumn"))
+            volume_name_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        // 保价金额 数量单价 重量单价 体积单价
+        if (mRequiredStr.contains("safeMoney"))
+            insured_amount_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("qtyPrice"))
+            quantity_price_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("wPrice"))
+            weight_price_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+        if (mRequiredStr.contains("vPrice"))
+            volume_price_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+    }
+
     protected fun isCanCargoInfoAdd(): Boolean {
         if (mRequiredStr.contains("product"))
             if (cargo_name_ed.text.toString().isEmpty()) {
@@ -610,7 +666,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                 cargo_name_ed.error = "请选择货物名称"
                 return false
             }
-        if (mRequiredStr.contains("qty"))
+        if (mRequiredStr == "qty")
             if (numbers_name_ed.text.toString().isEmpty()) {
                 showToast("请输入件数")
                 showEditTextFocus(numbers_name_ed)
@@ -719,7 +775,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                 showEditTextFocus(original_order_number_name_ed)
                 return false
             }
-        if (mRequiredStr.contains("shipper"))
+        if (mRequiredStr == "shipper")
             if (shipper_name_ed.text.toString().isEmpty()) {
                 showToast("请输入发货人")
                 showEditTextFocus(shipper_name_ed)
@@ -755,16 +811,16 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                 showEditTextFocus(shipper_mShipperCid_ed)
                 return false
             }
-        if (mRequiredStr.contains("consignee"))
+        if (mRequiredStr == "consignee")
             if (receiver_name_ed.text.toString().isEmpty()) {
                 showToast("请输入收货人")
                 showEditTextFocus(receiver_name_ed)
                 return false
             }
         if (mRequiredStr.contains("consigneeTel"))
-            if (receiver_phone_ed.text.toString().isEmpty()) {
+            if (receiver_mConsigneeTel_ed.text.toString().isEmpty()) {
                 showToast("请输入收货人电话")
-                showEditTextFocus(receiver_phone_ed)
+                showEditTextFocus(receiver_mConsigneeTel_ed)
                 return false
             }
         if (mRequiredStr.contains("consigneeMb"))
@@ -791,7 +847,91 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                 showEditTextFocus(shipper_mShipperId_ed)
                 return false
             }
+        if (shipper_mShipperCid_ed.text.toString().isNotBlank()) {
+            if (!IDNumberUtils.isIDNumber(shipper_mShipperCid_ed.text.toString())) {
+                showToast("请检查发货人证件号码")
+                return false
+            }
+        }
         return true
+    }
+
+    protected fun showIsCanSaveAcctBillingColor() {
+        if (mRequiredStr.contains("orderId"))
+            order_number_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+        if (mRequiredStr.contains("billno"))
+            waybill_number_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("ewebidCode"))
+            arrive_outlet_tv.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("destination"))
+            destinationt_tv.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("valueAddedService"))
+            value_added_services_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("vipId"))
+            bank_number_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("oBillno"))
+            original_order_number_name_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr == "shipper")
+            shipper_name_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("shipperTel"))
+            shipper_mShipperTel_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("shipperMb"))
+            shipper_name_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("shipperAddr")){
+            shipper_address_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+            shipper_address_location_iv.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+        }
+
+        if (mRequiredStr.contains("shipperCompany"))
+            shipper_company_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("shipperCid"))
+            shipper_mShipperCid_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr == "consignee")
+            receiver_name_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("consigneeTel"))
+            receiver_mConsigneeTel_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("consigneeMb"))
+            receiver_phone_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+
+        if (mRequiredStr.contains("consigneeAddr")){
+            receiver_address_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+            receiver_address_location_iv.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
+        }
+
+
+        if (mRequiredStr.contains("consigneeCompany"))
+            receiver_company_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
+
     }
 
 

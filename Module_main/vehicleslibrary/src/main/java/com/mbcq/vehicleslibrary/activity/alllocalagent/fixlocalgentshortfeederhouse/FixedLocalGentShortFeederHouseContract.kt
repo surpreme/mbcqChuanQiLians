@@ -22,6 +22,8 @@ class FixedLocalGentShortFeederHouseContract {
         fun removeOrderItemS(position: Int, item: LocalGentShortFeederHouseBean)
         fun addOrderS()
         fun addOrderItemS(position: Int, item: LocalGentShortFeederHouseBean)
+        fun  getTransitCompanyS(result:String)
+
     }
 
     interface Presenter : BasePresenter<View> {
@@ -39,6 +41,7 @@ class FixedLocalGentShortFeederHouseContract {
         fun removeOrderItem(removeOrderData: JSONObject,position: Int, item: LocalGentShortFeederHouseBean)
         fun addOrder(removeOrderData: String)
         fun addOrderItem(removeOrderData: String,position: Int, item: LocalGentShortFeederHouseBean)
+        fun  getTransitCompany(selWebidCode:String)
 
 //        fun removeOrder(commonStr: String, id: String, agentBillno: String, vehcileNo: String)
 

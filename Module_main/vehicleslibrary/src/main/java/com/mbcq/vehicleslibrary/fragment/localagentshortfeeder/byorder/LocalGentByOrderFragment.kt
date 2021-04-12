@@ -78,9 +78,14 @@ class LocalGentByOrderFragment : BaseSmartMVPFragment<LocalGentByOrderContract.V
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onRefreshLocalGentByOrderNewDataEvent(event: LocalGentShortFeederHouseEvent) {
-        if (event.refreshType == 2)
+        if (event.refreshType == 2){
+            RxBus.build().removeStickyEvent(LocalGentShortFeederHouseEvent::class.java)
             refresh()
+
+        }
     }
+
+
 
     override fun onClick() {
         super.onClick()

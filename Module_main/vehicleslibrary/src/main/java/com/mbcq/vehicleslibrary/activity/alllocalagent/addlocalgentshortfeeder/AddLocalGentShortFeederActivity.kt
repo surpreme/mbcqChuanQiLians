@@ -23,7 +23,7 @@ import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2020-09-22 15:48
+ * @time: 2020-09-22 15:48 新增外转出库配置
  */
 
 @Route(path = ARouterConstants.AddLocalGentShortFeederActivity)
