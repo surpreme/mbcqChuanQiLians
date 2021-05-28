@@ -22,7 +22,7 @@ class LoadingDialogFragment : BaseDialogFragment() {
         return false
     }
 
-    override fun setContentView(): Int=R.layout.dialog_loading;
+    override fun setContentView(): Int=R.layout.dialog_loading
 
 
     override fun setIsShowBackDark(): Boolean =true

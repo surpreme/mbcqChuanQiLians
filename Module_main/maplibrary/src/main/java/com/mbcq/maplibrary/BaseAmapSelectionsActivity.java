@@ -461,7 +461,7 @@ public abstract class BaseAmapSelectionsActivity extends AppCompatActivity imple
     private void updateListview(List<PoiItem> poiItems) {
         resultData.clear();
         searchResultAdapter.setSelectedPosition(0);
-        resultData.add(firstItem);
+//        resultData.add(firstItem);
         resultData.addAll(poiItems);
 
         searchResultAdapter.setData(resultData);
@@ -493,23 +493,25 @@ public abstract class BaseAmapSelectionsActivity extends AppCompatActivity imple
     AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (position != searchResultAdapter.getSelectedPosition()) {
+//            if (position != searchResultAdapter.getSelectedPosition()) {
                 PoiItem poiItem = (PoiItem) searchResultAdapter.getItem(position);
-                LatLng curLatlng = new LatLng(poiItem.getLatLonPoint().getLatitude(), poiItem.getLatLonPoint().getLongitude());
-
-                isItemClickAction = true;
-
-                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLatlng, 26f));
-
                 searchResultAdapter.setSelectedPosition(position);
                 searchResultAdapter.notifyDataSetChanged();
-                mSelectAddress = poiItem.getCityName() + poiItem.getAdName() + poiItem.getSnippet() + poiItem.getTitle();
+                isItemClickAction = true;
+                moveAddress(poiItem.getLatLonPoint().getLatitude(), poiItem.getLatLonPoint().getLongitude(),poiItem.getCityName() + poiItem.getAdName() + poiItem.getSnippet() + poiItem.getTitle());
                 selectData(mSelectAddress);
-                mLatitude = String.valueOf(poiItem.getLatLonPoint().getLatitude());
-                mLongitude = String.valueOf(poiItem.getLatLonPoint().getLongitude());
-            }
+
+
+//            }
         }
     };
+    public void moveAddress(double latitude,double longitude,String name){
+        LatLng curLatlng = new LatLng(latitude, longitude);
+        aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLatlng, 26f));
+        mSelectAddress = name;
+        mLatitude = String.valueOf(latitude);
+        mLongitude = String.valueOf(longitude);
+    }
 
     public abstract void selectData(String result);
 

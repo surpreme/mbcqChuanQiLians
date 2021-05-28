@@ -12,6 +12,7 @@ class ReceiptConsignmentContract {
 
     interface View : BaseView {
         fun getPageS(list: List<ReceiptConsignmentBean>)
+        fun completeS(result:String)
 
     }
 

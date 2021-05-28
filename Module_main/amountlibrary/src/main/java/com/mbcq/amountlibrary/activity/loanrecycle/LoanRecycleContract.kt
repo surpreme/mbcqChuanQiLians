@@ -16,7 +16,7 @@ class LoanRecycleContract {
     }
 
     interface Presenter : BasePresenter<View> {
-        fun getPage(page: Int)
+        fun getPage(page: Int,startDate:String,endDate:String,selWebidCode:String)
 
     }
 }

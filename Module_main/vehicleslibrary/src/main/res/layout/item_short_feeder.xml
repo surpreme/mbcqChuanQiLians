@@ -111,13 +111,14 @@
 
     <TextView
         android:id="@+id/information_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:text="xx票  xxx件 xxm³  xxxxkg    运费¥xxx.xx "
         android:textColor="@color/black"
         android:textSize="15sp"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vehicler_info_tv" />
 

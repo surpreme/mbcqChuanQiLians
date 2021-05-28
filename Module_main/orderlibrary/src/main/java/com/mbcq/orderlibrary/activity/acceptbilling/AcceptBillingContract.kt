@@ -31,6 +31,7 @@ class AcceptBillingContract {
         fun getShipperInfoS(result: String)
         fun getReceiverInfoS(result: String)
         fun getVehicleS(result: String)
+        fun getAgainInfoS(result: String)
         fun getSalesmanS(result: String, type: Int)
 
         /**
@@ -88,7 +89,7 @@ class AcceptBillingContract {
         /**
          * 保存受理开单
          */
-        fun saveAcceptBilling(job: JSONObject, printJson: String, priceJson: String)
+        fun saveAcceptBilling(job: JSONObject, printJson: String, priceJson: String,isAgain:Boolean)
 
         /**
          * 发货人
@@ -117,6 +118,11 @@ class AcceptBillingContract {
          * 获取月结客户
          */
         fun getMonthShipperInfo()
+
+        /**
+         * 放大镜再次修改
+         */
+        fun getAgainInfo(billno:String)
 
         /**
          * 通过地址获取经纬度 地理编码

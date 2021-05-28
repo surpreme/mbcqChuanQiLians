@@ -43,13 +43,15 @@ class AcceptBillingRecordingPresenter : BasePresenterImpl<AcceptBillingRecording
     }
     ]}
      */
-    override fun getPage(page: Int, selWebidCode: String, startDate: String, endDate: String) {
+    override fun getPage(page: Int, selWebidCode: String, startDate: String, endDate: String, type: String) {
         val param = HttpParams()
         param.put("Page", page)
         param.put("Limit", 15)
         param.put("SelWebidCode", selWebidCode)
         param.put("startDate", startDate)
         param.put("endDate", endDate)
+        if (type.isNotBlank())
+            param.put("CommonStr", type)
         get<String>(ApiInterface.FIXED_WAYBILL_RECORD_GET, param, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
@@ -70,6 +72,22 @@ class AcceptBillingRecordingPresenter : BasePresenterImpl<AcceptBillingRecording
         post<String>(ApiInterface.ACCEPT_BILLING_RECORDING_REJECT_ORDER_POST, getRequestBody(jsonObj), object : CallBacks {
             override fun onResult(result: String) {
                 mView?.rejectOrderS(result, position)
+            }
+
+        })
+    }
+
+    override fun searchOrder(billno: String) {
+        val param = HttpParams()
+        param.put("billno", billno)
+        get<String>(ApiInterface.FIXED_WAYBILL_RECORD_GET, param, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    mView?.searchOrderS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<AcceptBillingRecordingBean>>() {}.type))
+
+                }
+
             }
 
         })

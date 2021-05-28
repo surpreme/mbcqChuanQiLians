@@ -73,7 +73,7 @@ class GeneralLedgerActivity : BaseSmartMVPActivity<GeneralLedgerContract.View, G
                                     mStartDateTag = timeList[0]
                                     mEndDateTag = timeList[1]
                                 }
-//                                refresh()
+                                refresh()
 
                             }
 
@@ -98,7 +98,7 @@ class GeneralLedgerActivity : BaseSmartMVPActivity<GeneralLedgerContract.View, G
 
     override fun getPageDatas(mCurrentPage: Int) {
         super.getPageDatas(mCurrentPage)
-        mPresenter?.getPage(mCurrentPage)
+        mPresenter?.getPage(mCurrentPage,mStartDateTag,mEndDateTag,mShippingOutletsTag)
     }
 
 

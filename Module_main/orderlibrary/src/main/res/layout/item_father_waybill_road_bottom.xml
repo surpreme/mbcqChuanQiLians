@@ -72,6 +72,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
+        android:autoLink="all"
+        android:textColorLink="@color/base_blue"
         android:text="【香港自治区】已离开澳门莲花分拨中心；发往 香港自治区九龙区分拨中心"
         android:textColor="@color/black"
         android:textSize="13sp"

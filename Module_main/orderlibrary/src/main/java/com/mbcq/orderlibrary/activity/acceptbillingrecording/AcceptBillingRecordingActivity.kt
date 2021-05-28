@@ -19,6 +19,7 @@ import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseSmartMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.BaseItemDecoration
@@ -47,11 +48,12 @@ import java.util.*
 
 @Route(path = ARouterConstants.AcceptBillingRecordingActivity)
 class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordingContract.View, AcceptBillingRecordingPresenter, AcceptBillingRecordingBean>(), AcceptBillingRecordingContract.View {
-    lateinit var rxPermissions: RxPermissions
+    private lateinit var rxPermissions: RxPermissions
 
     var mStartDateTag = ""
     var mEndDateTag = ""
     var mShippingOutletsTag = ""
+    var mFilterTypeStr = ""
 
     override fun getLayoutId(): Int = R.layout.activity_accept_billing_recording
     override fun getSmartLayoutId(): Int = R.id.accept_billing_recording_smart
@@ -75,7 +77,7 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
 
     override fun getPageDatas(mCurrentPage: Int) {
         super.getPageDatas(mCurrentPage)
-        mPresenter?.getPage(mCurrentPage, mShippingOutletsTag, mStartDateTag, mEndDateTag)
+        mPresenter?.getPage(mCurrentPage, mShippingOutletsTag, mStartDateTag, mEndDateTag, type = mFilterTypeStr)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -87,6 +89,14 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
 
     override fun onClick() {
         super.onClick()
+        search_btn.onSingleClicks {
+            if (essential_ed.text.toString().isBlank()) {
+                showToast("请检查您输入的运单号")
+                return@onSingleClicks
+            }
+            mPresenter?.searchOrder(essential_ed.text.toString())
+
+        }
         scan_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 getCameraPermission()
@@ -110,6 +120,8 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
                             it.mOnRecyclerClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
                                 override fun onItemClick(v: View, position: Int, mResult: String) {
                                     type_tv.text = if (mResult == "0") "全部" else if (mResult == "1") "待运营审核" else "待财务审核"
+                                    mFilterTypeStr = if (type_tv.text.toString() == "全部") "" else type_tv.text.toString()
+                                    refresh()
                                 }
 
                             }
@@ -245,6 +257,10 @@ class AcceptBillingRecordingActivity : BaseSmartMVPActivity<AcceptBillingRecordi
 
     override fun getPageS(list: List<AcceptBillingRecordingBean>) {
         appendDatas(list)
+    }
+
+    override fun searchOrderS(list: List<AcceptBillingRecordingBean>) {
+        adapter.replaceData(list)
     }
 
     override fun rejectOrderS(result: String, position: Int) {

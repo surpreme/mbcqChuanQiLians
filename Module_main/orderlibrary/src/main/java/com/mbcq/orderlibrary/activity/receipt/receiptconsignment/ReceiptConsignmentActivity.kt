@@ -160,4 +160,8 @@ class ReceiptConsignmentActivity : BaseSmartMVPActivity<ReceiptConsignmentContra
     override fun getPageS(list: List<ReceiptConsignmentBean>) {
         appendDatas(list)
     }
+
+    override fun completeS(result: String) {
+        refresh()
+    }
 }

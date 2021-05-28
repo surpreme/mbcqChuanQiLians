@@ -21,6 +21,22 @@
             android:padding="6dp"
             android:src="@drawable/ic_back_icon" />
 
+        <TextView
+            android:id="@+id/house_search_fragment_tv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="29dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="13dp"
+            android:background="@drawable/common_round_corner_gray_bg"
+            android:drawableLeft="@drawable/ic_search_icon"
+            android:drawableTint="@color/base_grayDark"
+            android:gravity="center|left"
+            android:hint="   请输入要查询的地址"
+            android:paddingLeft="13dp"
+            android:textSize="16sp" />
 
         <AutoCompleteTextView
             android:id="@+id/keyWord"
@@ -46,7 +62,8 @@
             android:singleLine="true"
             android:textColor="#000000"
             android:textColorHint="#C0C0C0"
-            android:textSize="16.0sp" />
+            android:textSize="16.0sp"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/sure_location_btn"
@@ -56,9 +73,9 @@
             android:layout_marginBottom="5dp"
             android:backgroundTint="@color/base_green"
             android:text="确定"
-            android:visibility="gone"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="gone" />
     </LinearLayout>
 
 

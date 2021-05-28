@@ -25,6 +25,7 @@ class ArrivalInventoryAdapter(context: Context?) :BaseRecyclerAdapter<ArrivalInv
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.shipper_tv.text = mDatas[position].shipper
         holder.receiver_tv.text = mDatas[position].consignee
+        holder.destination_tv.text = mDatas[position].destination
         holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].qty}件 ${mDatas[position].volumn}m³ ${mDatas[position].packages} ${mDatas[position].weight}Kg ${mDatas[position].accTypeStr}${mDatas[position].accSum}  "
         holder.waybill_state_tv.text = mDatas[position].billStateStr
         holder.itemView.setOnClickListener(object :SingleClick(){
@@ -35,6 +36,7 @@ class ArrivalInventoryAdapter(context: Context?) :BaseRecyclerAdapter<ArrivalInv
         })
     }
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var destination_tv: TextView = itemView.findViewById(R.id.destination_tv)
         var waybill_number_tv: TextView = itemView.findViewById(R.id.waybill_number_tv)
         var record_checkbox_iv: ImageView = itemView.findViewById(R.id.record_checkbox_iv)
         var information_tv: TextView = itemView.findViewById(R.id.information_tv)

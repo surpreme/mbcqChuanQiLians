@@ -6,8 +6,11 @@ import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
+import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.orderlibrary.R
@@ -22,9 +25,6 @@ import java.lang.StringBuilder
  */
 @Route(path = ARouterConstants.DeliverySomethingHouseActivity)
 class DeliverySomethingHouseActivity : BaseDeliverySomethingHouseActivity<DeliverySomethingHouseContract.View, DeliverySomethingHousePresenter>(), DeliverySomethingHouseContract.View {
-    @Autowired(name = "AddDeliverySomeThing")
-    @JvmField
-    var mLastDataJson: String = ""
     override fun getLayoutId(): Int = R.layout.activity_delivery_something_house
 
 
@@ -32,16 +32,17 @@ class DeliverySomethingHouseActivity : BaseDeliverySomethingHouseActivity<Delive
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         setStatusBar(R.color.base_blue)
-        val obj = JSONObject(mLastDataJson)
-        dispatch_number_tv.text = "派车单号：${obj.optString("SendInOneFlag")}"
+
         initLoadingList()
         initInventoryList()
     }
 
     override fun initDatas() {
         super.initDatas()
+        mPresenter?.getDeparture()
         mPresenter?.getInventory()
     }
+
 
     /**
      * 完成本车保存
@@ -50,19 +51,19 @@ class DeliverySomethingHouseActivity : BaseDeliverySomethingHouseActivity<Delive
         mLoadingListAdapter?.getAllData()?.let {
             if (it.isEmpty())
                 return
-            val mLastData = JSONObject(mLastDataJson)
+            val mLastData = JSONObject()
             val jarray = JSONArray()
             val kk = StringBuilder()
 
             for ((index, item) in it.withIndex()) {
-                val obj = JSONObject()
-                obj.put("billno", item.billno)
+                val obj = JSONObject(Gson().toJson(item))
+                obj.put("senWebCod", UserInformationUtil.getWebIdCode(mContext))
+                obj.put("senWebCodStr", UserInformationUtil.getWebIdCodeStr(mContext))
                 kk.append(item.billno)
                 if (index != it.size - 1)
                     kk.append(",")
                 jarray.put(obj)
             }
-//            mLastData.put("SendInOneFlag", mLastData.optString("SendInOneFlag"))
             mLastData.put("WaybillSendDetLst", jarray)
             mLastData.put("CommonStr", kk.toString())
             mPresenter?.saveInfo(mLastData)
@@ -73,6 +74,10 @@ class DeliverySomethingHouseActivity : BaseDeliverySomethingHouseActivity<Delive
 
     override fun onClick() {
         super.onClick()
+        complete_vehicle_btn.setOnLongClickListener {
+            ARouter.getInstance().build(ARouterConstants.DeliverySomethingMapHouseActivity).navigation()
+            true
+        }
         complete_vehicle_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
                 completeCar()
@@ -141,5 +146,26 @@ class DeliverySomethingHouseActivity : BaseDeliverySomethingHouseActivity<Delive
             onBackPressed()
             this.finish()
         }.show()
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun getDepartureS(s: String) {
+        dispatch_number_tv.text = "派车单号：$s"
+
+    }
+
+    override fun onRecyclerShowDialog(position: Int, item: DeliverySomethingHouseBean) {
+        DeliverySomeThingPriceDialog(getScreenWidth(), Gson().toJson(item), object : OnClickInterface.OnClickInterface {
+            override fun onResult(s1: String, s2: String) {
+                val obj = JSONObject(s1)
+                item.accForklift = obj.optString("accForklift")//叉车费
+                item.accHanding = obj.optString("accHanding")//装卸费
+                item.accsend = obj.optString("accsend")//实际送货费
+                item.sendqty = obj.optString("sendqty")//实际件数
+                mLoadingListAdapter?.notifyItemChangeds(position, item)
+//                refreshTopInfo()
+            }
+
+        }).show(supportFragmentManager, "DeliverySomeThingPriceDialog")
     }
 }

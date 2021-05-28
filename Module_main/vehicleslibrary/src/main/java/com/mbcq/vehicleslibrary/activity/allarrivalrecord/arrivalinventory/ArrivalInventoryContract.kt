@@ -12,7 +12,7 @@ class ArrivalInventoryContract {
 
     interface View : BaseView {
 
-        fun getPageS(list:List<ArrivalInventoryBean>, page: Int, count: String)
+        fun getPageS(list:List<ArrivalInventoryBean>, mArrivalInventoryTotalBean:ArrivalInventoryTotalBean,page: Int, count: String)
     }
 
     interface Presenter : BasePresenter<View> {

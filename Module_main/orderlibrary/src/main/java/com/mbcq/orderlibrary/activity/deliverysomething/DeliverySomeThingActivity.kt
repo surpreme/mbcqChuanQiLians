@@ -46,7 +46,7 @@ class DeliverySomeThingActivity : BaseSmartMVPActivity<DeliverySomeThingContract
         super.onClick()
         plan_delivery_btn.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                ARouter.getInstance().build(ARouterConstants.AddDeliverySomeThingActivity).navigation()
+                ARouter.getInstance().build(ARouterConstants.DeliverySomethingHouseActivity).navigation()
             }
 
         })

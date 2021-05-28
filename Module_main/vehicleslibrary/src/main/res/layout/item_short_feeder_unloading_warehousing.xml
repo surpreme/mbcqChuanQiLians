@@ -111,7 +111,7 @@
         android:id="@+id/developments_qty_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/base_red"
+        android:textColor="@color/base_gold"
         android:textSize="16sp"
         android:layout_marginLeft="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/receiver_tv"

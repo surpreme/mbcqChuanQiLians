@@ -12,6 +12,7 @@ class WaybillInformationContract {
 
     interface View : BaseView {
         fun getCostInformationS(result: String)
+        fun getOrderBigInfoS(result: String)
 
     }
 
@@ -20,5 +21,6 @@ class WaybillInformationContract {
          * 获取（所有配置信息）费用信息 显示的集合
          */
         fun getCostInformation(webidCode: String)
+        fun getOrderBigInfo(billno:String)
     }
 }

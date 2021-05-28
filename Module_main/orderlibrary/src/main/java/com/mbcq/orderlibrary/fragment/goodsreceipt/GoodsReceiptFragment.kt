@@ -1,6 +1,7 @@
 package com.mbcq.orderlibrary.fragment.goodsreceipt
 
 
+import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,6 +18,9 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.orderlibrary.R
 import kotlinx.android.synthetic.main.frgment_goods_receipt.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * @author: lzy
@@ -104,6 +108,40 @@ class GoodsReceiptFragment : BaseSmartMVPFragment<GoodsReceiptContract.View, Goo
 
     override fun getPageS(list: List<GoodsReceiptBean>) {
         appendDatas(list)
+        planTotalData()
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun planTotalData() {
+        GlobalScope.launch { // 在后台启动一个新的协程并继续
+            delay(500L)
+            if (!isDetached) {
+                val mAdapterDatas = adapter.getAllData()
+                //货款
+                var mTotalPayment = 0.00
+                //应收
+                var mTotalReceive = 0.00
+                //重量
+                var mTotalWeight = 0.00
+                //体积
+                var mTotalVolume = 0.00
+
+                for (item in mAdapterDatas) {
+                    if (!item.accDaiShou.isNullOrBlank())
+                        mTotalPayment += item.accDaiShou.toDouble()
+                    if (!item.accSum.isNullOrBlank())
+                        mTotalReceive += item.accSum.toDouble()
+                    if (!item.weight.isNullOrBlank())
+                        mTotalWeight += item.weight.toDouble()
+                    if (!item.volumn.isNullOrBlank())
+                        mTotalVolume += item.volumn.toDouble()
+                }
+                activity?.runOnUiThread {
+                    all_info_bottom_tv.text="合计:${mAdapterDatas.size+1}票,$mTotalWeight kg,$mTotalVolume m³,货款:$mTotalPayment,应收:$mTotalReceive"
+
+                }
+            }
+        }
     }
 
 }

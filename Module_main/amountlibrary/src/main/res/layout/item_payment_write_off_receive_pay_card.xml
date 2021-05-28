@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="4dp"
+    tools:context=".activity.allwriteoffreceivepayment.commonwriteoffreceivepaycard.CommonWriteOffReceivePayCardAdapter">
+
+
+    <TextView
+        android:id="@+id/top_info_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        tools:text="车  次 号：10056044123       金      额：1000" />
+
+    <TextView
+        android:id="@+id/center_info_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        tools:text="司        机：吴轩                     车  牌  号：沪AB1234" />
+
+    <TextView
+        android:id="@+id/bottom_info_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:lineSpacingExtra="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        tools:text="摘      要：收10030000016代收款" />
+
+
+</LinearLayout>

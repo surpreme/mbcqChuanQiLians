@@ -26,6 +26,7 @@ class ShortFeederUnloadingWarehousingReceiptAdapter(context: Context) : BaseRecy
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.shipper_tv.text = mDatas[position].shipper
         holder.receiver_tv.text = mDatas[position].consignee
+        holder.receipt_status_tv.text = "回单要求：${mDatas[position].backQty}"
         holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].qty}件 ${mDatas[position].volumn}m³ ${mDatas[position].packages} ${mDatas[position].weight}Kg ${mDatas[position].accTypeStr}${mDatas[position].accSum}  "
     }
 
@@ -38,5 +39,6 @@ class ShortFeederUnloadingWarehousingReceiptAdapter(context: Context) : BaseRecy
         var receiver_outlets_tv: TextView = itemView.findViewById(R.id.receiver_outlets_tv)
         var shipper_tv: TextView = itemView.findViewById(R.id.shipper_tv)
         var receiver_tv: TextView = itemView.findViewById(R.id.receiver_tv)
+        var receipt_status_tv: TextView = itemView.findViewById(R.id.receipt_status_tv)
     }
 }

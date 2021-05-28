@@ -54,6 +54,10 @@ public class ApiInterface {
      */
     public static final String ACCEPT_SAVE_INFO_POST = BASE_URI + "WaybillOpe/AddWaybill";
     /**
+     * 直接改单
+     */
+    public static final String ACCEPT_FIX_SAVE_INFO_POST = BASE_URI + "WaybillOpe/UpdWaybill";
+    /**
      * 受理开单 查询费用信息 种类集合的显示
      */
     public static final String ACCEPT_SELECT_COST_INFORMATION_GET = BASE_URI + "WebConfig/SelWebConfigByCondition";
@@ -439,7 +443,7 @@ public class ApiInterface {
      */
     public static final String SHIPMENT_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelFhWaybillFcdByCon";
     /**
-     * 签收查询库存
+     * 签收查询库存 SelWaybillFetchByCondition
      */
     public static final String SIGN_INVENTORY_SELECTED_INFO_GET = BASE_URI + "WaybillFcdOpe/SelFetchWaybillFcdByCon";
     /**
@@ -548,7 +552,7 @@ public class ApiInterface {
      */
 
     /**
-     * 签收记录
+     * 签收记录 SelWaybillFetchByCondition
      */
     public static final String SIGN_FOR_RECORD_SELECT_GET = BASE_URI + "WaybillFetchOpe/SelWaybillFetchByCondition";
     /**
@@ -652,7 +656,7 @@ public class ApiInterface {
      */
     public static final String LOAN_CHANGE_ADD_POST = BASE_URI + "HkUpdate/UpdHkUpdateByCondition";
     /**
-     * 货款回收
+     * 货款回收 SelHkRecoveryByCondition
      */
     public static final String LOAN_RECYCLE_INFO_GET = BASE_URI + "HkRecoveryOpe/SelHkRecoveryByCondition";
     /**
@@ -664,6 +668,10 @@ public class ApiInterface {
      * 货款回款确认
      */
     public static final String GENERAL_PAYMENT_CONFIRMATION_INFO_GET = BASE_URI + "HkReleasedOpe/SelHkReleasedByCondition";
+    /**
+     * 货款回款记录
+     */
+    public static final String GENERAL_PAYMENT_CONFIRMATION_RECORD_GET = BASE_URI + "HkRecoveryOpe/SelHkRecoveryByCondition";
     /**
      * 待发款明细表
      * 7
@@ -746,11 +754,11 @@ public class ApiInterface {
      */
     public static final String PAYMENTED_WRITE_OFF_SERIAL_SAVE_INFO_POST = BASE_URI + "CwhxOpe/AddAccArrivedHx";
     /**
-     * 回单核销 获取记录
+     * 回单付核销 获取记录
      */
     public static final String RECEIPT_MONTHLY_TUBERCULOSIS_SALES_RECORD_GET = BASE_URI + "CwhxOpe/SelAccBackHxByCondition";
     /**
-     * 回单核销 核销
+     * 回单付核销 核销
      */
     public static final String RECEIPT_MONTHLY_TUBERCULOSIS_SALES_SAVE_POST = BASE_URI + "CwhxOpe/AddAccBackHx";
     /**

@@ -209,7 +209,20 @@ abstract class BaseActivity : AppCompatActivity() {
 
     }
 }
+fun getBeanString(s: String?): String {
+    return when {
+        s == null -> {
+            ""
+        }
+        s.toLowerCase() == "null" -> {
+            ""
+        }
+        else -> {
+            s
+        }
+    }
 
+}
 fun View.onSingleClicks(onSingleClick: (View) -> Unit) {
     this.setOnClickListener(object : SingleClick() {
         override fun onSingleClick(v: View) {

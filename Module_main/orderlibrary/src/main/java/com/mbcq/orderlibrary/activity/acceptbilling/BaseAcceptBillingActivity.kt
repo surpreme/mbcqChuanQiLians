@@ -17,6 +17,8 @@ import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import android.widget.RadioButton
+import androidx.core.view.get
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
@@ -80,6 +82,29 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
     var endWebIdCode = ""
     var endWebIdCodeStr = ""
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * 直接改单的id
+     */
+    var mFixOrderId = ""
+
+    /**
+     * 直接改单的运单状态
+     */
+    var mBillStateStr = ""
+
+    /**
+     * 直接改单的运单状态
+     */
+    var mBillState = ""
+
+    /**
+     * 直接改单的开单时间
+     */
+    var mFixBillDate = ""
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * 到达公司的id
      * 这里从网点列表中获取
@@ -112,6 +137,8 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
     //轻重货 false 轻 true 重
     var mLightAndHeavyGoods = false
+
+    var isAgainSwitch = false
 
 
     /**
@@ -188,7 +215,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         initToolbar()
 //        initTransportMethodLayout()
 //        initPayWayLayout()
-        waybillNumber(false)
+        waybillNumber(false, isRefreshBillno = true)
 //        initReceivingMethod(1)
 //        initDeliveryMethod(1)
         initAddGoodsRecycler()
@@ -400,6 +427,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                     shipper_mShipperCid_ed.setText(mDatas.optString("shipperCid"))
                     shipper_mShipperId_ed.setText(mDatas.optString("shipperId"))
                     add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
+                    shipper_address_location_distance_tv.text=""
                 }
             }
             RECEIVER_RESULT_DATA_CODE -> {
@@ -414,6 +442,8 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
                     if (mDatas.optString("package").isNotBlank())
                         package_name_ed.setText(mDatas.optString("package"))
                     add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
+                    receiver_address_location_distance_tv.text=""
+
 
                 }
             }
@@ -423,7 +453,9 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
             }
             AGAIN_FIXED_DATA_CODE -> {
                 (data?.getStringExtra("fixedData"))?.let {
-                    showError(it)
+                    val mXObj = JSONObject(it)
+                    againBigEyeFix(mXObj.optString("billno"))
+
                 }
             }
         }
@@ -431,6 +463,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
     }
 
+    abstract fun againBigEyeFix(billno: String)
 
     private fun initToolbar() {
         accept_billing_toolbar.setBackButtonOnClickListener {
@@ -510,13 +543,15 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         })
         waybill_number_handwriting_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                waybillNumber(true)
+                if (!isAgainSwitch)
+                    waybillNumber(true, isRefreshBillno = true)
             }
 
         })
         waybill_number_machine_printed_tv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                waybillNumber(false)
+                if (!isAgainSwitch)
+                    waybillNumber(false, isRefreshBillno = true)
             }
 
         })
@@ -896,7 +931,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
             shipper_name_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
 
 
-        if (mRequiredStr.contains("shipperAddr")){
+        if (mRequiredStr.contains("shipperAddr")) {
             shipper_address_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
             shipper_address_location_iv.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
 
@@ -922,7 +957,7 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
             receiver_phone_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
 
 
-        if (mRequiredStr.contains("consigneeAddr")){
+        if (mRequiredStr.contains("consigneeAddr")) {
             receiver_address_ed.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
             receiver_address_location_iv.setBackgroundColor(resources.getColor(R.color.base_billing_coffee))
 
@@ -936,7 +971,12 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
 
 
     abstract fun refreshWaybillNumber()
-    fun waybillNumber(isHandWriting: Boolean) {
+
+    /**
+     * isHandWriting 是否手写
+     * isRefreshBillno 机打是否获取运单号
+     */
+    fun waybillNumber(isHandWriting: Boolean, isRefreshBillno: Boolean) {
         if (isHandWriting) {
             waybill_number_ed.isFocusableInTouchMode = true
             waybill_number_ed.isFocusable = true
@@ -957,11 +997,11 @@ abstract class BaseAcceptBillingActivity<V : BaseView, T : BasePresenterImpl<V>>
         } else {
             waybill_number_ed.isFocusable = false
             waybill_number_ed.isFocusableInTouchMode = false
-
             hideKeyboard(waybill_number_ed)
             waybillNumberTag = "机打"
             waybillNumberIndexTag = 0
-            refreshWaybillNumber()
+            if (isRefreshBillno)
+                refreshWaybillNumber()
             waybill_number_handwriting_tv.setBackgroundResource(R.drawable.round_white_lefttop_leftbottom)
             waybill_number_machine_printed_tv.setBackgroundResource(R.drawable.round_blue_righttop_rightbottom)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

@@ -98,7 +98,7 @@ public class ShortFeederUnloadingWarehousingBean {
      * accSum : 56
      * accType : 2
      * accTypeStr : 提付
-     * backQty :
+     * backQty :签回单
      * backState : 0
      * isWaitNotice : 0
      * isWaitNoticeStr : 0
@@ -130,7 +130,7 @@ public class ShortFeederUnloadingWarehousingBean {
     private String stateStr;
     private String sendTimes;
     private String sfWeight = "";
-    private String sfVolumn="";
+    private String sfVolumn = "";
     private String inPdaState;
     private String outPdaState;
     private String finishState;
@@ -357,7 +357,7 @@ public class ShortFeederUnloadingWarehousingBean {
         return sfWeight;
     }
 
-    public void setSfWeight(String  sfWeight) {
+    public void setSfWeight(String sfWeight) {
         this.sfWeight = sfWeight;
     }
 

@@ -231,7 +231,7 @@
                     android:gravity="center|left"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    tools:text="一级科目：代收货款" />
+                    android:text="一级科目：代收货款" />
 
                 <TextView
                     android:id="@+id/detailed_subjects_tv"
@@ -242,7 +242,7 @@
                     android:gravity="center|left"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    tools:text="明细科目：货款回收" />
+                    android:text="明细科目：货款回收" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView

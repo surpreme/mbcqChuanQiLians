@@ -5,13 +5,13 @@ import android.annotation.SuppressLint
 import android.os.CountDownTimer
 import android.view.Gravity
 import android.view.View
+import android.widget.RadioButton
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.amap.api.maps.AMapUtils
 import com.amap.api.maps.model.LatLng
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
@@ -58,10 +58,20 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
     override fun initDatas() {
         super.initDatas()
-        mPresenter?.getWaybillNumber()
-        mPresenter?.getTransportMode()
-        mPresenter?.getSalesman(1)
-        mPresenter?.getCostInformation(UserInformationUtil.getWebIdCode(mContext))
+        object : CountDownTimer(500, 500) {
+            override fun onFinish() {
+                if (isDestroyed) return
+                mPresenter?.getWaybillNumber()
+                mPresenter?.getTransportMode()
+                mPresenter?.getSalesman(1)
+                mPresenter?.getCostInformation(UserInformationUtil.getWebIdCode(mContext))
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+            }
+
+        }.start()
+
         initPeople()
         bank_number_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -76,6 +86,11 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
     override fun onClick() {
         super.onClick()
+        pre_installed_car_number_name_down_iv.run {
+            onSingleClicks {
+                mPresenter?.getVehicles()
+            }
+        }
         shipper_search_no_iv.run {
             onSingleClicks {
                 mPresenter?.getMonthShipperInfo()
@@ -319,6 +334,24 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
     private fun saveAcctBilling() {
         val jsonObj = JSONObject()
+        if (isAgainSwitch) {
+            //id
+            val Id = mFixOrderId
+            jsonObj.put("Id", Id)
+            //运单状态文字
+            val BillStateStr = mBillStateStr
+            jsonObj.put("BillStateStr", BillStateStr)
+            //运单状态编码
+            val BillState = mBillState
+            jsonObj.put("BillState", BillState)
+            //开单日期
+            val BillDate = mFixBillDate
+            jsonObj.put("BillDate", BillDate)
+        } else {
+            //开单日期
+            val BillDate = TimeUtils.getCurrent()
+            jsonObj.put("BillDate", BillDate)
+        }
         //到货公司编码
         val ECompanyId = eCompanyId
         jsonObj.put("ECompanyId", ECompanyId)
@@ -356,11 +389,6 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         //原单号
         val OBillno = original_order_number_name_ed.text.toString()
         jsonObj.put("OBillno", OBillno)
-
-
-        //开单日期
-        val BillDate = TimeUtils.getCurrent()
-        jsonObj.put("BillDate", BillDate)
 
 
         //运单状态编码
@@ -645,13 +673,20 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             var mXSafeMoney = 0.00
             var mXQty = 0
             for (item in mAddGoodsAcceptBillingAdapter.getAllData()) {
-                mXWeight += (item.weight).toDouble()
-                mXVolumn += (item.volumn).toDouble()
-                mXQty += (item.qty).toInt()
-                mXQtyPrice += (item.qtyPrice).toDouble()
-                mXwPrice += (item.getwPrice()).toDouble()
-                mXvPrice += (item.getvPrice()).toDouble()
-                mXSafeMoney += (item.safeMoney).toDouble()
+                if (!item.weight.isNullOrBlank())
+                    mXWeight += (item.weight).toDouble()
+                if (!item.volumn.isNullOrBlank())
+                    mXVolumn += (item.volumn).toDouble()
+                if (!item.qty.isNullOrBlank())
+                    mXQty += (item.qty).toInt()
+                if (!item.qtyPrice.isNullOrBlank())
+                    mXQtyPrice += (item.qtyPrice).toDouble()
+                if (!item.getwPrice().isNullOrBlank())
+                    mXwPrice += (item.getwPrice()).toDouble()
+                if (!item.getvPrice().isNullOrBlank())
+                    mXvPrice += (item.getvPrice()).toDouble()
+                if (!item.safeMoney.isNullOrBlank())
+                    mXSafeMoney += (item.safeMoney).toDouble()
                 mXProduct.append(item.product).append(",")
                 mXPackages.append(item.packages).append(",")
             }
@@ -764,7 +799,7 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
             loadingTips = "正在打印中....."
         }
 
-        mPresenter?.saveAcceptBilling(jsonObj, GsonUtils.toPrettyFormat(jsonObj.toString()), GsonUtils.toPrettyFormat(priceObj.toString()))
+        mPresenter?.saveAcceptBilling(jsonObj, GsonUtils.toPrettyFormat(jsonObj.toString()), GsonUtils.toPrettyFormat(priceObj.toString()), isAgainSwitch)
         //TODO weightJs结算重量 continuity conmapyid Lightandheavy轻重货 IsTalkGoodsStr BackState backQty  网页
     }
 
@@ -789,22 +824,42 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
     var mDestinationtJson = ""
     var mDestinationtLang = ""
+    fun overDestinationS(result: String) {
+        val mSelectData = Gson().fromJson<DestinationtBean>(result, DestinationtBean::class.java)
+        destinationt_tv.text = mSelectData.mapDes
+        destinationt = mSelectData.mapDes
+        mDestinationtJson = result
+        if (mDestinationtLang.isNotBlank()) {
+            val params = HttpParams()
+            params.put("address", mSelectData.province + mSelectData.city + mSelectData.county)
+            params.put("city", mSelectData.city)
+            params.put("key", "d211a65c1c867ec8cac16acad00dd7dc")
+            val jjjObj = JSONObject(mDestinationtLang)
+            mPresenter?.getGaoDeAddressLocation(params, jjjObj.optString("latitude"), jjjObj.optString("longitude"))
+        }
+        val mAddShipperBean = Gson().fromJson<AddShipperBean>(result, AddShipperBean::class.java)
+        mAddShipperBean?.let {
+            shipper_address_ed.setText(it.address)
+            shipper_name_ed.setText(it.contactMan)
+            shipper_mShipperId_ed.setText(it.vipId)
+            shipper_phone_ed.setText(it.contactMb)
+            shipper_mShipperTel_ed.setText(it.contactTel)
+            shipper_mShipperCid_ed.setText(it.idCard)
+            shipper_company_ed.setText(it.companyName)
+        }
+    }
+
     override fun getDestinationS(result: String) {
+        val isOneJay = JSONArray(result)
+        if (isOneJay.length() == 1) {
+            if (!isOneJay.isNull(0)) {
+                overDestinationS(isOneJay.getString(0))
+                return
+            }
+        }
         FilterDialog(getScreenWidth(), result, "mapDes", "选择目的地", true, isShowOutSide = true, showTipsTag = "FREQUENTLY_USED_DESTINATIONS", showBarTipsStr = "目的地", mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
-                val mSelectData = Gson().fromJson<DestinationtBean>(mResult, DestinationtBean::class.java)
-                destinationt_tv.text = mSelectData.mapDes
-                destinationt = mSelectData.mapDes
-                mDestinationtJson = mResult
-                if (mDestinationtLang.isNotBlank()) {
-                    val params = HttpParams()
-                    params.put("address", mSelectData.province + mSelectData.city + mSelectData.county)
-                    params.put("city", mSelectData.city)
-                    params.put("key", "d211a65c1c867ec8cac16acad00dd7dc")
-                    val jjjObj = JSONObject(mDestinationtLang)
-                    mPresenter?.getGaoDeAddressLocation(params, jjjObj.optString("latitude"), jjjObj.optString("longitude"))
-                }
-
+                overDestinationS(mResult)
             }
 
         }).show(supportFragmentManager, "getDestinationSFilterDialog")
@@ -1067,7 +1122,11 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
     override fun saveAcceptBillingS(result: String, printJson: String, priceJson: String) {
         soundPoolMap?.get(ACCEPT_SOUND_SUCCESS_TAG)?.let { mSoundPool?.play(it, 1f, 1f, 0, 0, 1f) }
-
+        isAgainSwitch = false
+        mBillState = ""
+        mBillStateStr = ""
+        mFixOrderId = ""
+        save_btn.text = "保存"
         var showTipsStr = if (result.isNotBlank()) result else "开单成功！"
         if (labelcheck.isChecked or waybillcheck.isChecked) {
             showLoading()
@@ -1110,21 +1169,32 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
     }
 
+    fun overShipperInfoS(result: String) {
+        val mAddShipperBean = Gson().fromJson<AddShipperBean>(result, AddShipperBean::class.java)
+        mAddShipperBean?.let {
+            shipper_address_ed.setText(it.address)
+            shipper_name_ed.setText(it.contactMan)
+            shipper_mShipperId_ed.setText(it.vipId)
+            shipper_phone_ed.setText(it.contactMb)
+            shipper_mShipperTel_ed.setText(it.contactTel)
+            shipper_mShipperCid_ed.setText(it.idCard)
+            shipper_company_ed.setText(it.companyName)
+        }
+    }
+
     override fun getShipperInfoS(result: String) {
         val titleList = mutableListOf<String>("vipId", "contactMan", "contactMb", "address")
         val startList = mutableListOf<String>("客户编号:", "姓名:", "电话:", "地址:")
+        val isOneJay = JSONArray(result)
+        if (isOneJay.length() == 1) {
+            if (!isOneJay.isNull(0)) {
+                overShipperInfoS(isOneJay.getString(0))
+                return
+            }
+        }
         FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择发货人", false, isShowOutSide = false, gravity = Gravity.CENTER_VERTICAL, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
-                val mAddShipperBean = Gson().fromJson<AddShipperBean>(mResult, AddShipperBean::class.java)
-                mAddShipperBean?.let {
-                    shipper_address_ed.setText(it.address)
-                    shipper_name_ed.setText(it.contactMan)
-                    shipper_mShipperId_ed.setText(it.vipId)
-                    shipper_phone_ed.setText(it.contactMb)
-                    shipper_mShipperTel_ed.setText(it.contactTel)
-                    shipper_mShipperCid_ed.setText(it.idCard)
-                    shipper_company_ed.setText(it.companyName)
-                }
+                overShipperInfoS(mResult)
 
             }
 
@@ -1132,25 +1202,36 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
 
     }
 
+    fun overReceiverInfoS(result: String) {
+        val mAddReceiverBean = Gson().fromJson<AddReceiverBean>(result, AddReceiverBean::class.java)
+        mAddReceiverBean?.let {
+            receiver_address_ed.setText(it.address)
+            receiver_name_ed.setText(it.contactMan)
+            receiver_customer_code_tv.setText(it.vipId)
+            receiver_phone_ed.setText(it.contactMb)
+            receiver_mConsigneeTel_ed.setText(it.contactTel)
+            receiver_company_ed.setText(it.companyName)
+
+            if (it.product.isNotBlank())
+                cargo_name_ed.setText(it.product)
+            if (it.packageX.isNotBlank())
+                package_name_ed.setText(it.packageX)
+        }
+    }
+
     override fun getReceiverInfoS(result: String) {
         val titleList = mutableListOf<String>("vipId", "contactMan", "contactMb", "address")
         val startList = mutableListOf<String>("客户编号:", "姓名:", "电话:", "地址:")
+        val isOneJay = JSONArray(result)
+        if (isOneJay.length() == 1) {
+            if (!isOneJay.isNull(0)) {
+                overReceiverInfoS(isOneJay.getString(0))
+                return
+            }
+        }
         FilterDialog(getScreenWidth(), result, titleList, startList, "\n", "选择收货人", false, isShowOutSide = false, gravity = Gravity.CENTER_VERTICAL, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
-                val mAddReceiverBean = Gson().fromJson<AddReceiverBean>(mResult, AddReceiverBean::class.java)
-                mAddReceiverBean?.let {
-                    receiver_address_ed.setText(it.address)
-                    receiver_name_ed.setText(it.contactMan)
-                    receiver_customer_code_tv.setText(it.vipId)
-                    receiver_phone_ed.setText(it.contactMb)
-                    receiver_mConsigneeTel_ed.setText(it.contactTel)
-                    receiver_company_ed.setText(it.companyName)
-
-                    if (it.product.isNotBlank())
-                        cargo_name_ed.setText(it.product)
-                    if (it.packageX.isNotBlank())
-                        package_name_ed.setText(it.packageX)
-                }
+                overReceiverInfoS(mResult)
 
             }
 
@@ -1185,6 +1266,11 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
     private fun showWebIdDialog(list: MutableList<WebAreaDbInfo>) {
         if (DialogFragmentUtils.getIsShowDialogFragment(this))
             return
+        if (list.size == 1) {
+            val mWebAreaDbInfo = list[0]
+            refreshArriveOutlet(mWebAreaDbInfo.webid, mWebAreaDbInfo.webidCode, mWebAreaDbInfo.companyId)
+            return
+        }
         FilterDialog(getScreenWidth(), Gson().toJson(list), "webid", "选择到货网点", true, isShowOutSide = true, showTipsTag = "RECEIVING_OUTLETS", showBarTipsStr = "网点", mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             override fun onItemClick(v: View, position: Int, mResult: String) {
                 val mWebAreaDbInfo = Gson().fromJson<WebAreaDbInfo>(mResult, WebAreaDbInfo::class.java)
@@ -1200,15 +1286,128 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         mPresenter?.getWaybillNumber()
     }
 
+    fun overVehicleS(result: String) {
+        val mSelectData = Gson().fromJson<NumberPlateBean>(result, NumberPlateBean::class.java)
+        pre_installed_car_number_name_ed.setText(mSelectData.vehicleno)
+    }
+
     override fun getVehicleS(result: String) {
+        val isOneJay = JSONArray(result)
+        if (isOneJay.length() == 1) {
+            if (!isOneJay.isNull(0)) {
+                overVehicleS(isOneJay.getString(0))
+                return
+            }
+        }
         FilterDialog(getScreenWidth(), result, "vehicleno", "选择车牌号", true, isShowOutSide = true, mClickInterface = object : OnClickInterface.OnRecyclerClickInterface {
             @SuppressLint("SetTextI18n")
             override fun onItemClick(v: View, position: Int, mResult: String) {
-                val mSelectData = Gson().fromJson<NumberPlateBean>(mResult, NumberPlateBean::class.java)
-                pre_installed_car_number_name_ed.setText(mSelectData.vehicleno)
+                overVehicleS(mResult)
             }
 
         }).show(supportFragmentManager, "getVehicleSFilterDialog")
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun getAgainInfoS(result: String) {
+        val mXObj = JSONObject(result)
+        mFixOrderId = mXObj.optString("id")
+        mBackState = mXObj.optString("backState")
+        eCompanyId = mXObj.optString("eCompanyId")
+        destinationt = mXObj.optString("destination")
+        endWebIdCodeStr = mXObj.optString("ewebidCodeStr")
+        endWebIdCodeStr = mXObj.optString("ewebidCodeStr")
+        endWebIdCode = mXObj.optString("ewebidCode")
+        waybillNumberIndexTag = mXObj.optInt("billState")
+        waybillNumberTag = mXObj.optString("billTypeStr")
+        endWebIdCodeStr = mXObj.optString("ewebidCodeStr")
+        mBillStateStr = mXObj.optString("billStateStr")
+        mBillState = mXObj.optString("billState")
+        mFixBillDate = mXObj.optString("billDate")
+        total_amount_tv.text = mXObj.optString("accSum")
+        bank_number_tv.text = mXObj.optString("bankCode")
+        account_bank_tv.text = mXObj.optString("bankName")
+        account_names_tv.text = mXObj.optString("bankMan")
+        salesman_name_tv.text = mXObj.optString("salesMan")
+        arrive_outlet_tv.text = mXObj.optString("ewebidCodeStr")
+        destinationt_tv.text = mXObj.optString("destination")
+        remarks_tv.setText(mXObj.optString("remark"))
+        pre_installed_car_number_name_ed.setText(mXObj.optString("preVehicleNo"))
+        receiver_company_ed.setText(mXObj.optString("consigneeCompany"))
+        receiver_address_ed.setText(mXObj.optString("consigneeAddr"))
+        receiver_name_ed.setText(mXObj.optString("consignee"))
+        receiver_mConsigneeTel_ed.setText(mXObj.optString("consigneeTel"))
+        receiver_phone_ed.setText(mXObj.optString("consigneeMb"))
+        waybill_number_ed.setText(mXObj.optString("billno"))
+        shipper_mShipperId_ed.setText(mXObj.optString("shipperId"))
+        shipper_phone_ed.setText(mXObj.optString("shipperMb"))
+        shipper_mShipperTel_ed.setText(mXObj.optString("shipperTel"))
+        shipper_name_ed.setText(mXObj.optString("shipper"))
+        shipper_mShipperCid_ed.setText(mXObj.optString("shipperCid"))
+        shipper_address_ed.setText(mXObj.optString("shipperAddr"))
+        shipper_company_ed.setText(mXObj.optString("shipperCompany"))
+        order_number_ed.setText(mXObj.optString("orderId"))
+        waybill_number_ed.setText(mXObj.optString("billno"))
+        original_order_number_name_ed.setText(mXObj.optString("oBillno"))
+        bank_number_ed.setText(mXObj.optString("vipId"))
+        receipt_requirements_name_ed.setText(mXObj.optString("backQty"))
+        value_added_services_ed.setText(mXObj.optString("valueAddedService"))
+        transfer_dee_check.isChecked = (mXObj.optInt("isTransferCount") == 1)
+        wait_notice_check.isChecked = (mXObj.optInt("isWaitNotice") == 1)
+        bag_fee_check.isChecked = (mXObj.optInt("isPayAccTbPrice") == 1)
+        urgent_goods_check.isChecked = (mXObj.optInt("isUrgent") == 1)
+        continuous_invoicing_check.isChecked = (mXObj.optInt("continuity") == 1)
+        waybillNumber(mXObj.optInt("billType") == 1, isRefreshBillno = false)
+        initDeliveryMethod(mXObj.optInt("okProcess"))
+        initReceivingMethod(if (mXObj.optInt("isTalkGoods") == 1) 2 else 1)
+        val mFeeFixList = mEditTextAdapter?.getData()
+        val mNewFeeFixList = mutableListOf<BaseEditTextAdapterBean>()
+        for (item in mFeeFixList!!) {
+            item.inputStr = mXObj.optString(item.tag)
+            mNewFeeFixList.add(item)
+        }
+        mEditTextAdapter?.replaceData(mNewFeeFixList)
+        val mFixTransport = mXObj.optString("transneedStr")
+        for (index in 0 until transport_method_rg.childCount) {
+            if (((transport_method_rg.getChildAt(index)) as RadioButton).text == mFixTransport) {
+                transport_method_rg.check(index)
+                break
+            }
+        }
+        val mFixAccTypeStr = mXObj.optString("accTypeStr")
+        for (index in 0 until pay_way_title_rg.childCount) {
+            if (((pay_way_title_rg.getChildAt(index)) as RadioButton).text == mFixAccTypeStr) {
+                pay_way_title_rg.check(index)
+                break
+            }
+        }
+        mXObj.optJSONArray("WayGoosLst")?.let { xxxx ->
+            val mAdapterList = mutableListOf<AddGoodsAcceptBillingBean>()
+            for (index in 0 until xxxx.length()) {
+                val mAddGoodsAcceptBillingBean = AddGoodsAcceptBillingBean()
+                mAddGoodsAcceptBillingBean.product = xxxx.getJSONObject(index).optString("product")
+                mAddGoodsAcceptBillingBean.qty = xxxx.getJSONObject(index).optString("qty")
+                mAddGoodsAcceptBillingBean.packages = xxxx.getJSONObject(index).optString("packages")
+                mAddGoodsAcceptBillingBean.weight = xxxx.getJSONObject(index).optString("weight")
+                mAddGoodsAcceptBillingBean.volumn = xxxx.getJSONObject(index).optString("volumn")
+                mAddGoodsAcceptBillingBean.qtyPrice = xxxx.getJSONObject(index).optString("qtyPrice")
+                mAddGoodsAcceptBillingBean.safeMoney = xxxx.getJSONObject(index).optString("safeMoney")
+                mAddGoodsAcceptBillingBean.weightJs = xxxx.getJSONObject(index).optString("weightJs")
+                mAddGoodsAcceptBillingBean.lightandheavy = xxxx.getJSONObject(index).optString("lightandheavy")
+                mAddGoodsAcceptBillingBean.setwPrice(xxxx.getJSONObject(index).optString("wPrice"))
+                mAddGoodsAcceptBillingBean.setvPrice(xxxx.getJSONObject(index).optString("vPrice"))
+                mAdapterList.add(mAddGoodsAcceptBillingBean)
+            }
+            if (mAdapterList.isNotEmpty())
+                mAddGoodsAcceptBillingAdapter.replaceData(mAdapterList)
+
+        }
+        add_shipper_tv.text = "${shipper_name_ed.text} ${shipper_phone_ed.text} \n${shipper_address_ed.text} "
+        add_receiver_tv.text = "${receiver_name_ed.text} ${receiver_phone_ed.text} \n${receiver_address_ed.text} "
+
+        save_btn.text = "保存并修改"
+        isAgainSwitch = true
+        planMoreGoods()
     }
 
     override fun getSalesmanS(result: String, type: Int) {
@@ -1260,6 +1459,8 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         shipper_name_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (shipper_name_ed.text.toString().isNotEmpty() && shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    if (shipper_phone_ed.text.isNotEmpty())
+                        return@OnFocusChangeListener
                     val params = HttpParams()
                     params.put("contactMan", shipper_name_ed.text.toString())
                     params.put("webidCode", UserInformationUtil.getWebIdCode(mContext))
@@ -1270,6 +1471,8 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         shipper_phone_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (shipper_phone_ed.text.toString().isNotEmpty() && shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    if (shipper_name_ed.text.isNotEmpty())
+                        return@OnFocusChangeListener
                     val params = HttpParams()
                     params.put("contactmb", shipper_phone_ed.text.toString())
                     params.put("webidCode", UserInformationUtil.getWebIdCode(mContext))
@@ -1280,6 +1483,8 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         shipper_mShipperId_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (shipper_mShipperId_ed.text.toString().isNotEmpty() && shipper_circle_hide_ll.visibility == View.VISIBLE) {
+                    if (shipper_name_ed.text.isNotEmpty() && shipper_phone_ed.text.isNotEmpty())
+                        return@OnFocusChangeListener
                     val params = HttpParams()
                     params.put("vipid", shipper_mShipperId_ed.text.toString())
                     params.put("webidCode", UserInformationUtil.getWebIdCode(mContext))
@@ -1293,6 +1498,8 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         receiver_name_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (receiver_name_ed.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    if (receiver_phone_ed.text.isNotEmpty())
+                        return@OnFocusChangeListener
                     val params = HttpParams()
                     params.put("contactMan", receiver_name_ed.text.toString())
                     params.put("webidCode", UserInformationUtil.getWebIdCode(mContext))
@@ -1303,6 +1510,8 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
         receiver_phone_ed.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 if (receiver_phone_ed.text.toString().isNotEmpty() && receiver_circle_hide_ll.visibility == View.VISIBLE) {
+                    if (receiver_name_ed.text.isNotEmpty())
+                        return@OnFocusChangeListener
                     val params = HttpParams()
                     params.put("contactmb", receiver_phone_ed.text.toString())
                     params.put("webidCode", UserInformationUtil.getWebIdCode(mContext))
@@ -1321,6 +1530,10 @@ class AcceptBillingActivity : BaseAcceptBillingActivity<AcceptBillingContract.Vi
                  }
              }
          }*/
+    }
+
+    override fun againBigEyeFix(billno: String) {
+        mPresenter?.getAgainInfo(billno)
     }
 
 

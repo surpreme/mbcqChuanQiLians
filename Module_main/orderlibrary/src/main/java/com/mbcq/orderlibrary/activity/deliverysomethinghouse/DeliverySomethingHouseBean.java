@@ -1,68 +1,69 @@
 package com.mbcq.orderlibrary.activity.deliverysomethinghouse;
 
 public class DeliverySomethingHouseBean {
+
     /**
-     * id : 39
+     * id : 1067
      * companyId : 2001
      * eCompanyId : 0
-     * orderId :
-     * billno : 10030000217
-     * oBillno :
-     * billDate : 2020-06-23T17:01:59
-     * billState : 1
-     * billStateStr : 已入库
+     * orderId : 
+     * billno : 10030005282
+     * oBillno : 
+     * billDate : 2021-03-13T11:14:12
+     * billState : 4
+     * billStateStr : 到达
      * billType : 0
      * billTypeStr : 机打
-     * goodsNum : 00217-50
+     * goodsNum : 05282-450
      * okProcess : 1
      * okProcessStr : 自提
      * isUrgent : 0
-     * isUrgentStr : 否
+     * isUrgentStr : 
      * isTalkGoods : 0
-     * isTalkGoodsStr : 否
+     * isTalkGoodsStr : 客户自送
      * webidCode : 1003
      * webidCodeStr : 汕头
-     * ewebidCode : 1003
-     * ewebidCodeStr : 汕头
-     * destination : 彩塘
+     * ewebidCode : 1001
+     * ewebidCodeStr : 义乌后湖
+     * destination : 义乌后湖
      * transneed : 1
      * transneedStr : 零担
-     * vipId :
-     * shipperId :
-     * shipperMb : 17530957256
-     * shipperTel : 0123-1234567
-     * shipper : 王哓我
-     * shipperCid : 410482199002265912
+     * vipId : 
+     * shipperId : 
+     * shipperMb : 15999999999
+     * shipperTel : 123456
+     * shipper : 测试
+     * shipperCid : 
      * shipperAddr : 发货人地址
-     * consigneeMb : 17530957256
-     * consigneeTel : 0248-5235544
-     * consignee : 1禾
-     * consigneeAddr : 蜚厘士别三日奔奔夺
-     * product : 玻璃1
-     * totalQty : 50
-     * qty : 50
-     * packages : aaas
-     * weight : 10.0
-     * volumn : 0.6
-     * weightJs : 156.0
-     * safeMoney : 0.0
+     * consigneeMb : 15999999999
+     * consigneeTel : 654321
+     * consignee : 测试1
+     * consigneeAddr : 收货人地址
+     * product : 物价啊啊啊,,
+     * qty : 450
+     * kcQty : 300
+     * packages : 纸箱,,
+     * weight : 45.0
+     * volumn : 4.0
+     * weightJs : 1000.0
+     * safeMoney : 450.0
      * accDaiShou : 0.0
      * accHKChange : 0.0
-     * hkChangeReason :
+     * hkChangeReason : 
      * sxf : 0.0
      * wPrice : 0.0
-     * vPrice : 0.0
-     * qtyPrice : 0.0
+     * vPrice : 15.0
+     * qtyPrice : 4560.0
      * accNow : 0.0
-     * accArrived : 0.0
+     * accArrived : 150.0
      * accBack : 0.0
      * accMonth : 0.0
      * accHuoKuanKou : 0.0
-     * accTrans : 30.0
+     * accTrans : 150.0
      * accFetch : 0.0
      * accPackage : 0.0
      * accSend : 0.0
-     * accGb : 0.0
+     * accGb : 5.0
      * accSafe : 0.0
      * accRyf : 0.0
      * accHuiKou : 0.0
@@ -75,48 +76,48 @@ public class DeliverySomethingHouseBean {
      * accFj : 0.0
      * accWz : 0.0
      * accJc : 0.0
-     * accSum : 30.0
-     * accType : 1
-     * accTypeStr : 现付
-     * backQty : 签回单
+     * accSum : 155.0
+     * accType : 2
+     * accTypeStr : 提付
+     * backQty : 
      * backState : 0
      * isWaitNotice : 0
-     * isWaitNoticeStr : 否
-     * bankCode :
-     * bankName :
-     * bankMan :
-     * bankNumber :
-     * createMan :
-     * salesMan :
-     * opeMan : 汕头
-     * remark :
+     * isWaitNoticeStr : 0
+     * bankCode : 
+     * bankName : 
+     * bankMan : 
+     * bankNumber : 
+     * createMan : 
+     * salesMan : 测试
+     * opeMan : lzy
+     * remark : 
      * fromType : 0
      */
 
-    private int id;
-    private int companyId;
-    private int eCompanyId;
+    private String id;
+    private String companyId;
+    private String eCompanyId;
     private String orderId;
     private String billno;
     private String oBillno;
     private String billDate;
-    private int billState;
+    private String billState;
     private String billStateStr;
-    private int billType;
+    private String billType;
     private String billTypeStr;
     private String goodsNum;
-    private int okProcess;
+    private String okProcess;
     private String okProcessStr;
-    private int isUrgent;
+    private String isUrgent;
     private String isUrgentStr;
-    private int isTalkGoods;
+    private String isTalkGoods;
     private String isTalkGoodsStr;
-    private int webidCode;
+    private String webidCode;
     private String webidCodeStr;
-    private int ewebidCode;
+    private String ewebidCode;
     private String ewebidCodeStr;
     private String destination;
-    private int transneed;
+    private String transneed;
     private String transneedStr;
     private String vipId;
     private String shipperId;
@@ -130,81 +131,126 @@ public class DeliverySomethingHouseBean {
     private String consignee;
     private String consigneeAddr;
     private String product;
-    private int totalQty;
-    private int qty;
+    private String qty;
+    private String kcQty;
     private String packages;
-    private double weight;
-    private double volumn;
-    private double weightJs;
-    private double safeMoney;
-    private double accDaiShou;
-    private double accHKChange;
+    private String weight;
+    private String volumn;
+    private String weightJs;
+    private String safeMoney;
+    private String accDaiShou;
+    private String accHKChange;
     private String hkChangeReason;
-    private double sxf;
-    private double wPrice;
-    private double vPrice;
-    private double qtyPrice;
-    private double accNow;
-    private double accArrived;
-    private double accBack;
-    private double accMonth;
-    private double accHuoKuanKou;
-    private double accTrans;
-    private double accFetch;
-    private double accPackage;
-    private double accSend;
-    private double accGb;
-    private double accSafe;
-    private double accRyf;
-    private double accHuiKou;
-    private double accSms;
-    private double accZz;
-    private double accZx;
-    private double accCb;
-    private double accSl;
-    private double accAz;
-    private double accFj;
-    private double accWz;
-    private double accJc;
-    private double accSum;
-    private int accType;
+    private String sxf;
+    private String wPrice;
+    private String vPrice;
+    private String qtyPrice;
+    private String accNow;
+    private String accArrived;
+    private String accBack;
+    private String accMonth;
+    private String accHuoKuanKou;
+    private String accTrans;
+    private String accFetch;
+    private String accPackage;
+    private String accSend;
+    private String accGb;
+    private String accSafe;
+    private String accRyf;
+    private String accHuiKou;
+    private String accSms;
+    private String accZz;
+    private String accZx;
+    private String accCb;
+    private String accSl;
+    private String accAz;
+    private String accFj;
+    private String accWz;
+    private String accJc;
+    private String accSum;
+    private String accType;
     private String accTypeStr;
     private String backQty;
-    private int backState;
-    private int isWaitNotice;
+    private String backState;
+    private String isWaitNotice;
     private String isWaitNoticeStr;
     private String bankCode;
     private String bankName;
     private String bankMan;
     private String bankNumber;
     private String createMan;
+    private String accForklift="";//叉车费
+    private String accHanding="";//装卸费
+    private String accsend="";//实际送货费
+    private String sendqty="";//送货件数
     private String salesMan;
     private String opeMan;
     private String remark;
-    private int fromType;
-    private boolean isChecked=false;
+    private String fromType;
+    private boolean isChecked;
 
-    public int getId() {
+    public String getAccForklift() {
+        return accForklift;
+    }
+
+    public void setAccForklift(String accForklift) {
+        this.accForklift = accForklift;
+    }
+
+    public String getAccHanding() {
+        return accHanding;
+    }
+
+    public void setAccHanding(String accHanding) {
+        this.accHanding = accHanding;
+    }
+
+    public String getAccsend() {
+        return accsend;
+    }
+
+    public void setAccsend(String accsend) {
+        this.accsend = accsend;
+    }
+
+    public String getSendqty() {
+        return sendqty;
+    }
+
+    public void setSendqty(String sendqty) {
+        this.sendqty = sendqty;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getCompanyId() {
+    public String getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(int companyId) {
+    public void setCompanyId(String companyId) {
         this.companyId = companyId;
     }
 
-    public int getECompanyId() {
+    public String getECompanyId() {
         return eCompanyId;
     }
 
-    public void setECompanyId(int eCompanyId) {
+    public void setECompanyId(String eCompanyId) {
         this.eCompanyId = eCompanyId;
     }
 
@@ -240,11 +286,11 @@ public class DeliverySomethingHouseBean {
         this.billDate = billDate;
     }
 
-    public int getBillState() {
+    public String getBillState() {
         return billState;
     }
 
-    public void setBillState(int billState) {
+    public void setBillState(String billState) {
         this.billState = billState;
     }
 
@@ -256,11 +302,11 @@ public class DeliverySomethingHouseBean {
         this.billStateStr = billStateStr;
     }
 
-    public int getBillType() {
+    public String getBillType() {
         return billType;
     }
 
-    public void setBillType(int billType) {
+    public void setBillType(String billType) {
         this.billType = billType;
     }
 
@@ -280,11 +326,11 @@ public class DeliverySomethingHouseBean {
         this.goodsNum = goodsNum;
     }
 
-    public int getOkProcess() {
+    public String getOkProcess() {
         return okProcess;
     }
 
-    public void setOkProcess(int okProcess) {
+    public void setOkProcess(String okProcess) {
         this.okProcess = okProcess;
     }
 
@@ -296,11 +342,11 @@ public class DeliverySomethingHouseBean {
         this.okProcessStr = okProcessStr;
     }
 
-    public int getIsUrgent() {
+    public String getIsUrgent() {
         return isUrgent;
     }
 
-    public void setIsUrgent(int isUrgent) {
+    public void setIsUrgent(String isUrgent) {
         this.isUrgent = isUrgent;
     }
 
@@ -312,11 +358,11 @@ public class DeliverySomethingHouseBean {
         this.isUrgentStr = isUrgentStr;
     }
 
-    public int getIsTalkGoods() {
+    public String getIsTalkGoods() {
         return isTalkGoods;
     }
 
-    public void setIsTalkGoods(int isTalkGoods) {
+    public void setIsTalkGoods(String isTalkGoods) {
         this.isTalkGoods = isTalkGoods;
     }
 
@@ -328,11 +374,11 @@ public class DeliverySomethingHouseBean {
         this.isTalkGoodsStr = isTalkGoodsStr;
     }
 
-    public int getWebidCode() {
+    public String getWebidCode() {
         return webidCode;
     }
 
-    public void setWebidCode(int webidCode) {
+    public void setWebidCode(String webidCode) {
         this.webidCode = webidCode;
     }
 
@@ -344,11 +390,11 @@ public class DeliverySomethingHouseBean {
         this.webidCodeStr = webidCodeStr;
     }
 
-    public int getEwebidCode() {
+    public String getEwebidCode() {
         return ewebidCode;
     }
 
-    public void setEwebidCode(int ewebidCode) {
+    public void setEwebidCode(String ewebidCode) {
         this.ewebidCode = ewebidCode;
     }
 
@@ -368,11 +414,11 @@ public class DeliverySomethingHouseBean {
         this.destination = destination;
     }
 
-    public int getTransneed() {
+    public String getTransneed() {
         return transneed;
     }
 
-    public void setTransneed(int transneed) {
+    public void setTransneed(String transneed) {
         this.transneed = transneed;
     }
 
@@ -480,20 +526,20 @@ public class DeliverySomethingHouseBean {
         this.product = product;
     }
 
-    public int getTotalQty() {
-        return totalQty;
-    }
-
-    public void setTotalQty(int totalQty) {
-        this.totalQty = totalQty;
-    }
-
-    public int getQty() {
+    public String getQty() {
         return qty;
     }
 
-    public void setQty(int qty) {
+    public void setQty(String qty) {
         this.qty = qty;
+    }
+
+    public String getKcQty() {
+        return kcQty;
+    }
+
+    public void setKcQty(String kcQty) {
+        this.kcQty = kcQty;
     }
 
     public String getPackages() {
@@ -504,51 +550,51 @@ public class DeliverySomethingHouseBean {
         this.packages = packages;
     }
 
-    public double getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
-    public double getVolumn() {
+    public String getVolumn() {
         return volumn;
     }
 
-    public void setVolumn(double volumn) {
+    public void setVolumn(String volumn) {
         this.volumn = volumn;
     }
 
-    public double getWeightJs() {
+    public String getWeightJs() {
         return weightJs;
     }
 
-    public void setWeightJs(double weightJs) {
+    public void setWeightJs(String weightJs) {
         this.weightJs = weightJs;
     }
 
-    public double getSafeMoney() {
+    public String getSafeMoney() {
         return safeMoney;
     }
 
-    public void setSafeMoney(double safeMoney) {
+    public void setSafeMoney(String safeMoney) {
         this.safeMoney = safeMoney;
     }
 
-    public double getAccDaiShou() {
+    public String getAccDaiShou() {
         return accDaiShou;
     }
 
-    public void setAccDaiShou(double accDaiShou) {
+    public void setAccDaiShou(String accDaiShou) {
         this.accDaiShou = accDaiShou;
     }
 
-    public double getAccHKChange() {
+    public String getAccHKChange() {
         return accHKChange;
     }
 
-    public void setAccHKChange(double accHKChange) {
+    public void setAccHKChange(String accHKChange) {
         this.accHKChange = accHKChange;
     }
 
@@ -560,227 +606,227 @@ public class DeliverySomethingHouseBean {
         this.hkChangeReason = hkChangeReason;
     }
 
-    public double getSxf() {
+    public String getSxf() {
         return sxf;
     }
 
-    public void setSxf(double sxf) {
+    public void setSxf(String sxf) {
         this.sxf = sxf;
     }
 
-    public double getWPrice() {
+    public String getWPrice() {
         return wPrice;
     }
 
-    public void setWPrice(double wPrice) {
+    public void setWPrice(String wPrice) {
         this.wPrice = wPrice;
     }
 
-    public double getVPrice() {
+    public String getVPrice() {
         return vPrice;
     }
 
-    public void setVPrice(double vPrice) {
+    public void setVPrice(String vPrice) {
         this.vPrice = vPrice;
     }
 
-    public double getQtyPrice() {
+    public String getQtyPrice() {
         return qtyPrice;
     }
 
-    public void setQtyPrice(double qtyPrice) {
+    public void setQtyPrice(String qtyPrice) {
         this.qtyPrice = qtyPrice;
     }
 
-    public double getAccNow() {
+    public String getAccNow() {
         return accNow;
     }
 
-    public void setAccNow(double accNow) {
+    public void setAccNow(String accNow) {
         this.accNow = accNow;
     }
 
-    public double getAccArrived() {
+    public String getAccArrived() {
         return accArrived;
     }
 
-    public void setAccArrived(double accArrived) {
+    public void setAccArrived(String accArrived) {
         this.accArrived = accArrived;
     }
 
-    public double getAccBack() {
+    public String getAccBack() {
         return accBack;
     }
 
-    public void setAccBack(double accBack) {
+    public void setAccBack(String accBack) {
         this.accBack = accBack;
     }
 
-    public double getAccMonth() {
+    public String getAccMonth() {
         return accMonth;
     }
 
-    public void setAccMonth(double accMonth) {
+    public void setAccMonth(String accMonth) {
         this.accMonth = accMonth;
     }
 
-    public double getAccHuoKuanKou() {
+    public String getAccHuoKuanKou() {
         return accHuoKuanKou;
     }
 
-    public void setAccHuoKuanKou(double accHuoKuanKou) {
+    public void setAccHuoKuanKou(String accHuoKuanKou) {
         this.accHuoKuanKou = accHuoKuanKou;
     }
 
-    public double getAccTrans() {
+    public String getAccTrans() {
         return accTrans;
     }
 
-    public void setAccTrans(double accTrans) {
+    public void setAccTrans(String accTrans) {
         this.accTrans = accTrans;
     }
 
-    public double getAccFetch() {
+    public String getAccFetch() {
         return accFetch;
     }
 
-    public void setAccFetch(double accFetch) {
+    public void setAccFetch(String accFetch) {
         this.accFetch = accFetch;
     }
 
-    public double getAccPackage() {
+    public String getAccPackage() {
         return accPackage;
     }
 
-    public void setAccPackage(double accPackage) {
+    public void setAccPackage(String accPackage) {
         this.accPackage = accPackage;
     }
 
-    public double getAccSend() {
+    public String getAccSend() {
         return accSend;
     }
 
-    public void setAccSend(double accSend) {
+    public void setAccSend(String accSend) {
         this.accSend = accSend;
     }
 
-    public double getAccGb() {
+    public String getAccGb() {
         return accGb;
     }
 
-    public void setAccGb(double accGb) {
+    public void setAccGb(String accGb) {
         this.accGb = accGb;
     }
 
-    public double getAccSafe() {
+    public String getAccSafe() {
         return accSafe;
     }
 
-    public void setAccSafe(double accSafe) {
+    public void setAccSafe(String accSafe) {
         this.accSafe = accSafe;
     }
 
-    public double getAccRyf() {
+    public String getAccRyf() {
         return accRyf;
     }
 
-    public void setAccRyf(double accRyf) {
+    public void setAccRyf(String accRyf) {
         this.accRyf = accRyf;
     }
 
-    public double getAccHuiKou() {
+    public String getAccHuiKou() {
         return accHuiKou;
     }
 
-    public void setAccHuiKou(double accHuiKou) {
+    public void setAccHuiKou(String accHuiKou) {
         this.accHuiKou = accHuiKou;
     }
 
-    public double getAccSms() {
+    public String getAccSms() {
         return accSms;
     }
 
-    public void setAccSms(double accSms) {
+    public void setAccSms(String accSms) {
         this.accSms = accSms;
     }
 
-    public double getAccZz() {
+    public String getAccZz() {
         return accZz;
     }
 
-    public void setAccZz(double accZz) {
+    public void setAccZz(String accZz) {
         this.accZz = accZz;
     }
 
-    public double getAccZx() {
+    public String getAccZx() {
         return accZx;
     }
 
-    public void setAccZx(double accZx) {
+    public void setAccZx(String accZx) {
         this.accZx = accZx;
     }
 
-    public double getAccCb() {
+    public String getAccCb() {
         return accCb;
     }
 
-    public void setAccCb(double accCb) {
+    public void setAccCb(String accCb) {
         this.accCb = accCb;
     }
 
-    public double getAccSl() {
+    public String getAccSl() {
         return accSl;
     }
 
-    public void setAccSl(double accSl) {
+    public void setAccSl(String accSl) {
         this.accSl = accSl;
     }
 
-    public double getAccAz() {
+    public String getAccAz() {
         return accAz;
     }
 
-    public void setAccAz(double accAz) {
+    public void setAccAz(String accAz) {
         this.accAz = accAz;
     }
 
-    public double getAccFj() {
+    public String getAccFj() {
         return accFj;
     }
 
-    public void setAccFj(double accFj) {
+    public void setAccFj(String accFj) {
         this.accFj = accFj;
     }
 
-    public double getAccWz() {
+    public String getAccWz() {
         return accWz;
     }
 
-    public void setAccWz(double accWz) {
+    public void setAccWz(String accWz) {
         this.accWz = accWz;
     }
 
-    public double getAccJc() {
+    public String getAccJc() {
         return accJc;
     }
 
-    public void setAccJc(double accJc) {
+    public void setAccJc(String accJc) {
         this.accJc = accJc;
     }
 
-    public double getAccSum() {
+    public String getAccSum() {
         return accSum;
     }
 
-    public void setAccSum(double accSum) {
+    public void setAccSum(String accSum) {
         this.accSum = accSum;
     }
 
-    public int getAccType() {
+    public String getAccType() {
         return accType;
     }
 
-    public void setAccType(int accType) {
+    public void setAccType(String accType) {
         this.accType = accType;
     }
 
@@ -800,19 +846,19 @@ public class DeliverySomethingHouseBean {
         this.backQty = backQty;
     }
 
-    public int getBackState() {
+    public String getBackState() {
         return backState;
     }
 
-    public void setBackState(int backState) {
+    public void setBackState(String backState) {
         this.backState = backState;
     }
 
-    public int getIsWaitNotice() {
+    public String getIsWaitNotice() {
         return isWaitNotice;
     }
 
-    public void setIsWaitNotice(int isWaitNotice) {
+    public void setIsWaitNotice(String isWaitNotice) {
         this.isWaitNotice = isWaitNotice;
     }
 
@@ -888,19 +934,11 @@ public class DeliverySomethingHouseBean {
         this.remark = remark;
     }
 
-    public int getFromType() {
+    public String getFromType() {
         return fromType;
     }
 
-    public void setFromType(int fromType) {
+    public void setFromType(String fromType) {
         this.fromType = fromType;
-    }
-
-    public boolean isChecked() {
-        return isChecked;
-    }
-
-    public void setChecked(boolean checked) {
-        isChecked = checked;
     }
 }

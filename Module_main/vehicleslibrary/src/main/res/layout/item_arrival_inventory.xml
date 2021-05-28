@@ -105,6 +105,17 @@
         app:layout_constraintLeft_toLeftOf="@+id/receiver_outlets_tv"
         app:layout_constraintRight_toRightOf="@+id/receiver_outlets_tv"
         app:layout_constraintTop_toBottomOf="@+id/receiver_outlets_tv" />
+    <TextView
+        android:id="@+id/destination_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="目的地"
+        app:layout_constraintLeft_toRightOf="@+id/receiver_outlets_tv"
+        app:layout_constraintRight_toLeftOf="@+id/waybill_state_tv"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@+id/waybill_state_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/waybill_state_tv"
+        android:textSize="17sp"/>
 
     <TextView
         android:id="@+id/waybill_state_tv"

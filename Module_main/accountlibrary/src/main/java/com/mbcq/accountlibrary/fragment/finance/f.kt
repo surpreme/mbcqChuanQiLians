@@ -25,7 +25,7 @@ for (index in 0..5) {
                         item.itemText = "提付核销"
                     }
                     2 -> {
-                        item.itemText = "回单核销"
+                        item.itemText = "回单付核销"
                     }
                     3 -> {
                         item.itemText = "月结核销"
@@ -135,7 +135,7 @@ when (mResult) {
 
             }
             2 -> {
-                ARouter.getInstance().build(ARouterConstants.CommonWriteOffActivity).withString("xTitle", "回单核销").navigation()
+                ARouter.getInstance().build(ARouterConstants.CommonWriteOffActivity).withString("xTitle", "回单付核销").navigation()
 
             }
             3 -> {

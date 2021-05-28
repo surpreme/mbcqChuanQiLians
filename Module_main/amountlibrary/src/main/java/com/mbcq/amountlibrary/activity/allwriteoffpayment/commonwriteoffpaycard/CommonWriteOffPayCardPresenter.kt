@@ -58,7 +58,7 @@ class CommonWriteOffPayCardPresenter : BasePresenterImpl<CommonWriteOffPayCardCo
         param.put("item", when {
             selectType.contains("提付核销") -> 1001
             selectType.contains("现付核销") -> 1000
-            selectType.contains("回单核销") -> 1003
+            selectType.contains("回单付核销") -> 1003
             selectType.contains("月结核销") -> 1004
 
 
@@ -126,7 +126,7 @@ class CommonWriteOffPayCardPresenter : BasePresenterImpl<CommonWriteOffPayCardCo
                 when {
                     selectType.contains("提付核销") -> ApiInterface.PAYMENTED_WRITE_OFF_SERIAL_SAVE_INFO_POST
                     selectType.contains("现付核销") -> ApiInterface.PAYMENTING_WRITE_OFF_SAVE_INFO_POST
-                    selectType.contains("回单核销") -> ApiInterface.RECEIPT_MONTHLY_TUBERCULOSIS_SALES_SAVE_POST
+                    selectType.contains("回单付核销") -> ApiInterface.RECEIPT_MONTHLY_TUBERCULOSIS_SALES_SAVE_POST
                     selectType.contains("月结核销") -> ApiInterface.MONTHLY_TUBERCULOSIS_SALES_SAVE_POST
                     else -> ""
                 }, getRequestBody(jsonObj), object : CallBacks {

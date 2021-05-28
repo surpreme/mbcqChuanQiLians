@@ -14,11 +14,14 @@ import org.json.JSONObject
 
 class SchedulePaymentsPendingPresenter : BasePresenterImpl<SchedulePaymentsPendingContract.View>(), SchedulePaymentsPendingContract.Presenter {
     override fun getPage(page: Int) {
-        val params = HttpParams()
-        params.put("Page", page)
-        params.put("SelType", 8)
-        params.put("Limit", 15)
-        get<String>(ApiInterface.GENERAL_SCHEDULE_PAYMENTS_PENDING_INFO_GET, params, object : CallBacks {
+        val jsonObject = JSONObject()
+        jsonObject.put("Page", page)
+        jsonObject.put("SelType", 10)
+        jsonObject.put("Limit", 15)
+        val itemObj=JSONObject()
+        itemObj.put("hkIsOut",1)
+        jsonObject.put("WaybillState", itemObj)
+        post<String>(ApiInterface.GENERAL_SCHEDULE_PAYMENTS_PENDING_INFO_GET, getRequestBody(jsonObject), object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {

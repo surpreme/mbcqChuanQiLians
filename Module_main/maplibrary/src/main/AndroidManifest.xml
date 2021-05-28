@@ -4,5 +4,6 @@
     <application>
         <activity android:name=".LocationActivity" />
         <activity android:name=".LocationTestActivity" />
+        <activity android:name=".search.SearchPoiActivity" />
     </application>
 </manifest>

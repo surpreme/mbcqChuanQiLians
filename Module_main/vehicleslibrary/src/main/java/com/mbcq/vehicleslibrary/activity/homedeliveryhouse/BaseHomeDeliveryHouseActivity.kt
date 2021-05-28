@@ -49,6 +49,8 @@ abstract class BaseHomeDeliveryHouseActivity<V : BaseView, T : BasePresenterImpl
     var mToTalVolume = 0.0
     var mForkliftFee = 0.00
     var mLoadingFee = 0.00
+    var mSendOutacc = 0.00
+
     fun refreshTopInfo() {
         object : CountDownTimer(500, 500) {
             override fun onTick(millisUntilFinished: Long) {
@@ -66,6 +68,8 @@ abstract class BaseHomeDeliveryHouseActivity<V : BaseView, T : BasePresenterImpl
                         mForkliftFee = 0.00
                         //装卸费
                         mLoadingFee = 0.00
+                        //送货费
+                        mSendOutacc = 0.00
                         var mPrice = 0.00
                         for (item in it.getAllData()) {
                             if (item.weight.toDoubleOrNull() != null)
@@ -80,10 +84,12 @@ abstract class BaseHomeDeliveryHouseActivity<V : BaseView, T : BasePresenterImpl
                                 mForkliftFee += item.accCc.toDouble()
                             if (item.accZxf.toDoubleOrNull() != null)
                                 mLoadingFee += item.accZxf.toDouble()
+                            if (item.outacc.toDoubleOrNull() != null)
+                                mSendOutacc += item.outacc.toDouble()
 
                         }
                         over_total_info_tv.text = "已 装  车：${it.getAllData().size} 票 $mTotalQty 件 ${haveTwoDouble(mToTalWeight)} Kg ${haveTwoDouble(mToTalVolume)} 方      ${haveTwoDouble(mPrice)}元"
-                        fee_total_info_tv.text = "叉车费：$mForkliftFee  装卸费：$mLoadingFee"
+                        fee_total_info_tv.text = "叉车费：$mForkliftFee  装卸费：$mLoadingFee  送货费：$mSendOutacc"
                     }
                 }
             }
@@ -191,6 +197,10 @@ abstract class BaseHomeDeliveryHouseActivity<V : BaseView, T : BasePresenterImpl
     }
 
     protected fun selectIndex(type: Int) {
+        if (all_selected_checked.isChecked) {
+            mTypeIndex = 3
+            all_selected_checked.isChecked = false
+        }
         mTypeIndex = type
         when (type) {
             1 -> {

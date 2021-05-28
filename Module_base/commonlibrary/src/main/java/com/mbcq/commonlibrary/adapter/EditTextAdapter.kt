@@ -40,6 +40,12 @@ class EditTextAdapter<T : BaseEditTextAdapterBean> : RecyclerView.Adapter<EditTe
         notifyDataSetChanged()
     }
 
+    fun replaceData(list: List<T>) {
+        if (mSonBean.isNotEmpty())
+            mSonBean.clear()
+        mSonBean.addAll(list)
+        notifyDataSetChanged()
+    }
     fun getData(): ArrayList<T> = mSonBean
     fun clearDatas() {
         mSonBean.clear()

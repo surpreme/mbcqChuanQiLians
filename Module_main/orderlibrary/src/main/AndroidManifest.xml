@@ -5,7 +5,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application>
-        <activity android:name=".activity.fixreceiver.FixReceiverActivity"></activity>
+        <activity android:name=".activity.deliverysomethingmaphouse.DeliverySomethingMapHouseActivity"></activity>
+        <activity android:name=".activity.fixreceiver.FixReceiverActivity" />
         <activity android:name=".activity.fixshipper.FixShipperActivity" />
         <activity android:name=".activity.goodsreceipthouseinfo.GoodsReceiptHouseInfoActivity" />
         <activity android:name=".activity.acceptbillingoperationreview.AcceptBillingFixedReviewActivity" />

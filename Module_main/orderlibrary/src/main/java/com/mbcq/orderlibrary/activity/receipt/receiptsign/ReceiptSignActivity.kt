@@ -15,6 +15,7 @@ import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseSmartMVPActivity
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.util.system.TimeUtils
 import com.mbcq.baselibrary.view.BaseItemDecoration
@@ -74,6 +75,13 @@ class ReceiptSignActivity : BaseSmartMVPActivity<ReceiptSignContract.View, Recei
 
     override fun onClick() {
         super.onClick()
+        search_btn.onSingleClicks {
+            if (billno_ed.text.toString().isBlank()) {
+                showToast("请检查您的运单号")
+                return@onSingleClicks
+            }
+            mPresenter?.searchOrder(billno_ed.text.toString())
+        }
         receipt_sign_btn.setOnClickListener(object : SingleClick() {
             @SuppressLint("SimpleDateFormat")
             override fun onSingleClick(v: View) {
@@ -207,6 +215,13 @@ class ReceiptSignActivity : BaseSmartMVPActivity<ReceiptSignContract.View, Recei
 
     override fun getPageS(list: List<ReceiptSignBean>) {
         appendDatas(list)
+    }
+
+    override fun searchOrderS(list: List<ReceiptSignBean>) {
+        if (list.isNotEmpty()) {
+            stopNoData()
+            adapter.replaceData(list)
+        }
     }
 
     override fun completeS(result: String) {

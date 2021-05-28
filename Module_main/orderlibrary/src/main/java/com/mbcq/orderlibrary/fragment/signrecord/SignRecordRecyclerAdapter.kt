@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.mbcq.baselibrary.ui.getBeanString
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.orderlibrary.R
@@ -28,7 +29,20 @@ class SignRecordRecyclerAdapter(context: Context?) : BaseRecyclerAdapter<SignRec
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.destination_tv.text = mDatas[position].destination
         holder.receiver_tv.text = "收货人:${mDatas[position].consignee} xxxxxxxx"
-        holder.information_tv.text = "${mDatas[position].product} ${mDatas[position].qty}件 包装xxxxxxxx"
+        var mProduct = ""
+        mProduct = if (mDatas[position].product.length > 2) {
+            mDatas[position].product.substring(0, 3) + "..."
+        } else {
+            mDatas[position].product
+        }
+        var mPackages = ""
+        mPackages = if (getBeanString(mDatas[position].packages).length > 2) {
+            mDatas[position].packages.substring(0, 3) + "..."
+        } else {
+            getBeanString(mDatas[position].packages)
+        }
+
+        holder.information_tv.text = "$mProduct ${mDatas[position].qty}件 包装$mPackages"
         holder.waybill_number_tv.text = mDatas[position].billno
         holder.waybill_time_tv.text = mDatas[position].fetchDate
         context?.let {

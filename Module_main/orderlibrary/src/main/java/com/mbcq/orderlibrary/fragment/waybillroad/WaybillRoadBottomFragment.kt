@@ -20,6 +20,7 @@ import com.amap.api.maps.CameraUpdateFactory
 import com.amap.api.maps.MapView
 import com.amap.api.maps.model.CameraPosition
 import com.amap.api.maps.model.LatLng
+import com.amap.api.maps.model.PolylineOptions
 import com.mbcq.baselibrary.ui.BaseFragment
 import com.mbcq.baselibrary.ui.mvp.BaseEmptyMVPFragment
 import com.mbcq.baselibrary.ui.mvp.BaseMVPFragment
@@ -28,6 +29,9 @@ import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.orderlibrary.R
 import kotlinx.android.synthetic.main.fragment_waybill_road_bottom.*
 import kotlinx.android.synthetic.main.item_waybill_road_bottom.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 
@@ -93,6 +97,7 @@ class WaybillRoadBottomFragment : BaseEmptyMVPFragment<WaybillRoadBottomsContrac
             val mLatLng = LatLng(121.463749, 31.162066)
 //            initAMap(mLatLng, it)
 
+
         }
         consignee_info_tv = mView.findViewById(R.id.consignee_info_tv)
         waybill_number_tv = mView.findViewById(R.id.waybill_number_tv)
@@ -104,6 +109,20 @@ class WaybillRoadBottomFragment : BaseEmptyMVPFragment<WaybillRoadBottomsContrac
         return mView
     }
 
+    override fun onStart() {
+        super.onStart()
+       /* GlobalScope.launch { // 在后台启动一个新的协程并继续
+            delay(500L) // 非阻塞的等待 0.5 秒钟（默认时间单位是毫秒）
+        }*/
+        mAMap?.let {
+            val mLatLng = LatLng(22.1467077800, 113.4887695300)
+            initAMap(mLatLng, it)
+            drawLine()
+
+
+        }
+
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -113,9 +132,13 @@ class WaybillRoadBottomFragment : BaseEmptyMVPFragment<WaybillRoadBottomsContrac
 
     /**
      * 移动到指定经纬度
+    // CameraPosition 第一个参数： 目标位置的屏幕中心点经纬度坐标。
+    // CameraPosition 第二个参数： 目标可视区域的缩放级别
+    // CameraPosition 第三个参数： 目标可视区域的倾斜度，以角度为单位。
+    // CameraPosition 第四个参数： 可视区域指向的方向，以角度为单位，从正北向顺时针方向计算，从0度到360度
      */
     protected fun initAMap(latLng: LatLng?, aMap: AMap) {
-        val cameraPosition = CameraPosition(latLng, 15f, 0f, 30f)
+        val cameraPosition = CameraPosition(latLng, 10f, 0f, 0f)
         val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
         aMap.moveCamera(cameraUpdate)
         //        List<LatLng> latLngs = new ArrayList<LatLng>();
@@ -125,6 +148,37 @@ class WaybillRoadBottomFragment : BaseEmptyMVPFragment<WaybillRoadBottomsContrac
 //        latLngs.add(new LatLng(22.1149048900, 113.5011291500));
 //        latLngs.add(new LatLng(22.0767319600, 113.5553741500));
 //        showLineLocation(aMap, latLngs);
+    }
+
+    //上海 121.540824,31.079938
+//广州113.345023,23.108731
+    protected fun drawLine() {
+        val latLngs = mutableListOf<LatLng>()
+//        latLngs.add(LatLng(114.07568, 22.539019))
+//        latLngs.add(LatLng(108.802242, 34.253653))
+        latLngs.add( LatLng(22.1467077800, 113.4887695300))
+        latLngs.add( LatLng(22.1015455400, 113.4757232700))
+        latLngs.add( LatLng(22.1149048900, 113.5011291500))
+        latLngs.add( LatLng(22.0767319600, 113.5553741500))
+        mAMap?.let {
+            showLineLocation(it, latLngs)
+
+        }
+    }
+
+    /**
+     * 绘制轨迹线
+     * 官网
+     * https://lbs.amap.com/api/android-sdk/guide/draw-on-map/draw-polyline
+     * 测试url
+     * http://www.gpsspg.com/maps.htm
+     * List<LatLng> latLngs = new ArrayList<LatLng>();
+     * latLngs.add(new LatLng(39.999391,116.135972));
+     *
+     * @param aMap
+    </LatLng></LatLng> */
+    protected fun showLineLocation(aMap: AMap, latLngs: List<LatLng>) {
+        aMap.addPolyline(PolylineOptions().addAll(latLngs).width(10f).color(Color.argb(255, 1, 1, 1)))
     }
 
     override fun onDestroy() {

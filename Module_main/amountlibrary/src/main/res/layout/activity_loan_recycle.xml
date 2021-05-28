@@ -50,20 +50,39 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="#EAC11E"
-            android:text="输入"
+            android:text="查询"
             android:textColor="@color/white"
             android:textSize="19sp" />
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/loan_recycle_recycler"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/loan_recycle_smart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:overScrollMode="never"
-        android:scrollbars="none"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_ll"
-        app:layout_constraintTop_toBottomOf="@+id/search_ll" />
+        app:layout_constraintTop_toBottomOf="@id/search_ll">
+
+        <FrameLayout
+            android:id="@+id/loan_recycle_smart_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/loan_recycle_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toTopOf="@+id/bottom_ll"
+                app:layout_constraintTop_toBottomOf="@+id/search_ll" />
+
+        </FrameLayout>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 
     <LinearLayout
         android:id="@+id/bottom_ll"

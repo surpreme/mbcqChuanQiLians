@@ -40,6 +40,7 @@ public class CommonReceiveWriteOffBean {
     private String accWebidCode;
     private String accWebidCodeStr;
     private String billno;
+    private String yue;
     private boolean isChecked=false;
     private String mCommonTitleStr="";
 
@@ -51,6 +52,14 @@ public class CommonReceiveWriteOffBean {
         this.mCommonTitleStr = mCommonTitleStr;
     }
 
+
+    public String getYue() {
+        return yue;
+    }
+
+    public void setYue(String yue) {
+        this.yue = yue;
+    }
 
     public boolean isChecked() {
         return isChecked;

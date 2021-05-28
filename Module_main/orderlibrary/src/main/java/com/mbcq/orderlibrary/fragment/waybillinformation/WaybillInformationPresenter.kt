@@ -123,4 +123,29 @@ class WaybillInformationPresenter : BasePresenterImpl<WaybillInformationContract
         })
     }
 
+    override fun getOrderBigInfo(billno: String) {
+        val params = HttpParams()
+        params.put("billno", billno)
+        get<String>(ApiInterface.RECORD_SELECT_ORDER_MORES_INFO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                val data = obj.opt("data")
+                val json = JSONTokener(data?.toString()).nextValue()
+                if (json is JSONArray) {
+                    obj.optJSONArray("data")?.let {
+                        if (!it.isNull(0)) {
+                            mView?.getOrderBigInfoS(it.get(0).toString())
+                        }
+
+
+                    }
+                } else {
+                    mView?.showError("服务器返回异常信息:找不到此运单！")
+                }
+
+            }
+
+        })
+    }
+
 }

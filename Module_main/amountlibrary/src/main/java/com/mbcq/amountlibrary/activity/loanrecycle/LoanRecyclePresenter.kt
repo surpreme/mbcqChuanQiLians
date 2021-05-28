@@ -21,11 +21,19 @@ class LoanRecyclePresenter : BasePresenterImpl<LoanRecycleContract.View>(), Loan
     (waybill.SelType == 8)//根据签收时间查询
 
      */
-    override fun getPage(page: Int) {
+    override fun getPage(page: Int,startDate:String,endDate:String,selWebidCode:String) {
         val params = HttpParams()
-        params.put("page", page)
-        params.put("SelType", 7)
-        get<String>(ApiInterface.LOAN_RECYCLE_INFO_GET, params, object : CallBacks {
+//        params.put("page", page)
+//        params.put("limit", 15)
+//        params.put("SelType", 7)
+        val jsonObject=JSONObject()
+        jsonObject.put("SelType",7)
+        jsonObject.put("page",page)
+        jsonObject.put("limit",15)
+        jsonObject.put("startDate",startDate)
+        jsonObject.put("endDate",endDate)
+        jsonObject.put("selWebidCode",selWebidCode)
+        post<String>(ApiInterface.GENERAL_PAYMENT_CONFIRMATION_RECORD_GET, getRequestBody(jsonObject), object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {

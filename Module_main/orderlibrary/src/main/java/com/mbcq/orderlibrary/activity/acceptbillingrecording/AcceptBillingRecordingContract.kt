@@ -12,13 +12,15 @@ class AcceptBillingRecordingContract {
 
     interface View : BaseView {
         fun getPageS(list: List<AcceptBillingRecordingBean>)
+        fun searchOrderS(list: List<AcceptBillingRecordingBean>)
         fun rejectOrderS(result: String, position: Int)
 
     }
 
     interface Presenter : BasePresenter<View> {
-        fun getPage(page: Int, selWebidCode: String, startDate: String, endDate: String)
+        fun getPage(page: Int, selWebidCode: String, startDate: String, endDate: String, type: String)
 
         fun rejectOrder(billno: String, id: String, position: Int)
+        fun searchOrder(billno: String)
     }
 }

@@ -190,6 +190,10 @@ abstract class BaseFixedTrunkDepartureHouseActivity<V : BaseView, T : BasePresen
 
         fix_trunk_departure_house_tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
+                if (all_selected_checked.isChecked) {
+                    mTypeIndex = 3
+                    all_selected_checked.isChecked = false
+                }
                 when {
                     tab.text.toString().contains("库存清单") -> {
                         inventoryList_recycler.visibility = View.VISIBLE

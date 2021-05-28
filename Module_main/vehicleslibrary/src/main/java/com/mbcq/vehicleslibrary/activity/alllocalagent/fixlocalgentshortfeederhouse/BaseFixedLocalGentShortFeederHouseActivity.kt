@@ -132,6 +132,10 @@ abstract class BaseFixedLocalGentShortFeederHouseActivity<V : BaseView, T : Base
     }
 
     protected fun selectIndex(type: Int) {
+        if (all_selected_checked.isChecked) {
+            mTypeIndex = 3
+            all_selected_checked.isChecked = false
+        }
         mTypeIndex = type
         when (type) {
             1 -> {

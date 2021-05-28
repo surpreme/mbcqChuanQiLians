@@ -20,8 +20,13 @@ object ARouterConstants {
     /**
      * 订单模块
      */
+    //受理开单
     const val AcceptBillingActivity = "/order/AcceptBillingActivity"
+
+    //运单记录
     const val WaybillRecordActivity = "/order/WaybillRecordActivity"
+
+    //添加发货人
     const val AddShipperActivity = "/order/AddShipperActivity"
 
     //修改发货人
@@ -30,6 +35,7 @@ object ARouterConstants {
     //修改收货客户
     const val FixReceiverActivity = "/order/FixReceiverActivity"
 
+    //添加收货人
     const val AddReceiverActivity = "/order/AddReceiverActivity"
     const val ControlManagementActivity = "/order/ControlManagementActivity"
     const val DeliveryAdjustmentActivity = "/order/DeliveryAdjustmentActivity"
@@ -44,12 +50,20 @@ object ARouterConstants {
 
     //选择收货人
     const val ChoiceReceiverActivity = "/order/ChoiceReceiverActivity"
+
+    //货物签收详情 以及 签收
     const val GoodsReceiptInfoActivity = "/order/GoodsReceiptInfoActivity"
     const val PayBarActivity = "/order/PayBarActivity"
     const val PaymentSuccessActivity = "/order/PaymentSuccessActivity"
     const val ExceptionRegistrationActivity = "/order/ExceptionRegistrationActivity"
+
+    //送货
     const val DeliverySomeThingActivity = "/order/DeliverySomeThingActivity"
+
+    //送货新增配置页面 暂时弃用
     const val AddDeliverySomeThingActivity = "/order/AddDeliverySomeThingActivity"
+
+    //送货新增操作页面
     const val DeliverySomethingHouseActivity = "/order/DeliverySomethingHouseActivity"
     const val FixedDeliverySomethingHouseActivity = "/order/FixedDeliverySomethingHouseActivity"
     const val AddClaimSettlementActivity = "/order/AddClaimSettlementActivity"
@@ -63,7 +77,12 @@ object ARouterConstants {
     const val StowageAlongWayActivity = "/order/StowageAlongWayActivity"
     const val AcceptBillingFixedReviewActivity = "/order/AcceptBillingFixedReviewActivity"
     const val GoodsReceiptHouseActivity = "/order/GoodsReceiptHouseActivity"
+
+    //货物签收详情
     const val GoodsReceiptHouseInfoActivity = "/order/GoodsReceiptHouseInfoActivity"
+
+    //送货地图选择
+    const val DeliverySomethingMapHouseActivity = "/order/DeliverySomethingMapHouseActivity"
 
 
     /**
@@ -113,6 +132,8 @@ object ARouterConstants {
 
     //新增外转出库配置
     const val AddLocalGentShortFeederActivity = "/vehicles/AddLocalGentShortFeederActivity"
+
+    //外转操作页
     const val LocalGentShortFeederHouseActivity = "/vehicles/LocalGentShortFeederHouseActivity"
     const val FixedLocalGentShortFeederHouseActivity = "/vehicles/FixedLocalGentShortFeederHouseActivity"
     const val TerminalAgentActivity = "/vehicles/TerminalAgentActivity"
@@ -142,7 +163,11 @@ object ARouterConstants {
     const val DepartureTrunkDepartureScanOperatingScanInfoActivity = "/vehicles/DepartureTrunkDepartureScanOperatingScanInfoActivity"
     const val FixedShortFeederConfigurationActivity = "/vehicles/FixedShortFeederConfigurationActivity"
     const val FixedDepartureTrunkConfigurationActivity = "/vehicles/FixedDepartureTrunkConfigurationActivity"
+
+    //短驳到车清单
     const val ShortFeederUnloadingWarehousingActivity = "/vehicles/ShortFeederUnloadingWarehousingActivity"
+
+    //干线到车清单
     const val TrunkDepartureUnloadingWarehousingActivity = "/vehicles/TrunkDepartureUnloadingWarehousingActivity"
     const val LocalGentShortFeederHouseInfoActivity = "/vehicles/LocalGentShortFeederHouseInfoActivity"
 
@@ -187,6 +212,8 @@ object ARouterConstants {
     const val CommonWriteOffActivity = "/amount/CommonWriteOffActivity"
     const val CommonWriteOffPayCardActivity = "/amount/CommonWriteOffPayCardActivity"
     const val CommonWriteOffInfoActivity = "/amount/CommonWriteOffInfoActivity"
+
+    //应收核销凭证
     const val CommonWriteOffReceivePayCardActivity = "/amount/CommonWriteOffReceivePayCardActivity"
     const val CommonReceiveWriteOffActivity = "/amount/CommonReceiveWriteOffActivity"
     const val CommonReceiveWriteOffInfoActivity = "/amount/CommonReceiveWriteOffInfoActivity"

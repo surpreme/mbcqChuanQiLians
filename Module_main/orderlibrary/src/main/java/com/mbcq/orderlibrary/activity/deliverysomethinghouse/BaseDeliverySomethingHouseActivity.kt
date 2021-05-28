@@ -15,14 +15,10 @@ import com.mbcq.orderlibrary.R
 import kotlinx.android.synthetic.main.activity_delivery_something_house.*
 import java.lang.StringBuilder
 
-abstract class BaseDeliverySomethingHouseActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V,T>(), BaseView{
+abstract class BaseDeliverySomethingHouseActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseMVPActivity<V, T>(), BaseView {
     var mTypeIndex = 1
     var mInventoryListAdapter: DeliverySomethingHouseInventoryAdapter? = null
     var mLoadingListAdapter: DeliverySomethingHouseLoadingAdapter? = null
-    override fun initExtra() {
-        super.initExtra()
-        ARouter.getInstance().inject(this)
-    }
 
     protected fun selectIndex(type: Int) {
         mTypeIndex = type
@@ -62,6 +58,7 @@ abstract class BaseDeliverySomethingHouseActivity<V : BaseView, T : BasePresente
             }
         }
     }
+
     fun removeSomeThing() {
         val mSelectedDatas = mutableListOf<DeliverySomethingHouseBean>()
         val mUnSelectedDatas = mutableListOf<DeliverySomethingHouseBean>()
@@ -105,6 +102,7 @@ abstract class BaseDeliverySomethingHouseActivity<V : BaseView, T : BasePresente
         }
 
     }
+
     fun getSelectLoadingOrder(): String {
         val mSelectWaybillNumber = StringBuilder()
         mLoadingListAdapter?.getAllData()?.let {
@@ -160,11 +158,18 @@ abstract class BaseDeliverySomethingHouseActivity<V : BaseView, T : BasePresente
         return null
 
     }
+
+    //点击显示送货配置弹窗
+    abstract fun onRecyclerShowDialog(position: Int, item: DeliverySomethingHouseBean)
     protected open fun initLoadingList() {
         loading_list_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         mLoadingListAdapter = DeliverySomethingHouseLoadingAdapter(mContext)
         loading_list_recycler.adapter = mLoadingListAdapter
-        mLoadingListAdapter?.mOnRemoveInterface = object : DeliverySomethingHouseLoadingAdapter.OnRemoveInterface {
+        mLoadingListAdapter?.mOnUseInterface = object : DeliverySomethingHouseLoadingAdapter.OnUseInterface {
+            override fun onDialog(position: Int, item: DeliverySomethingHouseBean) {
+                onRecyclerShowDialog(position, item)
+            }
+
             override fun onClick(position: Int, item: DeliverySomethingHouseBean) {
                 mLoadingListAdapter?.removeItem(position)
                 mInventoryListAdapter?.appendData(mutableListOf(item))
@@ -185,6 +190,7 @@ abstract class BaseDeliverySomethingHouseActivity<V : BaseView, T : BasePresente
         }
 
     }
+
     @SuppressLint("SetTextI18n")
     fun refreshTopNumber() {
         inventory_list_tv.text = "库存清单(${mInventoryListAdapter?.getAllData()?.size})"

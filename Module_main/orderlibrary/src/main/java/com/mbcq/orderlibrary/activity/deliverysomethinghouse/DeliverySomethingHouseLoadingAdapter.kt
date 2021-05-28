@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.orderlibrary.R
@@ -21,9 +23,10 @@ class DeliverySomethingHouseLoadingAdapter (context: Context?):BaseRecyclerAdapt
 
         }
     }
-    var mOnRemoveInterface: OnRemoveInterface? = null
+    var mOnUseInterface: OnUseInterface? = null
 
-    interface OnRemoveInterface {
+    interface OnUseInterface {
+        fun onDialog(position: Int, item: DeliverySomethingHouseBean)
         fun onClick(position: Int, item: DeliverySomethingHouseBean)
     }
     @SuppressLint("SetTextI18n")
@@ -49,9 +52,12 @@ class DeliverySomethingHouseLoadingAdapter (context: Context?):BaseRecyclerAdapt
             }
 
         })
+        holder.itemView.onSingleClicks {
+            mOnUseInterface?.onDialog(position,mDatas[position])
+        }
         holder.waybill_move_iv.setOnClickListener(object : SingleClick() {
             override fun onSingleClick(v: View?) {
-                mOnRemoveInterface?.onClick(position,mDatas[position])
+                mOnUseInterface?.onClick(position,mDatas[position])
             }
 
         })

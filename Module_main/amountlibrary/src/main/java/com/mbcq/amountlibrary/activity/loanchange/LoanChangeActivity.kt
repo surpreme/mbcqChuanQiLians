@@ -19,7 +19,7 @@ import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2020-11-16 10:16:03 贷款变更
+ * @time: 2020-11-16 10:16:03 货款变更
  */
 
 @Route(path = ARouterConstants.LoanChangeActivity)

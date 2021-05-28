@@ -14,6 +14,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:textColor="@color/base_blue"
+        android:textIsSelectable="true"
         android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -116,19 +117,19 @@
         android:layout_marginTop="10dp"
         android:background="@color/base_gray"
         app:layout_constraintTop_toBottomOf="@+id/vehicler_info_tv" />
-<!--
+    <!--
 
-    <ImageView
-        android:id="@+id/feeder_checkbox_iv"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
-        android:src="@drawable/ic_unchecked_icon"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line_view" />
--->
+        <ImageView
+            android:id="@+id/feeder_checkbox_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_unchecked_icon"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_view" />
+    -->
 
 
     <Button

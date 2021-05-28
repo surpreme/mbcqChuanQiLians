@@ -110,8 +110,11 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V>, LifecycleObserver
                                 val errorLog = obj.optString("msg")
                                 if (errorLog.contains("token值无效")) {
                                     mView?.UnToken(errorLog)
-                                } else
+                                } else if (errorLog.isNotBlank())
                                     mView?.showError(errorLog)
+                                else {
+                                    callback.onResult(result)
+                                }
                             }
                         })
                     }

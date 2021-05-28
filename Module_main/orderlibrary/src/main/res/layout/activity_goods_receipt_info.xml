@@ -35,6 +35,7 @@
                 android:layout_marginTop="10dp"
                 android:textColor="@color/base_blue"
                 android:textSize="16sp"
+                android:textIsSelectable="true"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="10056044789" />
@@ -102,13 +103,25 @@
                 app:layout_constraintLeft_toRightOf="@+id/center_address_tv"
                 app:layout_constraintTop_toTopOf="@+id/center_address_tv"
                 tools:text="义乌青口" />
-
+            <TextView
+                android:id="@+id/destination_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/receiver_outlets_tv"
+                app:layout_constraintLeft_toRightOf="@+id/receiver_outlets_tv"
+                app:layout_constraintTop_toTopOf="@+id/receiver_outlets_tv"
+                tools:text="目的地:义乌青口" />
             <TextView
                 android:id="@+id/goods_info_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
                 android:textColor="@color/black"
+                android:maxEms="8"
+                android:maxLength="8"
                 app:layout_constraintBottom_toBottomOf="@+id/receiver_outlets_tv"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/receiver_outlets_tv"
@@ -354,8 +367,8 @@
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
                         android:gravity="center|left"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
+                        android:textColor="@color/base_red"
+                        android:textSize="18sp"
                         tools:text="300元" />
 
 

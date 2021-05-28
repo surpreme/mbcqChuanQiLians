@@ -190,6 +190,7 @@ class FixedHomeDeliveryHouseActivity : BaseFixedHomeDeliveryHouseActivity<FixHom
                         }
 
                         mLoadingListAdapter?.replaceData(mNewData)
+                        refreshTopInfo()
 
                     }
 

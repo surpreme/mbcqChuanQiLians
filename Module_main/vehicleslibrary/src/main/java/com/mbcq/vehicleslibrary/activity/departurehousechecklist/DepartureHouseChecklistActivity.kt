@@ -68,16 +68,14 @@ class DepartureHouseChecklistActivity : BaseListMVPActivity<DepartureHouseCheckl
                             mXList.add(item)
                         }
                         if (mXList.isNotEmpty()) {
-                            adapter.clearData()
-                            adapter.appendData(mXList)
+                            adapter.replaceData(mXList)
                         }else{
                             showToast("未查询到此运单")
                         }
                     }
 
                 }else{
-                    adapter.clearData()
-                    adapter.appendData(mShowList)
+                    adapter.replaceData(mShowList)
                 }
             }
         }

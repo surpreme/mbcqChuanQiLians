@@ -170,6 +170,10 @@ abstract class BaseFixHomeDeliveryHouseActivity<V : BaseView, T : BasePresenterI
     }
 
     protected fun selectIndex(type: Int) {
+        if(all_selected_checked.isChecked){
+            mTypeIndex=3
+            all_selected_checked.isChecked=false
+        }
         mTypeIndex = type
         when (type) {
             1 -> {

@@ -12,7 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/base_blue"
         app:backButtonIsShow="true"
-        app:centerTextViewText="贷款变更"
+        app:centerTextViewText="货款变更"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
@@ -47,7 +47,7 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="#EAC11E"
-            android:text="输入"
+            android:text="查询"
             android:imeOptions="actionDone"
             android:textColor="@color/white"
             android:textSize="19sp" />
@@ -63,11 +63,11 @@
         android:lineSpacingExtra="5dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingBottom="10dp"
+        android:layout_marginBottom="10dp"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/search_ll"
-        tools:text="货款状态：正常\n开单日期：2020-11-11\n发货网点：汕头\n发  货 人：吴轩\n到货网点：义乌青口\n收  货 人：王夏青" />
+        android:text="货款状态：\n开单日期：\n发货网点：\n发  货 人：\n到货网点：\n收  货 人：" />
 
     <LinearLayout
         android:id="@+id/order_number_ll"

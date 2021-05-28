@@ -105,6 +105,7 @@ public class TrunkDepartureBean {
     private int ps;
     private String weight;
     private String volumn;
+    private String qty;
     private double yf;
     private double accdache;
     private String accSum;
@@ -121,6 +122,14 @@ public class TrunkDepartureBean {
         isLookInfo = lookInfo;
     }
 
+
+    public String getQty() {
+        return qty;
+    }
+
+    public void setQty(String qty) {
+        this.qty = qty;
+    }
 
     public boolean isChecked() {
         return isChecked;

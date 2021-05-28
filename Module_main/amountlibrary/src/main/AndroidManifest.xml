@@ -3,18 +3,42 @@
     package="com.mbcq.amountlibrary">
 
     <application>
-        <activity android:name=".activity.allwriteoffreceivepayment.commonreceivewriteoffinfo.CommonReceiveWriteOffInfoActivity"></activity>
-        <activity android:name=".activity.allwriteoffreceivepayment.commonreceivewriteoff.CommonReceiveWriteOffActivity" />
-        <activity android:name=".activity.allwriteoffreceivepayment.commonwriteoffreceivepaycard.CommonWriteOffReceivePayCardActivity" />
-        <activity android:name=".activity.allwriteoffpayment.commonwriteoffinfo.CommonWriteOffInfoActivity" />
-        <activity android:name=".activity.allwriteoffpayment.commonwriteoffpaycard.CommonWriteOffPayCardActivity" />
-        <activity android:name=".activity.allwriteoffpayment.commonwriteoff.CommonWriteOffActivity" />
-        <activity android:name=".activity.receipttuberculosissalesinfo.ReceiptTuberculosisSalesInfoActivity" />
-        <activity android:name=".activity.monthlytuberculosissalesinfo.MonthlyTuberculosisSalesInfoActivity" />
-        <activity android:name=".activity.monthlytuberculosissalespaycard.MonthlyTuberculosisSalesPayCardActivity" />
-        <activity android:name=".activity.monthlytuberculosissales.MonthlyTuberculosisSalesActivity" />
-        <activity android:name=".activity.receipttuberculosissalespaycard.ReceiptTuberculosisSalesPayCardActivity" />
-        <activity android:name=".activity.receiptmonthlytuberculosissales.ReceiptMonthlyTuberculosisSalesActivity" />
+        <activity
+            android:name=".activity.allwriteoffreceivepayment.commonreceivewriteoffinfo.CommonReceiveWriteOffInfoActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.allwriteoffreceivepayment.commonreceivewriteoff.CommonReceiveWriteOffActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.allwriteoffreceivepayment.commonwriteoffreceivepaycard.CommonWriteOffReceivePayCardActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.allwriteoffpayment.commonwriteoffinfo.CommonWriteOffInfoActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.allwriteoffpayment.commonwriteoffpaycard.CommonWriteOffPayCardActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.allwriteoffpayment.commonwriteoff.CommonWriteOffActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.receipttuberculosissalesinfo.ReceiptTuberculosisSalesInfoActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.monthlytuberculosissalesinfo.MonthlyTuberculosisSalesInfoActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.monthlytuberculosissalespaycard.MonthlyTuberculosisSalesPayCardActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.monthlytuberculosissales.MonthlyTuberculosisSalesActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.receipttuberculosissalespaycard.ReceiptTuberculosisSalesPayCardActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.receiptmonthlytuberculosissales.ReceiptMonthlyTuberculosisSalesActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.paymentedwriteoffinfo.PaymentedWriteoffInfoActivity" />
         <activity
             android:name=".activity.paymentedwriteoffpaycard.PaymentedWriteOffPayCardActivity"

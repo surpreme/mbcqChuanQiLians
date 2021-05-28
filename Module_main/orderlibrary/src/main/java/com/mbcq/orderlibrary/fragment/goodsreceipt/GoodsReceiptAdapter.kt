@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.mbcq.baselibrary.ui.getBeanString
 import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.orderlibrary.R
@@ -22,8 +23,8 @@ class GoodsReceiptAdapter(context: Context?) : BaseRecyclerAdapter<GoodsReceiptB
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr.toString()
         holder.destination_tv.text = mDatas[position].ewebidCodeStr.toString()
         holder.receiver_tv.text = "收货人：${mDatas[position].consignee}"
-        holder.withdraw_tv.text = "提  付： ${mDatas[position].accFetch}"
-        holder.payment_tv.text = "货   款：${mDatas[position].accDaiShou}元                    货款变更：${mDatas[position].accHKChange}元"
+        holder.withdraw_tv.text = "提  付： ${mDatas[position].accArrived}"
+        holder.payment_tv.text = "货   款：${mDatas[position].accDaiShou}元                    货款变更：${getBeanString(mDatas[position].accHKChange)}元"
         holder.receivable_tv.text = "应   收：${mDatas[position].accSum}元"
         holder.remarks_tv.text = "备注：${mDatas[position].remark}"
         holder.itemView.setOnClickListener(object : SingleClick() {

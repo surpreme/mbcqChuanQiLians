@@ -13,9 +13,16 @@ import org.json.JSONObject
  */
 
 class GeneralLedgerPresenter : BasePresenterImpl<GeneralLedgerContract.View>(), GeneralLedgerContract.Presenter {
-    override fun getPage(page: Int) {
+    override fun getPage(page: Int,startDate:String,endDate:String, selWebidCode:String ){
         val params = HttpParams()
         params.put("Page", page)
+        params.put("limit", 15)
+        params.put("SelType", 1)
+        params.put("HkDirection", 1)
+        params.put("hkIsBackOut", 1)
+        params.put("StartDate", startDate)
+        params.put("EndDate", endDate)
+        params.put("SelWebidCode", selWebidCode)
         get<String>(ApiInterface.GENERAL_LEDGER_INFO_GET, params, object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)

@@ -13,6 +13,7 @@ import com.mbcq.amountlibrary.R
 import com.mbcq.baselibrary.dialog.common.TalkSureDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
+import com.mbcq.baselibrary.ui.BaseSmartMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
@@ -37,7 +38,7 @@ import org.json.JSONObject
  */
 
 @Route(path = ARouterConstants.LoanRecycleActivity)
-class LoanRecycleActivity : BaseListMVPActivity<LoanRecycleContract.View, LoanRecyclePresenter, LoanRecycleBean>(), LoanRecycleContract.View {
+class LoanRecycleActivity : BaseSmartMVPActivity<LoanRecycleContract.View, LoanRecyclePresenter, LoanRecycleBean>(), LoanRecycleContract.View {
     var mStartDateTag = ""
     var mEndDateTag = ""
     var mShippingOutletsTag = ""
@@ -45,6 +46,9 @@ class LoanRecycleActivity : BaseListMVPActivity<LoanRecycleContract.View, LoanRe
 
 
     override fun getLayoutId(): Int = R.layout.activity_loan_recycle
+    override fun getEnableLoadMore(): Boolean {
+        return false
+    }
     override fun initExtra() {
         super.initExtra()
         mStartDateTag = "${TimeUtils.getLastdayStr(7)} 00:00:00"
@@ -59,11 +63,11 @@ class LoanRecycleActivity : BaseListMVPActivity<LoanRecycleContract.View, LoanRe
         setStatusBar(R.color.base_blue)
     }
 
-    override fun initDatas() {
-        super.initDatas()
-        mPresenter?.getPage(1)
-    }
+    override fun getPageDatas(mCurrentPage: Int) {
+        super.getPageDatas(mCurrentPage)
+        mPresenter?.getPage(mCurrentPage,mStartDateTag,mEndDateTag,mShippingOutletsTag)
 
+    }
     override fun onClick() {
         super.onClick()
         generate_payment_voucher_btn.setOnClickListener(object : SingleClick() {
@@ -100,7 +104,7 @@ class LoanRecycleActivity : BaseListMVPActivity<LoanRecycleContract.View, LoanRe
                                     mStartDateTag = timeList[0]
                                     mEndDateTag = timeList[1]
                                 }
-//                                refresh()
+                                refresh()
 
                             }
 
@@ -155,7 +159,11 @@ class LoanRecycleActivity : BaseListMVPActivity<LoanRecycleContract.View, LoanRe
     override fun setAdapter(): BaseRecyclerAdapter<LoanRecycleBean> = LoanRecycleAdapter(mContext)
 
     override fun getPageS(list: List<LoanRecycleBean>) {
-        adapter.appendData(list)
+        appendDatas(list)
 
     }
+
+    override fun getSmartLayoutId(): Int =R.id.loan_recycle_smart
+
+    override fun getSmartEmptyId(): Int=R.id.loan_recycle_smart_frame
 }

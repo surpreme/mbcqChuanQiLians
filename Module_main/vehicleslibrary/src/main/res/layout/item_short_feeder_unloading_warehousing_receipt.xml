@@ -106,7 +106,17 @@
         app:layout_constraintLeft_toLeftOf="@+id/receiver_outlets_tv"
         app:layout_constraintRight_toRightOf="@+id/receiver_outlets_tv"
         app:layout_constraintTop_toBottomOf="@+id/receiver_outlets_tv" />
-
+    <TextView
+        android:id="@+id/receipt_status_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/base_red"
+        android:textSize="16sp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/receiver_tv"
+        app:layout_constraintLeft_toRightOf="@+id/receiver_outlets_tv"
+        app:layout_constraintTop_toTopOf="@+id/receiver_tv"
+        tools:text="回单状态：签回单" />
     <View
         android:id="@+id/line_view"
         android:layout_width="match_parent"

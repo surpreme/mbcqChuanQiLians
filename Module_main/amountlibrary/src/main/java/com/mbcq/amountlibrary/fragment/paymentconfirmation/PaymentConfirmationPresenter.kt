@@ -15,10 +15,10 @@ import org.json.JSONObject
 class PaymentConfirmationPresenter : BasePresenterImpl<PaymentConfirmationContract.View>(), PaymentConfirmationContract.Presenter {
     override fun getPage(page: Int) {
         val params = HttpParams()
-        params.put("page", page)
-        params.put("SelType",8)
-        params.put("Limit",10)
-        get<String>(ApiInterface.GENERAL_PAYMENT_CONFIRMATION_INFO_GET,params,object :CallBacks{
+//        params.put("page", page)
+//        params.put("SelType",8)
+//        params.put("Limit",10)
+        get<String>(ApiInterface.GENERAL_PAYMENT_CONFIRMATION_INFO_GET+"?=",params,object :CallBacks{
             override fun onResult(result: String) {
                 val obj=JSONObject(result)
                 obj.optJSONArray("data")?.let {

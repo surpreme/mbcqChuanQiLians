@@ -6,7 +6,7 @@ import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2021-01-13 10:10:00 回单核销详情
+ * @time: 2021-01-13 10:10:00 回单付核销详情
  */
 
 class ReceiptTuberculosisSalesPayCardContract {

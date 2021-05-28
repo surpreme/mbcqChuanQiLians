@@ -224,7 +224,7 @@ class GoodsReceiptInfoActivity : BaseMVPActivity<GoodsReceiptInfoContract.View, 
         underpayment_tv.text = mGoodsReceiptBean.accDaiShou.toString()
         increase_tv.text = "xxx"
         total_price_tv.text = getBeanString(mGoodsReceiptBean.accSum) + "元"
-
+        destination_tv.text = "目的地：${getBeanString(mGoodsReceiptBean.destination)}"
         delivery_date_tv.text = TimeUtils.getCurrTime2()
         initImageShowGridRecycler()
     }

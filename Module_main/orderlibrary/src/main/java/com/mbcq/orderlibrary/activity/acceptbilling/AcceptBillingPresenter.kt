@@ -450,8 +450,8 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
      * post {"ECompanyId":"2001","Destination":"义乌后湖","OrderId":"","WebidCodeStr":"汕头","WebidCode":"1003","Billno":"10030001897","EwebidCodeStr":"义乌后湖","EwebidCode":"1001","OBillno":"","BillDate":"2020-09-09 18:18:59:06","BillState":"","BillTypeStr":"机打","OkProcess":"","OkProcessStr":"客户自提","IsTalkGoods":"0","IsTalkGoodsStr":"否","VipId":"17530957256","ShipperId":"","ShipperMb":"15999999999","ShipperTel":"5555","Shipper":"彭小林","ShipperCid":"","ShipperAddr":"1111","IsUrgent":"0","IsUrgentStr":"否","Transneed":"1","TransneedStr":"零担","ConsigneeMb":"18614079730","ConsigneeTel":"","Consignee":"李紫洋","ConsigneeAddr":"还是","Product":"玻璃1","TotalQty":"","Qty":"1","GoodsNum":"01897-1","Packages":"工工式","Weight":"1","Volumn":"1","AccSum":"200","AccType":"1","AccTypeStr":"现付","BackQty":"签回单","IsWaitNoticeStr":"是","IsWaitNotice":"1","BankCode":"301290000007","BankName":"交通银行","BankMan":"wxl","CreateMan":"lzy","Remark":"12588","FromType":"3","accTrans":"100","accFetch":"1","accPackage":"40","accSend":"1","accGb":"1","accSafe":"1","accRyf":"1","accHuiKou":"2"}
      * success{"code":0,"ljCode":0,"msg":"保存成功!"}
      */
-    override fun saveAcceptBilling(job: JSONObject, printJson: String, priceJson: String) {
-        post<String>(ApiInterface.ACCEPT_SAVE_INFO_POST, getRequestBody(job), object : CallBacks {
+    override fun saveAcceptBilling(job: JSONObject, printJson: String, priceJson: String, isAgain: Boolean) {
+        post<String>(if (isAgain) ApiInterface.ACCEPT_FIX_SAVE_INFO_POST else ApiInterface.ACCEPT_SAVE_INFO_POST, getRequestBody(job), object : CallBacks {
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 mView?.saveAcceptBillingS(obj.optString("msg"), printJson, priceJson)
@@ -546,6 +546,25 @@ class AcceptBillingPresenter : BasePresenterImpl<AcceptBillingContract.View>(), 
                             mView?.getShipperInfoS(oJay.toString())
                         }
 
+                    }
+
+                }
+            }
+
+        })
+    }
+
+    override fun getAgainInfo(billno: String) {
+        val params = HttpParams()
+        params.put("Billno", billno)
+        get<String>(ApiInterface.RECORD_SELECT_ORDER_MORE_INFO_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    if (!it.isNull(0)) {
+                        mView?.getAgainInfoS(it.getString(0))
+
+                    } else {
                     }
 
                 }

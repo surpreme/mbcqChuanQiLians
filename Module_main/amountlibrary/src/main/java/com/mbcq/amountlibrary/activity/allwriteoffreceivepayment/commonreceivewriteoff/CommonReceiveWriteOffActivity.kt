@@ -26,6 +26,7 @@ import com.mbcq.commonlibrary.db.WebAreaDbInfo
 import com.mbcq.commonlibrary.dialog.BottomOptionsDialog
 import com.mbcq.commonlibrary.dialog.FilterWithTimeDialog
 import kotlinx.android.synthetic.main.activity_common_receive_write_off.*
+import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -107,14 +108,20 @@ class CommonReceiveWriteOffActivity : BaseSmartMVPActivity<CommonReceiveWriteOff
                     showToast("请至少选择一个运单进行操作")
                     return@onSingleClicks
                 }
-                var selectData = ""
+                val selectDataObj = JSONObject()
+                val selectDataJry = JSONArray()
+//                var selectData = ""
                 for ((_, item) in adapter.getAllData().withIndex()) {
                     if (item.isChecked) {
-                        item.setmCommonTitleStr(xTitle)
-                        selectData = Gson().toJson(item)
+//                        item.setmCommonTitleStr(xTitle)
+                        val selectData = Gson().toJson(item)
+                        selectDataJry.put(JSONObject(selectData))
+//                        selectData = Gson().toJson(item)
                     }
                 }
-                ARouter.getInstance().build(ARouterConstants.CommonWriteOffReceivePayCardActivity).withString("xSelectData", selectData).navigation()
+                selectDataObj.put("selectData", selectDataJry)
+                selectDataObj.put("mCommonTitleStr", xTitle)
+                ARouter.getInstance().build(ARouterConstants.CommonWriteOffReceivePayCardActivity).withString("xSelectData", GsonUtils.toPrettyFormat(selectDataObj)).navigation()
             }
         }
         common_receive_write_off_receive_toolbar.setRightButtonOnClickListener(

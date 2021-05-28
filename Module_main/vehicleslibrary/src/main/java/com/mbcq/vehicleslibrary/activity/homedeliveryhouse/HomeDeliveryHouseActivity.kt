@@ -183,6 +183,7 @@ class HomeDeliveryHouseActivity : BaseHomeDeliveryHouseActivity<HomeDeliveryHous
                         }
 
                         mLoadingListAdapter?.replaceData(mNewData)
+                        refreshTopInfo()
 
                     }
 

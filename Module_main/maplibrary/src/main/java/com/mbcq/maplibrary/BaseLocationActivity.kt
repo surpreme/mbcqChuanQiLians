@@ -6,7 +6,6 @@ import android.graphics.Point
 import android.os.Bundle
 import android.util.Log
 import android.view.animation.LinearInterpolator
-import com.amap.api.location.AMapLocation
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
@@ -16,14 +15,11 @@ import com.amap.api.maps.model.*
 import com.amap.api.maps.model.animation.Animation
 import com.amap.api.maps.model.animation.RotateAnimation
 import com.amap.api.maps.model.animation.TranslateAnimation
-import com.mbcq.baselibrary.BaseApplication
 import com.mbcq.baselibrary.ui.BaseListMVPActivity
-import com.mbcq.baselibrary.ui.mvp.BaseMVPActivity
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.BaseView
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
-import com.mbcq.baselibrary.util.system.ToastUtils
 import com.mbcq.maplibrary.util.GaodeLocationUtils
 import kotlinx.android.synthetic.main.activity_location.*
 
@@ -116,14 +112,36 @@ abstract class BaseLocationActivity<V : BaseView, T : BasePresenterImpl<V>, X> :
         val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
         aMap.moveCamera(cameraUpdate)
         showCircleLocation(aMap)
-        //        List<LatLng> latLngs = new ArrayList<LatLng>();
-//        latLngs.add(new LatLng(22.1467077800, 113.4887695300));
-//        latLngs.add(new LatLng(22.1387577300, 113.4794998200));
+
+        drawMarkers(aMap, latLng)
+    }
+
+    protected fun drawLine() {
+        val latLngs = mutableListOf<LatLng>()
+        latLngs.add(LatLng(22.1467077800, 113.4887695300))
+        latLngs.add(LatLng(22.1387577300, 113.4794998200))
 //        latLngs.add(new LatLng(22.1015455400, 113.4757232700));
 //        latLngs.add(new LatLng(22.1149048900, 113.5011291500));
 //        latLngs.add(new LatLng(22.0767319600, 113.5553741500));
-//        showLineLocation(aMap, latLngs);
-        drawMarkers(aMap, latLng)
+        mAMap?.let {
+            showLineLocation(it, latLngs)
+
+        }
+    }
+
+    /**
+     * 绘制轨迹线
+     * 官网
+     * https://lbs.amap.com/api/android-sdk/guide/draw-on-map/draw-polyline
+     * 测试url
+     * http://www.gpsspg.com/maps.htm
+     * List<LatLng> latLngs = new ArrayList<LatLng>();
+     * latLngs.add(new LatLng(39.999391,116.135972));
+     *
+     * @param aMap
+    </LatLng></LatLng> */
+    protected open fun showLineLocation(aMap: AMap, latLngs: List<LatLng>) {
+        aMap.addPolyline(PolylineOptions().addAll(latLngs).width(2f).color(Color.argb(255, 1, 1, 1)))
     }
 
     /**

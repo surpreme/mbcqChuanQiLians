@@ -27,6 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 import com.mbcq.baselibrary.dialog.common.TalkSureCancelDialog
 import com.mbcq.baselibrary.interfaces.OnClickInterface
+import com.mbcq.baselibrary.ui.onSingleClicks
 import com.mbcq.baselibrary.util.log.LogUtils
 import com.mbcq.baselibrary.util.screen.ScreenSizeUtils
 import com.mbcq.baselibrary.util.system.SoftKeyboardUtil
@@ -35,6 +36,7 @@ import com.mbcq.baselibrary.view.BaseRecyclerAdapter
 import com.mbcq.baselibrary.view.SingleClick
 import com.mbcq.commonlibrary.ARouterConstants
 import com.mbcq.commonlibrary.LocationResultEvent
+import com.mbcq.maplibrary.search.SearchPoiActivity
 import com.mbcq.maplibrary.view.WebCodeLocationBean
 import com.mbcq.maplibrary.view.WebCodeLocationRecyclerAdapter
 import kotlinx.android.synthetic.main.activity_location.*
@@ -84,15 +86,16 @@ class LocationActivity : BaseLocationActivity<LocationContract.View, LocationPre
 
 
     protected fun initSearch() {
+
         search_ed.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                val newText = s.toString().trim { it <= ' ' }
-                if (newText.length > 0) {
+                val newText = s.toString()
+                if (newText.isNotEmpty()) {
 //                    val inputquery = InputtipsQuery(newText, "北京") 限制搜索地区
-                    val inputquery = InputtipsQuery(newText, " ")
+                    val inputquery = InputtipsQuery(newText, null)
                     val inputTips = Inputtips(this@LocationActivity, inputquery)
-                    inputquery.cityLimit = true
+                    inputquery.cityLimit = false
                     inputTips.setInputtipsListener(inputtipsListener)
                     inputTips.requestInputtipsAsyn()
                 }

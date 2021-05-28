@@ -59,7 +59,6 @@ class TrunkDepartureUnloadingWarehousingActivity : BaseListMVPActivity<TrunkDepa
         initToptab()
         departure_tv.text = "发车批次：${JSONObject(mTrunkDepartureUnloadingWarehousing).optString("inoneVehicleFlag")}"
         web_info_tv.text = "运行区间：${JSONObject(mTrunkDepartureUnloadingWarehousing).optString("vehicleInterval")}"
-        over_total_info_tv.text = "已 装  车：${JSONObject(mTrunkDepartureUnloadingWarehousing).optString("ps")}票 x件 ${JSONObject(mTrunkDepartureUnloadingWarehousing).optString("weight")}Kg ${JSONObject(mTrunkDepartureUnloadingWarehousing).optString("volumn")}方     ${JSONObject(mTrunkDepartureUnloadingWarehousing).optString("yf")}元"
         mTrunkDepartureUnloadingWarehousingReceiptAdapter = TrunkDepartureUnloadingWarehousingReceiptAdapter(mContext).also {
             receipt_list_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
             receipt_list_recycler.adapter = it
@@ -168,7 +167,7 @@ class TrunkDepartureUnloadingWarehousingActivity : BaseListMVPActivity<TrunkDepa
 
     override fun getVehicleInfoS(list: List<TrunkDepartureUnloadingWarehousingBean>) {
         adapter.appendData(list)
-
+        refreshTopInfo()
     }
 
     override fun getVehicleReceiptInfoS(list: List<TrunkDepartureUnloadingWarehousingBean>) {
@@ -237,5 +236,38 @@ class TrunkDepartureUnloadingWarehousingActivity : BaseListMVPActivity<TrunkDepa
 
         }.start()
 
+    }
+    fun refreshTopInfo() {
+        object : CountDownTimer(500, 500) {
+            override fun onTick(millisUntilFinished: Long) {
+
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onFinish() {
+                if (!isDestroyed) {
+                    adapter.let {
+                        var mWeight = 0.0
+                        var mVolume = 0.0
+                        var mQty = 0
+                        var mPrice = 0.00
+                        for (item in it.getAllData()) {
+                            if (item.weight.toDoubleOrNull() != null)
+                                mWeight += item.weight.toDouble()
+                            if (item.volumn.toDoubleOrNull() != null)
+                                mVolume += item.volumn.toDouble()
+                            if (item.accSum.toDoubleOrNull() != null)
+                                mPrice += item.accSum.toDouble()
+                            if (item.totalQty.toIntOrNull() != null)
+                                mQty += item.totalQty.toInt()
+
+                        }
+                        over_total_info_tv.text = "已 装  车：${it.getAllData().size} 票 $mQty 件 ${haveTwoDouble(mWeight)} Kg ${haveTwoDouble(mVolume)} 方      ${haveTwoDouble(mPrice)}元"
+
+                    }
+                }
+            }
+
+        }.start()
     }
 }

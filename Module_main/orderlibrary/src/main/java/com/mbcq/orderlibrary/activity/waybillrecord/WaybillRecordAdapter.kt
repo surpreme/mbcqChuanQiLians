@@ -34,7 +34,7 @@ class WaybillRecordAdapter(context: Context, var isShowFixed: Boolean = false) :
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.shipper_tv.text = mDatas[position].shipper
         holder.receiver_tv.text = mDatas[position].consignee
-        holder.fixed_ll.visibility = if (isShowFixed) View.VISIBLE else View.GONE
+        holder.fixed_ll.visibility = if (isShowFixed&&mDatas[position].billState=="1") View.VISIBLE else View.GONE
         var mProduct = ""
         mProduct = if (mDatas[position].product.length > 2) {
             mDatas[position].product.substring(0, 3) + "..."

@@ -52,6 +52,11 @@ abstract class BasesShortFeederHouseActivity<V : BaseView, T : BasePresenterImpl
         })
         short_feeder_house_tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
+                if (all_selected_checked.isChecked) {
+                    mTypeIndex = 3
+                    all_selected_checked.isChecked = false
+                }
+
                 if (tab.text.toString().contains("库存清单")) {
                     inventoryList_recycler.visibility = View.VISIBLE
                     loadingList_recycler.visibility = View.GONE

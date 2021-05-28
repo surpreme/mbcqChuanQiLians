@@ -25,7 +25,7 @@ class CommonWriteOffPresenter : BasePresenterImpl<CommonWriteOffContract.View>()
                 when {
                     mTitle.contains("提付核销") -> 5
                     mTitle.contains("现付核销") -> 1
-                    mTitle.contains("回单核销") -> 8
+                    mTitle.contains("回单付核销") -> 8
                     mTitle.contains("月结核销") -> 11
 
 
@@ -41,7 +41,7 @@ class CommonWriteOffPresenter : BasePresenterImpl<CommonWriteOffContract.View>()
                 when {
                     mTitle.contains("提付核销") -> ApiInterface.PAYMENTED_WRITE_OFF_SERIAL_NUMBER_GET
                     mTitle.contains("现付核销") -> ApiInterface.PAYMENTING_WRITE_OFF_RECORD_GET
-                    mTitle.contains("回单核销") -> ApiInterface.RECEIPT_MONTHLY_TUBERCULOSIS_SALES_RECORD_GET
+                    mTitle.contains("回单付核销") -> ApiInterface.RECEIPT_MONTHLY_TUBERCULOSIS_SALES_RECORD_GET
                     mTitle.contains("月结核销") -> ApiInterface.MONTHLY_TUBERCULOSIS_SALES_RECORD_GET
 
 

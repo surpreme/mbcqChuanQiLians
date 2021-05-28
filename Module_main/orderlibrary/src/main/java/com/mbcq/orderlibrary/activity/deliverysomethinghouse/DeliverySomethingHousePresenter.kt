@@ -130,7 +130,23 @@ class DeliverySomethingHousePresenter : BasePresenterImpl<DeliverySomethingHouse
 
         })
     }
+    override fun getDeparture() {
+        get<String>(ApiInterface.DELIVERY_SOMETHING_DEPARTURE_GET + "?=", null, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    if (!it.isNull(0)) {
+                        val son = it.getJSONObject(0)
+                        son?.let {
+                            mView?.getDepartureS(son.optString("inOneVehicleFlag"))
+                        }
+                    }
+                }
 
+            }
+
+        })
+    }
 
 
 }

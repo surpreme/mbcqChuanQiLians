@@ -103,6 +103,8 @@ public class ShortFeederBean {
     private String isScan;
     private String scanPercentage;
     private String ps;
+
+    private String qty;
     private String weight;
     private String volumn;
     private String yf;
@@ -112,6 +114,14 @@ public class ShortFeederBean {
     private String accwz;
     private boolean isChecked;
     private boolean isLookInfo = false;
+
+    public String getQty() {
+        return qty;
+    }
+
+    public void setQty(String qty) {
+        this.qty = qty;
+    }
 
     public boolean isLookInfo() {
         return isLookInfo;

@@ -6,6 +6,7 @@ import com.lzy.okgo.model.HttpParams
 import com.mbcq.baselibrary.ui.mvp.BasePresenterImpl
 import com.mbcq.baselibrary.ui.mvp.UserInformationUtil
 import com.mbcq.commonlibrary.ApiInterface
+import com.mbcq.vehicleslibrary.activity.alldeparturerecord.shipmentinventory.ShipmentInventoryToTalBean
 import org.json.JSONObject
 
 /**
@@ -122,7 +123,7 @@ class ArrivalInventoryPresenter : BasePresenterImpl<ArrivalInventoryContract.Vie
             override fun onResult(result: String) {
                 val obj = JSONObject(result)
                 obj.optJSONArray("data")?.let {
-                    mView?.getPageS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<ArrivalInventoryBean>>() {}.type), page, obj.optString("count"))
+                    mView?.getPageS(Gson().fromJson(obj.optString("data"), object : TypeToken<List<ArrivalInventoryBean>>() {}.type),Gson().fromJson(obj.optString("totalRow"), ArrivalInventoryTotalBean::class.java),page, obj.optString("count"))
 
                 }
 

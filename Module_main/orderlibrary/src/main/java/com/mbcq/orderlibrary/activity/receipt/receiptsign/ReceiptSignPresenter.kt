@@ -32,9 +32,31 @@ class ReceiptSignPresenter : BasePresenterImpl<ReceiptSignContract.View>(), Rece
     }
 
     override fun complete(jsonStr: String) {
-        post<String>(ApiInterface.RECEIPT_MANAGEMENT_SIGN_OVER_POST, getRequestBody(jsonStr,false), object : CallBacks {
+        post<String>(ApiInterface.RECEIPT_MANAGEMENT_SIGN_OVER_POST, getRequestBody(jsonStr, false), object : CallBacks {
             override fun onResult(result: String) {
                 mView?.completeS("")
+            }
+
+        })
+    }
+
+    override fun searchOrder(billno: String) {
+        val params = HttpParams()
+        params.put("Page", 1)
+        params.put("Limit", 9999)
+        get<String>(ApiInterface.RECEIPT_MANAGEMENT_SIGN_LOAD_GET, params, object : CallBacks {
+            override fun onResult(result: String) {
+                val obj = JSONObject(result)
+                obj.optJSONArray("data")?.let {
+                    val list = Gson().fromJson<List<ReceiptSignBean>>(obj.optString("data"), object : TypeToken<List<ReceiptSignBean>>() {}.type)
+                    for (item in list) {
+                        if (billno == item.billno) {
+                            mView?.searchOrderS(mutableListOf(item))
+                            break
+                        }
+                    }
+
+                }
             }
 
         })

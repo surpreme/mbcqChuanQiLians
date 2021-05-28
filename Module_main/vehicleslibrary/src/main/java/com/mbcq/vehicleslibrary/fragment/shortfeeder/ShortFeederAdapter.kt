@@ -31,7 +31,7 @@ class ShortFeederAdapter(context: Context?) : BaseRecyclerAdapter<ShortFeederBea
         holder.receiver_outlets_tv.text = mDatas[position].ewebidCodeStr
         holder.feeder_state_tv.text = mDatas[position].vehicleStateStr
         holder.vehicler_info_tv.text = "${mDatas[position].vehicleNo} ${mDatas[position].chauffer} ${mDatas[position].chaufferMb}"
-        holder.information_tv.text = "${mDatas[position].ps}票 x件 ${mDatas[position].volumn}m³ ${mDatas[position].weight}kg 运费¥${mDatas[position].yf}"
+        holder.information_tv.text = "${mDatas[position].ps}票 ${mDatas[position].qty}件 ${mDatas[position].volumn}m³ ${mDatas[position].weight}kg 运费¥${mDatas[position].yf}"
         context?.let {
             holder.feeder_checkbox_iv.setImageDrawable(ContextCompat.getDrawable(it, if (mDatas[position].isChecked) R.drawable.ic_checked_icon else R.drawable.ic_unchecked_icon))
         }

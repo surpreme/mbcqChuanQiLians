@@ -10,7 +10,7 @@ import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2021-01-13 08:57:10 回单核销
+ * @time: 2021-01-13 08:57:10 回单付核销
  */
 
 class ReceiptMonthlyTuberculosisSalesPresenter : BasePresenterImpl<ReceiptMonthlyTuberculosisSalesContract.View>(), ReceiptMonthlyTuberculosisSalesContract.Presenter {

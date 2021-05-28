@@ -132,7 +132,7 @@
                 android:lineSpacingExtra="10dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                tools:text="发货网点：汕头\n目  的 地：义乌市\n付货方式：送货" />
+                tools:text="发货网点：汕头\n目  的 地：义乌市\n付货方式：送货\n回单要求:签回单" />
 
             <TextView
                 android:id="@+id/webinfo_right_tv"
@@ -142,7 +142,7 @@
                 android:lineSpacingExtra="10dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                tools:text="到货网点：汕头\n运输方式：义乌市" />
+                tools:text="到货网点：汕头\n运输方式：义乌市\n预装车号:沪A8888\n业务 员:张三" />
 
 
         </LinearLayout>
@@ -210,6 +210,101 @@
             app:layout_constraintTop_toBottomOf="@+id/receiver_info_line" />
 
         <LinearLayout
+            android:id="@+id/total_info_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:alpha="0.9"
+            android:background="@color/base_grayDark"
+            android:paddingLeft="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/waybill_information_table_recycler">
+
+            <TextView
+                android:id="@+id/product_tv"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:gravity="center|left"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:text="配件" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/qty_tv"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:gravity="center|left"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:text="100件" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/packages_tv"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:gravity="center|left"
+                android:text=""
+                android:textColor="@color/white"
+
+                android:textSize="16sp"
+                tools:text="纸箱" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/weight_tv"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center|left"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/white"
+
+                android:textSize="16sp"
+                tools:text="100kg" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/volumn_tv"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center|left"
+
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:text="2m³" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/top_info_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -217,7 +312,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/waybill_information_table_recycler">
+            app:layout_constraintTop_toBottomOf="@+id/total_info_ll">
 
             <TextView
                 android:id="@+id/goods_info_tv"

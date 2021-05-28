@@ -13,17 +13,17 @@ class DeliverySomethingHouseContract {
 
     interface View : BaseView {
         fun getInventoryS(list:List<DeliverySomethingHouseBean>)
-//        fun addOrderItemS(position: Int, item: DeliverySomethingHouseBean)
         fun saveInfoS(result: String)
+        fun getDepartureS(s:String)
 
     }
 
     interface Presenter : BasePresenter<View> {
-
+        /**
+         * 发车批次
+         */
+        fun getDeparture()
         fun getInventory()
-       /* fun removeOrder(removeOrderData: JSONObject)
-        fun removeOrderItem(removeOrderData: JSONObject, position: Int, item: DeliverySomethingHouseBean)
-        fun addOrder(removeOrderData: String)*/
         fun saveInfo(ob: JSONObject)
 
     }

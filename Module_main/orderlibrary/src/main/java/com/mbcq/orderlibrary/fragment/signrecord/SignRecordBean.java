@@ -61,6 +61,7 @@ public class SignRecordBean {
     private String fetchTypeStr;
     private String billDate;
     private String product;
+    private String packages;
     private int webidCode;
     private String webidCodeStr;
     private int ewebidCode;
@@ -128,6 +129,13 @@ public class SignRecordBean {
     }
 
 
+    public String getPackages() {
+        return packages;
+    }
+
+    public void setPackages(String packages) {
+        this.packages = packages;
+    }
 
 
 

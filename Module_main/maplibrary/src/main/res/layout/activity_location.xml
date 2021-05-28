@@ -44,6 +44,7 @@
         app:layout_constraintRight_toLeftOf="@+id/sure_location_btn"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <Button
         android:id="@+id/sure_location_btn"
         android:layout_width="wrap_content"
@@ -52,9 +53,9 @@
         android:layout_marginBottom="5dp"
         android:backgroundTint="@color/base_green"
         android:text="确定"
+        android:textColor="@color/white"
         android:textSize="21sp"
         android:visibility="gone"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/search_ed"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/search_ed" />

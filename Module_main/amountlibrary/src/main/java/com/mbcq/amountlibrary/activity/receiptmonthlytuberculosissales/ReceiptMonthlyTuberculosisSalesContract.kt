@@ -5,7 +5,7 @@ import com.mbcq.baselibrary.ui.mvp.BaseView
 
 /**
  * @author: lzy
- * @time: 2021-01-13 08:57:10 回单核销
+ * @time: 2021-01-13 08:57:10 回单付核销
  */
 
 class ReceiptMonthlyTuberculosisSalesContract {

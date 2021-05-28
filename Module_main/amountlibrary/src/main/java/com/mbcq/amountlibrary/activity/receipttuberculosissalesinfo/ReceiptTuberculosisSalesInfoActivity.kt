@@ -18,7 +18,7 @@ import org.json.JSONObject
 
 /**
  * @author: lzy
- * @time: 2018.08.25 回单核销详情页
+ * @time: 2018.08.25 回单付核销详情页
  */
 
 @Route(path = ARouterConstants.ReceiptTuberculosisSalesInfoActivity)

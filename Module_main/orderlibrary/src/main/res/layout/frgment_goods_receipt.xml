@@ -39,7 +39,7 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="#EAC11E"
-            android:text="输入"
+            android:text="查询"
             android:textColor="@color/white"
             android:textSize="19sp" />
 
