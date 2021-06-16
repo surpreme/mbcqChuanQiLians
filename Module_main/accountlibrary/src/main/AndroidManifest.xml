@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application>
-        <activity android:name=".activity.facerecognition.RegisterAndRecognizeActivity"></activity>
+        <activity android:name=".activity.facerecognition.RegisterAndRecognizeActivity"/>
         <activity
             android:name=".activity.commonlyinformationconfigurationremark.CommonlyInformationConfigurationRemarkActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />

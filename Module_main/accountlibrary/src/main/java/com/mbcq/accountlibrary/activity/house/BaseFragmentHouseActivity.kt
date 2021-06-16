@@ -71,15 +71,15 @@ abstract class BaseFragmentHouseActivity<V : BaseView, T : BasePresenterImpl<V>>
         if (savedInstanceState == null) {
             setTabSelection(0)
         } else {
-            if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) === 0 && mHouseFragment == null)
+            if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) == 0 && mHouseFragment == null)
                 mHouseFragment = fragmentManager!!.findFragmentByTag(FRAGMENT_TAG[0]) as HouseFragment?
-            else if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) === 1 && mSettingFragment == null)
+            else if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) == 1 && mSettingFragment == null)
                 mOperationFragment = fragmentManager!!.findFragmentByTag(FRAGMENT_TAG[1]) as OperationFragment?
-            else if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) === 2 && mFinanceFragment == null)
+            else if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) == 2 && mFinanceFragment == null)
                 mFinanceFragment = fragmentManager!!.findFragmentByTag(FRAGMENT_TAG[2]) as FinanceFragment?
-            else if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) === 3 && mReportFragment == null)
+            else if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) == 3 && mReportFragment == null)
                 mReportFragment = fragmentManager!!.findFragmentByTag(FRAGMENT_TAG[3]) as ReportFragment?
-            else if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) === 4 && mSettingFragment == null)
+            else if (savedInstanceState.getInt(CODE_FRAGMENT_KEY) == 4 && mSettingFragment == null)
                 mSettingFragment = fragmentManager!!.findFragmentByTag(FRAGMENT_TAG[4]) as SettingFragment?
             setTabSelection(savedInstanceState.getInt(CODE_FRAGMENT_KEY))
         }
@@ -303,7 +303,7 @@ abstract class BaseFragmentHouseActivity<V : BaseView, T : BasePresenterImpl<V>>
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK
-                && event.action === KeyEvent.ACTION_DOWN
+                && event.action == KeyEvent.ACTION_DOWN
         ) {
             if (System.currentTimeMillis() - exitTime > 2000) { //中间间隔的时间,可设定
                 showToast("再按一次退出程序")
